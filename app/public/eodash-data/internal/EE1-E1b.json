@@ -38,7 +38,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "38",
+        "measurement_value": "48",
         "reference_time": "2020-01-11T04:50:24",
         "reference_value": "/",
         "time": "2020-01-11T04:50:24"
@@ -49,32 +49,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-01-11T16:05:04",
-        "reference_value": "/",
-        "time": "2020-01-11T16:05:04"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "25",
         "reference_time": "2020-01-13T04:33:54",
         "reference_value": "/",
         "time": "2020-01-13T04:33:54"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "7",
-        "reference_time": "2020-01-13T15:48:44",
-        "reference_value": "/",
-        "time": "2020-01-13T15:48:44"
     },
     {
         "color_code": "RED",
@@ -104,21 +82,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "55",
+        "measurement_value": "58",
         "reference_time": "2020-01-23T04:50:24",
         "reference_value": "/",
         "time": "2020-01-23T04:50:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-01-23T16:05:04",
-        "reference_value": "/",
-        "time": "2020-01-23T16:05:04"
     },
     {
         "color_code": "RED",
@@ -159,21 +126,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "33",
+        "measurement_value": "41",
         "reference_time": "2020-02-04T04:50:23",
         "reference_value": "/",
         "time": "2020-02-04T04:50:23"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-02-04T16:05:04",
-        "reference_value": "/",
-        "time": "2020-02-04T16:05:04"
     },
     {
         "color_code": "RED",
@@ -214,7 +170,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "58",
+        "measurement_value": "60",
         "reference_time": "2020-02-16T04:50:23",
         "reference_value": "/",
         "time": "2020-02-16T04:50:23"
@@ -225,32 +181,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "21",
-        "reference_time": "2020-02-16T16:05:03",
-        "reference_value": "/",
-        "time": "2020-02-16T16:05:03"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "28",
+        "measurement_value": "42",
         "reference_time": "2020-02-18T04:33:53",
         "reference_value": "/",
         "time": "2020-02-18T04:33:53"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-02-18T15:48:44",
-        "reference_value": "/",
-        "time": "2020-02-18T15:48:44"
     },
     {
         "color_code": "RED",
@@ -280,21 +214,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "50",
+        "measurement_value": "57",
         "reference_time": "2020-02-28T04:50:23",
         "reference_value": "/",
         "time": "2020-02-28T04:50:23"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2020-02-28T16:05:03",
-        "reference_value": "/",
-        "time": "2020-02-28T16:05:03"
     },
     {
         "color_code": "RED",
@@ -335,21 +258,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "45",
+        "measurement_value": "62",
         "reference_time": "2020-03-11T04:50:23",
         "reference_value": "/",
         "time": "2020-03-11T04:50:23"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "26",
-        "reference_time": "2020-03-11T16:05:03",
-        "reference_value": "/",
-        "time": "2020-03-11T16:05:03"
     },
     {
         "color_code": "RED",
@@ -379,7 +291,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "55",
+        "measurement_value": "53",
         "reference_time": "2020-03-23T04:50:23",
         "reference_value": "/",
         "time": "2020-03-23T04:50:23"
@@ -390,32 +302,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-03-23T16:05:03",
-        "reference_value": "/",
-        "time": "2020-03-23T16:05:03"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "30",
+        "measurement_value": "127",
         "reference_time": "2020-03-25T04:33:53",
         "reference_value": "/",
         "time": "2020-03-25T04:33:53"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "104",
-        "reference_time": "2020-03-25T15:48:44",
-        "reference_value": "/",
-        "time": "2020-03-25T15:48:44"
     },
     {
         "color_code": "RED",
@@ -445,7 +335,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "51",
+        "measurement_value": "59",
         "reference_time": "2020-04-04T04:50:23",
         "reference_value": "/",
         "time": "2020-04-04T04:50:23"
@@ -456,32 +346,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "22",
-        "reference_time": "2020-04-04T16:05:04",
-        "reference_value": "/",
-        "time": "2020-04-04T16:05:04"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "22",
+        "measurement_value": "21",
         "reference_time": "2020-04-06T04:33:53",
         "reference_value": "/",
         "time": "2020-04-06T04:33:53"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2020-04-06T15:48:44",
-        "reference_value": "/",
-        "time": "2020-04-06T15:48:44"
     },
     {
         "color_code": "RED",
@@ -511,21 +379,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "43",
+        "measurement_value": "57",
         "reference_time": "2020-04-16T04:50:24",
         "reference_value": "/",
         "time": "2020-04-16T04:50:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2020-04-16T16:05:04",
-        "reference_value": "/",
-        "time": "2020-04-16T16:05:04"
     },
     {
         "color_code": "RED",
@@ -577,21 +434,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "56",
+        "measurement_value": "58",
         "reference_time": "2020-04-28T04:50:24",
         "reference_value": "/",
         "time": "2020-04-28T04:50:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-04-28T16:05:05",
-        "reference_value": "/",
-        "time": "2020-04-28T16:05:05"
     },
     {
         "color_code": "RED",
@@ -665,21 +511,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "49",
+        "measurement_value": "52",
         "reference_time": "2020-05-10T04:50:25",
         "reference_value": "/",
         "time": "2020-05-10T04:50:25"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2020-05-10T16:05:05",
-        "reference_value": "/",
-        "time": "2020-05-10T16:05:05"
     },
     {
         "color_code": "RED",
@@ -720,21 +555,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "41",
+        "measurement_value": "50",
         "reference_time": "2020-05-16T04:49:43",
         "reference_value": "/",
         "time": "2020-05-16T04:49:43"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-05-16T16:04:23",
-        "reference_value": "/",
-        "time": "2020-05-16T16:04:23"
     },
     {
         "color_code": "RED",
@@ -775,7 +599,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "41",
+        "measurement_value": "46",
         "reference_time": "2020-05-22T04:50:25",
         "reference_value": "/",
         "time": "2020-05-22T04:50:25"
@@ -785,33 +609,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-05-22T16:05:06",
-        "reference_value": "/",
-        "time": "2020-05-22T16:05:06"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "61",
+        "measurement_value": "69",
         "reference_time": "2020-05-23T04:41:28",
         "reference_value": "/",
         "time": "2020-05-23T04:41:28"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "21",
-        "reference_time": "2020-05-23T15:56:14",
-        "reference_value": "/",
-        "time": "2020-05-23T15:56:14"
     },
     {
         "color_code": "RED",
@@ -841,21 +643,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "57",
+        "measurement_value": "66",
         "reference_time": "2020-05-28T04:49:44",
         "reference_value": "/",
         "time": "2020-05-28T04:49:44"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2020-05-28T16:04:24",
-        "reference_value": "/",
-        "time": "2020-05-28T16:04:24"
     },
     {
         "color_code": "RED",
@@ -896,21 +687,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "58",
+        "measurement_value": "57",
         "reference_time": "2020-06-03T04:50:26",
         "reference_value": "/",
         "time": "2020-06-03T04:50:26"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-06-03T16:05:07",
-        "reference_value": "/",
-        "time": "2020-06-03T16:05:07"
     },
     {
         "color_code": "RED",
@@ -922,17 +702,6 @@
         "reference_time": "2020-06-04T04:41:29",
         "reference_value": "/",
         "time": "2020-06-04T04:41:29"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-06-04T15:56:15",
-        "reference_value": "/",
-        "time": "2020-06-04T15:56:15"
     },
     {
         "color_code": "RED",
@@ -962,21 +731,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "49",
+        "measurement_value": "53",
         "reference_time": "2020-06-09T04:49:45",
         "reference_value": "/",
         "time": "2020-06-09T04:49:45"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-06-09T16:04:24",
-        "reference_value": "/",
-        "time": "2020-06-09T16:04:24"
     },
     {
         "color_code": "RED",
@@ -1017,7 +775,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "62",
+        "measurement_value": "58",
         "reference_time": "2020-06-15T04:50:27",
         "reference_value": "/",
         "time": "2020-06-15T04:50:27"
@@ -1027,33 +785,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2020-06-15T16:05:08",
-        "reference_value": "/",
-        "time": "2020-06-15T16:05:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "73",
+        "measurement_value": "79",
         "reference_time": "2020-06-16T04:41:30",
         "reference_value": "/",
         "time": "2020-06-16T04:41:30"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2020-06-16T15:56:15",
-        "reference_value": "/",
-        "time": "2020-06-16T15:56:15"
     },
     {
         "color_code": "RED",
@@ -1083,21 +819,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "49",
+        "measurement_value": "55",
         "reference_time": "2020-06-21T04:49:45",
         "reference_value": "/",
         "time": "2020-06-21T04:49:45"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-06-21T16:04:25",
-        "reference_value": "/",
-        "time": "2020-06-21T16:04:25"
     },
     {
         "color_code": "RED",
@@ -1138,21 +863,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "40",
+        "measurement_value": "42",
         "reference_time": "2020-06-27T04:50:28",
         "reference_value": "/",
         "time": "2020-06-27T04:50:28"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "11",
-        "reference_time": "2020-06-27T16:05:08",
-        "reference_value": "/",
-        "time": "2020-06-27T16:05:08"
     },
     {
         "color_code": "RED",
@@ -1170,33 +884,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-06-28T15:56:16",
-        "reference_value": "/",
-        "time": "2020-06-28T15:56:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "23",
         "reference_time": "2020-06-29T04:33:58",
         "reference_value": "/",
         "time": "2020-06-29T04:33:58"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2020-06-29T15:48:48",
-        "reference_value": "/",
-        "time": "2020-06-29T15:48:48"
     },
     {
         "color_code": "RED",
@@ -1259,21 +951,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "75",
+        "measurement_value": "63",
         "reference_time": "2020-07-09T04:50:28",
         "reference_value": "/",
         "time": "2020-07-09T04:50:28"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "10",
-        "reference_time": "2020-07-09T16:05:09",
-        "reference_value": "/",
-        "time": "2020-07-09T16:05:09"
     },
     {
         "color_code": "RED",
@@ -1291,33 +972,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-07-10T15:56:17",
-        "reference_value": "/",
-        "time": "2020-07-10T15:56:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "22",
         "reference_time": "2020-07-11T04:33:58",
         "reference_value": "/",
         "time": "2020-07-11T04:33:58"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2020-07-11T15:48:49",
-        "reference_value": "/",
-        "time": "2020-07-11T15:48:49"
     },
     {
         "color_code": "RED",
@@ -1336,21 +995,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "490",
+        "measurement_value": "51",
         "reference_time": "2020-07-15T04:49:47",
         "reference_value": "/",
         "time": "2020-07-15T04:49:47"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2020-07-15T16:04:26",
-        "reference_value": "/",
-        "time": "2020-07-15T16:04:26"
     },
     {
         "color_code": "RED",
@@ -1391,7 +1039,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "50",
+        "measurement_value": "51",
         "reference_time": "2020-07-21T04:50:29",
         "reference_value": "/",
         "time": "2020-07-21T04:50:29"
@@ -1401,33 +1049,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-07-21T16:05:10",
-        "reference_value": "/",
-        "time": "2020-07-21T16:05:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "64",
+        "measurement_value": "74",
         "reference_time": "2020-07-22T04:41:32",
         "reference_value": "/",
         "time": "2020-07-22T04:41:32"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "27",
-        "reference_time": "2020-07-22T15:56:17",
-        "reference_value": "/",
-        "time": "2020-07-22T15:56:17"
     },
     {
         "color_code": "RED",
@@ -1457,21 +1083,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "66",
+        "measurement_value": "71",
         "reference_time": "2020-07-27T04:49:48",
         "reference_value": "/",
         "time": "2020-07-27T04:49:48"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2020-07-27T16:04:27",
-        "reference_value": "/",
-        "time": "2020-07-27T16:04:27"
     },
     {
         "color_code": "RED",
@@ -1512,7 +1127,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "69",
+        "measurement_value": "76",
         "reference_time": "2020-08-02T04:50:30",
         "reference_value": "/",
         "time": "2020-08-02T04:50:30"
@@ -1522,33 +1137,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "29",
-        "reference_time": "2020-08-02T16:05:10",
-        "reference_value": "/",
-        "time": "2020-08-02T16:05:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "74",
+        "measurement_value": "68",
         "reference_time": "2020-08-03T04:41:33",
         "reference_value": "/",
         "time": "2020-08-03T04:41:33"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "15",
-        "reference_time": "2020-08-03T15:56:18",
-        "reference_value": "/",
-        "time": "2020-08-03T15:56:18"
     },
     {
         "color_code": "RED",
@@ -1578,21 +1171,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "52",
+        "measurement_value": "56",
         "reference_time": "2020-08-08T04:49:48",
         "reference_value": "/",
         "time": "2020-08-08T04:49:48"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-08-08T16:04:28",
-        "reference_value": "/",
-        "time": "2020-08-08T16:04:28"
     },
     {
         "color_code": "RED",
@@ -1622,7 +1204,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "55",
+        "measurement_value": "59",
         "reference_time": "2020-08-14T04:50:30",
         "reference_value": "/",
         "time": "2020-08-14T04:50:30"
@@ -1632,33 +1214,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-08-14T16:05:11",
-        "reference_value": "/",
-        "time": "2020-08-14T16:05:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "66",
+        "measurement_value": "70",
         "reference_time": "2020-08-15T04:41:36",
         "reference_value": "/",
         "time": "2020-08-15T04:41:36"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-08-15T15:56:19",
-        "reference_value": "/",
-        "time": "2020-08-15T15:56:19"
     },
     {
         "color_code": "RED",
@@ -1678,17 +1238,6 @@
         "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "1",
-        "reference_time": "2020-08-16T15:48:51",
-        "reference_value": "/",
-        "time": "2020-08-16T15:48:51"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
         "reference_time": "2020-08-19T16:13:22",
         "reference_value": "/",
         "time": "2020-08-19T16:13:22"
@@ -1699,21 +1248,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "50",
+        "measurement_value": "56",
         "reference_time": "2020-08-20T04:49:49",
         "reference_value": "/",
         "time": "2020-08-20T04:49:49"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-08-20T16:04:28",
-        "reference_value": "/",
-        "time": "2020-08-20T16:04:28"
     },
     {
         "color_code": "RED",
@@ -1754,7 +1292,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "57",
+        "measurement_value": "65",
         "reference_time": "2020-08-26T04:50:31",
         "reference_value": "/",
         "time": "2020-08-26T04:50:31"
@@ -1764,19 +1302,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "21",
-        "reference_time": "2020-08-26T16:05:12",
-        "reference_value": "/",
-        "time": "2020-08-26T16:05:12"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "61",
+        "measurement_value": "66",
         "reference_time": "2020-08-27T04:41:34",
         "reference_value": "/",
         "time": "2020-08-27T04:41:34"
@@ -1786,19 +1313,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-08-27T15:56:20",
-        "reference_value": "/",
-        "time": "2020-08-27T15:56:20"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "25",
         "reference_time": "2020-08-28T04:34:01",
         "reference_value": "/",
         "time": "2020-08-28T04:34:01"
@@ -1808,33 +1324,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2020-08-28T15:48:52",
-        "reference_value": "/",
-        "time": "2020-08-28T15:48:52"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "63",
+        "measurement_value": "57",
         "reference_time": "2020-09-01T04:49:50",
         "reference_value": "/",
         "time": "2020-09-01T04:49:50"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "10",
-        "reference_time": "2020-09-01T16:04:29",
-        "reference_value": "/",
-        "time": "2020-09-01T16:04:29"
     },
     {
         "color_code": "RED",
@@ -1875,7 +1369,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "50",
+        "measurement_value": "51",
         "reference_time": "2020-09-07T04:50:32",
         "reference_value": "/",
         "time": "2020-09-07T04:50:32"
@@ -1885,19 +1379,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-09-07T16:05:12",
-        "reference_value": "/",
-        "time": "2020-09-07T16:05:12"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "61",
+        "measurement_value": "58",
         "reference_time": "2020-09-08T04:41:34",
         "reference_value": "/",
         "time": "2020-09-08T04:41:34"
@@ -1907,33 +1390,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "11",
-        "reference_time": "2020-09-08T15:56:20",
-        "reference_value": "/",
-        "time": "2020-09-08T15:56:20"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "21",
+        "measurement_value": "22",
         "reference_time": "2020-09-09T04:34:02",
         "reference_value": "/",
         "time": "2020-09-09T04:34:02"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2020-09-09T15:48:53",
-        "reference_value": "/",
-        "time": "2020-09-09T15:48:53"
     },
     {
         "color_code": "RED",
@@ -1952,21 +1413,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "908",
-        "reference_time": "2020-09-13T04:49:50",
+        "measurement_value": "36",
+        "reference_time": "2020-09-13T16:04:05",
         "reference_value": "/",
-        "time": "2020-09-13T04:49:50"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2020-09-13T16:04:30",
-        "reference_value": "/",
-        "time": "2020-09-13T16:04:30"
+        "time": "2020-09-13T16:04:05"
     },
     {
         "color_code": "RED",
@@ -2007,7 +1457,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "65",
+        "measurement_value": "62",
         "reference_time": "2020-09-19T04:50:32",
         "reference_value": "/",
         "time": "2020-09-19T04:50:32"
@@ -2017,33 +1467,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2020-09-19T16:05:13",
-        "reference_value": "/",
-        "time": "2020-09-19T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "75",
+        "measurement_value": "78",
         "reference_time": "2020-09-20T04:41:35",
         "reference_value": "/",
         "time": "2020-09-20T04:41:35"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "25",
-        "reference_time": "2020-09-20T15:56:20",
-        "reference_value": "/",
-        "time": "2020-09-20T15:56:20"
     },
     {
         "color_code": "RED",
@@ -2073,21 +1501,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "36",
+        "measurement_value": "42",
         "reference_time": "2020-09-25T04:49:50",
         "reference_value": "/",
         "time": "2020-09-25T04:49:50"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-09-25T16:04:30",
-        "reference_value": "/",
-        "time": "2020-09-25T16:04:30"
     },
     {
         "color_code": "RED",
@@ -2128,7 +1545,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "52",
+        "measurement_value": "54",
         "reference_time": "2020-10-01T04:50:32",
         "reference_value": "/",
         "time": "2020-10-01T04:50:32"
@@ -2138,33 +1555,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2020-10-01T16:05:13",
-        "reference_value": "/",
-        "time": "2020-10-01T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "71",
+        "measurement_value": "70",
         "reference_time": "2020-10-02T04:41:35",
         "reference_value": "/",
         "time": "2020-10-02T04:41:35"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-10-02T15:56:21",
-        "reference_value": "/",
-        "time": "2020-10-02T15:56:21"
     },
     {
         "color_code": "RED",
@@ -2238,7 +1633,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "49",
+        "measurement_value": "53",
         "reference_time": "2020-10-13T04:50:33",
         "reference_value": "/",
         "time": "2020-10-13T04:50:33"
@@ -2248,19 +1643,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-10-13T16:05:13",
-        "reference_value": "/",
-        "time": "2020-10-13T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "70",
+        "measurement_value": "72",
         "reference_time": "2020-10-14T04:41:35",
         "reference_value": "/",
         "time": "2020-10-14T04:41:35"
@@ -2270,33 +1654,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-10-14T15:56:21",
-        "reference_value": "/",
-        "time": "2020-10-14T15:56:21"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "26",
+        "measurement_value": "28",
         "reference_time": "2020-10-15T04:34:03",
         "reference_value": "/",
         "time": "2020-10-15T04:34:03"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "4",
-        "reference_time": "2020-10-15T15:48:53",
-        "reference_value": "/",
-        "time": "2020-10-15T15:48:53"
     },
     {
         "color_code": "RED",
@@ -2315,21 +1677,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "119",
+        "measurement_value": "136",
         "reference_time": "2020-10-19T04:49:51",
         "reference_value": "/",
         "time": "2020-10-19T04:49:51"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "28",
-        "reference_time": "2020-10-19T16:04:30",
-        "reference_value": "/",
-        "time": "2020-10-19T16:04:30"
     },
     {
         "color_code": "RED",
@@ -2370,7 +1721,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "64",
+        "measurement_value": "62",
         "reference_time": "2020-10-25T04:50:33",
         "reference_value": "/",
         "time": "2020-10-25T04:50:33"
@@ -2380,19 +1731,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-10-25T16:05:13",
-        "reference_value": "/",
-        "time": "2020-10-25T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "57",
+        "measurement_value": "66",
         "reference_time": "2020-10-26T04:41:35",
         "reference_value": "/",
         "time": "2020-10-26T04:41:35"
@@ -2402,33 +1742,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2020-10-26T15:56:21",
-        "reference_value": "/",
-        "time": "2020-10-26T15:56:21"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "25",
+        "measurement_value": "26",
         "reference_time": "2020-10-27T04:34:03",
         "reference_value": "/",
         "time": "2020-10-27T04:34:03"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2020-10-27T15:48:53",
-        "reference_value": "/",
-        "time": "2020-10-27T15:48:53"
     },
     {
         "color_code": "RED",
@@ -2447,7 +1765,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "66",
+        "measurement_value": "68",
         "reference_time": "2020-10-31T04:49:51",
         "reference_value": "/",
         "time": "2020-10-31T04:49:51"
@@ -2457,19 +1775,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-10-31T16:04:30",
-        "reference_value": "/",
-        "time": "2020-10-31T16:04:30"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "62",
+        "measurement_value": "61",
         "reference_time": "2020-11-01T04:42:17",
         "reference_value": "/",
         "time": "2020-11-01T04:42:17"
@@ -2502,7 +1809,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "43",
+        "measurement_value": "51",
         "reference_time": "2020-11-06T04:50:33",
         "reference_value": "/",
         "time": "2020-11-06T04:50:33"
@@ -2512,19 +1819,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2020-11-06T16:05:13",
-        "reference_value": "/",
-        "time": "2020-11-06T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "71",
+        "measurement_value": "69",
         "reference_time": "2020-11-07T04:41:35",
         "reference_value": "/",
         "time": "2020-11-07T04:41:35"
@@ -2534,19 +1830,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "17",
-        "reference_time": "2020-11-07T15:56:21",
-        "reference_value": "/",
-        "time": "2020-11-07T15:56:21"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "18",
+        "measurement_value": "20",
         "reference_time": "2020-11-08T04:34:03",
         "reference_value": "/",
         "time": "2020-11-08T04:34:03"
@@ -2556,33 +1841,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2020-11-08T15:48:53",
-        "reference_value": "/",
-        "time": "2020-11-08T15:48:53"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "31",
+        "measurement_value": "51",
         "reference_time": "2020-11-12T04:49:51",
         "reference_value": "/",
         "time": "2020-11-12T04:49:51"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "26",
-        "reference_time": "2020-11-12T16:04:30",
-        "reference_value": "/",
-        "time": "2020-11-12T16:04:30"
     },
     {
         "color_code": "RED",
@@ -2623,7 +1886,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "38",
+        "measurement_value": "43",
         "reference_time": "2020-11-18T04:50:32",
         "reference_value": "/",
         "time": "2020-11-18T04:50:32"
@@ -2633,19 +1896,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2020-11-18T16:05:13",
-        "reference_value": "/",
-        "time": "2020-11-18T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "116",
+        "measurement_value": "129",
         "reference_time": "2020-11-19T04:41:35",
         "reference_value": "/",
         "time": "2020-11-19T04:41:35"
@@ -2655,33 +1907,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "55",
-        "reference_time": "2020-11-19T15:56:21",
-        "reference_value": "/",
-        "time": "2020-11-19T15:56:21"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "26",
+        "measurement_value": "27",
         "reference_time": "2020-11-20T04:34:02",
         "reference_value": "/",
         "time": "2020-11-20T04:34:02"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2020-11-20T15:48:53",
-        "reference_value": "/",
-        "time": "2020-11-20T15:48:53"
     },
     {
         "color_code": "RED",
@@ -2711,21 +1941,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "47",
+        "measurement_value": "52",
         "reference_time": "2020-11-30T04:50:32",
         "reference_value": "/",
         "time": "2020-11-30T04:50:32"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-11-30T16:05:12",
-        "reference_value": "/",
-        "time": "2020-11-30T16:05:12"
     },
     {
         "color_code": "RED",
@@ -2737,17 +1956,6 @@
         "reference_time": "2020-12-02T04:34:02",
         "reference_value": "/",
         "time": "2020-12-02T04:34:02"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2020-12-02T15:48:52",
-        "reference_value": "/",
-        "time": "2020-12-02T15:48:52"
     },
     {
         "color_code": "RED",
@@ -2777,7 +1985,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "46",
+        "measurement_value": "52",
         "reference_time": "2020-12-12T04:50:31",
         "reference_value": "/",
         "time": "2020-12-12T04:50:31"
@@ -2788,32 +1996,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2020-12-12T16:05:12",
-        "reference_value": "/",
-        "time": "2020-12-12T16:05:12"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "25",
+        "measurement_value": "26",
         "reference_time": "2020-12-14T04:34:01",
         "reference_value": "/",
         "time": "2020-12-14T04:34:01"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2020-12-14T15:48:52",
-        "reference_value": "/",
-        "time": "2020-12-14T15:48:52"
     },
     {
         "color_code": "RED",
@@ -2843,21 +2029,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "52",
+        "measurement_value": "61",
         "reference_time": "2020-12-24T04:50:31",
         "reference_value": "/",
         "time": "2020-12-24T04:50:31"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2020-12-24T16:05:11",
-        "reference_value": "/",
-        "time": "2020-12-24T16:05:11"
     },
     {
         "color_code": "RED",
@@ -2887,7 +2062,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "47",
+        "measurement_value": "52",
         "reference_time": "2021-01-05T04:50:30",
         "reference_value": "/",
         "time": "2021-01-05T04:50:30"
@@ -2899,31 +2074,9 @@
         "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "19",
-        "reference_time": "2021-01-05T16:05:11",
-        "reference_value": "/",
-        "time": "2021-01-05T16:05:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
         "reference_time": "2021-01-07T04:34:00",
         "reference_value": "/",
         "time": "2021-01-07T04:34:00"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-01-07T15:48:51",
-        "reference_value": "/",
-        "time": "2021-01-07T15:48:51"
     },
     {
         "color_code": "RED",
@@ -2953,7 +2106,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "39",
+        "measurement_value": "53",
         "reference_time": "2021-01-17T04:50:30",
         "reference_value": "/",
         "time": "2021-01-17T04:50:30"
@@ -2964,32 +2117,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2021-01-17T16:05:10",
-        "reference_value": "/",
-        "time": "2021-01-17T16:05:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
+        "measurement_value": "16",
         "reference_time": "2021-01-19T04:34:00",
         "reference_value": "/",
         "time": "2021-01-19T04:34:00"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-01-19T15:48:50",
-        "reference_value": "/",
-        "time": "2021-01-19T15:48:50"
     },
     {
         "color_code": "RED",
@@ -3030,32 +2161,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-01-29T16:05:10",
-        "reference_value": "/",
-        "time": "2021-01-29T16:05:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
         "measurement_value": "33",
         "reference_time": "2021-01-31T04:33:59",
         "reference_value": "/",
         "time": "2021-01-31T04:33:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-01-31T15:48:50",
-        "reference_value": "/",
-        "time": "2021-01-31T15:48:50"
     },
     {
         "color_code": "RED",
@@ -3074,21 +2183,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "41",
+        "measurement_value": "45",
         "reference_time": "2021-02-10T04:50:29",
         "reference_value": "/",
         "time": "2021-02-10T04:50:29"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-02-10T16:05:09",
-        "reference_value": "/",
-        "time": "2021-02-10T16:05:09"
     },
     {
         "color_code": "RED",
@@ -3100,17 +2198,6 @@
         "reference_time": "2021-02-12T04:33:59",
         "reference_value": "/",
         "time": "2021-02-12T04:33:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2021-02-12T15:48:50",
-        "reference_value": "/",
-        "time": "2021-02-12T15:48:50"
     },
     {
         "color_code": "RED",
@@ -3140,21 +2227,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "48",
+        "measurement_value": "56",
         "reference_time": "2021-02-22T04:50:29",
         "reference_value": "/",
         "time": "2021-02-22T04:50:29"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-02-22T16:05:09",
-        "reference_value": "/",
-        "time": "2021-02-22T16:05:09"
     },
     {
         "color_code": "RED",
@@ -3195,7 +2271,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "44",
+        "measurement_value": "47",
         "reference_time": "2021-03-06T04:50:29",
         "reference_value": "/",
         "time": "2021-03-06T04:50:29"
@@ -3207,31 +2283,9 @@
         "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "16",
-        "reference_time": "2021-03-06T16:05:09",
-        "reference_value": "/",
-        "time": "2021-03-06T16:05:09"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
         "reference_time": "2021-03-08T04:33:59",
         "reference_value": "/",
         "time": "2021-03-08T04:33:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-03-08T15:48:49",
-        "reference_value": "/",
-        "time": "2021-03-08T15:48:49"
     },
     {
         "color_code": "RED",
@@ -3261,7 +2315,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "49",
+        "measurement_value": "48",
         "reference_time": "2021-03-18T04:50:29",
         "reference_value": "/",
         "time": "2021-03-18T04:50:29"
@@ -3272,32 +2326,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "11",
-        "reference_time": "2021-03-18T16:05:09",
-        "reference_value": "/",
-        "time": "2021-03-18T16:05:09"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "30",
         "reference_time": "2021-03-20T04:33:59",
         "reference_value": "/",
         "time": "2021-03-20T04:33:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "13",
-        "reference_time": "2021-03-20T15:48:49",
-        "reference_value": "/",
-        "time": "2021-03-20T15:48:49"
     },
     {
         "color_code": "RED",
@@ -3327,21 +2359,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "40",
+        "measurement_value": "50",
         "reference_time": "2021-03-30T04:50:29",
         "reference_value": "/",
         "time": "2021-03-30T04:50:29"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-03-30T16:05:09",
-        "reference_value": "/",
-        "time": "2021-03-30T16:05:09"
     },
     {
         "color_code": "RED",
@@ -3382,7 +2403,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "45",
+        "measurement_value": "55",
         "reference_time": "2021-04-11T04:50:29",
         "reference_value": "/",
         "time": "2021-04-11T04:50:29"
@@ -3393,32 +2414,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-04-11T16:05:10",
-        "reference_value": "/",
-        "time": "2021-04-11T16:05:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "29",
+        "measurement_value": "30",
         "reference_time": "2021-04-13T04:34:00",
         "reference_value": "/",
         "time": "2021-04-13T04:34:00"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2021-04-13T15:48:50",
-        "reference_value": "/",
-        "time": "2021-04-13T15:48:50"
     },
     {
         "color_code": "RED",
@@ -3485,17 +2484,6 @@
         "reference_time": "2021-04-23T04:50:30",
         "reference_value": "/",
         "time": "2021-04-23T04:50:30"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-04-23T16:05:10",
-        "reference_value": "/",
-        "time": "2021-04-23T16:05:10"
     },
     {
         "color_code": "RED",
@@ -3580,21 +2568,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "41",
+        "measurement_value": "51",
         "reference_time": "2021-05-05T04:50:30",
         "reference_value": "/",
         "time": "2021-05-05T04:50:30"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-05-05T16:05:11",
-        "reference_value": "/",
-        "time": "2021-05-05T16:05:11"
     },
     {
         "color_code": "RED",
@@ -3617,17 +2594,6 @@
         "reference_time": "2021-05-07T04:34:01",
         "reference_value": "/",
         "time": "2021-05-07T04:34:01"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2021-05-07T15:48:51",
-        "reference_value": "/",
-        "time": "2021-05-07T15:48:51"
     },
     {
         "color_code": "RED",
@@ -3700,17 +2666,6 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-05-17T16:05:11",
-        "reference_value": "/",
-        "time": "2021-05-17T16:05:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
         "measurement_value": "26",
         "reference_time": "2021-05-18T15:55:54",
@@ -3735,17 +2690,6 @@
         "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "1",
-        "reference_time": "2021-05-19T15:48:52",
-        "reference_value": "/",
-        "time": "2021-05-19T15:48:52"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
         "reference_time": "2021-05-22T16:12:58",
         "reference_value": "/",
         "time": "2021-05-22T16:12:58"
@@ -3756,21 +2700,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "32",
+        "measurement_value": "47",
         "reference_time": "2021-05-23T04:49:50",
         "reference_value": "/",
         "time": "2021-05-23T04:49:50"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "24",
-        "reference_time": "2021-05-23T16:04:29",
-        "reference_value": "/",
-        "time": "2021-05-23T16:04:29"
     },
     {
         "color_code": "RED",
@@ -3811,7 +2744,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "40",
+        "measurement_value": "46",
         "reference_time": "2021-05-29T04:50:23",
         "reference_value": "/",
         "time": "2021-05-29T04:50:23"
@@ -3821,33 +2754,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-05-29T16:05:12",
-        "reference_value": "/",
-        "time": "2021-05-29T16:05:12"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "48",
+        "measurement_value": "53",
         "reference_time": "2021-05-30T04:41:34",
         "reference_value": "/",
         "time": "2021-05-30T04:41:34"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-05-30T15:56:20",
-        "reference_value": "/",
-        "time": "2021-05-30T15:56:20"
     },
     {
         "color_code": "RED",
@@ -3877,21 +2788,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "51",
+        "measurement_value": "57",
         "reference_time": "2021-06-04T04:49:47",
         "reference_value": "/",
         "time": "2021-06-04T04:49:47"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-06-04T16:04:30",
-        "reference_value": "/",
-        "time": "2021-06-04T16:04:30"
     },
     {
         "color_code": "RED",
@@ -3910,21 +2810,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "317",
+        "measurement_value": "161",
         "reference_time": "2021-06-06T04:33:10",
         "reference_value": "/",
         "time": "2021-06-06T04:33:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-06-06T15:47:57",
-        "reference_value": "/",
-        "time": "2021-06-06T15:47:57"
     },
     {
         "color_code": "RED",
@@ -3943,7 +2832,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "45",
+        "measurement_value": "35",
         "reference_time": "2021-06-10T04:50:30",
         "reference_value": "/",
         "time": "2021-06-10T04:50:30"
@@ -3953,19 +2842,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "190",
-        "reference_time": "2021-06-10T16:05:13",
-        "reference_value": "/",
-        "time": "2021-06-10T16:05:13"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "63",
+        "measurement_value": "66",
         "reference_time": "2021-06-11T04:41:46",
         "reference_value": "/",
         "time": "2021-06-11T04:41:46"
@@ -3975,33 +2853,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "18",
-        "reference_time": "2021-06-11T15:56:21",
-        "reference_value": "/",
-        "time": "2021-06-11T15:56:21"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
+        "measurement_value": "20",
         "reference_time": "2021-06-12T04:34:06",
         "reference_value": "/",
         "time": "2021-06-12T04:34:06"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-06-12T15:48:53",
-        "reference_value": "/",
-        "time": "2021-06-12T15:48:53"
     },
     {
         "color_code": "RED",
@@ -4020,21 +2876,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "46",
+        "measurement_value": "56",
         "reference_time": "2021-06-16T04:49:50",
         "reference_value": "/",
         "time": "2021-06-16T04:49:50"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-06-16T16:04:30",
-        "reference_value": "/",
-        "time": "2021-06-16T16:04:30"
     },
     {
         "color_code": "RED",
@@ -4064,7 +2909,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "47",
+        "measurement_value": "45",
         "reference_time": "2021-06-22T04:50:31",
         "reference_value": "/",
         "time": "2021-06-22T04:50:31"
@@ -4074,33 +2919,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "12",
-        "reference_time": "2021-06-22T16:05:14",
-        "reference_value": "/",
-        "time": "2021-06-22T16:05:14"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "45",
+        "measurement_value": "55",
         "reference_time": "2021-06-23T04:41:46",
         "reference_value": "/",
         "time": "2021-06-23T04:41:46"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-06-23T15:56:22",
-        "reference_value": "/",
-        "time": "2021-06-23T15:56:22"
     },
     {
         "color_code": "RED",
@@ -4130,32 +2953,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "79",
+        "measurement_value": "56",
         "reference_time": "2021-06-28T04:49:35",
         "reference_value": "/",
         "time": "2021-06-28T04:49:35"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "9",
-        "reference_time": "2021-06-28T16:04:06",
-        "reference_value": "/",
-        "time": "2021-06-28T16:04:06"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-06-28T16:04:31",
-        "reference_value": "/",
-        "time": "2021-06-28T16:04:31"
     },
     {
         "color_code": "RED",
@@ -4185,7 +2986,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "46",
+        "measurement_value": "48",
         "reference_time": "2021-07-04T04:50:31",
         "reference_value": "/",
         "time": "2021-07-04T04:50:31"
@@ -4195,19 +2996,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-07-04T16:05:14",
-        "reference_value": "/",
-        "time": "2021-07-04T16:05:14"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "65",
+        "measurement_value": "73",
         "reference_time": "2021-07-05T04:41:39",
         "reference_value": "/",
         "time": "2021-07-05T04:41:39"
@@ -4217,33 +3007,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2021-07-05T15:56:22",
-        "reference_value": "/",
-        "time": "2021-07-05T15:56:22"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "30",
+        "measurement_value": "29",
         "reference_time": "2021-07-06T04:34:07",
         "reference_value": "/",
         "time": "2021-07-06T04:34:07"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2021-07-06T15:48:55",
-        "reference_value": "/",
-        "time": "2021-07-06T15:48:55"
     },
     {
         "color_code": "RED",
@@ -4262,21 +3030,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "327",
+        "measurement_value": "351",
         "reference_time": "2021-07-10T04:49:57",
         "reference_value": "/",
         "time": "2021-07-10T04:49:57"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "166",
-        "reference_time": "2021-07-10T16:04:32",
-        "reference_value": "/",
-        "time": "2021-07-10T16:04:32"
     },
     {
         "color_code": "RED",
@@ -4317,7 +3074,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "41",
+        "measurement_value": "56",
         "reference_time": "2021-07-16T04:50:32",
         "reference_value": "/",
         "time": "2021-07-16T04:50:32"
@@ -4327,19 +3084,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "26",
-        "reference_time": "2021-07-16T16:05:15",
-        "reference_value": "/",
-        "time": "2021-07-16T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "73",
+        "measurement_value": "80",
         "reference_time": "2021-07-17T04:41:40",
         "reference_value": "/",
         "time": "2021-07-17T04:41:40"
@@ -4349,33 +3095,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "24",
-        "reference_time": "2021-07-17T15:56:23",
-        "reference_value": "/",
-        "time": "2021-07-17T15:56:23"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "29",
+        "measurement_value": "28",
         "reference_time": "2021-07-18T04:34:08",
         "reference_value": "/",
         "time": "2021-07-18T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2021-07-18T15:48:56",
-        "reference_value": "/",
-        "time": "2021-07-18T15:48:56"
     },
     {
         "color_code": "RED",
@@ -4394,21 +3118,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "41",
+        "measurement_value": "45",
         "reference_time": "2021-07-22T04:49:48",
         "reference_value": "/",
         "time": "2021-07-22T04:49:48"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-07-22T16:04:33",
-        "reference_value": "/",
-        "time": "2021-07-22T16:04:33"
     },
     {
         "color_code": "RED",
@@ -4449,7 +3162,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "56",
+        "measurement_value": "58",
         "reference_time": "2021-07-28T04:50:33",
         "reference_value": "/",
         "time": "2021-07-28T04:50:33"
@@ -4459,19 +3172,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-07-28T16:05:16",
-        "reference_value": "/",
-        "time": "2021-07-28T16:05:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "53",
+        "measurement_value": "61",
         "reference_time": "2021-07-29T04:41:38",
         "reference_value": "/",
         "time": "2021-07-29T04:41:38"
@@ -4481,33 +3183,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "17",
-        "reference_time": "2021-07-29T15:56:24",
-        "reference_value": "/",
-        "time": "2021-07-29T15:56:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "22",
+        "measurement_value": "23",
         "reference_time": "2021-07-30T04:34:08",
         "reference_value": "/",
         "time": "2021-07-30T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-07-30T15:48:56",
-        "reference_value": "/",
-        "time": "2021-07-30T15:48:56"
     },
     {
         "color_code": "RED",
@@ -4526,21 +3206,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "36",
+        "measurement_value": "52",
         "reference_time": "2021-08-03T04:49:48",
         "reference_value": "/",
         "time": "2021-08-03T04:49:48"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-08-03T16:04:33",
-        "reference_value": "/",
-        "time": "2021-08-03T16:04:33"
     },
     {
         "color_code": "RED",
@@ -4581,7 +3250,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "54",
+        "measurement_value": "68",
         "reference_time": "2021-08-09T04:50:33",
         "reference_value": "/",
         "time": "2021-08-09T04:50:33"
@@ -4591,44 +3260,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "26",
-        "reference_time": "2021-08-09T16:05:17",
-        "reference_value": "/",
-        "time": "2021-08-09T16:05:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "65",
+        "measurement_value": "54",
         "reference_time": "2021-08-10T04:41:25",
         "reference_value": "/",
         "time": "2021-08-10T04:41:25"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-08-10T15:55:59",
-        "reference_value": "/",
-        "time": "2021-08-10T15:55:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-08-10T15:56:24",
-        "reference_value": "/",
-        "time": "2021-08-10T15:56:24"
     },
     {
         "color_code": "RED",
@@ -4658,21 +3294,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "52",
+        "measurement_value": "72",
         "reference_time": "2021-08-15T04:49:49",
         "reference_value": "/",
         "time": "2021-08-15T04:49:49"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "31",
-        "reference_time": "2021-08-15T16:04:34",
-        "reference_value": "/",
-        "time": "2021-08-15T16:04:34"
     },
     {
         "color_code": "RED",
@@ -4713,7 +3338,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "50",
+        "measurement_value": "56",
         "reference_time": "2021-08-21T04:50:34",
         "reference_value": "/",
         "time": "2021-08-21T04:50:34"
@@ -4723,19 +3348,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-08-21T16:05:17",
-        "reference_value": "/",
-        "time": "2021-08-21T16:05:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "56",
+        "measurement_value": "69",
         "reference_time": "2021-08-22T04:41:42",
         "reference_value": "/",
         "time": "2021-08-22T04:41:42"
@@ -4745,33 +3359,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2021-08-22T15:56:25",
-        "reference_value": "/",
-        "time": "2021-08-22T15:56:25"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "21",
+        "measurement_value": "22",
         "reference_time": "2021-08-23T04:34:10",
         "reference_value": "/",
         "time": "2021-08-23T04:34:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-08-23T15:48:57",
-        "reference_value": "/",
-        "time": "2021-08-23T15:48:57"
     },
     {
         "color_code": "RED",
@@ -4790,32 +3382,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "72",
+        "measurement_value": "58",
         "reference_time": "2021-08-27T04:49:39",
         "reference_value": "/",
         "time": "2021-08-27T04:49:39"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "10",
-        "reference_time": "2021-08-27T16:04:10",
-        "reference_value": "/",
-        "time": "2021-08-27T16:04:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2021-08-27T16:04:35",
-        "reference_value": "/",
-        "time": "2021-08-27T16:04:35"
     },
     {
         "color_code": "RED",
@@ -4834,21 +3404,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "39",
+        "measurement_value": "22",
         "reference_time": "2021-08-29T04:33:14",
         "reference_value": "/",
         "time": "2021-08-29T04:33:14"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-08-29T15:48:02",
-        "reference_value": "/",
-        "time": "2021-08-29T15:48:02"
     },
     {
         "color_code": "RED",
@@ -4867,21 +3426,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "45",
+        "measurement_value": "47",
         "reference_time": "2021-09-02T04:50:34",
         "reference_value": "/",
         "time": "2021-09-02T04:50:34"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-09-02T16:05:18",
-        "reference_value": "/",
-        "time": "2021-09-02T16:05:18"
     },
     {
         "color_code": "RED",
@@ -4893,17 +3441,6 @@
         "reference_time": "2021-09-03T04:41:51",
         "reference_value": "/",
         "time": "2021-09-03T04:41:51"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "9",
-        "reference_time": "2021-09-03T15:56:26",
-        "reference_value": "/",
-        "time": "2021-09-03T15:56:26"
     },
     {
         "color_code": "RED",
@@ -4933,7 +3470,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "78",
+        "measurement_value": "63",
         "reference_time": "2021-09-08T04:49:39",
         "reference_value": "/",
         "time": "2021-09-08T04:49:39"
@@ -4943,30 +3480,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "13",
-        "reference_time": "2021-09-08T16:04:10",
-        "reference_value": "/",
-        "time": "2021-09-08T16:04:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2021-09-08T16:04:35",
-        "reference_value": "/",
-        "time": "2021-09-08T16:04:35"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "44",
+        "measurement_value": "43",
         "reference_time": "2021-09-09T04:42:28",
         "reference_value": "/",
         "time": "2021-09-09T04:42:28"
@@ -4999,7 +3514,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "79",
+        "measurement_value": "92",
         "reference_time": "2021-09-14T04:50:35",
         "reference_value": "/",
         "time": "2021-09-14T04:50:35"
@@ -5009,19 +3524,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2021-09-14T16:05:18",
-        "reference_value": "/",
-        "time": "2021-09-14T16:05:18"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "94",
+        "measurement_value": "54",
         "reference_time": "2021-09-15T04:41:27",
         "reference_value": "/",
         "time": "2021-09-15T04:41:27"
@@ -5031,44 +3535,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "7",
-        "reference_time": "2021-09-15T15:56:01",
-        "reference_value": "/",
-        "time": "2021-09-15T15:56:01"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "15",
-        "reference_time": "2021-09-15T15:56:26",
-        "reference_value": "/",
-        "time": "2021-09-15T15:56:26"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "21",
+        "measurement_value": "22",
         "reference_time": "2021-09-16T04:34:11",
         "reference_value": "/",
         "time": "2021-09-16T04:34:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-09-16T15:48:58",
-        "reference_value": "/",
-        "time": "2021-09-16T15:48:58"
     },
     {
         "color_code": "RED",
@@ -5087,32 +3558,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "75",
+        "measurement_value": "58",
         "reference_time": "2021-09-20T04:49:40",
         "reference_value": "/",
         "time": "2021-09-20T04:49:40"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-09-20T16:04:11",
-        "reference_value": "/",
-        "time": "2021-09-20T16:04:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-09-20T16:04:36",
-        "reference_value": "/",
-        "time": "2021-09-20T16:04:36"
     },
     {
         "color_code": "RED",
@@ -5131,21 +3580,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "53",
+        "measurement_value": "29",
         "reference_time": "2021-09-22T04:33:15",
         "reference_value": "/",
         "time": "2021-09-22T04:33:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-09-22T15:48:03",
-        "reference_value": "/",
-        "time": "2021-09-22T15:48:03"
     },
     {
         "color_code": "RED",
@@ -5164,7 +3602,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "81",
+        "measurement_value": "106",
         "reference_time": "2021-09-26T04:50:35",
         "reference_value": "/",
         "time": "2021-09-26T04:50:35"
@@ -5174,19 +3612,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "48",
-        "reference_time": "2021-09-26T16:05:19",
-        "reference_value": "/",
-        "time": "2021-09-26T16:05:19"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "91",
+        "measurement_value": "65",
         "reference_time": "2021-09-27T04:41:27",
         "reference_value": "/",
         "time": "2021-09-27T04:41:27"
@@ -5196,44 +3623,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "12",
-        "reference_time": "2021-09-27T15:56:01",
-        "reference_value": "/",
-        "time": "2021-09-27T15:56:01"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "23",
-        "reference_time": "2021-09-27T15:56:26",
-        "reference_value": "/",
-        "time": "2021-09-27T15:56:26"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "25",
         "reference_time": "2021-09-28T04:34:11",
         "reference_value": "/",
         "time": "2021-09-28T04:34:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "4",
-        "reference_time": "2021-09-28T15:48:59",
-        "reference_value": "/",
-        "time": "2021-09-28T15:48:59"
     },
     {
         "color_code": "RED",
@@ -5252,32 +3646,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "84",
+        "measurement_value": "56",
         "reference_time": "2021-10-02T04:49:40",
         "reference_value": "/",
         "time": "2021-10-02T04:49:40"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "10",
-        "reference_time": "2021-10-02T16:04:11",
-        "reference_value": "/",
-        "time": "2021-10-02T16:04:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-10-02T16:04:36",
-        "reference_value": "/",
-        "time": "2021-10-02T16:04:36"
     },
     {
         "color_code": "RED",
@@ -5307,7 +3679,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "43",
+        "measurement_value": "56",
         "reference_time": "2021-10-08T04:50:36",
         "reference_value": "/",
         "time": "2021-10-08T04:50:36"
@@ -5317,33 +3689,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "23",
-        "reference_time": "2021-10-08T16:05:19",
-        "reference_value": "/",
-        "time": "2021-10-08T16:05:19"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "50",
+        "measurement_value": "62",
         "reference_time": "2021-10-09T04:41:43",
         "reference_value": "/",
         "time": "2021-10-09T04:41:43"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "22",
-        "reference_time": "2021-10-09T15:56:27",
-        "reference_value": "/",
-        "time": "2021-10-09T15:56:27"
     },
     {
         "color_code": "RED",
@@ -5362,17 +3712,6 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2021-10-10T15:48:59",
-        "reference_value": "/",
-        "time": "2021-10-10T15:48:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
         "measurement_value": "3",
         "reference_time": "2021-10-13T16:13:05",
         "reference_value": "/",
@@ -5384,32 +3723,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "91",
+        "measurement_value": "56",
         "reference_time": "2021-10-14T04:49:40",
         "reference_value": "/",
         "time": "2021-10-14T04:49:40"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "10",
-        "reference_time": "2021-10-14T16:04:11",
-        "reference_value": "/",
-        "time": "2021-10-14T16:04:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "13",
-        "reference_time": "2021-10-14T16:04:36",
-        "reference_value": "/",
-        "time": "2021-10-14T16:04:36"
     },
     {
         "color_code": "RED",
@@ -5428,21 +3745,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "41",
+        "measurement_value": "47",
         "reference_time": "2021-10-16T04:33:16",
         "reference_value": "/",
         "time": "2021-10-16T04:33:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "26",
-        "reference_time": "2021-10-16T15:48:03",
-        "reference_value": "/",
-        "time": "2021-10-16T15:48:03"
     },
     {
         "color_code": "RED",
@@ -5461,21 +3767,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "49",
+        "measurement_value": "62",
         "reference_time": "2021-10-20T04:50:36",
         "reference_value": "/",
         "time": "2021-10-20T04:50:36"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "23",
-        "reference_time": "2021-10-20T16:05:19",
-        "reference_value": "/",
-        "time": "2021-10-20T16:05:19"
     },
     {
         "color_code": "RED",
@@ -5493,33 +3788,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "16",
-        "reference_time": "2021-10-21T15:56:27",
-        "reference_value": "/",
-        "time": "2021-10-21T15:56:27"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "1381",
+        "measurement_value": "19",
         "reference_time": "2021-10-22T04:34:11",
         "reference_value": "/",
         "time": "2021-10-22T04:34:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1523",
-        "reference_time": "2021-10-22T15:48:59",
-        "reference_value": "/",
-        "time": "2021-10-22T15:48:59"
     },
     {
         "color_code": "RED",
@@ -5538,32 +3811,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "58",
+        "measurement_value": "62",
         "reference_time": "2021-10-26T04:49:40",
         "reference_value": "/",
         "time": "2021-10-26T04:49:40"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "10",
-        "reference_time": "2021-10-26T16:04:11",
-        "reference_value": "/",
-        "time": "2021-10-26T16:04:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "30",
-        "reference_time": "2021-10-26T16:04:36",
-        "reference_value": "/",
-        "time": "2021-10-26T16:04:36"
     },
     {
         "color_code": "RED",
@@ -5614,19 +3865,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2021-11-01T16:05:19",
-        "reference_value": "/",
-        "time": "2021-11-01T16:05:19"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "43",
+        "measurement_value": "53",
         "reference_time": "2021-11-02T04:41:43",
         "reference_value": "/",
         "time": "2021-11-02T04:41:43"
@@ -5636,19 +3876,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-11-02T15:56:27",
-        "reference_value": "/",
-        "time": "2021-11-02T15:56:27"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "23",
         "reference_time": "2021-11-03T04:34:11",
         "reference_value": "/",
         "time": "2021-11-03T04:34:11"
@@ -5658,44 +3887,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "4",
-        "reference_time": "2021-11-03T15:48:59",
-        "reference_value": "/",
-        "time": "2021-11-03T15:48:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "58",
+        "measurement_value": "46",
         "reference_time": "2021-11-07T04:49:40",
         "reference_value": "/",
         "time": "2021-11-07T04:49:40"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "7",
-        "reference_time": "2021-11-07T16:04:11",
-        "reference_value": "/",
-        "time": "2021-11-07T16:04:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-11-07T16:04:36",
-        "reference_value": "/",
-        "time": "2021-11-07T16:04:36"
     },
     {
         "color_code": "RED",
@@ -5736,7 +3932,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "39",
+        "measurement_value": "54",
         "reference_time": "2021-11-13T04:50:35",
         "reference_value": "/",
         "time": "2021-11-13T04:50:35"
@@ -5746,19 +3942,8 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "24",
-        "reference_time": "2021-11-13T16:05:19",
-        "reference_value": "/",
-        "time": "2021-11-13T16:05:19"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1B - GRD",
-        "measurement_value": "42",
+        "measurement_value": "49",
         "reference_time": "2021-11-14T04:41:43",
         "reference_value": "/",
         "time": "2021-11-14T04:41:43"
@@ -5768,33 +3953,11 @@
         "data_provider": "cimbelli",
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
-        "input_data": "S1B - GRD",
-        "measurement_value": "14",
-        "reference_time": "2021-11-14T15:56:26",
-        "reference_value": "/",
-        "time": "2021-11-14T15:56:26"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
+        "measurement_value": "17",
         "reference_time": "2021-11-15T04:34:11",
         "reference_value": "/",
         "time": "2021-11-15T04:34:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2021-11-15T15:48:59",
-        "reference_value": "/",
-        "time": "2021-11-15T15:48:59"
     },
     {
         "color_code": "RED",
@@ -5835,21 +3998,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "76",
+        "measurement_value": "71",
         "reference_time": "2021-11-27T04:34:11",
         "reference_value": "/",
         "time": "2021-11-27T04:34:11"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2021-11-27T15:48:58",
-        "reference_value": "/",
-        "time": "2021-11-27T15:48:58"
     },
     {
         "color_code": "RED",
@@ -5879,21 +4031,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "42",
+        "measurement_value": "50",
         "reference_time": "2021-12-07T04:50:34",
         "reference_value": "/",
         "time": "2021-12-07T04:50:34"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2021-12-07T16:05:18",
-        "reference_value": "/",
-        "time": "2021-12-07T16:05:18"
     },
     {
         "color_code": "RED",
@@ -5934,21 +4075,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "33",
+        "measurement_value": "42",
         "reference_time": "2021-12-19T04:50:34",
         "reference_value": "/",
         "time": "2021-12-19T04:50:34"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2021-12-19T16:05:17",
-        "reference_value": "/",
-        "time": "2021-12-19T16:05:17"
     },
     {
         "color_code": "RED",
@@ -5960,17 +4090,6 @@
         "reference_time": "2021-12-21T04:34:09",
         "reference_value": "/",
         "time": "2021-12-21T04:34:09"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2021-12-21T15:48:57",
-        "reference_value": "/",
-        "time": "2021-12-21T15:48:57"
     },
     {
         "color_code": "RED",
@@ -6000,7 +4119,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "43",
+        "measurement_value": "54",
         "reference_time": "2021-12-31T04:50:33",
         "reference_value": "/",
         "time": "2021-12-31T04:50:33"
@@ -6011,32 +4130,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "22",
-        "reference_time": "2021-12-31T16:05:16",
-        "reference_value": "/",
-        "time": "2021-12-31T16:05:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "23",
+        "measurement_value": "27",
         "reference_time": "2022-01-02T04:34:09",
         "reference_value": "/",
         "time": "2022-01-02T04:34:09"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "7",
-        "reference_time": "2022-01-02T15:48:57",
-        "reference_value": "/",
-        "time": "2022-01-02T15:48:57"
     },
     {
         "color_code": "RED",
@@ -6066,7 +4163,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "34",
+        "measurement_value": "47",
         "reference_time": "2022-01-12T04:50:33",
         "reference_value": "/",
         "time": "2022-01-12T04:50:33"
@@ -6077,32 +4174,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2022-01-12T16:05:16",
-        "reference_value": "/",
-        "time": "2022-01-12T16:05:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "19",
+        "measurement_value": "18",
         "reference_time": "2022-01-14T04:34:08",
         "reference_value": "/",
         "time": "2022-01-14T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-01-14T15:48:56",
-        "reference_value": "/",
-        "time": "2022-01-14T15:48:56"
     },
     {
         "color_code": "RED",
@@ -6132,7 +4207,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "44",
+        "measurement_value": "58",
         "reference_time": "2022-01-24T04:50:32",
         "reference_value": "/",
         "time": "2022-01-24T04:50:32"
@@ -6143,32 +4218,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2022-01-24T16:05:15",
-        "reference_value": "/",
-        "time": "2022-01-24T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "27",
+        "measurement_value": "28",
         "reference_time": "2022-01-26T04:34:08",
         "reference_value": "/",
         "time": "2022-01-26T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2022-01-26T15:48:56",
-        "reference_value": "/",
-        "time": "2022-01-26T15:48:56"
     },
     {
         "color_code": "RED",
@@ -6198,21 +4251,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "36",
+        "measurement_value": "49",
         "reference_time": "2022-02-05T04:50:32",
         "reference_value": "/",
         "time": "2022-02-05T04:50:32"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "23",
-        "reference_time": "2022-02-05T16:05:15",
-        "reference_value": "/",
-        "time": "2022-02-05T16:05:15"
     },
     {
         "color_code": "RED",
@@ -6224,17 +4266,6 @@
         "reference_time": "2022-02-07T04:34:07",
         "reference_value": "/",
         "time": "2022-02-07T04:34:07"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "4",
-        "reference_time": "2022-02-07T15:48:55",
-        "reference_value": "/",
-        "time": "2022-02-07T15:48:55"
     },
     {
         "color_code": "RED",
@@ -6264,21 +4295,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "55",
+        "measurement_value": "54",
         "reference_time": "2022-02-17T04:50:32",
         "reference_value": "/",
         "time": "2022-02-17T04:50:32"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "13",
-        "reference_time": "2022-02-17T16:05:15",
-        "reference_value": "/",
-        "time": "2022-02-17T16:05:15"
     },
     {
         "color_code": "RED",
@@ -6290,17 +4310,6 @@
         "reference_time": "2022-02-19T04:34:07",
         "reference_value": "/",
         "time": "2022-02-19T04:34:07"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2022-02-19T15:48:55",
-        "reference_value": "/",
-        "time": "2022-02-19T15:48:55"
     },
     {
         "color_code": "RED",
@@ -6330,7 +4339,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "31",
+        "measurement_value": "43",
         "reference_time": "2022-03-01T04:50:31",
         "reference_value": "/",
         "time": "2022-03-01T04:50:31"
@@ -6341,32 +4350,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2022-03-01T16:05:15",
-        "reference_value": "/",
-        "time": "2022-03-01T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "14",
+        "measurement_value": "13",
         "reference_time": "2022-03-03T04:34:07",
         "reference_value": "/",
         "time": "2022-03-03T04:34:07"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-03-03T15:48:55",
-        "reference_value": "/",
-        "time": "2022-03-03T15:48:55"
     },
     {
         "color_code": "RED",
@@ -6396,7 +4383,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "22",
+        "measurement_value": "31",
         "reference_time": "2022-03-13T04:50:32",
         "reference_value": "/",
         "time": "2022-03-13T04:50:32"
@@ -6407,32 +4394,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "13",
-        "reference_time": "2022-03-13T16:05:15",
-        "reference_value": "/",
-        "time": "2022-03-13T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
+        "measurement_value": "19",
         "reference_time": "2022-03-15T04:34:07",
         "reference_value": "/",
         "time": "2022-03-15T04:34:07"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2022-03-15T15:48:55",
-        "reference_value": "/",
-        "time": "2022-03-15T15:48:55"
     },
     {
         "color_code": "RED",
@@ -6473,32 +4438,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "17",
-        "reference_time": "2022-03-25T16:05:15",
-        "reference_value": "/",
-        "time": "2022-03-25T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "17",
+        "measurement_value": "16",
         "reference_time": "2022-03-27T04:34:08",
         "reference_value": "/",
         "time": "2022-03-27T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2022-03-27T15:48:55",
-        "reference_value": "/",
-        "time": "2022-03-27T15:48:55"
     },
     {
         "color_code": "RED",
@@ -6528,32 +4471,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "15",
-        "reference_time": "2022-04-06T16:05:15",
-        "reference_value": "/",
-        "time": "2022-04-06T16:05:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "23",
         "reference_time": "2022-04-08T04:34:08",
         "reference_value": "/",
         "time": "2022-04-08T04:34:08"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-04-08T15:48:56",
-        "reference_value": "/",
-        "time": "2022-04-08T15:48:56"
     },
     {
         "color_code": "RED",
@@ -6583,21 +4504,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "70",
+        "measurement_value": "77",
         "reference_time": "2022-04-18T04:50:33",
         "reference_value": "/",
         "time": "2022-04-18T04:50:33"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "28",
-        "reference_time": "2022-04-18T16:05:16",
-        "reference_value": "/",
-        "time": "2022-04-18T16:05:16"
     },
     {
         "color_code": "RED",
@@ -6638,7 +4548,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "54",
+        "measurement_value": "63",
         "reference_time": "2022-04-30T04:50:33",
         "reference_value": "/",
         "time": "2022-04-30T04:50:33"
@@ -6649,32 +4559,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "20",
-        "reference_time": "2022-04-30T16:05:16",
-        "reference_value": "/",
-        "time": "2022-04-30T16:05:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "19",
         "reference_time": "2022-05-02T04:34:09",
         "reference_value": "/",
         "time": "2022-05-02T04:34:09"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-05-02T15:48:56",
-        "reference_value": "/",
-        "time": "2022-05-02T15:48:56"
     },
     {
         "color_code": "RED",
@@ -6693,7 +4581,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "75",
+        "measurement_value": "74",
         "reference_time": "2022-05-07T04:42:26",
         "reference_value": "/",
         "time": "2022-05-07T04:42:26"
@@ -6704,7 +4592,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "25",
         "reference_time": "2022-05-12T04:50:34",
         "reference_value": "/",
         "time": "2022-05-12T04:50:34"
@@ -6715,21 +4603,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "18",
+        "measurement_value": "19",
         "reference_time": "2022-05-14T04:34:10",
         "reference_value": "/",
         "time": "2022-05-14T04:34:10"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2022-05-14T15:48:57",
-        "reference_value": "/",
-        "time": "2022-05-14T15:48:57"
     },
     {
         "color_code": "RED",
@@ -6759,10 +4636,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "271",
-        "reference_time": "2022-05-24T16:04:53",
+        "measurement_value": "21",
+        "reference_time": "2022-05-24T16:05:18",
         "reference_value": "/",
-        "time": "2022-05-24T16:04:53"
+        "time": "2022-05-24T16:05:18"
     },
     {
         "color_code": "RED",
@@ -6803,21 +4680,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "55",
+        "measurement_value": "65",
         "reference_time": "2022-06-05T04:50:36",
         "reference_value": "/",
         "time": "2022-06-05T04:50:36"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "21",
-        "reference_time": "2022-06-05T16:05:19",
-        "reference_value": "/",
-        "time": "2022-06-05T16:05:19"
     },
     {
         "color_code": "RED",
@@ -6837,17 +4703,6 @@
         "indicator_value": "/",
         "input_data": "S1A - GRD",
         "measurement_value": "2",
-        "reference_time": "2022-06-07T15:48:59",
-        "reference_value": "/",
-        "time": "2022-06-07T15:48:59"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
         "reference_time": "2022-06-10T16:13:07",
         "reference_value": "/",
         "time": "2022-06-10T16:13:07"
@@ -6858,7 +4713,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "80",
+        "measurement_value": "79",
         "reference_time": "2022-06-12T04:42:29",
         "reference_value": "/",
         "time": "2022-06-12T04:42:29"
@@ -6869,7 +4724,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "46",
+        "measurement_value": "49",
         "reference_time": "2022-06-17T04:50:36",
         "reference_value": "/",
         "time": "2022-06-17T04:50:36"
@@ -6880,32 +4735,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "16",
-        "reference_time": "2022-06-17T16:05:19",
-        "reference_value": "/",
-        "time": "2022-06-17T16:05:19"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "26",
         "reference_time": "2022-06-19T04:34:12",
         "reference_value": "/",
         "time": "2022-06-19T04:34:12"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "4",
-        "reference_time": "2022-06-19T15:49:00",
-        "reference_value": "/",
-        "time": "2022-06-19T15:49:00"
     },
     {
         "color_code": "RED",
@@ -6924,21 +4757,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "56",
+        "measurement_value": "65",
         "reference_time": "2022-06-29T04:50:37",
         "reference_value": "/",
         "time": "2022-06-29T04:50:37"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "24",
-        "reference_time": "2022-06-29T16:05:20",
-        "reference_value": "/",
-        "time": "2022-06-29T16:05:20"
     },
     {
         "color_code": "RED",
@@ -7023,7 +4845,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "56",
+        "measurement_value": "52",
         "reference_time": "2022-07-23T04:50:39",
         "reference_value": "/",
         "time": "2022-07-23T04:50:39"
@@ -7034,32 +4856,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "12",
-        "reference_time": "2022-07-23T16:05:22",
-        "reference_value": "/",
-        "time": "2022-07-23T16:05:22"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "25",
+        "measurement_value": "24",
         "reference_time": "2022-07-25T04:34:14",
         "reference_value": "/",
         "time": "2022-07-25T04:34:14"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "2",
-        "reference_time": "2022-07-25T15:49:02",
-        "reference_value": "/",
-        "time": "2022-07-25T15:49:02"
     },
     {
         "color_code": "RED",
@@ -7089,21 +4889,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "255",
+        "measurement_value": "170",
         "reference_time": "2022-08-04T04:50:39",
         "reference_value": "/",
         "time": "2022-08-04T04:50:39"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2022-08-04T16:05:23",
-        "reference_value": "/",
-        "time": "2022-08-04T16:05:23"
     },
     {
         "color_code": "RED",
@@ -7115,17 +4904,6 @@
         "reference_time": "2022-08-06T04:34:15",
         "reference_value": "/",
         "time": "2022-08-06T04:34:15"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2022-08-06T15:49:03",
-        "reference_value": "/",
-        "time": "2022-08-06T15:49:03"
     },
     {
         "color_code": "RED",
@@ -7199,7 +4977,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "43",
+        "measurement_value": "52",
         "reference_time": "2022-08-28T04:50:41",
         "reference_value": "/",
         "time": "2022-08-28T04:50:41"
@@ -7210,32 +4988,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2022-08-28T16:05:24",
-        "reference_value": "/",
-        "time": "2022-08-28T16:05:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "24",
+        "measurement_value": "20",
         "reference_time": "2022-08-30T04:34:16",
         "reference_value": "/",
         "time": "2022-08-30T04:34:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-08-30T15:49:04",
-        "reference_value": "/",
-        "time": "2022-08-30T15:49:04"
     },
     {
         "color_code": "RED",
@@ -7254,7 +5010,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "82",
+        "measurement_value": "81",
         "reference_time": "2022-09-04T04:42:34",
         "reference_value": "/",
         "time": "2022-09-04T04:42:34"
@@ -7287,17 +5043,6 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-09-11T15:49:05",
-        "reference_value": "/",
-        "time": "2022-09-11T15:49:05"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
         "measurement_value": "5",
         "reference_time": "2022-09-14T16:13:11",
         "reference_value": "/",
@@ -7320,7 +5065,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "58",
+        "measurement_value": "64",
         "reference_time": "2022-09-21T04:50:41",
         "reference_value": "/",
         "time": "2022-09-21T04:50:41"
@@ -7331,32 +5076,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2022-09-21T16:05:24",
-        "reference_value": "/",
-        "time": "2022-09-21T16:05:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "20",
+        "measurement_value": "18",
         "reference_time": "2022-09-23T04:34:16",
         "reference_value": "/",
         "time": "2022-09-23T04:34:16"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-09-23T15:49:04",
-        "reference_value": "/",
-        "time": "2022-09-23T15:49:04"
     },
     {
         "color_code": "RED",
@@ -7386,7 +5109,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "40",
+        "measurement_value": "54",
         "reference_time": "2022-10-03T04:50:42",
         "reference_value": "/",
         "time": "2022-10-03T04:50:42"
@@ -7397,32 +5120,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "19",
-        "reference_time": "2022-10-03T16:05:25",
-        "reference_value": "/",
-        "time": "2022-10-03T16:05:25"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "29",
+        "measurement_value": "25",
         "reference_time": "2022-10-05T04:34:17",
         "reference_value": "/",
         "time": "2022-10-05T04:34:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-10-05T15:49:05",
-        "reference_value": "/",
-        "time": "2022-10-05T15:49:05"
     },
     {
         "color_code": "RED",
@@ -7452,21 +5153,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "56",
+        "measurement_value": "65",
         "reference_time": "2022-10-15T04:50:42",
         "reference_value": "/",
         "time": "2022-10-15T04:50:42"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "23",
-        "reference_time": "2022-10-15T16:05:25",
-        "reference_value": "/",
-        "time": "2022-10-15T16:05:25"
     },
     {
         "color_code": "RED",
@@ -7478,17 +5168,6 @@
         "reference_time": "2022-10-17T04:34:17",
         "reference_value": "/",
         "time": "2022-10-17T04:34:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "3",
-        "reference_time": "2022-10-17T15:49:05",
-        "reference_value": "/",
-        "time": "2022-10-17T15:49:05"
     },
     {
         "color_code": "RED",
@@ -7518,21 +5197,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "40",
+        "measurement_value": "50",
         "reference_time": "2022-10-27T04:50:42",
         "reference_value": "/",
         "time": "2022-10-27T04:50:42"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "18",
-        "reference_time": "2022-10-27T16:05:25",
-        "reference_value": "/",
-        "time": "2022-10-27T16:05:25"
     },
     {
         "color_code": "RED",
@@ -7573,7 +5241,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "51",
+        "measurement_value": "68",
         "reference_time": "2022-11-08T04:50:41",
         "reference_value": "/",
         "time": "2022-11-08T04:50:41"
@@ -7584,32 +5252,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "30",
-        "reference_time": "2022-11-08T16:05:24",
-        "reference_value": "/",
-        "time": "2022-11-08T16:05:24"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "15",
+        "measurement_value": "14",
         "reference_time": "2022-11-10T04:34:17",
         "reference_value": "/",
         "time": "2022-11-10T04:34:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-11-10T15:49:04",
-        "reference_value": "/",
-        "time": "2022-11-10T15:49:04"
     },
     {
         "color_code": "RED",
@@ -7639,7 +5285,7 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "35",
+        "measurement_value": "51",
         "reference_time": "2022-11-20T04:50:41",
         "reference_value": "/",
         "time": "2022-11-20T04:50:41"
@@ -7650,32 +5296,10 @@
         "eo_sensor": "Sentinel-1",
         "indicator_value": "/",
         "input_data": "S1A - GRD",
-        "measurement_value": "25",
-        "reference_time": "2022-11-20T16:05:25",
-        "reference_value": "/",
-        "time": "2022-11-20T16:05:25"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "38",
+        "measurement_value": "33",
         "reference_time": "2022-11-22T04:34:17",
         "reference_value": "/",
         "time": "2022-11-22T04:34:17"
-    },
-    {
-        "color_code": "RED",
-        "data_provider": "cimbelli",
-        "eo_sensor": "Sentinel-1",
-        "indicator_value": "/",
-        "input_data": "S1A - GRD",
-        "measurement_value": "1",
-        "reference_time": "2022-11-22T15:49:05",
-        "reference_value": "/",
-        "time": "2022-11-22T15:49:05"
     },
     {
         "color_code": "RED",
@@ -7698,5 +5322,126 @@
         "reference_time": "2022-11-27T04:42:34",
         "reference_value": "/",
         "time": "2022-11-27T04:42:34"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "58",
+        "reference_time": "2022-12-02T04:50:41",
+        "reference_value": "/",
+        "time": "2022-12-02T04:50:41"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "18",
+        "reference_time": "2022-12-04T04:34:16",
+        "reference_value": "/",
+        "time": "2022-12-04T04:34:16"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "3",
+        "reference_time": "2022-12-07T16:13:10",
+        "reference_value": "/",
+        "time": "2022-12-07T16:13:10"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "57",
+        "reference_time": "2022-12-09T04:42:33",
+        "reference_value": "/",
+        "time": "2022-12-09T04:42:33"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "59",
+        "reference_time": "2022-12-14T04:50:40",
+        "reference_value": "/",
+        "time": "2022-12-14T04:50:40"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "22",
+        "reference_time": "2022-12-16T04:34:16",
+        "reference_value": "/",
+        "time": "2022-12-16T04:34:16"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "3",
+        "reference_time": "2022-12-19T16:13:09",
+        "reference_value": "/",
+        "time": "2022-12-19T16:13:09"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "60",
+        "reference_time": "2022-12-21T04:42:32",
+        "reference_value": "/",
+        "time": "2022-12-21T04:42:32"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "37",
+        "reference_time": "2022-12-26T04:50:39",
+        "reference_value": "/",
+        "time": "2022-12-26T04:50:39"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "17",
+        "reference_time": "2022-12-28T04:34:15",
+        "reference_value": "/",
+        "time": "2022-12-28T04:34:15"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "cimbelli",
+        "eo_sensor": "Sentinel-1",
+        "indicator_value": "/",
+        "input_data": "S1A - GRD",
+        "measurement_value": "1",
+        "reference_time": "2022-12-31T16:13:09",
+        "reference_value": "/",
+        "time": "2022-12-31T16:13:09"
     }
 ]
