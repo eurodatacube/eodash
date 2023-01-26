@@ -64,11 +64,11 @@
                 ></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.properties.indicatorObject.indicatorName }}
+                <v-list-item-title
+                v-html="item.properties.indicatorObject.indicatorName">
                 </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ item.properties.indicatorObject.navigationDescription }}
+                <v-list-item-subtitle
+                  v-html="item.properties.indicatorObject.navigationDescription">
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
