@@ -60,7 +60,7 @@ export default {
   },
   watch: {
     adminFeature(feature) {
-      console.log(feature);
+      const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (this.adminLayerName === 'Municipality (Gemeinde)') {
         if (this.indicatorObject.indicator === 'AQ') {
           // TODO:
@@ -68,7 +68,8 @@ export default {
           //   to the indicator definition
           // * make sure correct admin zone is used (need to update data)
           // * make sure correct indicator is used
-          const expUrl = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_air_quality?id_3=eq.1&select=pm10,pm25,ihr,time';
+          const adminId = feature.get('id');
+          const expUrl = `${geodbEndpoint}air_quality_new_id?id_3=eq.${adminId}&select=pm10,pm25,ihr,time`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -104,7 +105,7 @@ export default {
           // * make sure correct admin zone is used (need to update data)
           // * make sure correct indicator is used
           // const adminId = feature.ol_uid;
-          const adminId = 80116;
+          const adminId = feature.get('id');
           const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_mobility?adminzoneid=eq.${adminId}&select=users_count,users_density,time`;
           fetch(expUrl)
             .then((resp) => resp.json())

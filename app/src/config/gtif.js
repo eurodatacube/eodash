@@ -299,7 +299,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'mobi1',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
-    // customAreaIndicator: true,
+    customAreaIndicator: true,
   },
   SOL1: {
     indicator: 'sus cities',
@@ -393,6 +393,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
+    customAreaIndicator: true,
   },
   AQ2: {
     indicator: 'Innsbruck hot-spot',
