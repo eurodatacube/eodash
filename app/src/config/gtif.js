@@ -1485,6 +1485,22 @@ export const globalIndicators = [
               max: 4000,
               header: true,
               range: [0, 4000],
+              changeablaDataset: {
+                items: [
+                  {
+                    description: '200 m',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_COG_3857_clipped_fix.tif',
+                  },
+                  {
+                    description: '100 m',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif',
+                  },
+                  {
+                    description: '50 m',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif',
+                  },
+                ],
+              },
             },
             elevation: {
               display: true,
