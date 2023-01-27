@@ -37,7 +37,7 @@ figure .v-image, figure video {
   width: 100%;
 }
 
-.expansible-text-section > p, div {
+.expansible-text-section > p, div, .step p {
   /*padding-top: 70px;
   padding-bottom: 70px;*/
   font-size: 1.4rem;
@@ -60,6 +60,7 @@ article {
 
 .v-application p {
   margin-bottom: 0 !important;
+  max-width: 800px;
 }
 
 .expansible-text-section, .expansible-text-section p {
