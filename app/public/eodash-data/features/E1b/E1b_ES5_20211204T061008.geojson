@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.30257, 39.49282 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.27645, 39.4213 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.23744, 39.39942 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.13252, 39.629631 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.02485, 39.273739 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.02907, 39.262908 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.03992, 39.276493 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.04717, 39.258783 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.06593, 39.289728 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.08041, 39.32288 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:33", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.00237, 39.2184 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 06:10:33", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.00112, 39.24259 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.31061, 39.38162 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.24748, 39.41751 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.23811, 39.39867 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.08952, 39.36508 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.07865, 39.313118 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.08043, 39.162559 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:01:57", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.19944, 38.79279 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:02:22", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.25361, 39.42777 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:02:22", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.19431, 39.4299 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/04 18:02:22", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.19352, 39.65143 ] } }
+]
+}

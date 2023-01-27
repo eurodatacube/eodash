@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.51237, 38.49152 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.61826, 38.22477 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.69006, 38.51646 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.69422, 38.49266 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.77678, 38.42571 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.88513, 38.55357 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/01 16:56:58", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.8952, 38.50358 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.50956, 38.65582 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.62238, 38.46431 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.63014, 39.05476 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.70369, 38.53477 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.76655, 38.43594 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:31", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.8127, 38.44175 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:56", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.6368, 38.378 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/02 04:56:56", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.57985, 38.29568 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:04:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.63911, 38.41595 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:04:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.66293, 38.32273 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:04:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.67028, 38.33703 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:04:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.8578, 38.45704 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:04:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.88455, 38.44697 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:05:07", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.62769, 38.23018 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/07 05:05:07", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.24264, 38.17971 ] } }
+]
+}

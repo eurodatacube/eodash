@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.38713, 28.08718 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.38588, 28.07923 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.38485, 28.04117 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.36663, 28.09819 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.33583, 28.08769 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.31896, 27.90803 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.31545, 28.17339 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.2566, 28.0108 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -14.96268, 27.99579 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.23298, 27.66581 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/03 06:54:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -15.19743, 27.45092 ] } }
+]
+}

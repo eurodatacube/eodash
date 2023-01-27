@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.79583, 54.66657 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.84641, 54.67831 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.03505, 54.66118 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.11979, 55.11864 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.1876, 54.92845 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.43676, 54.76636 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.50515, 54.96754 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.62708, 54.80775 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 19.77521, 54.74074 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.36246, 54.98269 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/19 16:27:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.36614, 54.98425 ] } }
+]
+}

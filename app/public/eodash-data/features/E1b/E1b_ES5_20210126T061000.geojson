@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.28232, 39.39353 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.2814, 39.40047 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.28027, 39.38648 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.27145, 39.38638 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26908, 39.39449 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26217, 39.39471 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26134, 39.40172 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.24623, 39.42262 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.20044, 39.6242 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.15753, 39.60971 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.10819, 39.370319 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.04636, 39.4213 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.27132, 39.40036 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26204, 39.39417 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26159, 39.40163 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.21267, 39.408224 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.19975, 38.79294 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.29019, 39.41803 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.19352, 39.65144 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.18288, 39.62661 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.1764, 39.59225 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/01\/26 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.01301, 39.65628 ] } }
+]
+}

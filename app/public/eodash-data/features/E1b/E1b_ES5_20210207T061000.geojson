@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.30236, 39.49374 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.281, 39.40126 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26676, 39.39204 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26514, 39.41834 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.25135, 39.39213 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.24901, 39.40082 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.16044, 39.61722 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.02753, 39.48932 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.00831, 39.442928 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 06:10:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.06756, 39.52762 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26644, 39.39215 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.25047, 39.39209 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.24862, 39.40085 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.20138, 39.42618 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.11381, 39.00767 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.05303, 39.443716 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.02507, 39.355351 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:01:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.19948, 38.79282 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.29951, 39.42619 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.19352, 39.65144 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.15975, 39.61757 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/02\/07 18:02:14", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.11301, 39.51185 ] } }
+]
+}

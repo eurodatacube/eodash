@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.62401, 59.996712 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.68422, 60.799935 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.99983, 60.479047 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.01068, 60.144593 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.23612, 60.213893 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.3145, 59.988592 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.33959, 60.056809 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.34214, 60.086172 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.4095, 60.494596 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.50344, 60.064065 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 05:55:30", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.66423, 60.08593 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:09", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.02765, 60.055459 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:09", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.3339, 60.052576 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:09", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.34088, 60.055993 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:09", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.38493, 60.111675 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:09", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.49532, 60.07758 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.68422, 60.799891 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.7309, 60.514426 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.77978, 60.753525 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.99357, 60.472714 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.21674, 60.396136 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/07\/31 17:10:34", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.25891, 60.50888 ] } }
+]
+}

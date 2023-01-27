@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.80723, 43.4407 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.79605, 43.42471 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.77004, 43.57509 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.76611, 43.48995 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.37577, 43.57659 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.25633, 43.41317 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.16771, 43.46694 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.12962, 43.37549 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.10601, 43.39583 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 06:17:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -2.69075, 43.50232 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.79605, 43.42471 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.76574, 43.58509 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.76126, 43.48167 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.74759, 43.49108 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.29089, 43.41895 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.24218, 43.41146 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.21524, 43.54137 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.19829, 43.46094 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.13309, 43.3616 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.1051, 43.39614 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:17", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.05531, 43.39657 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/02 18:11:42", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -3.7959, 43.736 ] } }
+]
+}

@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/28 04:35:05", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 24.00715, 57.07368 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/12\/28 04:35:05", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 24.34147, 57.30907 ] } }
+]
+}

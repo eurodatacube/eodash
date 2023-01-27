@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.5744, 35.97206 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.57394, 35.86995 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.56452, 35.92025 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.55724, 35.9709 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.55195, 35.96543 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.5202, 35.88696 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.43414, 36.01057 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.43218, 36.15529 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.42245, 36.0974 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.41702, 36.02892 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/06\/11 18:26:49", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -5.41621, 36.08526 ] } }
+]
+}

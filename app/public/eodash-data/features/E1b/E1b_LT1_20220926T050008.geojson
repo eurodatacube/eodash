@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.8471, 55.70361 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.8568, 55.74057 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.87052, 55.78116 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.94689, 55.76845 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 20.97856, 55.72563 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.04501, 55.73216 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.06689, 55.7302 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 05:00:08", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.07545, 55.72895 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 16:12:21", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.06647, 55.73042 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 16:12:21", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.07329, 55.72978 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2022\/09\/26 16:12:21", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 21.09756, 55.63504 ] } }
+]
+}

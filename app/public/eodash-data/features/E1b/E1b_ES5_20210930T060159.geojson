@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.30404, 39.40508 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.28059, 39.39372 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26311, 39.4007 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26064, 39.39082 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.2515, 39.41028 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.20417, 39.42473 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.16115, 39.614249 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.08286, 39.467268 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:01:59", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.32157, 39.32588 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 06:02:24", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.5503, 38.9909 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.29273, 39.42206 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.28176, 39.39412 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.26427, 39.40178 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.2607, 39.39237 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ -0.17823, 39.443406 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.0381, 39.569741 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.15939, 39.370504 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.17346, 39.488525 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.39152, 38.933675 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/09\/30 17:54:00", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 0.46022, 39.61383 ] } }
+]
+}

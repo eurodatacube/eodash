@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.93019, 43.405101 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.93380, 43.367433 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.95327, 43.394245 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.96548, 43.395623 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 4.98552, 43.367587 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.00561, 43.242807 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.04183, 43.211162 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.05073, 43.183464 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.05172, 43.105101 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.11079, 43.058046 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/04\/16 05:52:01", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 5.11592, 43.03366 ] } }
+]
+}
