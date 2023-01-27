@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.intro p {
+  padding: 1rem !important;
+}
+
 figure .v-image, figure video {
   max-height: 65vh;
   max-width: 50vw;
@@ -54,12 +58,12 @@ article {
   margin-right: 0 !important;
 }
 
-.expansible-text-section, .expansible-text-section p {
-  width: 100% !important;
+.v-application p {
+  margin-bottom: 0 !important;
 }
 
-.expansible-text-section p {
-  margin-bottom: 60px !important;
+.expansible-text-section, .expansible-text-section p {
+  width: 100% !important;
 }
 
 .full-text-block {
