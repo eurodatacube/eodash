@@ -11,27 +11,30 @@
           <span v-if="!(filters[key].type && filters[key].type=='boolfilter')">
             <v-row class="pl-2 pr-2 ml-14 mr-14" dense x-small>
               <v-col
-                cols="8"
-                dense x-small
                 v-if="filters[key].header"
-                style="font-size:18px; color: #000000;">
+                cols="7"
+                dense x-small
+                style="font-size:16px; color: #000000;">
                 {{filters[key].label}}
+                <info-dialog :infoSource="filters[key].dataInfo"/>
               </v-col>
               <v-col
+                v-else
                 cols="6"
                 dense x-small
-                v-else
                 style="color: #7a7a7a;">
                 {{filters[key].label}}
+                <info-dialog :infoSource="filters[key].dataInfo"/>
               </v-col>
               <v-col
                 v-if="filters[key].changeablaDataset"
-                cols="4"
+                cols="5"
                 dense
                 x-small
                 >
                 <v-select
                   v-model="select"
+                  style="margin-top:-5px;"
                   :items="filters[key].changeablaDataset.items"
                   item-text="description"
                   item-value="url"
@@ -43,7 +46,8 @@
                 ></v-select>
               </v-col>
               <v-col
-              cols="6"
+                v-else
+                cols="6"
                 dense
                 x-small
                 >
@@ -69,13 +73,14 @@
               dense
               @change="(evt) => updateMapBool(evt, filters[key].id)"
             ></v-checkbox>
+            <info-dialog style="margin-top:10px; margin-left:5px;" :infoSource="filters[key].dataInfo"/>
             <v-btn
               v-if="!filters[key].header"
               icon
               x-small
               color="primary"
               @click="removeFilter(key)"
-              style="padding-top: 20px; padding-left: 4px;"
+              style="margin-top: 10px; margin-left: 4px;"
             >
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -152,10 +157,13 @@
 
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     cogFilters: Object,
   },
@@ -232,4 +240,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-select .v-input__control .v-input__slot .v-select__slot .v-select__selections {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+.v-select-list .v-list-item {
+  min-height: 0 !important;
+}
+
+.v-select-list .v-list-item .v-list-item__content {
+  padding: 4px 0 !important;
+}
+.v-text-field__details {
+  position: absolute;
+}
 </style>
