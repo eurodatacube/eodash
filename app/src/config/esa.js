@@ -2134,6 +2134,7 @@ export const globalIndicators = [
           layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
           minZoom: 6,
           dateFormatFunction: (date) => date,
+          legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
           presetView: {
             type: 'FeatureCollection',
             features: [{
