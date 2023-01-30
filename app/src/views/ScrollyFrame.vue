@@ -86,13 +86,6 @@ export default {
       try {
         const res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
 
-        // --------------------------------
-        // IMPORTANT, DO NOT REMOVE!
-        // Cache Invalidation Call
-        const justForSideEffects = await axios.get('./data/gtif/components/bottom.json');
-        const justForSideEffect = await axios.get('./data/gtif/scrollies/gtif-energy-transition.json');
-        // ---------------------------------------------------^
-
         this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
         this.setScrollyStory(res.data);
 
