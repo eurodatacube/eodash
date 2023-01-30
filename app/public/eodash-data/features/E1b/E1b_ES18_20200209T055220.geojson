@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.10914, 41.079094 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18608, 41.322087 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18795, 41.341314 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.1918, 41.309956 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.1928, 41.317311 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.19426, 41.255405 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.20549, 41.312433 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.21165, 41.345068 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:20", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.2206, 41.33568 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.07682, 40.914567 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.08986, 41.003254 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 05:52:45", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.4044, 40.84315 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:28", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 1.95601, 41.014731 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:28", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.43524, 40.96273 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.14329, 41.160422 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18164, 41.305939 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18529, 41.333121 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18749, 41.322288 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.18838, 41.341003 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.19293, 41.351509 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.1939, 41.309755 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/02\/09 17:46:53", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 2.20917, 41.31217 ] } }
+]
+}

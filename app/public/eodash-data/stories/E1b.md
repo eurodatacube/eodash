@@ -21,10 +21,7 @@ In the Sentinel-1 images, it’s not possible to distinguish ships from other fi
 
 The approach followed in the script to produce a vessel density map was to derive, for each 1 km2 pixel of the masked image of the selected area, an indicator given by the ratio:
 
-
-$$
-  density_{vessels}= \frac{1000 * number_{vessels}}{number_{observations}}
-$$
+density_vessels= 1000 * number_vessels / number_observations
 
 where the number of observations corresponds to the intersection of all the satellite footprints of the selected month.
 

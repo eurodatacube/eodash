@@ -1,0 +1,19 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.53652, 38.59847 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.57837, 38.57832 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.60382, 38.40669 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.62653, 38.40527 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.63687, 38.25534 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.84718, 38.68942 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.84977, 38.44816 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 05:04:03", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.16441, 38.93843 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.58982, 38.45498 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.59149, 38.35592 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.60244, 38.21907 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.66225, 38.29555 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.67037, 38.31143 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/12\/18 16:56:51", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.12747, 38.73087 ] } }
+]
+}

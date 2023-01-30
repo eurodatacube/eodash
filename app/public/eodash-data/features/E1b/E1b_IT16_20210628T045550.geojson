@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.60431, 38.22651 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.60485, 38.22851 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.61489, 38.22803 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.6557, 38.51362 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.70501, 38.43122 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.76333, 38.34709 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 15.86703, 38.44626 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.11092, 38.73132 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 04:55:50", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.13078, 38.7337 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 16:48:38", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.11173, 38.73215 ] } },
+{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2021\/06\/28 16:48:38", "CLASSIFICATION": "Vessel" }, "geometry": { "type": "Point", "coordinates": [ 16.13479, 38.73096 ] } }
+]
+}
