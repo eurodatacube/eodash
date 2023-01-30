@@ -204,16 +204,15 @@ export default {
         },
       };
       const { map } = getMapInstance(this.mapId);
+      const featureGeomClone = feature.getGeometry().clone().transform(map.getView().getProjection(), 'EPSG:4326');
       const diff = turfDifference(
-        globalBox, geoJsonFormat.writeGeometryObject(feature.getGeometry(), {
-          featureProjection: map.getView().getProjection(),
-          dataProjection: 'EPSG:4326',
-        }),
+        globalBox, geoJsonFormat.writeGeometryObject(featureGeomClone),
       );
       const clone = feature.clone();
-      clone.setGeometry(geoJsonFormat.readGeometry(diff.geometry), {
-        featureProjection: map.getView().getProjection(),
-      });
+      const transformedGeom = geoJsonFormat.readGeometry(diff.geometry, {
+        dataProjection: 'EPSG:4326',
+      }).transform('EPSG:4326', map.getView().getProjection());
+      clone.setGeometry(transformedGeom);
       this.inverseAdministrativeLayer.getSource().clear();
       this.inverseAdministrativeLayer.getSource().addFeature(clone);
     },
