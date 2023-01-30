@@ -18,7 +18,11 @@
           return-object
           single-line
           @change="updateMap"
-        ></v-select>
+        >
+          <template #append-outer v-if="select.dataInfo">
+            <info-dialog :infoSource="select.dataInfo"/>
+          </template>
+        </v-select>
       </v-col>
     </v-row>
      <v-row align="center">
@@ -33,10 +37,13 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     queryParameters: Object,
   },

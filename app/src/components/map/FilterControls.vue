@@ -73,7 +73,10 @@
               dense
               @change="(evt) => updateMapBool(evt, filters[key].id)"
             ></v-checkbox>
-            <info-dialog style="margin-top:10px; margin-left:5px;" :infoSource="filters[key].dataInfo"/>
+            <info-dialog
+              style="margin-top:10px; margin-left:5px;"
+              :infoSource="filters[key].dataInfo"
+            />
             <v-btn
               v-if="!filters[key].header"
               icon

@@ -1,3 +1,5 @@
-![Sistema Logo](data/gtif/images/logos/sistema.png "Sistema Logo")
-![Mindearth Logo](data/gtif/images/logos/mindearth.png "Mindearth Logo")
-![ZAMG Logo](data/gtif/images/logos/zamg.png "ZAMG Logo")
+<p align="middle">
+  <img alt="Sistema Logo" src="data/gtif/images/logos/sistema.png" width="32%" />
+  <img alt="Mindearth Logo" src="data/gtif/images/logos/mindearth.png" width="32%" /> 
+  <img alt="ZAMG Logo" src="data/gtif/images/logos/zamg.png" width="32%" />
+</p>
