@@ -40,7 +40,7 @@ export default {
         case 'gtif-mobility-transition':
           return 'Mobility Transition';
 
-        case 'gtif-sustainable-transition':
+        case 'gtif-sustainable-cities':
           return 'Sustainable Cities';
 
         case 'gtif-social-mobility':
