@@ -9,23 +9,60 @@
       >
         <template v-if="filters[key].display">
           <span v-if="!(filters[key].type && filters[key].type=='boolfilter')">
-            <span
-              v-if="filters[key].header"
-              class="pl-8 ml-10"
-              style="font-size:20px; color: #000000;">
-              {{filters[key].label}}
-            </span>
-            <span v-else class="pl-8 ml-10" style="color: #7a7a7a;"> {{filters[key].label}} </span>
-            <v-btn
-              v-if="!filters[key].header"
-              icon
-              x-small
-              color="primary"
-              @click="removeFilter(key)"
-              style="margin-bottom:4px;"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
+            <v-row class="pl-2 pr-2 ml-14 mr-14" dense x-small>
+              <v-col
+                v-if="filters[key].header"
+                cols="7"
+                dense x-small
+                style="font-size:16px; color: #000000;">
+                {{filters[key].label}}
+                <info-dialog :infoSource="filters[key].dataInfo"/>
+              </v-col>
+              <v-col
+                v-else
+                cols="6"
+                dense x-small
+                style="color: #7a7a7a;">
+                {{filters[key].label}}
+                <info-dialog :infoSource="filters[key].dataInfo"/>
+              </v-col>
+              <v-col
+                v-if="filters[key].changeablaDataset"
+                cols="5"
+                dense
+                x-small
+                >
+                <v-select
+                  v-model="select"
+                  style="margin-top:-5px;"
+                  :items="filters[key].changeablaDataset.items"
+                  item-text="description"
+                  item-value="url"
+                  dense
+                  persistent-hint
+                  return-object
+                  single-line
+                  @change="changeSources"
+                ></v-select>
+              </v-col>
+              <v-col
+                v-else
+                cols="6"
+                dense
+                x-small
+                >
+                <v-btn
+                  v-if="!filters[key].header"
+                  icon
+                  x-small
+                  color="primary"
+                  @click="removeFilter(key)"
+                  style="margin-bottom:4px;"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
           </span>
           <v-col class='d-flex justify-center'
             v-if="filters[key].type && filters[key].type=='boolfilter'"
@@ -36,13 +73,17 @@
               dense
               @change="(evt) => updateMapBool(evt, filters[key].id)"
             ></v-checkbox>
+            <info-dialog
+              style="margin-top:10px; margin-left:5px;"
+              :infoSource="filters[key].dataInfo"
+            />
             <v-btn
               v-if="!filters[key].header"
               icon
               x-small
               color="primary"
               @click="removeFilter(key)"
-              style="padding-top: 20px; padding-left: 4px;"
+              style="margin-top: 10px; margin-left: 4px;"
             >
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -118,16 +159,21 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
+import GeoTIFF from 'ol/source/GeoTIFF';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     cogFilters: Object,
   },
   data() {
     return {
       filters: this.cogFilters.filters,
+      select: null,
     };
   },
   computed: {
@@ -141,9 +187,30 @@ export default {
       return keys;
     },
   },
+  mounted() {
+    Object.keys(this.filters).forEach((key) => {
+      if ('changeablaDataset' in this.filters[key]) {
+        // [this.dataSourceSelect[key]] = this.filters[key].changeablaDataset.items;
+        // TODO: select only working if one is configured, currently no additional are planned
+        [this.select] = this.filters[key].changeablaDataset.items;
+      }
+    });
+  },
   watch: {
   },
   methods: {
+    changeSources(evt) {
+      // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
+      // approaches for getting selected indicator and setting the sources should be considered
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      const { sources } = this.$store.state.indicators.selectedIndicator.display;
+      sources[0].url = evt.url;
+      gtl.setSource(new GeoTIFF({
+        sources,
+        normalize: false,
+      }));
+    },
     updateMap(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
@@ -176,4 +243,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-select .v-input__control .v-input__slot .v-select__slot .v-select__selections {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+.v-select-list .v-list-item {
+  min-height: 0 !important;
+}
+
+.v-select-list .v-list-item .v-list-item__content {
+  padding: 4px 0 !important;
+}
+.v-text-field__details {
+  position: absolute;
+}
 </style>

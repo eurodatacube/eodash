@@ -137,7 +137,8 @@ export default {
         if (layerIndex > -1) {
           // admin layer clicked, fit map to it, set inverse polygon
           // and update zoom to nearest minzoom or maxzoom of next layer
-          this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
+          // TODO: for now we disable fitting
+          // this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
           this.$store.commit(
             'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
           );
@@ -203,16 +204,15 @@ export default {
         },
       };
       const { map } = getMapInstance(this.mapId);
+      const featureGeomClone = feature.getGeometry().clone().transform(map.getView().getProjection(), 'EPSG:4326');
       const diff = turfDifference(
-        globalBox, geoJsonFormat.writeGeometryObject(feature.getGeometry(), {
-          featureProjection: map.getView().getProjection(),
-          dataProjection: 'EPSG:4326',
-        }),
+        globalBox, geoJsonFormat.writeGeometryObject(featureGeomClone),
       );
       const clone = feature.clone();
-      clone.setGeometry(geoJsonFormat.readGeometry(diff.geometry), {
-        featureProjection: map.getView().getProjection(),
-      });
+      const transformedGeom = geoJsonFormat.readGeometry(diff.geometry, {
+        dataProjection: 'EPSG:4326',
+      }).transform('EPSG:4326', map.getView().getProjection());
+      clone.setGeometry(transformedGeom);
       this.inverseAdministrativeLayer.getSource().clear();
       this.inverseAdministrativeLayer.getSource().addFeature(clone);
     },
@@ -227,7 +227,7 @@ export default {
       // set default area without zooming in to honor URL search parameters x,y,z
       this.setDefaultSelectedArea(false);
     },
-    setDefaultSelectedArea(performZoomTo) {
+    setDefaultSelectedArea(/* performZoomTo */) {
       // select first layer from admin layers to store and create inverse polygon accordingly
       const layer = this.getLayerFromGroup(
         this.adminLayerGroups[0], this.administrativeConfigs[0],
@@ -241,9 +241,12 @@ export default {
         'features/SET_ADMIN_BORDER_LAYER_SELECTED', layer,
       );
       this.setupInverseFeatureLayer(feature);
+      // TODO: for now we disable automatic zoom to feature
+      /*
       if (performZoomTo) {
         this.zoomToFeatureAdminLayerIndex(feature, 0);
       }
+      */
     },
     clearHighlightedFeature() {
       const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
