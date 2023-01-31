@@ -252,6 +252,17 @@
           </v-row>
         </v-col>
         <v-col
+          v-else-if="expanded"
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
+                    - buttonRowHeight
+                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+        />
+        <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
