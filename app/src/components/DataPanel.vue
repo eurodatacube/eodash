@@ -199,6 +199,7 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
+                  :embedMap="expanded"
                   v-if="!customAreaIndicator || expanded"
                 />
                 <v-btn

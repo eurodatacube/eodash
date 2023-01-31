@@ -26,7 +26,7 @@
           .properties.indicatorObject.indicatorName }}
       </v-card-subtitle>
       <div
-        v-else-if="indicatorObject"
+        v-else-if="selectedIndicator"
         style="position: relative; height: 50vh"
         class="flex-grow-1"
       >
@@ -48,7 +48,7 @@
         </v-overlay>
         <Map
           style="top: 0px; position: absolute;"
-          v-if="globalData"
+          v-if="$route.query.embedMap"
           class="pt-0 fill-height"
           mapId="embedMap"
         />
@@ -58,13 +58,13 @@
           class="pa-5 fill-height"
         />
       </div>
-      <v-card-text v-if="indicatorObject && indicatorObject.updateFrequency" class="flex-grow-0">
-        <small v-if="indicatorObject && indicatorObject.updateFrequency">
-          <span v-if="indicatorObject.updateFrequency
+      <v-card-text v-if="selectedIndicator && selectedIndicator.updateFrequency" class="flex-grow-0">
+        <small>
+          <span v-if="selectedIndicator.updateFrequency
             === 'Retired'">This indicator is no longer updated</span>
-          <span v-else-if="indicatorObject.updateFrequency
+          <span v-else-if="selectedIndicator.updateFrequency
             === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
-          <span v-else>This data is updated: {{ indicatorObject.updateFrequency }}</span>
+          <span v-else>This data is updated: {{ selectedIndicator.updateFrequency }}</span>
         </small>
       </v-card-text>
       <v-card-actions :style="`background: ${$vuetify.theme.themes.light.primary}`"
@@ -119,13 +119,7 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
-    globalData() {
-      return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
-    },
     selectedIndicator() {
-      return this.$store.state.indicators.selectedIndicator;
-    },
-    indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
   },

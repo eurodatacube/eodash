@@ -120,8 +120,9 @@
       />
       <div class="pointerEvents mt-auto mb-2">
         <IframeButton
-          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
+          v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
+          :embedMap="'true'"
           mapControl
         />
       </div>

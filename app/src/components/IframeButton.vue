@@ -94,6 +94,7 @@ export default {
   props: {
     indicatorObject: Object,
     mapControl: Boolean,
+    embedMap: Boolean,
   },
   data: () => ({
     dialog: false,
@@ -104,7 +105,7 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
-      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.$route.query.sensor ? `&sensor=${this.$route.query.sensor}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      return `<iframe class="item" src="${window.location.origin}/iframe?poi=${this.getLocationCode(this.indicatorObject)}${this.embedMap ? `&embedMap=${this.embedMap}` : ''}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },
     showMap() {
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
