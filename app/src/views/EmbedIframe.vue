@@ -138,11 +138,6 @@ export default {
       setTimeout(() => { this.overlay = false; }, 2000);
     },
   },
-  watch: {
-    selectedIndicator() {
-      this.init();
-    },
-  },
 };
 </script>
 
