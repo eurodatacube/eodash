@@ -21,7 +21,7 @@
           height: calc(100vh - 112px) !important;
           position: fixed; left: 0; bottom: 0; top: 112px;
         "
-        src="http://localhost:5173"
+        src="./scrollytelling/index.html"
         frameborder="0"
       ></iframe>
       </v-container>
@@ -98,8 +98,7 @@ export default {
         this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
         this.setScrollyStory(dashboardToScrolly(res.data.features));
 
-        console.log(dashboardToScrolly(res.data.features));
-        //debugger;
+        console.log(process.env.BASE_URL);
 
         this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
         this.setComponentHook('footer', this.footer);
@@ -170,8 +169,10 @@ export default {
     },
 
     getDashboardID() {
+
       return storiesConfig
         [this.appConfig.id]
+        [this.$route.name.replace('gtif-', '')]
         [this.$route.name.replace('gtif-', '')]
         .originalDashboardId;
     }
