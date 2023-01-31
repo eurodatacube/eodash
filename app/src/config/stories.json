@@ -129,25 +129,39 @@
   },
   "gtif": {
     "landing": {
-      "originalDashboardId": "7828358850802a35"
+      "landing": {
+        "originalDashboardId": "6a0caf41464d6899"
+      }
     },
     "energy-transition": {
-      "originalDashboardId": "0f2e9b3e9ac1bc35"
+      "energy-transition": {
+        "originalDashboardId": "7c01dbf6ae647011"
+      }
     },
     "mobility-transition": {
-      "originalDashboardId": "784f3e1ba71aef26"
+      "mobility-transition": {
+        "originalDashboardId": "eb900b5ae1e9762d"
+      }
     },
     "social-mobility": {
-      "originalDashboardId": "ac7d1b288e92217a"
+      "social-mobility": {
+        "originalDashboardId": "f5b90a222c4318bf"
+      }
     },
     "sustainable-cities": {
-      "originalDashboardId": "000c2eb018897d82"
+      "sustainable-cities": {
+        "originalDashboardId": "c1e9c6323be4e4bc"
+      }
     },
     "carbon-accounting": {
-      "originalDashboardId": "a5a6e77d28a4f541"
+      "carbon-accounting": {
+        "originalDashboardId": "38ce6b0763f896cd"
+      }
     },
     "eo-adaptation-services": {
-      "originalDashboardId": "ac7d1b288e92217a"
+      "eo-adaptation-services": {
+        "originalDashboardId": "5783c58e9e22fbcb"
+      }
     }
   }
 }
