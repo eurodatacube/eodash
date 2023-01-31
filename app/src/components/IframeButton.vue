@@ -30,11 +30,7 @@
         small
         @click="dialog = true"
       >
-        <template v-if="showMap">
-          <!-- <v-icon left>mdi-map-search</v-icon>
-          embed map -->
-        </template>
-        <template v-else>
+        <template v-if="!showMap">
           <v-icon left>mdi-code-tags</v-icon>
           embed chart
         </template>
