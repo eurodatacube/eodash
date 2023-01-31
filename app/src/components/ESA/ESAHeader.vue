@@ -171,7 +171,7 @@
                 color="hsl(320 80% 60%)"
                 title="EO Adaptation Services"
                 :is-sub-item="true"
-                :to="{name: 'gtif-eo-adaptation'}"
+                :to="{name: 'gtif-eo-adaptation-services'}"
               />
 
             </v-col>

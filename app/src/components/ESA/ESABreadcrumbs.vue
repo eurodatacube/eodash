@@ -49,7 +49,7 @@ export default {
         case 'gtif-carbon-finance':
           return 'Carbon Accounting';
 
-        case 'gtif-eo-adaptation':
+        case 'gtif-eo-adaptation-services':
           return 'EO Adaptation Services';
 
         case 'explore':
