@@ -83,20 +83,8 @@
             >
               Regenerate
             </v-btn>
-            <indicator-globe
-              v-if="showGlobe"
-              @update:direction="d => direction = d"
-              @update:position="p => position = p"
-              @update:right="r => right = r"
-              @update:up="u => up = u"
-              @update:datalayertime="d => datalayertime = d"
-              @update:comparelayertime="c => comparelayertime = c"
-              @compareEnabled="compareEnabled = !compareEnabled"
-              class="d-flex justify-center"
-              style="top: 0px; position: absolute;"
-            />
             <template
-              v-else-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+              v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
             >
               <indicator-data
                 style="margin-top: 0px;"
@@ -252,6 +240,17 @@
           </v-row>
         </v-col>
         <v-col
+          v-else-if="expanded"
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
+                  ? 'auto'
+                  : (expanded
+                    ? wrapperHeight + 'px'
+                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
+                    - buttonRowHeight
+                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+        />
+        <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
@@ -355,7 +354,6 @@ import { loadIndicatorData } from '@/utils';
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
-import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
@@ -371,7 +369,6 @@ export default {
   ],
   components: {
     IndicatorData,
-    IndicatorGlobe,
     IframeButton,
     AddToDashboardButton,
     FilterControls,
@@ -518,9 +515,6 @@ export default {
     showMap() {
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
-    },
-    showGlobe() {
-      return this.indicatorObject.showGlobe;
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[
