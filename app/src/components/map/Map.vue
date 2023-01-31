@@ -262,7 +262,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
+    ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       if (this.isGlobalIndicator) {

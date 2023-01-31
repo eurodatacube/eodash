@@ -205,7 +205,6 @@
                   :indicatorObject="indicatorObject"
                   v-if="!customAreaIndicator || expanded"
                 />
-                <!--Custom CSV for tabbed map not expanded-->
                 <v-btn
                   color="primary"
                   text
@@ -251,8 +250,7 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight
-                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight + 'px') }`"
         />
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -262,8 +260,7 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight
-                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height pb-2"
@@ -382,8 +379,6 @@ export default {
   data: () => ({
     overlay: false,
     mounted: false,
-    selectedSensorTab: 0,
-    multipleTabCompare: null,
     zoom: null,
     center: null,
     direction: null,
@@ -434,14 +429,7 @@ export default {
       return this.$marked(markdown.default);
     },
     indicatorObject() {
-      let indicatorObject;
-      if (this.multipleTabCompare) {
-        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
-        indicatorObject = feature && feature.properties.indicatorObject;
-      } else {
-        indicatorObject = this.$store.state.indicators.selectedIndicator;
-      }
-      return indicatorObject;
+        return this.$store.state.indicators.selectedIndicator;
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -511,9 +499,6 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
-    layerNameMapping() {
-      return this.baseConfig.layerNameMapping;
-    },
     showMap() {
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
@@ -549,12 +534,6 @@ export default {
       }
       return 0;
     },
-    indicatorDataHeight() {
-      if (this.mounted && this.$refs.indicatorData != null) {
-        return this.$refs.indicatorData.$el.clientHeight;
-      }
-      return 0;
-    },
     bannerHeight() {
       if (this.newsBanner != null) {
         return this.newsBanner.$el.clientHeight;
@@ -586,98 +565,12 @@ export default {
     );
   },
   methods: {
-    async init() {
-      await this.checkMultipleTabCompare();
-      this.selectedSensorTab = this.multipleTabCompare
-        ? this.multipleTabCompare.features
-          .indexOf(this.multipleTabCompare.features
-            .find((s) => this.getLocationCode(s.properties.indicatorObject)
-              === this.$route.query.poi))
-        : 0;
-    },
-    async checkMultipleTabCompare() {
-      let compare;
-      const { selectedIndicator } = this.$store.state.indicators;
-      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
-      if (
-        hasGrouping
-        && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
-        // only enable tabs for charts; global layers now use the sub-indicator feature
-      ) {
-        compare = {};
-        compare.label = hasGrouping.label;
-        compare.features = hasGrouping.features;
-        // Pre-load all indicators to populate tab items
-        await Promise.all(compare.features.map(async (f) => {
-          const feature = this.$store.state.features.allFeatures
-            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
-          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
-        }));
-        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
-      }
-      this.multipleTabCompare = compare;
-    },
-    scrollToCustomAreaIndicator() {
-      this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
-    },
-    clearSelection() {
-      const refMap = this.$refs.indicatorMap;
-      refMap.selectedCountry = null;
-      refMap.selecectedLayer = null;
-      this.$store.state.indicators.customAreaIndicator = null;
-      this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
-      refMap.onResize();
-    },
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
   },
   watch: {
-    selectedSensorTab(index) {
-      if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
-          .properties.indicatorObject);
-        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
-        let currCountry = null;
-        let currID = null;
-        if (this.customAreaIndicator !== null) {
-          currCountry = this.customAreaIndicator.country;
-          currID = this.customAreaIndicator.indicator;
-        }
-        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
-        if (this.$refs.indicatorMap
-          && this.$refs.indicatorMap.length > 0
-          && ['CV', 'OW'].includes(currID)) {
-          // For now we only refetch data when switching tabs for CV and OW data
-          // Check if a country is selected for the customAreaIndicator
-          const refMap = this.$refs.indicatorMap[index];
-          if (currCountry && currID) {
-            if (refMap) {
-              refMap.fetchMobilityData(
-                currCountry,
-                this.$refs.indicatorMap[index].indicator.aoiID,
-              );
-            } else {
-              // TODO: There should be a better way of doing this
-              setTimeout(() => {
-                this.$refs.indicatorMap[index].fetchMobilityData(
-                  currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
-                );
-              }, 500);
-            }
-          }
-        }
-      }
-      if (this.$refs.indicatorMap
-        && this.$refs.indicatorMap.length > 0
-        && this.$refs.indicatorMap[index]) {
-        const refMap = this.$refs.indicatorMap[index];
-        refMap.onResize();
-      }
-    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
