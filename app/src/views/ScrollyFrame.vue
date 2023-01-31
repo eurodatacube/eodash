@@ -38,6 +38,8 @@ import {
 import axios from 'axios';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import storiesConfig from '../config/stories.json';
+import dashboardToScrolly from '../helpers/dashboardToScrolly.js'
 
 export default {
   components: {
@@ -65,14 +67,6 @@ export default {
   async mounted() {
     this.setBreadcrumbsEnabled();
 
-    const footer = await axios.get('./data/gtif/components/footer.json');
-    const bottom = await axios.get('./data/gtif/components/bottom.json');
-    const header = await axios.get('./data/gtif/components/header.json');
-
-    this.footer = footer.data;
-    this.bottomNav = bottom.data;
-    this.header = header.data;
-
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
       if (e.data.type === 'nav') {
@@ -84,10 +78,28 @@ export default {
   methods: {
     async onLoaded() {
       try {
-        const res = await axios.get(`./data/gtif/scrollies/${this.$route.name}.json`);
+        const footer = await axios.get('./data/gtif/components/footer.json');
+        const bottom = await axios.get('./data/gtif/components/bottom.json');
+        const header = await axios.get('./data/gtif/components/header.json');
+
+        this.footer = footer.data;
+        this.bottomNav = bottom.data;
+        this.header = header.data;
+
+        const res = await axios
+          .get(`./data/dashboards/${this.getDashboardID()}.json`, {
+            headers: {
+              'Cache-Control': 'no-cache',
+              Pragma: 'no-cache',
+              Expires: '0',
+            },
+          });
 
         this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
-        this.setScrollyStory(res.data);
+        this.setScrollyStory(dashboardToScrolly(res.data.features));
+
+        console.log(dashboardToScrolly(res.data.features));
+        //debugger;
 
         this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
         this.setComponentHook('footer', this.footer);
@@ -147,7 +159,7 @@ export default {
         case 'gtif-mobility-transition':
         case 'gtif-sustainable-transition':
         case 'gtif-carbon-finance':
-        case 'gtif-eo-adaptation':
+        case 'gtif-eo-adaptation-services':
         case 'gtif-social-mobility':
           this.areBreadcrumbsEnabled = true;
           break;
@@ -156,6 +168,13 @@ export default {
           this.areBreadcrumbsEnabled = false;
       }
     },
+
+    getDashboardID() {
+      return storiesConfig
+        [this.appConfig.id]
+        [this.$route.name.replace('gtif-', '')]
+        .originalDashboardId;
+    }
   },
 };
 </script>
