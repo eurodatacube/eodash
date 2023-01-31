@@ -128,62 +128,26 @@
     }
   },
   "gtif": {
-    "energy": {
-      "wind-solar-hydro": {
-        "originalDashboardId": "8886df64b15699e5",
-        "title": "Wind/Solar/Hydro potential & current utilisation",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv_wind.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv_wind.jpeg"
-      },
-      "photo-voltaic": {
-        "originalDashboardId": "643b655a6863208a",
-        "title": "Photovoltaic on rooftops in urban areas",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv.jpeg"
-      }
+    "landing": {
+      "originalDashboardId": "7828358850802a35"
     },
-    "transport-emission": {
-      "emission-footprints": {
-        "originalDashboardId": "7c1644ec316b72d6",
-        "title": "NO2 NOX emission footprints",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/emissions.jpg",
-        "imagePlaceholder": "./data/story-images/gtif/emissions.jpg"
-      },
-      "travel-modality": {
-        "originalDashboardId": "9cfef467b514ec2e",
-        "title": "Travel modality and social mobility",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/public_transport.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/public_transport.jpeg"
-      }
+    "energy-transition": {
+      "originalDashboardId": "0f2e9b3e9ac1bc35"
     },
-    "green-finance": {
-      "carbon-credits": {
-        "originalDashboardId": "867341f38c5dc1fe",
-        "title": "Carbon credits: forest biomass, secondary biomass",
-        "subtitle": "",
-        "image": "data/story-images/gtif/credits.jpg",
-        "imagePlaceholder": "data/story-images/gtif/credits.jpeg"
-      }
+    "mobility-transition": {
+      "originalDashboardId": "784f3e1ba71aef26"
     },
-    "food-ecosystems-biodiversity": {
-      "crop-production": {
-        "originalDashboardId": "eaa8a5fd4c9d2cb9",
-        "title": "Energy Crop Production vs Food/Fodder",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/biodiversity.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/biodiversity.jpeg"
-      },
-      "agriculture-forestry": {
-        "originalDashboardId": "96ebe0730ed462eb",
-        "title": "Supporting EO adaptation services: Agriculture & Forestry",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/agriculture.jpeg"
-      }
+    "social-mobility": {
+      "originalDashboardId": "ac7d1b288e92217a"
+    },
+    "sustainable-cities": {
+      "originalDashboardId": "000c2eb018897d82"
+    },
+    "carbon-accounting": {
+      "originalDashboardId": "a5a6e77d28a4f541"
+    },
+    "eo-adaptation-services": {
+      "originalDashboardId": "ac7d1b288e92217a"
     }
   }
 }
