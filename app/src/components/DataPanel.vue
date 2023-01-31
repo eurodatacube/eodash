@@ -114,7 +114,6 @@
                 Generate Chart
               </v-btn>
             </v-col>
-            <div v-else-if="showMap"></div>
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -142,10 +141,7 @@
                   :download="customAOIDownloadFilename"
                   target="_blank"
                   v-if="
-                    customAreaIndicator &&
-                    !this.baseConfig.indicatorsDefinition[
-                      indicatorObject.indicator
-                    ].countrySelection
+                    customAreaIndicator
                   "
                 >
                   <v-icon left>mdi-download</v-icon>
@@ -215,19 +211,14 @@
                   target="_blank"
                   v-if="
                     customAreaIndicator &&
-                    !showMap &&
-                    !this.baseConfig.indicatorsDefinition[
-                      indicatorObject.indicator
-                    ].countrySelection
+                    !showMap
                   "
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-else-if="!this.baseConfig.indicatorsDefinition[
-                    indicatorObject.indicator
-                  ].countrySelection && !showMap"
+                  v-else-if="!showMap"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
