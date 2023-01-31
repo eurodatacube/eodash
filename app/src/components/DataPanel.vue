@@ -10,60 +10,60 @@
       :style="expanded ? `width: 100%;` : ``
     ">
       <v-row v-if="indicatorObject" class="d-flex">
-        <filter-controls v-if="indicatorObject.cogFilters"
-          :cogFilters="indicatorObject.cogFilters"
-        >
-        </filter-controls>
-
-        <v-col v-if="indicatorObject.cogFilters"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: auto`"
-        >
-          <v-btn
-            text
-            color="primary"
-            class="mx-3"
-            @click="showScatterplot = !showScatterplot"
-          >
-            Expand controls
-            <v-icon right :style="`transform: rotate(${showScatterplot
-              ? 90
-              : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
-          </v-btn>
-          <scatter-plot v-if="indicatorObject.cogFilters
-            && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
-            :filters="indicatorObject.cogFilters.filters"
-          >
-          </scatter-plot>
-        </v-col>
-
-        <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
-        <StyleControls v-if="indicatorObject.vectorStyles"
-          :vectorStyles="indicatorObject.vectorStyles"
-        >
-        </StyleControls>
-        <vector-tile-style-control v-if="indicatorObject.queryParameters"
-          :queryParameters="indicatorObject.queryParameters"
-        >
-        </vector-tile-style-control>
-        <wms-style-controls v-if="indicatorObject.wmsStyles"
-          :wmsStyles="indicatorObject.wmsStyles"
-        >
-        </wms-style-controls>
-        <!-- TODO: remove GTIF brand check -->
-        <data-mockup-view v-if="appConfig.id === 'gtif'"
-          :indicatorObject="indicatorObject"
-          :adminLayer="$store.state.features.adminBorderLayerSelected"
-          :adminFeature="$store.state.features.adminBorderFeatureSelected"
-        >
-        </data-mockup-view>
         <v-col
           v-if="!showMap
-            ||  multipleTabCompare
-            || (showMap && mergedConfigsData[0].customAreaIndicator)"
+            || (showMap && mergedConfigsData[0].customAreaIndicator)
+            || appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
+            <filter-controls v-if="indicatorObject.cogFilters"
+            :cogFilters="indicatorObject.cogFilters"
+          >
+          </filter-controls>
+  
+          <v-col v-if="indicatorObject.cogFilters"
+            :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+            :style="`height: auto`"
+          >
+            <v-btn
+              text
+              color="primary"
+              class="mx-3"
+              @click="showScatterplot = !showScatterplot"
+            >
+              Expand controls
+              <v-icon right :style="`transform: rotate(${showScatterplot
+                ? 90
+                : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+            </v-btn>
+            <scatter-plot v-if="indicatorObject.cogFilters
+              && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+              :filters="indicatorObject.cogFilters.filters"
+            >
+            </scatter-plot>
+          </v-col>
+  
+          <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
+          <StyleControls v-if="indicatorObject.vectorStyles"
+            :vectorStyles="indicatorObject.vectorStyles"
+          >
+          </StyleControls>
+          <vector-tile-style-control v-if="indicatorObject.queryParameters"
+            :queryParameters="indicatorObject.queryParameters"
+          >
+          </vector-tile-style-control>
+          <wms-style-controls v-if="indicatorObject.wmsStyles"
+            :wmsStyles="indicatorObject.wmsStyles"
+          >
+          </wms-style-controls>
+          <!-- TODO: remove GTIF brand check -->
+          <data-mockup-view v-if="appConfig.id === 'gtif'"
+            :indicatorObject="indicatorObject"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+          >
+          </data-mockup-view>
           <v-card
             v-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
             class="fill-height"
@@ -339,10 +339,6 @@ Select a point of interest on the map to see the data for a specific location!
             </v-col>
           </v-row>
         </v-col>
-      </v-row>
-
-      <v-row v-if="indicatorObject">
-
       </v-row>
     </div>
   </div>
