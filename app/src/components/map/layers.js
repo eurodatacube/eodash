@@ -197,6 +197,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const source = new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
+      interpolate: false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
