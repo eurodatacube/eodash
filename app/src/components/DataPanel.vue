@@ -199,7 +199,7 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
-                  :embedMap="expanded"
+                  :embedMap="false"
                   v-if="!customAreaIndicator || expanded"
                 />
                 <v-btn
@@ -339,7 +339,6 @@ import {
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
-import { loadIndicatorData } from '@/utils';
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';

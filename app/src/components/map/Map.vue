@@ -122,7 +122,9 @@
         <IframeButton
           v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
-          :embedMap="'true'"
+          :embedMap="true"
+          :zoom.sync="currentZoom"
+          :center.sync="currentCenter"
           mapControl
         />
       </div>

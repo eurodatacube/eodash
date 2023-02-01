@@ -26,7 +26,7 @@
           .properties.indicatorObject.indicatorName }}
       </v-card-subtitle>
       <div
-        v-else-if="selectedIndicator"
+        v-if="selectedIndicator"
         style="position: relative; height: 50vh"
         class="flex-grow-1"
       >
@@ -48,9 +48,10 @@
         </v-overlay>
         <Map
           style="top: 0px; position: absolute;"
-          v-if="$route.query.embedMap"
+          v-if="$route.query.embedMap === 'true'"
           class="pt-0 fill-height"
           mapId="embedMap"
+          v-bind="mapPosition"
         />
         <indicator-data
           style="top: 0px; position: absolute;"
@@ -58,7 +59,8 @@
           class="pa-5 fill-height"
         />
       </div>
-      <v-card-text v-if="selectedIndicator && selectedIndicator.updateFrequency" class="flex-grow-0">
+      <v-card-text v-if="selectedIndicator && selectedIndicator.updateFrequency"
+        class="flex-grow-0">
         <small>
           <span v-if="selectedIndicator.updateFrequency
             === 'Retired'">This indicator is no longer updated</span>
@@ -121,6 +123,19 @@ export default {
     ]),
     selectedIndicator() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    mapPosition() {
+      const result = {};
+      if (this.$route.query.lat && this.$route.query.lng) {
+        result.centerProp = {
+          lat: parseFloat(this.$route.query.lat, 10),
+          lng: parseFloat(this.$route.query.lng, 10),
+        };
+      }
+      if (this.$route.query.z) {
+        result.zoomProp = parseFloat(this.$route.query.z, 10);
+      }
+      return result;
     },
   },
   mounted() {
