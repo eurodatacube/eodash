@@ -114,6 +114,10 @@ function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
 }
 
+function normalizeByValue(value, min, max) {
+  return ['/', ['-', value, min], (max - min)];
+}
+
 function bandModifier(xOffset = 0, yOffset = 0, scale = 1) {
   if (xOffset === 0 && yOffset === 0) {
     return ['*', ['band', 1], scale];
@@ -413,6 +417,36 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Heat Explorer',
     class: 'air',
     story: '/data/gtif/markdown/LST',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM: {
+    indicator: 'Forest change detections',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM2: {
+    indicator: 'Forest disturbance type',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM3: {
+    indicator: 'Modelled spectral reflectance',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT: {
+    indicator: 'Storm damages',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT',
+    themes: ['eo-adaptation-services'],
+  },
+  JR: {
+    indicator: 'Bark Beetle',
+    class: 'air',
+    story: '/data/gtif/markdown/JR',
     themes: ['eo-adaptation-services'],
   },
   AQ: {
@@ -1330,9 +1364,6 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'BM1',
-        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -1430,6 +1461,217 @@ export const globalIndicators = [
             ],
           },
           name: 'biomass',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Styria',
+        siteName: 'global',
+        description: 'Forest disturbance type',
+        navigationDescription: '',
+        indicator: 'FCM2',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest disturbance type',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Styria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'FCM2',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FDT_AnualForestDistrubanceType_cog_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], 1],
+              ['color', 255, 255, 0],
+              ['==', ['band', 1], 2],
+              ['color', 255, 85, 255],
+              ['==', ['band', 1], 3],
+              ['color', 255, 0, 0],
+              ['==', ['band', 1], 4],
+              ['color', 173, 173, 173],
+              ['==', ['band', 1], 5],
+              ['color', 0, 85, 255],
+              ['==', ['band', 1], 6],
+              ['color', 0, 85, 255],
+              ['==', ['band', 1], 7],
+              ['color', 67, 67, 67],
+              [
+                'case',
+                ['==', ['band', 2], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 2], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            ],
+          },
+          name: 'Biomass',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Styria',
+        siteName: 'global',
+        description: 'Forest Mask',
+        navigationDescription: 'Change from 2018 (HRL) to Aug. 2021',
+        indicator: 'FCM3',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest Mask',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Styria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'FCM3',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 11], 1],
+              ['color', 147, 220, 0],
+              ['==', ['band', 11], 2],
+              ['color', 0, 107, 0],
+              ['!=', ['band', 1], 0],
+              [
+                'color',
+                ['*', normalizeByValue(['band', 1], 123, 689), 255],
+                ['*', normalizeByValue(['band', 2], 230, 937), 255],
+                ['*', normalizeByValue(['band', 3], 140, 912), 255],
+              ],
+              ['color', 0, 0, 0, 0],
+            ],
+          },
+          name: 'FCM3',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Forest change detections',
+        navigationDescription: '',
+        indicator: 'FCM',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest change detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        highlights: [
+          {
+            name: 'Oberhaag',
+            location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
+          },
+          {
+            name: 'Bruck an der Mur',
+            thumbnail: '',
+            location: wkt.read('POLYGON((15.158 47.440, 15.312 47.440, 15.312 47.368, 15.158 47.368, 15.158 47.440))').toJson(),
+          },
+        ],
+        time: [
+          ['2022-03', 'NRT_FCM_Changes-2022-03_cog_3857.tif'],
+          ['2022-04', 'NRT_FCM_Changes-2022-04_cog_3857.tif'],
+          ['2022-05', 'NRT_FCM_Changes-2022-05_cog_3857.tif'],
+          ['2022-06', 'NRT_FCM_Changes-2022-06_cog_3857.tif'],
+          ['2022-07', 'NRT_FCM_Changes-2022-07_cog_3857.tif'],
+          ['2022-08', 'NRT_FCM_Changes-2022-08_cog_3857.tif'],
+          ['2022-09', 'NRT_FCM_Changes-2022-09_cog_3857.tif'],
+          ['2022-10', 'NRT_FCM_Changes-2022-10_cog_3857.tif'],
+          ['2022-11', 'NRT_FCM_Changes-2022-11_cog_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'AQ5',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], 1],
+              ['color', 255, 0, 0, 1],
+              [
+                'case',
+                ['==', ['band', 2], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 2], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            ],
+          },
+          name: 'Forest change detections',
           minZoom: 1,
         },
       },

@@ -22,6 +22,7 @@ export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'upd
     currlayer.setSource(new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
+      interpolate: false,
     }));
   } else if (config.styleFile) {
     // TODO: this is not the way to get the layer for sure,
