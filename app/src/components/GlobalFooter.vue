@@ -43,7 +43,7 @@
         .split('.')[0]}.${$store.getters.appVersion
         .split('.')[1]}` }} by</span>
       <a href="https://eox.at" target="_blank" class="white--text mx-1">
-        <img :src="`${publicPath}img/EOX_logo_weiss.svg`" height="11px" class="my-0" />
+        <img :src="`${publicPath}img/EOX_Logo_weiss.svg`" height="11px" class="my-0" />
       </a>
     </small>
     <feedback-button />
