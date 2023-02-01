@@ -120,8 +120,11 @@
       />
       <div class="pointerEvents mt-auto mb-2">
         <IframeButton
-          v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
+          v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
+          :embedMap="true"
+          :zoom.sync="currentZoom"
+          :center.sync="currentCenter"
           mapControl
         />
       </div>
@@ -262,10 +265,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
+    ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
-      if (this.isGlobalIndicator) {
+      if (this.indicatorHasMapData(this.indicator)) {
         // use their own base layers from config, if available
         return this.baseConfig.indicatorsDefinition[this.$store
           .state.indicators.selectedIndicator.indicator].baseLayers
@@ -293,7 +296,7 @@ export default {
     },
     overlayConfigs() {
       let configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (this.isGlobalIndicator) {
+      if (this.indicatorHasMapData(this.indicator)) {
         // use their own overlay layers from config, if available
         configs = this.baseConfig.indicatorsDefinition[this.$store
           .state.indicators.selectedIndicator.indicator].overlayLayers
