@@ -419,7 +419,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/LST',
     themes: ['eo-adaptation-services'],
   },
-  FCM: {
+  FCM1: {
     indicator: 'Forest change detections',
     class: 'air',
     story: '/data/gtif/markdown/FCM',
@@ -428,25 +428,49 @@ export const indicatorsDefinition = Object.freeze({
   FCM2: {
     indicator: 'Forest disturbance type',
     class: 'air',
-    story: '/data/gtif/markdown/FCM',
+    story: '/data/gtif/markdown/FCM2',
     themes: ['eo-adaptation-services'],
   },
   FCM3: {
-    indicator: 'Modelled spectral reflectance',
+    indicator: 'Anual forest mask',
     class: 'air',
     story: '/data/gtif/markdown/FCM',
     themes: ['eo-adaptation-services'],
   },
-  VTT: {
-    indicator: 'Storm damages',
+  VTT1: {
+    indicator: 'Basal area',
     class: 'air',
-    story: '/data/gtif/markdown/VTT',
+    story: '/data/gtif/markdown/VTT1',
     themes: ['eo-adaptation-services'],
   },
-  JR: {
-    indicator: 'Bark Beetle',
+  VTT2: {
+    indicator: 'Broadleaf proportion',
     class: 'air',
-    story: '/data/gtif/markdown/JR',
+    story: '/data/gtif/markdown/VTT2',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT3: {
+    indicator: 'Conifer proportion',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT3',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT4: {
+    indicator: 'Tree Diameter',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT4',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT5: {
+    indicator: 'Tree Height',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT5',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT6: {
+    indicator: 'Tree Volume',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT6',
     themes: ['eo-adaptation-services'],
   },
   AQ: {
@@ -1460,7 +1484,7 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'biomass',
+          name: 'CCI Biomass',
           minZoom: 1,
         },
       },
@@ -1488,6 +1512,12 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        highlights: [
+          {
+            name: 'Mariazell',
+            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
+          },
+        ],
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -1530,7 +1560,7 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'Biomass',
+          name: 'Forest disturbance type',
           minZoom: 1,
         },
       },
@@ -1543,11 +1573,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Styria',
         siteName: 'global',
-        description: 'Forest Mask',
-        navigationDescription: 'Change from 2018 (HRL) to Aug. 2021',
+        description: 'Anual forest mask',
+        navigationDescription: '2021',
         indicator: 'FCM3',
         lastIndicatorValue: null,
-        indicatorName: 'Forest Mask',
+        indicatorName: 'Anual forest mask',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1570,27 +1600,335 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'FCM3',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
           ],
           style: {
             color: [
               'case',
-              ['==', ['band', 11], 1],
+              ['==', ['band', 1], 1],
               ['color', 147, 220, 0],
-              ['==', ['band', 11], 2],
+              ['==', ['band', 1], 2],
               ['color', 0, 107, 0],
+              /*
               ['!=', ['band', 1], 0],
               [
                 'color',
-                ['*', normalizeByValue(['band', 1], 123, 689), 255],
-                ['*', normalizeByValue(['band', 2], 230, 937), 255],
-                ['*', normalizeByValue(['band', 3], 140, 912), 255],
+                ['*', normalizeByValue(['band', 12], 123, 689), 255],
+                ['*', normalizeByValue(['band', 13], 230, 937), 255],
+                ['*', normalizeByValue(['band', 14], 140, 912), 255],
               ],
+              */
               ['color', 0, 0, 0, 0],
             ],
           },
-          name: 'FCM3',
+          name: 'Anual Forest Mask',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Basal area',
+        navigationDescription: '',
+        indicator: 'VTT1',
+        lastIndicatorValue: null,
+        indicatorName: 'Basal area',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_basal_area_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_basal_area_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_basal_area_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT1',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Basal area',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Broadleaf proportion',
+        navigationDescription: '',
+        indicator: 'VTT2',
+        lastIndicatorValue: null,
+        indicatorName: 'Broadleaf proportion',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_broadleaf_proportion_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_broadleaf_proportion_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_broadleaf_proportion_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT2',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Broadleaf proportion',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Conifer proportion',
+        navigationDescription: '',
+        indicator: 'VTT3',
+        lastIndicatorValue: null,
+        indicatorName: 'Conifer proportion',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_conifer_proportion_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_conifer_proportion_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_conifer_proportion_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT3',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Conifer proportion',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Tree diameter',
+        navigationDescription: '',
+        indicator: 'VTT4',
+        lastIndicatorValue: null,
+        indicatorName: 'Tree diameter',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_diameter_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_diameter_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_diameter_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT4',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Tree diameter',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Tree height',
+        navigationDescription: '',
+        indicator: 'VTT5',
+        lastIndicatorValue: null,
+        indicatorName: 'Tree height',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_height_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_height_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_height_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT5',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Tree height',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Tree volume',
+        navigationDescription: '',
+        indicator: 'VTT6',
+        lastIndicatorValue: null,
+        indicatorName: 'Tree volume',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [
+          ['2015', '2015/Styria_volume_2015-rendered_COG_3857.tif'],
+          ['2018', '2018/Styria_volume_2018-rendered_COG_3857.tif'],
+          ['2021', '2021/Styria_volume_2021-rendered_COG_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'VTT6',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+          ],
+          normalize: true,
+          style: {
+          },
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          name: 'Tree volume',
           minZoom: 1,
         },
       },
@@ -1605,7 +1943,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Forest change detections',
         navigationDescription: '',
-        indicator: 'FCM',
+        indicator: 'FCM1',
         lastIndicatorValue: null,
         indicatorName: 'Forest change detections',
         subAoi: {
@@ -1649,7 +1987,7 @@ export const globalIndicators = [
             }],
           },
           protocol: 'cog',
-          id: 'AQ5',
+          id: 'FCM1',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/{time}' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
