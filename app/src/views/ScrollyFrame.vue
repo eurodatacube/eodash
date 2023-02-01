@@ -78,6 +78,8 @@ export default {
   methods: {
     async onLoaded() {
       try {
+        const css = await axios.get('./css/gtif-scrolly.css');
+
         const footer = await axios.get('./data/gtif/components/footer.json');
         const bottom = await axios.get('./data/gtif/components/bottom.json');
         const header = await axios.get('./data/gtif/components/header.json');
@@ -95,7 +97,7 @@ export default {
             },
           });
 
-        this.linkStyle('http://gtif.eox.world:8812/css/gtif-scrolly.css');
+        this.linkStyle(css.data);
         this.setScrollyStory(dashboardToScrolly(res.data.features));
 
         console.log(process.env.BASE_URL);
@@ -112,7 +114,7 @@ export default {
      *
      * @param {string} path - The path of the style to be applied.
      */
-    linkStyle(path) {
+    linkStyle(css) {
       /*
         TODO: find a way to use SCSS for dedicated iframe styles
         const gtifScss = require(`../../public/css/gtif.scss`);
@@ -121,7 +123,7 @@ export default {
       document.querySelector('#resizableIframe').contentWindow.postMessage(
         {
           type: 'css',
-          path,
+          css,
         },
         '*',
       );
