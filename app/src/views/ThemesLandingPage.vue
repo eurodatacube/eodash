@@ -70,7 +70,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="/data/story-images/Datasets-landing.jpg"
+                  :src="`${publicPath}data/story-images/Datasets-landing.jpg`"
                   width="100%"
                   class="pl-xs-0 pl-sm-0 pl-md-8 pl-lg-8 pl-xl-8"
                 />
@@ -87,7 +87,7 @@
                 class="info-section d-flex flex-column justify-center"
               >
                 <img
-                  src="/data/story-images/EO_Dashboard_kv_placeholder.jpeg"
+                  :src="`${publicPath}data/story-images/EO_Dashboard_kv_placeholder.jpeg`"
                   width="100%"
                   class="pr-xs-0 pr-sm-0 pr-md-8 pr-lg-8 pr-xl-8"
                 />
@@ -184,6 +184,9 @@ export default {
           Math.floor(Math.random() * this.getStories(theme.slug).length)
         ])
         .filter((story) => !!story);
+    },
+    publicPath() {
+      return process.env.BASE_URL;
     },
   },
   created() {
