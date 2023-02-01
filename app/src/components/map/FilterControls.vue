@@ -209,6 +209,7 @@ export default {
       gtl.setSource(new GeoTIFF({
         sources,
         normalize: false,
+        interpolate: false,
       }));
     },
     updateMap(evt, filterId) {
