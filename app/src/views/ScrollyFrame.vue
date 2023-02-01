@@ -39,7 +39,7 @@ import axios from 'axios';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import storiesConfig from '../config/stories.json';
-import dashboardToScrolly from '../helpers/dashboardToScrolly.js'
+import dashboardToScrolly from '../helpers/dashboardToScrolly';
 
 export default {
   components: {
@@ -104,7 +104,7 @@ export default {
 
         this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
         this.setComponentHook('footer', this.footer);
-        this.setComponentHook('header', this.header,          { routeName: this.$route.name });
+        this.setComponentHook('header', this.header, { routeName: this.$route.name });
       } catch (error) {
         console.error(`Error loading dashboard data: ${error}`);
       }
@@ -151,7 +151,7 @@ export default {
       document.querySelector('#resizableIframe').contentWindow.postMessage({
         type: `hook:${hookName}`,
         data: jsonComponent,
-        props: props,
+        props,
       }, '*');
     },
     setBreadcrumbsEnabled() {
@@ -171,13 +171,12 @@ export default {
     },
 
     getDashboardID() {
+      const brand = this.appConfig.id;
+      const name = this.$route.name.replace('gtif-', '');
 
-      return storiesConfig
-        [this.appConfig.id]
-        [this.$route.name.replace('gtif-', '')]
-        [this.$route.name.replace('gtif-', '')]
+      return storiesConfig[brand][name][name]
         .originalDashboardId;
-    }
+    },
   },
 };
 </script>
