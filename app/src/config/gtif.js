@@ -64,6 +64,33 @@ const grywrd = {
     nshades: 128,
   }),
 };
+
+const whitered = [
+  { index: 0, rgb: [255, 255, 255] },
+  { index: stp * 1, rgb: [255, 251, 247] },
+  { index: stp * 2, rgb: [254, 238, 223] },
+  { index: stp * 3, rgb: [254, 214, 183] },
+  { index: stp * 4, rgb: [250, 177, 129] },
+  { index: stp * 5, rgb: [233, 131, 77] },
+  { index: stp * 6, rgb: [184, 84, 38] },
+  { index: stp * 7, rgb: [127, 39, 4] },
+];
+
+const blgrrd = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [1, 152, 189] },
+      { index: 0.2, rgb: [73, 227, 206] },
+      { index: 0.4, rgb: [216, 254, 181] },
+      { index: 0.6, rgb: [254, 237, 177] },
+      { index: 0.8, rgb: [254, 173, 84] },
+      { index: 1, rgb: [209, 55, 78] },
+    ],
+    nshades: 32,
+  }),
+};
+
 /*
 const ihrCS = {
   steps: 10,
@@ -85,6 +112,10 @@ const ihrCS = {
 
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+function normalizeByValue(value, min, max) {
+  return ['/', ['-', value, min], (max - min)];
 }
 
 function bandModifier(xOffset = 0, yOffset = 0, scale = 1) {
@@ -386,6 +417,36 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Heat Explorer',
     class: 'air',
     story: '/data/gtif/markdown/LST',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM: {
+    indicator: 'Forest change detections',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM2: {
+    indicator: 'Forest disturbance type',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  FCM3: {
+    indicator: 'Modelled spectral reflectance',
+    class: 'air',
+    story: '/data/gtif/markdown/FCM',
+    themes: ['eo-adaptation-services'],
+  },
+  VTT: {
+    indicator: 'Storm damages',
+    class: 'air',
+    story: '/data/gtif/markdown/VTT',
+    themes: ['eo-adaptation-services'],
+  },
+  JR: {
+    indicator: 'Bark Beetle',
+    class: 'air',
+    story: '/data/gtif/markdown/JR',
     themes: ['eo-adaptation-services'],
   },
   AQ: {
@@ -794,23 +855,23 @@ export const globalIndicators = [
               description: 'Congestion index',
               min: 0,
               max: 5,
-              colormapUsed: grywrd,
+              colormapUsed: blgrrd,
               // markdown: 'AQ_NO2',
             },
             {
-              id: 'duration',
+              id: 'duration_real',
               description: 'Duration',
               min: 0,
               max: 1200,
-              colormapUsed: grywrd,
+              colormapUsed: blgrrd,
               // markdown: 'AQ_PM10',
             },
             {
-              id: 'speed',
+              id: 'speed_real',
               description: 'Speed',
               min: 0,
               max: 140,
-              colormapUsed: grywrd,
+              colormapUsed: blgrrd,
               // markdown: 'AQ_PM10',
             },
           ],
@@ -831,14 +892,14 @@ export const globalIndicators = [
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
                 const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
             return color;
           },
           id: 'trajectories_on_edges_austria_july',
           adminZoneKey: 'unique_id',
-          parameters: 'unique_id,duration,congestion_index,speed',
+          parameters: 'unique_id,duration_real,congestion_index,speed_real',
           name: 'Social Mobility',
           strokeOnly: true,
           minZoom: 1,
@@ -868,30 +929,6 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'AT',
         time: [
-          ['2019-07-08', 'averaged_NO2_20190708.tif'],
-          ['2019-07-15', 'averaged_NO2_20190715.tif'],
-          ['2019-07-21', 'averaged_NO2_20190721.tif'],
-          ['2019-07-22', 'averaged_NO2_20190722.tif'],
-          ['2019-07-23', 'averaged_NO2_20190723.tif'],
-          ['2019-07-24', 'averaged_NO2_20190724.tif'],
-          ['2019-07-25', 'averaged_NO2_20190725.tif'],
-          ['2019-07-26', 'averaged_NO2_20190726.tif'],
-          ['2019-07-27', 'averaged_NO2_20190727.tif'],
-          ['2019-07-28', 'averaged_NO2_20190728.tif'],
-          ['2019-07-29', 'averaged_NO2_20190729.tif'],
-          ['2019-07-30', 'averaged_NO2_20190730.tif'],
-          ['2022-11-18', 'averaged_NO2_20221118.tif'],
-          ['2022-11-19', 'averaged_NO2_20221119.tif'],
-          ['2022-11-20', 'averaged_NO2_20221120.tif'],
-          ['2022-11-21', 'averaged_NO2_20221121.tif'],
-          ['2022-11-22', 'averaged_NO2_20221122.tif'],
-          ['2022-11-23', 'averaged_NO2_20221123.tif'],
-          ['2022-11-24', 'averaged_NO2_20221124.tif'],
-          ['2022-11-25', 'averaged_NO2_20221125.tif'],
-          ['2022-11-26', 'averaged_NO2_20221126.tif'],
-          ['2022-11-27', 'averaged_NO2_20221127.tif'],
-          ['2022-11-28', 'averaged_NO2_20221128.tif'],
-          ['2022-11-29', 'averaged_NO2_20221129.tif'],
           ['2022-11-30', 'averaged_NO2_20221130.tif'],
           ['2022-12-01', 'averaged_NO2_20221201.tif'],
           ['2022-12-02', 'averaged_NO2_20221202.tif'],
@@ -924,29 +961,6 @@ export const globalIndicators = [
           ['2022-12-29', 'averaged_NO2_20221229.tif'],
           ['2022-12-30', 'averaged_NO2_20221230.tif'],
           ['2022-12-31', 'averaged_NO2_20221231.tif'],
-          ['2023-01-01', 'averaged_NO2_20230101.tif'],
-          ['2023-01-02', 'averaged_NO2_20230102.tif'],
-          ['2023-01-03', 'averaged_NO2_20230103.tif'],
-          ['2023-01-04', 'averaged_NO2_20230104.tif'],
-          ['2023-01-05', 'averaged_NO2_20230105.tif'],
-          ['2023-01-06', 'averaged_NO2_20230106.tif'],
-          ['2023-01-07', 'averaged_NO2_20230107.tif'],
-          ['2023-01-08', 'averaged_NO2_20230108.tif'],
-          ['2023-01-09', 'averaged_NO2_20230109.tif'],
-          ['2023-01-10', 'averaged_NO2_20230110.tif'],
-          ['2023-01-11', 'averaged_NO2_20230111.tif'],
-          ['2023-01-12', 'averaged_NO2_20230112.tif'],
-          ['2023-01-13', 'averaged_NO2_20230113.tif'],
-          ['2023-01-14', 'averaged_NO2_20230114.tif'],
-          ['2023-01-15', 'averaged_NO2_20230115.tif'],
-          ['2023-01-16', 'averaged_NO2_20230116.tif'],
-          ['2023-01-17', 'averaged_NO2_20230117.tif'],
-          ['2023-01-18', 'averaged_NO2_20230118.tif'],
-          ['2023-01-19', 'averaged_NO2_20230119.tif'],
-          ['2023-01-20', 'averaged_NO2_20230120.tif'],
-          ['2023-01-21', 'averaged_NO2_20230121.tif'],
-          ['2023-01-22', 'averaged_NO2_20230122.tif'],
-          ['2023-01-23', 'averaged_NO2_20230123.tif'],
         ],
         inputData: [''],
         yAxis: '',
@@ -957,10 +971,10 @@ export const globalIndicators = [
               display: true,
               label: 'Averaged NO2',
               id: 'var',
-              min: -9000,
-              max: -1000,
+              min: 0,
+              max: 300,
               header: true,
-              range: [-8000, -2000],
+              range: [0, 100],
             },
           },
         },
@@ -979,22 +993,22 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/SISTEMA/14_days_average/{time}' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          labelFormatFunction: (date) => `${date[0]} (14 day average)`,
           style: {
             variables: {
-              varMin: -8000,
-              varMax: -2000,
+              varMin: 0,
+              varMax: 100,
             },
             color: [
               'case',
-              ['==', ['band', 1], 0],
-              ['color', 0, 0, 0, 0],
+              ['between', ['band', 1], 0, 10],
               [
                 'interpolate',
                 ['linear'],
-                normalize(['band', 1], 'varMin', 'varMax'),
-                ...getColorStops('jet', 0, 1, 50, false),
+                normalize(bandModifier(0, 0, 1e6), 'varMin', 'varMax'),
+                ...getColorStops(whitered, 0, 1, 32, false),
               ],
+              ['color', 0, 0, 0, 0],
             ],
           },
           name: 'Averaged NO2',
@@ -1037,7 +1051,7 @@ export const globalIndicators = [
               description: 'Aggregated user count in area',
               min: 0,
               max: 500,
-              colormapUsed: grywrd,
+              colormapUsed: blgrrd,
               // markdown: 'AQ_NO2',
             },
             {
@@ -1045,7 +1059,7 @@ export const globalIndicators = [
               description: 'User density in area',
               min: 0,
               max: 200,
-              colormapUsed: grywrd,
+              colormapUsed: blgrrd,
               // markdown: 'AQ_PM10',
             },
           ],
@@ -1074,7 +1088,7 @@ export const globalIndicators = [
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
                 const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (grywrd.steps - 1))];
+                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
             return color;
@@ -1350,9 +1364,6 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'BM1',
-        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -1450,6 +1461,217 @@ export const globalIndicators = [
             ],
           },
           name: 'biomass',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Styria',
+        siteName: 'global',
+        description: 'Forest disturbance type',
+        navigationDescription: '',
+        indicator: 'FCM2',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest disturbance type',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Styria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'FCM2',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FDT_AnualForestDistrubanceType_cog_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], 1],
+              ['color', 255, 255, 0],
+              ['==', ['band', 1], 2],
+              ['color', 255, 85, 255],
+              ['==', ['band', 1], 3],
+              ['color', 255, 0, 0],
+              ['==', ['band', 1], 4],
+              ['color', 173, 173, 173],
+              ['==', ['band', 1], 5],
+              ['color', 0, 85, 255],
+              ['==', ['band', 1], 6],
+              ['color', 0, 85, 255],
+              ['==', ['band', 1], 7],
+              ['color', 67, 67, 67],
+              [
+                'case',
+                ['==', ['band', 2], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 2], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            ],
+          },
+          name: 'Biomass',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Styria',
+        siteName: 'global',
+        description: 'Forest Mask',
+        navigationDescription: 'Change from 2018 (HRL) to Aug. 2021',
+        indicator: 'FCM3',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest Mask',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Styria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'FCM3',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 11], 1],
+              ['color', 147, 220, 0],
+              ['==', ['band', 11], 2],
+              ['color', 0, 107, 0],
+              ['!=', ['band', 1], 0],
+              [
+                'color',
+                ['*', normalizeByValue(['band', 1], 123, 689), 255],
+                ['*', normalizeByValue(['band', 2], 230, 937), 255],
+                ['*', normalizeByValue(['band', 3], 140, 912), 255],
+              ],
+              ['color', 0, 0, 0, 0],
+            ],
+          },
+          name: 'FCM3',
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Forest change detections',
+        navigationDescription: '',
+        indicator: 'FCM',
+        lastIndicatorValue: null,
+        indicatorName: 'Forest change detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        highlights: [
+          {
+            name: 'Oberhaag',
+            location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
+          },
+          {
+            name: 'Bruck an der Mur',
+            thumbnail: '',
+            location: wkt.read('POLYGON((15.158 47.440, 15.312 47.440, 15.312 47.368, 15.158 47.368, 15.158 47.440))').toJson(),
+          },
+        ],
+        time: [
+          ['2022-03', 'NRT_FCM_Changes-2022-03_cog_3857.tif'],
+          ['2022-04', 'NRT_FCM_Changes-2022-04_cog_3857.tif'],
+          ['2022-05', 'NRT_FCM_Changes-2022-05_cog_3857.tif'],
+          ['2022-06', 'NRT_FCM_Changes-2022-06_cog_3857.tif'],
+          ['2022-07', 'NRT_FCM_Changes-2022-07_cog_3857.tif'],
+          ['2022-08', 'NRT_FCM_Changes-2022-08_cog_3857.tif'],
+          ['2022-09', 'NRT_FCM_Changes-2022-09_cog_3857.tif'],
+          ['2022-10', 'NRT_FCM_Changes-2022-10_cog_3857.tif'],
+          ['2022-11', 'NRT_FCM_Changes-2022-11_cog_3857.tif'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          id: 'AQ5',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], 1],
+              ['color', 255, 0, 0, 1],
+              [
+                'case',
+                ['==', ['band', 2], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 2], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            ],
+          },
+          name: 'Forest change detections',
           minZoom: 1,
         },
       },

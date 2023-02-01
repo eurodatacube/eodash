@@ -429,6 +429,7 @@ export default {
       const presetView = this.mergedConfigsData[0]?.presetView;
       const { map } = getMapInstance(this.mapId);
       const readerOptions = {
+        dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       };
       if (presetView) {
