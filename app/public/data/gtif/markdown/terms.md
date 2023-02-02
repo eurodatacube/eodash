@@ -1,10 +1,10 @@
 # TERMS AND CONDITIONS OF THE WEBSITE
 
-(version as of June 9th 2020)
+(version as of February 1st 2023)
 
-**Rapid Action on COVID-19 with EO Dashboard**
+**Green Transition Information Factory**
 
-https://race.esa.int
+https://gtif.esa.int
 
 ## (1) Publisher of the Website
 
@@ -107,7 +107,7 @@ ESA is committed to user privacy. It does not use personal identification detail
 cookies either for promotion or marketing purposes.
 
 For further information regarding the use of cookies on this Website, please refer to
-https://race.esa.int/privacy
+https://gtif.esa.int/privacy
 
 ## (7) Children&#39;s privacy
 
