@@ -4,7 +4,7 @@
     :style="`margin-top: ${$vuetify.application.top}px !important;`"
   >
     <div
-      class="fill-height pa-10 pt-5"
+      class="pa-10 pt-5"
     >
     <v-app-bar
         app
