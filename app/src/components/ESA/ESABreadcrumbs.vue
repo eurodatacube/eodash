@@ -40,7 +40,7 @@ export default {
         case 'gtif-mobility-transition':
           return 'Mobility Transition';
 
-        case 'gtif-sustainable-transition':
+        case 'gtif-sustainable-cities':
           return 'Sustainable Cities';
 
         case 'gtif-social-mobility':
@@ -49,7 +49,7 @@ export default {
         case 'gtif-carbon-finance':
           return 'Carbon Accounting';
 
-        case 'gtif-eo-adaptation':
+        case 'gtif-eo-adaptation-services':
           return 'EO Adaptation Services';
 
         case 'explore':

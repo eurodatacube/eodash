@@ -1,0 +1,101 @@
+@import url("./opensans.css");
+@font-face {
+  font-family: "NotesESABold";
+  src: url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesabol-webfont.ttf") format("truetype");
+}
+@font-face {
+  font-family: "NotesESA";
+  src: url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesareg.woff2") format("woff2"), url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesareg.ttf") format("truetype");
+}
+#scroll-target {
+  font-family: "NotesESA", "Open Sans", sans-serif;
+  overflow-x: hidden;
+}
+.v-application--wrap {
+  align-items: center;
+}
+
+.intro p {
+  padding: 1rem !important;
+}
+
+figure .v-image, figure video {
+  max-height: 65vh;
+  max-width: 50vw;
+  border-radius: 16px;
+}
+
+.expand-button {
+  cursor: pointer;
+}
+
+.expansible-text-section {
+  padding: 0 !important;
+}
+
+.expansible-text-section > * {
+  width: 100%;
+}
+
+.expansible-text-section > p, div, .step p {
+  /*padding-top: 70px;
+  padding-bottom: 70px;*/
+  font-size: 1.4rem;
+}
+
+.highlight {
+  font-size: 1.9rem;
+}
+
+.expansible-text-section > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+article {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.v-application p {
+  margin-bottom: 0 !important;
+  max-width: 800px;
+}
+
+.expansible-text-section, .expansible-text-section p {
+  width: 100% !important;
+}
+
+.full-text-block {
+  padding: 0 !important;
+}
+
+h1, h2 {
+  color: #00ae9d !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: "NotesESABold", sans-serif;
+}
+
+.brand-esa h1,
+.brand-esa h2,
+.brand-esa h3,
+.brand-esa h4,
+.brand-esa .h1,
+.brand-esa .h2,
+.brand-esa .h3,
+.brand-esa .h4,
+.brand-esa .headline,
+.brand-esa .v-application .display-1,
+.brand-esa .v-application .display-2,
+.brand-esa .v-application .display-3,
+.brand-esa .v-btn__content,
+.brand-esa .v-toolbar__title,
+.brand-esa .v-card__title,
+.brand-esa .v-tab {
+  font-family: "NotesESABold", sans-serif !important;
+}
+
+/*# sourceMappingURL=gtif.css.map */

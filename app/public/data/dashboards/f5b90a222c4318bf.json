@@ -1,0 +1,374 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Environmental monitoring"
+    ]
+  },
+  "features": [
+    {
+      "width": 4,
+      "text": "<style>\np {\n  max-width: 800px;\n  margin: 0 auto;\n  line-height: 2rem;\n}\np .highlight {\n  font-size: 1.8rem !important;\n}\n.fullWidthBlock p {\n  hyphens: auto; \n  text-align: justify;\n}\n</style>\n\n<h1 style=\"color: #00ae9d; font-family: 'NotesESABold'\">SOCIAL MOBILITY</h1>\n\nThe main target of the GTIF scenario is to assess how the correlation between mobility modalities and their evolution over time impact air pollution concentration and, directly, affect population health and contribute to climate change.",
+      "id": "FWB1-1665738880044",
+      "title": "FWB1",
+      "__generatedText__": "&lt;style&gt;\np {\n  max-width: 800px;\n  margin: 0 auto;\n  line-height: 2rem;\n}\np .highlight {\n  font-size: 1.8rem !important;\n}\n.fullWidthBlock p {\n  hyphens: auto; \n  text-align: justify;\n}\n&lt;/style&gt;\n\n<h1>SOCIAL MOBILITY</h1>\n\n<p>The main target of the GTIF scenario is to assess how the correlation between mobility modalities and their evolution over time impact air pollution concentration and, directly, affect population health and contribute to climate change.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "Mobility modalities differently impact on concentration of various pollutants in the atmosphere (emissions per passenger per km, data from [https://doi.org/10.1016/j.eneco.2022.105941](https://doi.org/10.1016/j.eneco.2022.105941)).",
+      "id": "Text1-1665736481593",
+      "title": "Text1",
+      "__generatedText__": "<p>Mobility modalities differently impact on concentration of various pollutants in the atmosphere (emissions per passenger per km, data from <a href=\"https://doi.org/10.1016/j.eneco.2022.105941\">https://doi.org/10.1016/j.eneco.2022.105941</a>).</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/mobility_modality.png<--IMG-->",
+      "id": "Image1-1665738675552",
+      "title": "Image1",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/mobility_modality.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "Unlike rural areas, where private motorised vehicles are still the most common transportation way, in urban areas (Vienna in the plot) there has been a clear evolution in the mobility modalities with a reduction of cars and increase of bikes and electric mobility (figures from Ajanovicet al. Electric Mobility in Cities: The Case of Vienna. [https://doi.org/10.3390/en14010217](https://doi.org/10.3390/en14010217)).",
+      "id": "Text2-1665742510233",
+      "title": "Text2",
+      "__generatedText__": "<p>Unlike rural areas, where private motorised vehicles are still the most common transportation way, in urban areas (Vienna in the plot) there has been a clear evolution in the mobility modalities with a reduction of cars and increase of bikes and electric mobility (figures from Ajanovicet al. Electric Mobility in Cities: The Case of Vienna. <a href=\"https://doi.org/10.3390/en14010217\">https://doi.org/10.3390/en14010217</a>).</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_2.png<--IMG-->",
+      "id": "IMG2-1665742574972",
+      "title": "IMG2",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_2.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "There has been a clear evolution in car\u00b4s energy\nsource, with electric cars stating being used only\nin the last 12 years",
+      "id": "Text3-1665742641554",
+      "title": "Text3",
+      "__generatedText__": "<p>There has been a clear evolution in car\u00b4s energy\nsource, with electric cars stating being used only\nin the last 12 years</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_3.png<--IMG-->",
+      "id": "IMG3-1665742684822",
+      "title": "IMG3",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_3.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "The number of electric vehicles has strongly\nincreased starting from 2010, with a contribution\nof all different types, but with a fundamental\ncontribution provided by cars",
+      "id": "Text4-1665742802972",
+      "title": "Text4",
+      "__generatedText__": "<p>The number of electric vehicles has strongly\nincreased starting from 2010, with a contribution\nof all different types, but with a fundamental\ncontribution provided by cars</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_4.png<--IMG-->",
+      "id": "IMG4-1665742836669",
+      "title": "IMG4",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_4.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "Within this scenario we use:\n\n* Mobility data. These data represent position / time of mobile devices with a very high accuracy. They can provide information to assess population density and identify different mobility modalities and trajectories. They can be used as proxy to estimate potential emissions.\n\n* Model data allow simulating the pollution dynamics (ozone, nitrogen dioxide, particulate matter) outside direct measurement network (stations).\n\n* Satellite data allow observing concentration of different pollutants (ozone, nitrogen dioxide, aerosol) over the whole country once per day. They are used to provide large scale measurements to complement models and verify mobility data.\n\nThe objective is to take advantage of the different\ndata sources to obtain a complete view of the dynamics of emission scenarios, and to have a quantitative tool to assess the improvement of air quality conditions carried by the increase of low impact mobility modalities (electric public and private vehicles, bikes) in near real time and for long time frames.",
+      "id": "Text5-1665751113711",
+      "title": "Text5",
+      "__generatedText__": "<p>Within this scenario we use:</p>\n<ul>\n<li><p>Mobility data. These data represent position / time of mobile devices with a very high accuracy. They can provide information to assess population density and identify different mobility modalities and trajectories. They can be used as proxy to estimate potential emissions.</p>\n</li>\n<li><p>Model data allow simulating the pollution dynamics (ozone, nitrogen dioxide, particulate matter) outside direct measurement network (stations).</p>\n</li>\n<li><p>Satellite data allow observing concentration of different pollutants (ozone, nitrogen dioxide, aerosol) over the whole country once per day. They are used to provide large scale measurements to complement models and verify mobility data.</p>\n</li>\n</ul>\n<p>The objective is to take advantage of the different\ndata sources to obtain a complete view of the dynamics of emission scenarios, and to have a quantitative tool to assess the improvement of air quality conditions carried by the increase of low impact mobility modalities (electric public and private vehicles, bikes) in near real time and for long time frames.</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_5.png<--IMG-->",
+      "id": "IMG5-1665751454800",
+      "title": "IMG5",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_5.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "Population presence information have been aggregated using the districts classification provided by Statistik Austria. Population presence patterns differ from working days to weekends. Assessing these changes allows monitoring and forecasting where and how pollution evolution dynamics.",
+      "id": "FWB2-1665752061180",
+      "title": "FWB2",
+      "__generatedText__": "<p>Population presence information have been aggregated using the districts classification provided by Statistik Austria. Population presence patterns differ from working days to weekends. Assessing these changes allows monitoring and forecasting where and how pollution evolution dynamics.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nPresence data aggregated over the administrative boundaries: comparison between working days (top) and weekend days (bottom) (24h loop).\n<div style=\"height:300px;\"></div>",
+      "id": "Text6-1665752390875",
+      "title": "Text6",
+      "__generatedText__": "<div></div>\nPresence data aggregated over the administrative boundaries: comparison between working days (top) and weekend days (bottom) (24h loop).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4<--VID-->",
+      "id": "IMG6-1665752513240",
+      "title": "IMG6",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nTo better highlight changes, a ratio between weekends over weekdays highlights districts with higher presence during weekend (red) and those with less presence (blue).\n<div style=\"height:300px;\"></div>",
+      "id": "video-1665871723602",
+      "title": "video",
+      "__generatedText__": "<div></div>\nTo better highlight changes, a ratio between weekends over weekdays highlights districts with higher presence during weekend (red) and those with less presence (blue).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_RATIO_WE_WD_2021_07_2.mp4<--VID-->",
+      "id": "video-1665871741549",
+      "title": "video",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_RATIO_WE_WD_2021_07_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_RATIO_WE_WD_2021_07_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nModel data aggregated: weekdays (24h loop).\n<div style=\"height:300px;\"></div>",
+      "id": "Text7-1665753541370",
+      "title": "Text7",
+      "__generatedText__": "<div></div>\nModel data aggregated: weekdays (24h loop).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekday_mean_val_quantiles_2.mp4<--VID-->",
+      "id": "IMG7-1665753523529",
+      "title": "IMG7",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekday_mean_val_quantiles_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekday_mean_val_quantiles_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nModel data aggregated: weekends (24h loop).\n<div style=\"height:300px;\"></div>",
+      "id": "text-1665872079675",
+      "title": "text",
+      "__generatedText__": "<div></div>\nModel data aggregated: weekends (24h loop).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekend_mean_val_quantiles_2.mp4<--VID-->",
+      "id": "video-1665872030670",
+      "title": "video",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekend_mean_val_quantiles_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Austria_PM10_weekend_mean_val_quantiles_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nSatellite data aggregated: weekdays and weekends\n<div style=\"height:300px;\"></div>",
+      "id": "Text8-1665754115231",
+      "title": "Text8",
+      "__generatedText__": "<div></div>\nSatellite data aggregated: weekdays and weekends\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_6.png<--IMG-->",
+      "id": "IMG8-1665754265374",
+      "title": "IMG8",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_6.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "Getting to the details for Vienna, the impact of mobility\nmodalities starts becoming relevant: in areas like the\nPrater during weekend, despite high population\nconcentration, the pollution levels remain low, since most\nof the persons present within the park are using low impact mobility means (metro, tram, e-scooter, bikes, walk) to reach the place.",
+      "id": "FWB3-1665754556545",
+      "title": "FWB3",
+      "__generatedText__": "<p>Getting to the details for Vienna, the impact of mobility\nmodalities starts becoming relevant: in areas like the\nPrater during weekend, despite high population\nconcentration, the pollution levels remain low, since most\nof the persons present within the park are using low impact mobility means (metro, tram, e-scooter, bikes, walk) to reach the place.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nPresence pattern: working days (left) and weekend days (right side).\n<div style=\"height:300px;\"></div>",
+      "id": "Text9-1665754615476",
+      "title": "Text9 (4.1)",
+      "__generatedText__": "<div></div>\nPresence pattern: working days (left) and weekend days (right side).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/VIENNA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4<--VID-->",
+      "id": "Img4.1-1665754691776",
+      "title": "Img4.1",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/VIENNA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/VIENNA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nModel pollution concentration (PM10): working days..\n<div style=\"height:300px;\"></div>",
+      "id": "Text10-1665754829332",
+      "title": "Text10 (4.2)",
+      "__generatedText__": "<div></div>\nModel pollution concentration (PM10): working days..\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekday_mean_val_quantiles_2.mp4<--VID-->",
+      "id": "Img10-1665754852369",
+      "title": "Img10",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekday_mean_val_quantiles_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekday_mean_val_quantiles_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nModel pollution concentration (PM10): weekend days.\n<div style=\"height:300px;\"></div>",
+      "id": "text-1665872750581",
+      "title": "text",
+      "__generatedText__": "<div></div>\nModel pollution concentration (PM10): weekend days.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekend_mean_val_quantiles_2.mp4<--VID-->",
+      "id": "video-1665872756642",
+      "title": "video",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekend_mean_val_quantiles_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Vienna_NO2_weekend_mean_val_quantiles_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nSatellite pollution concentration (Tropospheric NO2): working days (left) and weekend days (right side).\n<div style=\"height:300px;\"></div>",
+      "id": "Text 4.3-1665755226484",
+      "title": "Text 4.3",
+      "__generatedText__": "<div></div>\nSatellite pollution concentration (Tropospheric NO2): working days (left) and weekend days (right side).\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_7.png<--IMG-->",
+      "id": "Image 4.3-1665755283356",
+      "title": "Image 4.3",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_7.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "The use of administrative boundaries to aggregate\ndata causes also some issues:",
+      "id": "FWB4-1665755346900",
+      "title": "FWB4",
+      "__generatedText__": "<p>The use of administrative boundaries to aggregate\ndata causes also some issues:</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "The OMV Raffinerie Schwechat and the\nVienna international airport fall within the same\ndistrict. This causes that it is not possible to\ncorrectly correlate pollution fluxes with mobility\nmodalities (including aircrafts) and industrial\nactivity.",
+      "id": "Text 5.1-1665755435421",
+      "title": "Text 5.1",
+      "__generatedText__": "<p>The OMV Raffinerie Schwechat and the\nVienna international airport fall within the same\ndistrict. This causes that it is not possible to\ncorrectly correlate pollution fluxes with mobility\nmodalities (including aircrafts) and industrial\nactivity.</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_8.png<--IMG-->",
+      "id": "Image 5.1-1665755472272",
+      "title": "Image 5.1",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_8.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "The plot shows that mobility data at their highest resolution allow discriminating between industrial plant and airport presence.",
+      "id": "Text 5.2-1665755584145",
+      "title": "Text 5.2",
+      "__generatedText__": "<p>The plot shows that mobility data at their highest resolution allow discriminating between industrial plant and airport presence.</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_9.png<--IMG-->",
+      "id": "Image 5.2-1665755691105",
+      "title": "Image 5.2",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_9.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "The 24-hour time evolution of population presence over the Inner Prater, the OMV Raffinerie and the Vienna International airport shows the different patterns that are masked out by the district aggregation.",
+      "id": "Text 5.3/5.4-1665755784819",
+      "title": "Text 5.3/5.4",
+      "__generatedText__": "<p>The 24-hour time evolution of population presence over the Inner Prater, the OMV Raffinerie and the Vienna International airport shows the different patterns that are masked out by the district aggregation.</p>\n"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_10.png<--IMG-->",
+      "id": "Image 5.4-1665755890138",
+      "title": "Image 5.4",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_10.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "Besides population presence, the length and duration of\nmovements allow a macro-classification of the mobility\nmodalities at national level.",
+      "id": "FWB5-1665755981573",
+      "title": "FWB5",
+      "__generatedText__": "<p>Besides population presence, the length and duration of\nmovements allow a macro-classification of the mobility\nmodalities at national level.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nThe video shows the trajectories over the whole\nAustria (overview) for a typical July day.\n<div style=\"height:300px;\"></div>",
+      "id": "Text 6.1-1665756029535",
+      "title": "Text 6.1",
+      "__generatedText__": "<div></div>\nThe video shows the trajectories over the whole\nAustria (overview) for a typical July day.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Demo_Austria_trajectories.mp4<--VID-->",
+      "id": "Video 6.1-1665756050692",
+      "title": "Video 6.1",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Demo_Austria_trajectories.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Demo_Austria_trajectories.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "In order to assess how road traffic impacts on pollution,\nand to check whether working days and weekend /\nholiday fluxes contribute differently to the overall\npollution, the Inn valley and the Innsbruck intersection\ntoward Brennerpass have been monitored.",
+      "id": "FWB7-1665756220248",
+      "title": "FWB7",
+      "__generatedText__": "<p>In order to assess how road traffic impacts on pollution,\nand to check whether working days and weekend /\nholiday fluxes contribute differently to the overall\npollution, the Inn valley and the Innsbruck intersection\ntoward Brennerpass have been monitored.</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nThe split window video focuses on the area around Innsbruck showing mobility trajectories during\nworking days(left) and weekend (right) typical 24h\nloops for July 2021.\n\nThe patterns are quite different at the beginning of\nthe day, as well as for the trends. The vehicles\ncompositions shall also be different (trucks versus\ncars) but this might be assessed at second stage of\nthe project.\n<div style=\"height:300px;\"></div>",
+      "id": "Text 6.2-1665756236000",
+      "title": "Text 6.2",
+      "__generatedText__": "<div></div>\nThe split window video focuses on the area around Innsbruck showing mobility trajectories during\nworking days(left) and weekend (right) typical 24h\nloops for July 2021.\n\n<p>The patterns are quite different at the beginning of\nthe day, as well as for the trends. The vehicles\ncompositions shall also be different (trucks versus\ncars) but this might be assessed at second stage of\nthe project.</p>\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Trajectories_Innsbruck_WD_vs_WE.mp4<--VID-->",
+      "id": "Image 6.2-1665756260774",
+      "title": "Image 6.2",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Trajectories_Innsbruck_WD_vs_WE.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Trajectories_Innsbruck_WD_vs_WE.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nThe hourly evolution for numerical model data is also shown for a typical working day in the same area.\n<div style=\"height:300px;\"></div>",
+      "id": "Text 6.3-1665756313026",
+      "title": "Text 6.3",
+      "__generatedText__": "<div></div>\nThe hourly evolution for numerical model data is also shown for a typical working day in the same area.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekdays_2.mp4<--VID-->",
+      "id": "video-1665874399248",
+      "title": "video",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekdays_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekdays_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nThe hourly evolution for numerical model data is also shown for a typical weekend day in the same area.\n<div style=\"height:300px;\"></div>",
+      "id": "text-1665874294541",
+      "title": "text",
+      "__generatedText__": "<div></div>\nThe hourly evolution for numerical model data is also shown for a typical weekend day in the same area.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekend_2.mp4<--VID-->",
+      "id": "video-1665874301098",
+      "title": "video",
+      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekend_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/Innsbruck_no2_weekend_2.mp4</a>&lt;--VID--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nFinally the same area is monitored using satellite\ndata: typical average NO2 concentration for working\ndays is shown for July 2021.\n<div style=\"height:300px;\"></div>",
+      "id": "Text 6.4-1665756352932",
+      "title": "Text 6.4",
+      "__generatedText__": "<div></div>\nFinally the same area is monitored using satellite\ndata: typical average NO2 concentration for working\ndays is shown for July 2021.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_12_1.png<--IMG-->",
+      "id": "Image 6.4-1665756373251",
+      "title": "Image 6.4",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_12_1.png&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "<div style=\"height:300px;\"></div>\nSame plot but for weekends shows a more distributed pattern.\n<div style=\"height:300px;\"></div>",
+      "id": "text-1665874527565",
+      "title": "text",
+      "__generatedText__": "<div></div>\nSame plot but for weekends shows a more distributed pattern.\n<div></div>"
+    },
+    {
+      "width": 3,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_12_2.png<--IMG-->",
+      "id": "img-1665874605253",
+      "title": "img",
+      "__generatedText__": "<p>&lt;--IMG--&gt;https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_12_2.png&lt;--IMG--&gt;</p>\n"
+    }
+  ],
+  "title": "GTIF | social-mobility"
+}

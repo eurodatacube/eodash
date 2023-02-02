@@ -235,9 +235,9 @@ const renderVue = async () => {
         { path: '/energy-transition', name: 'gtif-energy-transition', component: ScrollyFrame },
         { path: '/mobility-transition', name: 'gtif-mobility-transition', component: ScrollyFrame },
         { path: '/social-mobility', name: 'gtif-social-mobility', component: ScrollyFrame },
-        { path: '/sustainable-cities', name: 'gtif-sustainable-transition', component: ScrollyFrame },
-        { path: '/carbon-accounting', name: 'gtif-carbon-finance', component: ScrollyFrame },
-        { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation', component: ScrollyFrame },
+        { path: '/sustainable-cities', name: 'gtif-sustainable-cities', component: ScrollyFrame },
+        { path: '/carbon-accounting', name: 'gtif-carbon-accounting', component: ScrollyFrame },
+        { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation-services', component: ScrollyFrame },
       ]
       : []
     ),
