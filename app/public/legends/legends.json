@@ -314,10 +314,10 @@
             "tickLabels": ["NaN", -1, 0, 10, 20, 30, 40, 50]
         },
         "VIS_ANTARTICA_MELTMAP": {
-            "range": [0, 3],
-            "cm": ["#ffffff","#FFF3CC","#B4C7E7","#66A2D8"],
+            "range": [1,4],
+            "cm": ["#AFABAB","#B4C7E7","#66A2D8","#FFF3CC"],
             "label": "Ice melting status",
-            "ticks": [0, 1, 2, 3],
+            "ticks": [1, 2, 3, 4],
             "tickLabels": ["no melt l.", "surface melt l.", "wet snow l.", "new top frozen l."],
             "discrete": true
         }
