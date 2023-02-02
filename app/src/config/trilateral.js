@@ -4160,7 +4160,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: availableDates.VIS_ANTARTICA_MELTMAP,
+        time: getDailyDates('2007-01-02', '2021-12-31'),
         inputData: [''],
         display: {
           legendUrl: 'legends/trilateral/VIS_ANTARTICA_MELTMAP.png',
