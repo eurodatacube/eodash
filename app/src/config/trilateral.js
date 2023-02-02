@@ -4120,7 +4120,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getWeeklyDates('2021-01-01', '2022-01-01'),
+        time: getWeeklyDates('2017-05-18', '2022-01-01'),
         inputData: [''],
         display: {
           dateFormatFunction: shWeeklyTimeFunction,
