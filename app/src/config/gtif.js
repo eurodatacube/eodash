@@ -469,8 +469,22 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/VTT6',
     themes: ['eo-adaptation-services'],
   },
-  AQ: {
-    indicator: 'Air Quality Maps',
+  AQA: {
+    indicator: 'Aggregated Health Risk Index (ARI)',
+    class: 'air',
+    themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
+    customAreaIndicator: true,
+  },
+  AQB: {
+    indicator: 'Fine particulate matter (PM2.5)',
+    class: 'air',
+    themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
+    customAreaIndicator: true,
+  },
+  AQC: {
+    indicator: 'Coarse particulate matter (PM10)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
@@ -554,10 +568,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Air Quality Maps',
-        indicator: 'AQ',
+        description: 'Aggregated Health Risk Index (ARI)',
+        indicator: 'AQA',
         lastIndicatorValue: null,
-        indicatorName: 'Air Quality Maps',
+        indicatorName: 'Aggregated Health Risk Index (ARI)',
+        navigationDescription: 'Daily aggregated maps of ARI index',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -581,10 +596,80 @@ export const globalIndicators = [
               dataInfo: 'ARI',
               min: 0,
               max: 10,
-              // colormapUsed: ihrCS,
               colormapUsed: grywrd,
               markdown: 'AQ_IHR',
             },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = feature.id_;
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'air_quality_new_id',
+          name: 'Aggregated Health Risk Index (ARI)',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Coarse particulate matter (PM10)',
+        indicator: 'AQB',
+        lastIndicatorValue: null,
+        indicatorName: 'Coarse particulate matter (PM10)',
+        navigationDescription: 'Daily aggregated maps of ARI index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: availableDates.air_quality.sort((a, b) => {
+          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
+          return val;
+        }),
+        inputData: [''],
+        yAxis: '',
+        queryParameters: {
+          sourceLayer: 'air_quality_new_id',
+          selected: 'pm10',
+          items: [
             {
               id: 'pm10',
               description: 'Particulate Matter < 10µm',
@@ -594,6 +679,77 @@ export const globalIndicators = [
               colormapUsed: grywrd,
               markdown: 'AQ_PM10',
             },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = feature.id_;
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                const { min, max, colormapUsed } = currPar;
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+              }
+            }
+            return color;
+          },
+          id: 'air_quality_new_id',
+          name: 'Coarse particulate matter (PM10)',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Fine particulate matter (PM2.5)',
+        indicator: 'AQC',
+        lastIndicatorValue: null,
+        indicatorName: 'Fine particulate matter (PM2.5)',
+        navigationDescription: 'Daily aggregated maps of ARI index',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: availableDates.air_quality.sort((a, b) => {
+          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
+          return val;
+        }),
+        inputData: [''],
+        yAxis: '',
+        queryParameters: {
+          sourceLayer: 'air_quality_new_id',
+          selected: 'pm25',
+          items: [
             {
               id: 'pm25',
               description: 'Particulate Matter < 2.5µm',
@@ -635,7 +791,7 @@ export const globalIndicators = [
             return color;
           },
           id: 'air_quality_new_id',
-          name: 'Air Quality',
+          name: 'Fine particulate matter (PM2.5)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
@@ -664,32 +820,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [
-          ['20201101T00:00:00Z', 'gtif_uibk_20201101_ffp_values_b1.tif'],
-          ['20201101T01:00:00Z', 'gtif_uibk_20201101_ffp_values_b2.tif'],
-          ['20201101T02:00:00Z', 'gtif_uibk_20201101_ffp_values_b3.tif'],
-          ['20201101T03:00:00Z', 'gtif_uibk_20201101_ffp_values_b4.tif'],
-          ['20201101T04:00:00Z', 'gtif_uibk_20201101_ffp_values_b5.tif'],
-          ['20201101T05:00:00Z', 'gtif_uibk_20201101_ffp_values_b6.tif'],
-          ['20201101T06:00:00Z', 'gtif_uibk_20201101_ffp_values_b7.tif'],
-          ['20201101T07:00:00Z', 'gtif_uibk_20201101_ffp_values_b8.tif'],
-          ['20201101T08:00:00Z', 'gtif_uibk_20201101_ffp_values_b9.tif'],
-          ['20201101T09:00:00Z', 'gtif_uibk_20201101_ffp_values_b10.tif'],
-          ['20201101T10:00:00Z', 'gtif_uibk_20201101_ffp_values_b11.tif'],
-          ['20201101T11:00:00Z', 'gtif_uibk_20201101_ffp_values_b12.tif'],
-          ['20201101T12:00:00Z', 'gtif_uibk_20201101_ffp_values_b13.tif'],
-          ['20201101T13:00:00Z', 'gtif_uibk_20201101_ffp_values_b14.tif'],
-          ['20201101T14:00:00Z', 'gtif_uibk_20201101_ffp_values_b15.tif'],
-          ['20201101T15:00:00Z', 'gtif_uibk_20201101_ffp_values_b16.tif'],
-          ['20201101T16:00:00Z', 'gtif_uibk_20201101_ffp_values_b17.tif'],
-          ['20201101T17:00:00Z', 'gtif_uibk_20201101_ffp_values_b18.tif'],
-          ['20201101T18:00:00Z', 'gtif_uibk_20201101_ffp_values_b19.tif'],
-          ['20201101T19:00:00Z', 'gtif_uibk_20201101_ffp_values_b20.tif'],
-          ['20201101T20:00:00Z', 'gtif_uibk_20201101_ffp_values_b21.tif'],
-          ['20201101T21:00:00Z', 'gtif_uibk_20201101_ffp_values_b22.tif'],
-          ['20201101T22:00:00Z', 'gtif_uibk_20201101_ffp_values_b23.tif'],
-          ['20201101T23:00:00Z', 'gtif_uibk_20201101_ffp_values_b24.tif'],
-        ],
+        time: availableDates.fluxData,
         inputData: [''],
         yAxis: '',
         cogFilters: {
@@ -736,7 +867,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/new_data/test_nc_COG/day/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/flux_data/{time}' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
@@ -789,6 +920,8 @@ export const globalIndicators = [
       },
     },
   },
+  /*
+  // TODO: placeholder, do we need this?
   {
     properties: {
       indicatorObject: {
@@ -816,6 +949,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     //  is collection with data and AT_Network_edges_3857
     properties: {
@@ -2048,16 +2182,16 @@ export const globalIndicators = [
               changeablaDataset: {
                 items: [
                   {
-                    description: '200 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_COG_3857_clipped_fix.tif',
+                    description: '200m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                   {
-                    description: '100 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif',
+                    description: '100m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                   {
-                    description: '50 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif',
+                    description: '50m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                 ],
               },
