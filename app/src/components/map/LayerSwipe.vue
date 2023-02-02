@@ -139,52 +139,64 @@ export default {
     onPrerender(evt) {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
-        if (Object.prototype.toString.call(evt.context) === '[object WebGLRenderingContext]') {
-          // Need to handle webgl context differently
-        } else {
-          const ctx = evt.context;
-          const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-            ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
-              ? 0
-              : document.querySelector('.data-panel').clientWidth
-            : 0;
-          this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
-          this.$emit('updateSwipePosition', this.swipePixelX);
-          ctx.save();
-          const { map } = getMapInstance(this.mapId);
-          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-          const isLayerGroup = originalLayer instanceof LayerGroup;
-          // check if the event-layer is displayed on the right side, either as single layer
-          // or as part of a layer group
-          const isRightLayer = isLayerGroup
-            ? originalLayer.getLayers().getArray().includes(evt.target)
-            : evt.target.get('name') === this.originalLayerName;
-          if (isRightLayer) {
+        const ctx = evt.context;
+
+        const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
+          ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
+            ? 0
+            : document.querySelector('.data-panel').clientWidth
+          : 0;
+        this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
+        this.$emit('updateSwipePosition', this.swipePixelX);
+        const { map } = getMapInstance(this.mapId);
+        const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+        const isLayerGroup = originalLayer instanceof LayerGroup;
+        // check if the event-layer is displayed on the right side, either as single layer
+        // or as part of a layer group
+        const isRightLayer = isLayerGroup
+          ? originalLayer.getLayers().getArray().includes(evt.target)
+          : evt.target.get('name') === this.originalLayerName;
+
+        if (isRightLayer) {
+          if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(
+              this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height,
+            );
+          } else {
+            ctx.save();
             ctx.beginPath();
             ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
             ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
+          }
+
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
+          }
+        } else {
+          if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
           } else {
             ctx.beginPath();
             ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
             ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
+          }
+
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
           }
         }
       }
     },
     onPostrender(evt) {
       const ctx = evt.context;
-      if (Object.prototype.toString.call(evt.context) === '[object WebGLRenderingContext]') {
-        // Need to handle webgl context differently
+      if (ctx instanceof WebGLRenderingContext) {
+        ctx.disable(ctx.SCISSOR_TEST);
       } else {
         ctx.restore();
       }
