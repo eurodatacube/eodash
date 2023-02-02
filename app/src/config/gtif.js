@@ -114,10 +114,6 @@ function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
 }
 
-function normalizeByValue(value, min, max) {
-  return ['/', ['-', value, min], (max - min)];
-}
-
 function bandModifier(xOffset = 0, yOffset = 0, scale = 1) {
   if (xOffset === 0 && yOffset === 0) {
     return ['*', ['band', 1], scale];
