@@ -2186,16 +2186,16 @@ export const globalIndicators = [
               changeablaDataset: {
                 items: [
                   {
-                    description: '200 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_COG_3857_clipped_fix.tif',
+                    description: '200m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                   {
-                    description: '100 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif',
+                    description: '100m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                   {
-                    description: '50 m blades',
-                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif',
+                    description: '50m height',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif',
                   },
                 ],
               },
