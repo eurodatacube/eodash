@@ -190,6 +190,8 @@
             :cogFilters="indicatorObject.cogFilters"
           >
           </filter-controls>
+          <!--
+          TODO disabling this for now as it is not ready for public use
           <v-col v-if="indicatorObject.cogFilters"
             :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
             :style="`height: auto`"
@@ -211,6 +213,7 @@
             >
             </scatter-plot>
           </v-col>
+          -->
           <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
           <StyleControls v-if="indicatorObject.vectorStyles"
             :vectorStyles="indicatorObject.vectorStyles"
