@@ -2232,6 +2232,14 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
+            rugedeness: {
+              display: false,
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
+              min: 0,
+              max: 1,
+              range: [0, 1],
+            },
             protectedZones: {
               display: true,
               type: 'boolfilter',
@@ -2260,6 +2268,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
           ],
           style: {
             variables: {
@@ -2274,6 +2283,8 @@ export const globalIndicators = [
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
             },
             color: [
               'case',
@@ -2285,6 +2296,7 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['between', ['band', 7], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
