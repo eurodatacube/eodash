@@ -88,6 +88,10 @@ export default {
               l.on('prerender', this.onPrerender);
               l.on('postrender', this.onPostrender);
             });
+            if (this.mergedConfigsData.protocol === 'cog') {
+              // special case because otherwise last time is used on enabling compare
+              updateTimeLayer(swipeLayer, this.mergedConfigsData, this.time, this.drawnArea);
+            }
           }
         });
       } else {
