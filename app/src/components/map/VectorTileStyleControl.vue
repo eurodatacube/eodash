@@ -4,11 +4,16 @@
       <v-col cols="6">
         <v-subheader>
           Data properties
+          <info-dialog
+            v-if="select && select.dataInfo && queryParameters.items.length === 1"
+            :infoSource="select.dataInfo"
+          />
         </v-subheader>
       </v-col>
 
       <v-col cols="6">
         <v-select
+          v-if="queryParameters.items.length > 1"
           v-model="select"
           :items="queryParameters.items"
           item-text="description"
@@ -19,7 +24,7 @@
           single-line
           @change="updateMap"
         >
-          <template #append-outer v-if="select.dataInfo">
+          <template #append-outer v-if="select && select.dataInfo">
             <info-dialog :infoSource="select.dataInfo"/>
           </template>
         </v-select>
