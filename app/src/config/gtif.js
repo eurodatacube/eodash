@@ -1227,6 +1227,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
+          adminLayersCustomIndicator: true,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
