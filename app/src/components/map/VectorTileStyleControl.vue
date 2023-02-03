@@ -8,6 +8,10 @@
             v-if="select && select.dataInfo && queryParameters.items.length === 1"
             :infoSource="select.dataInfo"
           />
+          <info-dialog
+            v-if="queryParameters.dataInfo"
+            :infoSource="queryParameters.dataInfo"
+          />
         </v-subheader>
       </v-col>
 
