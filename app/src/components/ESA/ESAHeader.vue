@@ -212,7 +212,7 @@ export default {
         },
         {
           name: 'Carbon Accounting',
-          slug: 'gtif-carbon-acounting',
+          slug: 'gtif-carbon-accounting',
           narratives: [
             {
               name: 'Carbon Accounting Narrative',
