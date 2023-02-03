@@ -750,9 +750,9 @@ generateData(
         ['N1_tri', ''],
         ['E13b_tri', ''],
         ['E13c_tri', ''],
-        ['VITS_Vegetation_Index_Timeseries', ''],
-        ['SMCTS_Soil_Moisture_Timeseries', ''],
-        ['PRCTS_Precipitation_Timeseries', ''],
+        # ['VITS_Vegetation_Index_Timeseries', ''],
+        # ['SMCTS_Soil_Moisture_Timeseries', ''],
+        # ['PRCTS_Precipitation_Timeseries', ''],
     ]
 )
 
@@ -809,6 +809,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
-        ['Sentinel_1_Vessel_Density_Europe', '']
+        # ['Sentinel_1_Vessel_Density_Europe', '']
     ]
 )
