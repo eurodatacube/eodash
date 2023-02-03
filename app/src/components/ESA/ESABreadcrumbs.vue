@@ -4,13 +4,17 @@
     :style="{'margin-left': $route.name === 'explore' ? '88px' : '0'}"
   >
     <div class="fill-width fill-height d-flex justify-between align-center pl-6">
-      <span class="bold">GTIF</span>
-      <span class="px-2">|</span>
-      <span>Green Transition Information Factory</span>
+      <router-link :to="{name: 'landing'}">
+        <span class="bold">GTIF</span>
+        <span class="px-2">|</span>
+        <span>Green Transition Information Factory</span>
+      </router-link>
+
       <span v-if="firstBreadcrumb.length > 0">
         <span class="px-2">&gt;</span>
         <span class="">{{ firstBreadcrumb }}</span>
       </span>
+
       <span v-if="secondBreadcrumb.length > 0">
         <span class="px-2 green-crumb">&gt;</span>
         <span class="green-crumb">{{ secondBreadcrumb }}</span>
@@ -109,6 +113,11 @@ export default {
   font-size: 18px;
   z-index: 4;
   color: #CDD7DA;
+
+  a {
+    color: #CDD7DA;
+    text-decoration: none;
+  }
 
   .bold {
     font-family: 'NotesESABold';
