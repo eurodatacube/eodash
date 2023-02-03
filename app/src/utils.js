@@ -36,6 +36,18 @@ export function shTimeFunction(date) {
   return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
 
+export function shWeeklyTimeFunction(date) {
+  let tempDate = date;
+  if (!Array.isArray(tempDate)) {
+    tempDate = [tempDate];
+  }
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const alternativeFormat = 'yyyy-MM-dd';
+  // if only day input, format as an interval to next week
+  const nextDay = dateObj.plus({ days: 7 });
+  return `${dateObj.toFormat(alternativeFormat)}/${nextDay.toFormat(alternativeFormat)}`;
+}
+
 export function shS2TimeFunction(date) {
   // modifies the start and end by 1 hour to past and future
   // this is done to fix mismatch between S2 filename

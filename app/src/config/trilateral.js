@@ -3,7 +3,7 @@
 import { Wkt } from 'wicket';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -455,7 +455,22 @@ export const indicatorsDefinition = Object.freeze({
   ADD: {
     indicatorSummary: 'Antarctic meltmap',
     themes: ['cryosphere'],
-    story: '/eodash-data/stories/ADD',
+    story: '/data/trilateral/ADD',
+  },
+  PRCTS: {
+    indicatorSummary: 'Precipitation anomaly',
+    themes: ['agriculture'],
+    story: '/data/trilateral/PRCTS',
+  },
+  SMCTS: {
+    indicatorSummary: 'Soil Moisture Contains anomaly',
+    themes: ['agriculture'],
+    story: '/data/trilateral/SMCTS',
+  },
+  VITS: {
+    indicatorSummary: 'Vegetation Index',
+    themes: ['agriculture'],
+    story: '/data/trilateral/VITS',
   },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
@@ -1954,10 +1969,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Global',
         siteName: 'global',
-        description: 'Sea Ice Concentration (GCOM-W)',
+        description: 'Sea Ice Concentration Arctic (GCOM-W)',
         indicator: 'N12',
         lastIndicatorValue: null,
-        indicatorName: 'Sea Ice Concentration (GCOM-W)',
+        indicatorName: 'Sea Ice Concentration Arctic (GCOM-W)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1968,25 +1983,74 @@ export const globalIndicators = [
         time: getDailyDates('1978-11-01', '2021-12-31'),
         inputData: [''],
         showGlobe: true,
-        display: [{
+        display: {
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
-          combinedLayers: [
-            {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_N',
-              layers: 'SIC_N',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            }, {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_S',
-              layers: 'SIC_S',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            },
-          ],
-        }],
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          layers: 'SIC_N',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+          projection: 'EPSG:3411',
+          mapProjection: {
+            name: 'EPSG:3411',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+            extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Sea Ice Concentration Antarctic (GCOM-W)',
+        indicator: 'N12',
+        lastIndicatorValue: null,
+        indicatorName: 'Sea Ice Concentration Antarctic (GCOM-W)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Antarctic',
+        time: getDailyDates('1978-11-01', '2021-12-31'),
+        inputData: [''],
+        showGlobe: true,
+        display: {
+          name: 'Sea Ice Concentration',
+          legendUrl: 'legends/trilateral/World-SIC.png',
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          layers: 'SIC_S',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+          projection: 'EPSG:3031',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-107 -64,125 -64,125.3125 -84,-107 -84,-107 -64))').toJson(),
+            }],
+          },
+        },
       },
     },
   },
@@ -4043,7 +4107,47 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19678,
+        aoi: null,
+        aoiID: 'S1GRD',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica Sentinel 1',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Sentinel 1',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: getWeeklyDates('2017-05-18', '2022-01-01'),
+        inputData: [''],
+        display: {
+          dateFormatFunction: shWeeklyTimeFunction,
+          minZoom: 5,
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          projection: 'EPSG:3031',
+          layers: 'SENTINEL-1-EW',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-116 -70,-96 -70,-96 -76,-116 -76,-116 -70))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoi: null,
         aoiID: 'Meltmap',
         country: 'all',
@@ -4057,10 +4161,10 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: availableDates.VIS_ANTARTICA_MELTMAP,
+        time: getDailyDates('2007-01-02', '2021-12-31'),
         inputData: [''],
         display: {
-          legendUrl: 'legends/esa/meltmap.png',
+          legendUrl: 'legends/trilateral/VIS_ANTARTICA_MELTMAP.png',
           attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
           mapProjection: {
             name: 'EPSG:3031',
@@ -4069,17 +4173,17 @@ export const globalIndicators = [
           },
           combinedLayers: [
             {
-              name: 'Antarctic coastline',
-              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-              projection: 'EPSG:3031',
-              layers: 'add:antarctic_coastline_line_medium',
-              minZoom: 2,
-              maxZoom: 18,
-            }, {
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
               name: 'Antarctic meltmap',
               layers: 'VIS_ANTARTICA_MELTMAP',
               projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 18,
+            }, {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
               minZoom: 2,
               maxZoom: 18,
             },

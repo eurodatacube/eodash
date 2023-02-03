@@ -1,6 +1,8 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
+import WKB from 'ol/format/WKB';
+import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import latLng from '@/latLng';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
@@ -17,6 +19,10 @@ import {
   shFisAreaIndicatorStdConfig,
 } from '@/helpers/customAreaObjects';
 
+const wkt = new Wkt();
+const wkb = new WKB();
+const geojsonFormat = new GeoJSON();
+
 export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [
   {
@@ -24,6 +30,45 @@ export const dataEndpoints = [
     provider: './data/internal/pois_eodash.json',
   },
 ];
+
+const geodbFeatures = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_stage_{indicator}_geojson_test?time=eq.{featuresTime}&indicator_code=eq.{indicator}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+  callbackFunction: (responseJson) => { // geom from wkb to geojson features
+    const ftrs = [];
+    if (responseJson) {
+      responseJson.forEach((ftr) => {
+        const { geometry, ...properties } = ftr;
+        // conversion to GeoJSON because followup parts of code depend on that
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
+        if (geom.type === 'MultiPoint' || geom.type === 'MultiPolygon') {
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: geom.type === 'MultiPoint' ? 'Point' : 'Polygon',
+              coordinates: coordPair,
+            };
+            ftrs.push({
+              type: 'Feature',
+              properties,
+              geometry: singleGeometry,
+            });
+          });
+        } else {
+          ftrs.push({
+            type: 'Feature',
+            properties,
+            geometry: geom,
+          });
+        }
+      });
+    }
+    const ftrColl = {
+      type: 'FeatureCollection',
+      features: ftrs,
+    };
+    return ftrColl;
+  },
+};
 
 export const indicatorsDefinition = Object.freeze({
   C1: {
@@ -43,10 +88,10 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Changes in Ships traffic within the Port',
     themes: ['economy'],
     story: '/eodash-data/stories/E200',
+    // features: geodbFeatures,
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
   E1: {
@@ -86,6 +131,20 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
+  },
+  E1b: {
+    indicatorSummary: 'Vessel density',
+    themes: ['economy'],
+    story: '/eodash-data/stories/E1b',
+    features: {
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+    },
+  },
+  E1b2: {
+    indicatorSummary: 'Vessel density monthly maps',
+    themes: ['economy'],
+    story: '/eodash-data/stories/E1b',
   },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
@@ -208,18 +267,15 @@ export const indicatorsDefinition = Object.freeze({
     maxDecimals: 3,
   },
   E12c: {
-    indicatorSummary: 'Number of Trucks (Beta)',
+    indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
-    customAreaFeatures: true,
     customAreaIndicator: true,
     story: '/eodash-data/stories/E12c',
   },
   E12d: {
-    indicatorSummary: 'Number of Trucks (Beta)',
+    indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
-    customAreaFeatures: true,
     customAreaIndicator: true,
-    disableCompare: true,
     story: '/eodash-data/stories/E12c',
   },
   E13a: {
@@ -238,7 +294,8 @@ export const indicatorsDefinition = Object.freeze({
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
-    largeTimeDuration: true,
+    // features: geodbFeatures,
+
   },
   E13b2: {
     indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
@@ -255,9 +312,15 @@ export const indicatorsDefinition = Object.freeze({
     }],
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
+    // features: {
+    //   ...geodbFeatures,
+    //   dateFormatFunction: (date) => DateTime.fromISO(date).set({
+    //     hour: 0, minute: 0, second: 0, millisecond: 0,
+    //   }).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    // },
     largeTimeDuration: true,
   },
   E13e: {
@@ -525,6 +588,10 @@ export const layerNameMapping = Object.freeze({
     layers: 'E8_SENTINEL1',
     dateFormatFunction: shS2TimeFunction,
   },
+  'S1B - GRD': {
+    layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
+  },
   'Sentinel-2 L1C': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
@@ -644,8 +711,6 @@ export const excludeMapTimes = {
 export const replaceMapTimes = {
   ...E13dMapTimes,
 };
-
-const wkt = new Wkt();
 
 export const globalIndicators = [
   /*
@@ -1515,7 +1580,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'Europe',
         siteName: 'global',
-        description: 'Number of Trucks (Beta)',
+        description: 'Number of Trucks',
         indicator: 'E12c',
         lastIndicatorValue: 'Regional Truck Traffic Motorways',
         indicatorName: 'Motorways',
@@ -1528,20 +1593,20 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: 'primary',
-        eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
+        eoSensor: null,
         aoi: null,
         aoiID: 'W2',
-        time: availableDates.AWS_E12C_NEW_MOTORWAY,
+        time: availableDates.VIS_TRUCK_DETECTION_MOTORWAYS_NEW,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'AWS_E12C_NEW_MOTORWAY',
+          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1549,39 +1614,6 @@ export const globalIndicators = [
               properties: {},
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
-          },
-          features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
-              where: 'osm_value=1 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '1000',
-            },
-            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (responseJson) => { // geom from wkb to geojson features
-              const ftrs = [];
-              if (Array.isArray(responseJson[0].src)) {
-                responseJson[0].src.forEach((ftr) => {
-                  const { geometry, ...properties } = ftr;
-                  ftrs.push({
-                    type: 'Feature',
-                    properties,
-                    geometry: JSON.parse(geometry),
-                  });
-                });
-              }
-              const ftrColl = {
-                type: 'FeatureCollection',
-                features: ftrs,
-              };
-              return ftrColl;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
@@ -1608,12 +1640,7 @@ export const globalIndicators = [
                   ? 1
                   : -1));
                 data.forEach((row) => {
-                  let updateDate = row.time;
-                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
-                  if (row.time === '2020-01-01T00:00:00') {
-                    updateDate = '2020-04-01T00:00:00';
-                  }
-                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
+                  newData.time.push(DateTime.fromISO(row.time)); // actual data
                   newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
                   newData.colorCode.push('BLUE'); // made up data
                   newData.referenceValue.push('0'); // made up data
@@ -1639,7 +1666,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'Europe',
         siteName: 'global',
-        description: 'Number of Trucks (Beta)',
+        description: 'Number of Trucks',
         indicator: 'E12d',
         lastIndicatorValue: 'Regional Truck Traffic Primary',
         indicatorName: 'Primary Roads',
@@ -1652,20 +1679,20 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: 'primary',
-        eoSensor: ['2017-06-30', '2018-06-30', '2019-06-30', '2020-06-30'],
+        eoSensor: null,
         aoi: null,
         aoiID: 'W3',
-        time: availableDates.AWS_E12D_NEW_PRIMARYROADS,
+        time: availableDates.VIS_TRUCK_DETECTION_PRIMARY_NEW,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
-          layers: 'AWS_E12D_NEW_PRIMARYROADS',
+          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-01-01')}/${DateTime.fromISO(date).toFormat('yyyy-12-31')}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1673,39 +1700,6 @@ export const globalIndicators = [
               properties: {},
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
-          },
-          features: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum_observations, ST_AsGeoJSON(geometry, 6) as "geometry", truck_count_normalized',
-              where: 'osm_value=3 AND date_part(\'year\',time)={featuresTime} AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-              limit: '1000',
-            },
-            dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
-            callbackFunction: (responseJson) => { // geom from wkb to geojson features
-              const ftrs = [];
-              if (Array.isArray(responseJson[0].src)) {
-                responseJson[0].src.forEach((ftr) => {
-                  const { geometry, ...properties } = ftr;
-                  ftrs.push({
-                    type: 'Feature',
-                    properties,
-                    geometry: JSON.parse(geometry),
-                  });
-                });
-              }
-              const ftrColl = {
-                type: 'FeatureCollection',
-                features: ftrs,
-              };
-              return ftrColl;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
           areaIndicator: {
             url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
@@ -2159,6 +2153,46 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         display: {
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Vessel density monthly maps',
+        indicator: 'E1b2',
+        lastIndicatorValue: null,
+        indicatorName: 'Vessel density monthly maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'World',
+        time: availableDates.VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Vessel density',
+          layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+          minZoom: 6,
+          dateFormatFunction: (date) => date,
+          legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
+            }],
+          },
         },
       },
     },

@@ -110,8 +110,6 @@ COLLECTIONS = [
 BYOD_COLLECTIONS = [
     "AWS_N3_CUSTOM",
     "AWS_N3_CUSTOM_TSMNN",
-    "AWS_E12C_NEW_MOTORWAY",
-    "AWS_E12D_NEW_PRIMARYROADS",
     "AWS_ICEYE-E3",
     "AWS_ICEYE-E11",
     "AWS_ICEYE-E11A",
@@ -133,7 +131,9 @@ BYOD_COLLECTIONS = [
     "ESA-CCI-V2-CRYOSAT",
     "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
-    "VIS_ANTARTICA_MELTMAP",
+    "VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE",
+    "VIS_TRUCK_DETECTION_MOTORWAYS_NEW",
+    "VIS_TRUCK_DETECTION_PRIMARY_NEW",
 ]
 
 ZARRCOLLECTIONS = [
@@ -750,6 +750,9 @@ generateData(
         ['N1_tri', ''],
         ['E13b_tri', ''],
         ['E13c_tri', ''],
+        ['VITS_Vegetation_Index_Timeseries', ''],
+        ['SMCTS_Soil_Moisture_Timeseries', ''],
+        ['PRCTS_Precipitation_Timeseries', ''],
     ]
 )
 
@@ -806,5 +809,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
+        ['Sentinel_1_Vessel_Density_Europe', '']
     ]
 )
