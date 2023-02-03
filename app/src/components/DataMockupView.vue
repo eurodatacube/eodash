@@ -176,7 +176,7 @@ export default {
     show() {
       return this.adminLayer && this.adminFeature && this.indicatorObject
       && [
-        'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
+        // 'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
