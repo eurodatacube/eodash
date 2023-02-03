@@ -11,8 +11,10 @@
         <span class="px-2">&gt;</span>
         <span class="">{{ currentBreadcrumb(currentDomain) }}</span>
       </span>
-      <span v-if="areBreadcrumbsEnabled" class="px-2 green-crumb">&gt;</span>
-      <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb($route.name) }}</span>
+      <span v-if="currentBreadcrumb($route.name).length > 0">
+        <span v-if="areBreadcrumbsEnabled" class="px-2 green-crumb">&gt;</span>
+        <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb($route.name) }}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -63,6 +65,9 @@ export default {
         case 'explore':
           return 'Explore Tool';
 
+        case 'landing':
+          return '';
+
         default:
           return '';
       }
@@ -79,6 +84,7 @@ export default {
   position: fixed;
   top: 64px;
   font-size: 18px;
+  z-index: 4;
   color: #CDD7DA;
 
   .bold {
