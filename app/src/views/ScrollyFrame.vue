@@ -33,6 +33,7 @@
 <script>
 import {
   mapState,
+  mapActions,
 } from 'vuex';
 
 import axios from 'axios';
@@ -74,8 +75,26 @@ export default {
         this.setBreadcrumbsEnabled();
       }
     };
+
+    switch (this.$route.name) {
+        case 'gtif-energy-transition':
+        case 'gtif-mobility-transition':
+        case 'gtif-sustainable-cities':
+        case 'gtif-social-mobility':
+        case 'gtif-carbon-accounting':
+        case 'gtif-eo-adaptation-services':
+        case 'landing':
+          this.setCurrentDomain(this.$route.name);
+          return '';
+
+        default:
+          return '';
+      }
   },
   methods: {
+    ...mapActions('gtif', [
+      'setCurrentDomain'
+    ]),
     async onLoaded() {
       try {
         const css = await axios.get('./css/gtif-scrolly.css');
