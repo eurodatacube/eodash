@@ -48,6 +48,26 @@
         />
       </div>
   </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="scatterChartIndicators.includes(indicatorObject.indicator)">
+    <scatter-chart
+      id="chart" ref="scatterChart"
+      @extentChanged="extentChanged"
+      class="fill-height"
+      :width="null"
+      :height="null"
+      :chart-data='datacollection'
+      :options='chartOptions()'></scatter-chart>
+    <v-btn
+      ref="zoomResetButton"
+      style="position: absolute; right: 40px; top: 13px;display: none;"
+      elevation="2"
+      x-small
+      @click="resetLCZoom"
+    >
+      Reset Zoom
+    </v-btn>
+  </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
       id="chart" ref="lineChart"
@@ -76,6 +96,7 @@ import {
 } from 'vuex';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
+import ScatterChart from '@/components/ScatterChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
@@ -89,6 +110,7 @@ export default {
   components: {
     BarChart,
     LineChart,
+    ScatterChart,
     MapChart,
     IndicatorTimeSelection,
   },
@@ -111,6 +133,9 @@ export default {
         'E12c', 'E12d',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
+      ],
+      scatterChartIndicators: [
+        'SOL1', 'SOL2',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -889,6 +914,22 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
+        } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
         }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
@@ -1439,6 +1480,7 @@ export default {
           annotations,
         },
         yAxis: this.indicatorObject.yAxis,
+        xAxis: this.indicatorObject.xAxis,
         country: this.indicatorObject.country,
       };
     },

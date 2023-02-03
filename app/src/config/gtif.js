@@ -336,6 +336,7 @@ export const indicatorsDefinition = Object.freeze({
       ...baseLayers.bmapgelaende,
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
   },
   SOL2: {
     indicator: 'sus cities',
@@ -345,6 +346,7 @@ export const indicatorsDefinition = Object.freeze({
       ...baseLayers.bmapgelaende,
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
   },
   SOL3: {
     indicator: 'urban trees',

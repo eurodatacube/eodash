@@ -130,10 +130,16 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
+      } else if (this.adminLayerName === 'Census Track (Zählsprengel)') {
         if (['SOL1', 'SOL2'].includes(this.indicatorObject.indicator)) {
-          const par = this.indicatorObject.queryParameters.selected;
+          let par = 'grimpscore';
+          let description = 'Green roof potential area [m²]';
+          if (this.indicatorObject.indicator === 'SOL2') {
+            par = 'pveppmwhhp';
+            description = 'PV Power potential [MWh]';
+          }
           const adminId = feature.get('id');
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?adminzoneid=eq.${adminId}&select=${par},time`;
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?zsp_id=eq.${adminId}&select=roof_area,${par}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -147,15 +153,16 @@ export default {
                 DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
               ));
               json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO(entry.time));
+                newData.time.push(DateTime.fromISO('20220601'));
                 newData.measurement.push(entry[par]);
+                newData.referenceValue.push(entry.roof_area);
               });
               const ind = {
                 ...this.indicatorObject,
                 ...newData,
-                yAxis: par,
+                xAxis: 'Roof area [m²]',
               };
-              console.log(ind);
+              ind.yAxis = description;
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );
