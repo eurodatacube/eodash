@@ -4124,6 +4124,7 @@ export const globalIndicators = [
         inputData: [''],
         display: {
           dateFormatFunction: shWeeklyTimeFunction,
+          minZoom: 5,
           mapProjection: {
             name: 'EPSG:3031',
             def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
