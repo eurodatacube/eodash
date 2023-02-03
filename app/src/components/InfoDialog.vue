@@ -13,7 +13,7 @@
       <v-card>
         <v-card-text class="p-8 pt-4">
           <div
-            style="max-width: 600px;"
+            style="max-width: 900px;"
             v-html="story"
             class="md-body"
           ></div>

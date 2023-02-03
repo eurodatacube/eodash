@@ -432,7 +432,7 @@ export const indicatorsDefinition = Object.freeze({
   FCM3: {
     indicator: 'Anual forest mask',
     class: 'air',
-    story: '/data/gtif/markdown/FCM',
+    story: '/data/gtif/markdown/FCM3',
     themes: ['eo-adaptation-services'],
   },
   VTT1: {
@@ -509,7 +509,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/AQ',
   },
   AQ4: {
-    indicator: 'Social Mobility',
+    indicator: 'Human Mobility Patterns',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
@@ -960,10 +960,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Social Mobility',
+        description: 'Human Mobility Patterns',
         indicator: 'AQ4',
         lastIndicatorValue: null,
-        indicatorName: 'Social Mobility',
+        indicatorName: 'Human Mobility Patterns',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1005,6 +1005,7 @@ export const globalIndicators = [
         queryParameters: {
           sourceLayer: 'trajectories_on_edges_austria_july',
           selected: 'congestion_index',
+          dataInfo: 'AQ4',
           items: [
             {
               id: 'congestion_index',
@@ -1016,7 +1017,15 @@ export const globalIndicators = [
             },
             {
               id: 'duration_real',
-              description: 'Duration',
+              description: 'Real trip duration',
+              min: 0,
+              max: 1200,
+              colormapUsed: blgrrd,
+              // markdown: 'AQ_PM10',
+            },
+            {
+              id: 'duration',
+              description: 'Traffic-free trip duration',
               min: 0,
               max: 1200,
               colormapUsed: blgrrd,
@@ -1024,7 +1033,15 @@ export const globalIndicators = [
             },
             {
               id: 'speed_real',
-              description: 'Speed',
+              description: 'Real trip speed',
+              min: 0,
+              max: 140,
+              colormapUsed: blgrrd,
+              // markdown: 'AQ_PM10',
+            },
+            {
+              id: 'speed_real',
+              description: 'Traffic-free trip speed',
               min: 0,
               max: 140,
               colormapUsed: blgrrd,
@@ -1056,7 +1073,7 @@ export const globalIndicators = [
           id: 'trajectories_on_edges_austria_july',
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,duration_real,congestion_index,speed_real',
-          name: 'Social Mobility',
+          name: 'Human Mobility Patterns',
           strokeOnly: true,
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -1126,6 +1143,7 @@ export const globalIndicators = [
             var: {
               display: true,
               label: 'Averaged NO2',
+              dataInfo: 'AQ5',
               id: 'var',
               min: 0,
               max: 300,
@@ -1180,11 +1198,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Mobility Data',
+        description: 'Dynamic human presence',
         indicator: 'MOBI1',
         lastIndicatorValue: null,
-        indicatorName: 'Mobility Data',
-        navigationDescription: 'Mobility',
+        indicatorName: 'Dynamic human presence',
+        navigationDescription: '',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1201,10 +1219,11 @@ export const globalIndicators = [
         queryParameters: {
           sourceLayer: 'mobility',
           selected: 'users_count',
+          dataInfo: 'MOBI1',
           items: [
             {
               id: 'users_count',
-              description: 'Aggregated user count in area',
+              description: 'Population count',
               min: 0,
               max: 500,
               colormapUsed: blgrrd,
@@ -1212,7 +1231,7 @@ export const globalIndicators = [
             },
             {
               id: 'users_density',
-              description: 'User density in area',
+              description: 'Population density',
               min: 0,
               max: 200,
               colormapUsed: blgrrd,
