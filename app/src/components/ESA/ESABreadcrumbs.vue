@@ -7,8 +7,12 @@
       <span class="bold">GTIF</span>
       <span class="px-2">|</span>
       <span>Green Transition Information Factory</span>
+      <span v-if="currentDomain.length > 0">
+        <span class="px-2">&gt;</span>
+        <span class="">{{ currentBreadcrumb(currentDomain) }}</span>
+      </span>
       <span v-if="areBreadcrumbsEnabled" class="px-2 green-crumb">&gt;</span>
-      <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb }}</span>
+      <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb($route.name) }}</span>
     </div>
   </div>
 </template>
@@ -31,9 +35,13 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
-
-    currentBreadcrumb() {
-      switch (this.$route.name) {
+    ...mapState('gtif', [
+      'currentDomain',
+    ]),
+  },
+  methods: {
+    currentBreadcrumb(name) {
+      switch (name) {
         case 'gtif-energy-transition':
           return 'Energy Transition';
 
@@ -46,7 +54,7 @@ export default {
         case 'gtif-social-mobility':
           return 'Social Mobility';
 
-        case 'gtif-carbon-finance':
+        case 'gtif-carbon-accounting':
           return 'Carbon Accounting';
 
         case 'gtif-eo-adaptation-services':
