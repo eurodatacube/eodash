@@ -6,6 +6,7 @@ import dashboard from './modules/dashboard';
 import features from './modules/features';
 import indicators from './modules/indicators';
 import themes from './modules/themes';
+import gtif from './modules/gtif';
 
 const vuexLocal = new VuexPersistence({
   storage: localStorage,
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
     features,
     indicators,
     themes,
+    gtif,
   },
   state: {
     packageVersion: process.env.PACKAGE_VERSION || '0',
