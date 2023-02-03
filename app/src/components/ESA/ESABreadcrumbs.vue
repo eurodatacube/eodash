@@ -7,13 +7,13 @@
       <span class="bold">GTIF</span>
       <span class="px-2">|</span>
       <span>Green Transition Information Factory</span>
-      <span v-if="currentDomain.length > 0">
+      <span v-if="firstBreadcrumb.length > 0">
         <span class="px-2">&gt;</span>
-        <span class="">{{ currentBreadcrumb(currentDomain) }}</span>
+        <span class="">{{ firstBreadcrumb }}</span>
       </span>
-      <span v-if="currentBreadcrumb($route.name).length > 0">
-        <span v-if="areBreadcrumbsEnabled" class="px-2 green-crumb">&gt;</span>
-        <span v-if="areBreadcrumbsEnabled" class="green-crumb">{{ currentBreadcrumb($route.name) }}</span>
+      <span v-if="secondBreadcrumb.length > 0">
+        <span class="px-2 green-crumb">&gt;</span>
+        <span class="green-crumb">{{ secondBreadcrumb }}</span>
       </span>
     </div>
   </div>
@@ -40,10 +40,33 @@ export default {
     ...mapState('gtif', [
       'currentDomain',
     ]),
-  },
-  methods: {
-    currentBreadcrumb(name) {
-      switch (name) {
+    firstBreadcrumb() {
+      switch (this.currentDomain) {
+        case 'gtif-energy-transition':
+          return 'Energy Transition';
+
+        case 'gtif-mobility-transition':
+        case 'gtif-social-mobility':
+          return 'Mobility Transition';
+
+        case 'gtif-sustainable-cities':
+          return 'Sustainable Cities';
+
+        case 'gtif-carbon-accounting':
+          return 'Carbon Accounting';
+
+        case 'gtif-eo-adaptation-services':
+          return 'EO Adaptation Services';
+
+        case 'landing':
+          return '';
+
+        default:
+          return '';
+      }
+    },
+    secondBreadcrumb() {
+      switch (this.$route.name) {
         case 'gtif-energy-transition':
           return 'Energy Transition';
 
@@ -62,11 +85,11 @@ export default {
         case 'gtif-eo-adaptation-services':
           return 'EO Adaptation Services';
 
-        case 'explore':
-          return 'Explore Tool';
-
         case 'landing':
           return '';
+
+        case 'explore':
+          return 'Explore Tool';
 
         default:
           return '';
