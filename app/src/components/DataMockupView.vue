@@ -62,35 +62,35 @@ export default {
     adminFeature(feature) {
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (this.adminLayerName === 'Municipality (Gemeinde)') {
-        if (this.indicatorObject.indicator === 'AQ') {
-          // TODO:
-          // * make sure results are shown as indicator without the need to add customAreaIndicator
-          //   to the indicator definition
-          // * make sure correct admin zone is used (need to update data)
-          // * make sure correct indicator is used
+        if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
           const adminId = feature.get('id');
-          const expUrl = `${geodbEndpoint}air_quality_new_id?id_3=eq.${adminId}&select=pm10,pm25,ihr,time`;
+          const par = this.indicatorObject.queryParameters.selected;
+          const expUrl = `${geodbEndpoint}air_quality_new_id?id_3=eq.${adminId}&select=${par},time`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
+              const retrievedData = {};
               json.sort((a, b) => (
                 DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
               ));
               json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO(entry.time));
-                newData.measurement.push(entry.ihr);
-                newData.referenceValue.push(NaN);
-                newData.colorCode.push('BLUE');
+                Object.keys(entry).forEach((key) => {
+                  let value = entry[key];
+                  if (key === 'time') {
+                    value = DateTime.fromISO(value);
+                  }
+                  if (key in retrievedData) {
+                    retrievedData[key].push(value);
+                  } else {
+                    retrievedData[key] = [value];
+                  }
+                });
               });
               const ind = {
                 ...this.indicatorObject,
-                ...newData,
+                time: retrievedData.time,
+                measurement: retrievedData[par],
+                // TODO: Add possible additional fields
               };
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
@@ -99,14 +99,9 @@ export default {
             });
         }
         if (this.indicatorObject.indicator === 'MOBI1') {
-          // TODO:
-          // * make sure results are shown as indicator without the need to add customAreaIndicator
-          //   to the indicator definition
-          // * make sure correct admin zone is used (need to update data)
-          // * make sure correct indicator is used
-          // const adminId = feature.ol_uid;
+          const par = this.indicatorObject.queryParameters.selected;
           const adminId = feature.get('id');
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_mobility?adminzoneid=eq.${adminId}&select=users_count,users_density,time`;
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_mobility?adminzoneid=eq.${adminId}&select=${par},time`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -121,14 +116,46 @@ export default {
               ));
               json.forEach((entry) => {
                 newData.time.push(DateTime.fromISO(entry.time));
-                newData.measurement.push(entry.users_count);
-                newData.referenceValue.push(entry.users_density);
-                newData.colorCode.push('BLUE');
+                newData.measurement.push(entry[par]);
               });
               const ind = {
                 ...this.indicatorObject,
                 ...newData,
+                yAxis: par,
               };
+              console.log(ind);
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            });
+        }
+        if (['SOL1', 'SOL2'].includes(this.indicatorObject.indicator)) {
+          const par = this.indicatorObject.queryParameters.selected;
+          const adminId = feature.get('id');
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?adminzoneid=eq.${adminId}&select=${par},time`;
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+                colorCode: [],
+              };
+              json.sort((a, b) => (
+                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+              ));
+              json.forEach((entry) => {
+                newData.time.push(DateTime.fromISO(entry.time));
+                newData.measurement.push(entry[par]);
+              });
+              const ind = {
+                ...this.indicatorObject,
+                ...newData,
+                yAxis: par,
+              };
+              console.log(ind);
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );

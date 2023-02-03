@@ -100,7 +100,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQ', 'MOBI1',
+        'NPP', 'AQA', 'AQB', 'AQC', 'MOBI1',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -856,6 +856,38 @@ export default {
             borderWidth: 3,
             data: filteredFeatures,
             clipMap: 'items',
+          });
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1'].includes(indicatorCode)) {
+          // Rendering for fetched data
+          // TODO: there are quite some dependencies on the expected structure of the data, so
+          // it is not possible to show easily multiple parameters
+          /*
+          indicator.retrievedData.forEach((key, i) => {
+            datasets.push({
+              // fill with empty values
+              indLabels: Array(dataGroups[key].length).join('.').split('.'),
+              label: key,
+              fill: false,
+              data: indicator.retrievedData[key],
+              backgroundColor: refColors[yLength - i],
+              borderColor: refColors[yLength - i],
+              borderWidth: 2,
+            });
+          });
+          */
+          const data = indicator.time.map((date, i) => (
+            { t: date, y: indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
           });
         }
         if (datasets.length === 0) {

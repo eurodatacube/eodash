@@ -585,7 +585,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'ARI',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'ihr',
@@ -665,7 +665,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'PM10 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm10',
@@ -711,7 +711,7 @@ export const globalIndicators = [
             return color;
           },
           id: 'air_quality_new_id',
-          name: 'Coarse particulate matter (PM10)',
+          name: 'PM10',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
@@ -745,7 +745,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'PM2.5 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm25',
