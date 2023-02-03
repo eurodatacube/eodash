@@ -41,11 +41,25 @@ const geodbFeatures = {
         const { geometry, ...properties } = ftr;
         // conversion to GeoJSON because followup parts of code depend on that
         const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
-        ftrs.push({
-          type: 'Feature',
-          properties,
-          geometry: geom,
-        });
+        if (geom.type === 'MultiPoint' || geom.type === 'MultiPolygon') {
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: geom.type === 'MultiPoint' ? 'Point' : 'Polygon',
+              coordinates: coordPair,
+            };
+            ftrs.push({
+              type: 'Feature',
+              properties,
+              geometry: singleGeometry,
+            });
+          });
+        } else {
+          ftrs.push({
+            type: 'Feature',
+            properties,
+            geometry: geom,
+          });
+        }
       });
     }
     const ftrColl = {
@@ -74,7 +88,11 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Changes in Ships traffic within the Port',
     themes: ['economy'],
     story: '/eodash-data/stories/E200',
-    features: geodbFeatures,
+    // features: geodbFeatures,
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
   },
   E1: {
     indicatorSummary: 'Status of metallic ores (Archived)',
@@ -119,8 +137,8 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1b',
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
   },
   E1b2: {
@@ -272,7 +290,12 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
-    features: geodbFeatures,
+    features: {
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+    // features: geodbFeatures,
+
   },
   E13b2: {
     indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
@@ -289,9 +312,15 @@ export const indicatorsDefinition = Object.freeze({
     }],
     mapTimeLabelExtended: true,
     features: {
-      ...geodbFeatures,
-      dateFormatFunction: (date) => DateTime.fromISO(date).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
+    // features: {
+    //   ...geodbFeatures,
+    //   dateFormatFunction: (date) => DateTime.fromISO(date).set({
+    //     hour: 0, minute: 0, second: 0, millisecond: 0,
+    //   }).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    // },
     largeTimeDuration: true,
   },
   E13e: {
