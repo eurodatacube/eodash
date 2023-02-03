@@ -238,7 +238,7 @@ export default {
       loadTheme: 'themes/loadTheme',
     }),
     ...mapActions('gtif', [
-      'setCurrentDomain'
+      'setCurrentDomain',
     ]),
     switchNav() {
       this.isNavigationEnabled = !this.isNavigationEnabled;
@@ -251,7 +251,7 @@ export default {
     goHome() {
       this.setCurrentDomain('');
       this.$router.push({ name: 'landing' });
-    }
+    },
   },
   created() {
     this.$vuetify.theme.dark = false;

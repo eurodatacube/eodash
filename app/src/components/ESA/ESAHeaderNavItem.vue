@@ -57,15 +57,15 @@ export default {
   },
   methods: {
     ...mapActions('gtif', [
-      'setCurrentDomain'
+      'setCurrentDomain',
     ]),
-    visitExploreTool () {
+    visitExploreTool() {
       this.setCurrentDomain(this.domain.slug);
       this.$router.push({ name: 'explore' });
     },
-    go (domainSlug, routeName) {
+    go(domainSlug, routeName) {
       this.setCurrentDomain(domainSlug);
-      this.$router.push({ name: routeName })
+      this.$router.push({ name: routeName });
     },
   },
   computed: {

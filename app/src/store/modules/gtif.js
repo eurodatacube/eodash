@@ -14,8 +14,8 @@ const mutations = {
 };
 
 const actions = {
-  async setCurrentDomain({ commit, rootState }, slug) {
-    commit('SET_CURRENT_DOMAIN', slug)
+  async setCurrentDomain({ commit }, slug) {
+    commit('SET_CURRENT_DOMAIN', slug);
   },
 };
 

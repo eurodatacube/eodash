@@ -77,23 +77,23 @@ export default {
     };
 
     switch (this.$route.name) {
-        case 'gtif-energy-transition':
-        case 'gtif-mobility-transition':
-        case 'gtif-sustainable-cities':
-        case 'gtif-social-mobility':
-        case 'gtif-carbon-accounting':
-        case 'gtif-eo-adaptation-services':
-        case 'landing':
-          this.setCurrentDomain(this.$route.name);
-          return '';
+      case 'gtif-energy-transition':
+      case 'gtif-mobility-transition':
+      case 'gtif-sustainable-cities':
+      case 'gtif-social-mobility':
+      case 'gtif-carbon-accounting':
+      case 'gtif-eo-adaptation-services':
+      case 'landing':
+        this.setCurrentDomain(this.$route.name);
+        return '';
 
-        default:
-          return '';
-      }
+      default:
+        return '';
+    }
   },
   methods: {
     ...mapActions('gtif', [
-      'setCurrentDomain'
+      'setCurrentDomain',
     ]),
     async onLoaded() {
       try {
