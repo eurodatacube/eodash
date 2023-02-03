@@ -1,49 +1,67 @@
 <template>
-  <v-row
-    @click="$router.push(to)"
-    class="navrow py-5 fill-width"
-    :class="[isSubItem ? 'px-10' : 'px-7']"
-    :style="styleObject"
-    align="center"
+  <v-col>
+    <v-row
+      class="navrow py-3 pl-4 fill-width"
+      :style="styleObject"
+      style="pointer-events: none;"
+      align="center"
     >
-    <div class="w-12">
-      <div
-        class="w-3 h-3 rounded-full dot mr-4"
-      ></div>
+      <div class="dot" />
+      <div class="name">{{ domain.name }}</div>
+    </v-row>
+
+    <div class="submenu">
+      <v-row
+        @click="visitExploreTool"
+        :style="styleObject"
+        class="navrow py-3 mt-3 pl-8 fill-width"
+        align="center"
+      >
+        <div class="dot blueish" />
+        <div class="name">Explore Tools</div>
+      </v-row>
+
+      <v-row
+        class="navrow py-3 pl-8 fill-width"
+        :style="styleObject"
+        align="center"
+        v-for="narrative in domain.narratives"
+        :key="narrative.routeName"
+      >
+        <div class="dot blueish" />
+        <div class="name">{{ narrative.name }}</div>
+      </v-row>
     </div>
-    <div class="name">{{ title }}</div>
-  </v-row>
+  </v-col>
 </template>
 
 <script>
 // Utilities
 import {
   mapState,
+  mapActions,
 } from 'vuex';
 
 export default {
   name: 'GtifHeaderNavItem',
   props: {
-    title: {
-      type: String,
+    domain: {
+      type: Object,
       required: true,
-    },
-    color: {
-      type: String,
-      default: '#FFF4',
-    },
-    to: {
-      type: [String, Object],
-      required: true,
-    },
-    isSubItem: {
-      type: Boolean,
-      default: false,
     },
     isHoverable: {
       type: Boolean,
       default: true,
     },
+  },
+  methods: {
+    ...mapActions('gtif', [
+      'setCurrentDomain'
+    ]),
+    visitExploreTool () {
+      this.setCurrentDomain(this.domain.slug);
+      this.$router.push({ name: 'explore' });
+    }
   },
   computed: {
     ...mapState('config', [
@@ -88,8 +106,11 @@ export default {
     width: 12px;
     height: 12px;
     border-radius: 6px;
+    margin-right: 16px;
     background: var(--color-icon);
     transition: background-color 0.1s linear;
+
+    &.blueish { background: #00ae9d; }
   }
 
   .name {

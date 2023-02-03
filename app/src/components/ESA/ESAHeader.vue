@@ -41,7 +41,7 @@
       <div
         v-show="isSearchEnabled"
         class="search"
-        :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
+        :style="{width: $vuetify.breakpoint.mdAndUp ? '320px' : '100vw'}"
       >
         <div
           class="d-flex fill-width fill-height"
@@ -66,8 +66,8 @@
       <Transition name="fade">
         <div
           v-show="isNavigationEnabled"
-          :style="{width: $vuetify.breakpoint.mdAndUp ? '300px' : '100vw'}"
-          class="esa-menu"
+          :style="{width: $vuetify.breakpoint.mdAndUp ? '320px' : '100vw', 'overflow-y': 'scroll'}"
+          class="esa-menu pb-8"
         >
           <v-col>
             <svg
@@ -93,7 +93,7 @@
               6.23-16.34 0-22.58L207.6 256z"></path>
             </svg>
             <v-col class="pt-12 pa-0">
-              <v-row @click="$router.push('/')" class="navrow py-5 px-7 fill-width" align="center">
+              <v-row @click="$router.push('/')" class="navrow py-3 px-7 mb-3 fill-width" align="center">
                 <div class="d-flex justify-start align-center w-12">
                   <svg
                   class="mr-4 home-icon svg-inline--fa fa-home-lg-alt fa-w-18"
@@ -121,58 +121,9 @@
                 <div class="name">Home</div>
               </v-row>
 
-              <ESAHeaderNavItem
-                title="Explore Tools"
-                to="/explore"
-              />
-
-              <ESAHeaderNavItem
-                title="Domains"
-                :is-hoverable="false"
-                to="/explore"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(360 80% 60%)"
-                title="Energy Transition"
-                :is-sub-item="true"
-                :to="{name: 'gtif-energy-transition'}"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(210 80% 60%)"
-                title="Mobility Transition"
-                :is-sub-item="true"
-                :to="{name: 'gtif-mobility-transition'}"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(210 80% 60%)"
-                title="Social Mobility"
-                :is-sub-item="true"
-                :to="{name: 'gtif-social-mobility'}"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(90 80% 60%)"
-                title="Sustainable Cities"
-                :is-sub-item="true"
-                :to="{name: 'gtif-sustainable-cities'}"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(20 80% 60%)"
-                title="Carbon Accounting"
-                :is-sub-item="true"
-                :to="{name: 'gtif-carbon-accounting'}"
-              />
-
-              <ESAHeaderNavItem
-                color="hsl(320 80% 60%)"
-                title="EO Adaptation Services"
-                :is-sub-item="true"
-                :to="{name: 'gtif-eo-adaptation-services'}"
-              />
+              <div v-for="domain in domains" :key="domain.slug">
+                <ESAHeaderNavItem color="hsl(320 80% 60%)" :domain="domain" />
+              </div>
 
             </v-col>
           </v-col>
@@ -224,6 +175,62 @@ export default {
       isSearchEnabled: false,
       searchInput: '',
       dialog: true,
+      domains: [
+        {
+          name: 'Energy Transition',
+          slug: 'gtif-energy-transition',
+          narratives: [
+            {
+              name: 'Energy Transition Narrative',
+              routeName: 'gtif-energy-transition',
+            },
+          ],
+        },
+        {
+          name: 'Mobility Transition',
+          slug: 'gtif-mobility-transition',
+          narratives: [
+            {
+              name: 'Mobility Transition Narrative',
+              routeName: 'gtif-mobility-transition',
+            },
+            {
+              name: 'Social Mobility Narrative',
+              routeName: 'gtif-social-mobility',
+            },
+          ],
+        },
+        {
+          name: 'Sustainable Cities',
+          slug: 'gtif-sustainable-cities',
+          narratives: [
+            {
+              name: 'Sustainable Cities Narrative',
+              routeName: 'gtif-sustainable-cities',
+            },
+          ],
+        },
+        {
+          name: 'Carbon Accounting',
+          slug: 'gtif-carbon-acounting',
+          narratives: [
+            {
+              name: 'Carbon Accounting Narrative',
+              routeName: 'gtif-carbon-accounting',
+            },
+          ],
+        },
+        {
+          name: 'EO Adaptation Services',
+          slug: 'gtif-eo-adaptation-services',
+          narratives: [
+            {
+              name: 'EO Adaptation Services Narrative',
+              routeName: 'gtif-eo-adaptation-services',
+            },
+          ],
+        },
+      ],
     };
   },
   methods: {
