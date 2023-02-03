@@ -22,6 +22,7 @@
       </v-row>
 
       <v-row
+        @click="go(domain.slug, narrative.routeName)"
         class="navrow py-3 pl-8 fill-width"
         :style="styleObject"
         align="center"
@@ -61,7 +62,11 @@ export default {
     visitExploreTool () {
       this.setCurrentDomain(this.domain.slug);
       this.$router.push({ name: 'explore' });
-    }
+    },
+    go (domainSlug, routeName) {
+      this.setCurrentDomain(domainSlug);
+      this.$router.push({ name: routeName })
+    },
   },
   computed: {
     ...mapState('config', [

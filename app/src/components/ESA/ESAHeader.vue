@@ -93,7 +93,7 @@
               6.23-16.34 0-22.58L207.6 256z"></path>
             </svg>
             <v-col class="pt-12 pa-0">
-              <v-row @click="$router.push('/')" class="navrow py-3 px-7 mb-3 fill-width" align="center">
+              <v-row @click="goHome" class="navrow py-3 px-7 mb-3 fill-width" align="center">
                 <div class="d-flex justify-start align-center w-12">
                   <svg
                   class="mr-4 home-icon svg-inline--fa fa-home-lg-alt fa-w-18"
@@ -237,7 +237,9 @@ export default {
     ...mapActions({
       loadTheme: 'themes/loadTheme',
     }),
-
+    ...mapActions('gtif', [
+      'setCurrentDomain'
+    ]),
     switchNav() {
       this.isNavigationEnabled = !this.isNavigationEnabled;
     },
@@ -245,6 +247,11 @@ export default {
     switchSearch() {
       this.isSearchEnabled = !this.isSearchEnabled;
     },
+
+    goHome() {
+      this.setCurrentDomain('');
+      this.$router.push({ name: 'landing' });
+    }
   },
   created() {
     this.$vuetify.theme.dark = false;
