@@ -1979,7 +1979,7 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        aoiID: 'World',
+        aoiID: 'Arctic',
         time: getDailyDates('1978-11-01', '2021-12-31'),
         inputData: [''],
         showGlobe: true,
