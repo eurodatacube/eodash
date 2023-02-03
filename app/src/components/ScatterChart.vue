@@ -94,12 +94,12 @@ export default {
         },
         pan: {
           enabled: true,
-          mode: 'x',
+          mode: 'xy',
           onPanComplete: this.extentChangedEvent,
         },
         zoom: {
           enabled: true,
-          mode: 'x',
+          mode: 'xy',
           onZoomComplete: this.extentChangedEvent,
         },
         annotation: {

@@ -63,7 +63,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetLCZoom"
+      @click="resetSPZoom"
     >
       Reset Zoom
     </v-btn>
@@ -988,6 +988,10 @@ export default {
     resetBCZoom() {
       this.extentChanged(false);
       this.$refs.barChart._data._chart.resetZoom();
+    },
+    resetSPZoom() {
+      this.extentChanged(false);
+      this.$refs.scatterChart._data._chart.resetZoom();
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
