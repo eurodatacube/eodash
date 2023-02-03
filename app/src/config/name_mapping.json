@@ -204,10 +204,6 @@
     "N3": {
       "title": "CHL-a concentration (point)"
     },
-    "N3a2": {
-      "title": "CHL-a concentration (map, 300m)",
-      "description": "Multi-sensor product"
-    },
     "N4a": {
       "title": "Changes in land fill sites"
     },
@@ -453,9 +449,12 @@
      "title": "Crops Condition",
      "description": "Global crops conditions based on multiple EO data sources"
     },
-    "N12": {
-     "title": "Sea Ice Concentration (GCOM-W)"
+    "World-N12": {
+     "title": "Sea Ice Concentration Arctic (GCOM-W)"
     },
+    "Antarctic-N12": {
+      "title": "Sea Ice Concentration Antarctic (GCOM-W)"
+     },
     "NPP-NPP": {
      "title": "Ocean Primary Productivity (BICEP)"
     },

@@ -34,8 +34,19 @@
         "up": null,
         "direction": null
       },
-      "id": "World-N12",
-      "title": "Global, Sea Ice Concentration (GCOM-W)"
+      "id": "Arctic-N12",
+      "title": "Global, Sea Ice Concentration Arctic (GCOM-W)"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "position": null,
+        "right": null,
+        "up": null,
+        "direction": null
+      },
+      "id": "Antarctic-N12",
+      "title": "Global, Sea Ice Concentration Antarctic (GCOM-W)"
     },
     {
       "width": 2,
@@ -67,10 +78,10 @@
     },
     {
       "width": 4,
-      "text": "## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=W9-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=W8-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=W10-SITI)\n&nbsp;   \n[Sea Ice Concentration from GCOM-W](https://www.eodashboard.org/explore?poi=World-N12)",
+      "text": "## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=W9-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=W8-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=W10-SITI)\n&nbsp;   \n[Sea Ice Concentration Antarctic from GCOM-W](https://www.eodashboard.org/explore?poi=Antarctic-N12)\n&nbsp;   \n[Sea Ice Concentration Arctic from GCOM-W](https://www.eodashboard.org/explore?poi=Arctic-N12)",
       "id": " -1652890242032",
       "title": " ",
-      "__generatedText__": "<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=W9-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W8-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W10-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-N12\">Sea Ice Concentration from GCOM-W</a></p>\n"
+      "__generatedText__": "<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=W9-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W8-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W10-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=Antarctic-N12\">Sea Ice Concentration Antarctic from GCOM-W</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=Arctic-N12\">Sea Ice Concentration Arctic from GCOM-W</a></p>\n"
     }
   ],
   "title": "Cryo - JAXA 1"

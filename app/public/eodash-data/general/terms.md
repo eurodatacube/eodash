@@ -31,9 +31,9 @@ Copernicus Sentinel Data and Service Information** available at
 Mission or under the ESA Earthnet Third Party Missions scheme**, is governed by terms and
 conditions available as follows:
 
-(i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20126/0/CSCDA_ESA_User_Licence_last_uploaded_2020_02_10.pdf/b879907e-bd00-688e-bf42-bf27a00d70cb?t=1581335391752)
+(i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20123/121286/CSCDA_ESA_User_Licence_latest.pdf/)
 
-(ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/pi/esa?type=file&amp;table=aotarget&amp;cmd=image&amp;alias=TPMterms)
+(ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/eogateway/documents/20142/1560778/ESA-Third-Party-Missions-Terms-and-Conditions.pdf)
 
 3.4 The above mentioned terms and conditions, together with any conditions referred to therein,
 are collectively referred to as the “Terms and Conditions”. By accessing or using this Website,
@@ -127,9 +127,9 @@ Copernicus Sentinel Data and Service Information** available at
 Mission or under the ESA Earthnet Third Party Missions scheme** is governed by terms and
 conditions available as follows:
 
-(i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20126/0/CSCDA_ESA_User_Licence_last_uploaded_2020_02_10.pdf/b879907e-bd00-688e-bf42-bf27a00d70cb?t=1581335391752)
+(i) for data contributed under the [Copernicus Contributing Mission scheme](https://spacedata.copernicus.eu/documents/20123/121286/CSCDA_ESA_User_Licence_latest.pdf/)
 
-(ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/pi/esa?type=file&amp;table=aotarget&amp;cmd=image&amp;alias=TPMterms)
+(ii) for data contributed under the [ESA Earthnet Third Party Missions scheme](https://earth.esa.int/eogateway/documents/20142/1560778/ESA-Third-Party-Missions-Terms-and-Conditions.pdf)
 
 8.3 **The content (i.e. information, images, documents and materials) published on, or accessible
 via, the Website, other than the ones referred to in Article 8.2 and 8.3 above**, are intended for
