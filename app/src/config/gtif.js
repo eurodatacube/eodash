@@ -258,6 +258,18 @@ export const defaultLayersDisplay = {
   projection: 'EPSG:3857',
 };
 
+const energyTransitionDefaults = {
+  baseLayers: [
+    ...baseLayersLeftMap,
+    baseLayers.bodenwertigkeitskarte_agri,
+    baseLayers.bodenwertigkeitskarte_grassland,
+  ],
+  overlayLayers: [
+    { ...overlayLayers.powerOpenInfrastructure, visible: true },
+    { ...overlayLayers.eoxOverlay, visible: true },
+  ],
+};
+
 export const indicatorsDefinition = Object.freeze({
   BM1: {
     indicator: 'Biomass',
@@ -272,54 +284,39 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/BM2',
   },
   REP1: {
+    ...energyTransitionDefaults,
     indicator: 'Wind Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP2: {
+    ...energyTransitionDefaults,
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP2',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP3: {
+    ...energyTransitionDefaults,
     indicator: 'Nowcasting',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP4: {
+    ...energyTransitionDefaults,
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP5: {
+    ...energyTransitionDefaults,
     indicator: 'Micro Hydropower',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   MOBI1: {
     indicator: 'mobility',
