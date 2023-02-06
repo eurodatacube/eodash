@@ -11,6 +11,7 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
+      style="margin-top: 48px"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
@@ -42,7 +43,7 @@
       <div
         v-show="showLayerMenu"
         class="fill-height"
-        style="width: 250px; pointer-events: all"
+        style="width: 250px; pointer-events: all; margin-top: 48px;"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
