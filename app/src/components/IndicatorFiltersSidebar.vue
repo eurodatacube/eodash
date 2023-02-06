@@ -43,7 +43,7 @@
       <div
         v-show="showLayerMenu"
         class="fill-height"
-        style="width: 250px; pointer-events: all; margin-top: 48px;"
+        style="width: 250px; pointer-events: all;"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
