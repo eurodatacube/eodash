@@ -215,7 +215,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
     } else if (config.selectedStyleLayer) {
       layerSelector = [config.selectedStyleLayer];
     }
-    applyStyle(tilelayer, config.styleFile, layerSelector);
+    applyStyle(tilelayer, config.styleFile, layerSelector)
+      .then(() => {
+        if (config.attribution) {
+          // allow to override attribution from mapbox style referenced source
+          tilelayer.getSource().setAttributions(config.attribution);
+        }
+      });
     layers.push(tilelayer);
   }
   if (config.protocol === 'WMTSCapabilities') {

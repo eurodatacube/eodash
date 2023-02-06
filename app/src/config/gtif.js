@@ -500,10 +500,19 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.geolandbasemap],
   },
   AQ3: {
-    indicator: 'High resolution Data',
+    indicator: 'Innsbruck hot-spot',
     class: 'air',
     themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
+    story: '/eodash-data/stories/AQF',
+    // TODO: This is a quick fix, we should consider impleemnting nice loading of data from geodb
+    geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
+    geoDBParameters: 'date,no2_ec_station_ppbv',
+    disableCSV: true,
+    overlayLayers: [],
+    baseLayers: [{
+      ...baseLayers.geolandbasemap,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   AQ4: {
     indicator: 'Human Mobility Patterns',
@@ -560,6 +569,37 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: false,
+        id: 9987,
+        aoi: null,
+        aoiID: 'AT1',
+        country: 'indicatorall',
+        city: 'AT',
+        siteName: 'global',
+        description: 'Innsbruck hot-spot',
+        indicator: 'AQ3',
+        yAxis: 'Surface NO2 concentrations',
+        lastIndicatorValue: null,
+        indicatorName: 'Innsbruck hot-spot',
+        navigationDescription: 'Surface NO2 concentrations measured at Innsbruck Atmospheric Observatory (IAO)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {}, // 11.385 47.265, 11.386 47.264
+            geometry: wkt.read('POLYGON((11.385 47.265, 11.385 47.264, 11.386 47.264, 11.386 47.265, 11.385 47.265))').toJson(),
+          }],
+        },
+        time: [],
+        inputData: [''],
+        // display: {
+        // },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

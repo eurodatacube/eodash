@@ -268,13 +268,10 @@ export default {
     ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
-      if (this.indicatorHasMapData(this.indicator)) {
-        // use their own base layers from config, if available
-        return this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].baseLayers
-          || this.baseConfig.baseLayersLeftMap;
-      }
-      return this.baseConfig.baseLayersLeftMap;
+      // use their own base layers from config, if available
+      return this.baseConfig.indicatorsDefinition[this.$store
+        .state.indicators.selectedIndicator?.indicator]?.baseLayers
+        || this.baseConfig.baseLayersLeftMap;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -295,13 +292,10 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      let configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (this.indicatorHasMapData(this.indicator)) {
-        // use their own overlay layers from config, if available
-        configs = this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].overlayLayers
-          || this.baseConfig.overlayLayersLeftMap;
-      }
+      // use their own overlay layers from config, if available
+      const configs = this.baseConfig.indicatorsDefinition[this.$store
+        .state.indicators.selectedIndicator?.indicator]?.overlayLayers
+        || this.baseConfig.overlayLayersLeftMap;
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
