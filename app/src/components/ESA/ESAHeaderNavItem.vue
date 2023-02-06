@@ -122,6 +122,8 @@ export default {
     font-size: 18px;
     transition: color 0.1s linear;
     color: var(--color-text);
+    display: flex;
+    flex: 1 1;
   }
 }
 </style>
