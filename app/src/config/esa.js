@@ -32,7 +32,7 @@ export const dataEndpoints = [
 ];
 
 const geodbFeatures = {
-  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_stage_{indicator}_geojson_test?time=eq.{featuresTime}&indicator_code=eq.{indicator}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
   callbackFunction: (responseJson) => { // geom from wkb to geojson features
     const ftrs = [];
@@ -88,11 +88,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Changes in Ships traffic within the Port',
     themes: ['economy'],
     story: '/eodash-data/stories/E200',
-    // features: geodbFeatures,
-    features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-    },
+    features: geodbFeatures,
   },
   E1: {
     indicatorSummary: 'Status of metallic ores (Archived)',
@@ -290,12 +286,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
     story: '/eodash-data/stories/E13b_PLES',
-    features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-    },
-    // features: geodbFeatures,
-
+    features: geodbFeatures,
   },
   E13b2: {
     indicatorSummary: 'Throughput at principal hub airports Aerospacelab archived',
@@ -2075,11 +2066,6 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          features: {
-            allowedParameters: [],
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
           baseLayers: [{
             ...baseLayers.cloudless,
             visible: true,
@@ -2119,11 +2105,6 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          features: {
-            allowedParameters: [],
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-          },
           baseLayers: [{
             ...baseLayers.cloudless,
             visible: true,

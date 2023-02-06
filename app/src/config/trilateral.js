@@ -1,6 +1,8 @@
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
+import WKB from 'ol/format/WKB';
+import GeoJSON from 'ol/format/GeoJSON';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction } from '@/utils';
@@ -16,6 +18,8 @@ import {
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
+const wkb = new WKB();
+const geojsonFormat = new GeoJSON();
 
 export const dataPath = './data/internal/';
 export const dataEndpoints = [
@@ -24,6 +28,45 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
+
+const geodbFeatures = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
+  callbackFunction: (responseJson) => { // geom from wkb to geojson features
+    const ftrs = [];
+    if (responseJson) {
+      responseJson.forEach((ftr) => {
+        const { geometry, ...properties } = ftr;
+        // conversion to GeoJSON because followup parts of code depend on that
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
+        if (geom.type === 'MultiPoint' || geom.type === 'MultiPolygon') {
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: geom.type === 'MultiPoint' ? 'Point' : 'Polygon',
+              coordinates: coordPair,
+            };
+            ftrs.push({
+              type: 'Feature',
+              properties,
+              geometry: singleGeometry,
+            });
+          });
+        } else {
+          ftrs.push({
+            type: 'Feature',
+            properties,
+            geometry: geom,
+          });
+        }
+      });
+    }
+    const ftrColl = {
+      type: 'FeatureCollection',
+      features: ftrs,
+    };
+    return ftrColl;
+  },
+};
 
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
@@ -51,9 +94,8 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E13c',
     themes: ['economy'],
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/E200/E200_{aoiID}_{featuresTime}.geojson',
-      allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     baseLayers: [{
       ...baseLayers.cloudless,
@@ -201,8 +243,9 @@ export const indicatorsDefinition = Object.freeze({
   E13b: {
     indicatorSummary: 'Throughput at principal hub airports',
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      // valid for default (geodb) features, NASA have 'input_data' 'airports' override
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13b_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     story: '/data/trilateral/E13b',
     themes: ['economy'],
@@ -626,9 +669,7 @@ export const layerNameMapping = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-      allowedParameters: { // can also be a simple list
-        verified: {},
-      },
+      allowedParameters: ['verified'],
     },
   },
   airports: {
