@@ -198,23 +198,28 @@ const nutsStyle = {
 export const administrativeLayers = [{
   ...nutsStyle,
   name: 'NUTS L0',
+  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  minZoom: 0,
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L1',
+  id: 'nuts_1',
   url: 'data/gtif/data/AT_NUTS_L1.geojson',
   minZoom: 7.5,
   maxZoom: 8.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L2',
+  id: 'nuts_2',
   url: 'data/gtif/data/AT_NUTS_L2.geojson',
   minZoom: 8.5,
   maxZoom: 9.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L3',
+  id: 'nuts_3',
   url: 'data/gtif/data/AT_NUTS_L3.geojson',
   minZoom: 9.5,
   maxZoom: 10.5,
@@ -222,6 +227,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'District (Bezirk)',
+  id: 'bezirk',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
@@ -230,6 +236,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Municipality (Gemeinde)',
+  id: 'gemeinde',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
@@ -237,9 +244,11 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
+  id: 'zahlsprengel',
   name: 'Census Track (Zählsprengel)',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
+  maxZoom: 20,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
@@ -327,6 +336,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -1248,7 +1260,6 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
-          adminLayersCustomIndicator: true,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
