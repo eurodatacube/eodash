@@ -179,6 +179,29 @@
         </div>
       </Transition>
     </nav>
+  <v-dialog
+    v-if="$route.name === 'explore'"
+    v-model="dialog"
+    :width="$vuetify.breakpoint.xsOnly ? '100%' : '30%'"
+    transition="dialog-bottom-transition"
+    style="z-index: 9999;">
+    <div
+      class="pa-7 pb-0"
+      :style="{ background: $vuetify.theme.currentTheme.background }"
+      :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
+    >
+      <div v-html="welcomeText"/>
+      <div class="text-center pb-4">
+        <v-btn
+          @click="dialog=false"
+          color="primary"
+          x-large
+        >
+          Explore!
+        </v-btn>
+      </div>
+    </div>
+  </v-dialog>
   </v-app-bar>
 </template>
 
@@ -200,6 +223,7 @@ export default {
       isNavigationEnabled: false,
       isSearchEnabled: false,
       searchInput: '',
+      dialog: true,
     };
   },
   methods: {
@@ -225,6 +249,9 @@ export default {
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
     }),
+    welcomeText() {
+      return this.$marked(require(`../../../public${this.appConfig.aboutText}.md`).default);
+    },
   },
 };
 </script>

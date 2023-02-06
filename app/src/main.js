@@ -204,8 +204,8 @@ const renderVue = async () => {
       ] : []),
     { path: '/dashboard', component: DashboardCustom },
     { path: '/story', component: DashboardCustom },
-    { path: '/privacy', component: Privacy },
-    { path: '/terms_and_conditions', component: Terms },
+    { path: '/privacy', name: 'privacy', component: Privacy },
+    { path: '/terms_and_conditions', name: 'terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
     { path: '/iframe', component: EmbedIframe },
     ...(store.state.config.appConfig && store.state.config.appConfig.enableScrollyTelling

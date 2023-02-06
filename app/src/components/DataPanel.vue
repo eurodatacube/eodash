@@ -348,7 +348,7 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-import ScatterPlot from '@/components/ScatterPlot.vue';
+// import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 
@@ -365,7 +365,7 @@ export default {
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
-    ScatterPlot,
+    // ScatterPlot,
     DataMockupView,
   },
   data: () => ({

@@ -336,6 +336,7 @@ export const indicatorsDefinition = Object.freeze({
       ...baseLayers.bmapgelaende,
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
   },
   SOL2: {
     indicator: 'sus cities',
@@ -345,6 +346,7 @@ export const indicatorsDefinition = Object.freeze({
       ...baseLayers.bmapgelaende,
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
   },
   SOL3: {
     indicator: 'urban trees',
@@ -430,7 +432,7 @@ export const indicatorsDefinition = Object.freeze({
   FCM3: {
     indicator: 'Anual forest mask',
     class: 'air',
-    story: '/data/gtif/markdown/FCM',
+    story: '/data/gtif/markdown/FCM3',
     themes: ['eo-adaptation-services'],
   },
   VTT1: {
@@ -507,7 +509,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/AQ',
   },
   AQ4: {
-    indicator: 'Social Mobility',
+    indicator: 'Human Mobility Patterns',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
@@ -585,7 +587,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'ARI',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'ihr',
@@ -665,7 +667,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'PM10 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm10',
@@ -711,7 +713,7 @@ export const globalIndicators = [
             return color;
           },
           id: 'air_quality_new_id',
-          name: 'Coarse particulate matter (PM10)',
+          name: 'PM10',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
@@ -745,7 +747,7 @@ export const globalIndicators = [
           return val;
         }),
         inputData: [''],
-        yAxis: '',
+        yAxis: 'PM2.5 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm25',
@@ -958,10 +960,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Social Mobility',
+        description: 'Human Mobility Patterns',
         indicator: 'AQ4',
         lastIndicatorValue: null,
-        indicatorName: 'Social Mobility',
+        indicatorName: 'Human Mobility Patterns',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1003,6 +1005,7 @@ export const globalIndicators = [
         queryParameters: {
           sourceLayer: 'trajectories_on_edges_austria_july',
           selected: 'congestion_index',
+          dataInfo: 'AQ4',
           items: [
             {
               id: 'congestion_index',
@@ -1014,7 +1017,15 @@ export const globalIndicators = [
             },
             {
               id: 'duration_real',
-              description: 'Duration',
+              description: 'Real trip duration',
+              min: 0,
+              max: 1200,
+              colormapUsed: blgrrd,
+              // markdown: 'AQ_PM10',
+            },
+            {
+              id: 'duration',
+              description: 'Traffic-free trip duration',
               min: 0,
               max: 1200,
               colormapUsed: blgrrd,
@@ -1022,7 +1033,15 @@ export const globalIndicators = [
             },
             {
               id: 'speed_real',
-              description: 'Speed',
+              description: 'Real trip speed',
+              min: 0,
+              max: 140,
+              colormapUsed: blgrrd,
+              // markdown: 'AQ_PM10',
+            },
+            {
+              id: 'speed_real',
+              description: 'Traffic-free trip speed',
               min: 0,
               max: 140,
               colormapUsed: blgrrd,
@@ -1054,7 +1073,7 @@ export const globalIndicators = [
           id: 'trajectories_on_edges_austria_july',
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,duration_real,congestion_index,speed_real',
-          name: 'Social Mobility',
+          name: 'Human Mobility Patterns',
           strokeOnly: true,
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -1124,6 +1143,7 @@ export const globalIndicators = [
             var: {
               display: true,
               label: 'Averaged NO2',
+              dataInfo: 'AQ5',
               id: 'var',
               min: 0,
               max: 300,
@@ -1178,11 +1198,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Mobility Data',
+        description: 'Dynamic human presence',
         indicator: 'MOBI1',
         lastIndicatorValue: null,
-        indicatorName: 'Mobility Data',
-        navigationDescription: 'Mobility',
+        indicatorName: 'Dynamic human presence',
+        navigationDescription: '',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1199,10 +1219,11 @@ export const globalIndicators = [
         queryParameters: {
           sourceLayer: 'mobility',
           selected: 'users_count',
+          dataInfo: 'MOBI1',
           items: [
             {
               id: 'users_count',
-              description: 'Aggregated user count in area',
+              description: 'Population count',
               min: 0,
               max: 500,
               colormapUsed: blgrrd,
@@ -1210,7 +1231,7 @@ export const globalIndicators = [
             },
             {
               id: 'users_density',
-              description: 'User density in area',
+              description: 'Population density',
               min: 0,
               max: 200,
               colormapUsed: blgrrd,
@@ -2233,6 +2254,14 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
+            rugedeness: {
+              display: false,
+              label: 'Filter for rugedeness index',
+              id: 'rugedeness',
+              min: 0,
+              max: 1,
+              range: [0, 1],
+            },
             protectedZones: {
               display: true,
               type: 'boolfilter',
@@ -2261,6 +2290,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
           ],
           style: {
             variables: {
@@ -2275,6 +2305,8 @@ export const globalIndicators = [
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
+              rugedenessMin: 0,
+              rugedenessMax: 0.78,
             },
             color: [
               'case',
@@ -2286,6 +2318,7 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
+                ['between', ['band', 7], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],

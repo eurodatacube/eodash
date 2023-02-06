@@ -15,16 +15,28 @@
                 cols="7"
                 dense x-small
                 style="font-size:16px; color: #000000;">
+                <span>
                 {{filters[key].label}}
                 <info-dialog :infoSource="filters[key].dataInfo"/>
+                </span>
               </v-col>
               <v-col
                 v-else
-                cols="6"
+                cols="12"
                 dense x-small
                 style="color: #7a7a7a;">
+                <span>
                 {{filters[key].label}}
                 <info-dialog :infoSource="filters[key].dataInfo"/>
+                <v-btn
+                  v-if="!filters[key].header"
+                  icon x-small color="primary"
+                  @click="removeFilter(key)"
+                  style="margin-bottom:4px;"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                </span>
               </v-col>
               <v-col
                 v-if="filters[key].changeablaDataset"
@@ -44,23 +56,6 @@
                   single-line
                   @change="changeSources"
                 ></v-select>
-              </v-col>
-              <v-col
-                v-else
-                cols="6"
-                dense
-                x-small
-                >
-                <v-btn
-                  v-if="!filters[key].header"
-                  icon
-                  x-small
-                  color="primary"
-                  @click="removeFilter(key)"
-                  style="margin-bottom:4px;"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
               </v-col>
             </v-row>
           </span>
