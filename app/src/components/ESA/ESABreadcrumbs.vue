@@ -1,7 +1,6 @@
 <template>
   <div
     class="gtif-breadcrumbs"
-    :style="{'margin-left': $route.name === 'explore' ? '88px' : '0'}"
   >
     <div class="fill-width fill-height d-flex justify-between align-center pl-6">
       <router-link :to="{name: 'landing'}">
