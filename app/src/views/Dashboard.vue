@@ -172,7 +172,7 @@
     </div>
 
     <v-content
-      :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
+      :style="`padding-top: ${appConfig.id === 'gtif' ? 112 : 68}px; height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
