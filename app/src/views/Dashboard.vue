@@ -19,7 +19,7 @@
       temporary
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
-      :style="`margin-top: ${$vuetify.application.top}px;
+      :style="`margin-top: ${appConfig.id === 'gtif' ? 112 : 68}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
