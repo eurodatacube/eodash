@@ -122,7 +122,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'MOBI1',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -143,6 +143,7 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1'],
     };
   },
 
@@ -882,7 +883,7 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -1253,6 +1254,11 @@ export default {
 
       if (this.multiYearComparison.includes(indicatorCode)) {
         // Special time range for same year comparisons
+        customSettings.sameYearComparison = true;
+      }
+
+      if (this.disableMobilityLabels.includes(indicatorCode)) {
+        // TODO: we should maybe have a specific way of disabling those labels
         customSettings.sameYearComparison = true;
       }
 
