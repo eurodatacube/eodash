@@ -221,7 +221,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           // allow to override attribution from mapbox style referenced source
           tilelayer.getSource().setAttributions(config.attribution);
         }
-    });
+      });
     layers.push(tilelayer);
   }
   if (config.protocol === 'WMTSCapabilities') {
