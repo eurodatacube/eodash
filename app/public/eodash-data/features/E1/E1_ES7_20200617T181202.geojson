@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/17 18:12:00", "MMSI": 255806133, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/17 17:57:02", "LENGTH": 108.21, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.6885, 43.5795 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/17 18:12:00", "MMSI": 304612000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/16 22:52:23", "LENGTH": 116.08, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.688423, 43.57952 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/17 18:12:00", "MMSI": 305693000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/17 17:56:43", "LENGTH": 87.85, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.697731, 43.56421 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/17 18:12:00", "MMSI": 636016805, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Container Ship", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/17 17:56:24", "LENGTH": 208.11, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.688385, 43.55725 ] } }
-]
-}
