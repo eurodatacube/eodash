@@ -508,6 +508,7 @@ export const indicatorsDefinition = Object.freeze({
     geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
     geoDBParameters: 'date,no2_ec_station_ppbv',
     disableCSV: true,
+    overlayLayers: [],
     baseLayers: [{
       ...baseLayers.geolandbasemap,
       visible: true,
@@ -594,8 +595,8 @@ export const globalIndicators = [
         },
         time: [],
         inputData: [''],
-        display: {
-        },
+        // display: {
+        // },
       },
     },
   },
