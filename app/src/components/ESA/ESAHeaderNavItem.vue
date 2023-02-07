@@ -17,7 +17,7 @@
         class="navrow py-3 mt-3 pl-8 fill-width"
         align="center"
       >
-        <div class="dot blueish" />
+        <v-icon class="mr-3" color="#00ae9d">mdi-map-search-outline</v-icon>
         <div class="name">Explore Tools</div>
       </v-row>
 
@@ -29,7 +29,7 @@
         v-for="narrative in domain.narratives"
         :key="narrative.routeName"
       >
-        <div class="dot blueish" />
+        <v-icon class="mr-3" color="#00ae9d">mdi-book-open-page-variant-outline</v-icon>
         <div class="name">{{ narrative.name }}</div>
       </v-row>
     </div>
@@ -117,6 +117,8 @@ export default {
 
     &.blueish { background: #00ae9d; }
   }
+
+  .blueish { color: #00ae9d; }
 
   .name {
     font-size: 18px;
