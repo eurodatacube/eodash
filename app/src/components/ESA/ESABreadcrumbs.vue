@@ -5,8 +5,10 @@
     <div class="fill-width fill-height d-flex justify-between align-center pl-6">
       <router-link :to="{name: 'landing'}">
         <span class="bold">GTIF</span>
-        <span class="px-2">|</span>
-        <span>Green Transition Information Factory</span>
+        <template v-if="$vuetify.breakpoint.mdAndUp">
+          <span class="px-2">|</span>
+          <span>Green Transition Information Factory</span>
+        </template>
       </router-link>
 
       <span v-if="firstBreadcrumb.length > 0">
