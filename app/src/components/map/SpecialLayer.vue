@@ -34,6 +34,7 @@ export default {
     mapId: String,
     mergedConfig: Object,
     layerName: String,
+    resetProjectionOnDestroy: Boolean,
     /**
      * @property {*} options.time
      * @property {boolean} options.indicator
@@ -114,12 +115,14 @@ export default {
     const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
     map.removeLayer(layer);
     map.un('pointermove', this.pointerMoveHandler);
-    // reset to default map projection if different from it
-    const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
-    const projection = getProjectionOl(defaultProjection);
-    if (map.getView().getProjection().getCode() !== projection?.getCode()) {
-      const view = getViewInstance(this.mapId, projection);
-      map.setView(view);
+    if (this.resetProjectionOnDestroy) {
+      // reset to default map projection if different from it
+      const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
+      const projection = getProjectionOl(defaultProjection);
+      if (map.getView().getProjection().getCode() !== projection?.getCode()) {
+        const view = getViewInstance(this.mapId, projection);
+        map.setView(view);
+      }
     }
   },
 };

@@ -404,6 +404,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         minZoom: config.minZoom,
         crossOrigin: 'anonymous',
         transition: 0,
+        projection: getProjectionOl(config.projection),
         tileUrlFunction: (tileCoord) => {
           const url = replaceUrlPlaceholders(config.url, config, options);
           return createFromTemplate(url, tileCoord);
@@ -426,6 +427,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         maxZoom: config.maxZoom,
         minZoom: config.minZoom,
         crossOrigin: 'anonymous',
+        projection: getProjectionOl(config.projection),
         transition: 0,
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
