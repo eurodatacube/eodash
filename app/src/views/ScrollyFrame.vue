@@ -23,6 +23,7 @@
         "
         src="./scrollytelling/index.html"
         frameborder="0"
+        scrolling="no"
       ></iframe>
       </v-container>
       <!--<global-footer />-->
