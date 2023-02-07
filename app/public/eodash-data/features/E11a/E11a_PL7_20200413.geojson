@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "Warsaw_empty_parking",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 21.044743746551738, 52.243002365842472 ], [ 21.044743746551738, 52.245827042057002 ], [ 21.046899420504932, 52.245827042057002 ], [ 21.046899420504932, 52.243002365842472 ], [ 21.044743746551738, 52.243002365842472 ] ] ] } }
-]
-}
