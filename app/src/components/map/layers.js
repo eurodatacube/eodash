@@ -209,7 +209,19 @@ export function createLayerFromConfig(config, map, _options = {}) {
   if (config.protocol === 'vectortile') {
     const tilelayer = new VectorTileLayer();
     tilelayer.set('id', config.id);
-    applyStyle(tilelayer, config.styleFile, [config.selectedStyleLayer]);
+    let layerSelector = '';
+    if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
+      layerSelector = config.selectedStyleLayer;
+    } else if (config.selectedStyleLayer) {
+      layerSelector = [config.selectedStyleLayer];
+    }
+    applyStyle(tilelayer, config.styleFile, layerSelector)
+      .then(() => {
+        if (config.attribution) {
+          // allow to override attribution from mapbox style referenced source
+          tilelayer.getSource().setAttributions(config.attribution);
+        }
+      });
     layers.push(tilelayer);
   }
   if (config.protocol === 'WMTSCapabilities') {

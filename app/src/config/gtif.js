@@ -258,6 +258,18 @@ export const defaultLayersDisplay = {
   projection: 'EPSG:3857',
 };
 
+const energyTransitionDefaults = {
+  baseLayers: [
+    ...baseLayersLeftMap,
+    baseLayers.bodenwertigkeitskarte_agri,
+    baseLayers.bodenwertigkeitskarte_grassland,
+  ],
+  overlayLayers: [
+    { ...overlayLayers.powerOpenInfrastructure, visible: true },
+    { ...overlayLayers.eoxOverlay, visible: true },
+  ],
+};
+
 export const indicatorsDefinition = Object.freeze({
   BM1: {
     indicator: 'Biomass',
@@ -272,54 +284,39 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/BM2',
   },
   REP1: {
+    ...energyTransitionDefaults,
     indicator: 'Wind Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP2: {
+    ...energyTransitionDefaults,
     indicator: 'Solar Energy',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP2',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP3: {
+    ...energyTransitionDefaults,
     indicator: 'Nowcasting',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP4: {
+    ...energyTransitionDefaults,
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   REP5: {
+    ...energyTransitionDefaults,
     indicator: 'Micro Hydropower',
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-    overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true },
-      { ...overlayLayers.eoxOverlay, visible: true },
-    ],
   },
   MOBI1: {
     indicator: 'mobility',
@@ -503,10 +500,19 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.geolandbasemap],
   },
   AQ3: {
-    indicator: 'High resolution Data',
+    indicator: 'Innsbruck hot-spot',
     class: 'air',
     themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
+    story: '/eodash-data/stories/AQF',
+    // TODO: This is a quick fix, we should consider impleemnting nice loading of data from geodb
+    geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
+    geoDBParameters: 'date,no2_ec_station_ppbv',
+    disableCSV: true,
+    overlayLayers: [],
+    baseLayers: [{
+      ...baseLayers.geolandbasemap,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
   },
   AQ4: {
     indicator: 'Human Mobility Patterns',
@@ -563,6 +569,37 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: false,
+        id: 9987,
+        aoi: null,
+        aoiID: 'AT1',
+        country: 'indicatorall',
+        city: 'AT',
+        siteName: 'global',
+        description: 'Innsbruck hot-spot',
+        indicator: 'AQ3',
+        yAxis: 'Surface NO2 concentrations',
+        lastIndicatorValue: null,
+        indicatorName: 'Innsbruck hot-spot',
+        navigationDescription: 'Surface NO2 concentrations measured at Innsbruck Atmospheric Observatory (IAO)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {}, // 11.385 47.265, 11.386 47.264
+            geometry: wkt.read('POLYGON((11.385 47.265, 11.385 47.264, 11.386 47.264, 11.386 47.265, 11.385 47.265))').toJson(),
+          }],
+        },
+        time: [],
+        inputData: [''],
+        // display: {
+        // },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -2240,9 +2277,10 @@ export const globalIndicators = [
               label: 'Distance to settlements [m]',
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
+              type: 'slider',
               min: 0,
               max: 3000,
-              range: [0, 3000],
+              value: 0,
             },
             energyGridDistance: {
               display: false,
@@ -2257,9 +2295,10 @@ export const globalIndicators = [
               display: false,
               label: 'Filter for rugedeness index',
               id: 'rugedeness',
+              type: 'slider',
               min: 0,
               max: 1,
-              range: [0, 1],
+              value: 0,
             },
             protectedZones: {
               display: true,
@@ -2299,13 +2338,11 @@ export const globalIndicators = [
               elevationMax: 4000,
               slopeMin: 0,
               slopeMax: 50,
-              settlementDistanceMin: 0,
-              settlementDistanceMax: 3000,
+              settlementDistance: 0,
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
-              rugedenessMin: 0,
-              rugedenessMax: 0.78,
+              rugedeness: 0,
             },
             color: [
               'case',
@@ -2315,9 +2352,9 @@ export const globalIndicators = [
                 ['between', ['band', 1], ['var', 'powerDensityMin'], ['var', 'powerDensityMax']],
                 ['between', ['band', 2], ['var', 'elevationMin'], ['var', 'elevationMax']],
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
-                ['between', ['band', 4], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
+                ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['between', ['band', 7], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+                ['>', ['band', 7], ['var', 'rugedeness']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
