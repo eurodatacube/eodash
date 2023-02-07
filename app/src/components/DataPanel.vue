@@ -85,8 +85,7 @@
             />
           </v-card>
           <v-row
-            v-if="!mergedConfigsData[0].adminLayersCustomIndicator
-              && (customAreaIndicator && !customAreaIndicator.isEmpty)
+            v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
               && (!showMap || !customAreaIndicator.isEmpty)"
             class="mt-6"
           >
@@ -120,7 +119,7 @@
             </v-col>
           </v-row>
           <v-row
-            v-else-if="!mergedConfigsData[0].adminLayersCustomIndicator"
+            v-else-if="showCustomAreaCard"
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col

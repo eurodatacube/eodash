@@ -349,6 +349,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -359,6 +362,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -489,6 +495,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQB: {
     indicator: 'Fine particulate matter (PM2.5)',
@@ -496,6 +505,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQC: {
     indicator: 'Coarse particulate matter (PM10)',
@@ -503,6 +515,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQ2: {
     indicator: 'Innsbruck hot-spot',
