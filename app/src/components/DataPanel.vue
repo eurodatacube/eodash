@@ -17,17 +17,17 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
+        <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
+          <AdminLayersInfoBar class="pb-6"
+          :mergedConfigsData="mergedConfigsData[0]"/>
+        </template>
           <v-card
-            v-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
+            v-if="showCustomAreaCard"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
             ref="mapPanel"
           >
-            <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
-              <AdminLayersInfoBar
-              :mergedConfigsData="mergedConfigsData[0]"/>
-            </template>
             <v-card-title
               v-if="customAreaIndicator"
               style="padding-top: 10px; padding-bottom: 0px;">
@@ -85,7 +85,8 @@
             />
           </v-card>
           <v-row
-            v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
+            v-if="!mergedConfigsData[0].adminLayersCustomIndicator
+              && (customAreaIndicator && !customAreaIndicator.isEmpty)
               && (!showMap || !customAreaIndicator.isEmpty)"
             class="mt-6"
           >
@@ -119,7 +120,7 @@
             </v-col>
           </v-row>
           <v-row
-            v-else
+            v-else-if="!mergedConfigsData[0].adminLayersCustomIndicator"
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col
@@ -435,6 +436,12 @@ export default {
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    showCustomAreaCard() {
+      if (this.mergedConfigsData[0].adminLayersCustomIndicator && !this.customAreaIndicator) {
+        return false;
+      }
+      return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';

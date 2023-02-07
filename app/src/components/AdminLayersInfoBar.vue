@@ -1,22 +1,19 @@
 <template>
   <v-sheet
   v-if="allowedAdminLevels">
-      <v-header>
-        Administrative Zones Time Series
-      </v-header>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-row
+    <h3>
+      Administrative Zones Time Series
+    </h3>
+      <v-row
           align="center"
-          v-bind="attrs"
-          v-on="on"
         >
-          <v-col cols="6">
-            <v-subheader>
-            Administrative zones shown on the map</v-subheader>
+          <v-col cols="6" class="pb-0 pt-5">
+            <h4>
+            Administrative zones shown on the map:</h4>
           </v-col>
-        <v-col cols="5">
+        <v-col cols="6" class="pa-0">
             <v-select
+            class="pb-0 pt-5"
             label="Select admin zone"
             persistent-hint
             return-object
@@ -31,34 +28,31 @@
             ></v-select>
         </v-col>
       </v-row>
-    </template>
-    <span>
-        Zoom map to the administrative zone level by selecting item from the list.
-    </span>
-  </v-tooltip>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12"
+      class="pb-0 pt-0">
+      <p>Zoom map to the administrative zone level by selecting item from the list.</p>
       <p>
-        <v-icon>
-            mdi-exclamation
-        </v-icon>
-        Click on administrative unit on the map to fetch
-        a custom chart with time series for this area.
-      </p>
+        Select administrative unit on the map to fetch
+        time series for this area.</p>
       <p>
-        This dataset supports following administrative
-        units for this functionality:
+        This dataset supports selecting following administrative
+        units:
+        <span v-for="item in allowedAdminLevels" :key="item.id">
+            <small>{{item.name}} </small>
+        </span>
       </p>
-      <v-list>
-        <v-list-item
-          v-for="item in allowedAdminLevels"
-          :key="item.id"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      </v-col>
+    </v-row>
+    <v-row
+    align="center">
+      <v-col cols="6" class="pb-0 pt-0">
+        <h4 class="pa-0">
+          Currently selected administrative unit:
+        </h4>
+      </v-col>
+      <v-col cols="6" class="pb-0 pt-0" v-if="selectedAdminFeature">
+        <span>{{selectedAdminLayer}} / {{selectedAdminFeature}}</span>
       </v-col>
     </v-row>
   </v-sheet>
@@ -75,11 +69,29 @@ export default {
   },
   data: () => ({
     currentAdminLevelModel: null,
+    selectedAdminLayer: null,
+    selectedAdminFeature: null,
   }),
   mounted() {
     const { map } = getMapInstance('centerMap');
     map.on('moveend', this.updateSelectedLayer);
     this.updateSelectedLayer();
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/SET_ADMIN_BORDER_LAYER_SELECTED') {
+        const name = mutation.payload ? mutation.payload.get('name') : null;
+        this.selectedAdminLayer = name;
+      } else if (mutation.type === 'features/SET_ADMIN_BORDER_FEATURE_SELECTED') {
+        let name = null;
+        if (mutation.payload) {
+          const allowedNameProps = ['NUTS_NAME', 'name', 'id'];
+          const p = allowedNameProps.find((prop) => mutation.payload.get(prop));
+          if (p) {
+            name = mutation.payload.get(p);
+          }
+        }
+        this.selectedAdminFeature = name;
+      }
+    });
   },
   computed: {
     ...mapState('config', ['baseConfig']),
