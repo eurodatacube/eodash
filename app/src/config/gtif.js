@@ -200,7 +200,7 @@ export const administrativeLayers = [{
   name: 'NUTS L0',
   id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
-  minZoom: 0,
+  minZoom: 4,
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
@@ -248,7 +248,7 @@ export const administrativeLayers = [{
   name: 'Census Track (Zählsprengel)',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
-  maxZoom: 20,
+  maxZoom: 18,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 

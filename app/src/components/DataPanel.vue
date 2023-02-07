@@ -25,7 +25,8 @@
             ref="mapPanel"
           >
             <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
-              <AdminLayersInfoBar/>
+              <AdminLayersInfoBar
+              :mergedConfigsData="mergedConfigsData[0]"/>
             </template>
             <v-card-title
               v-if="customAreaIndicator"
