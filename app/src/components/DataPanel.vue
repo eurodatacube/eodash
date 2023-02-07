@@ -101,7 +101,7 @@
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-if="customAreaIndicator"
+                  v-if="customAreaIndicator && appConfig.id !== 'gtif'"
                   :indicatorObject="customAreaIndicator">
                 </add-to-dashboard-button>
               </div>
