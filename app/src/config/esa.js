@@ -303,7 +303,7 @@ export const indicatorsDefinition = Object.freeze({
     }],
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
     // features: {
