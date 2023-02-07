@@ -15,6 +15,7 @@
             || (showMap && mergedConfigsData[0].customAreaIndicator)
             || appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          class="pa-0"
           :style="`height: auto`"
         >
         <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
