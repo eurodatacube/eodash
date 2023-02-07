@@ -11,7 +11,7 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
-      style="margin-top: 48px"
+      style="top: 112px"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
