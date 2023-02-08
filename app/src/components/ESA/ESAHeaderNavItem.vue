@@ -133,4 +133,8 @@ export default {
     flex: 1 1;
   }
 }
+
+.submenu .navrow .name {
+  font-size: 15px;
+}
 </style>
