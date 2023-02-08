@@ -2405,7 +2405,8 @@ export const globalIndicators = [
           filters: {
             solar: {
               display: true,
-              label: 'Solar Irradiance (kWh/m²/yr)',
+              dataInfo: 'GlobalHorizontalIrradiation',
+              label: 'Global Horizontal Irradiation (kWh/m²/yr)',
               id: 'solar',
               header: true,
               min: 300,
