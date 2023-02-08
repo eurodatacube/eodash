@@ -181,7 +181,7 @@ export default {
           slug: 'gtif-energy-transition',
           narratives: [
             {
-              name: 'Energy Transition Narrative',
+              name: 'Energy present and future in EU and Austria',
               routeName: 'gtif-energy-transition',
             },
           ],
@@ -191,11 +191,11 @@ export default {
           slug: 'gtif-mobility-transition',
           narratives: [
             {
-              name: 'Mobility Transition Narrative',
+              name: 'From NOx emissions to tropospheric NO2 columns',
               routeName: 'gtif-mobility-transition',
             },
             {
-              name: 'Social Mobility Narrative',
+              name: 'Daily mobility in Austria',
               routeName: 'gtif-social-mobility',
             },
           ],
@@ -205,7 +205,7 @@ export default {
           slug: 'gtif-sustainable-cities',
           narratives: [
             {
-              name: 'Sustainable Cities Narrative',
+              name: 'Cities\' role in climate neutrality',
               routeName: 'gtif-sustainable-cities',
             },
           ],
@@ -215,7 +215,7 @@ export default {
           slug: 'gtif-carbon-accounting',
           narratives: [
             {
-              name: 'Carbon Accounting Narrative',
+              name: 'The role of forests in the GHG emissions balance',
               routeName: 'gtif-carbon-accounting',
             },
           ],
@@ -225,7 +225,7 @@ export default {
           slug: 'gtif-eo-adaptation-services',
           narratives: [
             {
-              name: 'EO Adaptation Services Narrative',
+              name: 'Adapting forest management practices in a changing climate',
               routeName: 'gtif-eo-adaptation-services',
             },
           ],
