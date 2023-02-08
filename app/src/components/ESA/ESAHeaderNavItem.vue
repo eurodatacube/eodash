@@ -7,7 +7,7 @@
       align="center"
     >
       <div class="dot" />
-      <div class="name">{{ domain.name }}</div>
+      <div class="name text-uppercase">{{ domain.name }}</div>
     </v-row>
 
     <div class="submenu">
@@ -15,6 +15,7 @@
         @click="visitExploreTool"
         :style="styleObject"
         class="navrow py-3 mt-3 pl-8 fill-width"
+        :class="{ selected: $route.name === 'explore' && domain.slug === currentDomain }"
         align="center"
       >
         <v-icon class="mr-3" color="#00ae9d">mdi-map-search-outline</v-icon>
@@ -24,6 +25,7 @@
       <v-row
         @click="go(domain.slug, narrative.routeName)"
         class="navrow py-3 pl-8 fill-width"
+        :class="{ selected: $route.name === narrative.routeName }"
         :style="styleObject"
         align="center"
         v-for="narrative in domain.narratives"
@@ -71,6 +73,9 @@ export default {
   computed: {
     ...mapState('config', [
       'appConfig',
+    ]),
+    ...mapState('gtif', [
+      'currentDomain',
     ]),
     styleObject() {
       return {

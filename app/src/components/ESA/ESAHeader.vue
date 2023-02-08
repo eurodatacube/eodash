@@ -94,7 +94,11 @@
                 6.23-16.34 0-22.58L207.6 256z"></path>
               </svg>
               <v-col class="pt-12 pa-0">
-                <v-row @click="goHome" class="navrow py-3 px-7 mb-3 fill-width" align="center">
+                <v-row
+                  @click="goHome"
+                  class="navrow py-3 px-7 mb-3 fill-width" align="center"
+                  :class="{ selected: $route.name === 'landing' }"
+                >
                   <div class="d-flex justify-start align-center w-12">
                     <svg
                     class="mr-4 home-icon svg-inline--fa fa-home-lg-alt fa-w-18"
@@ -119,7 +123,7 @@
                     0 0 0-1.22-22.59z"></path></svg>
                   </div>
 
-                  <div class="name">Home</div>
+                  <div class="name text-uppercase">Home</div>
                 </v-row>
 
                 <div v-for="domain in domains" :key="domain.slug">
@@ -402,6 +406,12 @@ export default {
       font-size: 18px;
       transition: color 0.1s linear;
       color: lighten(#8197A6, 10%);
+    }
+  }
+  ::v-deep .selected {
+    background: #00ae9d;
+    svg, i, .name{
+      color: #fff !important;
     }
   }
 }
