@@ -1332,6 +1332,7 @@ export const globalIndicators = [
             }
             return color;
           },
+          opacity: 0.7,
           id: 'mobility',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',

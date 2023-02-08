@@ -1,6 +1,7 @@
 <template>
   <v-sheet
-  v-if="allowedAdminLevels">
+  v-if="allowedAdminLevels"
+  class="pa-2">
     <h3>
       Administrative Zones Time Series
     </h3>
