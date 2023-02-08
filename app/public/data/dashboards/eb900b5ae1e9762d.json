@@ -20,15 +20,15 @@
       "__generatedText__": "<h3>Air Quality (AQ) on a Larger Scale for Alpine Areas</h3>\n<p><strong>Air quality monitoring</strong> in the <strong>urban</strong> context is mainly performed relying on measurements provided by a <strong>fixed station</strong> network. Despite the accuracy of these measurements, their effective weight in terms of prevention and mitigation of <strong>pollution episodes</strong> can be considered scarce.</p>\n<p><strong>Satellite Earth Observation</strong> data together with <strong>atmospheric models</strong> are used to retrieve pollutants concentrations with unprecedented spatial resolution and coverage. This allows to detect air pollution <strong>hotspots</strong> not only over urban areas, but also in scenarios that are not covered by the traditional monitoring networks.</p>\n<p>The <strong>Alpine region</strong> comprise major urban agglomeration, settlements, industry and traffic concentrated in a system of valleys characterized by <strong>limited ventilation</strong> and specific <strong>meteorological features</strong> that can lead to unexpected levels of pollutants concentration also over semi-remote areas.</p>\n<p>Daily availability of <strong>pollutants concentrations</strong> [ug/m3] such as <strong>NO2</strong>, PM2.5 and PM10 at the <strong>resolution</strong> of <strong>municipalities</strong> represent a <strong>step forward</strong> for air quality monitoring allowing policy makers to take measures in order to prevent pollution episodes that is critical for <strong>citizen health</strong> (<a href=\"https://www.wdc.dlr.de/AlpAirEO/\" target=\"_blank\">https://www.wdc.dlr.de/AlpAirEO/</a>).</p>\n<p>This GTIF scenario merges data from satellites, ground-based and models and provides on a daily basis essential parameters for AQ.</p>\n"
     },
     {
-      "width": 3,
       "mapInfo": {
-        "zoom": 7.735778679215764,
         "compareLayerTime": null,
+        "zoom": 7.735778679215764,
         "center": {
           "lng": 15.279166666666667,
           "lat": 47.34292762353772
         }
       },
+      "width": 3,
       "id": "AT-AQ@1665586854738",
       "title": "testing"
     },
@@ -83,10 +83,10 @@
     },
     {
       "width": 3,
-      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4<--VID-->",
       "id": "Video-1665512488731",
+      "text": "<--AUTOPLAY-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4<--AUTOPLAY-->",
       "title": "Video",
-      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4</a>&lt;--VID--&gt;</p>\n"
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
     },
     {
       "width": 1,
