@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    domains: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     ...mapState('config', [
@@ -46,59 +50,20 @@ export default {
       'currentDomain',
     ]),
     firstBreadcrumb() {
-      switch (this.currentDomain) {
-        case 'gtif-energy-transition':
-          return 'Energy Transition';
-
-        case 'gtif-mobility-transition':
-        case 'gtif-social-mobility':
-          return 'Mobility Transition';
-
-        case 'gtif-sustainable-cities':
-          return 'Sustainable Cities';
-
-        case 'gtif-carbon-accounting':
-          return 'Carbon Accounting';
-
-        case 'gtif-eo-adaptation-services':
-          return 'EO Adaptation Services';
-
-        case 'landing':
-          return '';
-
-        default:
-          return '';
+      const foundDomain = this.domains.find((d) => d.slug === this.currentDomain);
+      if (!foundDomain) {
+        return '';
       }
+      return foundDomain.name;
     },
     secondBreadcrumb() {
-      switch (this.$route.name) {
-        case 'gtif-energy-transition':
-          return 'Energy Transition';
-
-        case 'gtif-mobility-transition':
-          return 'Mobility Transition';
-
-        case 'gtif-sustainable-cities':
-          return 'Sustainable Cities';
-
-        case 'gtif-social-mobility':
-          return 'Social Mobility';
-
-        case 'gtif-carbon-accounting':
-          return 'Carbon Accounting';
-
-        case 'gtif-eo-adaptation-services':
-          return 'EO Adaptation Services';
-
-        case 'landing':
-          return '';
-
-        case 'explore':
-          return 'Explore Tool';
-
-        default:
-          return '';
+      if (!this.firstBreadcrumb) {
+        return '';
       }
+      const foundRoute = this.domains
+        .find((d) => d.name === this.firstBreadcrumb).narratives
+        .find((n) => n.routeName === this.$route.name);
+      return foundRoute ? foundRoute.name : '';
     },
   },
 };

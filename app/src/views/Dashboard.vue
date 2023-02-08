@@ -6,9 +6,6 @@
     <global-header
       ref="globalHeader"
     />
-    <ESABreadcrumbs
-      v-if="appConfig.enableESALayout"
-    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -211,7 +208,6 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -234,7 +230,6 @@ export default {
     GlobalFooter,
     IndicatorFilters,
     IndicatorFiltersSidebar,
-    ESABreadcrumbs,
   },
   props: {
     source: String,

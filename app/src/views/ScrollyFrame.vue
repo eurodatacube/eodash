@@ -8,10 +8,6 @@
     >
       <global-header />
 
-      <ESABreadcrumbs
-        :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
-      />
-
       <v-container>
         <iframe
         id="resizableIframe"
@@ -38,14 +34,12 @@ import {
 
 import axios from 'axios';
 import GlobalHeader from '@/components/GlobalHeader.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import storiesConfig from '../config/stories.json';
 import dashboardToScrolly from '../helpers/dashboardToScrolly';
 
 export default {
   components: {
     GlobalHeader,
-    ESABreadcrumbs,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -55,7 +49,6 @@ export default {
   },
   data() {
     return {
-      areBreadcrumbsEnabled: false,
       footer: null,
       bottomNav: null,
       header: null,
@@ -66,13 +59,10 @@ export default {
     ...mapState('config', ['appConfig']),
   },
   async mounted() {
-    this.setBreadcrumbsEnabled();
-
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
       if (e.data.type === 'nav') {
         this.$router.push({ name: e.data.dest });
-        this.setBreadcrumbsEnabled();
       }
     };
 
@@ -172,21 +162,6 @@ export default {
         data: jsonComponent,
         props,
       }, '*');
-    },
-    setBreadcrumbsEnabled() {
-      switch (this.$route.name) {
-        case 'gtif-energy-transition':
-        case 'gtif-mobility-transition':
-        case 'gtif-sustainable-transition':
-        case 'gtif-carbon-finance':
-        case 'gtif-eo-adaptation-services':
-        case 'gtif-social-mobility':
-          this.areBreadcrumbsEnabled = true;
-          break;
-
-        default:
-          this.areBreadcrumbsEnabled = false;
-      }
     },
 
     getDashboardID() {
