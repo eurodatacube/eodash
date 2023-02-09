@@ -3,7 +3,7 @@
     v-if="mapDataReady"
     ref="map"
     class="fill-height"
-    :class="$vuetify.breakpoint.xsOnly ? 'mt-16' : ''"
+    :class="$vuetify.breakpoint.xsOnly ? '' : ''"
     :disableAutoFocus="false"
     :panelActive="panelActive"
   />
