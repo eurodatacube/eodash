@@ -1,4 +1,4 @@
-@import url("./opensans.css");
+@import url("https://eox.at/fonts/opensans/opensans.css");
 @font-face {
   font-family: "NotesESABold";
   src: url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesabol-webfont.ttf") format("truetype");
@@ -47,12 +47,6 @@ figure .v-image, figure video {
   font-size: 1.9rem;
 }
 
-.expansible-text-section > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 article {
   margin-left: 0 !important;
   margin-right: 0 !important;
@@ -61,6 +55,13 @@ article {
 .v-application p {
   margin-bottom: 0 !important;
   max-width: 800px;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 900px) {
+  .v-application p {
+    padding: 2rem 0;
+  }
 }
 
 .expansible-text-section, .expansible-text-section p {
@@ -69,10 +70,6 @@ article {
 
 .full-text-block {
   padding: 0 !important;
-}
-
-h1, h2 {
-  color: #00ae9d !important;
 }
 
 h1, h2, h3, h4 {
