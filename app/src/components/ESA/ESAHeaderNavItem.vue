@@ -14,7 +14,7 @@
       <v-row
         @click="visitExploreTool"
         :style="styleObject"
-        class="navrow py-3 mt-3 pl-8 fill-width"
+        class="navrow py-1 mt-3 pl-8 fill-width"
         :class="{ selected: $route.name === 'explore' && domain.slug === currentDomain }"
         align="center"
       >
