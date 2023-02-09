@@ -85,6 +85,27 @@
         "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
         "image": "./data/story-images/SeaIce.jpeg",
         "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
+      },
+      "thwaites-intro": {
+        "originalDashboardId": "e7bc4529a0c4a581",
+        "title": "Thwaites and Pine Island Glaciers Research Collaboration",
+        "subtitle": "Researchers and scientists across the globe are paying daily attention to two glaciers located in West Antarctica",
+        "image": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica.jpg",
+        "imagePlaceholder": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica_thumbnail.jpg"
+      },
+      "nasa-thwaites": {
+        "originalDashboardId": "6ee2de3fc9ef5f56",
+        "title": "Pine Island and Thwaites Glacier",
+        "subtitle": "Two of the main pathways for ice from the West Antarctic Ice Sheet entering the Amundsen Sea",
+        "image": "./data/story-images/NASA-thwaites-cover.jpeg",
+        "imagePlaceholder": "./data/story-images/NASA-thwaites-cover.jpeg"
+      },
+      "esa-thwaites": {
+        "originalDashboardId": "225b5c8b3b310cb2",
+        "title": "Rapid Retreat of the Thwaites Glacier",
+        "subtitle": "The observations of the glacier are crucial for understanding and adapting to the impacts of global sea level rise",
+        "image": "./data/story-images/ESA-S1-thwaites.jpeg",
+        "imagePlaceholder": "./data/story-images/ESA-S1-thwaites_thumbnail.jpeg"
       }
     },
     "economy": {
