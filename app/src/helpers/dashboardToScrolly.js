@@ -13,8 +13,16 @@ function translateMedia(item) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
   } else if (i.mapInfo) {
+    var id = '';
+
+    if (i.id.includes("@")) {
+      id = i.id.split("@")[0];
+    } else {
+      id = i.id;
+    }
+
     i.iframe = `http://gtif.eox.world:8812/iframe?poi=${
-      i.id
+      id
     }&z=${
       i.mapInfo.zoom
     }&lat=${
