@@ -88,8 +88,8 @@
       },
       "thwaites-intro": {
         "originalDashboardId": "e7bc4529a0c4a581",
-        "title": "Thwaites and Pine Island Glaciers Research Collaboration",
-        "subtitle": "Researchers and scientists across the globe are paying daily attention to two glaciers located in West Antarctica",
+        "title": "Collaboration on Glaciers and Ice Sheets Research",
+        "subtitle": "Researchers and scientists across the globe are paying daily attention to ice formations in Antarctica and Greenland",
         "image": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica.jpg",
         "imagePlaceholder": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica_thumbnail.jpg"
       },
@@ -106,6 +106,13 @@
         "subtitle": "The observations of the glacier are crucial for understanding and adapting to the impacts of global sea level rise",
         "image": "./data/story-images/ESA-S1-thwaites.jpeg",
         "imagePlaceholder": "./data/story-images/ESA-S1-thwaites_thumbnail.jpeg"
+      },
+      "jaxa-greenland-melting-and-darkening": {
+        "originalDashboardId": "115fd10667c1a68c",
+        "title": "Recent melting and darkening of the Greenland Ice Sheet",
+        "subtitle": "Read more about how JAXA's JASMES Greenland Monitor provides observations of Greenland Ice Sheet",
+        "image": "./data/story-images/jaxa-greenland-cover.jpeg",
+        "imagePlaceholder": "./data/story-images/jaxa-greenland-cover-placeholder.jpeg"
       }
     },
     "economy": {
