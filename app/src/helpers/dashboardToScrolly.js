@@ -1,6 +1,8 @@
 function translateMedia(item) {
   const i = item;
 
+  console.log(i)
+
   if (i.text && i.text.includes('<--IMG-->')) {
     i.image = i.text.replaceAll('<--IMG-->', '');
   } else if (i.text && i.text.includes('<--SCRUB-->')) {
@@ -10,6 +12,16 @@ function translateMedia(item) {
   } else if (i.text && i.text.includes('<--AUTOPLAY-->')) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
+  } else if (i.mapInfo) {
+    i.iframe = `http://gtif.eox.world:8812/iframe?poi=${
+      i.id
+    }&z=${
+      i.mapInfo.zoom
+    }&lat=${
+      i.mapInfo.center.lat
+    }&lng=${
+      i.mapInfo.center.lng
+    }&embedMap=true`;
   }
 }
 
