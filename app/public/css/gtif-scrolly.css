@@ -76,6 +76,11 @@ h1, h2, h3, h4 {
   font-family: "NotesESABold", sans-serif;
 }
 
+h1 {
+  color: #00ae9d !important;
+  text-align: center;
+}
+
 .brand-esa h1,
 .brand-esa h2,
 .brand-esa h3,
