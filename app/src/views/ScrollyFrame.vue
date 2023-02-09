@@ -19,6 +19,7 @@
         "
         src="./scrollytelling/index.html"
         frameborder="0"
+        scrolling="no"
       ></iframe>
       </v-container>
       <!--<global-footer />-->
@@ -115,7 +116,7 @@ export default {
 
         console.log(process.env.BASE_URL);
 
-        this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+        // this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
         this.setComponentHook('footer', this.footer);
         this.setComponentHook('header', this.header, { routeName: this.$route.name });
       } catch (error) {
