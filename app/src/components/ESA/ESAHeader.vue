@@ -138,7 +138,7 @@
     <v-dialog
       v-if="$route.name === 'explore'"
       v-model="dialog"
-      :width="$vuetify.breakpoint.xsOnly ? '100%' : '30%'"
+      :width="$vuetify.breakpoint.xsOnly ? 'calc(100vw - 40px)' : '40%'"
       transition="dialog-bottom-transition"
       style="z-index: 9999;">
       <div
@@ -146,14 +146,23 @@
         :style="{ background: $vuetify.theme.currentTheme.background }"
         :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
       >
-        <div v-html="welcomeText"/>
+        <div v-if="$vuetify.breakpoint.mdAndUp" v-html="welcomeText"/>
+        <div v-else>
+          <h2>Mobile devices are not yet fully supported</h2>
+          <p>
+            Here may be dragons! You are currently viewing a beta release of the Green
+            Transition Information Factory, and as such, the mobile version of this application
+            is probably not fully fleshed out yet. Things may be broken. Proceed at your own risk.
+          </p>
+        </div>
         <div class="text-center pb-4">
           <v-btn
             @click="dialog=false"
             color="primary"
             x-large
           >
-            Explore!
+            <span v-if="$vuetify.breakpoint.smAndDown">Open Anyway</span>
+            <span v-else>Explore!</span>
           </v-btn>
         </div>
       </div>
