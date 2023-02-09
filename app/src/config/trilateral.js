@@ -2027,6 +2027,14 @@ export const globalIndicators = [
         display: [{
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
           combinedLayers: [
             {
               baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',

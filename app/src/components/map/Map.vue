@@ -27,6 +27,8 @@
       :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
       :resetProjectionOnDestroy='true'
+      @updatecenter="handleSpecialLayerCenter"
+      @updatezoom="handleSpecialLayerZoom"
     />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
@@ -130,8 +132,8 @@
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
-          :zoom="currentZoom"
-          :center="currentCenter"
+          :zoom.sync="currentZoom"
+          :center.sync="currentCenter"
           :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
@@ -642,6 +644,14 @@ export default {
     }
   },
   methods: {
+    handleSpecialLayerZoom(e) {
+      this.$emit('update:zoom', e);
+      this.currentZoom = e;
+    },
+    handleSpecialLayerCenter(e) {
+      this.$emit('update:center', e);
+      this.currentCenter = e;
+    },
     indicatorHasMapData(indicatorObject) {
       return indicatorHasMapData(indicatorObject);
     },
