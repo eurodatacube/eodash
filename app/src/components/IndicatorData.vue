@@ -122,7 +122,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -130,7 +130,7 @@ export default {
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E12c', 'E12d',
+        'E12c', 'E12d', 'E1b',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
@@ -139,7 +139,7 @@ export default {
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7',
+        'E10a2', 'E10a6', 'E10a7', 'PRCTS', 'SMCTS', 'VITS',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
@@ -506,7 +506,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2'].includes(indicatorCode)) {
+            && !['E10c', 'N2', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -667,7 +667,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(

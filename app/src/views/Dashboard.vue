@@ -6,9 +6,6 @@
     <global-header
       ref="globalHeader"
     />
-    <ESABreadcrumbs
-      v-if="appConfig.enableESALayout"
-    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -19,7 +16,7 @@
       temporary
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
-      :style="`margin-top: ${$vuetify.application.top}px;
+      :style="`margin-top: ${appConfig.id === 'gtif' ? 112 : 68}px;
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
@@ -172,8 +169,9 @@
     </div>
 
     <v-content
-      :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
+      :style="`padding-top: ${appConfig.id === 'gtif' ? 112 : 68}px; height: 100vh;
+      height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top +
+      $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"
@@ -210,7 +208,6 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -233,7 +230,6 @@ export default {
     GlobalFooter,
     IndicatorFilters,
     IndicatorFiltersSidebar,
-    ESABreadcrumbs,
   },
   props: {
     source: String,

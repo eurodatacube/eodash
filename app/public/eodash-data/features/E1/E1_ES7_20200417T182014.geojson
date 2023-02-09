@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/04\/17 18:20:00", "MMSI": 215045000, "TYPE_SUMMARY": "Tanker", "TYPE_NAME": "Oil\/Chemical Tanker", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/04\/17 18:07:00", "LENGTH": 176.9, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.69046, 43.5551 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/04\/17 18:20:00", "MMSI": 224655000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Cement Carrier", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/04\/17 17:59:00", "LENGTH": 107.0, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.696593, 43.56107 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/04\/17 18:20:00", "MMSI": 246244000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Heavy Load Carrier", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/04\/17 18:01:00", "LENGTH": 140.66, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.700217, 43.56317 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/04\/17 18:20:00", "MMSI": 255806107, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Container Ship", "STATUS": 5.0, "SPEED (KNOTSx10)": 1.0, "Last Signal": "2020\/04\/17 18:13:00", "LENGTH": 134.44, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.68964, 43.55578 ] } }
-]
-}

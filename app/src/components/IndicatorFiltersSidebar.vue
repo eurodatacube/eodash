@@ -11,6 +11,7 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
+      style="top: 112px"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
@@ -42,7 +43,7 @@
       <div
         v-show="showLayerMenu"
         class="fill-height"
-        style="width: 250px; pointer-events: all"
+        style="width: 250px; pointer-events: all;"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
@@ -120,6 +121,7 @@ export default {
     domainModel: undefined,
     iconSize: 88,
     showLayerMenu: false,
+    disableAutoClose: undefined,
     customOrder: [
       'Austria-REP4',
       'Austria-REP3',
@@ -134,6 +136,7 @@ export default {
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('themes', ['themes']),
+    ...mapState('gtif', ['currentDomain']),
     ...mapGetters('features', ['getGroupedFeatures']),
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
@@ -157,6 +160,11 @@ export default {
         }));
     },
   },
+  mounted() {
+    if (this.currentDomain) {
+      this.programmaticallyOpenDomain(this.currentDomain);
+    }
+  },
   methods: {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
@@ -172,6 +180,15 @@ export default {
       ));
     },
     onClickOutside() {
+      if (!this.showLayerMenu) {
+        return;
+      }
+      if (this.disableAutoClose) {
+        // If disableAutoClose is set, then the layerMenu has been activated programmatically.
+        // Skip the first time and only register the second time.
+        this.disableAutoClose = false;
+        return;
+      }
       this.showLayerMenu = false;
     },
     moveToHighlight(location) {
@@ -186,8 +203,21 @@ export default {
         duration: 0, padding,
       });
     },
+    programmaticallyOpenDomain(domain) {
+      this.domainModel = this.themes.findIndex((t) => domain.includes(t.slug));
+      setTimeout(() => {
+        this.showLayerMenu = true;
+        this.disableAutoClose = true;
+      }, 0);
+    },
   },
   watch: {
+    currentDomain(domain) {
+      if (!domain) {
+        return;
+      }
+      this.programmaticallyOpenDomain(domain);
+    },
     globalIndicators() {
       if (this.$route.query.poi) {
         const foundPoi = this.globalIndicators

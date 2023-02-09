@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "gijon_moored_and_engineOn2020-06-04T18-20",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/04 18:20:00", "MMSI": 224362590, "TYPE_SUMMARY": "Tanker", "TYPE_NAME": "Bunkering Tanker", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/04 14:13:33", "LENGTH": 40.9, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.698703, 43.56517 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/04 18:20:00", "MMSI": 236471000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Container Ship", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/04 17:55:54", "LENGTH": 134.44, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.689833, 43.55583 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/06\/04 18:20:00", "MMSI": 538007854, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Bulk Carrier", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/06\/04 17:58:05", "LENGTH": 229.0, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.687133, 43.56649 ] } }
-]
-}

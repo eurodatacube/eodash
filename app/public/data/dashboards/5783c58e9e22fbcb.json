@@ -29,16 +29,16 @@
     {
       "width": 3,
       "id": "ImageBlock-1665651536280",
-      "text": "<--IMG-->https://race.esa.int/gtif/images/eo_adaptation_1.jpg<--IMG-->",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/eo_adaptation_1.jpg<--IMG-->",
       "title": "ImageBlock",
-      "__generatedText__": "<p>&lt;--IMG--&gt;https://race.esa.int/gtif/images/eo_adaptation_1.jpg&lt;--IMG--&gt;</p>\n"
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/eo_adaptation_1.jpg\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/eo_adaptation_1.jpg</a>&lt;--IMG--&gt;</p>\n"
     },
     {
       "width": 4,
       "id": "t-1665783582773",
-      "text": "<div style=\"position: relative; width: 1300px; margin: 12rem auto;\">\n<img src=\"https://race.esa.int/gtif/images/eo_adaptation_2.jpg\" style=\"width: 1300px;\"></img>\n</div>",
+      "text": "<div style=\"position: relative; width: 1300px; margin: 12rem auto;\">\n<img src=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/eo_adaptation_2.jpg\" style=\"width: 1300px;\"></img>\n</div>",
       "title": "t",
-      "__generatedText__": "<div>\n<img src></img>\n</div>"
+      "__generatedText__": "<div>\n<img src=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/eo_adaptation_2.jpg\"></img>\n</div>"
     },
     {
       "width": 4,
@@ -57,9 +57,9 @@
     {
       "width": 3,
       "id": "Image2-1665656475067",
-      "text": "<--VID-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4<--VID-->",
+      "text": "<--AUTOPLAY-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4<--AUTOPLAY-->",
       "title": "Image2",
-      "__generatedText__": "<p>&lt;--VID--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4</a>&lt;--VID--&gt;</p>\n"
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/GTIF-video-bark_beetle.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
     }
   ],
   "title": "GTIF | eo-adaptation-services"
