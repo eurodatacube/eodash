@@ -396,12 +396,6 @@ export default {
       }
     }
 
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 6px;
-    }
-
     .name {
       font-size: 18px;
       transition: color 0.1s linear;
