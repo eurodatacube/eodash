@@ -11,10 +11,10 @@ function translateMedia(item) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
   } else if (i.mapInfo) {
-    var id = '';
+    let id = '';
 
     if (i.id.includes('@')) {
-      [id] = i.id.split('@')
+      [id] = i.id.split('@');
     }
 
     i.iframe = `http://gtif.eox.world:8812/iframe?poi=${
