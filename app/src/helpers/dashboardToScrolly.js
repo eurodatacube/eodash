@@ -10,6 +10,22 @@ function translateMedia(item) {
   } else if (i.text && i.text.includes('<--AUTOPLAY-->')) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
+  } else if (i.mapInfo) {
+    var id = '';
+
+    if (i.id.includes('@')) {
+      [id] = i.id.split('@')
+    }
+
+    i.iframe = `http://gtif.eox.world:8812/iframe?poi=${
+      id
+    }&z=${
+      i.mapInfo.zoom
+    }&lat=${
+      i.mapInfo.center.lat
+    }&lng=${
+      i.mapInfo.center.lng
+    }&embedMap=true`;
   }
 }
 
