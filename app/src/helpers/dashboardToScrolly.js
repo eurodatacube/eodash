@@ -16,8 +16,7 @@ function translateMedia(item) {
     if (i.id.includes('@')) {
       [id] = i.id.split('@');
     }
-
-    i.iframe = `http://gtif.eox.world:8812/iframe?poi=${
+    i.iframe = `${window.location.origin}/iframe?poi=${
       id
     }&z=${
       i.mapInfo.zoom
