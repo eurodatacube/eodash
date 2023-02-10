@@ -14,7 +14,7 @@
       <v-row
         @click="visitExploreTool"
         :style="styleObject"
-        class="navrow py-3 mt-3 pl-8 fill-width"
+        class="navrow py-1 mt-3 pl-8 fill-width"
         :class="{ selected: $route.name === 'explore' && domain.slug === currentDomain }"
         align="center"
       >
@@ -80,7 +80,7 @@ export default {
     styleObject() {
       return {
         '--color-text': '#9fb0bb',
-        '--color-icon': this.isSubItem ? '#00ae9d' : 'rgba(255, 255, 255, 0.267)',
+        '--color-icon': '#00ae9d',
         '--color-text-hover': this.isHoverable ? '#00ae9d' : '#9fb0bb',
         '--color-icon-hover': this.isHoverable ? '#00ae9d' : 'rgba(255, 255, 255, 0.28)',
         '--color-bg-hover': this.isHoverable ? 'rgba(255, 255, 255, 0.07)' : '#FFF0',

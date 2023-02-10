@@ -164,6 +164,7 @@ export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
 },
 baseLayers.cloudless,
+baseLayers.osm_3857,
 baseLayers.S2GLC,
 baseLayers.ESA_WORLD_COVER,
 baseLayers.CORINE_LAND_COVER,
@@ -198,23 +199,28 @@ const nutsStyle = {
 export const administrativeLayers = [{
   ...nutsStyle,
   name: 'NUTS L0',
+  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  minZoom: 4,
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L1',
+  id: 'nuts_1',
   url: 'data/gtif/data/AT_NUTS_L1.geojson',
   minZoom: 7.5,
   maxZoom: 8.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L2',
+  id: 'nuts_2',
   url: 'data/gtif/data/AT_NUTS_L2.geojson',
   minZoom: 8.5,
   maxZoom: 9.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L3',
+  id: 'nuts_3',
   url: 'data/gtif/data/AT_NUTS_L3.geojson',
   minZoom: 9.5,
   maxZoom: 10.5,
@@ -222,6 +228,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'District (Bezirk)',
+  id: 'bezirk',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
@@ -230,6 +237,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Municipality (Gemeinde)',
+  id: 'gemeinde',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
@@ -237,9 +245,11 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
+  id: 'zahlsprengel',
   name: 'Census Track (Zählsprengel)',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
+  maxZoom: 18,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
@@ -272,13 +282,13 @@ const energyTransitionDefaults = {
 
 export const indicatorsDefinition = Object.freeze({
   BM1: {
-    indicator: 'Biomass',
+    indicator: 'Forest Change',
     class: 'air',
     themes: ['carbon-accounting'],
     story: '/data/gtif/markdown/BM1',
   },
   BM2: {
-    indicator: 'CCI Biomass',
+    indicator: 'Above Ground Biomass',
     class: 'air',
     themes: ['carbon-accounting'],
     story: '/data/gtif/markdown/BM2',
@@ -324,6 +334,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -334,6 +347,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -344,6 +360,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -430,50 +449,53 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Anual forest mask',
     class: 'air',
     story: '/data/gtif/markdown/FCM3',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT1: {
     indicator: 'Basal area',
     class: 'air',
     story: '/data/gtif/markdown/VTT1',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT2: {
     indicator: 'Broadleaf proportion',
     class: 'air',
     story: '/data/gtif/markdown/VTT2',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT3: {
     indicator: 'Conifer proportion',
     class: 'air',
     story: '/data/gtif/markdown/VTT3',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT4: {
     indicator: 'Tree Diameter',
     class: 'air',
     story: '/data/gtif/markdown/VTT4',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT5: {
     indicator: 'Tree Height',
     class: 'air',
     story: '/data/gtif/markdown/VTT5',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT6: {
     indicator: 'Tree Volume',
     class: 'air',
     story: '/data/gtif/markdown/VTT6',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   AQA: {
-    indicator: 'Aggregated Health Risk Index (ARI)',
+    indicator: 'Health Risk Index (ARI)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQB: {
     indicator: 'Fine particulate matter (PM2.5)',
@@ -481,6 +503,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQC: {
     indicator: 'Coarse particulate matter (PM10)',
@@ -488,6 +513,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQ2: {
     indicator: 'Innsbruck hot-spot',
@@ -607,10 +635,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Aggregated Health Risk Index (ARI)',
+        description: 'Health Risk Index (ARI)',
         indicator: 'AQA',
         lastIndicatorValue: null,
-        indicatorName: 'Aggregated Health Risk Index (ARI)',
+        indicatorName: 'Health Risk Index (ARI)',
         navigationDescription: 'Daily aggregated maps of ARI index',
         subAoi: {
           type: 'FeatureCollection',
@@ -670,7 +698,7 @@ export const globalIndicators = [
             return color;
           },
           id: 'air_quality_new_id',
-          name: 'Aggregated Health Risk Index (ARI)',
+          name: 'Health Risk Index (ARI)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
@@ -1305,6 +1333,7 @@ export const globalIndicators = [
             }
             return color;
           },
+          opacity: 0.7,
           id: 'mobility',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
@@ -1561,11 +1590,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Biomass',
+        description: 'Forest Change',
         navigationDescription: '',
         indicator: 'BM1',
         lastIndicatorValue: null,
-        indicatorName: 'Biomass',
+        indicatorName: 'Forest Change',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1593,7 +1622,7 @@ export const globalIndicators = [
           normalize: true,
           style: {
           },
-          name: 'Biomass',
+          name: 'Forest Change',
           minZoom: 1,
         },
       },
@@ -1606,11 +1635,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'CCI Biomass',
+        description: 'Above Ground Biomass',
         navigationDescription: '',
         indicator: 'BM2',
         lastIndicatorValue: null,
-        indicatorName: 'CCI Biomass',
+        indicatorName: 'Above Ground Biomass',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1672,7 +1701,7 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'CCI Biomass',
+          name: 'Above Ground Biomass',
           minZoom: 1,
         },
       },

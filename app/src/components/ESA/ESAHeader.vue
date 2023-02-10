@@ -209,12 +209,8 @@ export default {
           slug: 'gtif-mobility-transition',
           narratives: [
             {
-              name: 'From NOx emissions to tropospheric NO2 columns',
+              name: 'Air Quality and Human Mobility over Austria',
               routeName: 'gtif-mobility-transition',
-            },
-            {
-              name: 'Daily mobility in Austria',
-              routeName: 'gtif-social-mobility',
             },
           ],
         },
@@ -420,12 +416,6 @@ export default {
       .name, .home-icon {
         color: lighten(#8197A6, 90%);
       }
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 6px;
     }
 
     .name {

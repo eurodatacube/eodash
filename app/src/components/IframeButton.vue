@@ -113,9 +113,13 @@ export default {
       let queryParams = `poi=${this.getLocationCode(this.indicatorObject)}`;
       if (this.embedMap) {
         queryParams += `&embedMap=${this.embedMap}`;
-        queryParams += `&z=${this.zoom}`;
-        queryParams += `&lat=${this.center.lat}`;
-        queryParams += `&lng=${this.center.lng}`;
+        if (this.zoom !== null) {
+          queryParams += `&z=${this.zoom}`;
+        }
+        if (this.center?.lat) {
+          queryParams += `&lat=${this.center?.lat}`;
+          queryParams += `&lng=${this.center?.lng}`;
+        }
       }
       return `<iframe class="item" src="${window.location.origin}/iframe?${queryParams}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
     },

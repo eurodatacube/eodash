@@ -114,8 +114,6 @@
         class="pointerEvents"
         :mapId="mapId"
         :mergedConfigsData="mergedConfigsData[0]"
-        :hideCustomAreaControls="hideCustomAreaControls"
-        @fetchCustomAreaIndicator="onFetchCustomAreaIndicator"
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
@@ -217,9 +215,6 @@ export default {
     },
     // to do: still needed?
     disableAutoFocus: Boolean,
-    hideCustomAreaControls: {
-      required: false,
-    },
     // same as currentIndicator
     initialDrawnArea: {
       type: Object,

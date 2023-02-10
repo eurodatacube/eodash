@@ -1,8 +1,12 @@
 function translateMedia(item) {
   const i = item;
-
   if (i.text && i.text.includes('<--IMG-->')) {
     i.image = i.text.replaceAll('<--IMG-->', '');
+  } else if (i.text && i.text.includes('<--COMPARE-->')) {
+    i.compare = [
+      i.text.replaceAll('<--COMPARE-->', '').split('|')[0],
+      i.text.replaceAll('<--COMPARE-->', '').split('|')[1],
+    ];
   } else if (i.text && i.text.includes('<--SCRUB-->')) {
     i.scrub = i.text.replaceAll('<--SCRUB-->', '');
   } else if (i.text && i.text.includes('<--VID-->')) {

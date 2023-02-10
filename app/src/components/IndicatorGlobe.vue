@@ -114,9 +114,6 @@ export default {
     upProp: {
       required: false,
     },
-    hideCustomAreaControls: {
-      required: false,
-    },
     disableAutoFocus: Boolean,
   },
   components: {
