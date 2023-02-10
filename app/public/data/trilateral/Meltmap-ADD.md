@@ -8,12 +8,17 @@ Processing date: 2022-06-09 
 The data set contains Antarctic-wide daily melt maps (indicating presence of liquid water) from 2007 until 2021 derived from the ASCAT Enhanced Resolution 
 Scatterometer Image Reconstruction (SIR) product [1]. The melting extent/stage maps have a fixed colour palette, where the coding is as follows:  
 
-    0:      No melt/liquid water presence down to signal penetration limit (for C-Band in the order of several metres)
-    1:      Surface layer melt (increase in depth of wet snow layer
-    2:      Wet snow layer – saturated signal
-    3:      Increase of refrozen layer above wet snow
-    4:      Stationary conditions
-    255:    NoData Value
+ 0:   No melt/liquid water presence down to signal penetration limit (for C-Band in the order of several metres)
+ 
+ 1:   Surface layer melt (increase in depth of wet snow layer
+ 
+ 2:   Wet snow layer – saturated signal
+ 
+ 3:   Increase of refrozen layer above wet snow
+ 
+ 4:   Stationary condition
+ 
+ 255: NoData Value
     
     
 ![](/data/story-images/ASCAT_AA_meltmap_2021.gif)
@@ -22,9 +27,9 @@ Scatterometer Image Reconstruction (SIR) product [1]. The melting extent/stage m
     
 Additionally, based on the melt maps, value added melt map products are generated, indicating on a pixel-by-pixel basis:     
 
-    1) melt onset
-    2) end of melt season
-    3) melt duration      
+* melt onset
+* end of melt season
+* melt duration      
     
 Melt onset refers to the first time that there are three consecutive days of melt in a year, thereby indicating the beginning of the
 snowmelt season. Similarly the melt ending is marked by three consecutive days of stable winter (reference) conditions after the last refreezing event
