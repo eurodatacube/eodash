@@ -8,13 +8,7 @@
     <v-row>
       <v-col>
         <p>
-          NASA, ESA, and JAXA will continue through June 2024 to advance their joint work to
-          communicate tri-agency scientific findings with societal impact, further developing this
-          Dashboard, enhancing the data and stories, collaborating with global experts and
-          communities, and promoting Open Science. Click here to read the full <a
-          href="./eodash-data/general/Joint Declaration_with_signature_JAXA_ESA.pdf"
-          target="_blank">Joint Declaration on
-          trilateral collaboration by NASA, ESA and JAXA</a>.
+          2023-02-10: Three new stories published in Cryosphere. Learn about the research of NASA, ESA and JAXA on glaciers and other ice formations in Antarctica and Greenland that have potential to affect our  global climate system.
         </p>
       </v-col>
     </v-row>
