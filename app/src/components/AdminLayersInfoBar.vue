@@ -8,13 +8,13 @@
       <v-row
           align="center"
         >
-          <v-col cols="6" class="pb-0 pt-5">
+          <v-col cols="6" class="pb-0 pt-3">
             <h4>
             Administrative zones shown on the map:</h4>
           </v-col>
         <v-col cols="6" class="pa-0">
             <v-select
-            class="pb-0 pt-5"
+            class="pb-0 pt-3"
             label="Select admin zone"
             persistent-hint
             return-object
@@ -32,10 +32,10 @@
     <v-row>
       <v-col cols="12"
       class="pb-0 pt-0">
-      <p>Zoom map to the administrative zone level by selecting item from the list.</p>
-      <p>
+      <p>Zoom map to the administrative zone level by selecting item from the list.
         Select administrative unit on the map to fetch
-        time series for this area.</p>
+        time series for this area.
+      </p>
       <p>
         This dataset supports selecting following administrative
         units:
