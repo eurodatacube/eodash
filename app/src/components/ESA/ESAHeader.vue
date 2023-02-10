@@ -150,9 +150,10 @@
         <div v-else>
           <h2>Mobile devices are not yet fully supported</h2>
           <p>
-            Here may be dragons! You are currently viewing a beta release of the Green
-            Transition Information Factory, and as such, the mobile version of this application
-            is probably not fully fleshed out yet. Things may be broken. Proceed at your own risk.
+            You are currently viewing a beta release of the Green
+            Transition Information Factory (GTIF), and as such, the <bold>mobile version</bold> of this application
+            is not fully fleshed out yet. Some parts of the application are expected to not work fully or at all.
+            Proceed at your own risk.
           </p>
         </div>
         <div class="text-center pb-4">
