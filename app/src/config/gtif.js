@@ -268,6 +268,17 @@ export const defaultLayersDisplay = {
   projection: 'EPSG:3857',
 };
 
+const getMinuteIntervals = (start, end, minutes) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+    currentDate = DateTime.fromISO(currentDate).plus({ minutes: minutes });
+  }
+  return dateArray;
+};
+
 const energyTransitionDefaults = {
   baseLayers: [
     ...baseLayersLeftMap,
@@ -887,7 +898,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.fluxData,
+        time: getMinuteIntervals('2021-01-01T01:00:00Z', '2022-12-01T00:30:00Z', 30),
         inputData: [''],
         yAxis: '',
         cogFilters: {
@@ -934,10 +945,10 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/flux_data/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/flux_data/{time}_gtif_uibk_ffp_values.tif' },
           ],
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd HH:mm:ss'),
           style: {
             variables: {
               varMin: 2,
