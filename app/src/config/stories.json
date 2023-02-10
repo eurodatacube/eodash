@@ -39,15 +39,6 @@
         "imagePlaceholder": "./data/story-images/3-agriculture-crops_placeholder.jpg"
       }
     },
-    "biomass": {
-      "biomass-harmonization-activity": {
-        "originalDashboardId": "a785d7a3c536a452",
-        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
-        "subtitle": "Read more about taking stock of global biomass maps",
-        "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
-      }
-    },
     "covid-19": {
       "shipping": {
         "originalDashboardId": "d6a638e79a7de361",
@@ -64,28 +55,16 @@
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
       }
     },
+    "biomass": {
+      "biomass-harmonization-activity": {
+        "originalDashboardId": "a785d7a3c536a452",
+        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
+        "subtitle": "Read more about taking stock of global biomass maps",
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+      }
+    },
     "cryosphere": {
-      "changes-in-arctic-sea-ice": {
-        "originalDashboardId": "92bc845659abfed6",
-        "title": "The Arctic region shows changes most characteristic of global warming",
-        "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
-        "image": "./data/story-images/1-sea-ice.jpg",
-        "imagePlaceholder": "./data/story-images/1-sea-ice_placeholder.jpeg"
-      },
-      "sea-ice-freeboard-thickness": {
-        "originalDashboardId": "6be3fcfd33789f76",
-        "title": "Measuring Thickness of sea ice in the polar oceans",
-        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry.",
-        "image": "./data/story-images/CryoSat.jpeg",
-        "imagePlaceholder": "./data/story-images/CryoSat_placeholder.jpeg"
-      },
-      "sea-ice-extent": {
-        "originalDashboardId": "e45036dd512afea1",
-        "title": "The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen",
-        "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
-        "image": "./data/story-images/SeaIce.jpeg",
-        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
-      },
       "thwaites-intro": {
         "originalDashboardId": "e7bc4529a0c4a581",
         "title": "Collaboration on Glaciers and Ice Sheets Research",
@@ -113,6 +92,27 @@
         "subtitle": "Read more about how JAXA's JASMES Greenland Monitor provides observations of Greenland Ice Sheet",
         "image": "./data/story-images/jaxa-greenland-cover.jpeg",
         "imagePlaceholder": "./data/story-images/jaxa-greenland-cover-placeholder.jpeg"
+      },
+      "changes-in-arctic-sea-ice": {
+        "originalDashboardId": "92bc845659abfed6",
+        "title": "The Arctic region shows changes most characteristic of global warming",
+        "subtitle": "Read more about the international collaboration for understanding changes in Arctic Sea Ice",
+        "image": "./data/story-images/1-sea-ice.jpg",
+        "imagePlaceholder": "./data/story-images/1-sea-ice_placeholder.jpeg"
+      },
+      "sea-ice-freeboard-thickness": {
+        "originalDashboardId": "6be3fcfd33789f76",
+        "title": "Measuring Thickness of sea ice in the polar oceans",
+        "subtitle": "Read more about monitoring Sea Ice Freeboard & Thickness from Satellite Altimetry.",
+        "image": "./data/story-images/CryoSat.jpeg",
+        "imagePlaceholder": "./data/story-images/CryoSat_placeholder.jpeg"
+      },
+      "sea-ice-extent": {
+        "originalDashboardId": "e45036dd512afea1",
+        "title": "The sea ice extent has been rapidly decreasing in recent years as global temperatures have risen",
+        "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
+        "image": "./data/story-images/SeaIce.jpeg",
+        "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
       }
     },
     "economy": {
