@@ -99,6 +99,50 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
+          <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
+            <span style="position: absolute; top: 0px; width: 20px; left: calc(50% - 10px);">
+              N
+            </span>
+            <span style="
+              position: absolute;
+              top: calc(50% - 10px);
+              width: 20px;
+              right: calc(50% - 105px);
+            ">
+              E
+            </span>
+            <span style="position: absolute; bottom: 0px; width: 20px; left: calc(50% - 10px);">
+              S
+            </span>
+            <span style="
+              position: absolute;
+              left: calc(50% - 105px);
+              height: 20px;
+              top: calc(50% - 10px);
+            ">
+              W
+            </span>
+            <round-slider
+              v-model="filters[key].range"
+              :min="filters[key].min"
+              :max="filters[key].max"
+              :step="(filters[key].max - filters[key].min) / 100"
+              :update="(evt) => updateMap(
+                evt.value
+                  .split(',')
+                  .map((s) => parseInt(s, 10) - 90),
+                filters[key].id,
+              )"
+              showTooltip="false"
+              slider-type="range"
+              line-cap="round"
+              width="14"
+              startAngle="0"
+              endAngle="-360"
+              radius="80"
+              startValue="90"
+            />
+          </center>
           <v-range-slider
             v-else
             v-model="filters[key].range"
@@ -156,11 +200,13 @@
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
+import RoundSlider from 'vue-round-slider';
 
 export default {
   name: 'FilterControls',
   components: {
     InfoDialog,
+    RoundSlider,
   },
   props: {
     cogFilters: Object,
