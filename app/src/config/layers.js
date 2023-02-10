@@ -62,7 +62,7 @@ export const baseLayers = Object.freeze({
     protocol: 'xyz',
   },
   bodenwertigkeitskarte_agri: {
-    name: 'Digital soil map - farmland value',
+    name: 'Soil value - Cropland - bodenkarte.at',
     id: 'bodenwertigkeitskarte_agri',
     styleFile: 'https://bodenkarte.at/styles/ackerwert.json',
     attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',
@@ -71,7 +71,7 @@ export const baseLayers = Object.freeze({
     protocol: 'vectortile',
   },
   bodenwertigkeitskarte_grassland: {
-    name: 'Digital soil map - grassland value',
+    name: 'Soil value - Grassland - bodenkarte.at',
     id: 'bodenwertigkeitskarte_grassland',
     styleFile: 'https://bodenkarte.at/styles/gruenlandwert.json',
     attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',
