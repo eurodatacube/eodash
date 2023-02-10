@@ -24,4 +24,7 @@ This dataset is provided by the Euro Data Cube, via the on-the-fly data cube acc
 
 [Sentinel-1 Homepage on ESA Website](https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1)
 
-![SAR Scanning animations video](https://dlmultimedia.esa.int/download/public/videos/2014/03/003/1403_003_BR_010.mp4)
+
+<iframe src="https://www.esa.int/content/view/embedjw/428481" width="640" height="360" frameborder="0"></iframe>
+
+Copyright: ESA/ATG medialab, source: [ESA Multimedia](https://dlmultimedia.esa.int/download/public/videos/2014/03/026/1403_026_AR_EN.mp4)
