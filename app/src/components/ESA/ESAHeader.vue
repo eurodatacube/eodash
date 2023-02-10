@@ -67,7 +67,12 @@
         <Transition name="fade">
           <div
             v-show="isNavigationEnabled"
-            :style="{width: $vuetify.breakpoint.mdAndUp ? '320px' : '100vw', 'overflow-y': 'scroll'}"
+            :style="{
+              width: $vuetify.breakpoint.mdAndUp
+                ? '320px'
+                : '100vw',
+              'overflow-y': 'scroll',
+            }"
             class="esa-menu pb-8"
           >
             <v-col>
