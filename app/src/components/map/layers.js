@@ -259,6 +259,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const projString = '3857';
     const tilelayer = new VectorTileLayer({
       style: dynamicStyleFunction,
+      opacity: config.opacity,
       source: new VectorTileSource({
         projection: 'EPSG:3857',
         format: new MVT(),

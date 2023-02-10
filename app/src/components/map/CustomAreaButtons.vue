@@ -135,9 +135,6 @@ export default {
   },
   props: {
     mapId: String,
-    hideCustomAreaControls: {
-      required: false,
-    },
     mergedConfigsData: Object,
     drawnArea: {
       area: null,
@@ -146,7 +143,7 @@ export default {
   computed: {
     ...mapState('config', ['appConfig']),
     drawToolsVisible() {
-      return !this.hideCustomAreaControls
+      return !this.mergedConfigsData?.adminLayersCustomIndicator
         // enables chart generation
         && (this.mergedConfigsData?.customAreaIndicator
         // enables fetching of custom features
