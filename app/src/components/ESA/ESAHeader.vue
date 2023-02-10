@@ -136,7 +136,7 @@
         </Transition>
       </nav>
     <v-dialog
-      v-if="$route.name === 'explore'"
+      v-if="isDialogEnabled"
       v-model="dialog"
       :width="$vuetify.breakpoint.xsOnly ? 'calc(100vw - 40px)' : '40%'"
       transition="dialog-bottom-transition"
@@ -146,7 +146,7 @@
         :style="{ background: $vuetify.theme.currentTheme.background }"
         :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
       >
-        <div v-if="$vuetify.breakpoint.mdAndUp" v-html="welcomeText"/>
+        <div v-if="$vuetify.breakpoint.lgAndUp" v-html="welcomeText"/>
         <div v-else>
           <h2>Mobile devices are not yet fully supported</h2>
           <p>
@@ -161,7 +161,7 @@
             color="primary"
             x-large
           >
-            <span v-if="$vuetify.breakpoint.smAndDown">Open Anyway</span>
+            <span v-if="$vuetify.breakpoint.mdAndDown">Open Anyway</span>
             <span v-else>Explore!</span>
           </v-btn>
         </div>
@@ -284,6 +284,23 @@ export default {
     welcomeText() {
       return this.$marked(require(`../../../public${this.appConfig.aboutText}.md`).default);
     },
+    isDialogEnabled() {
+      switch (this.$route.name) {
+        case 'gtif-energy-transition':
+        case 'gtif-mobility-transition':
+        case 'gtif-social-mobility':
+        case 'gtif-sustainable-cities':
+        case 'gtif-carbon-accounting':
+        case 'gtif-eo-adaptation-services':
+          return this.$vuetify.breakpoint.mdAndDown;
+
+        case 'explore':
+          return true;
+
+        default:
+          return false;
+      }
+    }
   },
 };
 </script>
