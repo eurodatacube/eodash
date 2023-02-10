@@ -284,7 +284,6 @@ export default {
       switch (this.$route.name) {
         case 'gtif-energy-transition':
         case 'gtif-mobility-transition':
-        case 'gtif-social-mobility':
         case 'gtif-sustainable-cities':
         case 'gtif-carbon-accounting':
         case 'gtif-eo-adaptation-services':
