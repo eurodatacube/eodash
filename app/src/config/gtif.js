@@ -2449,6 +2449,7 @@ export const globalIndicators = [
               min: 0,
               max: 360,
               range: [0, 360],
+              isCircular: true,
             },
             slope: {
               display: true,
