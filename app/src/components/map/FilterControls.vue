@@ -254,9 +254,6 @@ export default {
     removeFilter(filterId) {
       this.filters[filterId].display = false;
     },
-    circularSliderUpdated(v) {
-      console.log(v);
-    }
   },
 };
 </script>
