@@ -108,18 +108,24 @@ export default {
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
       view.on(['change:center', 'change:resolution'], (evt) => {
-        const center = toLonLat(evt.target.getCenter());
-        const currentCenter = { lng: center[0], lat: center[1] };
-        const zoom = evt.target.getZoom();
-        // these events are emitted to save changed made in the dashboard via the
-        // "save map configuration" button
-        this.$emit('updatecenter', currentCenter);
-        this.$emit('updatezoom', zoom);
+        const v = evt.target;
+        this.reportUpdateView(v);
       });
       map.setView(view);
+      this.reportUpdateView(view);
     }
   },
-  methods: {},
+  methods: {
+    reportUpdateView(view) {
+      const center = toLonLat(view.getCenter(), view.getProjection());
+      const currentCenter = { lng: center[0], lat: center[1] };
+      const zoom = view.getZoom();
+      // these events are emitted to save changed made in the dashboard via the
+      // "save map configuration" button
+      this.$emit('updatecenter', currentCenter);
+      this.$emit('updatezoom', zoom);
+    },
+  },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);

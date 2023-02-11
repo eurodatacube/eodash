@@ -7,8 +7,13 @@
 
     <v-row>
       <v-col>
+        <h3>
+          2023-02-10: Three new stories published in Cryosphere.
+        </h3>
         <p>
-          2023-02-10: Three new stories published in Cryosphere. Learn about the research of NASA, ESA and JAXA on glaciers and other ice formations in Antarctica and Greenland that have potential to affect our  global climate system.
+          Learn about the research of NASA, ESA and JAXA on glaciers
+          and other ice formations in Antarctica and Greenland that
+          have potential to affect our global climate system.
         </p>
       </v-col>
     </v-row>

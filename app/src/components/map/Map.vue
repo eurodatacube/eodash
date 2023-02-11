@@ -616,7 +616,7 @@ export default {
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
       this.currentZoom = evt.target.getZoom();
-      const center = toLonLat(evt.target.getCenter());
+      const center = toLonLat(evt.target.getCenter(), evt.target.getProjection());
       this.currentCenter = { lng: center[0], lat: center[1] };
       // these events are emitted to save changed made in the dashboard via the
       // "save map configuration" button
@@ -624,7 +624,11 @@ export default {
       this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
-      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
+      view.setCenter(
+        fromLonLat(
+          [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
+        ),
+      );
       view.setZoom(this.zoomProp);
     }
     this.$emit('ready', true);
