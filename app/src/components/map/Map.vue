@@ -119,7 +119,10 @@
       />
       <div class="pointerEvents mt-auto mb-2">
         <IframeButton
-          v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
+          v-if="mapId === 'centerMap'
+            && indicator
+            && indicatorHasMapData(indicator)
+            && appConfig.id !== 'gtif'"
           :indicatorObject="indicator"
           :embedMap="true"
           :zoom.sync="currentZoom"
