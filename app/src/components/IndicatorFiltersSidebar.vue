@@ -52,6 +52,7 @@
                 gI => gI.theme === themes[domainModel].slug
               ).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
+              :disabled="item.properties.indicatorObject.disabled"
               class="mb-2"
               style="width: 100%"
               @click="() => {

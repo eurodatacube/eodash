@@ -200,6 +200,7 @@
           </v-row>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
+            :mergedConfigsData="mergedConfigsData[0]"
           >
           </filter-controls>
           <!--
@@ -233,6 +234,7 @@
           </StyleControls>
           <vector-tile-style-control v-if="indicatorObject.queryParameters"
             :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
           >
           </vector-tile-style-control>
           <wms-style-controls v-if="indicatorObject.wmsStyles"
@@ -244,6 +246,7 @@
             :indicatorObject="indicatorObject"
             :adminLayer="$store.state.features.adminBorderLayerSelected"
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
         </v-col>
@@ -397,6 +400,7 @@ export default {
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
     showScatterplot: null,
+    updateQueryParametersTrigger: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -579,6 +583,10 @@ export default {
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    },
+    updateQueryParameters() {
+      // just passing a signal from one sibling to another, ideally would be done via store
+      this.updateQueryParametersTrigger = Math.random();
     },
   },
   watch: {

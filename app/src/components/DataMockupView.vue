@@ -57,11 +57,19 @@ export default {
     indicatorObject: Object,
     adminFeature: Object,
     adminLayer: Object,
+    updateQueryParametersTrigger: Number,
   },
   watch: {
     adminFeature(feature) {
-      // TODO: THIS should be triggered additionally when data parameter changes (MOBI1)
       this.fetchCustomChartForFeature(feature);
+    },
+    updateQueryParametersTrigger() {
+      // if selected admin feature, fetch custom chart
+      // (triggered by component for vector style)
+      const feature = this.$store.state.features.adminBorderFeatureSelected;
+      if (feature) {
+        this.fetchCustomChartForFeature(feature);
+      }
     },
   },
   computed: {

@@ -274,7 +274,7 @@ const getMinuteIntervals = (start, end, minutes) => {
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
-    currentDate = DateTime.fromISO(currentDate).plus({ minutes: minutes });
+    currentDate = DateTime.fromISO(currentDate).plus({ minutes });
   }
   return dateArray;
 };
@@ -1535,6 +1535,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Urban Trees',
         indicator: 'SOL3',
+        disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Urban Trees',
         navigationDescription: 'Urban Tree Impact',
@@ -1568,28 +1569,9 @@ export const globalIndicators = [
             location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
           },
         ],
-        wmsStyles: {
-          sourceLayer: 'GTIF_AT_Rooftops_3857',
-          items: [
-            {
-              id: 'urbantrees',
-              description: 'Urban trees',
-              markdown: 'urban_trees',
-            },
-          ],
-        },
+
         display: {
-          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
-          STYLES: 'urbantrees',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
-          attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
-          protocol: 'WMS',
-          exceptions: 'application/vnd.ogc.se_inimage',
-          selectedStyle: 'urbantrees',
+
         },
       },
     },
@@ -2275,6 +2257,7 @@ export const globalIndicators = [
               dataInfo: 'WindPowerDensity',
               min: 0,
               max: 4000,
+              step: 10,
               header: true,
               range: [0, 4000],
               changeablaDataset: {
@@ -2301,6 +2284,7 @@ export const globalIndicators = [
               dataInfo: 'Elevation',
               min: 0,
               max: 4000,
+              step: 10,
               range: [0, 4000],
             },
             slope: {
@@ -2331,14 +2315,15 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
-            rugedeness: {
+            ruggedness: {
               display: false,
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
+              label: 'Filter for ruggedness index',
+              id: 'ruggedness',
               type: 'slider',
+              dataInfo: 'Ruggedness',
               min: 0,
               max: 1,
-              value: 0,
+              value: 1,
             },
             protectedZones: {
               display: true,
@@ -2382,7 +2367,7 @@ export const globalIndicators = [
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
-              rugedeness: 0,
+              ruggedness: 1,
             },
             color: [
               'case',
@@ -2394,7 +2379,7 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['>', ['band', 7], ['var', 'rugedeness']],
+                ['<', ['band', 7], ['var', 'ruggedness']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
@@ -2572,6 +2557,7 @@ export const globalIndicators = [
         city: 'Austria',
         siteName: 'global',
         indicator: 'REP3',
+        disabled: true,
         description: 'NRT Energy Production Forecast',
         navigationDescription: 'NRT Energy Production Forecast',
         lastIndicatorValue: null,
@@ -2615,8 +2601,8 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        //TODO dataInfo: 'SWE',
-        //TODO dataInfo: 'WSE',
+        // TODO dataInfo: 'SWE',
+        // TODO dataInfo: 'WSE',
       },
     },
   },
@@ -2630,6 +2616,7 @@ export const globalIndicators = [
         description: 'Potential Assessment',
         navigationDescription: 'Potential Assessment',
         indicator: 'REP5',
+        disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Micro Hydropower',
         subAoi: {
@@ -2642,103 +2629,7 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'REP5',
-          filters: {
-            rugedeness: {
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
-              min: 0,
-              max: 0.78,
-            },
-            settlementDistance: {
-              label: 'Distance to settlements',
-              id: 'settlementDistance',
-              min: 0,
-              max: 5670,
-            },
-            energyGridDistance: {
-              label: 'Distance to energy grid',
-              id: 'energyGridDistance',
-              min: 0,
-              max: 50000,
-            },
-            slope: {
-              label: 'Filter for slope',
-              id: 'slope',
-              min: 0,
-              max: 50,
-            },
-            aspect: {
-              label: 'Filter for aspect',
-              id: 'aspect',
-              min: 0,
-              max: 360,
-            },
-            altitude: {
-              label: 'Filter for altitude',
-              id: 'altitude',
-              min: 0,
-              max: 2000,
-            },
-          },
-        },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
-          protocol: 'cog',
-          id: 'REP5',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
-          ],
-          style: {
-            variables: {
-              rugedenessMin: 0,
-              rugedenessMax: 0.78,
-              settlementDistanceMin: 0,
-              settlementDistanceMax: 5670,
-              energyGridDistanceMin: 0,
-              energyGridDistanceMax: 50000,
-              slopeMin: 0,
-              slopeMax: 50,
-              aspectMin: 0,
-              aspectMax: 360,
-            },
-            color: [
-              'case',
-              [
-                'all',
-                ['between', ['band', 2], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
-                ['between', ['band', 3], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
-                ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['between', ['band', 5], ['var', 'slopeMin'], ['var', 'slopeMax']],
-                ['between', ['band', 6], ['var', 'aspectMin'], ['var', 'aspectMax']],
-              ],
-              [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('viridis', 0, 9000, 10, false),
-              ],
-              [
-                'color', 0, 0, 0, 0,
-              ],
-            ],
-          },
-          name: 'Micro-Hydropower',
-          minZoom: 1,
         },
       },
     },
