@@ -200,6 +200,7 @@
           </v-row>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
+            :mergedConfigsData="mergedConfigsData[0]"
           >
           </filter-controls>
           <!--

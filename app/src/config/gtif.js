@@ -274,7 +274,7 @@ const getMinuteIntervals = (start, end, minutes) => {
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
-    currentDate = DateTime.fromISO(currentDate).plus({ minutes: minutes });
+    currentDate = DateTime.fromISO(currentDate).plus({ minutes });
   }
   return dateArray;
 };
@@ -2275,6 +2275,7 @@ export const globalIndicators = [
               dataInfo: 'WindPowerDensity',
               min: 0,
               max: 4000,
+              step: 10,
               header: true,
               range: [0, 4000],
               changeablaDataset: {
@@ -2301,6 +2302,7 @@ export const globalIndicators = [
               dataInfo: 'Elevation',
               min: 0,
               max: 4000,
+              step: 10,
               range: [0, 4000],
             },
             slope: {
@@ -2331,14 +2333,15 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
-            rugedeness: {
+            ruggedness: {
               display: false,
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
+              label: 'Filter for ruggedness index',
+              id: 'ruggedness',
               type: 'slider',
+              dataInfo: 'Ruggedness',
               min: 0,
               max: 1,
-              value: 0,
+              value: 1,
             },
             protectedZones: {
               display: true,
@@ -2382,7 +2385,7 @@ export const globalIndicators = [
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
-              rugedeness: 0,
+              ruggedness: 1,
             },
             color: [
               'case',
@@ -2394,7 +2397,7 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['>', ['band', 7], ['var', 'rugedeness']],
+                ['<', ['band', 7], ['var', 'ruggedness']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
@@ -2615,8 +2618,8 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        //TODO dataInfo: 'SWE',
-        //TODO dataInfo: 'WSE',
+        // TODO dataInfo: 'SWE',
+        // TODO dataInfo: 'WSE',
       },
     },
   },
@@ -2645,9 +2648,9 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'REP5',
           filters: {
-            rugedeness: {
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
+            ruggedness: {
+              label: 'Filter for ruggedness index',
+              id: 'ruggedness',
               min: 0,
               max: 0.78,
             },
@@ -2705,8 +2708,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              rugedenessMin: 0,
-              rugedenessMax: 0.78,
+              ruggednessMin: 0,
+              ruggednessMax: 0.78,
               settlementDistanceMin: 0,
               settlementDistanceMax: 5670,
               energyGridDistanceMin: 0,
@@ -2720,7 +2723,7 @@ export const globalIndicators = [
               'case',
               [
                 'all',
-                ['between', ['band', 2], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
+                ['between', ['band', 2], ['var', 'ruggednessMin'], ['var', 'ruggednessMax']],
                 ['between', ['band', 3], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
                 ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
                 ['between', ['band', 5], ['var', 'slopeMin'], ['var', 'slopeMax']],
