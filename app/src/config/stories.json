@@ -39,15 +39,6 @@
         "imagePlaceholder": "./data/story-images/3-agriculture-crops_placeholder.jpg"
       }
     },
-    "biomass": {
-      "biomass-harmonization-activity": {
-        "originalDashboardId": "a785d7a3c536a452",
-        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
-        "subtitle": "Read more about taking stock of global biomass maps",
-        "image": "./data/story-images/Biomass.jpeg",
-        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
-      }
-    },
     "covid-19": {
       "shipping": {
         "originalDashboardId": "d6a638e79a7de361",
@@ -64,7 +55,44 @@
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
       }
     },
+    "biomass": {
+      "biomass-harmonization-activity": {
+        "originalDashboardId": "a785d7a3c536a452",
+        "title": "A view from space monitors land cover and tree to track aboveground biomass and carbon content",
+        "subtitle": "Read more about taking stock of global biomass maps",
+        "image": "./data/story-images/Biomass.jpeg",
+        "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+      }
+    },
     "cryosphere": {
+      "thwaites-intro": {
+        "originalDashboardId": "e7bc4529a0c4a581",
+        "title": "Collaboration on Glaciers and Ice Sheets Research",
+        "subtitle": "Researchers and scientists across the globe are paying daily attention to ice formations in Antarctica and Greenland",
+        "image": "./data/story-images/Iceberg_in_Antarctica.jpg",
+        "imagePlaceholder": "./data/story-images/Iceberg_in_Antarctica-thumbnail.jpeg"
+      },
+      "nasa-thwaites": {
+        "originalDashboardId": "6ee2de3fc9ef5f56",
+        "title": "Pine Island and Thwaites Glacier",
+        "subtitle": "Two of the main pathways for ice from the West Antarctic Ice Sheet entering the Amundsen Sea",
+        "image": "./data/story-images/NASA-thwaites-cover.jpeg",
+        "imagePlaceholder": "./data/story-images/NASA-thwaites-cover.jpeg"
+      },
+      "esa-thwaites": {
+        "originalDashboardId": "225b5c8b3b310cb2",
+        "title": "Rapid Retreat of the Thwaites Glacier",
+        "subtitle": "The observations of the glacier are crucial for understanding and adapting to the impacts of global sea level rise",
+        "image": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica.jpg",
+        "imagePlaceholder": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica_thumbnail.jpg"
+      },
+      "jaxa-greenland-melting-and-darkening": {
+        "originalDashboardId": "115fd10667c1a68c",
+        "title": "Recent melting and darkening of the Greenland Ice Sheet",
+        "subtitle": "Read more about how JAXA's JASMES Greenland Monitor provides observations of Greenland Ice Sheet",
+        "image": "./data/story-images/jaxa-greenland-cover.jpeg",
+        "imagePlaceholder": "./data/story-images/jaxa-greenland-cover-placeholder.jpeg"
+      },
       "changes-in-arctic-sea-ice": {
         "originalDashboardId": "92bc845659abfed6",
         "title": "The Arctic region shows changes most characteristic of global warming",
@@ -85,27 +113,6 @@
         "subtitle": "Read more about monitoring Sea Ice Extent and Concentration from Passive Microwave",
         "image": "./data/story-images/SeaIce.jpeg",
         "imagePlaceholder": "./data/story-images/SeaIce_placeholder.jpeg"
-      },
-      "thwaites-intro": {
-        "originalDashboardId": "e7bc4529a0c4a581",
-        "title": "Thwaites and Pine Island Glaciers Research Collaboration",
-        "subtitle": "Researchers and scientists across the globe are paying daily attention to two glaciers located in West Antarctica",
-        "image": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica.jpg",
-        "imagePlaceholder": "./data/story-images/Thwaites_and_Pine_Island_Glaciers_in_West_Antarctica_thumbnail.jpg"
-      },
-      "nasa-thwaites": {
-        "originalDashboardId": "6ee2de3fc9ef5f56",
-        "title": "Pine Island and Thwaites Glacier",
-        "subtitle": "Two of the main pathways for ice from the West Antarctic Ice Sheet entering the Amundsen Sea",
-        "image": "./data/story-images/NASA-thwaites-cover.jpeg",
-        "imagePlaceholder": "./data/story-images/NASA-thwaites-cover.jpeg"
-      },
-      "esa-thwaites": {
-        "originalDashboardId": "225b5c8b3b310cb2",
-        "title": "Rapid Retreat of the Thwaites Glacier",
-        "subtitle": "The observations of the glacier are crucial for understanding and adapting to the impacts of global sea level rise",
-        "image": "./data/story-images/ESA-S1-thwaites.jpeg",
-        "imagePlaceholder": "./data/story-images/ESA-S1-thwaites_thumbnail.jpeg"
       }
     },
     "economy": {
