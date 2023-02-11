@@ -486,31 +486,34 @@ export default {
         });
       },
     },
-    dataLayerTime(timeObj) {
-      if (timeObj) {
-        const { map } = getMapInstance(this.mapId);
-        if (this.indicator && 'queryParameters' in this.indicator) {
-          // re-load indicator data for indicators where the rendering is based on external data
-          loadIndicatorExternalData(
-            timeObj.value, this.mergedConfigsData[0],
-          ).then((data) => {
-            this.$store.state.indicators.selectedIndicator.mapData = data;
-            const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-            currLayer.changed();
-          });
-        } else {
-          // TODO:
-          // redraw all time-dependant layers, if time is passed via WMS params
-          const area = this.drawnArea;
-          const layers = map.getLayers().getArray();
-          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
-            .forEach((config) => {
-              const layer = layers.find((l) => l.get('name') === config.name);
-              if (layer) {
-                updateTimeLayer(layer, config, timeObj.value, area);
-              }
+    dataLayerTime: {
+      immediate: true,
+      handler(timeObj) {
+        if (timeObj) {
+          const { map } = getMapInstance(this.mapId);
+          if (this.indicator && 'queryParameters' in this.indicator) {
+            // re-load indicator data for indicators where the rendering is based on external data
+            loadIndicatorExternalData(
+              timeObj.value, this.mergedConfigsData[0],
+            ).then((data) => {
+              this.$store.state.indicators.selectedIndicator.mapData = data;
+              const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
+              currLayer.changed();
             });
-          this.$emit('update:datalayertime', timeObj.name);
+          } else {
+            // TODO:
+            // redraw all time-dependant layers, if time is passed via WMS params
+            const area = this.drawnArea;
+            const layers = map.getLayers().getArray();
+            this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+              .forEach((config) => {
+                const layer = layers.find((l) => l.get('name') === config.name);
+                if (layer) {
+                  updateTimeLayer(layer, config, timeObj.value, area);
+                }
+              });
+            this.$emit('update:datalayertime', timeObj.name);
+          }
         }
       }
     },
