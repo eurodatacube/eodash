@@ -515,7 +515,7 @@ export default {
             this.$emit('update:datalayertime', timeObj.name);
           }
         }
-      }
+      },
     },
     enableCompare(enabled) {
       // Make sure compare data is loaded if required
