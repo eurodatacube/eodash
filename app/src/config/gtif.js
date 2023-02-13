@@ -1398,6 +1398,7 @@ export const globalIndicators = [
           },
         ],
         wmsStyles: {
+          dataInfo: 'GreenRoofs',
           sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
@@ -1486,6 +1487,7 @@ export const globalIndicators = [
           },
         ],
         wmsStyles: {
+          dataInfo: 'SolarRoofs',
           sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
