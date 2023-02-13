@@ -2601,7 +2601,7 @@ export const globalIndicators = [
               range: [0, 4000],
             },
             protectedZones: {
-              display: false,
+              display: true,
               type: 'boolfilter',
               label: 'Exclude protected areas',
               id: 'protected',
