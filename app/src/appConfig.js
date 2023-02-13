@@ -94,7 +94,7 @@ module.exports = [
     pageMeta: {
       rootPath: 'https://eodashboard.org',
       googleSiteVerification: 'iHN2SaSR9qF7T3lOqNYSF4kaq_ZgK-I31SSgO5RKXW8',
-      shortDescription: 'The Earth Observing Dashboard combines the resources, technical knowledge and expertise of three partner agencies ESA, JAXA, and NASA to strengthen our global understanding of the environmental and economic effects of the COVID-19 pandemic.',
+      shortDescription: 'The Earth Observing Dashboard combines the resources, technical knowledge and expertise of three partner agencies ESA, JAXA, and NASA to strengthen our global understanding of the changing environment with human activity.',
       twitterCardImagePath: '/img/trilateral/twitter_card.png',
       imagePath: '/img/trilateral',
     },

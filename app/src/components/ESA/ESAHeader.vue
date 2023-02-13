@@ -156,8 +156,10 @@
           <h2>Mobile devices are not yet fully supported</h2>
           <p>
             You are currently viewing a beta release of the Green
-            Transition Information Factory (GTIF), and as such, the <bold>mobile version</bold> of this application
-            is not fully fleshed out yet. Some parts of the application are expected to not work fully or at all.
+            Transition Information Factory (GTIF), and as such, the
+            <bold>mobile version</bold> of this application
+            is not fully fleshed out yet. Some parts of the application
+            are expected to not work fully or at all.
             Proceed at your own risk.
           </p>
         </div>
