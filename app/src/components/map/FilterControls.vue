@@ -100,6 +100,32 @@
             </template>
           </v-slider>
           <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
+            <v-range-slider
+              v-model="filters[key].range"
+              hide-details
+              dense
+              :min="filters[key].min"
+              :max="filters[key].max"
+              :step="(filters[key].max-filters[key].min)/100"
+              @input="(evt) => updateMap(evt, filters[key].id)"
+            >
+              <template v-slot:prepend>
+                <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
+              </template>
+              <template v-slot:append>
+                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[1]}}</div>
+              </template>
+            </v-range-slider>
+
+            <v-row class="fill-width px-16 mx-1">
+              <v-col class="d-inline-flex pl-0 justify-start">N</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">E</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">S</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">W</v-col>
+            </v-row>
+<!--
+            TODO: Comment-out circular slider for now
+
             <span style="position: absolute; top: 0px; width: 20px; left: calc(50% - 10px);">
               N
             </span>
@@ -141,6 +167,7 @@
               radius="80"
               startValue="90"
             />
+-->
           </center>
           <v-range-slider
             v-else
