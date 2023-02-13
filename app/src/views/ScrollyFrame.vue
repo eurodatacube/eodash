@@ -23,7 +23,7 @@
         >
         </iframe>
 
-        <feedback-button class="mr-8 mb-4" />
+        <feedback-button />
       </v-container>
       <!--<global-footer />-->
     </div>
@@ -201,7 +201,7 @@ export default {
 
 ::v-deep .feedback-button {
   position: fixed;
-  right: 0;
-  bottom: 0;
+  right: 32px;
+  bottom: 16px;
 }
 </style>
