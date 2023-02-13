@@ -164,6 +164,7 @@ export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
 },
 baseLayers.cloudless,
+baseLayers.osm_3857,
 baseLayers.S2GLC,
 baseLayers.ESA_WORLD_COVER,
 baseLayers.CORINE_LAND_COVER,
@@ -198,23 +199,28 @@ const nutsStyle = {
 export const administrativeLayers = [{
   ...nutsStyle,
   name: 'NUTS L0',
+  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  minZoom: 4,
   maxZoom: 7.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L1',
+  id: 'nuts_1',
   url: 'data/gtif/data/AT_NUTS_L1.geojson',
   minZoom: 7.5,
   maxZoom: 8.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L2',
+  id: 'nuts_2',
   url: 'data/gtif/data/AT_NUTS_L2.geojson',
   minZoom: 8.5,
   maxZoom: 9.5,
 }, {
   ...nutsStyle,
   name: 'NUTS L3',
+  id: 'nuts_3',
   url: 'data/gtif/data/AT_NUTS_L3.geojson',
   minZoom: 9.5,
   maxZoom: 10.5,
@@ -222,6 +228,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'District (Bezirk)',
+  id: 'bezirk',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
   minZoom: 10.5,
   maxZoom: 12,
@@ -230,6 +237,7 @@ export const administrativeLayers = [{
   ...nutsStyle,
   protocol: 'flatgeobuf',
   name: 'Municipality (Gemeinde)',
+  id: 'gemeinde',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
   minZoom: 12,
   maxZoom: 13.5,
@@ -237,9 +245,11 @@ export const administrativeLayers = [{
 }, {
   ...nutsStyle,
   protocol: 'flatgeobuf',
+  id: 'zahlsprengel',
   name: 'Census Track (Zählsprengel)',
   url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
   minZoom: 13.5,
+  maxZoom: 18,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
@@ -258,6 +268,17 @@ export const defaultLayersDisplay = {
   projection: 'EPSG:3857',
 };
 
+const getMinuteIntervals = (start, end, minutes) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+    currentDate = DateTime.fromISO(currentDate).plus({ minutes });
+  }
+  return dateArray;
+};
+
 const energyTransitionDefaults = {
   baseLayers: [
     ...baseLayersLeftMap,
@@ -272,13 +293,13 @@ const energyTransitionDefaults = {
 
 export const indicatorsDefinition = Object.freeze({
   BM1: {
-    indicator: 'Biomass',
+    indicator: 'Forest Change',
     class: 'air',
     themes: ['carbon-accounting'],
     story: '/data/gtif/markdown/BM1',
   },
   BM2: {
-    indicator: 'CCI Biomass',
+    indicator: 'Above Ground Biomass',
     class: 'air',
     themes: ['carbon-accounting'],
     story: '/data/gtif/markdown/BM2',
@@ -324,6 +345,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -334,6 +358,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -344,6 +371,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['zahlsprengel'],
+    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -430,50 +460,53 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Anual forest mask',
     class: 'air',
     story: '/data/gtif/markdown/FCM3',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT1: {
     indicator: 'Basal area',
     class: 'air',
     story: '/data/gtif/markdown/VTT1',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT2: {
     indicator: 'Broadleaf proportion',
     class: 'air',
     story: '/data/gtif/markdown/VTT2',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT3: {
     indicator: 'Conifer proportion',
     class: 'air',
     story: '/data/gtif/markdown/VTT3',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT4: {
     indicator: 'Tree Diameter',
     class: 'air',
     story: '/data/gtif/markdown/VTT4',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT5: {
     indicator: 'Tree Height',
     class: 'air',
     story: '/data/gtif/markdown/VTT5',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   VTT6: {
     indicator: 'Tree Volume',
     class: 'air',
     story: '/data/gtif/markdown/VTT6',
-    themes: ['eo-adaptation-services'],
+    themes: ['carbon-accounting'],
   },
   AQA: {
-    indicator: 'Aggregated Health Risk Index (ARI)',
+    indicator: 'Health Risk Index (ARI)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQB: {
     indicator: 'Fine particulate matter (PM2.5)',
@@ -481,6 +514,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQC: {
     indicator: 'Coarse particulate matter (PM10)',
@@ -488,6 +524,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
   },
   AQ2: {
     indicator: 'Innsbruck hot-spot',
@@ -607,10 +646,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Aggregated Health Risk Index (ARI)',
+        description: 'Health Risk Index (ARI)',
         indicator: 'AQA',
         lastIndicatorValue: null,
-        indicatorName: 'Aggregated Health Risk Index (ARI)',
+        indicatorName: 'Health Risk Index (ARI)',
         navigationDescription: 'Daily aggregated maps of ARI index',
         subAoi: {
           type: 'FeatureCollection',
@@ -670,7 +709,7 @@ export const globalIndicators = [
             return color;
           },
           id: 'air_quality_new_id',
-          name: 'Aggregated Health Risk Index (ARI)',
+          name: 'Health Risk Index (ARI)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
           minZoom: 1,
@@ -859,7 +898,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.fluxData,
+        time: getMinuteIntervals('2021-01-01T01:00:00Z', '2022-12-01T00:30:00Z', 30),
         inputData: [''],
         yAxis: '',
         cogFilters: {
@@ -906,10 +945,10 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/flux_data/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/flux_data/{time}_gtif_uibk_ffp_values.tif' },
           ],
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss'Z'"),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd HH:mm:ss'),
           style: {
             variables: {
               varMin: 2,
@@ -1305,6 +1344,7 @@ export const globalIndicators = [
             }
             return color;
           },
+          opacity: 0.7,
           id: 'mobility',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
@@ -1358,6 +1398,7 @@ export const globalIndicators = [
           },
         ],
         wmsStyles: {
+          dataInfo: 'GreenRoofs',
           sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
@@ -1446,6 +1487,7 @@ export const globalIndicators = [
           },
         ],
         wmsStyles: {
+          dataInfo: 'SolarRoofs',
           sourceLayer: 'GTIF_AT_Rooftops_3857',
           items: [
             {
@@ -1495,6 +1537,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Urban Trees',
         indicator: 'SOL3',
+        disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Urban Trees',
         navigationDescription: 'Urban Tree Impact',
@@ -1528,28 +1571,9 @@ export const globalIndicators = [
             location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
           },
         ],
-        wmsStyles: {
-          sourceLayer: 'GTIF_AT_Rooftops_3857',
-          items: [
-            {
-              id: 'urbantrees',
-              description: 'Urban trees',
-              markdown: 'urban_trees',
-            },
-          ],
-        },
+
         display: {
-          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
-          STYLES: 'urbantrees',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
-          attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
-          protocol: 'WMS',
-          exceptions: 'application/vnd.ogc.se_inimage',
-          selectedStyle: 'urbantrees',
+
         },
       },
     },
@@ -1561,11 +1585,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Biomass',
+        description: 'Forest Change',
         navigationDescription: '',
         indicator: 'BM1',
         lastIndicatorValue: null,
-        indicatorName: 'Biomass',
+        indicatorName: 'Forest Change',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1593,7 +1617,7 @@ export const globalIndicators = [
           normalize: true,
           style: {
           },
-          name: 'Biomass',
+          name: 'Forest Change',
           minZoom: 1,
         },
       },
@@ -1606,11 +1630,11 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'CCI Biomass',
+        description: 'Above Ground Biomass',
         navigationDescription: '',
         indicator: 'BM2',
         lastIndicatorValue: null,
-        indicatorName: 'CCI Biomass',
+        indicatorName: 'Above Ground Biomass',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1672,7 +1696,7 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'CCI Biomass',
+          name: 'Above Ground Biomass',
           minZoom: 1,
         },
       },
@@ -2235,6 +2259,7 @@ export const globalIndicators = [
               dataInfo: 'WindPowerDensity',
               min: 0,
               max: 4000,
+              step: 10,
               header: true,
               range: [0, 4000],
               changeablaDataset: {
@@ -2261,6 +2286,7 @@ export const globalIndicators = [
               dataInfo: 'Elevation',
               min: 0,
               max: 4000,
+              step: 10,
               range: [0, 4000],
             },
             slope: {
@@ -2291,14 +2317,15 @@ export const globalIndicators = [
               max: 25000,
               range: [0, 25000],
             },
-            rugedeness: {
+            ruggedness: {
               display: false,
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
+              label: 'Filter for ruggedness index',
+              id: 'ruggedness',
               type: 'slider',
+              dataInfo: 'Ruggedness',
               min: 0,
               max: 1,
-              value: 0,
+              value: 1,
             },
             protectedZones: {
               display: true,
@@ -2342,7 +2369,7 @@ export const globalIndicators = [
               energyGridDistanceMin: 0,
               energyGridDistanceMax: 25000,
               protected: 0,
-              rugedeness: 0,
+              ruggedness: 1,
             },
             color: [
               'case',
@@ -2354,7 +2381,7 @@ export const globalIndicators = [
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['between', ['band', 5], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['>', ['band', 7], ['var', 'rugedeness']],
+                ['<', ['band', 7], ['var', 'ruggedness']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
@@ -2420,6 +2447,7 @@ export const globalIndicators = [
               min: 0,
               max: 360,
               range: [0, 360],
+              isCircular: true,
             },
             slope: {
               display: true,
@@ -2531,6 +2559,7 @@ export const globalIndicators = [
         city: 'Austria',
         siteName: 'global',
         indicator: 'REP3',
+        disabled: true,
         description: 'NRT Energy Production Forecast',
         navigationDescription: 'NRT Energy Production Forecast',
         lastIndicatorValue: null,
@@ -2574,8 +2603,8 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        //TODO dataInfo: 'SWE',
-        //TODO dataInfo: 'WSE',
+        // TODO dataInfo: 'SWE',
+        // TODO dataInfo: 'WSE',
       },
     },
   },
@@ -2589,6 +2618,7 @@ export const globalIndicators = [
         description: 'Potential Assessment',
         navigationDescription: 'Potential Assessment',
         indicator: 'REP5',
+        disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Micro Hydropower',
         subAoi: {
@@ -2601,103 +2631,7 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'REP5',
-          filters: {
-            rugedeness: {
-              label: 'Filter for rugedeness index',
-              id: 'rugedeness',
-              min: 0,
-              max: 0.78,
-            },
-            settlementDistance: {
-              label: 'Distance to settlements',
-              id: 'settlementDistance',
-              min: 0,
-              max: 5670,
-            },
-            energyGridDistance: {
-              label: 'Distance to energy grid',
-              id: 'energyGridDistance',
-              min: 0,
-              max: 50000,
-            },
-            slope: {
-              label: 'Filter for slope',
-              id: 'slope',
-              min: 0,
-              max: 50,
-            },
-            aspect: {
-              label: 'Filter for aspect',
-              id: 'aspect',
-              min: 0,
-              max: 360,
-            },
-            altitude: {
-              label: 'Filter for altitude',
-              id: 'altitude',
-              min: 0,
-              max: 2000,
-            },
-          },
-        },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
-          protocol: 'cog',
-          id: 'REP5',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/WSF_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/ESA_WorldCover_10m_COG_3857_fix.tif' },
-          ],
-          style: {
-            variables: {
-              rugedenessMin: 0,
-              rugedenessMax: 0.78,
-              settlementDistanceMin: 0,
-              settlementDistanceMax: 5670,
-              energyGridDistanceMin: 0,
-              energyGridDistanceMax: 50000,
-              slopeMin: 0,
-              slopeMax: 50,
-              aspectMin: 0,
-              aspectMax: 360,
-            },
-            color: [
-              'case',
-              [
-                'all',
-                ['between', ['band', 2], ['var', 'rugedenessMin'], ['var', 'rugedenessMax']],
-                ['between', ['band', 3], ['var', 'settlementDistanceMin'], ['var', 'settlementDistanceMax']],
-                ['between', ['band', 4], ['var', 'energyGridDistanceMin'], ['var', 'energyGridDistanceMax']],
-                ['between', ['band', 5], ['var', 'slopeMin'], ['var', 'slopeMax']],
-                ['between', ['band', 6], ['var', 'aspectMin'], ['var', 'aspectMax']],
-              ],
-              [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('viridis', 0, 9000, 10, false),
-              ],
-              [
-                'color', 0, 0, 0, 0,
-              ],
-            ],
-          },
-          name: 'Micro-Hydropower',
-          minZoom: 1,
         },
       },
     },

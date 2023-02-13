@@ -15,10 +15,15 @@
             || (showMap && mergedConfigsData[0].customAreaIndicator)
             || appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          class="pa-0"
           :style="`height: auto`"
         >
+        <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
+          <AdminLayersInfoBar class="pb-6"
+          :mergedConfigsData="mergedConfigsData[0]"/>
+        </template>
           <v-card
-            v-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
+            v-if="showCustomAreaCard"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
@@ -49,24 +54,31 @@
               />
             </template>
             <v-col
-              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
+              v-else-if="showMap &&
+                (mergedConfigsData[0].customAreaIndicator &&
+                  !mergedConfigsData[0].adminLayersCustomIndicator
+                )"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
             >
+              <template>
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
-              <p style="max-width: 75%; text-align: center">
-                Draw an area on the map using the shape buttons to generate a custom chart!
-              </p>
-              <v-btn
-                class="mt-3"
-                color="secondary"
-                :loading="isLoadingCustomAreaIndicator"
-                :disabled="!selectedArea"
-                @click="generateChart"
-              >
-                Generate Chart
-              </v-btn>
+                <p style="max-width: 75%; text-align: center">
+                  Draw an area on the map using the shape buttons to generate a custom chart!
+                </p>
+                <v-btn
+                  class="mt-3"
+                  color="secondary"
+                  :loading="isLoadingCustomAreaIndicator"
+                  :disabled="!selectedArea"
+                  @click="generateChart"
+                >
+                  Generate Chart
+                </v-btn>
+              </template>
             </v-col>
+            <template v-else-if="mergedConfigsData[0].adminLayersCustomIndicator">
+            </template>
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -108,7 +120,7 @@
             </v-col>
           </v-row>
           <v-row
-            v-else
+            v-else-if="showCustomAreaCard"
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col
@@ -188,6 +200,7 @@
           </v-row>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
+            :mergedConfigsData="mergedConfigsData[0]"
           >
           </filter-controls>
           <!--
@@ -221,6 +234,7 @@
           </StyleControls>
           <vector-tile-style-control v-if="indicatorObject.queryParameters"
             :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
           >
           </vector-tile-style-control>
           <wms-style-controls v-if="indicatorObject.wmsStyles"
@@ -232,6 +246,7 @@
             :indicatorObject="indicatorObject"
             :adminLayer="$store.state.features.adminBorderLayerSelected"
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
         </v-col>
@@ -351,6 +366,7 @@ import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 // import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
+import AdminLayersInfoBar from '@/components/AdminLayersInfoBar.vue';
 
 export default {
   props: [
@@ -367,6 +383,7 @@ export default {
     VectorTileStyleControl,
     // ScatterPlot,
     DataMockupView,
+    AdminLayersInfoBar,
   },
   data: () => ({
     overlay: false,
@@ -383,6 +400,7 @@ export default {
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
     showScatterplot: null,
+    updateQueryParametersTrigger: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -422,6 +440,12 @@ export default {
     },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
+    },
+    showCustomAreaCard() {
+      if (this.mergedConfigsData[0].adminLayersCustomIndicator && !this.customAreaIndicator) {
+        return false;
+      }
+      return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -559,6 +583,10 @@ export default {
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    },
+    updateQueryParameters() {
+      // just passing a signal from one sibling to another, ideally would be done via store
+      this.updateQueryParametersTrigger = Math.random();
     },
   },
   watch: {

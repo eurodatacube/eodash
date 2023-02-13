@@ -57,9 +57,55 @@ export default {
     indicatorObject: Object,
     adminFeature: Object,
     adminLayer: Object,
+    updateQueryParametersTrigger: Number,
   },
   watch: {
     adminFeature(feature) {
+      this.fetchCustomChartForFeature(feature);
+    },
+    updateQueryParametersTrigger() {
+      // if selected admin feature, fetch custom chart
+      // (triggered by component for vector style)
+      const feature = this.$store.state.features.adminBorderFeatureSelected;
+      if (feature) {
+        this.fetchCustomChartForFeature(feature);
+      }
+    },
+  },
+  computed: {
+    show() {
+      return this.adminLayer && this.adminFeature && this.indicatorObject
+      && [
+        // 'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
+      ].includes(this.indicatorObject.indicator);
+      // for now we set manually where we want the mockup to appear
+    },
+    adminFeatureName() {
+      const props = this.adminFeature.getProperties();
+      const key = Object.keys(props).find(
+        (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
+      );
+      if (props[key]) {
+        return props[key];
+      }
+      return null;
+    },
+    adminLayerName() {
+      return this.adminLayer.get('name');
+    },
+    isNutsLevel() {
+      return this.adminLayerName?.toLowerCase().includes('nuts');
+    },
+  },
+  data() {
+    return {
+      overlayRows: [],
+    };
+  },
+  mounted() {
+  },
+  methods: {
+    fetchCustomChartForFeature(feature) {
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (this.adminLayerName === 'Municipality (Gemeinde)') {
         if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
@@ -171,40 +217,6 @@ export default {
         }
       }
     },
-  },
-  computed: {
-    show() {
-      return this.adminLayer && this.adminFeature && this.indicatorObject
-      && [
-        // 'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
-      ].includes(this.indicatorObject.indicator);
-      // for now we set manually where we want the mockup to appear
-    },
-    adminFeatureName() {
-      const props = this.adminFeature.getProperties();
-      const key = Object.keys(props).find(
-        (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
-      );
-      if (props[key]) {
-        return props[key];
-      }
-      return null;
-    },
-    adminLayerName() {
-      return this.adminLayer.get('name');
-    },
-    isNutsLevel() {
-      return this.adminLayerName?.toLowerCase().includes('nuts');
-    },
-  },
-  data() {
-    return {
-      overlayRows: [],
-    };
-  },
-  mounted() {
-  },
-  methods: {
   },
   beforeDestroy() {
   },

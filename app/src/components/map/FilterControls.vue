@@ -99,6 +99,80 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
+          <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
+            <v-range-slider
+              v-model="filters[key].range"
+              hide-details
+              dense
+              :min="filters[key].min"
+              :max="filters[key].max"
+              :step="(filters[key].max-filters[key].min)/100"
+              @input="(evt) => updateMap(evt, filters[key].id)"
+            >
+              <template v-slot:prepend>
+                <div class="pl-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[0]}}
+                </div>
+              </template>
+              <template v-slot:append>
+                <div class="pr-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[1]}}
+                </div>
+              </template>
+            </v-range-slider>
+
+            <v-row class="fill-width px-16 mx-1">
+              <v-col class="d-inline-flex pl-0 justify-start">N</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">E</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">S</v-col>
+              <v-col class="d-inline-flex pl-0 justify-start">W</v-col>
+            </v-row>
+<!--
+            TODO: Comment-out circular slider for now
+
+            <span style="position: absolute; top: 0px; width: 20px; left: calc(50% - 10px);">
+              N
+            </span>
+            <span style="
+              position: absolute;
+              top: calc(50% - 10px);
+              width: 20px;
+              right: calc(50% - 105px);
+            ">
+              E
+            </span>
+            <span style="position: absolute; bottom: 0px; width: 20px; left: calc(50% - 10px);">
+              S
+            </span>
+            <span style="
+              position: absolute;
+              left: calc(50% - 105px);
+              height: 20px;
+              top: calc(50% - 10px);
+            ">
+              W
+            </span>
+            <round-slider
+              v-model="filters[key].range"
+              :min="filters[key].min"
+              :max="filters[key].max"
+              :update="(evt) => updateMap(
+                evt.value
+                  .split(',')
+                  .map((s) => parseInt(s, 10) - 90),
+                filters[key].id,
+              )"
+              showTooltip="false"
+              slider-type="range"
+              line-cap="round"
+              width="14"
+              startAngle="0"
+              endAngle="-360"
+              radius="80"
+              startValue="90"
+            />
+-->
+          </center>
           <v-range-slider
             v-else
             v-model="filters[key].range"
@@ -143,9 +217,37 @@
           </v-list>
         </v-menu>
       </div>
-      <v-row class="pa-3 justify-center" style="margin-top:20px;">
-        <v-btn small class="mr-3" color="primary">Export best zones</v-btn>
-        <v-btn small class="ml-3" color="primary">Create report</v-btn>
+      <v-row class="pa-3 justify-center" style="margin-top:10px;">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-btn
+                small
+                disabled
+                color="primary"
+                class="mr-3"
+              >
+                Export best zones
+              </v-btn>
+            </div>
+            </template>
+            <span>Coming soon.</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-btn
+                small
+                disabled
+                color="primary"
+                class="mr-3"
+              >
+                Create report
+              </v-btn>
+            </div>
+            </template>
+            <span>Coming soon.</span>
+        </v-tooltip>
       </v-row>
     </v-card>
   </v-col>
@@ -156,19 +258,25 @@
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
+// import RoundSlider from 'vue-round-slider';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
+import Collection from 'ol/Collection';
 
 export default {
   name: 'FilterControls',
   components: {
     InfoDialog,
+    // RoundSlider,
   },
   props: {
     cogFilters: Object,
+    mergedConfigsData: Object,
   },
   data() {
     return {
       filters: this.cogFilters.filters,
       select: null,
+      variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
     };
   },
   computed: {
@@ -198,35 +306,45 @@ export default {
       // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
       // approaches for getting selected indicator and setting the sources should be considered
       const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      const { sources } = this.$store.state.indicators.selectedIndicator.display;
+      const layers = map.getLayers().getArray();
+      // get layerGroup and recreate it, otherwise the webglcontext has visual glitches, if we
+      // would just replace the source of a layer
+      const layerGroup = layers.find((l) => l.get('name') === this.mergedConfigsData.name);
+      map.removeLayer(layerGroup);
+      // TODO hardcoded first item in array, we should match by ID or so
+      const { sources, style } = this.mergedConfigsData;
       sources[0].url = evt.url;
-      gtl.setSource(new GeoTIFF({
-        sources,
-        normalize: false,
-        interpolate: false,
-      }));
+      const wgTileLayer = new WebGLTileLayer({
+        source: new GeoTIFF({
+          sources,
+          normalize: false,
+          interpolate: false,
+        }),
+        style,
+      });
+      wgTileLayer.set('id', this.cogFilters.sourceLayer);
+      wgTileLayer.updateStyleVariables(this.variables);
+      layerGroup.setLayers(new Collection([wgTileLayer]));
+      // forces fixing of webgl context, simply updating layers of layergroup does not work
+      map.addLayer(layerGroup);
     },
     updateMap(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      const variables = {};
-      [variables[`${filterId}Min`], variables[`${filterId}Max`]] = evt;
-      gtl.updateStyleVariables(variables);
+      [this.variables[`${filterId}Min`], this.variables[`${filterId}Max`]] = evt;
+      gtl.updateStyleVariables(this.variables);
     },
     updateMapSlider(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      const variables = {};
-      variables[filterId] = evt;
-      gtl.updateStyleVariables(variables);
+      this.variables[filterId] = evt;
+      gtl.updateStyleVariables(this.variables);
     },
     updateMapBool(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      const variables = {};
-      variables[filterId] = +evt;
-      gtl.updateStyleVariables(variables);
+      this.variables[filterId] = +evt;
+      gtl.updateStyleVariables(this.variables);
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;

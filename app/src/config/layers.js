@@ -18,6 +18,14 @@ export const baseLayers = Object.freeze({
     visible: false,
     protocol: 'xyz',
   },
+  osm_3857: {
+    name: 'OpenStreetMap background by EOX',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ OpenStreetMap: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    protocol: 'xyz',
+  },
   S2GLC: {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
     protocol: 'WMS',
@@ -54,7 +62,7 @@ export const baseLayers = Object.freeze({
     protocol: 'xyz',
   },
   bodenwertigkeitskarte_agri: {
-    name: 'Digital soil map - farmland value',
+    name: 'Soil value - Cropland - bodenkarte.at',
     id: 'bodenwertigkeitskarte_agri',
     styleFile: 'https://bodenkarte.at/styles/ackerwert.json',
     attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',
@@ -63,7 +71,7 @@ export const baseLayers = Object.freeze({
     protocol: 'vectortile',
   },
   bodenwertigkeitskarte_grassland: {
-    name: 'Digital soil map - grassland value',
+    name: 'Soil value - Grassland - bodenkarte.at',
     id: 'bodenwertigkeitskarte_grassland',
     styleFile: 'https://bodenkarte.at/styles/gruenlandwert.json',
     attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',

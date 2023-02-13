@@ -4,6 +4,10 @@
       <v-col cols="6">
         <v-subheader>
           Data properties
+          <info-dialog
+            v-if="wmsStyles.dataInfo"
+            :infoSource="wmsStyles.dataInfo"
+          />
         </v-subheader>
       </v-col>
 
@@ -33,10 +37,13 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     wmsStyles: Object,
   },

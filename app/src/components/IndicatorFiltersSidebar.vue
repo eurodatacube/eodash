@@ -52,6 +52,7 @@
                 gI => gI.theme === themes[domainModel].slug
               ).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
+              :disabled="item.properties.indicatorObject.disabled"
               class="mb-2"
               style="width: 100%"
               @click="() => {
@@ -131,6 +132,14 @@ export default {
       'Innsbruck-SOL3',
       'Innsbruck-SOL2',
       'Innsbruck-SOL1',
+      'Austria-MOBI1',
+      'AT-AQ4',
+      'AT-AQ2',
+      'AT1-AQ3',
+      'AT-AQ5',
+      'AT-AQC',
+      'AT-AQB',
+      'AT-AQA',
     ],
   }),
   computed: {
