@@ -366,7 +366,7 @@ export default {
             if (transform) {
               // Get the transform parameters from the style's transform matrix
               matrix = transform
-                .match(/^matrix\(([^\(]*)\)$/)[1]
+                .match(/^matrix\(([^\(]*)\)$/)[1] // eslint-disable-line
                 .split(',')
                 .map(Number);
             } else {

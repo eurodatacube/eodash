@@ -334,7 +334,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm,
       visible: true,
-    },],
+    }],
     overlayLayers: [],
   },
   REP5: {
@@ -557,7 +557,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm,
       visible: true,
-    },],
+    }],
   },
   AQ4: {
     indicator: 'Human Mobility Patterns',
@@ -1235,7 +1235,7 @@ export const globalIndicators = [
             //   id: 'distance',
             //   description: 'Trip distance',
             //   min: 0,
-            //   max: 300000, // m, while legend converts to km // TODO: check if this matches legend / actual data
+            //   max: 300000, // m, while legend converts to km
             //   colormapUsed: blgrrd,
             //   markdown: 'AQ4_distance',
             // },
@@ -1243,7 +1243,7 @@ export const globalIndicators = [
             //   id: 'n_trajectories',
             //   description: 'Trajectories',
             //   min: 0,
-            //   max: 6000, // TODO: check if this matches legend / actual data
+            //   max: 6000,
             //   colormapUsed: blgrrd,
             //   markdown: 'AQ4_trajectories',
             // },
@@ -1272,8 +1272,7 @@ export const globalIndicators = [
           },
           id: 'trajectories_on_edges_austria_july',
           adminZoneKey: 'unique_id',
-          parameters: 'unique_id,congestion_index,duration_real,duration,speed_real,speed',
-          //parameters: 'unique_id,congestion_index,duration_real,duration,speed_real,speed,distance',
+          parameters: 'unique_id,congestion_index,duration_real,duration,speed_real,speed,distance,n_trajectories',
           name: 'Human Mobility Patterns',
           strokeOnly: true,
           minZoom: 1,
@@ -2724,13 +2723,15 @@ export const globalIndicators = [
         },
         lastColorCode: null,
         aoi: null,
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((15.01 46.70,15.01 46.69,15.03 46.685,15.04 46.685,15.04 46.69,15.01 46.70))').toJson(),
-          }],
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((15.01 46.70,15.01 46.69,15.03 46.685,15.04 46.685,15.04 46.69,15.01 46.70))').toJson(),
+            }],
+          },
         },
         aoiID: 'Austria',
         time: [],
