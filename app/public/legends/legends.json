@@ -323,5 +323,50 @@
         }
     },
     "gtif": {
+        "AQ4_congestion_index": {
+            "range": [0.5, 5],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Congestion index"
+        },
+        "AQ4_duration_real": {
+            "range": [0, 240],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Real trip duration (minutes)"
+        },
+        "AQ4_duration": {
+            "range": [0, 240],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip duration (minutes)"
+        },
+        "AQ4_speed_real": {
+            "range": [0,140],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Real trip speed [km/h]"
+        },
+        "AQ4_speed": {
+            "range": [0,140],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip speed [km/h]"
+        },
+        "AQ4_distance": {
+            "range": [0,300],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trip distance [km]"
+        },
+        "AQ4_trajectories": {
+            "range": [0,6000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trajectories count"
+        },
+        "MOBI1_users_count": {
+            "range": [0,500],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population count"
+        },
+        "MOBI1_users_density": {
+            "range": [0,200],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population density [people/km2]"
+        }
     }
 }

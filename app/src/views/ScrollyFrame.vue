@@ -65,6 +65,10 @@ export default {
       if (e.data.type === 'nav') {
         this.$router.push({ name: e.data.dest });
       }
+      if (e.data.type === 'explore') {
+        this.setCurrentDomain(e.data.domain);
+        this.$router.push({ name: 'explore' });
+      }
     };
 
     switch (this.$route.name) {
