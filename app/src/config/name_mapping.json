@@ -450,11 +450,8 @@
      "description": "Global crops conditions based on multiple EO data sources"
     },
     "World-N12": {
-     "title": "Sea Ice Concentration Arctic (GCOM-W)"
+     "title": "Sea Ice Concentration Global (GCOM-W)"
     },
-    "Antarctic-N12": {
-      "title": "Sea Ice Concentration Antarctic (GCOM-W)"
-     },
     "NPP-NPP": {
      "title": "Ocean Primary Productivity (BICEP)"
     },
