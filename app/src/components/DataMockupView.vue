@@ -19,23 +19,23 @@
         </thead>
         <tbody>
           <tr>
-            <td>Mean Land Surface Temperature (2021)</td>
+            <td> Mean Land Surface Temperature (2021)</td>
             <td> {{ GRStatistics.lst2021 }} degrees C </td>
           </tr>
           <tr>
-            <td>Total Roof area</td>
+            <td> Total Roof area</td>
             <td> {{ GRStatistics.roofArea }} m² </td>
           </tr>
           <tr>
-            <td>Existing Green Roof area with a slope < 9 degree</td>
+            <td> Existing Green Roof area with a slope &lt; 9 degree</td>
             <td> {{ GRStatistics.grpotare9 }} m² </td>
           </tr>
           <tr>
-            <td>Existing Green Roof area with a slope ≥ 9 and < 15 degree</td>
+            <td> Existing Green Roof area with a slope ≥ 9 and &lt; 15 degree</td>
             <td> {{ GRStatistics.grpotare15 }} m² </td>
           </tr>
           <tr>
-            <td>Existing Green Roof area with a slope ≥ 15 and < 20 degree</td>
+            <td> Existing Green Roof area with a slope ≥ 15 and &lt; 20 degree</td>
             <td> {{ GRStatistics.grpotare20 }} m² </td>
           </tr>
           <tr>
@@ -78,7 +78,7 @@ export default {
   computed: {
     show() {
       return this.adminLayer && this.adminFeature && this.indicatorObject
-      && ['SOL1', 
+      && ['SOL1',
         // 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
@@ -101,6 +101,7 @@ export default {
     return {
       overlayRows: [],
       GRStatistics: null,
+      SRStatistics: null,
     };
   },
   mounted() {
@@ -108,6 +109,7 @@ export default {
   methods: {
     fetchCustomChartForFeature(feature) {
       this.GRStatistics = null;
+      this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (this.adminLayerName === 'Municipality (Gemeinde)') {
         if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
@@ -181,17 +183,8 @@ export default {
       } else if (this.adminLayerName === 'Census Track (Zählsprengel)') {
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const description = 'Green roof potential area [m²]';
-          let expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
-          if (feature) {
-            const adminId = feature.get('id');
-            expUrl += `zsp_id=eq.${adminId}`;
-          } else if (area) {
-            
-          }
-          
-          //this.$store.state.features.selectedArea
-          
-          const 
+          const adminId = feature.get('id');
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?zsp_id=eq.${adminId}&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -220,7 +213,7 @@ export default {
                 grpotare15 += entry.grpotare15;
                 grpotare20 += entry.grpotare20;
               });
-              lst2021 = lst2021 / json.length;
+              lst2021 /= json.length;
               const unused = (1 - (grpotare9 + grpotare15 + grpotare20) / roofArea) * 100;
               this.GRStatistics = {
                 lst2021: lst2021.toFixed(1),
