@@ -324,27 +324,27 @@
     },
     "gtif": {
         "AQ4_congestion_index": {
-            "range": [0.5, 5],
+            "range": [0.5, 3],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
             "label": "Congestion index"
         },
         "AQ4_duration_real": {
-            "range": [0, 240],
+            "range": [0, 60],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
             "label": "Real trip duration (minutes)"
         },
         "AQ4_duration": {
-            "range": [0, 240],
+            "range": [0, 60],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
             "label": "Traffic-free trip duration (minutes)"
         },
         "AQ4_speed_real": {
-            "range": [0,140],
+            "range": [0,130],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
             "label": "Real trip speed [km/h]"
         },
         "AQ4_speed": {
-            "range": [0,140],
+            "range": [0,130],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
             "label": "Traffic-free trip speed [km/h]"
         },
