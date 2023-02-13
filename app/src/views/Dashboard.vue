@@ -52,7 +52,7 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
-          v-if="$store.state.indicators.selectedIndicator"
+          v-if="$store.state.indicators.selectedIndicator && appConfig.id !== 'gtif'"
           left
         >
           <template v-slot:activator="{ on }">
