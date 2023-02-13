@@ -3,45 +3,48 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <div class="py-2">
-    <div v-if="adminLayerName">
-      <b>Administrative level:</b> {{ adminLayerName }}
-    </div>
-    <div v-if="adminFeatureName">
-      <b>Selected:</b> {{ adminFeatureName }}
-    </div>
-  </div>
-  <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
-    && adminFeatureName === '70101420'
-    && indicatorObject.indicator === 'SOL1'
-  ">
-    <h4 class="py-2">Specific data for administrative unit</h4>
-    <h3> Green Roof:</h3>
-    <p><b>mean land surface temperature (2021):</b> 39 degrees C</p>
-    <p><b>Existing GR:</b> 20 Roofs</p>
-    <p><b>Roofs suitable for GRl:</b> 81 Roofs</p>
-    <p><b>Unused Potential Area for GR:</b> 49.3%</p>
-    <p>
-    <img
-      src="data/gtif/images/GR_70101420_chart.png"
-      width="350px"
-    />
-    </p>
-  </div>
-  <div v-if="adminLayerName === 'Census Track (Zählsprengel)'
-  && adminFeatureName === '70101030'
-  && indicatorObject.indicator === 'SOL1'
-">
-    <p><b>mean land surface temperature (2021):</b> 42 degrees C</p>
-    <p><b>Existing GR:</b> 9 Roofs</p>
-    <p><b>Roofs suitable for GRl:</b> 65 Roofs</p>
-    <p><b>Unused Potential Area for GR:</b> 8.5%</p>
-    <p>
-    <img
-    src="data/gtif/images/GR_70101030_chart.png"
-    width="350px"
-    />
-    </p>
+  <div class="py-2" v-if="GRStatistics">
+    <h4>Aggregated statistics</h4>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">
+              Variable
+            </th>
+            <th class="text-left">
+              Aggregated value
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mean Land Surface Temperature (2021)</td>
+            <td> {{ GRStatistics.lst2021 }} degrees C </td>
+          </tr>
+          <tr>
+            <td>Total Roof area</td>
+            <td> {{ GRStatistics.roofArea }} m² </td>
+          </tr>
+          <tr>
+            <td>Existing Green Roof area with a slope < 9 degree</td>
+            <td> {{ GRStatistics.grpotare9 }} m² </td>
+          </tr>
+          <tr>
+            <td>Existing Green Roof area with a slope ≥ 9 and < 15 degree</td>
+            <td> {{ GRStatistics.grpotare15 }} m² </td>
+          </tr>
+          <tr>
+            <td>Existing Green Roof area with a slope ≥ 15 and < 20 degree</td>
+            <td> {{ GRStatistics.grpotare20 }} m² </td>
+          </tr>
+          <tr>
+            <td>Unused Potential Area for Green Roof</td>
+            <td> {{ GRStatistics.unused }} % </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
   </v-col>
 </template>
@@ -75,15 +78,15 @@ export default {
   computed: {
     show() {
       return this.adminLayer && this.adminFeature && this.indicatorObject
-      && [
-        // 'SOL1', 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
+      && ['SOL1', 
+        // 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
     adminFeatureName() {
       const props = this.adminFeature.getProperties();
       const key = Object.keys(props).find(
-        (k) => ['name', 'nuts_name'].includes(k.toLowerCase()),
+        (k) => ['name', 'nuts_name', 'id'].includes(k.toLowerCase()),
       );
       if (props[key]) {
         return props[key];
@@ -93,19 +96,18 @@ export default {
     adminLayerName() {
       return this.adminLayer.get('name');
     },
-    isNutsLevel() {
-      return this.adminLayerName?.toLowerCase().includes('nuts');
-    },
   },
   data() {
     return {
       overlayRows: [],
+      GRStatistics: null,
     };
   },
   mounted() {
   },
   methods: {
     fetchCustomChartForFeature(feature) {
+      this.GRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (this.adminLayerName === 'Municipality (Gemeinde)') {
         if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
@@ -177,15 +179,72 @@ export default {
             });
         }
       } else if (this.adminLayerName === 'Census Track (Zählsprengel)') {
-        if (['SOL1', 'SOL2'].includes(this.indicatorObject.indicator)) {
-          let par = 'grimpscore';
-          let description = 'Green roof potential area [m²]';
-          if (this.indicatorObject.indicator === 'SOL2') {
-            par = 'pveppmwhhp';
-            description = 'PV Power potential [MWh]';
+        if (['SOL1'].includes(this.indicatorObject.indicator)) {
+          const description = 'Green roof potential area [m²]';
+          let expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
+          if (feature) {
+            const adminId = feature.get('id');
+            expUrl += `zsp_id=eq.${adminId}`;
+          } else if (area) {
+            
           }
+          
+          //this.$store.state.features.selectedArea
+          
+          const 
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+                colorCode: [],
+              };
+              json.sort((a, b) => (
+                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+              ));
+              let roofArea = 0;
+              let grpotare9 = 0;
+              let grpotare15 = 0;
+              let grpotare20 = 0;
+              let lst2021 = 0;
+              json.forEach((entry) => {
+                newData.time.push(DateTime.fromISO('20220601'));
+                newData.measurement.push(entry.grimpscore);
+                newData.referenceValue.push(entry.roof_area);
+                // compute statistics
+                lst2021 += entry.lst2021;
+                roofArea += entry.roof_area;
+                grpotare9 += entry.grpotare9;
+                grpotare15 += entry.grpotare15;
+                grpotare20 += entry.grpotare20;
+              });
+              lst2021 = lst2021 / json.length;
+              const unused = (1 - (grpotare9 + grpotare15 + grpotare20) / roofArea) * 100;
+              this.GRStatistics = {
+                lst2021: lst2021.toFixed(1),
+                roofArea: roofArea.toFixed(0),
+                grpotare9: grpotare9.toFixed(0),
+                grpotare15: grpotare15.toFixed(0),
+                grpotare20: grpotare20.toFixed(0),
+                unused: unused.toFixed(2),
+              };
+              const ind = {
+                ...this.indicatorObject,
+                ...newData,
+                xAxis: 'Roof area [m²]',
+              };
+              ind.yAxis = description;
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            });
+        } else if (['SOL2'].includes(this.indicatorObject.indicator)) {
+          const description = 'PV Power potential [MWh]';
           const adminId = feature.get('id');
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?zsp_id=eq.${adminId}&select=roof_area,${par}`;
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Rooftops_3857?zsp_id=eq.${adminId}&select=roof_area,pveppmwhhp`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -200,7 +259,7 @@ export default {
               ));
               json.forEach((entry) => {
                 newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry[par]);
+                newData.measurement.push(entry.pveppmwhhp);
                 newData.referenceValue.push(entry.roof_area);
               });
               const ind = {
