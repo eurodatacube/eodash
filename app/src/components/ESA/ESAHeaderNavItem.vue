@@ -140,6 +140,11 @@ export default {
     display: flex;
     flex: 1 1;
   }
+
+  &:hover img,
+  &.selected img {
+    filter: grayscale(100%) brightness(300%);
+  }
 }
 
 .submenu .navrow .name {
