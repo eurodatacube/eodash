@@ -18,7 +18,11 @@
         :class="{ selected: $route.name === 'explore' && domain.slug === currentDomain }"
         align="center"
       >
-        <img src="../../../public/img/gtif/icons/menu-explore.png" height="24" alt="">
+        <img
+          src="../../../public/img/gtif/icons/menu-explore2.svg"
+          class="mr-2"
+          height="26"
+        />
         <div class="name">Explore Tools</div>
       </v-row>
 
@@ -31,7 +35,11 @@
         v-for="narrative in domain.narratives"
         :key="narrative.routeName"
       >
-        <img src="../../../public/img/gtif/icons/menu-narrative.png" height="24" alt="">
+        <img
+          src="../../../public/img/gtif/icons/menu-narrative.svg"
+          class="mr-2"
+          height="26"
+        />
         <div class="name">{{ narrative.name }}</div>
       </v-row>
     </div>
