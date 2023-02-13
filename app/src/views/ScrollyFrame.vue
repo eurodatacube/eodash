@@ -77,11 +77,6 @@ export default {
         this.setCurrentDomain(this.$route.name);
         return '';
 
-      // TODO: rethink this when we have agreed on a menu structure
-      case 'gtif-social-mobility':
-        this.setCurrentDomain('gtif-mobility-transition');
-        return '';
-
       default:
         return '';
     }
@@ -116,7 +111,9 @@ export default {
 
         console.log(process.env.BASE_URL);
 
-        // this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+        if (this.$route.name === 'landing') {
+          this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+        }
         this.setComponentHook('footer', this.footer);
         this.setComponentHook('header', this.header, { routeName: this.$route.name });
       } catch (error) {

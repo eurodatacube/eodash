@@ -16,7 +16,7 @@
         <span class="">{{ firstBreadcrumb }}</span>
       </span>
 
-      <span v-if="secondBreadcrumb.length > 0">
+      <span v-if="secondBreadcrumb.length > 0 && $vuetify.breakpoint.SmAndUp">
         <span class="px-2 green-crumb">&gt;</span>
         <span class="green-crumb">{{ secondBreadcrumb }}</span>
       </span>
