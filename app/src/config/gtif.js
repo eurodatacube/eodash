@@ -1203,7 +1203,7 @@ export const globalIndicators = [
               id: 'duration_real',
               description: 'Real trip duration',
               min: 0,
-              max: 1200, // TODO: check if this matches legend / actual data
+              max: 3600,
               colormapUsed: blgrrd,
               markdown: 'AQ4_duration_real',
             },
@@ -1211,7 +1211,7 @@ export const globalIndicators = [
               id: 'duration',
               description: 'Traffic-free trip duration',
               min: 0,
-              max: 1200, // TODO: check if this matches legend / actual data
+              max: 3600,
               colormapUsed: blgrrd,
               markdown: 'AQ4_duration',
             },
@@ -1219,7 +1219,7 @@ export const globalIndicators = [
               id: 'speed_real',
               description: 'Real trip speed',
               min: 0,
-              max: 140, // km/h
+              max: 130,
               colormapUsed: blgrrd,
               markdown: 'AQ4_speed_real',
             },
@@ -1227,7 +1227,7 @@ export const globalIndicators = [
               id: 'speed',
               description: 'Traffic-free trip speed',
               min: 0,
-              max: 140,
+              max: 130,
               colormapUsed: blgrrd,
               markdown: 'AQ4_speed',
             },
