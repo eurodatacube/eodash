@@ -110,10 +110,14 @@
               @input="(evt) => updateMap(evt, filters[key].id)"
             >
               <template v-slot:prepend>
-                <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
+                <div class="pl-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[0]}}
+                </div>
               </template>
               <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[1]}}</div>
+                <div class="pr-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[1]}}
+                </div>
               </template>
             </v-range-slider>
 
@@ -254,7 +258,7 @@
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
-import RoundSlider from 'vue-round-slider';
+// import RoundSlider from 'vue-round-slider';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
 
@@ -262,7 +266,7 @@ export default {
   name: 'FilterControls',
   components: {
     InfoDialog,
-    RoundSlider,
+    // RoundSlider,
   },
   props: {
     cogFilters: Object,
