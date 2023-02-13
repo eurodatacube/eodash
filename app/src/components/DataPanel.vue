@@ -198,6 +198,14 @@
               </div>
             </v-col>
           </v-row>
+          <!-- TODO: remove GTIF brand check -->
+          <data-mockup-view v-if="appConfig.id === 'gtif'"
+            :indicatorObject="indicatorObject"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :updateQueryParametersTrigger="updateQueryParametersTrigger"
+          >
+          </data-mockup-view>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
             :mergedConfigsData="mergedConfigsData[0]"
@@ -241,14 +249,6 @@
             :wmsStyles="indicatorObject.wmsStyles"
           >
           </wms-style-controls>
-          <!-- TODO: remove GTIF brand check -->
-          <data-mockup-view v-if="appConfig.id === 'gtif'"
-            :indicatorObject="indicatorObject"
-            :adminLayer="$store.state.features.adminBorderLayerSelected"
-            :adminFeature="$store.state.features.adminBorderFeatureSelected"
-            :updateQueryParametersTrigger="updateQueryParametersTrigger"
-          >
-          </data-mockup-view>
         </v-col>
         <v-col
           v-else-if="expanded"
