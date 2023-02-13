@@ -18,7 +18,7 @@
         :class="{ selected: $route.name === 'explore' && domain.slug === currentDomain }"
         align="center"
       >
-        <v-icon class="mr-3" color="#00ae9d">mdi-map-search-outline</v-icon>
+        <img src="../../../public/img/gtif/icons/menu-explore.png" height="24" alt="">
         <div class="name">Explore Tools</div>
       </v-row>
 
@@ -31,7 +31,7 @@
         v-for="narrative in domain.narratives"
         :key="narrative.routeName"
       >
-        <v-icon class="mr-3" color="#00ae9d">mdi-book-open-page-variant-outline</v-icon>
+        <img src="../../../public/img/gtif/icons/menu-narrative.png" height="24" alt="">
         <div class="name">{{ narrative.name }}</div>
       </v-row>
     </div>
