@@ -47,33 +47,46 @@
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
           <v-list-item-group style="width: 100%">
-            <v-list-item
+            <v-tooltip
               v-for="item in globalIndicators.filter(
                 gI => gI.theme === themes[domainModel].slug
               ).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
-              :disabled="item.properties.indicatorObject.disabled"
-              class="mb-2"
-              style="width: 100%"
-              @click="() => {
-                setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
-              }"
+              bottom
             >
-              <v-list-item-avatar>
-                <v-img
-                  :src="`./data/${appConfig.id}/globalDataLayerImages/`+
-                  `${getLocationCode(item.properties.indicatorObject)}.png`"
-                ></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title
-                v-html="item.properties.indicatorObject.indicatorName">
-                </v-list-item-title>
-                <v-list-item-subtitle
-                  v-html="item.properties.indicatorObject.navigationDescription">
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+              <template v-slot:activator="{ on, attrs }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="item.properties.indicatorObject.disabled ? on : null"
+                  class="mb-2"
+                  :class="{ 'v-list-item--disabled': item.properties.indicatorObject.disabled }"
+                  :style="`width: 100%; ${item.properties.indicatorObject.disabled
+                    ? 'pointer-events: all; cursor: default'
+                    : ''
+                  }`"
+                  @click="() => {
+                    if (item.properties.indicatorObject.disabled ) { return }
+                    setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
+                  }"
+                >
+                  <v-list-item-avatar>
+                    <v-img
+                      :src="`./data/${appConfig.id}/globalDataLayerImages/`+
+                      `${getLocationCode(item.properties.indicatorObject)}.png`"
+                    ></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title
+                    v-html="item.properties.indicatorObject.indicatorName">
+                    </v-list-item-title>
+                    <v-list-item-subtitle
+                      v-html="item.properties.indicatorObject.navigationDescription">
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              <span>Coming soon.</span>
+            </v-tooltip>
           </v-list-item-group>
         </v-list>
       </div>

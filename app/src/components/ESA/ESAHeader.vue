@@ -12,7 +12,7 @@
             >
               <img class="esa-header__icon" src="img/gtif/icons/ESA_Menu.svg" alt="ESA menu toggle">
             </button>
-            <button
+            <!-- <button
               @click="switchSearch"
               id="esa-search"
               class="grow-on-hover esa-header__toggle search-toggle"
@@ -22,7 +22,7 @@
                 src="img/gtif/icons/ESA_Search.svg"
                 alt="ESA search toggle"
               >
-            </button>
+            </button> -->
             <router-link to="/">
               <img
                 v-if="$vuetify.breakpoint.mdAndUp"
@@ -301,7 +301,7 @@ export default {
         default:
           return false;
       }
-    }
+    },
   },
 };
 </script>
