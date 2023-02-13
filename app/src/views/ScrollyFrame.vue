@@ -10,17 +10,20 @@
 
       <v-container>
         <iframe
-        id="resizableIframe"
-        @load="onLoaded"
-        width="100%"
-        style="
-          height: calc(100vh - 112px) !important;
-          position: fixed; left: 0; bottom: 0; top: 112px;
-        "
-        src="./scrollytelling/index.html"
-        frameborder="0"
-        scrolling="no"
-      ></iframe>
+          id="resizableIframe"
+          @load="onLoaded"
+          width="100%"
+          style="
+            height: calc(100vh - 112px) !important;
+            position: fixed; left: 0; bottom: 0; top: 112px;
+          "
+          src="./scrollytelling/index.html"
+          frameborder="0"
+          scrolling="no"
+        >
+        </iframe>
+
+        <feedback-button class="mr-8 mb-4" />
       </v-container>
       <!--<global-footer />-->
     </div>
@@ -35,12 +38,15 @@ import {
 
 import axios from 'axios';
 import GlobalHeader from '@/components/GlobalHeader.vue';
-import storiesConfig from '../config/stories.json';
+import FeedbackButton from '@/components/FeedbackButton.vue';
+
 import dashboardToScrolly from '../helpers/dashboardToScrolly';
+import storiesConfig from '../config/stories.json';
 
 export default {
   components: {
     GlobalHeader,
+    FeedbackButton,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -191,5 +197,11 @@ export default {
   min-width: 100%;
   height: 100%;
   border: none;
+}
+
+::v-deep .feedback-button {
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 </style>
