@@ -19,7 +19,7 @@
         align="center"
       >
         <img
-          src="../../../public/img/gtif/icons/menu-explore2.svg"
+          src="../../../public/img/gtif/icons/menu-explore.svg"
           class="mr-2"
           height="26"
         />
