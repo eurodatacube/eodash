@@ -2713,6 +2713,7 @@ export const globalIndicators = [
         city: 'Austria',
         siteName: 'global',
         indicator: 'REP4',
+        disabled: true,
         description: 'Dynamic Storage Capacity',
         navigationDescription: 'Dynamic Storage Capacity',
         lastIndicatorValue: null,
