@@ -85,7 +85,9 @@ export default {
       this.queryParameters.selected = evt.id;
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('id') === this.queryParameters.sourceLayer);
-      layer.changed();
+      if (layer) {
+        layer.changed();
+      }
       this.$emit('updatequeryparameter', true);
     },
   },

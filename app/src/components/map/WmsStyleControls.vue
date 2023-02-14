@@ -70,9 +70,11 @@ export default {
     updateMap(evt) {
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('name') === this.wmsStyles.sourceLayer);
-      layer.getSource().updateParams({
+      if (layer) {
+        layer.getSource().updateParams({
         STYLES: evt.id,
       });
+      }
     },
   },
 };

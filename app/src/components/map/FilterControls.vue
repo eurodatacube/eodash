@@ -327,19 +327,26 @@ export default {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       [this.variables[`${filterId}Min`], this.variables[`${filterId}Max`]] = evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapSlider(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       this.variables[filterId] = evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapBool(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      // converts to 0/1
       this.variables[filterId] = +evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
