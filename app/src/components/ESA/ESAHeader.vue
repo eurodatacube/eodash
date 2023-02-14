@@ -151,7 +151,7 @@
         :style="{ background: $vuetify.theme.currentTheme.background }"
         :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
       >
-        <div v-if="$vuetify.breakpoint.lgAndUp" v-html="welcomeText"/>
+        <div v-if="$vuetify.breakpoint.mdAndUp" v-html="welcomeText"/>
         <div v-else>
           <h2>Mobile devices are not yet fully supported</h2>
           <p>
@@ -169,7 +169,7 @@
             color="primary"
             x-large
           >
-            <span v-if="$vuetify.breakpoint.mdAndDown">Open Anyway</span>
+            <span v-if="$vuetify.breakpoint.smAndDown">Open Anyway</span>
             <span v-else>Explore!</span>
           </v-btn>
         </div>
