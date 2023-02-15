@@ -100,78 +100,47 @@
             </template>
           </v-slider>
           <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
-            <v-range-slider
-              v-model="filters[key].range"
-              hide-details
-              dense
-              :min="filters[key].min"
-              :max="filters[key].max"
-              :step="(filters[key].max-filters[key].min)/100"
-              @input="(evt) => updateMap(evt, filters[key].id)"
+
+            <v-progress-circular
+              class="compass"
+              :rotate="-90 + filters[key].range[0]"
+              :size="100"
+              :width="8"
+              :value="filters[key].range[1] / 360 * 100"
+              color="#00ae9d"
             >
-              <template v-slot:prepend>
-                <div class="pl-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[0]}}
-                </div>
-              </template>
-              <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[1]}}
-                </div>
-              </template>
-            </v-range-slider>
+              <div style="position: relative; transform: translate(-5px, -10px)">
+                <div style="position: absolute; transform: translate(0, -25px)">N</div>
+                <div style="position: absolute; transform: translate(25px, 0)">E</div>
+                <div style="position: absolute; transform: translate(0, 25px)">S</div>
+                <div style="position: absolute; transform: translate(-25px, 0)">W</div>
+              </div>
+            </v-progress-circular>
 
-            <v-row class="fill-width px-16 mx-1">
-              <v-col class="d-inline-flex pl-0 justify-start">N</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">E</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">S</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">W</v-col>
-            </v-row>
-<!--
-            TODO: Comment-out circular slider for now
-
-            <span style="position: absolute; top: 0px; width: 20px; left: calc(50% - 10px);">
-              N
-            </span>
-            <span style="
-              position: absolute;
-              top: calc(50% - 10px);
-              width: 20px;
-              right: calc(50% - 105px);
-            ">
-              E
-            </span>
-            <span style="position: absolute; bottom: 0px; width: 20px; left: calc(50% - 10px);">
-              S
-            </span>
-            <span style="
-              position: absolute;
-              left: calc(50% - 105px);
-              height: 20px;
-              top: calc(50% - 10px);
-            ">
-              W
-            </span>
-            <round-slider
-              v-model="filters[key].range"
-              :min="filters[key].min"
-              :max="filters[key].max"
-              :update="(evt) => updateMap(
-                evt.value
-                  .split(',')
-                  .map((s) => parseInt(s, 10) - 90),
-                filters[key].id,
-              )"
-              showTooltip="false"
-              slider-type="range"
-              line-cap="round"
-              width="14"
-              startAngle="0"
-              endAngle="-360"
-              radius="80"
-              startValue="90"
-            />
--->
+            <v-slider
+              label="Angle"
+              max="360"
+              min="0"
+              v-model="filters[key].range[0]"
+              @input="() => {
+                updateMap([
+                  filters[key].range[0],
+                  filters[key].range[0] + filters[key].range[1],
+                ], filters[key].id);
+              }"
+            ></v-slider>
+            <v-slider
+              label="Width"
+              max="360"
+              min="10"
+              v-model="filters[key].range[1]"
+              @input="() => {
+                updateMap([
+                  filters[key].range[0],
+                  filters[key].range[0] + filters[key].range[1],
+                ], filters[key].id);
+              }"
+            ></v-slider>
           </center>
           <v-range-slider
             v-else
@@ -258,7 +227,6 @@
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
-// import RoundSlider from 'vue-round-slider';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
 
@@ -266,7 +234,6 @@ export default {
   name: 'FilterControls',
   components: {
     InfoDialog,
-    // RoundSlider,
   },
   props: {
     cogFilters: Object,
@@ -371,5 +338,9 @@ export default {
 }
 .v-text-field__details {
   position: absolute;
+}
+
+::v-deep .compass .v-progress-circular__overlay {
+  transition: none !important;
 }
 </style>
