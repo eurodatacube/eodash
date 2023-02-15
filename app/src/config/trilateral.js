@@ -4201,6 +4201,177 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: null,
+        aoiID: 'Days',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica Days',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Days',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: getYearlyDates('2007-01-01', '2021-02-01'),
+        inputData: [''],
+        display: {
+          legendUrl: 'legends/trilateral/VIS_ANTARTICA_DAYS.png',
+          attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          combinedLayers: [
+            {
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+              name: 'Antarctic Days',
+              layers: 'VIS_4D_ANTARTICA_DAYS',
+              projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 15,
+            }, {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
+              minZoom: 2,
+              maxZoom: 15,
+            },
+          ],
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: null,
+        aoiID: 'End',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica End',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica End',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: getYearlyDates('2007-01-02', '2021-12-31'),
+        inputData: [''],
+        display: {
+          legendUrl: 'legends/trilateral/VIS_ANTARTICA_END.png',
+          attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          combinedLayers: [
+            {
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+              name: 'Antarctic eND',
+              layers: 'VIS_4D_ANTARTICA_END',
+              projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 15,
+            }, {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
+              minZoom: 2,
+              maxZoom: 15,
+            },
+          ],
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: null,
+        aoiID: 'Onset',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Antarctica Onset',
+        indicator: 'ADD',
+        lastIndicatorValue: null,
+        indicatorName: 'Antarctica Onset',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: getYearlyDates('2007-01-02', '2021-12-31'),
+        inputData: [''],
+        display: {
+          legendUrl: 'legends/trilateral/VIS_ANTARTICA_ONSET.png',
+          attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+          mapProjection: {
+            name: 'EPSG:3031',
+            def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+          },
+          combinedLayers: [
+            {
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+              name: 'Antarctic Onset',
+              layers: 'VIS_4D_ANTARTICA_ONSET',
+              projection: 'EPSG:3031',
+              minZoom: 2,
+              maxZoom: 15,
+            }, {
+              name: 'Antarctic coastline',
+              baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+              projection: 'EPSG:3031',
+              layers: 'add:antarctic_coastline_line_medium',
+              minZoom: 2,
+              maxZoom: 15,
+            },
+          ],
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
 ];
 
 const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
