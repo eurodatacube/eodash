@@ -123,10 +123,14 @@
               min="0"
               v-model="filters[key].range[0]"
               @input="() => {
-                updateMapDebounced([
-                  filters[key].range[0],
-                  filters[key].range[0] + filters[key].range[1],
-                ], filters[key].id);
+                let from = filters[key].range[0];
+                let to = filters[key].range[0] + filters[key].range[1];
+
+                if (to < from) {
+                  updateMapDebounced([from, 360, 0, to], filters[key].id);
+                } else {
+                  updateMapDebounced([from, to, 0, 0], filters[key].id);
+                }
               }"
             ></v-slider>
             <v-slider
