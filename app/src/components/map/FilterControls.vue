@@ -123,7 +123,7 @@
               min="0"
               v-model="filters[key].range[0]"
               @input="() => {
-                updateMap([
+                updateMapDebounced([
                   filters[key].range[0],
                   filters[key].range[0] + filters[key].range[1],
                 ], filters[key].id);
@@ -135,7 +135,7 @@
               min="10"
               v-model="filters[key].range[1]"
               @input="() => {
-                updateMap([
+                updateMapDebounced([
                   filters[key].range[0],
                   filters[key].range[0] + filters[key].range[1],
                 ], filters[key].id);
@@ -223,7 +223,7 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce';
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
@@ -257,6 +257,11 @@ export default {
       return keys;
     },
   },
+  created() {
+    this.updateMapDebounced = debounce((evt, filterId) => {
+      this.updateMap(evt, filterId);
+    }, 30);
+  },
   mounted() {
     Object.keys(this.filters).forEach((key) => {
       if ('changeablaDataset' in this.filters[key]) {
@@ -265,6 +270,9 @@ export default {
         [this.select] = this.filters[key].changeablaDataset.items;
       }
     });
+  },
+  beforeUnmount() {
+    this.updateMapDebounced.cancel();
   },
   watch: {
   },
