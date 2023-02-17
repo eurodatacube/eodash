@@ -90,7 +90,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="(filters[key].max-filters[key].min)/100"
-            @input="(evt) => updateMapSlider(evt, filters[key].id)"
+            @input="(evt) => updateMapDebounced(evt, filters[key].id)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;"></div>
@@ -195,7 +195,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="(filters[key].max-filters[key].min)/100"
-            @input="(evt) => updateMap(evt, filters[key].id)"
+            @input="(evt) => updateMapDebounced(evt, filters[key].id)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
@@ -360,14 +360,6 @@ export default {
           this.variables[`${filterId}Max`],
         ] = evt;
       }
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
-    },
-    updateMapSlider(evt, filterId) {
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      this.variables[filterId] = evt;
       if (gtl) {
         gtl.updateStyleVariables(this.variables);
       }
