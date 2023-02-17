@@ -500,7 +500,9 @@ export default {
             ).then((data) => {
               this.$store.state.indicators.selectedIndicator.mapData = data;
               const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-              currLayer.changed();
+              if (currLayer) {
+                currLayer.changed();
+              }
             });
           } else {
             // TODO:

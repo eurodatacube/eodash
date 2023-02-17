@@ -100,78 +100,92 @@
             </template>
           </v-slider>
           <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
-            <v-range-slider
-              v-model="filters[key].range"
-              hide-details
-              dense
-              :min="filters[key].min"
-              :max="filters[key].max"
-              :step="(filters[key].max-filters[key].min)/100"
-              @input="(evt) => updateMap(evt, filters[key].id)"
-            >
-              <template v-slot:prepend>
-                <div class="pl-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[0]}}
-                </div>
-              </template>
-              <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[1]}}
-                </div>
-              </template>
-            </v-range-slider>
 
-            <v-row class="fill-width px-16 mx-1">
-              <v-col class="d-inline-flex pl-0 justify-start">N</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">E</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">S</v-col>
-              <v-col class="d-inline-flex pl-0 justify-start">W</v-col>
+            <v-row justify="center" class="mb-8">
+              <v-progress-circular
+                class="compass"
+                :rotate="-90 + filters[key].range[0]"
+                :size="100"
+                :width="8"
+                :value="filters[key].range[1] / 360 * 100"
+                color="#00ae9d"
+              >
+                <div style="position: relative; transform: translate(-5px, -10px)">
+                  <div style="position: absolute; transform: translate(0, -25px)">N</div>
+                  <div style="position: absolute; transform: translate(25px, 0)">E</div>
+                  <div style="position: absolute; transform: translate(0, 25px)">S</div>
+                  <div style="position: absolute; transform: translate(-25px, 0)">W</div>
+                </div>
+              </v-progress-circular>
+
+              <v-row
+                class="degrees-range text-h5 ml-8"
+                align="center"
+                style="flex: 0 1 auto; min-width: 125px;"
+              >
+                <template
+                  v-if="filters[key].range[0] + filters[key].range[1] > 360"
+                >
+                  {{
+                    filters[key].range[0]
+                  }}°
+                  -
+                  {{
+                    filters[key].range[0] + filters[key].range[1] - 360
+                  }}°
+                </template>
+                <template v-else>
+                  {{
+                    filters[key].range[0]
+                  }}°
+                  -
+                  {{
+                    filters[key].range[0] + filters[key].range[1]
+                  }}°
+                </template>
+              </v-row>
             </v-row>
-<!--
-            TODO: Comment-out circular slider for now
 
-            <span style="position: absolute; top: 0px; width: 20px; left: calc(50% - 10px);">
-              N
-            </span>
-            <span style="
-              position: absolute;
-              top: calc(50% - 10px);
-              width: 20px;
-              right: calc(50% - 105px);
-            ">
-              E
-            </span>
-            <span style="position: absolute; bottom: 0px; width: 20px; left: calc(50% - 10px);">
-              S
-            </span>
-            <span style="
-              position: absolute;
-              left: calc(50% - 105px);
-              height: 20px;
-              top: calc(50% - 10px);
-            ">
-              W
-            </span>
-            <round-slider
-              v-model="filters[key].range"
-              :min="filters[key].min"
-              :max="filters[key].max"
-              :update="(evt) => updateMap(
-                evt.value
-                  .split(',')
-                  .map((s) => parseInt(s, 10) - 90),
-                filters[key].id,
-              )"
-              showTooltip="false"
-              slider-type="range"
-              line-cap="round"
-              width="14"
-              startAngle="0"
-              endAngle="-360"
-              radius="80"
-              startValue="90"
-            />
--->
+            <v-slider
+              label="Angle"
+              max="360"
+              min="0"
+              v-model="filters[key].range[0]"
+              @input="() => {
+                let from = filters[key].range[0];
+                let to = filters[key].range[0] + filters[key].range[1];
+
+                if (to > 360) {
+                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                } else {
+                  updateMapDebounced([from, to, 0, 0], filters[key].id);
+                }
+              }"
+            >
+              <template v-slot:append>
+                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}°</div>
+              </template>
+            </v-slider>
+            <v-slider
+              label="Width"
+              max="360"
+              min="10"
+              v-model="filters[key].range[1]"
+              @input="() => {
+                let from = filters[key].range[0];
+                let to = filters[key].range[0] + filters[key].range[1];
+
+                if (to > 360) {
+                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                } else {
+                  updateMapDebounced([from, to, 0, 0], filters[key].id);
+                }
+              }"
+            >
+              <template v-slot:append>
+                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[1]}}°</div>
+              </template>
+            </v-slider>
           </center>
           <v-range-slider
             v-else
@@ -248,11 +262,10 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce';
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
-// import RoundSlider from 'vue-round-slider';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
 import { transformExtent } from 'ol/proj';
@@ -261,7 +274,6 @@ export default {
   name: 'FilterControls',
   components: {
     InfoDialog,
-    // RoundSlider,
   },
   props: {
     cogFilters: Object,
@@ -285,6 +297,11 @@ export default {
       return keys;
     },
   },
+  created() {
+    this.updateMapDebounced = debounce((evt, filterId) => {
+      this.updateMap(evt, filterId);
+    }, 150);
+  },
   mounted() {
     Object.keys(this.filters).forEach((key) => {
       if ('changeablaDataset' in this.filters[key]) {
@@ -293,6 +310,9 @@ export default {
         [this.select] = this.filters[key].changeablaDataset.items;
       }
     });
+  },
+  beforeUnmount() {
+    this.updateMapDebounced.cancel();
   },
   watch: {
   },
@@ -326,20 +346,40 @@ export default {
     updateMap(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      [this.variables[`${filterId}Min`], this.variables[`${filterId}Max`]] = evt;
-      gtl.updateStyleVariables(this.variables);
+
+      if (evt.length > 2) {
+        [
+          this.variables[`${filterId}Min`],
+          this.variables[`${filterId}Max`],
+          this.variables[`${filterId}Min2`],
+          this.variables[`${filterId}Max2`],
+        ] = evt;
+      } else {
+        [
+          this.variables[`${filterId}Min`],
+          this.variables[`${filterId}Max`],
+        ] = evt;
+      }
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapSlider(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       this.variables[filterId] = evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapBool(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      // converts to 0/1
       this.variables[filterId] = +evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
@@ -447,5 +487,9 @@ export default {
 }
 .v-text-field__details {
   position: absolute;
+}
+
+::v-deep .compass .v-progress-circular__overlay {
+  transition: none !important;
 }
 </style>
