@@ -499,6 +499,9 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Antarctic meltmap',
     themes: ['cryosphere'],
     story: '/data/trilateral/ADD',
+    features: {
+      url: './data/trilateral/thwaites.geojson',
+    },
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -2973,7 +2976,6 @@ export const globalIndicators = [
           name: 'Agriculture GEOGLAM',
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
-          featuresStatic: true,
           features: {
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
