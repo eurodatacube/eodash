@@ -126,8 +126,8 @@
                 let from = filters[key].range[0];
                 let to = filters[key].range[0] + filters[key].range[1];
 
-                if (to < from) {
-                  updateMapDebounced([from, 360, 0, to], filters[key].id);
+                if (to > 360) {
+                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
                 } else {
                   updateMapDebounced([from, to, 0, 0], filters[key].id);
                 }
@@ -139,10 +139,14 @@
               min="10"
               v-model="filters[key].range[1]"
               @input="() => {
-                updateMapDebounced([
-                  filters[key].range[0],
-                  filters[key].range[0] + filters[key].range[1],
-                ], filters[key].id);
+                let from = filters[key].range[0];
+                let to = filters[key].range[0] + filters[key].range[1];
+
+                if (to > 360) {
+                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                } else {
+                  updateMapDebounced([from, to, 0, 0], filters[key].id);
+                }
               }"
             ></v-slider>
           </center>
@@ -310,7 +314,21 @@ export default {
     updateMap(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      [this.variables[`${filterId}Min`], this.variables[`${filterId}Max`]] = evt;
+
+      if (evt.length > 2) {
+        [
+          this.variables[`${filterId}Min`],
+          this.variables[`${filterId}Max`],
+          this.variables[`${filterId}Min2`],
+          this.variables[`${filterId}Max2`],
+        ] = evt;
+      } else {
+        [
+          this.variables[`${filterId}Min`],
+          this.variables[`${filterId}Max`],
+        ] = evt;
+      }
+
       gtl.updateStyleVariables(this.variables);
     },
     updateMapSlider(evt, filterId) {
