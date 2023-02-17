@@ -27,6 +27,8 @@
       :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
       :resetProjectionOnDestroy='true'
+      @updatecenter="handleSpecialLayerCenter"
+      @updatezoom="handleSpecialLayerZoom"
     />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
@@ -137,8 +139,8 @@
             && indicatorHasMapData(indicator)
             && appConfig.id !== 'gtif'"
           :indicatorObject="indicator"
-          :zoom="currentZoom"
-          :center="currentCenter"
+          :zoom.sync="currentZoom"
+          :center.sync="currentCenter"
           :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
@@ -498,7 +500,9 @@ export default {
             ).then((data) => {
               this.$store.state.indicators.selectedIndicator.mapData = data;
               const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-              currLayer.changed();
+              if (currLayer) {
+                currLayer.changed();
+              }
             });
           } else {
             // TODO:
@@ -639,7 +643,7 @@ export default {
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
       this.currentZoom = evt.target.getZoom();
-      const center = toLonLat(evt.target.getCenter());
+      const center = toLonLat(evt.target.getCenter(), evt.target.getProjection());
       this.currentCenter = { lng: center[0], lat: center[1] };
       // these events are emitted to save changed made in the dashboard via the
       // "save map configuration" button
@@ -647,7 +651,11 @@ export default {
       this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
-      view.setCenter(fromLonLat([this.centerProp.lng, this.centerProp.lat]));
+      view.setCenter(
+        fromLonLat(
+          [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
+        ),
+      );
       view.setZoom(this.zoomProp);
     }
     this.$emit('ready', true);
@@ -667,6 +675,14 @@ export default {
     }
   },
   methods: {
+    handleSpecialLayerZoom(e) {
+      this.$emit('update:zoom', e);
+      this.currentZoom = e;
+    },
+    handleSpecialLayerCenter(e) {
+      this.$emit('update:center', e);
+      this.currentCenter = e;
+    },
     indicatorHasMapData(indicatorObject) {
       return indicatorHasMapData(indicatorObject);
     },

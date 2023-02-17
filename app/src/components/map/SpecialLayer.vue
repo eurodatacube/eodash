@@ -16,6 +16,7 @@ import getProjectionOl from '@/helpers/projutils';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';
+import { toLonLat } from 'ol/proj';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -106,17 +107,32 @@ export default {
     const projection = getProjectionOl(this.mergedConfig?.mapProjection || defaultProjection);
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
+      view.on(['change:center', 'change:resolution'], (evt) => {
+        const v = evt.target;
+        this.reportUpdateView(v);
+      });
       map.setView(view);
+      this.reportUpdateView(view);
     }
   },
-  methods: {},
+  methods: {
+    reportUpdateView(view) {
+      const center = toLonLat(view.getCenter(), view.getProjection());
+      const currentCenter = { lng: center[0], lat: center[1] };
+      const zoom = view.getZoom();
+      // these events are emitted to save changed made in the dashboard via the
+      // "save map configuration" button
+      this.$emit('updatecenter', currentCenter);
+      this.$emit('updatezoom', zoom);
+    },
+  },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
     map.removeLayer(layer);
     map.un('pointermove', this.pointerMoveHandler);
     if (this.resetProjectionOnDestroy) {
-      // reset to default map projection if different from it
+      // reset to default map ection if different from it
       const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
       const projection = getProjectionOl(defaultProjection);
       if (map.getView().getProjection().getCode() !== projection?.getCode()) {

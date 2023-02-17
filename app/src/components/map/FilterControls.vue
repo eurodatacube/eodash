@@ -232,21 +232,15 @@
         </v-menu>
       </div>
       <v-row class="pa-3 justify-center" style="margin-top:10px;">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                small
-                disabled
-                color="primary"
-                class="mr-3"
-              >
-                Export best zones
-              </v-btn>
-            </div>
-            </template>
-            <span>Coming soon.</span>
-        </v-tooltip>
+        <v-btn
+          small
+          color="primary"
+          class="mr-3"
+          @click="exportBestZones"
+        >
+          Export best zones
+        </v-btn>
+        <a ref="imageDownload"></a>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block">
@@ -274,6 +268,7 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
+import { transformExtent } from 'ol/proj';
 
 export default {
   name: 'FilterControls',
@@ -365,26 +360,113 @@ export default {
           this.variables[`${filterId}Max`],
         ] = evt;
       }
-
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapSlider(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       this.variables[filterId] = evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMapBool(evt, filterId) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      // converts to 0/1
       this.variables[filterId] = +evt;
-      gtl.updateStyleVariables(this.variables);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
     },
     removeFilter(filterId) {
       this.filters[filterId].display = false;
+    },
+    exportBestZones() {
+      const { map } = getMapInstance('centerMap');
+
+      // See https://openlayers.org/en/latest/examples/export-map.html
+      const mapCanvas = document.createElement('canvas');
+      const size = map.getSize();
+      [mapCanvas.width, mapCanvas.height] = size;
+      const mapContext = mapCanvas.getContext('2d');
+      Array.prototype.forEach.call(
+        map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
+        (canvas) => {
+          if (canvas.width > 0) {
+            const opacity = canvas.parentNode.style.opacity || canvas.style.opacity;
+            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+            let matrix;
+            const { transform } = canvas.style;
+            if (transform) {
+              // Get the transform parameters from the style's transform matrix
+              matrix = transform
+                .match(/^matrix\(([^\(]*)\)$/)[1] // eslint-disable-line
+                .split(',')
+                .map(Number);
+            } else {
+              matrix = [
+                parseFloat(canvas.style.width) / canvas.width,
+                0,
+                0,
+                parseFloat(canvas.style.height) / canvas.height,
+                0,
+                0,
+              ];
+            }
+            // Apply the transform to the export map context
+            CanvasRenderingContext2D.prototype.setTransform.apply(
+              mapContext,
+              matrix,
+            );
+            const { backgroundColor } = canvas.parentNode.style;
+            if (backgroundColor) {
+              mapContext.fillStyle = backgroundColor;
+              mapContext.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            mapContext.drawImage(canvas, 0, 0);
+          }
+        },
+      );
+      mapContext.globalAlpha = 1;
+      mapContext.setTransform(1, 0, 0, 1, 0, 0);
+
+      // Crop the canvas taking the UI sidebar into consideration
+      const croppedCanvas = document.createElement('canvas');
+      const croppedContext = croppedCanvas.getContext('2d');
+
+      const sidePanelWidth = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('--data-panel-width').replace('px', ''), 10);
+      croppedCanvas.width = mapCanvas.width - sidePanelWidth;
+      croppedCanvas.height = mapCanvas.height;
+
+      croppedContext.drawImage(mapCanvas, 0, 0);
+      //
+
+      // Calculate lonLat extent by taking cropping into consideration
+      const mapExtent = map.getView().calculateExtent(map.getSize());
+      const croppedX = map.getCoordinateFromPixel([croppedCanvas.width, 0])[0];
+      const lonLatExtent = transformExtent([
+        mapExtent[0],
+        mapExtent[1],
+        croppedX,
+        mapExtent[3],
+      ], 'EPSG:3857', 'EPSG:4326');
+      //
+
+      const link = this.$refs.imageDownload;
+      link.download = `gtif_best_zones_${
+        this.$route.query.poi
+      }_${
+        lonLatExtent.map((c) => c.toFixed(3)).join('-')
+      }.png`;
+      link.href = croppedCanvas.toDataURL();
+      link.click();
     },
   },
 };

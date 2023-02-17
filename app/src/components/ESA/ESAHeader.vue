@@ -12,7 +12,7 @@
             >
               <img class="esa-header__icon" src="img/gtif/icons/ESA_Menu.svg" alt="ESA menu toggle">
             </button>
-            <button
+            <!-- <button
               @click="switchSearch"
               id="esa-search"
               class="grow-on-hover esa-header__toggle search-toggle"
@@ -22,7 +22,7 @@
                 src="img/gtif/icons/ESA_Search.svg"
                 alt="ESA search toggle"
               >
-            </button>
+            </button> -->
             <router-link to="/">
               <img
                 v-if="$vuetify.breakpoint.mdAndUp"
@@ -141,9 +141,9 @@
         </Transition>
       </nav>
     <v-dialog
-      v-if="$route.name === 'explore'"
+      v-if="isDialogEnabled"
       v-model="dialog"
-      :width="$vuetify.breakpoint.xsOnly ? '100%' : '30%'"
+      :width="$vuetify.breakpoint.xsOnly ? 'calc(100vw - 40px)' : '40%'"
       transition="dialog-bottom-transition"
       style="z-index: 9999;">
       <div
@@ -151,14 +151,26 @@
         :style="{ background: $vuetify.theme.currentTheme.background }"
         :class="$vuetify.breakpoint.xsOnly && 'pb-10'"
       >
-        <div v-html="welcomeText"/>
+        <div v-if="$vuetify.breakpoint.mdAndUp" v-html="welcomeText"/>
+        <div v-else>
+          <h2>Mobile devices are not yet fully supported</h2>
+          <p>
+            You are currently viewing a beta release of the Green
+            Transition Information Factory (GTIF), and as such, the
+            <bold>mobile version</bold> of this application
+            is not fully fleshed out yet. Some parts of the application
+            are expected to not work fully or at all.
+            Proceed at your own risk.
+          </p>
+        </div>
         <div class="text-center pb-4">
           <v-btn
             @click="dialog=false"
             color="primary"
             x-large
           >
-            Explore!
+            <span v-if="$vuetify.breakpoint.smAndDown">Open Anyway</span>
+            <span v-else>Explore!</span>
           </v-btn>
         </div>
       </div>
@@ -275,6 +287,22 @@ export default {
     }),
     welcomeText() {
       return this.$marked(require(`../../../public${this.appConfig.aboutText}.md`).default);
+    },
+    isDialogEnabled() {
+      switch (this.$route.name) {
+        case 'gtif-energy-transition':
+        case 'gtif-mobility-transition':
+        case 'gtif-sustainable-cities':
+        case 'gtif-carbon-accounting':
+        case 'gtif-eo-adaptation-services':
+          return this.$vuetify.breakpoint.mdAndDown;
+
+        case 'explore':
+          return true;
+
+        default:
+          return false;
+      }
     },
   },
 };

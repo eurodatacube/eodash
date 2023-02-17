@@ -60,7 +60,12 @@ export default {
     select: null,
   }),
   mounted() {
-    [this.select] = this.queryParameters.items;
+    const selected = this.queryParameters?.selected;
+    if (this.queryParameters?.selected && this.queryParameters?.items.length > 1) {
+      this.select = this.queryParameters?.items.find((item) => item.id === selected);
+    } else {
+      [this.select] = this.queryParameters?.items;
+    }
   },
   computed: {
     story() {
@@ -80,7 +85,9 @@ export default {
       this.queryParameters.selected = evt.id;
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('id') === this.queryParameters.sourceLayer);
-      layer.changed();
+      if (layer) {
+        layer.changed();
+      }
       this.$emit('updatequeryparameter', true);
     },
   },

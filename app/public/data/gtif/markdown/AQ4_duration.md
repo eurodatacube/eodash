@@ -8,10 +8,8 @@ specific hour in a hypothetical, traffic-free scenario.
 
 **Unit:** minutes
 
-**Value Range:** 0 - 240 [minutes];
+**Value Range:** 0 - 60 [minutes];
 
-**Color norm:** linear
-
-**Color Range:** linear scale [0, 240]
+**Color Range:** linear scale [0, 60]
 
 ![Legend](legends/gtif/AQ4_duration.png "Traffic-free trip duration")
