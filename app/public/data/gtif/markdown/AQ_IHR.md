@@ -1,4 +1,4 @@
-<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/air_quality_ihr.png"></img></div>
+<div style="width: 100%;"><img style="width:230px; float:right;" src="data/gtif/images/legends/air_quality_ihr.png"></img></div>
 
 ## Aggregate Risk Index
 
@@ -11,7 +11,7 @@ More info about the ARI index can be found here:
  * [Health Advice ARI | AQ map (dlr.de)](https://www.wdc.dlr.de/AlpAirEO/healthadvARI)
 
 <div style="width:100%; height:20px;"></div>
- <div style="margin-left: 10px; margin-right: 10px; width:540px; text-aling:center; font-size:0.8em;">
+ <div style="margin-left: 10px; margin-right: 10px; width: 100%; font-size:0.8em;">
  <br/>
 <table id="health_table" style="border: 1px solid; border-collapse: collapse;"><tbody><tr><td colspan="3">
   Increased health risk from current air pollution and health advice for the general population (age classes 15 to 64, without pre-existing conditions)
