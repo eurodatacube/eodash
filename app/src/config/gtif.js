@@ -279,6 +279,17 @@ const getMinuteIntervals = (start, end, minutes) => {
   return dateArray;
 };
 
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
+
 const energyTransitionDefaults = {
   baseLayers: [
     ...baseLayersLeftMap,
@@ -1301,40 +1312,8 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [
-          ['2022-11-30', 'averaged_NO2_20221130.tif'],
-          ['2022-12-01', 'averaged_NO2_20221201.tif'],
-          ['2022-12-02', 'averaged_NO2_20221202.tif'],
-          ['2022-12-03', 'averaged_NO2_20221203.tif'],
-          ['2022-12-04', 'averaged_NO2_20221204.tif'],
-          ['2022-12-05', 'averaged_NO2_20221205.tif'],
-          ['2022-12-06', 'averaged_NO2_20221206.tif'],
-          ['2022-12-07', 'averaged_NO2_20221207.tif'],
-          ['2022-12-08', 'averaged_NO2_20221208.tif'],
-          ['2022-12-09', 'averaged_NO2_20221209.tif'],
-          ['2022-12-10', 'averaged_NO2_20221210.tif'],
-          ['2022-12-11', 'averaged_NO2_20221211.tif'],
-          ['2022-12-12', 'averaged_NO2_20221212.tif'],
-          ['2022-12-13', 'averaged_NO2_20221213.tif'],
-          ['2022-12-14', 'averaged_NO2_20221214.tif'],
-          ['2022-12-15', 'averaged_NO2_20221215.tif'],
-          ['2022-12-16', 'averaged_NO2_20221216.tif'],
-          ['2022-12-17', 'averaged_NO2_20221217.tif'],
-          ['2022-12-18', 'averaged_NO2_20221218.tif'],
-          ['2022-12-19', 'averaged_NO2_20221219.tif'],
-          ['2022-12-20', 'averaged_NO2_20221220.tif'],
-          ['2022-12-21', 'averaged_NO2_20221221.tif'],
-          ['2022-12-22', 'averaged_NO2_20221222.tif'],
-          ['2022-12-23', 'averaged_NO2_20221223.tif'],
-          ['2022-12-24', 'averaged_NO2_20221224.tif'],
-          ['2022-12-25', 'averaged_NO2_20221225.tif'],
-          ['2022-12-26', 'averaged_NO2_20221226.tif'],
-          ['2022-12-27', 'averaged_NO2_20221227.tif'],
-          ['2022-12-28', 'averaged_NO2_20221228.tif'],
-          ['2022-12-29', 'averaged_NO2_20221229.tif'],
-          ['2022-12-30', 'averaged_NO2_20221230.tif'],
-          ['2022-12-31', 'averaged_NO2_20221231.tif'],
-        ],
+        // time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2021-12-31', '2023-01-12'),
         inputData: [''],
         yAxis: '',
         cogFilters: {
@@ -1364,10 +1343,10 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ5',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/SISTEMA/14_days_average/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/SISTEMA/14_days_average/averaged_NO2_{time}.tif' },
           ],
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => `${date[0]} (14 day average)`,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+          labelFormatFunction: (date) => `${date} (14 day average)`,
           style: {
             variables: {
               varMin: 0,
