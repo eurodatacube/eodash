@@ -185,7 +185,7 @@
             <center-panel :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
-              style="position: absolute; top: 0; width: 100%; pointer-events: none"
+              style="position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <indicator-filters v-else />

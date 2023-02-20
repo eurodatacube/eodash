@@ -1,7 +1,7 @@
 <template>
   <div
     :style="
-      `height: calc(var(--vh, 1vh) * 100); background: ${$vuetify.theme.currentTheme.background}`
+      `height: 100%; background: ${$vuetify.theme.currentTheme.background}`
     "
     v-click-outside="onClickOutside"
   >
@@ -11,7 +11,7 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
-      style="top: 112px"
+      style="top: 112px; height: calc((var(--vh, 1vh) * 100) - 112px - 40px)"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
@@ -42,7 +42,7 @@
     >
       <div
         v-show="showLayerMenu"
-        class="fill-height"
+        class="gtif-indicator-menu fill-height"
         style="width: 250px; pointer-events: all;"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
@@ -258,5 +258,9 @@ export default {
 ::v-deep .v-list-item__title,
 ::v-deep .v-list-item__subtitle {
   white-space: pre-wrap;
+}
+
+.gtif-indicator-menu {
+  overflow-y: scroll !important;
 }
 </style>
