@@ -30,3 +30,6 @@ ESA Open Science Data Catalogue https://opensciencedata.esa.int/projects/4d-anta
 
 ### 4D Antarctica Project Page
 https://4d-antarctica.org/ 
+
+
+*Note: the Pine Island Glacier and Thwaites Glacier geometries shown on this map are for illustration purposes only. They were produced using [QGIS](http://www.qgis.org) by georeferencing maps made available by [the Polar Geospatial Center](https://data.pgc.umn.edu/maps/antarctica/pgc/19/preview/Thwaites%20Glacier%20Regional.jpg) and  the [Quantarctica/Norwegian Polar Institute](https://www.carbonbrief.org/guest-post-how-close-is-the-west-antarctic-ice-sheet-to-a-tipping-point/).*
