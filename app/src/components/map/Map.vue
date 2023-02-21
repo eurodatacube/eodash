@@ -88,8 +88,14 @@
     </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
-    <div ref="controlsContainer" class="controlsContainer move-with-panel pa-2
-      d-flex flex-column align-end"
+    <div
+      ref="controlsContainer"
+      class="controlsContainer pa-2 d-flex flex-column align-end"
+      :class="{
+        'move-with-panel': appConfig.id === 'gtif'
+          ? $vuetify.breakpoint.mdAndUp
+          : true
+      }"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
