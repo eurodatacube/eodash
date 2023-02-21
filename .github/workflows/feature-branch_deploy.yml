@@ -2,7 +2,7 @@ name: Feature branch deployment
 
 on:
   push:
-    branches-ignore: [ master, staging, gtif-demo ]
+    branches-ignore: [ master, staging, gtif-demo, gtif_staging ]
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
