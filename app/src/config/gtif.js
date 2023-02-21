@@ -574,13 +574,13 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Human Mobility Patterns',
     class: 'air',
     themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/MOBI',
+    story: '/data/gtif/markdown/AQ4',
   },
   AQ5: {
     indicator: 'Nitrogen Dioxide (NO2)',
     class: 'air',
     themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/MOBI',
+    story: '/data/gtif/markdown/AQ5',
   },
   WSF: {
     indicator: 'World Settlement Footprint',
@@ -1312,8 +1312,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        // time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
-        time: getDailyDates('2021-12-31', '2023-01-12'),
+        time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: '',
         cogFilters: {
@@ -1354,7 +1353,7 @@ export const globalIndicators = [
             },
             color: [
               'case',
-              ['between', ['band', 1], 0, 10],
+              ['between', ['band', 1], 1e-6, 10],
               [
                 'interpolate',
                 ['linear'],
