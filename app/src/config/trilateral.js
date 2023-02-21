@@ -553,7 +553,7 @@ export const indicatorsDefinition = Object.freeze({
         protocol: 'WMS',
         format: 'image/png',
         tileSize: 512,
-        attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }'
+        attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
       },
     ],
   },
