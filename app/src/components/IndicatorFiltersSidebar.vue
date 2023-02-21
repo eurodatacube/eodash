@@ -20,7 +20,10 @@
             :key="theme.slug"
             class="pa-2"
             :style="`width: ${iconSize}px; height: ${iconSize}px`"
-            @click="showLayerMenu = true"
+            @click="(evt) => {
+              setCurrentDomain(`gtif-${theme.slug}`);
+              showLayerMenu = true;
+            }"
           >
             <v-list-item-icon
               class="ma-0 d-flex flex-column align-center"
@@ -124,6 +127,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
 import GeoJSON from 'ol/format/GeoJSON';
@@ -191,6 +195,7 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    ...mapActions('gtif', ['setCurrentDomain']),
     globalIndicatorsForTheme(theme) {
       if (!theme) {
         return;
