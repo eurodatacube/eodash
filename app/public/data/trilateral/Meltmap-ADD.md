@@ -25,22 +25,21 @@ Scatterometer Image Reconstruction (SIR) product [1]. The melting extent/stage m
     
 *Figure 1. Antarctica Meltmap for 2021*
     
-Additionally, based on the melt maps, value added melt map products are generated, indicating on a pixel-by-pixel basis:     
+Based on these melt maps, value added melt map products are generated, indicating the melt onset, the melt duration and the end of the melt season on a pixel-by-pixel basis. 
 
-* melt onset
-* end of melt season
-* melt duration      
+**Explore these additional value added products on EO Dashboard:**
+
+* [Melt onset](https://eodashboard.org/explore?poi=Onset-ADD) - refers to the first time that there are three consecutive days of melt in a year, thereby indicating the beginning of the snowmelt season.
+* [End of melt season](https://eodashboard.org/explore?poi=End-ADD) - the melt ending is marked by three consecutive days of stable winter (reference) conditions after the last refreezing event of the year. 
+* [Melt duration](https://eodashboard.org/explore?poi=Days-ADD) - refers to the duration from the melt onset to the end date of melt.      
     
-Melt onset refers to the first time that there are three consecutive days of melt in a year, thereby indicating the beginning of the
-snowmelt season. Similarly the melt ending is marked by three consecutive days of stable winter (reference) conditions after the last refreezing event
-of the year. The total melt duration refers to the duration from the melt onset to the end date of melt. 
 
 ![](/data/story-images/Melt_end.png)
 
 *Figure 2. End of melt season for 2020-2021*
 
 
-The folder animation contains animated gifs of the melt maps for each year and for the entire period. All products are provided in GeoTiff format at a grid spacing of 4.45 km x 4.45 km in the projection WGS 84 / NSIDC Sea Ice Polar Stereographic South (EPSG:3976). 
+All products are provided in GeoTiff format at a grid spacing of 4.45 km x 4.45 km in the projection WGS 84 / NSIDC Sea Ice Polar Stereographic South (EPSG:3976). 
 
 ------------------------------------------------
 [1] The SIR product is processed by the Microwave Earth Remote Sensing Laboratory (MERS) at Brigham Young University (BYU) and based on the full resolution (SZF) ASCAT C-Band Scatterometer data. It provides an enhanced resolution of 4.45 km by combining multiple pass, irregularly spaced data into higher-resolution gridded images. The SIR product used combines all data acquired within a single 24-hr period (msfa). 
