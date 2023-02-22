@@ -1388,30 +1388,27 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Austria',
-        time: availableDates.mobility.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
+        time: getMinuteIntervals('2022-12-01T00:00:00Z', '2022-12-31T23:00:00Z', 60),
         inputData: [''],
         yAxis: '',
         queryParameters: {
-          sourceLayer: 'mobility',
+          sourceLayer: 'dynamic_human_presence',
           selected: 'users_count',
           dataInfo: 'MOBI1',
           items: [
             {
               id: 'users_count',
               description: 'Population count',
-              min: 0,
-              max: 500,
+              min: 100,
+              max: 100000,
               colormapUsed: blgrrd,
               markdown: 'MOBI1_users_count',
             },
             {
               id: 'users_density',
               description: 'Population density',
-              min: 0,
-              max: 200,
+              min: 1,
+              max: 10000,
               colormapUsed: blgrrd,
               markdown: 'MOBI1_users_density',
             },
@@ -1440,14 +1437,15 @@ export const globalIndicators = [
               if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
+                // apply logarithmic scale specially for population
+                const f = clamp((Math.log10(value) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)), 0, 1);
                 color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
             return color;
           },
           opacity: 0.7,
-          id: 'mobility',
+          id: 'dynamic_human_presence',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
           name: 'Mobility Data',
