@@ -107,10 +107,18 @@
             v-for="item in indicatorObject.highlights"
             :key="item.name"
             class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
+            :class="{'v-btn--size-small': $vuetify.breakpoint.smAndDown}"
             style="width: 100%"
+            :style="{
+                'min-height': $vuetify.breakpoint.smAndDown ? '0' : '48px',
+              }"
             @click="moveToHighlight(item.location)"
           >
-            <v-list-item-content>
+            <v-list-item-content
+              :style="{
+                padding: $vuetify.breakpoint.smAndDown ? '6px 0' : '12px 0',
+              }"
+            >
               <v-list-item-title>
                 {{ item.name }}
               </v-list-item-title>
