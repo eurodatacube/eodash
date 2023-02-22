@@ -10,8 +10,8 @@ featuring different surface extensions and amount of visitors.
 
 **Unit:** people/km2
 
-**Value Range:** GEM level: [0, 200]
+**Value Range:** GEM level: [0, 10 000]
 
-**Color Range:** linear scale [0, 200]
+**Color Range:** logarithmic scale [1, 10 000]
 
 ![Legend](legends/gtif/MOBI1_users_density.png "Population density")

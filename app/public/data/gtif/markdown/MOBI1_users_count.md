@@ -7,8 +7,8 @@ Administrative Unit (LAU) during a given hour.
 
 **Unit:** people in area
 
-**Value Range:** GEM level: [0, 500]
+**Value Range:** GEM level: [0, 100 000]
 
-**Color Range:** linear scale [0, 500]
+**Color Range:** logarithmic scale [100, 100 000]
 
 ![Legend](legends/gtif/MOBI1_users_count.png "Population count")
