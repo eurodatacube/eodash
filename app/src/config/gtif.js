@@ -2570,7 +2570,7 @@ export const globalIndicators = [
               id: 'aspect',
               min: 0,
               max: 360,
-              range: [0, 360],
+              range: [90, 180],
               isCircular: true,
             },
             slope: {
@@ -2633,10 +2633,10 @@ export const globalIndicators = [
             variables: {
               solarMin: 300,
               solarMax: 1400,
-              aspectMin: 0,
-              aspectMax: 360,
+              aspectMin: 90,
+              aspectMax: 270,
               aspectMin2: 0,
-              aspectMax2: 360,
+              aspectMax2: 0,
               slopeMin: 0,
               slopeMax: 50,
               energyGridDistanceMin: 0,
