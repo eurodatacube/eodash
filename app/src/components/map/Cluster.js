@@ -358,7 +358,7 @@ class Cluster {
           event.coordinate).feature;
         this.openIndicator(clickedClusterMember);
         this.clickedClusterMember = clickedClusterMember;
-      } else {
+      } else if (this.clusters.getVisible()) {
         const features = await this.clusters.getFeatures(event.pixel);
         if (features.length > 0) {
           const clusterMembers = features[0].get('features');
