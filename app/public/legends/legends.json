@@ -359,14 +359,18 @@
             "label": "Trajectories count"
         },
         "MOBI1_users_count": {
-            "range": [0,500],
+            "range": [100,100000],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
-            "label": "Population count"
+            "label": "Population count",
+            "logarithmic": true,
+            "ticks": [100, 1000, 10000, 100000]
         },
         "MOBI1_users_density": {
-            "range": [0,200],
+            "range": [1,10000],
             "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
-            "label": "Population density [people/km2]"
+            "label": "Population density [people/km2]",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 10000]
         }
     }
 }
