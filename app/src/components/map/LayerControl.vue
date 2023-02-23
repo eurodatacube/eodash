@@ -19,6 +19,7 @@
   <v-card
     v-else
     class="layerControl pa-2"
+    :class="{'scrollable': appConfig.id === 'gtif' && $vuetify.breakpoint.smAndDown}"
   >
     <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
       <v-radio v-for="(c, index) in baseLayerConfigs"
@@ -61,6 +62,7 @@
 import 'ol/ol.css';
 import { getMapInstance } from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
+import { mapState } from 'vuex';
 
 /**
  * a component that will handle base and overlay layers and displays
@@ -105,6 +107,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('config', ['appConfig']),
     administrativeConfigGroup() {
       let groups = null;
       if (this.administrativeConfigs.length > 0) {
@@ -194,6 +197,12 @@ export default {
 <style lang="scss" scoped>
   .layerControl {
     z-index: 2;
+
+    &.scrollable {
+      overflow-y: scroll;
+      min-height: 200px;
+      max-height: 200px;
+    }
   }
   .layerControlBtn {
     width: 36px;
