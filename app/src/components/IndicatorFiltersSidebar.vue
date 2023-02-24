@@ -279,6 +279,6 @@ export default {
 }
 
 .gtif-indicator-menu {
-  overflow-y: scroll !important;
+  overflow-y: auto;
 }
 </style>
