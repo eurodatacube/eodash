@@ -11,7 +11,12 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
-      style="position: fixed; top: 112px; height: calc((var(--vh, 1vh) * 100) - 48px)"
+      style="position: fixed; top: 112px;"
+      :style="{
+        'height': indicatorObject
+          ? `calc(100vh - 33vh - 120px)`
+          : `calc(100vh - 112px)`
+      }"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
