@@ -758,9 +758,9 @@ generateData(
         ['N1_tri', ''],
         ['E13b_tri', ''],
         ['E13c_tri', ''],
-        # ['VITS_Vegetation_Index_Timeseries', ''],
-        # ['SMCTS_Soil_Moisture_Timeseries', ''],
-        # ['PRCTS_Precipitation_Timeseries', ''],
+        ['VITS_Vegetation_Index_Timeseries', ''],
+        ['SMCTS_Soil_Moisture_Timeseries', ''],
+        ['PRCTS_Precipitation_Timeseries', ''],
     ]
 )
 
