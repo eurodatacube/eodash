@@ -11,7 +11,7 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
-      style="top: 112px; height: calc((var(--vh, 1vh) * 100) - 112px - 40px)"
+      style="position: fixed; top: 112px; height: calc((var(--vh, 1vh) * 100) - 48px)"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
