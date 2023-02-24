@@ -13,7 +13,7 @@
       :mini-variant-width="iconSize"
       style="position: fixed; top: 112px;"
       :style="{
-        'height': indicatorObject
+        'height': indicatorObject && $vuetify.breakpoint.smAndDown
           ? `calc(100vh - 33vh - 120px)`
           : `calc(100vh - 112px)`
       }"
