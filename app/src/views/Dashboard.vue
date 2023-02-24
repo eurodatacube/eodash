@@ -17,7 +17,7 @@
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
       :style="`margin-top: ${appConfig.id === 'gtif' ? 112 : 68}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer + 48}px;`"
       class="data-panel"
     >
       <v-toolbar flat>
@@ -139,7 +139,7 @@
         class="data-panel scrollContainer"
         :style="{
           background: $vuetify.theme.themes[theme].background,
-          height: 'calc(var(--vh, 1vh) * 100)'
+          height: isDialogRetracted ? 'calc(33vh - 85px)' : 'calc(var(--vh, 1vh) * 100)',
         }"
       >
 
@@ -185,7 +185,11 @@
             <center-panel :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
-              style="position: absolute; top: 0; width: 100%; pointer-events: none"
+              style="position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none"
+              :style="{'height': $vuetify.breakpoint.smAndDown && drawerRight
+                ? 'calc(66vh - 112px)'
+                : '100%'
+              }"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <indicator-filters v-else />
@@ -436,6 +440,7 @@ export default {
 
   &.retracted {
     transform: translateY(66vh);
+    padding-bottom: 66vh;
   }
 
   &.hidden {

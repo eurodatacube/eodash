@@ -1,4 +1,4 @@
-<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/REP1.png"></img></div>
+<div style="width: 100%;"><img style="width:230px; float:right;" src="data/gtif/images/legends/REP1.png"></img></div>
 
 ### Wind Power Density
 The wind power density (w m 2 ) is a measure of the available wind resource. Higher wind power density
@@ -33,7 +33,7 @@ many mountainous and inaccessible areas.
 The Ruggedness Index is a measure of the steepness of the terrain in the surrounding area. Uncertainty in
 wind density estimates increase with higher RIX values.
 
-<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/worldcover.png"></img></div>
+<div style="width: 100%;"><img style="width:230px; float:right;" src="data/gtif/images/legends/worldcover.png"></img></div>
 
 ### World Cover classes
 

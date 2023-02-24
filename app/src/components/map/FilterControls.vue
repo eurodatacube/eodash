@@ -163,7 +163,9 @@
               }"
             >
               <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}°</div>
+                <div class="pr-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[0]}}°
+                </div>
               </template>
             </v-slider>
             <v-slider
@@ -183,7 +185,9 @@
               }"
             >
               <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].range[1]}}°</div>
+                <div class="pr-4" style="width:60px; overflow:hidden;">
+                  {{filters[key].range[1]}}°
+                </div>
               </template>
             </v-slider>
           </center>

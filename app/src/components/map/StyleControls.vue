@@ -66,10 +66,10 @@ export default {
       const vLayer = map.getAllLayers().find((l) => l.get('id') === this.vectorStyles.sourceLayer);
       if (vLayer) {
         applyStyle(
-        vLayer,
-        this.$store.state.indicators.selectedIndicator.display.styleFile,
-        [evt.id],
-      );
+          vLayer,
+          this.$store.state.indicators.selectedIndicator.display.styleFile,
+          [evt.id],
+        );
       }
     },
   },

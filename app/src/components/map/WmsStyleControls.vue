@@ -72,8 +72,8 @@ export default {
       const layer = map.getAllLayers().find((l) => l.get('name') === this.wmsStyles.sourceLayer);
       if (layer) {
         layer.getSource().updateParams({
-        STYLES: evt.id,
-      });
+          STYLES: evt.id,
+        });
       }
     },
   },
