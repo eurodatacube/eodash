@@ -303,15 +303,18 @@ export const indicatorsDefinition = Object.freeze({
     }],
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+      dateFormatFunction: (date) => {
+        // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
+        const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        const dateObj = DateTime.fromISO(date);
+        const dateFuture = dateObj.plus({ minutes: 45 }).toFormat(defaultFormat);
+        const datePast = dateObj.minus({ minutes: 45 }).toFormat(defaultFormat);
+        const query = `time=gte.${datePast}&time=lte.${dateFuture}`;
+        return query;
+      },
     },
-    // features: {
-    //   ...geodbFeatures,
-    //   dateFormatFunction: (date) => DateTime.fromISO(date).set({
-    //     hour: 0, minute: 0, second: 0, millisecond: 0,
-    //   }).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    // },
     largeTimeDuration: true,
   },
   E13e: {

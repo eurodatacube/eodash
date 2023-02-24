@@ -33,6 +33,11 @@ from xcube_geodb.core.geodb import GeoDBClient
 from owslib.wms import WebMapService
 
 
+dot_env = DotEnv("/public/.env")
+dot_env.set_as_environment_variables()
+geodb = GeoDBClient()
+envs = dot_env.dict()
+
 
 ISO8601_PERIOD_REGEX = re.compile(
     r"^(?P<sign>[+-])?"
@@ -97,10 +102,14 @@ def parse_duration(datestring):
             ret = Duration(0) - ret
     return ret
 
-dot_env = DotEnv("/public/.env")
-dot_env.set_as_environment_variables()
-geodb = GeoDBClient()
-envs = dot_env.dict()
+def try_parsing_date(text, line):
+    for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
+        try:
+            return datetime.strptime(text.strip(), fmt)
+        except ValueError:
+            pass
+    raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
+
 
 # Function to fetch all available dates for BYOD collections.
 # Make sure all appropiate collection ids are set in your docker environment
@@ -316,8 +325,16 @@ aoi_ids = df['AOI_ID'].unique().tolist()
 results = {}
 for key in aoi_ids:
     matching = df.query(f"AOI_ID == '{key}'")
+    time_entries = [try_parsing_date(item, "") for item in matching["Time"].tolist()]
+    time_entries.sort()
+    # fix duplicates 1 minute from each other
+    time_entries_unique = [time_entries[0]]
+    for i in range(1, len(time_entries)):
+        if time_entries[i] - time_entries_unique[-1] >= timedelta(minutes=10):
+            time_entries_unique.append(time_entries[i])
+    time_entries_unique = [item.strftime('%Y-%m-%dT%H:%M:%S') for item in time_entries_unique]
     results[f"{key}-E13d"] = {
-        "time": matching["Time"].tolist(),
+        "time": time_entries_unique,
         "eoSensor": ["Sentinel 2"],
         "inputData": ["Sentinel 2 L2A"],
     }
@@ -500,15 +517,6 @@ default_array_map = {
     "data_provider": "Data Provider",
     "site_name_arr": "Site Name"
 }
-
-
-def try_parsing_date(text, line):
-    for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d'):
-        try:
-            return datetime.strptime(text.strip(), fmt)
-        except ValueError:
-            pass
-    raise ValueError(f'time "{text}" not provided in valid format, full line "{line}"')
 
 
 def generateData(
