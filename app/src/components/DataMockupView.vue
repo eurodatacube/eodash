@@ -19,7 +19,7 @@
         </thead>
         <tbody>
           <tr>
-            <td> Mean Land Surface Temperature (2021)</td>
+            <td> Maximum Annual Land Surface Temperature (2021)</td>
             <td> {{ GRStatistics.lst2021 }} degrees C </td>
           </tr>
           <tr>
