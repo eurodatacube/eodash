@@ -637,7 +637,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Innsbruck hot-spot',
         indicator: 'AQ3',
-        yAxis: 'Surface NO2 concentrations',
+        yAxis: 'Surface NO2 concentrations [ppbv]',
         lastIndicatorValue: null,
         indicatorName: 'Innsbruck hot-spot',
         navigationDescription: 'Surface NO2 concentrations measured at Innsbruck Atmospheric Observatory (IAO)',
@@ -977,7 +977,7 @@ export const globalIndicators = [
           filters: {
             var: {
               display: true,
-              label: 'Flux [1e-6]',
+              label: 'Flux [nmol/m2/s]',
               id: 'var',
               min: 0,
               max: 200,
@@ -986,7 +986,7 @@ export const globalIndicators = [
             },
             spacing: {
               display: true,
-              label: 'Contour step size [1e-6]',
+              label: 'Contour step size [nmol/m2/s]',
               type: 'slider',
               id: 'varSpacing',
               min: 1,
@@ -995,7 +995,7 @@ export const globalIndicators = [
             },
             offset: {
               display: true,
-              label: 'Contour offset [1e-6]',
+              label: 'Contour offset [nmol/m2/s]',
               type: 'slider',
               id: 'varOffset',
               min: 0,
@@ -1320,7 +1320,7 @@ export const globalIndicators = [
           filters: {
             var: {
               display: true,
-              label: 'Averaged NO2',
+              label: 'Averaged NO2 [micro mol/m2]',
               dataInfo: 'AQ5',
               id: 'var',
               min: 0,
