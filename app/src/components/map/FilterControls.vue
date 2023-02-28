@@ -99,97 +99,104 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
-          <center v-else-if="filters[key].isCircular" class="py-6" style="position: relative;">
+          <center v-else-if="filters[key].isCircular" class="py-6 px-4" style="position: relative;">
+            <v-row align="center">
+              <v-col cols="8">
+                <v-slider
+                  label="Angle"
+                  max="360"
+                  min="0"
+                  v-model="filters[key].range[0]"
+                  @input="() => {
+                    let from = filters[key].range[0];
+                    let to = filters[key].range[0] + filters[key].range[1];
 
-            <v-row justify="center" class="mb-8">
-              <v-progress-circular
-                class="compass"
-                :rotate="-90 + filters[key].range[0]"
-                :size="100"
-                :width="8"
-                :value="filters[key].range[1] / 360 * 100"
-                color="#00ae9d"
-              >
-                <div style="position: relative; transform: translate(-5px, -10px)">
-                  <div style="position: absolute; transform: translate(0, -25px)">N</div>
-                  <div style="position: absolute; transform: translate(25px, 0)">E</div>
-                  <div style="position: absolute; transform: translate(0, 25px)">S</div>
-                  <div style="position: absolute; transform: translate(-25px, 0)">W</div>
-                </div>
-              </v-progress-circular>
-
-              <v-row
-                class="degrees-range text-h5 ml-8"
-                align="center"
-                style="flex: 0 1 auto; min-width: 125px;"
-              >
-                <template
-                  v-if="filters[key].range[0] + filters[key].range[1] > 360"
+                    if (to > 360) {
+                      updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                    } else {
+                      updateMapDebounced([from, to, 0, 0], filters[key].id);
+                    }
+                  }"
                 >
-                  {{
-                    filters[key].range[0]
-                  }}°
-                  -
-                  {{
-                    filters[key].range[0] + filters[key].range[1] - 360
-                  }}°
-                </template>
-                <template v-else>
-                  {{
-                    filters[key].range[0]
-                  }}°
-                  -
-                  {{
-                    filters[key].range[0] + filters[key].range[1]
-                  }}°
-                </template>
-              </v-row>
+                  <template v-slot:append>
+                    <div class="pr-4" style="width:60px; overflow:hidden;">
+                      {{filters[key].range[0]}}°
+                    </div>
+                  </template>
+                </v-slider>
+                <v-slider
+                  label="Width"
+                  max="360"
+                  min="10"
+                  v-model="filters[key].range[1]"
+                  @input="() => {
+                    let from = filters[key].range[0];
+                    let to = filters[key].range[0] + filters[key].range[1];
+
+                    if (to > 360) {
+                      updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                    } else {
+                      updateMapDebounced([from, to, 0, 0], filters[key].id);
+                    }
+                  }"
+                >
+                  <template v-slot:append>
+                    <div class="pr-4" style="width:60px; overflow:hidden;">
+                      {{filters[key].range[1]}}°
+                    </div>
+                  </template>
+                </v-slider>
+              </v-col>
+
+
+              <v-col cols="4">
+                <v-col justify="center">
+                  <v-progress-circular
+                    class="compass mb-4"
+                    :rotate="-90 + filters[key].range[0]"
+                    :size="100"
+                    :width="8"
+                    :value="filters[key].range[1] / 360 * 100"
+                    color="#00ae9d"
+                  >
+                    <div style="position: relative; transform: translate(-5px, -10px)">
+                      <div style="position: absolute; transform: translate(0, -25px)">N</div>
+                      <div style="position: absolute; transform: translate(25px, 0)">E</div>
+                      <div style="position: absolute; transform: translate(0, 25px)">S</div>
+                      <div style="position: absolute; transform: translate(-25px, 0)">W</div>
+                    </div>
+                  </v-progress-circular>
+
+                  <v-row
+                    class="degrees-range text-h6"
+                    align="center"
+                    justify="center"
+                    style="flex: 0 1 auto; text-align: center;"
+                  >
+                    <template
+                      v-if="filters[key].range[0] + filters[key].range[1] > 360"
+                    >
+                      {{
+                        filters[key].range[0]
+                      }}°
+                      -
+                      {{
+                        filters[key].range[0] + filters[key].range[1] - 360
+                      }}°
+                    </template>
+                    <template v-else>
+                      {{
+                        filters[key].range[0]
+                      }}°
+                      -
+                      {{
+                        filters[key].range[0] + filters[key].range[1]
+                      }}°
+                    </template>
+                  </v-row>
+                </v-col>
+              </v-col>
             </v-row>
-
-            <v-slider
-              label="Angle"
-              max="360"
-              min="0"
-              v-model="filters[key].range[0]"
-              @input="() => {
-                let from = filters[key].range[0];
-                let to = filters[key].range[0] + filters[key].range[1];
-
-                if (to > 360) {
-                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
-                } else {
-                  updateMapDebounced([from, to, 0, 0], filters[key].id);
-                }
-              }"
-            >
-              <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[0]}}°
-                </div>
-              </template>
-            </v-slider>
-            <v-slider
-              label="Width"
-              max="360"
-              min="10"
-              v-model="filters[key].range[1]"
-              @input="() => {
-                let from = filters[key].range[0];
-                let to = filters[key].range[0] + filters[key].range[1];
-
-                if (to > 360) {
-                  updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
-                } else {
-                  updateMapDebounced([from, to, 0, 0], filters[key].id);
-                }
-              }"
-            >
-              <template v-slot:append>
-                <div class="pr-4" style="width:60px; overflow:hidden;">
-                  {{filters[key].range[1]}}°
-                </div>
-              </template>
-            </v-slider>
           </center>
           <v-range-slider
             v-else
