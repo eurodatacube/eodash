@@ -2,9 +2,7 @@
 
 #### Traffic-free trip duration
 
-**Brief description:** The Traffic-free trip duration represents the mean travel time (in minutes)
-that it takes to go from origin to destination for all the trips passing on a street segment during a
-specific hour in a hypothetical, traffic-free scenario.
+**Brief description:** The Traffic-free trip duration represents the mean travel time (in minutes) that it takes to go from origin to destination for all the trips passing on a street segment during a specific hour in a hypothetical, traffic-free scenario.
 
 **Unit:** minutes
 
