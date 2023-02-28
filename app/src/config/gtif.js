@@ -337,7 +337,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP3',
   },
   REP4: {
-    ...energyTransitionDefaults,
     indicator: 'Hydro Power',
     class: 'air',
     themes: ['energy-transition'],
@@ -347,6 +346,9 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }],
     overlayLayers: [],
+    disableCSV: true,
+    geoDBDataQuery: 'sobothstausee_surface_water_extent?',
+    geoDBParameters: 'date,area,diff_area,area_diff_rel',
   },
   REP5: {
     ...energyTransitionDefaults,
@@ -2697,12 +2699,11 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
+        dataLoadFinished: false,
         country: 'all',
         city: 'Austria',
         siteName: 'global',
         indicator: 'REP4',
-        disabled: true,
         description: 'Dynamic Storage Capacity',
         navigationDescription: 'Dynamic Storage Capacity',
         lastIndicatorValue: null,
@@ -2726,10 +2727,8 @@ export const globalIndicators = [
         aoiID: 'Austria',
         time: [],
         inputData: [''],
-        yAxis: '',
-        geoDBDataQuery: 'sobothstausee_surface_water_extent',
-        geoDBParameters: 'date,area,diff_area,area_diff_rel',
-        // TODO dataInfo: 'SWE',
+        yAxis: 'km²',
+        dataInfo: 'SWE',
         // TODO dataInfo: 'WSE',
       },
     },

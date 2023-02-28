@@ -304,7 +304,7 @@ export default {
   created() {
     this.updateMapDebounced = debounce((evt, filterId) => {
       this.updateMap(evt, filterId);
-    }, 150);
+    }, 70);
   },
   mounted() {
     Object.keys(this.filters).forEach((key) => {
