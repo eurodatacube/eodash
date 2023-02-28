@@ -358,11 +358,13 @@ export default {
           this.variables[`${filterId}Min2`],
           this.variables[`${filterId}Max2`],
         ] = evt;
-      } else {
+      } else if (evt.length == 2) {
         [
           this.variables[`${filterId}Min`],
           this.variables[`${filterId}Max`],
         ] = evt;
+      } else {
+        this.variables[`${filterId}`] = evt;
       }
       if (gtl) {
         gtl.updateStyleVariables(this.variables);
