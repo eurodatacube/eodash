@@ -22,6 +22,8 @@ import requests
 from datetime import timedelta
 from decimal import Decimal
 import re
+from functools import reduce
+
 
 from six import string_types
 import xml.etree.ElementTree as ET
@@ -395,7 +397,9 @@ try:
                 else:
                     times.append(tp)
             times = [time.replace('\n','').strip() for time in times]
-            results_dict[layer] = times
+            # get unique times
+            times_f = reduce(lambda re, x: re+[x] if x not in re else re, times, [])
+            results_dict[layer] = times_f
 except Exception as e:
     print("Issue extracting information from WMS capabilties")
     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
