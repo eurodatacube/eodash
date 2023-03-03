@@ -358,7 +358,7 @@ export default {
           this.variables[`${filterId}Min2`],
           this.variables[`${filterId}Max2`],
         ] = evt;
-      } else if (evt.length == 2) {
+      } else if (evt.length === 2) {
         [
           this.variables[`${filterId}Min`],
           this.variables[`${filterId}Max`],

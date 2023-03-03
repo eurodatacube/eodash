@@ -1447,7 +1447,9 @@ export const globalIndicators = [
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
                 // apply logarithmic scale specially for population
-                const f = clamp((Math.log10(value) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)), 0, 1);
+                const f = clamp(
+                  (Math.log10(value) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)), 0, 1,
+                );
                 color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
