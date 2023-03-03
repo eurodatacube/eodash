@@ -99,7 +99,7 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
-          <v-row 
+          <v-row
             v-else-if="filters[key].isCircular"
             class="mt-4 px-4"
             style="position: relative;"
@@ -115,7 +115,7 @@
                 color="#00ae9d"
               >
                 <div style="
-                  position: relative; 
+                  position: relative;
                   transform: translate(-5px, -10px)
                   font-weight: 700; font-size: 15px;"
                 >
@@ -159,7 +159,7 @@
                 </span>
               </template>
             </v-col>
-            
+
             <v-col cols="7">
               <v-slider
                 label="Angle"
