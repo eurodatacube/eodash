@@ -122,7 +122,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -143,7 +143,7 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4'],
     };
   },
 
@@ -199,7 +199,6 @@ export default {
           OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
           // GSA: ['waiting_time'] // Currently not in use, left for reference
         };
-
         const referenceDecompose = {
           N1: {
             measurementConfig: {
@@ -915,6 +914,23 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
+        } else if (['REP4'].includes(indicatorCode)) {
+          // multiply by 100 to convert to %
+          const data = indicator.time.map((date, i) => (
+            { t: date, y: 100 * indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
+          // todo show label from reference data
         } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = indicator.referenceValue.map((x, i) => (

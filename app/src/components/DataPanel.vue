@@ -516,6 +516,10 @@ export default {
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     showMap() {
+      // TODO: remove this hack
+      if (['REP4'].includes(this.indicatorObject.indicator)) {
+        return false;
+      }
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
