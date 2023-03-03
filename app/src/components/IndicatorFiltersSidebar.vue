@@ -1,7 +1,7 @@
 <template>
   <div
     :style="
-      `height: calc(var(--vh, 1vh) * 100); background: ${$vuetify.theme.currentTheme.background}`
+      `height: 100%; background: ${$vuetify.theme.currentTheme.background}`
     "
     v-click-outside="onClickOutside"
   >
@@ -11,7 +11,12 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
-      style="top: 112px"
+      style="position: fixed; top: 112px;"
+      :style="{
+        'height': indicatorObject && $vuetify.breakpoint.smAndDown
+          ? `calc(100vh - 33vh - 120px)`
+          : `calc(100vh - 112px)`
+      }"
     >
       <v-list class="py-0">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
@@ -20,7 +25,10 @@
             :key="theme.slug"
             class="pa-2"
             :style="`width: ${iconSize}px; height: ${iconSize}px`"
-            @click="showLayerMenu = true"
+            @click="(evt) => {
+              setCurrentDomain(`gtif-${theme.slug}`);
+              showLayerMenu = true;
+            }"
           >
             <v-list-item-icon
               class="ma-0 d-flex flex-column align-center"
@@ -42,7 +50,7 @@
     >
       <div
         v-show="showLayerMenu"
-        class="fill-height"
+        class="gtif-indicator-menu fill-height"
         style="width: 250px; pointer-events: all;"
       >
         <v-list v-if="themes[domainModel]" style="width: 100%">
@@ -104,10 +112,18 @@
             v-for="item in indicatorObject.highlights"
             :key="item.name"
             class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
+            :class="{'v-btn--size-small': $vuetify.breakpoint.smAndDown}"
             style="width: 100%"
+            :style="{
+                'min-height': $vuetify.breakpoint.smAndDown ? '0' : '48px',
+              }"
             @click="moveToHighlight(item.location)"
           >
-            <v-list-item-content>
+            <v-list-item-content
+              :style="{
+                padding: $vuetify.breakpoint.smAndDown ? '6px 0' : '12px 0',
+              }"
+            >
               <v-list-item-title>
                 {{ item.name }}
               </v-list-item-title>
@@ -124,6 +140,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
 import GeoJSON from 'ol/format/GeoJSON';
@@ -191,6 +208,7 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    ...mapActions('gtif', ['setCurrentDomain']),
     globalIndicatorsForTheme(theme) {
       if (!theme) {
         return;
@@ -258,5 +276,9 @@ export default {
 ::v-deep .v-list-item__title,
 ::v-deep .v-list-item__subtitle {
   white-space: pre-wrap;
+}
+
+.gtif-indicator-menu {
+  overflow-y: auto;
 }
 </style>

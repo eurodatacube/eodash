@@ -1,4 +1,4 @@
-<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/REP2.png"></img></div>
+<div style="width: 100%;"><img style="width:230px; float:right;" src="data/gtif/images/legends/REP2.png"></img></div>
 
 ### Global horizontal irradiation (kWh/m 2\*yr)
 

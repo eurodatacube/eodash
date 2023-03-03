@@ -76,7 +76,7 @@
     />
     <div
       v-if="$vuetify.breakpoint.smAndUp"
-      class="move-with-panel"
+      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
       :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
@@ -88,8 +88,10 @@
     </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
-    <div ref="controlsContainer" class="controlsContainer move-with-panel pa-2
-      d-flex flex-column align-end"
+    <div
+      ref="controlsContainer"
+      class="controlsContainer pa-2 d-flex flex-column align-end"
+      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
