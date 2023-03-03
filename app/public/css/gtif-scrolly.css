@@ -15,6 +15,12 @@
   align-items: center;
 }
 
+/*TODO: remove following line after insertion of carbon-accounting text in div into a p element*/
+#carbon {
+  font-size: 1.3rem;
+  margin-bottom: 3em; /*adding some space for footer to start*/
+}
+
 .highlight {
   font-size: 1.7rem;
 }
