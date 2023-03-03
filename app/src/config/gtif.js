@@ -454,6 +454,15 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  SOL10: {
+    indicator: 'solar',
+    clas: 'air',
+    themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
+  },
   LST: {
     indicator: 'Heat Explorer',
     class: 'air',
@@ -1674,6 +1683,54 @@ export const globalIndicators = [
 
         display: {
 
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'PV Detections',
+        indicator: 'SOL10',
+        lastIndicatorValue: null,
+        indicatorName: 'PV Detections',
+        navigationDescription: 'Preliminary detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        wmsStyles: {
+          sourceLayer: 'AT_Rooftops_PV_bundesland_3857',
+          items: [
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+              markdown: 'SOL10_PVExisting',
+            },
+          ],
+        },
+        display: {
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'AT_Rooftops_PV_bundesland_3857',
+          STYLES: 'PVExisting',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: 'PVExisting',
         },
       },
     },
