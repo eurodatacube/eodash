@@ -19,6 +19,10 @@
   font-size: 1.7rem;
 }
 
+p {
+  font-size: 16px !important;
+}
+
 h1,
 h2,
 h3,
