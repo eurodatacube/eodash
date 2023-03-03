@@ -2,8 +2,7 @@
 
 #### Traffic-free trip speed
 
-**Brief description:** The Traffic-free trip speed reports the average speed [km/h] of all trajectories
-passing on a street segment during a specific hour in the traffic-free scenario.
+**Brief description:** The Traffic-free trip speed reports the average speed [km/h] of all trajectories passing on a street segment during a specific hour in the traffic-free scenario.
 
 **Unit:** km/h
 

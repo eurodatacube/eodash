@@ -456,6 +456,15 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
+  SOL10: {
+    indicator: 'solar',
+    clas: 'air',
+    themes: ['sustainable-cities'],
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.terrainLight],
+  },
   LST: {
     indicator: 'Heat Explorer',
     class: 'air',
@@ -639,7 +648,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Innsbruck hot-spot',
         indicator: 'AQ3',
-        yAxis: 'Surface NO2 concentrations',
+        yAxis: 'Surface NO2 concentrations [ppbv]',
         lastIndicatorValue: null,
         indicatorName: 'Innsbruck hot-spot',
         navigationDescription: 'Surface NO2 concentrations measured at Innsbruck Atmospheric Observatory (IAO)',
@@ -979,7 +988,7 @@ export const globalIndicators = [
           filters: {
             var: {
               display: true,
-              label: 'Flux [1e-6]',
+              label: 'Flux [nmol/m2/s]',
               id: 'var',
               min: 0,
               max: 200,
@@ -988,7 +997,7 @@ export const globalIndicators = [
             },
             spacing: {
               display: true,
-              label: 'Contour step size [1e-6]',
+              label: 'Contour step size [nmol/m2/s]',
               type: 'slider',
               id: 'varSpacing',
               min: 1,
@@ -997,7 +1006,7 @@ export const globalIndicators = [
             },
             offset: {
               display: true,
-              label: 'Contour offset [1e-6]',
+              label: 'Contour offset [nmol/m2/s]',
               type: 'slider',
               id: 'varOffset',
               min: 0,
@@ -1120,64 +1129,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [
-          '2021-07-05T00:00:00', '2021-07-05T01:00:00', '2021-07-05T02:00:00',
-          '2021-07-05T03:00:00', '2021-07-05T04:00:00', '2021-07-05T05:00:00',
-          '2021-07-05T06:00:00', '2021-07-05T07:00:00', '2021-07-05T08:00:00',
-          '2021-07-05T09:00:00', '2021-07-05T10:00:00', '2021-07-05T11:00:00',
-          '2021-07-05T12:00:00', '2021-07-05T13:00:00', '2021-07-05T14:00:00',
-          '2021-07-05T15:00:00', '2021-07-05T16:00:00', '2021-07-05T17:00:00',
-          '2021-07-05T18:00:00', '2021-07-05T19:00:00', '2021-07-05T20:00:00',
-          '2021-07-05T21:00:00', '2021-07-05T22:00:00', '2021-07-05T23:00:00',
-          '2021-07-06T00:00:00', '2021-07-06T01:00:00', '2021-07-06T02:00:00',
-          '2021-07-06T03:00:00', '2021-07-06T04:00:00', '2021-07-06T05:00:00',
-          '2021-07-06T06:00:00', '2021-07-06T07:00:00', '2021-07-06T08:00:00',
-          '2021-07-06T09:00:00', '2021-07-06T10:00:00', '2021-07-06T11:00:00',
-          '2021-07-06T12:00:00', '2021-07-06T13:00:00', '2021-07-06T14:00:00',
-          '2021-07-06T15:00:00', '2021-07-06T16:00:00', '2021-07-06T17:00:00',
-          '2021-07-06T18:00:00', '2021-07-06T19:00:00', '2021-07-06T20:00:00',
-          '2021-07-06T21:00:00', '2021-07-06T22:00:00', '2021-07-06T23:00:00',
-          '2021-07-07T00:00:00', '2021-07-07T01:00:00', '2021-07-07T02:00:00',
-          '2021-07-07T03:00:00', '2021-07-07T04:00:00', '2021-07-07T05:00:00',
-          '2021-07-07T06:00:00', '2021-07-07T07:00:00', '2021-07-07T08:00:00',
-          '2021-07-07T09:00:00', '2021-07-07T10:00:00', '2021-07-07T11:00:00',
-          '2021-07-07T12:00:00', '2021-07-07T13:00:00', '2021-07-07T14:00:00',
-          '2021-07-07T15:00:00', '2021-07-07T16:00:00', '2021-07-07T17:00:00',
-          '2021-07-07T18:00:00', '2021-07-07T19:00:00', '2021-07-07T20:00:00',
-          '2021-07-07T21:00:00', '2021-07-07T22:00:00', '2021-07-07T23:00:00',
-          '2021-07-08T00:00:00', '2021-07-08T01:00:00', '2021-07-08T02:00:00',
-          '2021-07-08T03:00:00', '2021-07-08T04:00:00', '2021-07-08T05:00:00',
-          '2021-07-08T06:00:00', '2021-07-08T07:00:00', '2021-07-08T08:00:00',
-          '2021-07-08T09:00:00', '2021-07-08T10:00:00', '2021-07-08T11:00:00',
-          '2021-07-08T12:00:00', '2021-07-08T13:00:00', '2021-07-08T14:00:00',
-          '2021-07-08T15:00:00', '2021-07-08T16:00:00', '2021-07-08T17:00:00',
-          '2021-07-08T18:00:00', '2021-07-08T19:00:00', '2021-07-08T20:00:00',
-          '2021-07-08T21:00:00', '2021-07-08T22:00:00', '2021-07-08T23:00:00',
-          '2021-07-09T00:00:00', '2021-07-09T01:00:00', '2021-07-09T02:00:00',
-          '2021-07-09T03:00:00', '2021-07-09T04:00:00', '2021-07-09T05:00:00',
-          '2021-07-09T06:00:00', '2021-07-09T07:00:00', '2021-07-09T08:00:00',
-          '2021-07-09T09:00:00', '2021-07-09T10:00:00', '2021-07-09T11:00:00',
-          '2021-07-09T12:00:00', '2021-07-09T13:00:00', '2021-07-09T14:00:00',
-          '2021-07-09T15:00:00', '2021-07-09T16:00:00', '2021-07-09T17:00:00',
-          '2021-07-09T18:00:00', '2021-07-09T19:00:00', '2021-07-09T20:00:00',
-          '2021-07-09T21:00:00', '2021-07-09T22:00:00', '2021-07-09T23:00:00',
-          '2021-07-10T00:00:00', '2021-07-10T01:00:00', '2021-07-10T02:00:00',
-          '2021-07-10T03:00:00', '2021-07-10T04:00:00', '2021-07-10T05:00:00',
-          '2021-07-10T06:00:00', '2021-07-10T07:00:00', '2021-07-10T08:00:00',
-          '2021-07-10T09:00:00', '2021-07-10T10:00:00', '2021-07-10T11:00:00',
-          '2021-07-10T12:00:00', '2021-07-10T13:00:00', '2021-07-10T14:00:00',
-          '2021-07-10T15:00:00', '2021-07-10T16:00:00', '2021-07-10T17:00:00',
-          '2021-07-10T18:00:00', '2021-07-10T19:00:00', '2021-07-10T20:00:00',
-          '2021-07-10T21:00:00', '2021-07-10T22:00:00', '2021-07-10T23:00:00',
-          '2021-07-11T00:00:00', '2021-07-11T01:00:00', '2021-07-11T02:00:00',
-          '2021-07-11T03:00:00', '2021-07-11T04:00:00', '2021-07-11T05:00:00',
-          '2021-07-11T06:00:00', '2021-07-11T07:00:00', '2021-07-11T08:00:00',
-          '2021-07-11T09:00:00', '2021-07-11T10:00:00', '2021-07-11T11:00:00',
-          '2021-07-11T12:00:00', '2021-07-11T13:00:00', '2021-07-11T14:00:00',
-          '2021-07-11T15:00:00', '2021-07-11T16:00:00', '2021-07-11T17:00:00',
-          '2021-07-11T18:00:00', '2021-07-11T19:00:00', '2021-07-11T20:00:00',
-          '2021-07-11T21:00:00', '2021-07-11T22:00:00', '2021-07-11T23:00:00',
-        ],
+        time: getMinuteIntervals('2022-12-01T00:00:00Z', '2022-12-07T22:00:00Z', 60),
         inputData: [''],
         yAxis: '',
         highlights: [
@@ -1200,73 +1152,65 @@ export const globalIndicators = [
           },
         ],
         queryParameters: {
-          sourceLayer: 'trajectories_on_edges_austria_july',
+          sourceLayer: 'trajectories_on_edges_austria_december_first_week',
           selected: 'congestion_index',
           dataInfo: 'AQ4',
           items: [
             {
               id: 'congestion_index',
               description: 'Congestion index',
-              min: 0.5,
-              max: 3,
+              min: 0,
+              max: 100,
               colormapUsed: blgrrd,
               markdown: 'AQ4_congestion_index',
-            },
-            {
-              id: 'duration_real',
-              description: 'Real trip duration',
-              min: 0,
-              max: 3600,
-              colormapUsed: blgrrd,
-              markdown: 'AQ4_duration_real',
             },
             {
               id: 'duration',
               description: 'Traffic-free trip duration',
               min: 0,
-              max: 3600,
+              max: 240,
               colormapUsed: blgrrd,
               markdown: 'AQ4_duration',
-            },
-            {
-              id: 'speed_real',
-              description: 'Real trip speed',
-              min: 0,
-              max: 130,
-              colormapUsed: blgrrd,
-              markdown: 'AQ4_speed_real',
             },
             {
               id: 'speed',
               description: 'Traffic-free trip speed',
               min: 0,
-              max: 130,
+              max: 140,
               colormapUsed: blgrrd,
               markdown: 'AQ4_speed',
             },
-            // {
-            //   id: 'distance',
-            //   description: 'Trip distance',
-            //   min: 0,
-            //   max: 300000, // m, while legend converts to km
-            //   colormapUsed: blgrrd,
-            //   markdown: 'AQ4_distance',
-            // },
-            // {
-            //   id: 'n_trajectories',
-            //   description: 'Trajectories',
-            //   min: 0,
-            //   max: 6000,
-            //   colormapUsed: blgrrd,
-            //   markdown: 'AQ4_trajectories',
-            // },
+            {
+              id: 'distance',
+              description: 'Trip distance',
+              min: 0,
+              max: 300,
+              colormapUsed: blgrrd,
+              markdown: 'AQ4_distance',
+            },
+            {
+              id: 'n_trajectories',
+              description: 'Trajectories',
+              min: 1,
+              max: 4000,
+              colormapUsed: blgrrd,
+              markdown: 'AQ4_trajectories',
+            },
+            {
+              id: 'motorized_share',
+              description: 'Motorized trip share index',
+              min: 0,
+              max: 100,
+              colormapUsed: blgrrd,
+              markdown: 'AQ4_motorized_share',
+            },
           ],
         },
         display: {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
-            let color = '#00000000';
+            let color = '#000000';
             const dataSource = options.dataProp ? options.dataProp : 'mapData';
             if (store.state.indicators.selectedIndicator
                 && store.state.indicators.selectedIndicator[dataSource]) {
@@ -1277,15 +1221,19 @@ export const globalIndicators = [
               if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
+                let f = clamp((value - min) / (max - min), 0, 1);
+                if (['n_trajectories'].includes(dataSource)) {
+                  f = clamp((Math.log10(value) - Math.log10(min))
+                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+                }
                 color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
             return color;
           },
-          id: 'trajectories_on_edges_austria_july',
+          id: 'trajectories_on_edges_austria_december_first_week',
           adminZoneKey: 'unique_id',
-          parameters: 'unique_id,congestion_index,duration_real,duration,speed_real,speed,distance,n_trajectories',
+          parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
           name: 'Human Mobility Patterns',
           strokeOnly: true,
           minZoom: 1,
@@ -1322,7 +1270,7 @@ export const globalIndicators = [
           filters: {
             var: {
               display: true,
-              label: 'Averaged NO2',
+              label: 'Averaged NO2 [micro mol/m2]',
               dataInfo: 'AQ5',
               id: 'var',
               min: 0,
@@ -1440,7 +1388,8 @@ export const globalIndicators = [
                 const value = ind[dataSource][id][currPar.id];
                 const { min, max, colormapUsed } = currPar;
                 // apply logarithmic scale specially for population
-                const f = clamp((Math.log10(value) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)), 0, 1);
+                const f = clamp((Math.log10(value) - Math.log10(min))
+                  / (Math.log10(max) - Math.log10(min)), 0, 1);
                 color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
             }
@@ -1676,6 +1625,54 @@ export const globalIndicators = [
 
         display: {
 
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'PV Detections',
+        indicator: 'SOL10',
+        lastIndicatorValue: null,
+        indicatorName: 'PV Detections',
+        navigationDescription: 'Preliminary detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        wmsStyles: {
+          sourceLayer: 'AT_Rooftops_PV_bundesland_3857',
+          items: [
+            {
+              id: 'PVExisting',
+              description: 'Existing PV Panels',
+              markdown: 'SOL10_PVExisting',
+            },
+          ],
+        },
+        display: {
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'AT_Rooftops_PV_bundesland_3857',
+          STYLES: 'PVExisting',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: 'PVExisting',
         },
       },
     },
@@ -2407,7 +2404,7 @@ export const globalIndicators = [
               dataInfo: 'SettlementDistance',
               type: 'slider',
               min: 0,
-              max: 3000,
+              max: 5000,
               value: 0,
             },
             energyGridDistance: {
