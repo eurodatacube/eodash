@@ -882,7 +882,7 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -900,9 +900,18 @@ export default {
             });
           });
           */
-          const data = indicator.time.map((date, i) => (
+          let data = indicator.time.map((date, i) => (
             { t: date, y: indicator.measurement[i] }
           ));
+          if (indicatorCode === 'REP4') {
+            data = indicator.time.map((date, i) => (
+              {
+                t: date,
+                y: indicator.measurement[i],
+                referenceValue: indicator.referenceValue[i],
+              }
+            ));
+          }
           datasets.push({
             label: indicator.yAxis,
             fill: false,
@@ -914,23 +923,6 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['REP4'].includes(indicatorCode)) {
-          // multiply by 100 to convert to %
-          const data = indicator.time.map((date, i) => (
-            { t: date, y: 100 * indicator.measurement[i] }
-          ));
-          datasets.push({
-            label: indicator.yAxis,
-            fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            // pointStyle: 'line',
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
-          });
-          // todo show label from reference data
         } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = indicator.referenceValue.map((x, i) => (
@@ -1381,6 +1373,25 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: () => '',
+          },
+        };
+      }
+
+      if (['REP4'].includes(indicatorCode)) {
+        // Special tooltip information for this indicator
+        customSettings.tooltips = {
+          callbacks: {
+            footer: (context) => {
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const refV = obj.referenceValue;
+              const labelOutput = [
+                `area: ${(Number(refV[0])).toPrecision(4)} km²`,
+                `abs. change of area wrt. reference: ${(Number(refV[1])).toPrecision(4)} km²`,
+                `rel. change of area wrt. reference value: ${100 * Number(obj.y).toPrecision(4)} %`,
+              ];
+              return labelOutput;
+            },
           },
         };
       }

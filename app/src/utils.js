@@ -126,9 +126,13 @@ export async function loadIndicatorData(baseConfig, payload) {
       data.sort((a, b) => (
         DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
       ));
+      const otherParams = geoDBParameters.split(',').slice(2);
       data.forEach((entry) => {
         const measurement = entry[geoDBParameters.split(',')[1]];
-        const other = entry[geoDBParameters.split(',').slice(2)];
+        const other = [];
+        otherParams.forEach((ref) => {
+          other.push(entry[ref]);
+        });
         masurementData.push(measurement);
         referenceValue.push(other);
         times.push(DateTime.fromISO(entry.date));

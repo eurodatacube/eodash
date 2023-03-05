@@ -154,8 +154,9 @@ export default {
     showLayerMenu: false,
     disableAutoClose: undefined,
     customOrder: [
-      'Austria-REP4',
+      'Austria-REP5',
       'Austria-REP3',
+      'Austria-REP4',
       'Austria-REP2',
       'Austria-REP1',
       'AT-AQ',

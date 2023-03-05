@@ -363,7 +363,7 @@ export const indicatorsDefinition = Object.freeze({
     overlayLayers: [],
     disableCSV: true,
     geoDBDataQuery: 'sobothstausee_surface_water_extent?',
-    geoDBParameters: 'date,area_diff_rel,area',
+    geoDBParameters: 'date,area_diff_rel,area,diff_area',
   },
   REP5: {
     ...energyTransitionDefaults,
