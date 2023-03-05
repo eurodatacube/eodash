@@ -81,8 +81,9 @@ export function template(templateRe, str, data) {
 export async function loadIndicatorExternalData(time, mergedConfigs) {
   const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
   const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
+  const timeKey = mergedConfigs.timeKey || 'time';
   const base = `${geodbUrl}${endpoint}${mergedConfigs.id}`;
-  const timequery = `and=(time.gte.${time},time.lte.${time})`;
+  const timequery = `and=(${timeKey}.gte.${time},${timeKey}.lte.${time})`;
   const url = `${base}?${timequery}&select=${mergedConfigs.parameters}`;
   const data = await fetch(url)
     .then((response) => response.json())
@@ -120,16 +121,25 @@ export async function loadIndicatorData(baseConfig, payload) {
         .catch((error) => console.log(error));
       // convert to indicator
       const masurementData = [];
+      const referenceValue = [];
       const times = [];
       data.sort((a, b) => (
         DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
       ));
+      const otherParams = geoDBParameters.split(',').slice(2);
       data.forEach((entry) => {
-        masurementData.push(entry[geoDBParameters.split(',')[1]]);
+        const measurement = entry[geoDBParameters.split(',')[1]];
+        const other = [];
+        otherParams.forEach((ref) => {
+          other.push(entry[ref]);
+        });
+        masurementData.push(measurement);
+        referenceValue.push(other);
         times.push(DateTime.fromISO(entry.date));
       });
       indicatorObject = payload;
       indicatorObject.measurement = masurementData;
+      indicatorObject.referenceValue = referenceValue;
       indicatorObject.time = times;
       indicatorObject.dataLoadFinished = true;
     } else {

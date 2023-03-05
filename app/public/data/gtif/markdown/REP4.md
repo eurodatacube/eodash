@@ -6,4 +6,6 @@ Monitoring of reservoir level and its storage capacity has a significant importa
 
 Independently, WSE and SWE can act as status indicators on the hydro power storage in a country. Any significant deviation from the norms should attract attention for the national energy planning. WSE and SWE can also be combined to derive accurate time series of reservoir storage changes based on hypsometric relations between surface water area extent and elevation, and formulas for estimating potential hydropower generation and storage. 
 
+![Legend](legends/gtif/REP4_SWE.png "SWE")
+
 ![DHI Logo](data/gtif/images/logos/dhi.png "DHI Logo")

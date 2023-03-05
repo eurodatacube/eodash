@@ -77,7 +77,7 @@
           || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
+        :expanded="dataPanelFullWidth" class="px-5 py-2" />
     </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
