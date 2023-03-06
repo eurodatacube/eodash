@@ -647,7 +647,11 @@ export default {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
             ));
-            return { t: date, y: measurement[i] };
+            return {
+              t: date,
+              y: measurement[i],
+              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
+            };
           });
           const dataGroups = {};
           const colorGroups = {};
@@ -657,12 +661,14 @@ export default {
               dataGroups[currYear].push({
                 t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
+                referenceValue: data[i].referenceValue,
               });
               colorGroups[currYear].push(colors[i]);
             } else {
               dataGroups[currYear] = [{
                 t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
+                referenceValue: data[i].referenceValue,
               }];
               colorGroups[currYear] = [colors[i]];
             }
@@ -1094,6 +1100,23 @@ export default {
         // Another special case to also show days in tooltip
         if (indicatorCode === 'E10c') {
           customSettings.timeConfig.tooltipFormat = 'dd. MMM';
+        }
+        if (['VITS', 'PRCTS', 'SMCTS'].includes(indicatorCode)) {
+          // Special tooltip information for these indicator
+          customSettings.tooltips = {
+            callbacks: {
+              label: (context, data) => {
+                const label = `${data.datasets[context.datasetIndex].label} measurement: ${Number(context.value)}`;
+                return label;
+              },
+              footer: (context) => {
+                const { datasets } = this.datacollection;
+                const obj = datasets[context[0].datasetIndex].data[context[0].index];
+                const labelOutput = `${this.indicatorObject.indicatorName} [climatic value]: ${obj.referenceValue}`;
+                return labelOutput;
+              },
+            },
+          };
         }
       }
       if (indicatorCode === 'E10a5') {
