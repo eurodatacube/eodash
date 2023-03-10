@@ -295,10 +295,11 @@ export default {
               borderColor: 'black',
               spanGaps: false,
               borderWidth: 2,
+              pointRadius: 0,
             },
             referenceData: [
               {
-                label: 'climatic value (average)',
+                label: 'Climatic value (average)',
                 index: 0,
                 borderColor: 'blue',
                 borderDash: [6, 3],
@@ -306,7 +307,7 @@ export default {
                 borderWidth: 2,
                 spanGaps: false,
                 referenceTime: true,
-                pointRadius: 3,
+                pointRadius: 0,
               },
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
