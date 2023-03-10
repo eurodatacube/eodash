@@ -2621,6 +2621,74 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDelta',
+        country: ['RO'],
+        city: 'Danube Delta - Chlorophyll-a concentration',
+        siteName: 'Danube Delta',
+        description: 'Chlorophyll-a (Chl-a) concentration from ESA Sentinel-3',
+        indicator: 'N3a2',
+        indicatorName: 'Chl-a concentration (Sentinel-3)',
+        dataProvider: 'ESA',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL',
+          legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDelta',
+        country: ['RO'],
+        city: 'Danube Delta - TSM concentration',
+        siteName: 'Danube Delta',
+        description: 'Total Suspended Matter (TSM) concentration from ESA Sentinel-3',
+        indicator: 'N3a2',
+        indicatorName: 'TSM concentration (Sentinel-3)',
+        dataProvider: 'ESA',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM_TRILATERAL,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
+          legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoi: latLng([43.4, 4.94000]),
         aoiID: 'RhoneDeltaTSM',
         country: ['FR'],
