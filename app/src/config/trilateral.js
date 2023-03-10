@@ -563,7 +563,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/PRCTS',
   },
   SMCTS: {
-    indicatorSummary: 'Soil Moisture Contains anomaly',
+    indicatorSummary: 'Soil Moisture anomaly',
     themes: ['agriculture'],
     story: '/data/trilateral/SMCTS',
   },

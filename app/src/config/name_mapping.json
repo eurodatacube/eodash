@@ -461,6 +461,10 @@
     "World-N11":{
      "title": "Ocean Primary Productivity (GCOM-C)"
     },
+    "SMCTS":{
+      "title": "Soil Moisture",
+      "description": "Soil Moisture Time Series"
+    },
     "W11-NPPN":{
      "title": "Ocean Primary Productivity (MODIS)"
     },
@@ -474,7 +478,7 @@
      "title": "Mobility"
     },
     "CV": {
-	     "title": "Covid-19 cases"
+	    "title": "Covid-19 cases"
     },
     "OW": {
      "title": "Covid-19 vaccinations"

@@ -1340,5 +1340,16 @@
         "reference_time": "2023-01-23T00:00:00",
         "reference_value": "[16.86725, 10.897755, 98.79677, 0.67689556, 99.55654101995566]",
         "time": "2023-01-23T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "9.591503999999999",
+        "reference_time": "2023-02-06T00:00:00",
+        "reference_value": "[9.2957115, 5.127353, 22.829859, 0.011050684, 94.23503325942349]",
+        "time": "2023-02-06T00:00:00"
     }
 ]
