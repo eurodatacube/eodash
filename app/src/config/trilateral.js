@@ -952,7 +952,6 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Nitrogen Dioxide (Weekly/Monthly)',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'Nitrogen Dioxide (Weekly)',
         eoSensor: 'ESA TROPOMI',
         subAoi: {
@@ -963,8 +962,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W1',
         time: availableDates['AWS_NO2-VISUALISATION'],
         inputData: [''],
@@ -1000,7 +997,6 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Methane (Weekly)',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'Methane (Weekly)',
         subAoi: {
           type: 'FeatureCollection',
@@ -1011,8 +1007,6 @@ export const globalIndicators = [
           }],
         },
         eoSensor: 'ESA TROPOMI',
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'CH4',
         time: availableDates.AWS_CH4_WEEKLY,
         inputData: [''],
@@ -1048,14 +1042,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Carbon Monoxide',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'Carbon Monoxide',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'WorldCO',
         time: availableDates.AWS_VIS_CO_3DAILY_DATA,
         inputData: [''],
@@ -1092,7 +1083,6 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Nitrogen Dioxide (Monthly)',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'Air Quality - OMI: Monthly NO2',
         eoSensor: 'NASA OMI',
         subAoi: {
@@ -1103,8 +1093,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W2',
         time: availableDates['no2-monthly'],
         inputData: [''],
@@ -1149,7 +1137,6 @@ export const globalIndicators = [
           }],
         },
         lastColorCode: 'primary',
-        aoi: null,
         aoiID: 'W3',
         time: availableDates['no2-monthly-diff'],
         inputData: [''],
@@ -1183,7 +1170,6 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Carbon Dioxide',
         indicator: 'N2',
-        lastIndicatorValue: null,
         indicatorName: 'Carbon Dioxide',
         calcMethod: 'Mean CO2',
         subAoi: {
@@ -1194,8 +1180,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W4',
         time: availableDates['co2-mean'],
         inputData: [''],
@@ -1234,14 +1218,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Population Density (Meta)',
         indicator: 'FB',
-        lastIndicatorValue: null,
         indicatorName: 'Population Density (Meta)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W7',
         time: ['TBD'],
         inputData: [''],
@@ -1273,7 +1254,6 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Greenhouse Gases',
         indicator: 'N2',
-        lastIndicatorValue: null,
         indicatorName: 'Carbon Dioxide (CO2) Difference',
         calcMethod: 'Difference CO2',
         subAoi: {
@@ -1284,8 +1264,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
           }],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W5',
         time: availableDates['co2-diff'],
         inputData: [''],
@@ -1318,14 +1296,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Ocean Primary Productivity (BICEP)',
         indicator: 'NPP',
-        lastIndicatorValue: null,
         indicatorName: 'Ocean Primary Productivity (BICEP)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.BICEP_NPP_VIS_PP,
         inputData: [],
         yAxis: 'NPP',
@@ -1362,14 +1337,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Nitrogen Dioxide (Yearly)',
         indicator: 'N9',
-        lastIndicatorValue: null,
         indicatorName: 'Nitrogen Dioxide (Yearly)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W8',
         time: availableDates['OMI_trno2-COG'],
         inputData: [''],
@@ -1401,14 +1373,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sea Ice Thickness (ICESat-2)',
         indicator: 'SITI',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Thickness (ICESat-2)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W10',
         time: availableDates['IS2SITMOGR4-cog'],
         inputData: [''],
@@ -1458,14 +1427,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Ocean Primary Productivity (MODIS)',
         indicator: 'NPPN',
-        lastIndicatorValue: null,
         indicatorName: 'Ocean Primary Productivity (MODIS)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W11',
         time: availableDates.MO_NPP_npp_vgpm,
         inputData: [''],
@@ -1497,14 +1463,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Aboveground Biomass',
         indicator: 'NCEO',
-        lastIndicatorValue: null,
         indicatorName: 'Aboveground Biomass',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W12',
         time: availableDates.nceo_africa_2017,
         inputData: [''],
@@ -1540,14 +1503,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI Built-up Area',
         indicator: 'GRDI1',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation Index',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W13',
         time: availableDates['grdi-v1-built'],
         inputData: [''],
@@ -1574,14 +1534,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI V1 Raster',
         indicator: 'GRDI2',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation Index',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W14',
         time: availableDates['grdi-v1-raster'],
         inputData: [''],
@@ -1608,14 +1565,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI SHDI Constituent Raster',
         indicator: 'GRDI3',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W15',
         time: availableDates['grdi-shdi-raster'],
         inputData: [''],
@@ -1642,14 +1596,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI VNL Slope Constituent Raster',
         indicator: 'GRDI4',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W16',
         time: availableDates['grdi-vnl-slope-raster'],
         inputData: [''],
@@ -1676,14 +1627,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI VNL Constituent Raster',
         indicator: 'GRDI5',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W17',
         time: availableDates['grdi-vnl-raster'],
         inputData: [''],
@@ -1710,14 +1658,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI Filled Missing Values Count',
         indicator: 'GRDI6',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W18',
         time: availableDates['grdi-filled-missing-values-count'],
         inputData: [''],
@@ -1744,14 +1689,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI IMR Constituent Raster',
         indicator: 'GRDI7',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation Index',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W19',
         time: availableDates['grdi-imr-raster'],
         inputData: [''],
@@ -1778,14 +1720,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GRDI CDR Constituent Raster',
         indicator: 'GRDI8',
-        lastIndicatorValue: null,
         indicatorName: 'Global Gridded Relative Deprivation Index',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W20',
         time: availableDates['grdi-cdr-raster'],
         inputData: [''],
@@ -1812,14 +1751,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sulfur Dioxide (OMI/Aura)',
         indicator: 'N10',
-        lastIndicatorValue: null,
         indicatorName: 'Sulfur Dioxide (OMI/Aura)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W9',
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
@@ -1854,14 +1790,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sea Ice Thickness (Envisat)',
         indicator: 'SIE',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Thickness (Envisat)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates['ESA-CCI-V2-ENVISAT'],
         inputData: [],
         yAxis: 'Sea Ice Thickness (Envisat)',
@@ -1910,14 +1843,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sea Ice Thickness (Cryosat)',
         indicator: 'SIC',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Thickness (Cryosat)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates['ESA-CCI-V2-CRYOSAT'],
         inputData: [],
         yAxis: 'ESA-CCI-V2-CRYOSAT',
@@ -1959,14 +1889,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sulfur Dioxide (TROPOMI)',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'Sulfur Dioxide (TROPOMI)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_SO2_DAILY_DATA,
         inputData: [],
         yAxis: 'SO2',
@@ -2001,14 +1928,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Population Density (SEDAC)',
         indicator: 'NASAPopulation',
-        lastIndicatorValue: null,
         indicatorName: 'Population Density (SEDAC)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W6',
         time: ['2020-05-14T00:00:00Z'],
         inputData: [''],
@@ -2034,14 +1958,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'World Settlement Footprint',
         indicator: 'WSF',
-        lastIndicatorValue: null,
         indicatorName: 'World Settlement Footprint',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
@@ -2069,14 +1990,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sea Ice Concentration Arctic (GCOM-W)',
         indicator: 'N12',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Concentration Arctic (GCOM-W)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'Arctic',
         time: getDailyDates('1978-11-01', '2023-01-30'),
         inputData: [''],
@@ -2114,14 +2032,11 @@ export const globalIndicators = [
         siteName: '',
         description: 'Sea Ice Concentration (GCOM-W)',
         indicator: 'N12',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Concentration (GCOM-W)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getDailyDates('1978-11-01', '2023-01-30'),
         inputData: [''],
@@ -2157,14 +2072,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Sea Ice Concentration Antarctic (GCOM-W)',
         indicator: 'N12',
-        lastIndicatorValue: null,
         indicatorName: 'Sea Ice Concentration Antarctic (GCOM-W)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'Antarctic',
         time: getDailyDates('1978-11-01', '2023-01-30'),
         inputData: [''],
@@ -2202,14 +2114,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Global NDVI',
         indicator: 'E10e',
-        lastIndicatorValue: null,
         indicatorName: 'NDVI',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['NDVI-GCOMC-World-Monthly'],
         inputData: [''],
@@ -2233,14 +2142,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Ocean Primary Productivity (GCOM-C)',
         indicator: 'N11',
-        lastIndicatorValue: null,
         indicatorName: 'Ocean Primary Productivity (GCOM-C)',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['ONPP-GCOMC-World-Monthly'],
         inputData: [''],
@@ -2265,14 +2171,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Soil Moisture Anomaly',
         indicator: 'SMC',
-        lastIndicatorValue: null,
         indicatorName: 'Soil Moisture Anomaly',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['SMC-Anomaly-GCOMW-World-Monthly'],
         inputData: [''],
@@ -2296,14 +2199,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Precipitation Anomaly',
         indicator: 'PRC',
-        lastIndicatorValue: null,
         indicatorName: 'Precipitation Anomaly',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['PRC-Anomaly-GSMaP-World-Monthly'],
         inputData: [''],
@@ -2327,14 +2227,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Precipitation',
         indicator: 'PRCG',
-        lastIndicatorValue: null,
         indicatorName: 'Precipitation',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['PRC-GSMaP-World-Monthly'],
         inputData: [''],
@@ -2358,14 +2255,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Soil Moisture Content',
         indicator: 'SMCG',
-        lastIndicatorValue: null,
         indicatorName: 'Soil Moisture Content',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['SMC-GCOMW-World-Monthly'],
         inputData: [''],
@@ -2381,11 +2275,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19999,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19999,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic_ESA',
         country: ['HR', 'IT', 'SI'],
@@ -2393,9 +2285,7 @@ export const globalIndicators = [
         siteName: 'North Adriatic',
         description: 'Chlorophyll-a (Chl-a) concentration from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (Sentinel-3)',
-        lastColorCode: null,
         dataProvider: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
@@ -2419,21 +2309,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19998,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
-        id: 19998,
         aoiID: 'NorthAdriatic_NASA',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic',
         siteName: 'North Adriatic',
         description: 'Chlorophyll-a (Chl-a) concentration from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (MODIS)',
-        lastColorCode: null,
         dataProvider: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
@@ -2466,21 +2352,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19994,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
-        id: 19994,
         aoiID: 'NorthAdriatic_JAXA',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic',
         siteName: 'North Adriatic',
         description: 'Chlorophyll-a (Chl-a) concentration from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (GCOM-W)',
-        lastColorCode: null,
         dataProvider: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
@@ -2504,22 +2386,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19997,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
-        id: 19997,
         aoiID: 'US03',
         country: ['US'],
         city: 'San Francisco',
         siteName: 'San Francisco',
         description: 'Chlorophyll-a (Chl-a) concentration from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (MODIS)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2542,22 +2419,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19996,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
-        id: 19996,
         aoiID: 'US04',
         country: ['US'],
         city: 'New York',
         siteName: 'New York',
         description: 'Chlorophyll-a (Chl-a) concentration from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (MODIS)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2580,22 +2452,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19995,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
-        id: 19995,
         aoiID: 'JP01',
         country: ['JP'],
         city: 'Tokyo',
         siteName: 'Tokyo',
         description: 'Chlorophyll-a (Chl-a) concentration from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2618,11 +2485,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19993,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19993,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDelta',
         country: ['FR'],
@@ -2630,10 +2495,7 @@ export const globalIndicators = [
         siteName: 'Fos-sur-Mer',
         description: 'Chlorophyll-a (Chl-a) concentration from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (Sentinel-3)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2656,22 +2518,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19989,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
-        id: 19989,
         aoiID: 'JP04',
         country: ['JP'],
         city: 'Nagoya',
         siteName: 'Nagoya',
         description: 'Chlorophyll-a (Chl-a) concentration from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2694,22 +2551,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19988,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
-        id: 19988,
         aoiID: 'JP02',
         country: ['JP'],
         city: 'Kobe',
         siteName: 'Kobe',
         description: 'Chlorophyll-a (Chl-a) concentration from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Chl-a concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2732,11 +2584,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19992,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19992,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM_ESA',
         country: ['HR', 'IT', 'SI'],
@@ -2744,9 +2594,7 @@ export const globalIndicators = [
         siteName: 'North Adriatic',
         description: 'Total Suspended Matter (TSM) from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (Sentinel-3)',
-        lastColorCode: null,
         dataProvider: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
@@ -2770,11 +2618,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19991,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19991,
         aoi: latLng([43.4, 4.94000]),
         aoiID: 'RhoneDeltaTSM',
         country: ['FR'],
@@ -2782,10 +2628,7 @@ export const globalIndicators = [
         siteName: 'Fos-sur-Mer',
         description: 'Total Suspended Matter (TSM) from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (Sentinel-3)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2808,22 +2651,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19990,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
-        id: 19990,
         aoiID: 'US03SPM',
         country: ['US'],
         city: 'San Francisco',
         siteName: 'San Francisco',
         description: 'Total Suspended Matter (TSM) from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (MODIS)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2847,21 +2685,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19987,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
-        id: 19987,
         aoiID: 'NorthAdriaticTSM_JAXA',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic',
         siteName: 'North Adriatic',
         description: 'Total Suspended Matter (TSM) from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (GCOM-W)',
-        lastColorCode: null,
         dataProvider: 'JAXA',
         subAoi: {
           type: 'FeatureCollection',
@@ -2885,22 +2719,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19986,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
-        id: 19986,
         aoiID: 'JP01TSM',
         country: ['JP'],
         city: 'Tokyo',
         siteName: 'Tokyo',
         description: 'Total Suspended Matter (TSM) from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2923,22 +2752,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19985,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
-        id: 19985,
         aoiID: 'JP04TSM',
         country: ['JP'],
         city: 'Nagoya',
         siteName: 'Nagoya',
         description: 'Total Suspended Matter (TSM) from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2961,22 +2785,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19984,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
-        id: 19984,
         aoiID: 'JP02TSM',
         country: ['JP'],
         city: 'Kobe',
         siteName: 'Kobe',
         description: 'Total Suspended Matter (TSM) from JAXA GCOM-W',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (GCOM-W)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2999,21 +2818,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19983,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
-        id: 19983,
         aoiID: 'NorthAdriaticTSM_NASA',
         country: ['HR', 'IT', 'SI'],
         city: 'North Adriatic',
         siteName: 'North Adriatic',
         description: 'Total Suspended Matter (TSM) from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (MODIS)',
-        lastColorCode: null,
         dataProvider: 'NASA',
         subAoi: {
           type: 'FeatureCollection',
@@ -3044,22 +2859,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19982,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
-        id: 19982,
         aoiID: 'US04TSM',
         country: ['US'],
         city: 'New York',
         siteName: 'New York',
         description: 'Total Suspended Matter (TSM) from NASA MODIS Aqua',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'TSM concentration (MODIS)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3090,14 +2900,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'GEOGLAM Crop Conditions',
         indicator: 'N6',
-        lastIndicatorValue: null,
         indicatorName: 'Cropped Area',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W6',
         time: availableDates.geoglam,
         inputData: [''],
@@ -3125,22 +2932,17 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19799,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([6.13333, 1.21666]),
-        id: 19799,
         aoiID: 'TG01',
         country: ['TG'],
         city: 'Togo',
         siteName: 'Togo',
         description: 'Regional Cropland',
         indicator: 'E10d',
-        lastIndicatorValue: null,
         indicatorName: 'Regional Cropland',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3164,12 +2966,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9799,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([39.9, 116.38]),
-        id: 9799,
         aoiID: 'CN01',
         country: ['CN'],
         city: 'Beijing',
@@ -3203,12 +3003,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9798,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([38.90472, -77.01638]),
-        id: 9798,
         aoiID: 'US10',
         country: ['US'],
         city: 'Washington, D.C.',
@@ -3242,12 +3040,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9797,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([51.03613, 2.28537]),
-        id: 9797,
         aoiID: 'FR03',
         country: ['FR'],
         city: 'Port of Dunkirk',
@@ -3281,12 +3077,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9796,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([51.09155, 3.74008]),
-        id: 9796,
         aoiID: 'BE03',
         country: ['BE'],
         city: 'Port of Ghent',
@@ -3320,12 +3114,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9795,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
-        id: 9795,
         aoiID: 'JP01',
         country: ['JP'],
         city: 'Tokyo',
@@ -3359,12 +3151,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9794,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([6.13333, 1.21666]),
-        id: 9794,
         aoiID: 'TG01',
         country: ['TG'],
         city: 'Togo',
@@ -3398,12 +3188,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9793,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
-        id: 9793,
         aoiID: 'US02',
         country: ['US'],
         city: 'Los Angeles',
@@ -3437,12 +3225,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9792,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([-6.8, 39.28333]),
-        id: 9792,
         aoiID: 'TZ01',
         country: ['TZ'],
         city: 'Dar El Salam',
@@ -3476,12 +3262,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9791,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
-        id: 9791,
         aoiID: 'US04',
         country: ['US'],
         city: 'New York',
@@ -3515,12 +3299,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9790,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
-        id: 9790,
         aoiID: 'US03',
         country: ['US'],
         city: 'San Francisco',
@@ -3554,12 +3336,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9789,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([38.715, -121.944]),
-        id: 9789,
         aoiID: 'US06',
         country: ['US'],
         city: 'Sacramento',
@@ -3593,12 +3373,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19699,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([33.94, -118.41]),
-        id: 19699,
         aoiID: 'US021',
         country: ['US'],
         city: 'Los Angeles',
@@ -3608,7 +3386,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Los Angeles International Airport - LAX, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3623,12 +3400,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19698,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.057, -117.6]),
-        id: 19698,
         aoiID: 'US022',
         country: ['US'],
         city: 'Ontario',
@@ -3638,7 +3413,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Ontario International Airport - ONT, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3653,12 +3427,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19697,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.622, -122.378]),
-        id: 19697,
         aoiID: 'US031',
         country: ['US'],
         city: 'San Francisco',
@@ -3668,7 +3440,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'San Francisco International Airport - SFO, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3683,12 +3454,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19696,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.363, -121.93]),
-        id: 19696,
         aoiID: 'US032',
         country: ['US'],
         city: 'San Jose',
@@ -3698,7 +3467,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Norman Y. Mineta San Jose International Airport - SJC, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3713,12 +3481,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19695,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.722, -122.226]),
-        id: 19695,
         aoiID: 'US033',
         country: ['US'],
         city: 'Oakland',
@@ -3728,7 +3494,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Oakland International Airport - OAK, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3743,12 +3508,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19694,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.6585, -122.121]),
-        id: 19694,
         aoiID: 'US034',
         country: ['US'],
         city: 'Hayward',
@@ -3758,7 +3521,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Hayward Executive Airport - HWD, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3773,12 +3535,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19693,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([38.216, -122.276]),
-        id: 19693,
         aoiID: 'US035',
         country: ['US'],
         city: 'Napa',
@@ -3788,7 +3548,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Napa County Airport - APC, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3803,12 +3562,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19692,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([38.144, -122.557]),
-        id: 19692,
         aoiID: 'US036',
         country: ['US'],
         city: 'Marin',
@@ -3818,7 +3575,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Marin County Airport - NOT, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3833,12 +3589,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19691,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.99, -122.057]),
-        id: 19691,
         aoiID: 'US037',
         country: ['US'],
         city: 'Buchannan',
@@ -3848,7 +3602,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Buchannan Field Airport - CCR, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3863,12 +3616,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19690,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.642, -73.788]),
-        id: 19690,
         aoiID: 'US041',
         country: ['US'],
         city: 'New York',
@@ -3878,7 +3629,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'John F. Kennedy International Airport - JFK, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3893,12 +3643,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19689,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.689, -74.172]),
-        id: 19689,
         aoiID: 'US042',
         country: ['US'],
         city: 'Newark',
@@ -3908,7 +3656,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Newark Liberty International Airport - EWR, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3923,12 +3670,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19688,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.072, 116.593]),
-        id: 19688,
         aoiID: 'CN011',
         country: ['CN'],
         city: 'Beijing',
@@ -3938,7 +3683,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Beijing Capital International Airport - PEK, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3953,12 +3697,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19687,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([39.495, 116.419]),
-        id: 19687,
         aoiID: 'CN012',
         country: ['CN'],
         city: 'Beijing Daxing',
@@ -3968,7 +3710,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Beijing Daxing International Airport - PKX, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -3983,12 +3724,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19685,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([35.774, 140.385]),
-        id: 19685,
         aoiID: 'JP012',
         country: ['JP'],
         city: 'Narita',
@@ -3998,7 +3737,6 @@ export const globalIndicators = [
         lastIndicatorValue: 'normal',
         indicatorName: 'Narita International Airport - NRT, Throughput at principal hub airports',
         lastColorCode: 'BLUE',
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -4013,12 +3751,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19599,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([34.05, -118.251]),
-        id: 19599,
         aoiID: 'US02',
         country: ['US'],
         city: 'Los Angeles',
@@ -4043,12 +3779,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19598,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.6, -74.05]),
-        id: 19598,
         aoiID: 'US01',
         country: ['US'],
         city: 'New York',
@@ -4073,12 +3807,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19597,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
-        id: 19597,
         aoiID: 'US03',
         country: ['US'],
         city: 'San Francisco',
@@ -4103,11 +3835,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19681,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19681,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'BarcelonaTSM_ESA',
         country: ['ES'],
@@ -4115,9 +3845,7 @@ export const globalIndicators = [
         siteName: 'Barcelona',
         description: 'Total Suspended Matter (TSM) from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps (ESA)',
-        lastColorCode: null,
         dataProvider: 'ESA',
         subAoi: {
           type: 'FeatureCollection',
@@ -4141,11 +3869,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19680,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 19680,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'Barcelona_ESA',
         country: ['ES'],
@@ -4153,10 +3879,7 @@ export const globalIndicators = [
         siteName: 'Barcelona',
         description: 'Chlorophyll-a (Chl-a) concentration from ESA Sentinel-3',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps (ESA)',
-        lastColorCode: null,
-        eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -4179,12 +3902,10 @@ export const globalIndicators = [
     },
   },
   {
-    id: 19679,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([30.05, 32.56]),
-        id: 19679,
         aoiID: 'EG01',
         country: ['EG'],
         city: 'Suez',
@@ -4227,14 +3948,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Forest/non-forest map PALSAR2',
         indicator: 'FNF',
-        lastIndicatorValue: null,
         indicatorName: 'Forest/non-forest map PALSAR2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getYearlyDates('2017-01-01', '2020-01-01'),
         inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
@@ -4245,14 +3963,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: null,
         aoiID: 'S1GRD',
         country: 'all',
         city: 'Antarctica',
         siteName: 'global',
         description: 'West Antarctica (Sentinel-1)',
         indicator: 'ADD',
-        lastIndicatorValue: null,
         indicatorName: 'West Antarctica (Sentinel-1)',
         subAoi: {
           type: 'FeatureCollection',
@@ -4281,14 +3997,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: null,
         aoiID: 'Meltmap',
         country: 'all',
         city: 'Antarctica',
         siteName: 'global',
         description: 'Antarctica Meltmap',
         indicator: 'ADD',
-        lastIndicatorValue: null,
         indicatorName: 'Antarctica Meltmap',
         subAoi: {
           type: 'FeatureCollection',
@@ -4318,14 +4032,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: null,
         aoiID: 'Days',
         country: 'all',
         city: 'Antarctica',
         siteName: 'global',
         description: 'Antarctica Melt Duration',
         indicator: 'ADD',
-        lastIndicatorValue: null,
         indicatorName: 'Antarctica Melt Duration',
         subAoi: {
           type: 'FeatureCollection',
@@ -4355,14 +4067,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: null,
         aoiID: 'End',
         country: 'all',
         city: 'Antarctica',
         siteName: 'global',
         description: 'Antarctica Melt Season End',
         indicator: 'ADD',
-        lastIndicatorValue: null,
         indicatorName: 'Antarctica Melt Season End',
         subAoi: {
           type: 'FeatureCollection',
@@ -4392,14 +4102,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        aoi: null,
         aoiID: 'Onset',
         country: 'all',
         city: 'Antarctica',
         siteName: 'global',
         description: 'Antarctica Melt Onset',
         indicator: 'ADD',
-        lastIndicatorValue: null,
         indicatorName: 'Antarctica Melt Onset',
         subAoi: {
           type: 'FeatureCollection',
@@ -4427,23 +4135,19 @@ export const globalIndicators = [
   },
 ];
 
-const createSlowDownIndicator = (id, aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
+const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
   {
-    id,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
         aoi,
-        id,
         aoiID,
         country,
         city,
         siteName: city,
         description: 'Slowdown Proxy Maps',
         indicator: 'N7',
-        lastIndicatorValue: null,
         indicatorName: 'Slowdown & Recovery Proxy Maps',
-        lastColorCode: null,
         eoSensor,
         subAoi: {
           type: 'FeatureCollection',
@@ -4622,15 +4326,14 @@ const slowdownIndicators = [
   },
 ];
 
-let idOffset = 30000;
-slowdownIndicators.forEach((ind, idx) => (
+slowdownIndicators.forEach((ind) => (
   globalIndicators.push(createSlowDownIndicator(
-    (idOffset + idx), ind.aoiID, ind.city, ind.country, ind.aoi,
+    ind.aoiID, ind.city, ind.country, ind.aoi,
     ind.geometry, ind.cog, ind.eoSensor, ind.time,
   ))
 ));
 
-const createSTACCollectionIndicator = (collection, key, value, index, url,
+const createSTACCollectionIndicator = (collection, key, value, url,
   indicator, description, legendUrl) => {
   const bbox = JSON.parse(key);
   const aoi = latLng([
@@ -4648,7 +4351,6 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
     type: 'Polygon',
   };
   const indicatorObject = {
-    id: index,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
@@ -4660,9 +4362,7 @@ const createSTACCollectionIndicator = (collection, key, value, index, url,
         siteName: value.location,
         description,
         indicator,
-        lastIndicatorValue: null,
         indicatorName: '',
-        lastColorCode: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -4696,10 +4396,9 @@ const urlMapping = {
 };
 
 Object.keys(locations).forEach((collection) => {
-  idOffset += 5000;
-  Object.entries(locations[collection].entries).forEach(([key, value], index) => {
+  Object.entries(locations[collection].entries).forEach(([key, value]) => {
     globalIndicators.push(createSTACCollectionIndicator(
-      collection, key, value, idOffset + index, urlMapping[collection],
+      collection, key, value, urlMapping[collection],
       locations[collection].indicator, locations[collection].description,
       locations[collection].legendUrl,
     ));
