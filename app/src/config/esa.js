@@ -1458,7 +1458,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9999,
+        id: 9998,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDelta',
         country: ['FR'],
@@ -2177,6 +2177,72 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
             }],
           },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDelta',
+        country: ['RO'],
+        city: 'Danube Delta - Chlorophyll-a concentration',
+        siteName: 'Danube Delta',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Water Quality Regional Maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDeltaTSMNN',
+        country: ['RO'],
+        city: 'Danube Delta - Total Suspended Matter',
+        siteName: 'Danube Delta',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Water Quality Regional Maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
