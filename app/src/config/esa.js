@@ -1516,17 +1516,17 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W2',
-        time: availableDates.VIS_TRUCK_DETECTION_MOTORWAYS_NEW,
+        time: getDailyDates('2020-01-01', '2021-12-31'),
         inputData: [''],
         yAxis: 'Number of trucks detected',
-        display: {
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 }).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Aggregated Truck Traffic 10km',
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           minZoom: 1,
           maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1575,7 +1575,14 @@ export const globalIndicators = [
             },
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }, {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel 2 L2A',
+          minZoom: 7,
+          maxZoom: 16,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+        }],
       },
     },
   },
