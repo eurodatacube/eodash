@@ -146,34 +146,33 @@ export default {
         this.$emit('updateSwipePosition', this.swipePixelX);
         ctx.save();
         const { map } = getMapInstance(this.mapId);
-        this.mergedConfigsData.forEach((config) => {
-          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === config.name);
-          const isLayerGroup = originalLayer instanceof LayerGroup;
-          // check if the event-layer is displayed on the right side, either as single layer
-          // or as part of a layer group
-          const isRightLayer = isLayerGroup
-            ? originalLayer.getLayers().getArray().includes(evt.target)
-            : evt.target.get('name') === config.name;
-          if (isRightLayer) {
-            ctx.beginPath();
-            ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
-            ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
-          } else {
-            ctx.beginPath();
-            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
-            ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
+        const usedConfig = this.mergedConfigsData.find((item) => evt.target.get('name') === item.name);
+        const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === usedConfig.name);
+        const isLayerGroup = originalLayer instanceof LayerGroup;
+        // check if the event-layer is displayed on the right side, either as single layer
+        // or as part of a layer group
+        const isRightLayer = isLayerGroup
+          ? originalLayer.getLayers().getArray().includes(evt.target)
+          : evt.target.get('name') === usedConfig.name;
+        if (isRightLayer) {
+          ctx.beginPath();
+          ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
+          ctx.clip();
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
           }
-        });
+        } else {
+          ctx.beginPath();
+          ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+          ctx.clip();
+          if (Object.keys(this.$refs).length > 0) {
+            const w = this.$refs.container.clientWidth * (this.swipe / 100);
+            this.clipLeft = 0 - w;
+            this.clipRight = w - this.$refs.container.clientWidth;
+          }
+        }
       }
     },
     onPostrender(evt) {
