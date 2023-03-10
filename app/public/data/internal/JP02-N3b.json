@@ -1802,5 +1802,49 @@
         "reference_time": "/",
         "reference_value": "/",
         "time": "2022-11-26T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "13.8",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-12-10T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "-13.82",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-12-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "67.21",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-12-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA/EORC",
+        "eo_sensor": "GCOM-C/SGLI",
+        "indicator_value": "/",
+        "input_data": "EORC product",
+        "measurement_value": "31.23",
+        "reference_time": "/",
+        "reference_value": "/",
+        "time": "2022-12-31T00:00:00"
     }
 ]

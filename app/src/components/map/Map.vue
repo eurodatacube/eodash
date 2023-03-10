@@ -249,11 +249,6 @@ export default {
     return {
       loaded: false,
       zoom: 3,
-      tooltip: {
-        city: '',
-        indicator: '',
-        description: '',
-      },
       currentZoom: null,
       currentCenter: null,
       dataLayerTime: null,
