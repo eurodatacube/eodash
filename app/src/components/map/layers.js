@@ -198,6 +198,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const wgTileLayer = new WebGLTileLayer({
       source,
       style: config.style,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     wgTileLayer.set('id', config.id);
     layers.push(wgTileLayer);
@@ -213,6 +214,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     layers.push(WMTSLayer);
     createWMTSSourceFromCapabilities(config, WMTSLayer);
@@ -292,6 +294,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     }));
   }
   if (config.protocol === 'flatgeobuf') {
@@ -340,6 +343,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     }));
   }
   let source;
@@ -454,6 +458,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           updateOpacityOnZoom: options.updateOpacityOnZoom,
           zIndex: options.zIndex,
           source: singleSource,
+          opacity: typeof c.opacity !== 'undefined' ? c.opacity : 1,
           extent,
         }));
       });
@@ -525,6 +530,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
       source,
       extent,
     }));

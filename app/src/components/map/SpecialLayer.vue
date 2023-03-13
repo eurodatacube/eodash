@@ -64,7 +64,7 @@ export default {
     options.zIndex = 3;
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
-      layer.set('name', this.compare ? `${config.name}_compare` : config.name );
+      layer.set('name', this.compare ? `${config.name}_compare` : config.name);
       const featureLayer = layer.getLayers().getArray().find((l) => {
         const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
         return found;
