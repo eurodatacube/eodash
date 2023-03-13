@@ -27,6 +27,7 @@
     </v-row>
      <v-row align="center">
         <div
+          style="width: 100%"
           v-html="story"
           class="md-body"
         ></div>
