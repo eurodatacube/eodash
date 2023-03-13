@@ -290,7 +290,7 @@ export default {
           },
           PRCTS: {
             measurementConfig: {
-              label: 'Value',
+              label: indicator.yAxis,
               backgroundColor: 'rgba(255,255,255,0.0)',
               borderColor: 'black',
               spanGaps: false,
