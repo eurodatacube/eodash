@@ -6,6 +6,6 @@ Solar Roofs products are a cutting-edge solution for mapping and assessing the p
 
 **Please note that the dataset provided covers the entire region of Austria (excluding Vienna). However, it may contain incorrect information regarding buildings within the Zell am See and Nordburgenland areas due to missing data. Please be aware that this dataset is subject to change and will be updated if additional airborne imagery becomes available.**
 
-<div style="width: 100%;"><img style="width:64px; float:right;" src="data/gtif/images/logos/dlr.png"></img></div>
+<div style="width: 100%;"><img style="width:100px; float:right;" src="data/gtif/images/logos/dlr_no_text.png"></img></div>
 
 <img src="data/gtif/images/legends/pv_existing.png"></img>
