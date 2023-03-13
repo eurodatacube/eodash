@@ -98,11 +98,19 @@
           : `${$vuetify.application.footer + 10}px`} !important`
         : ''"
     >
-      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents"/>
-      <ZoomControl :mapId="mapId" class="pointerEvents" />
+      <FullScreenControl
+        v-if="mapId !== 'centerMap' && !enableScrollyMode"
+        :mapId="mapId" class="pointerEvents"
+      />
+      <ZoomControl
+        v-show="!enableScrollyMode"
+        :mapId="mapId"
+        class="pointerEvents"
+      />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         v-if="loaded"
+        v-show="!enableScrollyMode"
         class="pointerEvents"
         :key="layerControlKey"
         :mapId="mapId"
@@ -244,6 +252,10 @@ export default {
       default: undefined,
     },
     panelActive: Boolean,
+    onScrollyModeChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -268,6 +280,7 @@ export default {
       swipePixelX: null,
       queryLink: null,
       viewZoomExtentFitId: null,
+      enableScrollyMode: false,
     };
   },
   computed: {
@@ -673,12 +686,17 @@ export default {
         // Swap the order of the values
         let center = [lng, lat];
         // Update the state of the application using the message data
-        console.log(`[${lng}, ${lat}]`);
         view.setCenter(
-        fromLonLat(
-          [lng, lat], map.getView().getProjection(),
-        ),
-      );
+          fromLonLat(
+            [lng, lat], map.getView().getProjection(),
+          ),
+        );
+      }
+
+      if (event.data.command === 'map:enableScrolly') {
+        console.log('enabling scrolly mode');
+        this.enableScrollyMode = true;
+        this.onScrollyModeChange(true)
       }
     });
 
