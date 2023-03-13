@@ -238,6 +238,7 @@ const renderVue = async () => {
         { path: '/sustainable-cities', name: 'gtif-sustainable-cities', component: ScrollyFrame },
         { path: '/carbon-accounting', name: 'gtif-carbon-accounting', component: ScrollyFrame },
         { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation-services', component: ScrollyFrame },
+        { path: '/scrollymaps', name: 'scrollymaps', component: ScrollyFrame },
       ]
       : []
     ),

@@ -662,6 +662,26 @@ export default {
     }
     this.$emit('ready', true);
 
+    window.addEventListener('message', (event) => {
+      if (event.data.command === 'map:setZoom' && event.data.zoom) {
+        // Update the state of the application using the message data
+        view.setZoom(event.data.zoom);
+      }
+
+      if (event.data.command === 'map:setCenter' && event.data.center) {
+        let [lat, lng] = event.data.center;
+        // Swap the order of the values
+        let center = [lng, lat];
+        // Update the state of the application using the message data
+        console.log(`[${lng}, ${lat}]`);
+        view.setCenter(
+        fromLonLat(
+          [lng, lat], map.getView().getProjection(),
+        ),
+      );
+      }
+    });
+
     this.ro = new ResizeObserver(this.onResize);
     this.ro.observe(this.$refs.mapContainer);
     // Fetch data for custom chart if the event is fired.

@@ -17,7 +17,7 @@
             height: calc(100vh - 112px) !important;
             position: fixed; left: 0; bottom: 0; top: 112px;
           "
-          src="./scrollytelling/index.html"
+          src="http://localhost:5173/"
           frameborder="0"
           scrolling="no"
         >
@@ -96,17 +96,19 @@ export default {
       'setCurrentDomain',
     ]),
     async onLoaded() {
+      const css = await axios.get('./css/gtif-scrolly.css');
+
+      const footer = await axios.get('./data/gtif/components/footer.json');
+      const bottom = await axios.get('./data/gtif/components/bottom.json');
+      const header = await axios.get('./data/gtif/components/header.json');
+
+      this.footer = footer.data;
+      this.bottomNav = bottom.data;
+      this.header = header.data;
+
+      let items;
+
       try {
-        const css = await axios.get('./css/gtif-scrolly.css');
-
-        const footer = await axios.get('./data/gtif/components/footer.json');
-        const bottom = await axios.get('./data/gtif/components/bottom.json');
-        const header = await axios.get('./data/gtif/components/header.json');
-
-        this.footer = footer.data;
-        this.bottomNav = bottom.data;
-        this.header = header.data;
-
         const res = await axios
           .get(`./data/dashboards/${this.getDashboardID()}.json`, {
             headers: {
@@ -114,21 +116,42 @@ export default {
               Pragma: 'no-cache',
               Expires: '0',
             },
-          });
+          }); 
 
-        this.linkStyle(css.data);
-        this.setScrollyStory(dashboardToScrolly(res.data.features));
-
-        console.log(process.env.BASE_URL);
-
-        if (this.$route.name === 'landing') {
-          this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
-        }
-        this.setComponentHook('footer', this.footer);
-        this.setComponentHook('header', this.header, { routeName: this.$route.name });
-      } catch (error) {
-        console.error(`Error loading dashboard data: ${error}`);
+          items = dashboardToScrolly(res.data.features);
+      } catch (_e) {
+        items = [
+          [
+            {
+              "width": 1,
+              "text": "<p>Zoom in and out, pan, and explore new places with our dynamic and responsive map. With fast and fluid controls, our map offers a seamless experience that adapts to your needs.</p> <p>Whether you're exploring a new city, studying geography, or planning a trip, our map offers a range of views and perspectives to help you see the world in new ways. With detailed information on locations and landmarks, as well as up-to-date traffic and weather data, our map is your ultimate tool for exploration.</p><p>Scrollytelling is the closest thing we have to a magical portal - it allows us to transport our readers to new and exciting places, immersing them in a world of wonder and enchantment. By using animations, images, and text in a seamless and engaging way, scrollytelling has the power to captivate our readers like never before.</p>",
+              "id": "ABC1234567890",
+            },
+            {
+              "width": 3,
+              "mapInfo": {
+                "zoom": 7,
+                "center": {
+                  "lng": 13.583628422071959,
+                  "lat": 47.42808726171425
+                },
+              },
+              "id": "CBA0987654321",
+            }
+          ]
+        ];
       }
+
+      this.linkStyle(css.data);
+      this.setScrollyStory(items);
+
+      console.log(process.env.BASE_URL);
+
+      if (this.$route.name === 'landing') {
+        this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+      }
+      this.setComponentHook('footer', this.footer);
+      this.setComponentHook('header', this.header, { routeName: this.$route.name });
     },
     /**
      * Add the CSS styles from a given path to the iframe.
