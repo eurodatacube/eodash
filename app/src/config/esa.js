@@ -593,6 +593,22 @@ export const layerNameMapping = Object.freeze({
   'Sentinel-5p Level-3 NO2': {
     layers: 'AWS_NO2-VISUALISATION',
   },
+  'S1A-GRD-IW-asc-VV': {
+    layers: 'SENTINEL_1_IW_VV',
+    dateFormatFunction: shS2TimeFunction,
+  },
+  'S1B-GRD-IW-asc-VV': {
+    layers: 'SENTINEL_1_IW_VV',
+    dateFormatFunction: shS2TimeFunction,
+  },
+  'S1A-GRD-IW-des-VV': {
+    layers: 'SENTINEL_1_IW_VV',
+    dateFormatFunction: shS2TimeFunction,
+  },
+  'S1B-GRD-IW-des-VV': {
+    layers: 'SENTINEL_1_IW_VV',
+    dateFormatFunction: shS2TimeFunction,
+  }
 });
 
 export const indicatorClassesIcons = Object.freeze({
