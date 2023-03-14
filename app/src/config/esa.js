@@ -1653,6 +1653,7 @@ export const globalIndicators = [
           style: {
             color: '#00c3ff',
           },
+          drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -1709,6 +1710,7 @@ export const globalIndicators = [
           style: {
             color: '#00c3ff',
           },
+          drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })

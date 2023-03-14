@@ -47,7 +47,7 @@ export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'upd
     sources.forEach((source) => {
       const updateTimeFunction = source.get(sourceGet);
       if (updateTimeFunction) {
-        updateTimeFunction(time, drawnArea, config);
+        updateTimeFunction(time, drawnArea, config, layer);
       }
       source.refresh();
     });

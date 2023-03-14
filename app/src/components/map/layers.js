@@ -592,12 +592,53 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
     layers.push(featuresLayer);
   }
-
-  return new Group({
+  let drawnAreaExtent;
+  if (config.drawnAreaLimitExtent) {
+    if (options.drawnArea.area) {
+      drawnAreaExtent = transformExtent(
+        geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
+        'EPSG:4326',
+        config.projection,
+      );
+    } else {
+      // default hiding everything
+      drawnAreaExtent = transformExtent(
+        [0, 0, 0.01, 0.01],
+        'EPSG:4326',
+        config.projection,
+      );
+    }
+  }
+  const g = new Group({
     name: config.name,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
     layers,
+    extent: drawnAreaExtent,
   });
+  if (config.drawnAreaLimitExtent) {
+    const areaUpdate = (time, drawnArea, configUpdate, l) => {
+      if (drawnArea.area) {
+        drawnAreaExtent = transformExtent(
+          geoJsonFormat.readGeometry(drawnArea.area).getExtent(),
+          'EPSG:4326',
+          config.projection,
+        );
+      } else {
+        drawnAreaExtent = transformExtent(
+          [0, 0, 0.01, 0.01],
+          'EPSG:4326',
+          config.projection,
+        );
+      }
+      l.setExtent(drawnAreaExtent);
+    };
+    g.getLayers().forEach((la) => {
+      if (!la.get('name').includes('_features')) {
+        la.getSource().set('updateArea', areaUpdate);
+      }
+    });
+  }
+  return g;
 }
