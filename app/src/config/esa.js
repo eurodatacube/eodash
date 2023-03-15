@@ -390,7 +390,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     customAreaIndicator: true,
     customAreaFeatures: true,
-    story: '/eodash-data/stories/E12c',
+    story: '/eodash-data/stories/E12d',
   },
   E13a: {
     indicatorSummary: 'Throughput at principal rail stations',
