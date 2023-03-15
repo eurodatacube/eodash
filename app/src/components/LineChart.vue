@@ -26,6 +26,9 @@ export default {
   data() {
     return {
       defaultOptions: {
+        animation: {
+          duration: 0,
+        },
         responsive: true,
         maintainAspectRatio: false,
         plugins: {

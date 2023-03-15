@@ -917,46 +917,76 @@ export default {
             clipMap: 'items',
           });
         } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4'].includes(indicatorCode)) {
-          // Rendering for fetched data
-          // TODO: there are quite some dependencies on the expected structure of the data, so
-          // it is not possible to show easily multiple parameters
-          /*
-          indicator.retrievedData.forEach((key, i) => {
-            datasets.push({
-              // fill with empty values
-              indLabels: Array(dataGroups[key].length).join('.').split('.'),
-              label: key,
-              fill: false,
-              data: indicator.retrievedData[key],
-              backgroundColor: refColors[yLength - i],
-              borderColor: refColors[yLength - i],
-              borderWidth: 2,
+          console.time('Execution Time');
+          if (this.indicatorObject.chartAggregation) {
+            const aggrData = this.indicatorObject.chartAggregation.fetchData(
+              this.indicatorObject.time[0],
+              this.indicatorObject.time[this.indicatorObject.time.length - 1],
+              this.indicatorObject,
+            );
+            for (let idx = 0; idx < aggrData.length; idx++) {
+              const colOverwrite = [refColors[2], refColors[0], refColors[1]];
+              datasets.push({
+                label: this.indicatorObject.chartAggregation.labels[idx],
+                fill: false,
+                data: aggrData[idx],
+                backgroundColor: colOverwrite[idx],
+                borderColor: colOverwrite[idx],
+                borderWidth: 1,
+                // pointStyle: 'line',
+                pointRadius: 2,
+                cubicInterpolationMode: 'monotone',
+              });
+            }
+            datasets[0].backgroundColor = 'rgba(0,0,0,0.3)';
+            datasets[0].fill = '1';
+            datasets[0].pointRadius = 0;
+            datasets[2].backgroundColor = 'rgba(0,0,0,0.3)';
+            datasets[2].fill = '1';
+            datasets[2].pointRadius = 0;
+            console.timeEnd('Execution Time');
+          } else {
+            // Rendering for fetched data
+            // TODO: there are quite some dependencies on the expected structure of the data, so
+            // it is not possible to show easily multiple parameters
+            /*
+            indicator.retrievedData.forEach((key, i) => {
+              datasets.push({
+                // fill with empty values
+                indLabels: Array(dataGroups[key].length).join('.').split('.'),
+                label: key,
+                fill: false,
+                data: indicator.retrievedData[key],
+                backgroundColor: refColors[yLength - i],
+                borderColor: refColors[yLength - i],
+                borderWidth: 2,
+              });
             });
-          });
-          */
-          let data = indicator.time.map((date, i) => (
-            { t: date, y: indicator.measurement[i] }
-          ));
-          if (indicatorCode === 'REP4') {
-            data = indicator.time.map((date, i) => (
-              {
-                t: date,
-                y: indicator.measurement[i],
-                referenceValue: indicator.referenceValue[i],
-              }
+            */
+            let data = indicator.time.map((date, i) => (
+              { t: date, y: indicator.measurement[i] }
             ));
+            if (indicatorCode === 'REP4') {
+              data = indicator.time.map((date, i) => (
+                {
+                  t: date,
+                  y: indicator.measurement[i],
+                  referenceValue: indicator.referenceValue[i],
+                }
+              ));
+            }
+            datasets.push({
+              label: indicator.yAxis,
+              fill: false,
+              data,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              borderWidth: 1,
+              // pointStyle: 'line',
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
           }
-          datasets.push({
-            label: indicator.yAxis,
-            fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            // pointStyle: 'line',
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
-          });
         } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = indicator.referenceValue.map((x, i) => (
@@ -1564,6 +1594,28 @@ export default {
 
       if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
         customSettings.hideRestrictions = true;
+      }
+
+      if (this.indicatorObject.chartAggregation) {
+        customSettings.zoom = {
+          enabled: true,
+          mode: 'x',
+          onZoomComplete: this.indicatorObject.chartAggregation.startFetch.bind(
+            null, this,
+          ),
+        };
+        customSettings.pan = {
+          enabled: true,
+          mode: 'x',
+          onPanComplete: this.indicatorObject.chartAggregation.startFetch.bind(
+            null, this,
+          ),
+        };
+        customSettings.timeConfig = {
+        };
+        customSettings.yAxisOverwrite = {
+          ticks: this.indicatorObject.chartAggregation.fixedScale,
+        };
       }
 
       return {

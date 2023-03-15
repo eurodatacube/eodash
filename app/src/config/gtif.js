@@ -587,7 +587,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/eodash-data/stories/AQF',
     // TODO: This is a quick fix, we should consider impleemnting nice loading of data from geodb
-    geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
+    geoDBDataQuery: 'no2_data?no2_ec_station_ppbv=not.eq.NaN',
     geoDBParameters: 'date,no2_ec_station_ppbv',
     disableCSV: true,
     overlayLayers: [],
@@ -676,7 +676,56 @@ export const globalIndicators = [
           }],
         },
         time: [],
-        inputData: [''],
+        inputData: ['Surface NO2 concentrations [ppbv] '],
+        chartAggregation: {
+          labels: ['minimum', 'mean', 'maximum'],
+          startFetch: (that, { chart }) => {
+            const origChart = chart.chart;
+            const { min, max } = origChart.scales['x-axis-0'];
+            const aggrData = that.indicatorObject.chartAggregation.fetchData(
+              min, max, that.indicatorObject,
+            );
+            for (let idx = 0; idx < aggrData.length; idx++) {
+              // eslint-disable-next-line no-param-reassign
+              chart.data.datasets[idx].data = aggrData[idx];
+            }
+            origChart.update();
+            that.$refs.lineChart.$emit('extentChanged', true);
+          },
+          fetchData: (x1, x2, indicatorObject) => {
+            const step = Math.max(1, Math.round((x2 - x1) / 100000000));
+            const { time, measurement } = indicatorObject;
+            const data = [[], [], []];
+            let i = 0;
+            while (i < time.length && time[i].toMillis() < x1) {
+              i++;
+            }
+            while (i < time.length && time[i].toMillis() <= x2) {
+              // aggregate data within steps
+              const sum = measurement.slice(i, (i + step)).reduce((a, b) => a + b);
+              const actualStep = (i + step) > time.length ? (time.length - i) : step;
+              const mean = sum / actualStep;
+              data[0].push({
+                t: time[i],
+                y: Math.min(...measurement.slice(i, (i + step))),
+              });
+              data[1].push({
+                t: time[i],
+                y: mean,
+              });
+              data[2].push({
+                t: time[i],
+                y: Math.max(...measurement.slice(i, (i + step))),
+              });
+              i += step;
+            }
+            return data;
+          },
+          fixedScale: {
+            min: 0,
+            max: 45,
+          },
+        },
         // display: {
         // },
       },

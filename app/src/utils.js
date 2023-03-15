@@ -116,13 +116,16 @@ export async function loadIndicatorData(baseConfig, payload) {
       const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       const base = `${geodbUrl}${endpoint}${geoDBDataQuery}`;
       const url = `${base}&select=${geoDBParameters}`;
+      console.time('Execution Time');
       const data = await fetch(url)
         .then((response) => response.json())
         .catch((error) => console.log(error));
       // convert to indicator
+      console.timeEnd('Execution Time');
       const masurementData = [];
       const referenceValue = [];
       const times = [];
+      console.time('Execution Time');
       data.sort((a, b) => (
         DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
       ));
@@ -142,6 +145,7 @@ export async function loadIndicatorData(baseConfig, payload) {
       indicatorObject.referenceValue = referenceValue;
       indicatorObject.time = times;
       indicatorObject.dataLoadFinished = true;
+      console.timeEnd('Execution Time');
     } else {
       // Check if indicator uses another data path
       if (currInd in indDefs && 'alternateDataPath' in indDefs[currInd]) {
