@@ -437,7 +437,7 @@ export const fetchCustomAreaObjects = async (
         if (typeof mergedConfig[lookup].callbackFunction === 'function') {
           // merge data from current indicator data and new data from api
           // returns new indicator object to set as custom area indicator
-          return mergedConfig[lookup].callbackFunction(rwdata, indicator);
+          return mergedConfig[lookup].callbackFunction(rwdata, indicator, drawnArea);
         }
         return rwdata;
       })

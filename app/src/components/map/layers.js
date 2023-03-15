@@ -198,6 +198,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const wgTileLayer = new WebGLTileLayer({
       source,
       style: config.style,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     wgTileLayer.set('id', config.id);
     layers.push(wgTileLayer);
@@ -213,6 +214,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     layers.push(WMTSLayer);
     createWMTSSourceFromCapabilities(config, WMTSLayer);
@@ -292,6 +294,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     }));
   }
   if (config.protocol === 'flatgeobuf') {
@@ -340,6 +343,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     }));
   }
   let source;
@@ -454,6 +458,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           updateOpacityOnZoom: options.updateOpacityOnZoom,
           zIndex: options.zIndex,
           source: singleSource,
+          opacity: typeof c.opacity !== 'undefined' ? c.opacity : 1,
           extent,
         }));
       });
@@ -525,6 +530,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
+      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
       source,
       extent,
     }));
@@ -586,12 +592,53 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
     layers.push(featuresLayer);
   }
-
-  return new Group({
+  let drawnAreaExtent;
+  if (config.drawnAreaLimitExtent) {
+    if (options.drawnArea.area) {
+      drawnAreaExtent = transformExtent(
+        geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
+        'EPSG:4326',
+        config.projection,
+      );
+    } else {
+      // default hiding everything
+      drawnAreaExtent = transformExtent(
+        [0, 0, 0.01, 0.01],
+        'EPSG:4326',
+        config.projection,
+      );
+    }
+  }
+  const g = new Group({
     name: config.name,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     zIndex: options.zIndex,
     layers,
+    extent: drawnAreaExtent,
   });
+  if (config.drawnAreaLimitExtent) {
+    const areaUpdate = (time, drawnArea, configUpdate, l) => {
+      if (drawnArea.area) {
+        drawnAreaExtent = transformExtent(
+          geoJsonFormat.readGeometry(drawnArea.area).getExtent(),
+          'EPSG:4326',
+          config.projection,
+        );
+      } else {
+        drawnAreaExtent = transformExtent(
+          [0, 0, 0.01, 0.01],
+          'EPSG:4326',
+          config.projection,
+        );
+      }
+      l.setExtent(drawnAreaExtent);
+    };
+    g.getLayers().forEach((la) => {
+      if (!la.get('name').includes('_features')) {
+        la.getSource().set('updateArea', areaUpdate);
+      }
+    });
+  }
+  return g;
 }
