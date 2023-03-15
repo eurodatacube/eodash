@@ -229,12 +229,11 @@ export function calculatePadding() {
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
   const percentageBasedOffsetWidth = Math.floor(window.innerWidth * 0.12);
-  const percentageBasedOffsetHeight = Math.floor(window.innerHeight * 0.12);
   const padding = [
     70,
     percentageBasedOffsetWidth + dataPanelWidth,
     150,
-    percentageBasedOffsetHeight + searchResultWidth,
+    percentageBasedOffsetWidth + searchResultWidth,
   ];
   return padding;
   // TODO  cleanup
