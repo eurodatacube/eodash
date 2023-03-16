@@ -531,6 +531,7 @@ export default {
                   updateTimeLayer(layer, config, timeObj.value, area);
                 }
               });
+            console.log(timeObj);
             this.$emit('update:datalayertime', timeObj.name);
           }
         }
@@ -679,16 +680,31 @@ export default {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         view.setZoom(event.data.zoom);
+        // Get all the layers in the map
+        const layers = map.getLayers();
+
+        // Iterate over the layers and perform actions on each layer
+        layers.forEach((layer) => {
+          // Get the layer name and visibility status
+          const name = layer.get('name');
+          const visible = layer.getVisible();
+
+          // Log the layer name and visibility status to the console
+          console.log(`Layer: ${name}, visible: ${visible}`);
+
+          // Hide the layer if it is currently visible
+          if (visible) {
+            // layer.setVisible(false);
+          }
+        });
       }
 
       if (event.data.command === 'map:setCenter' && event.data.center) {
-        let [lat, lng] = event.data.center;
-        // Swap the order of the values
-        let center = [lng, lat];
         // Update the state of the application using the message data
         view.setCenter(
           fromLonLat(
-            [lng, lat], map.getView().getProjection(),
+            event.data.center,
+            map.getView().getProjection(),
           ),
         );
       }
@@ -696,7 +712,7 @@ export default {
       if (event.data.command === 'map:enableScrolly') {
         console.log('enabling scrolly mode');
         this.enableScrollyMode = true;
-        this.onScrollyModeChange(true)
+        this.onScrollyModeChange(true);
       }
     });
 
