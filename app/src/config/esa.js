@@ -186,10 +186,10 @@ const trucksFeatures = {
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
 
-const E1bConfigInputData = [{
+const E1bConfigInputDataAsc = [{
   dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
-  layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-  name: 'Daily Sentinel 2 L2A',
+  layers: 'S1-GRD-IW-ASC-VV',
+  name: 'Daily Sentinel 1 VV Asc',
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
@@ -205,6 +205,24 @@ const E1bConfigInputData = [{
   opacity: 0.6,
 }];
 
+const E1bConfigInputDataDes = [{
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+  layers: 'S1-GRD-IW-DES-VV',
+  name: 'Daily Sentinel 1 VV Desc',
+  minZoom: 7,
+  maxZoom: 18,
+  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+}, {
+  // get layer for this month
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+    .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+    .toFormat('yyyy-MM-dd')}`,
+  name: 'Monthly Aggregated Vessel density',
+  layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+  minZoom: 6,
+  maxZoom: 14,
+  opacity: 0.6,
+}];
 
 export const indicatorsDefinition = Object.freeze({
   C1: {
@@ -726,10 +744,10 @@ export const layerNameMapping = Object.freeze({
   'Sentinel-5p Level-3 NO2': {
     layers: 'AWS_NO2-VISUALISATION',
   },
-  'S1A-GRD-IW-asc-VV': E1bConfigInputData,
-  'S1B-GRD-IW-asc-VV': E1bConfigInputData,
-  'S1A-GRD-IW-des-VV': E1bConfigInputData,
-  'S1B-GRD-IW-des-VV': E1bConfigInputData,
+  'S1A-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1B-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1A-GRD-IW-des-VV': E1bConfigInputDataDes,
+  'S1B-GRD-IW-des-VV': E1bConfigInputDataDes,
 });
 
 export const indicatorClassesIcons = Object.freeze({
