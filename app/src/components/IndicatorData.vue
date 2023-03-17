@@ -122,7 +122,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6',
@@ -130,7 +130,7 @@ export default {
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E12c', 'E12d', 'E1b',
+        'E1b',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
@@ -313,9 +313,20 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
+          E12c: {
+            measurementConfig: {
+              label: indicator.yAxis,
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'black',
+              spanGaps: true,
+              borderWidth: 2,
+              pointRadius: 2,
+            },
+            referenceData: [],
+          },
           PRCTS: {
             measurementConfig: {
-              label: 'Value',
+              label: indicator.yAxis,
               backgroundColor: 'rgba(255,255,255,0.0)',
               borderColor: 'black',
               spanGaps: false,
@@ -382,6 +393,7 @@ export default {
         // Special legend for E8
         referenceDecompose.E8.referenceData[0].key = 'roll average';
         referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
+        referenceDecompose.E12d = referenceDecompose.E12c;
 
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
@@ -1184,17 +1196,6 @@ export default {
           unit: 'month',
           displayFormats: { month: 'MMM yy' },
           tooltipFormat: 'MMM yy',
-        };
-      }
-
-      // Showing only year as label
-      if (['E12c', 'E12d'].includes(indicatorCode)) {
-        customSettings.timeConfig = {
-          unit: 'year',
-          displayFormats: {
-            year: 'yyyy',
-          },
-          tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
         };
       }
 

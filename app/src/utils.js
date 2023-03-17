@@ -282,7 +282,13 @@ export function calculatePadding() {
   const searchPanelWidth = (document.querySelector('#list') !== null)
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
-  const padding = [70, 20 + dataPanelWidth, 150, 20 + searchResultWidth];
+  const percentageBasedOffsetWidth = Math.floor(window.innerWidth * 0.12);
+  const padding = [
+    70,
+    percentageBasedOffsetWidth + dataPanelWidth,
+    150,
+    percentageBasedOffsetWidth + searchResultWidth,
+  ];
   return padding;
   // TODO  cleanup
   // const { map } = getMapInstance('centerMap');

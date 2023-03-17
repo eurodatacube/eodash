@@ -70,6 +70,122 @@ const geodbFeatures = {
   },
 };
 
+const trucksAreaIndicator = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'time,geometry',
+    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    if (Array.isArray(responseJson[0].src)) {
+      const data = responseJson[0].src;
+      const datesObj = {};
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+        ? 1
+        : -1));
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((row) => {
+        // for each entry, extract just those points that actually intersect the area
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
+        let intersectingFtrs = 0;
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              intersectingFtrs += 1;
+            }
+          });
+        }
+        if (intersectingFtrs > 0) {
+          // as data is structured one entry per country, we need to aggregate on date
+          if (row.time in datesObj) {
+            datesObj[row.time] += intersectingFtrs;
+          } else {
+            datesObj[row.time] = intersectingFtrs;
+          }
+        }
+      });
+      Object.entries(datesObj).forEach((entry) => {
+        const [key, value] = entry;
+        // convert to structure indicatorData expects
+        newData.time.push(DateTime.fromISO(key));
+        newData.measurement.push(value);
+      });
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    }
+    return null;
+  },
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+};
+
+const trucksFeatures = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'geometry,time',
+    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND time=\'{featuresTime}\'',
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    const ftrs = [];
+    const data = responseJson[0].src;
+    if (Array.isArray(data)) {
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((ftr) => {
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              const { geometry, ...properties } = ftr;
+              ftrs.push({
+                type: 'Feature',
+                properties,
+                geometry: singleGeometry,
+              });
+            }
+          });
+        }
+      });
+    }
+    const ftrColl = {
+      type: 'FeatureCollection',
+      features: ftrs,
+    };
+    return ftrColl;
+  },
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}T00:00:00`,
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+};
+
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -266,13 +382,15 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
     customAreaIndicator: true,
+    customAreaFeatures: true,
     story: '/eodash-data/stories/E12c',
   },
   E12d: {
     indicatorSummary: 'Number of Trucks',
     themes: ['economy'],
     customAreaIndicator: true,
-    story: '/eodash-data/stories/E12c',
+    customAreaFeatures: true,
+    story: '/eodash-data/stories/E12d',
   },
   E13a: {
     indicatorSummary: 'Throughput at principal rail stations',
@@ -1507,26 +1625,21 @@ export const globalIndicators = [
         indicatorName: 'Motorways',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-15 35, -15 70, 40 70, 40 35, -15 35))').toJson(),
-          }],
+          features: [],
         },
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W2',
-        time: availableDates.VIS_TRUCK_DETECTION_MOTORWAYS_NEW,
+        time: getDailyDates('2020-01-01', '2021-12-31'),
         inputData: [''],
         yAxis: 'Number of trucks detected',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Aggregated Truck Traffic 10km',
-          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          maxZoom: 18,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          minZoom: 1,
-          maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1535,47 +1648,23 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
           },
-          areaIndicator: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum(truck_count_normalized), time',
-              group: 'time',
-              where: 'osm_value=1 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-            },
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson[0].src)) {
-                const data = responseJson[0].src;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  colorCode: [],
-                  referenceValue: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  newData.time.push(DateTime.fromISO(row.time)); // actual data
-                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
-                  newData.colorCode.push('BLUE'); // made up data
-                  newData.referenceValue.push('0'); // made up data
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
           },
-        },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
+          minZoom: 1,
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
       },
     },
   },
@@ -1592,26 +1681,22 @@ export const globalIndicators = [
         indicatorName: 'Primary Roads',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-15 35, -15 70, 40 70, 40 35, -15 35))').toJson(),
-          }],
+          features: [],
         },
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W3',
-        time: availableDates.VIS_TRUCK_DETECTION_PRIMARY_NEW,
+        time: getDailyDates('2020-01-01', '2021-12-31'),
         inputData: [''],
         yAxis: 'Number of trucks detected',
-        display: {
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          maxZoom: 18,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Aggregated Truck Traffic 10km',
-          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          minZoom: 1,
-          maxZoom: 10,
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1620,52 +1705,24 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
             }],
           },
-          areaIndicator: {
-            url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-            requestMethod: 'POST',
-            requestHeaders: {
-              'Content-Type': 'application/json',
-            },
-            requestBody: {
-              collection: 'geodb_49a05d04-5d72-4c0f-9065-6e6827fd1871_trucks',
-              select: 'sum(truck_count_normalized), time',
-              group: 'time',
-              where: 'osm_value=3 AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-            },
-            callbackFunction: (responseJson, indicator) => {
-              if (Array.isArray(responseJson[0].src)) {
-                const data = responseJson[0].src;
-                const newData = {
-                  time: [],
-                  measurement: [],
-                  colorCode: [],
-                  referenceValue: [],
-                };
-                data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
-                  ? 1
-                  : -1));
-                data.forEach((row) => {
-                  let updateDate = row.time;
-                  // temporary workaround until DB gets updated 2020-01-01 - 2020-04-01
-                  if (row.time === '2020-01-01T00:00:00') {
-                    updateDate = '2020-04-01T00:00:00';
-                  }
-                  newData.time.push(DateTime.fromISO(updateDate)); // actual data
-                  newData.measurement.push(Math.round(row.sum * 10) / 10); // actual data
-                  newData.colorCode.push('BLUE'); // made up data
-                  newData.referenceValue.push('0'); // made up data
-                });
-                const ind = {
-                  ...indicator,
-                  ...newData,
-                };
-                return ind;
-              }
-              return null;
-            },
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
           },
-        },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
+          minZoom: 1,
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
       },
     },
   },

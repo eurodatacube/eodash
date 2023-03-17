@@ -21,8 +21,7 @@
     <SpecialLayer
       v-if="showSpecialLayer"
       :mapId="mapId"
-      :mergedConfig="mergedConfigsData[0]"
-      :layerName="dataLayerName"
+      :mergedConfigs="mergedConfigsData"
       :options="specialLayerOptions"
       :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
@@ -43,7 +42,7 @@
         v-if="compareLayerTime"
         :mapId="mapId"
         :time="compareLayerTime.value"
-        :mergedConfigsData="mergedConfigsLayerSwipe[0]"
+        :mergedConfigsData="mergedConfigsLayerSwipe"
         :specialLayerOptionProps="specialLayerOptions"
         :enable="enableCompare"
         :drawnArea="drawnArea"
