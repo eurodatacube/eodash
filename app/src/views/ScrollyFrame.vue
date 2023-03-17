@@ -116,29 +116,86 @@ export default {
               Pragma: 'no-cache',
               Expires: '0',
             },
-          }); 
+          });
 
-          items = dashboardToScrolly(res.data.features);
+        items = dashboardToScrolly(res.data.features);
       } catch (_e) {
         items = [
           [
             {
-              "width": 1,
-              "text": "<p>Zoom in and out, pan, and explore new places with our dynamic and responsive map. With fast and fluid controls, our map offers a seamless experience that adapts to your needs.</p> <p>Whether you're exploring a new city, studying geography, or planning a trip, our map offers a range of views and perspectives to help you see the world in new ways. With detailed information on locations and landmarks, as well as up-to-date traffic and weather data, our map is your ultimate tool for exploration.</p><p>Scrollytelling is the closest thing we have to a magical portal - it allows us to transport our readers to new and exciting places, immersing them in a world of wonder and enchantment. By using animations, images, and text in a seamless and engaging way, scrollytelling has the power to captivate our readers like never before.</p>",
-              "id": "ABC1234567890",
+              width: 1,
+              text: `<p>Graz is a beautiful city located in the southeastern region of Austria. Although the city boasts of clean air and picturesque landscapes, the air quality in Graz is generally mediocre. <br /><br /> According to recent data, Graz ranks as one of the most polluted cities in Austria. The air pollution is a result of various factors such as traffic, industrial activities, and residential heating.</p><p>During the winter months, the air quality in Graz worsens due to increased emissions from residential heating. As the temperatures drop, people rely more on heating to keep their homes warm, which leads to higher emissions of pollutants. The increased emissions, coupled with the weather conditions during winter, create a smoggy environment that is harmful to human health.</p>`,
+              id: 'ABC1234567890',
             },
             {
-              "width": 3,
-              "mapInfo": {
-                "zoom": 7,
-                "center": {
-                  "lng": 13.583628422071959,
-                  "lat": 47.42808726171425
-                },
+              width: 3,
+              mapInfo: {
+                poi: 'AT-AQ5',
+                timeline: [
+                  {
+                    center: {
+                      lng: 15.421371,
+                      lat: 46.876668,
+                    },
+                    zoom: 6.0,
+                    duration: 0.0,
+                    layers: {
+                      enable: ['EOxCloudless 2021'],
+                      disable: ['Terrain light'],
+                    },
+                  },
+                  {
+                    center: {
+                      lng: 15.421371,
+                      lat: 47.076668,
+                    },
+                    time: "2023-01-14",
+                    zoom: 11.5,
+                    duration: 0.25,
+                    layers: {
+                      enable: ['EOxCloudless 2021'],
+                      disable: ['Terrain light', 'Averaged NO2'],
+                    },
+                  },
+                  {
+                    center: {
+                      lng: 15.421371,
+                      lat: 47.076668,
+                    },
+                    zoom: 11.6,
+                    times: [
+                      "2022-09-08",
+                      "2022-10-08",
+                      "2022-11-08",
+                      "2022-12-08",
+                    ],
+                    duration: 0.25,
+                    layers: {
+                      enable: ['Averaged NO2'],
+                      disable: [],
+                    },
+                  },
+                  {
+                    center: {
+                      lng: 15.421371,
+                      lat: 47.076668,
+                    },
+                    zoom: 11.7,
+                    duration: 0.25,
+                  },
+                  {
+                    center: {
+                      lng: 15.421371,
+                      lat: 47.076668,
+                    },
+                    zoom: 11.7,
+                    duration: 0.25,
+                  },
+                ],
               },
-              "id": "CBA0987654321",
-            }
-          ]
+              id: 'CBA0987654321',
+            },
+          ],
         ];
       }
 
