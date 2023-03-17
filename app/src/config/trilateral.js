@@ -4201,6 +4201,86 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'ThwaitesLandsat',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Thwaites Glacier Landsat L2 low-cloud scenes',
+        indicator: 'ADD',
+        indicatorName: 'Thwaites Glacier Landsat L2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        }, // layers are switched around, pine island shows landsat imagery from thwaites
+        time: availableDates['landsat-c2l2-sr-antarctic-glaciers-pine-island'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxZoom: 18,
+          minZoom: 7,
+          opacity: 1.0,
+          projection: 'EPSG:3857',
+          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          dateFormatFunction: (date) => `${date[1]}`,
+          name: 'Landsat L2',
+          tileSize: 256,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-110.26 -73.60,-112.57 -75.18,-106.35 -75.73,-104.61 -74.098,-110.27 -73.60))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'PineIslandLandsat',
+        country: 'all',
+        city: 'Antarctica',
+        siteName: 'global',
+        description: 'Pine Island Landsat L2 low-cloud scenes',
+        indicator: 'ADD',
+        indicatorName: 'Pine Island Glacier Landsat L2',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        }, // layers are switched around, pine island shows landsat imagery from thwaites
+        time: availableDates['landsat-c2l2-sr-antarctic-glaciers-thwaites'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          maxZoom: 18,
+          minZoom: 7,
+          opacity: 1.0,
+          projection: 'EPSG:3857',
+          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          name: 'Landsat L2',
+          customAreaIndicator: true,
+          tileSize: 256,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-104.723 -73.176,-107.373 -75.653,-97.142-76.195,-96.01 -73.63231719321456,-104.723 -73.1758))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
 ];
 
 const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
