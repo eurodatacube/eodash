@@ -186,6 +186,44 @@ const trucksFeatures = {
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
 
+const E1bConfigInputDataAsc = [{
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+  layers: 'S1-GRD-IW-ASC-VV',
+  name: 'Daily Sentinel 1 VV Asc',
+  minZoom: 7,
+  maxZoom: 18,
+  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+}, {
+  // get layer for this month
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+    .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+    .toFormat('yyyy-MM-dd')}`,
+  name: 'Monthly Aggregated Vessel density',
+  layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+  minZoom: 6,
+  maxZoom: 14,
+  opacity: 0.6,
+}];
+
+const E1bConfigInputDataDes = [{
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+  layers: 'S1-GRD-IW-DES-VV',
+  name: 'Daily Sentinel 1 VV Desc',
+  minZoom: 7,
+  maxZoom: 18,
+  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+}, {
+  // get layer for this month
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+    .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+    .toFormat('yyyy-MM-dd')}`,
+  name: 'Monthly Aggregated Vessel density',
+  layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+  minZoom: 6,
+  maxZoom: 14,
+  opacity: 0.6,
+}];
+
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -252,11 +290,6 @@ export const indicatorsDefinition = Object.freeze({
       ...geodbFeatures,
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
-  },
-  E1b2: {
-    indicatorSummary: 'Vessel density monthly maps',
-    themes: ['economy'],
-    story: '/eodash-data/stories/E1b',
   },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
@@ -711,6 +744,10 @@ export const layerNameMapping = Object.freeze({
   'Sentinel-5p Level-3 NO2': {
     layers: 'AWS_NO2-VISUALISATION',
   },
+  'S1A-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1B-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1A-GRD-IW-des-VV': E1bConfigInputDataDes,
+  'S1B-GRD-IW-des-VV': E1bConfigInputDataDes,
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -2074,43 +2111,6 @@ export const globalIndicators = [
         description: 'Crude Oil Storage Index (EU)',
         indicator: 'OX',
         indicatorName: 'Crude Oil Storage Index (EU)',
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vessel density monthly maps',
-        indicator: 'E1b2',
-        indicatorName: 'Vessel density monthly maps',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates.VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE,
-        inputData: [''],
-        yAxis: '',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Vessel density',
-          layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
-          minZoom: 6,
-          dateFormatFunction: (date) => date,
-          legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
-            }],
-          },
-        },
       },
     },
   },
