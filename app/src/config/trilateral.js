@@ -4226,6 +4226,7 @@ export const globalIndicators = [
           projection: 'EPSG:3857',
           url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
           dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',
           tileSize: 256,
           presetView: {
@@ -4267,7 +4268,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',
-          customAreaIndicator: true,
           tileSize: 256,
           presetView: {
             type: 'FeatureCollection',
