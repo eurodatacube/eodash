@@ -531,7 +531,6 @@ export default {
                   updateTimeLayer(layer, config, timeObj.value, area);
                 }
               });
-            console.log(timeObj);
             this.$emit('update:datalayertime', timeObj.name);
           }
         }
@@ -676,25 +675,43 @@ export default {
     }
     this.$emit('ready', true);
 
+    // Define a function to update the data layer
+    let updateTime = (time) => {
+      // Update the data layer with the new data
+      this.dataLayerTime = time;
+    }
+
+    // Define a function to schedule the data layer update during the next animation frame
+    let scheduleUpdateTime = (time) => {
+      // Use requestAnimationFrame to schedule the update during the next animation frame
+      requestAnimationFrame(() => {
+        updateTime(time);
+      });
+    }
+
     window.addEventListener('message', (event) => {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         view.setZoom(event.data.zoom);
-        // Get all the layers in the map
-        const layers = map.getLayers();
+        
+      }
 
-        // Iterate over the layers and perform actions on each layer
-        layers.forEach((layer) => {
-          // Get the layer name and visibility status
-          const name = layer.get('name');
-          const visible = layer.getVisible();
+      if (event.data.command === 'map:setTime' && event.data.time) {
+        scheduleUpdateTime(event.data.time);
+      }
 
-          // Log the layer name and visibility status to the console
-          console.log(`Layer: ${name}, visible: ${visible}`);
+      if (event.data.command === 'map:enableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(true);
+          }
+        });
+      }
 
-          // Hide the layer if it is currently visible
-          if (visible) {
-            // layer.setVisible(false);
+      if (event.data.command === 'map:disableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(false);
           }
         });
       }
@@ -710,9 +727,18 @@ export default {
       }
 
       if (event.data.command === 'map:enableScrolly') {
-        console.log('enabling scrolly mode');
         this.enableScrollyMode = true;
         this.onScrollyModeChange(true);
+        const view = map.getView();
+        view.setProperties({
+          transition: 0,
+          constrainResolution: true,
+        });
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.set('transition', 0);
+          }
+        });
       }
     });
 
