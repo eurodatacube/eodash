@@ -491,29 +491,33 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (this.indicator && 'queryParameters' in this.indicator) {
             // re-load indicator data for indicators where the rendering is based on external data
-            loadIndicatorExternalData(
-              timeObj.value, this.mergedConfigsData[0],
-            ).then((data) => {
-              this.$store.state.indicators.selectedIndicator.mapData = data;
-              const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-              if (currLayer) {
-                currLayer.changed();
-              }
-            });
-          } else {
-            // TODO:
-            // redraw all time-dependant layers, if time is passed via WMS params
-            const area = this.drawnArea;
-            const layers = map.getLayers().getArray();
-            this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
-              .forEach((config) => {
-                const layer = layers.find((l) => l.get('name') === config.name);
-                if (layer) {
-                  updateTimeLayer(layer, config, timeObj.value, area);
+            // get only valid configs (which has 'id')
+            const configs = this.mergedConfigsData.filter((item) => item.id);
+            configs.forEach((item) => {
+              loadIndicatorExternalData(
+                timeObj.value, item,
+              ).then((data) => {
+                this.$store.state.indicators.selectedIndicator.mapData = data;
+                // finds first layer with ID
+                const currLayer = map.getAllLayers().find((l) => l.get('id') === item.id);
+                if (currLayer) {
+                  currLayer.changed();
                 }
               });
-            this.$emit('update:datalayertime', timeObj.name);
-          }
+            });
+          } 
+          // TODO:
+          // redraw all time-dependant layers, if time is passed via WMS params
+          const area = this.drawnArea;
+          const layers = map.getLayers().getArray();
+          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+            .forEach((config) => {
+              const layer = layers.find((l) => l.get('name') === config.name);
+              if (layer) {
+                updateTimeLayer(layer, config, timeObj.value, area);
+              }
+            });
+          this.$emit('update:datalayertime', timeObj.name);
         }
       },
     },
@@ -521,11 +525,14 @@ export default {
       // Make sure compare data is loaded if required
       if (this.indicator && 'queryParameters' in this.indicator) {
         // TODO: Currently using first time entry as default, pretty sure we need more logic here
-        loadIndicatorExternalData(
-          this.indicator.time[0], this.mergedConfigsData[0],
-        ).then((data) => {
-          this.$store.state.indicators.selectedIndicator.compareMapData = data;
-          this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        const configs = this.mergedConfigsData.filter((item) => item.id);
+        configs.forEach((config) => {
+          loadIndicatorExternalData(
+            this.indicator.time[0], config,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+          });
         });
       } else {
         this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);

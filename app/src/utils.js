@@ -78,20 +78,20 @@ export function template(templateRe, str, data) {
   });
 }
 
-export async function loadIndicatorExternalData(time, mergedConfigs) {
+export async function loadIndicatorExternalData(time, mergedConfig) {
   const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
   const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
-  const timeKey = mergedConfigs.timeKey || 'time';
-  const base = `${geodbUrl}${endpoint}${mergedConfigs.id}`;
+  const timeKey = mergedConfig.timeKey || 'time';
+  const base = `${geodbUrl}${endpoint}${mergedConfig.id}`;
   const timequery = `and=(${timeKey}.gte.${time},${timeKey}.lte.${time})`;
-  const url = `${base}?${timequery}&select=${mergedConfigs.parameters}`;
+  const url = `${base}?${timequery}&select=${mergedConfig.parameters}`;
   const data = await fetch(url)
     .then((response) => response.json())
     .catch((error) => console.log(error));
   // convert to object
   const dataObject = {};
   data.forEach((entry) => {
-    dataObject[entry[mergedConfigs.adminZoneKey]] = { ...entry };
+    dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
   });
   return dataObject;
 }
