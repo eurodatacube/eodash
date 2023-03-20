@@ -117,6 +117,13 @@
             "label": "Monthly vessel density",
             "ticks": [1, 2, 3, 4, 5, 6, 7],
             "tickLabels": [0, 80, 160, 240, 320, 400, 500]
+        },
+        "AWS_VIS_SST_MAPS": {
+            "range": [1, 5],
+            "cm": [[1, [0,0,255,255]], [2, [0,150,200,255]], [3, [0,154,90,255]],[4, [250,180,120,255]],[5, [255,0,0,255]]],
+            "label": "Sea Surface Temperature Anomaly [%]",
+            "ticks": [1,2,3,4,5],
+            "tickLabels": [-70,-38,0,33,70]
         }
     },
     "trilateral": {

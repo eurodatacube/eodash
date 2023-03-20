@@ -103,7 +103,7 @@ export default {
         'NPP', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6',
+        'E10a2', 'E10a6', 'N3a2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -382,6 +382,7 @@ export default {
         referenceDecompose.NPP = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
+        referenceDecompose.N3a2 = referenceDecompose.N1;
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -1373,7 +1374,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
