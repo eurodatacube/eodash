@@ -1612,6 +1612,9 @@ export default {
           ),
         };
         customSettings.timeConfig = {
+          hour: 'HH:mm',
+          minute: 'HH:mm',
+          second: 'HH:mm:ss',
         };
         customSettings.yAxisOverwrite = {
           ticks: this.indicatorObject.chartAggregation.fixedScale,
