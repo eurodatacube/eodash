@@ -38,28 +38,13 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        src: './eodash-data/general/rebranding.png',
+        poi: 'ES4-E1b',
+        src: './eodash-data/general/cimbelli.png',
       },
       {
-        src: './eodash-data/general/agriculture.png',
-        href: 'https://race.esa.int/?search=Agriculture&x=1040480.82062&y=6128064.75599&z=5.29786',
+        poi: 'W2-E12c',
+        src: './eodash-data/general/new-trucks.png',
       },
-      {
-        src: './eodash-data/general/flying-planes.png',
-      },
-      {
-        src: './eodash-data/general/geo-storytelling.png',
-        href: 'https://eo4society.esa.int/2022/09/21/geo-storytelling-with-eo-dashboards/',
-      },
-      {
-        src: './eodash-data/general/tropomi.png',
-        href: 'https://race.esa.int/?search=s5p&x=1348821.20055&y=6133905.55977&z=5.1379&clusterOpen=1',
-      },
-      {
-        poi: 'World-E13o',
-        src: './eodash-data/general/vessles.png',
-      },
-
     ],
     privacyText: '/eodash-data/general/privacy',
     termsText: '/eodash-data/general/terms',
@@ -115,29 +100,16 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
-        poi: 'FR02-N5',
-        src: './data/trilateral/nightlights.png',
-        indicator: 'N5',
+        poi: 'Onset-ADD',
+        src: './data/trilateral/melt-maps.png',
       },
       {
-        poi: 'W10-SITI',
-        src: './data/trilateral/seaice.png',
+        poi: 'BR04-PRCTS',
+        src: './data/trilateral/new-precipitation-jaxa.png',
       },
       {
-        poi: 'NPP-NPP',
-        src: './data/trilateral/npp.png',
-      },
-      {
-        poi: 'WSF-WSF',
-        src: './eodash-data/general/WSF.png',
-      },
-      {
-        poi: 'SO2-N1',
-        src: './eodash-data/general/TROPOMI-SO2.png',
-      },
-      {
-        poi: 'World-E10e',
-        src: './data/trilateral/ndvi.png',
+        poi: 'S1GRD-ADD',
+        src: './data/trilateral/s-1-antarctica.png',
       },
     ],
     customCountryList: [
