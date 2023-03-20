@@ -2191,7 +2191,7 @@ export const globalIndicators = [
         siteName: 'North Adriatic',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        indicatorName: 'Sea Surface Temperature Regional Maps',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
         eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -2203,10 +2203,10 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
-        yAxis: '°C',
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Surface Temperature [°C]',
+          name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
           legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
           maxZoom: 13,
@@ -2217,7 +2217,7 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P7D',
+              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2237,7 +2237,7 @@ export const globalIndicators = [
         siteName: 'Fos-sur-Mer',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        indicatorName: 'Sea Surface Temperature Regional Maps',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
         sensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -2249,10 +2249,10 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
-        yAxis: '°C',
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Surface Temperature [°C]',
+          name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
           legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
           maxZoom: 13,
@@ -2263,7 +2263,7 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P7D',
+              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2283,7 +2283,7 @@ export const globalIndicators = [
         siteName: 'Barcelona',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        indicatorName: 'Sea Surface Temperature Regional Maps',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
         sensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -2295,10 +2295,10 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
-        yAxis: '°C',
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Surface Temperature [°C]',
+          name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
           legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
           maxZoom: 13,
@@ -2309,7 +2309,7 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P7D',
+              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2329,7 +2329,7 @@ export const globalIndicators = [
         siteName: 'Danube Delta',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        indicatorName: 'Sea Surface Temperature Regional Maps',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -2338,12 +2338,12 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((28.981 45.011,28.985 44.39,30.63 44.39,30.62 45.616,29.59 45.61,29.586 44.88,29.266 44.83,29.19 44.86,29.12 45.024,28.981 45.011))').toJson(),
           }],
         },
-        yAxis: '°C',
+        yAxis: '%',
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Surface Temperature [°C]',
+          name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
           legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
           maxZoom: 13,
@@ -2354,7 +2354,7 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P7D',
+              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
