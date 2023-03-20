@@ -188,6 +188,8 @@ STAC_COLLECTIONS = {
     "blue-tarp-planetscope": "https://staging-stac.delta-backend.com/collections/",
     "blue-tarp-detection": "https://staging-stac.delta-backend.com/collections/",
     "geoglam": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-antarctic-glaciers-thwaites": "https://dev-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-antarctic-glaciers-pine-island": "https://dev-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
@@ -266,9 +268,11 @@ def retrieve_stac_entries(url, offset):
                 date = f["properties"]["start_datetime"]
             elif "date" in f["properties"]:
                 date = f["properties"]["date"]
+            cog_asset_href = f["assets"].get("cog_default", {}).get("href", None)
+            product_id = f["id"]
             res.append([
                 date,
-                f["assets"]["cog_default"]["href"]
+                cog_asset_href or product_id
             ])
         if len(features) == offset_step:
             raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
