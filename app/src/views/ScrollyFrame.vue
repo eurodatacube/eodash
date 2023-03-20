@@ -17,7 +17,7 @@
             height: calc(100vh - 112px) !important;
             position: fixed; left: 0; bottom: 0; top: 112px;
           "
-          src="http://localhost:5173/"
+          src="./scrollytelling/index.html"
           frameborder="0"
           scrolling="no"
         >
@@ -110,7 +110,7 @@ export default {
 
       try {
         const res = await axios
-          .get(`./data/dashboards/${this.getDashboardID()}.json`, {
+          .get(`./data/dashboards/scrollymaps.json`, {
             headers: {
               'Cache-Control': 'no-cache',
               Pragma: 'no-cache',
@@ -198,6 +198,8 @@ export default {
           ],
         ];
       }
+
+      console.log(JSON.stringify(items));
 
       this.linkStyle(css.data);
       this.setScrollyStory(items);
