@@ -676,24 +676,23 @@ export default {
     this.$emit('ready', true);
 
     // Define a function to update the data layer
-    let updateTime = (time) => {
+    const updateTime = (time) => {
       // Update the data layer with the new data
       this.dataLayerTime = time;
-    }
+    };
 
     // Define a function to schedule the data layer update during the next animation frame
-    let scheduleUpdateTime = (time) => {
+    const scheduleUpdateTime = (time) => {
       // Use requestAnimationFrame to schedule the update during the next animation frame
       requestAnimationFrame(() => {
         updateTime(time);
       });
-    }
+    };
 
     window.addEventListener('message', (event) => {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         view.setZoom(event.data.zoom);
-        
       }
 
       if (event.data.command === 'map:setTime' && event.data.time) {
