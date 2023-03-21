@@ -1,4 +1,4 @@
-# Landsat Collection 2 Level-2 Surface Reflectance science products over Thwaites Glacier and Pine Island Glacier
+# Pine Island Glacier - Landsat Collection 2 Level-2 Surface Reflectance science products
 
 Landsat Collection 2 includes scene-based global Level-2 surface reflectance and surface temperature science products.
 
