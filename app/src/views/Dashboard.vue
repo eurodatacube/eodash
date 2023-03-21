@@ -338,7 +338,9 @@ export default {
       this.dialog = false;
       this.$refs.globalHeader.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-      this.$refs.indicatorFilters.comboboxClear();
+      if (this.$refs.indicatorFilters) {
+        this.$refs.indicatorFilters.comboboxClear();
+      }
     },
     close() {
       this.setDataPanelWidth(false);

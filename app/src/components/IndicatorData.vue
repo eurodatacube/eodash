@@ -100,21 +100,21 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'PRCTS', 'SMCTS', 'VITS',
+        'NPP', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6',
+        'E10a2', 'E10a6', 'N3a2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E12c', 'E12d', 'E1b',
+        'E1b',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7', 'PRCTS', 'SMCTS', 'VITS',
+        'E10a2', 'E10a6', 'E10a7',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
@@ -288,6 +288,42 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
+          E12c: {
+            measurementConfig: {
+              label: indicator.yAxis,
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'black',
+              spanGaps: true,
+              borderWidth: 2,
+              pointRadius: 2,
+            },
+            referenceData: [],
+          },
+          PRCTS: {
+            measurementConfig: {
+              label: indicator.yAxis,
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'black',
+              spanGaps: false,
+              borderWidth: 2,
+              pointRadius: 0,
+            },
+            referenceData: [
+              {
+                label: 'Climatic value (average)',
+                index: 0,
+                borderColor: 'blue',
+                borderDash: [6, 3],
+                backgroundColor: 'rgba(255,255,255,0.0)',
+                borderWidth: 2,
+                spanGaps: false,
+                referenceTime: true,
+                pointRadius: 0,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
+          },
           NASACustomLineChart: {
             measurementConfig: {
               label: indicator.yAxis,
@@ -332,6 +368,7 @@ export default {
         // Special legend for E8
         referenceDecompose.E8.referenceData[0].key = 'roll average';
         referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
+        referenceDecompose.E12d = referenceDecompose.E12c;
 
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
@@ -343,6 +380,9 @@ export default {
         referenceDecompose.CDS3 = referenceDecompose.N1;
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
+        referenceDecompose.SMCTS = referenceDecompose.PRCTS;
+        referenceDecompose.VITS = referenceDecompose.PRCTS;
+        referenceDecompose.N3a2 = referenceDecompose.N1;
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -358,6 +398,7 @@ export default {
           referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
             const data = [];
             indicator.referenceValue.forEach((item, rowIdx) => {
+              const usedTime = 'referenceTime' in entry ? indicator.referenceTime[rowIdx] : indicator.time[rowIdx];
               if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
                 let obj;
                 if ('valueDecompose' in referenceDecompose[indicatorCode]) {
@@ -367,23 +408,23 @@ export default {
                 }
                 if (obj[0] === -999 && obj[1] === -999) {
                   data.push({
-                    t: indicator.time[rowIdx],
+                    t: usedTime,
                     y: Number.NaN,
                   });
                 } else if ('index' in entry) {
                   data.push({
-                    t: indicator.time[rowIdx],
+                    t: usedTime,
                     y: obj[entry.index],
                   });
                 } else if ('calc' in entry) {
                   data.push({
-                    t: indicator.time[rowIdx],
+                    t: usedTime,
                     y: entry.calc(indicator.measurement[rowIdx], obj),
                   });
                 }
               } else {
                 data.push({
-                  t: indicator.time[rowIdx],
+                  t: usedTime,
                   y: Number.NaN,
                 });
               }
@@ -480,7 +521,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
+            && !['E10c', 'N2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -641,13 +682,17 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c', 'PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
             ));
-            return { t: date, y: measurement[i] };
+            return {
+              t: date,
+              y: measurement[i],
+              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
+            };
           });
           const dataGroups = {};
           const colorGroups = {};
@@ -657,12 +702,14 @@ export default {
               dataGroups[currYear].push({
                 t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
+                referenceValue: data[i].referenceValue,
               });
               colorGroups[currYear].push(colors[i]);
             } else {
               dataGroups[currYear] = [{
                 t: data[i].t.set({ year: 2000 }),
                 y: [data[i].y],
+                referenceValue: data[i].referenceValue,
               }];
               colorGroups[currYear] = [colors[i]];
             }
@@ -1067,17 +1114,6 @@ export default {
         };
       }
 
-      // Showing only year as label
-      if (['E12c', 'E12d'].includes(indicatorCode)) {
-        customSettings.timeConfig = {
-          unit: 'year',
-          displayFormats: {
-            year: 'yyyy',
-          },
-          tooltipFormat: 'yyyy-MM-dd - yyyy-06-30',
-        };
-      }
-
       if (this.multiYearComparison.includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
@@ -1094,6 +1130,23 @@ export default {
         // Another special case to also show days in tooltip
         if (indicatorCode === 'E10c') {
           customSettings.timeConfig.tooltipFormat = 'dd. MMM';
+        }
+        if (['VITS', 'PRCTS', 'SMCTS'].includes(indicatorCode)) {
+          // Special tooltip information for these indicator
+          customSettings.tooltips = {
+            callbacks: {
+              label: (context, data) => {
+                const label = `${data.datasets[context.datasetIndex].label} measurement: ${Number(context.value)}`;
+                return label;
+              },
+              footer: (context) => {
+                const { datasets } = this.datacollection;
+                const obj = datasets[context[0].datasetIndex].data[context[0].index];
+                const labelOutput = `${this.indicatorObject.indicatorName} [climatic value]: ${obj.referenceValue}`;
+                return labelOutput;
+              },
+            },
+          };
         }
       }
       if (indicatorCode === 'E10a5') {
@@ -1321,7 +1374,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
@@ -1399,6 +1452,10 @@ export default {
       // Barplots that shall begin at zero
       if (['E9'].includes(indicatorCode)) {
         customSettings.beginAtZero = true;
+      }
+
+      if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
+        customSettings.hideRestrictions = true;
       }
 
       return {

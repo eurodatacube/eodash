@@ -71,7 +71,11 @@ export default {
                   datasetIndex: meta.index,
                 };
               }, this);
-              if (!this.options.sameYearComparison && this.options.country !== 'all') {
+              if (
+                !this.options.sameYearComparison
+                && this.options.country !== 'all'
+                && !this.options.hideRestrictions
+              ) {
                 labelObjects.push({
                   text: 'Low Restrictions',
                   fillStyle: 'rgba(204, 143, 143, 0.24)',
@@ -138,7 +142,10 @@ export default {
     },
     render() {
       const extendedSettings = Object.assign(this.defaultOptions, this.options);
-      if (!extendedSettings.sameYearComparison) {
+      if (
+        !extendedSettings.sameYearComparison
+        && !this.options.hideRestrictions
+      ) {
         extendedSettings.annotation.annotations.push(...this.movementRestrictions);
       }
       if ('yAxisOverwrite' in extendedSettings) {

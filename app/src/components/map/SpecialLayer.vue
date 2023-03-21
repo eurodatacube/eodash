@@ -1,7 +1,7 @@
 <template>
   <MapOverlay
    :mapId="mapId"
-   :overlayId="layerName"
+   :overlayId="mergedConfigs[0].name"
    :overlayHeaders="overlayHeaders"
    :overlayRows="overlayRows"
    :overlayCoordinate="overlayCoordinate"
@@ -16,6 +16,7 @@ import getProjectionOl from '@/helpers/projutils';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';
+import { toLonLat } from 'ol/proj';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -32,8 +33,8 @@ export default {
   },
   props: {
     mapId: String,
-    mergedConfig: Object,
-    layerName: String,
+    mergedConfigs: Array[Object],
+    compare: Boolean,
     resetProjectionOnDestroy: Boolean,
     /**
      * @property {*} options.time
@@ -54,69 +55,94 @@ export default {
       overlayHeaders: [],
       overlayRows: [],
       overlayCoordinate: null,
+      pointerMoveHandlers: [],
     };
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
     options.zIndex = 3;
-    const layer = createLayerFromConfig(this.mergedConfig, map, options);
-    layer.set('name', this.layerName);
-    const featureLayer = layer.getLayers().getArray().find((l) => {
-      const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
-      return found;
-    });
-    this.pointerMoveHandler = (e) => {
-      const features = map.getFeaturesAtPixel(e.pixel, {
-        layerFilter: ((candidate) => candidate === featureLayer),
+    this.mergedConfigs.forEach((config) => {
+      const layer = createLayerFromConfig(config, map, options);
+      layer.set('name', this.compare ? `${config.name}_compare` : config.name);
+      const featureLayer = layer.getLayers().getArray().find((l) => {
+        const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
+        return found;
       });
-      // when layer swiping is active, only check for features on this layers side
-      const isRightLayer = !this.layerName.includes('_compare');
-      // check if the layer
-      const isCorrectSide = this.swipePixelX !== null
-        ? ((isRightLayer && this.swipePixelX < e.pixel[0])
-        || (!isRightLayer && this.swipePixelX > e.pixel[0]))
-        : true;
-      // consider layergroup
-      if (isCorrectSide && features.length && this.mergedConfig.features) {
-        const feature = features[0];
-        // center coordinate of extent, passable approximation for small or regular features
-        const coordinate = getCenter(feature.getGeometry().getExtent());
-        this.overlayCoordinate = coordinate;
-        const rows = [];
-        const props = feature.getProperties();
-        // some indicators have "allowedParameters", which define the keys to display
-        const keys = this.mergedConfig.features.allowedParameters
-        || Object.keys(props).filter((k) => k !== 'geometry');
-        keys.forEach((key) => {
-          if (props[key]) {
-            rows.push(`${key}: ${props[key]}`);
+      if (featureLayer) {
+        const pointerMoveHandler = (e) => {
+          const features = map.getFeaturesAtPixel(e.pixel, {
+            layerFilter: ((candidate) => candidate === featureLayer),
+          });
+          // when layer swiping is active, only check for features on this layers side
+          const isRightLayer = !config.name.includes('_compare');
+          // check if the layer
+          const isCorrectSide = this.swipePixelX !== null
+            ? ((isRightLayer && this.swipePixelX < e.pixel[0])
+            || (!isRightLayer && this.swipePixelX > e.pixel[0]))
+            : true;
+          // consider layergroup
+          if (isCorrectSide && features.length && config.features) {
+            const feature = features[0];
+            // center coordinate of extent, passable approximation for small or regular features
+            const coordinate = getCenter(feature.getGeometry().getExtent());
+            this.overlayCoordinate = coordinate;
+            const rows = [];
+            const props = feature.getProperties();
+            // some indicators have "allowedParameters", which define the keys to display
+            const keys = config.features.allowedParameters
+            || Object.keys(props).filter((k) => k !== 'geometry');
+            keys.forEach((key) => {
+              if (props[key]) {
+                rows.push(`${key}: ${props[key]}`);
+              }
+            });
+            this.overlayRows = rows;
+          } else {
+            this.overlayCoordinate = null;
+            this.overlayContent = null;
           }
-        });
-        this.overlayRows = rows;
-      } else {
-        this.overlayCoordinate = null;
-        this.overlayContent = null;
+        };
+        map.on('pointermove', pointerMoveHandler);
+        this.pointerMoveHandlers.push(pointerMoveHandler);
       }
-    };
-    map.on('pointermove', this.pointerMoveHandler);
-    map.addLayer(layer);
+      map.addLayer(layer);
+    });
     // update view if previous projection !== new projection
     const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
-    const projection = getProjectionOl(this.mergedConfig?.mapProjection || defaultProjection);
+    const projection = getProjectionOl(this.mergedConfigs[0]?.mapProjection || defaultProjection);
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
+      view.on(['change:center', 'change:resolution'], (evt) => {
+        const v = evt.target;
+        this.reportUpdateView(v);
+      });
       map.setView(view);
+      this.reportUpdateView(view);
     }
   },
-  methods: {},
+  methods: {
+    reportUpdateView(view) {
+      const center = toLonLat(view.getCenter(), view.getProjection());
+      const currentCenter = { lng: center[0], lat: center[1] };
+      const zoom = view.getZoom();
+      // these events are emitted to save changed made in the dashboard via the
+      // "save map configuration" button
+      this.$emit('updatecenter', currentCenter);
+      this.$emit('updatezoom', zoom);
+    },
+  },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === this.layerName);
-    map.removeLayer(layer);
-    map.un('pointermove', this.pointerMoveHandler);
+    this.mergedConfigs.forEach((config) => {
+      const layer = map.getLayers().getArray().find((l) => l.get('name') === (this.compare ? `${config.name}_compare` : config.name));
+      map.removeLayer(layer);
+    });
+    this.pointerMoveHandlers.forEach((h) => {
+      map.un('pointermove', h);
+    });
     if (this.resetProjectionOnDestroy) {
-      // reset to default map projection if different from it
+      // reset to default map ection if different from it
       const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
       const projection = getProjectionOl(defaultProjection);
       if (map.getView().getProjection().getCode() !== projection?.getCode()) {

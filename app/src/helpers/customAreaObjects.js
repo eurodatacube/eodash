@@ -201,6 +201,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_SO2_DAILY_DATA: defaultEvalScriptDef('so2'),
   BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
   AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
+  AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
 });
 
 // Define custom fetch function with configurable timeout
@@ -437,7 +438,7 @@ export const fetchCustomAreaObjects = async (
         if (typeof mergedConfig[lookup].callbackFunction === 'function') {
           // merge data from current indicator data and new data from api
           // returns new indicator object to set as custom area indicator
-          return mergedConfig[lookup].callbackFunction(rwdata, indicator);
+          return mergedConfig[lookup].callbackFunction(rwdata, indicator, drawnArea);
         }
         return rwdata;
       })

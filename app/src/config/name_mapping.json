@@ -449,17 +449,21 @@
      "title": "Crops Condition",
      "description": "Global crops conditions based on multiple EO data sources"
     },
-    "World-N12": {
-     "title": "Sea Ice Concentration Arctic (GCOM-W)"
-    },
     "Antarctic-N12": {
       "title": "Sea Ice Concentration Antarctic (GCOM-W)"
+     },
+     "Arctic-N12": {
+      "title": "Sea Ice Concentration Arctic (GCOM-W)"
      },
     "NPP-NPP": {
      "title": "Ocean Primary Productivity (BICEP)"
     },
     "World-N11":{
      "title": "Ocean Primary Productivity (GCOM-C)"
+    },
+    "SMCTS":{
+      "title": "Soil Moisture",
+      "description": "Soil Moisture Time Series"
     },
     "W11-NPPN":{
      "title": "Ocean Primary Productivity (MODIS)"
@@ -474,7 +478,7 @@
      "title": "Mobility"
     },
     "CV": {
-	     "title": "Covid-19 cases"
+	    "title": "Covid-19 cases"
     },
     "OW": {
      "title": "Covid-19 vaccinations"

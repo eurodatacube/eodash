@@ -3430,5 +3430,82 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2022-12-26T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.43",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-01-02T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.44",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-01-09T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.46",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-01-16T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (Low)",
+        "input_data": "",
+        "measurement_value": "0.41",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-01-23T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (Low)",
+        "input_data": "",
+        "measurement_value": "0.4",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-01-30T00:00:00"
+    },
+    {
+        "color_code": "Orange (Low)",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (Low)",
+        "input_data": "",
+        "measurement_value": "0.37",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-02-06T00:00:00"
+    },
+    {
+        "color_code": "Orange (Low)",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (Low)",
+        "input_data": "",
+        "measurement_value": "0.36",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-02-13T00:00:00"
     }
 ]

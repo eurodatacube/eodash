@@ -102,6 +102,9 @@ const generateUsedTimes = (indicator) => {
 
 const configFromInputData = (usedTimes, index) => {
   // const i = this.getCurrentIndex(side);
+  if (!usedTimes.inputData) {
+    return [];
+  }
   const inputData = usedTimes.inputData.length === 1
     ? usedTimes.inputData[0]
     : usedTimes.inputData.at(index);
