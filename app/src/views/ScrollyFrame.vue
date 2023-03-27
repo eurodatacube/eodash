@@ -137,6 +137,7 @@ export default {
               "title": "FWB-Intro",
               "mapInfo": {
                 poi: 'AT-AQ5',
+                baseLayer: 'EOxCloudless 2021',
                 timeline: [
                   {
                     center: {
@@ -145,10 +146,6 @@ export default {
                     },
                     zoom: 6.0,
                     duration: 0.0,
-                    layers: {
-                      enable: ['EOxCloudless 2021'],
-                      disable: ['Terrain light'],
-                    },
                   },
                   {
                     center: {
@@ -158,10 +155,6 @@ export default {
                     time: "2023-01-14",
                     zoom: 11.5,
                     duration: 0.25,
-                    layers: {
-                      enable: ['EOxCloudless 2021'],
-                      disable: ['Terrain light', 'Averaged NO2'],
-                    },
                   },
                   {
                     center: {
@@ -176,10 +169,7 @@ export default {
                       "2022-12-08",
                     ],
                     duration: 0.25,
-                    layers: {
-                      enable: ['Averaged NO2'],
-                      disable: [],
-                    },
+                    layers: ['Averaged NO2'],
                   },
                   {
                     center: {
