@@ -710,6 +710,8 @@ export default {
         map.getLayers().forEach((layer) => {
           if (layer.get('name') !== event.data.baseLayer) {
             layer.setVisible(false);
+          } else {
+            layer.setVisible(true);
           }
         });
       }
