@@ -208,6 +208,8 @@
           </data-mockup-view>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
           >
           </filter-controls>

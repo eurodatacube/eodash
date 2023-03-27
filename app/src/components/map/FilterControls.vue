@@ -274,7 +274,9 @@
             <div v-on="on" class="d-inline-block">
               <v-btn
                 small
-                disabled
+                :href="queryParameters"
+                target="_blank"
+                :disabled="adminSelected"
                 color="primary"
                 class="mr-3"
               >
@@ -282,7 +284,7 @@
               </v-btn>
             </div>
             </template>
-            <span>Coming soon.</span>
+            <span>Select Census Track (Zählsprengel)</span>
         </v-tooltip>
       </v-row>
     </v-card>
@@ -306,6 +308,8 @@ export default {
   props: {
     cogFilters: Object,
     mergedConfigsData: Object,
+    adminLayer: Object,
+    adminFeature: Object,
   },
   data() {
     return {
@@ -316,6 +320,39 @@ export default {
     };
   },
   computed: {
+    queryParameters() {
+      const baseUrl = 'https://gtif-backend.hub.eox.at/report?';
+      const keyRenaming = {
+        powerDensity: 'wind_power',
+        settlementDistance: 'distance',
+      };
+      const pars = Object.entries(this.filters).map(([key, item]) => {
+        let p;
+        let currentKey;
+        currentKey = key;
+        if (keyRenaming[key]) {
+          currentKey = keyRenaming[key];
+        }
+        if (item.type && item.type === 'boolfilter') {
+          p = `${currentKey}=${item.value}`;
+        } else if (item.range && item.range.length === 2) {
+          p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
+        } else if (item.type && item.type === 'slider') {
+          p = `${currentKey}_min=${item.value}&${currentKey}_max=99999999999999`;
+        }
+        return p;
+      });
+      const aoi = `aoi=${this.adminFeature.get('id')}&`;
+      return baseUrl + aoi + pars.join('&');
+    },
+    adminSelected() {
+      let disabled = true;
+      const adminName = this.adminLayer.get('name');
+      if (adminName === 'Census Track (Zählsprengel)') {
+        disabled = false;
+      }
+      return disabled;
+    },
     filtersChanged() {
       let fchanged = false;
       Object.keys(this.cogFilters.filters).forEach((key) => {
