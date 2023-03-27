@@ -52,7 +52,7 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="displayTimeSelection"
+        v-if="displayTimeSelection && !enableScrollyMode"
         :autofocus="!disableAutoFocus"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
@@ -91,7 +91,7 @@
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
+      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
@@ -99,7 +99,7 @@
         : ''"
     >
       <FullScreenControl
-        v-if="mapId !== 'centerMap' && !enableScrollyMode"
+        v-if="mapId !== 'centerMap'"
         :mapId="mapId" class="pointerEvents"
       />
       <ZoomControl
@@ -110,7 +110,6 @@
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         v-if="loaded"
-        v-show="!enableScrollyMode"
         class="pointerEvents"
         :key="layerControlKey"
         :mapId="mapId"
@@ -707,6 +706,14 @@ export default {
         });
       }
 
+      if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') !== event.data.baseLayer) {
+            layer.setVisible(false);
+          }
+        });
+      }
+
       if (event.data.command === 'map:disableLayer' && event.data.name) {
         map.getLayers().forEach((layer) => {
           if (layer.get('name') === event.data.name) {
@@ -876,6 +883,10 @@ export default {
     height: 100%;
     pointer-events: none;
     z-index: 4;
+
+    &.hidden {
+      opacity: 0 !important;
+    }
   }
 
   .pointerEvents {
