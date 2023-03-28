@@ -62,7 +62,9 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
-        :style="mapId === 'centerMap' && $vuetify.breakpoint.smAndUp ? 'bottom: 155px' : ''"
+        :style="(mapId === 'centerMap' && $vuetify.breakpoint.smAndUp && $route.name !== 'demo')
+          ? 'bottom: 155px'
+          : ''"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -120,14 +122,20 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
-      <div class="pointerEvents mt-auto mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mt-auto mb-2"
+      >
         <IframeButton
           v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
           :indicatorObject="indicator"
           mapControl
         />
       </div>
-      <div class="pointerEvents mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mb-2"
+      >
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
@@ -137,6 +145,9 @@
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
         />
+      </div>
+      <div v-else class="mt-auto">
+        <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
       <div ref="mousePositionContainer"/>
     </div>

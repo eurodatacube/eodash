@@ -55,6 +55,61 @@ module.exports = [
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [],
+    demoMode: {
+      egu2023: [
+        {
+          poi: 'GCAQ3-N1b',
+        },
+        {
+          poi: 'WSF-WSF',
+        },
+        {
+          poi: 'NO3-E1b',
+        },
+        {
+          poi: 'WorldCO-N1',
+          extent: [
+            1059600.05368,
+            5890267.49635,
+            1913764.56152,
+            6286458.69903,
+          ],
+          title: 'WorldCO over Austria',
+          dataLayerTime: '2023-03-12',
+        },
+        {
+          poi: 'GCAQ1-N1b',
+          dataLayerTime: '2023-03-24',
+          compareLayerTime: '2022-03-29',
+        },
+        {
+          poi: 'CH4-N1',
+        },
+        {
+          poi: 'World-N1',
+        },
+        {
+          poi: 'CDS-CDS2',
+        },
+        {
+          poi: 'CDS-CDS3',
+        },
+      ],
+      test: [
+        {
+          poi: 'NO3-E1b',
+        },
+        {
+          poi: 'CDS-CDS2',
+        },
+        {
+          poi: 'CDS-CDS3',
+        },
+        {
+          poi: 'World-N1',
+        },
+      ],
+    },
   },
   {
     id: 'trilateral',

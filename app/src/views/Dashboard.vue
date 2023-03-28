@@ -184,12 +184,13 @@
             cols="12"
             class="py-0 fill-height"
           >
-            <center-panel :panelActive="drawerRight" />
+            <center-panel ref="centerPanel" :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
+              <IndicatorFiltersDemo v-else-if="$route.name === 'demo'" />
               <indicator-filters v-else />
             </div>
           </v-col>
@@ -210,6 +211,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
+import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
@@ -233,6 +235,7 @@ export default {
     GlobalFooter,
     IndicatorFilters,
     IndicatorFiltersSidebar,
+    IndicatorFiltersDemo,
     ESABreadcrumbs,
   },
   props: {
@@ -313,7 +316,7 @@ export default {
     document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
     // only show when nothing is selected
     const { poi, indicator, search } = this.$route.query;
-    if (!poi && !indicator && !search) {
+    if (!poi && !indicator && !search && !this.$route.name === 'demo') {
       this.$refs.globalHeader.showText = 'welcome';
       this.$refs.globalHeader.showInfoDialog = true;
     }

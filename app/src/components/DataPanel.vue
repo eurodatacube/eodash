@@ -119,7 +119,8 @@
           </v-card>
           <v-row
             v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
-              && (!showMap || !customAreaIndicator.isEmpty)"
+              && (!showMap || !customAreaIndicator.isEmpty)
+              && $route.name !== 'demo'"
             class="mt-6"
           >
             <v-col cols="12" sm="5" ></v-col>
@@ -176,6 +177,7 @@
               <small v-else> </small>
             </v-col>
             <v-col
+              v-if="$route.name !== 'demo'"
               cols="12"
               sm="7"
               ref="buttonRow"
