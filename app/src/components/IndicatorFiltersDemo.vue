@@ -77,7 +77,8 @@ export default {
           ...item,
           ...this.allFeatures
             .find((f) => getLocationCode(f.properties.indicatorObject) === item.poi),
-        }));
+        }))
+        .filter((item) => !!item.properties);
     },
   },
   methods: {
