@@ -52,6 +52,10 @@
     >
       <v-icon>mdi-chevron-down</v-icon>
     </v-btn>
+    <v-btn
+      style="position: absolute; left: 200px; top: 0;"
+      @click="setMapView()"
+    >Reset map</v-btn>
   </div>
 </template>
 
@@ -60,6 +64,7 @@ import {
   mapState,
   mapMutations,
 } from 'vuex';
+import { transformExtent } from 'ol/proj';
 import { calculatePadding } from '@/utils';
 import getLocationCode from '../mixins/getLocationCode';
 import { getMapInstance } from './map/map';
@@ -89,19 +94,7 @@ export default {
       this.setSelectedIndicator(item.properties.indicatorObject);
       this.selectedItem = this.getLocationCode(item.properties.indicatorObject);
       if (item.extent) {
-        const { map } = getMapInstance('centerMap');
-        const padding = calculatePadding();
-        setTimeout(() => {
-          map.getView().fit(item.extent, {
-            duration: 500,
-            padding: [
-              padding[0],
-              padding[1],
-              padding[2],
-              300,
-            ],
-          });
-        }, 50);
+        this.setMapView(item.extent);
       }
       if (item.dataLayerTime) {
         setTimeout(() => {
@@ -118,6 +111,40 @@ export default {
           this.$parent.$parent.$refs.centerPanel.$refs.map.enableCompare = true;
         }, 0);
       }
+    },
+    setMapView(extent) {
+      const { map } = getMapInstance('centerMap');
+      const padding = calculatePadding();
+
+      let fitExtent = extent;
+      if (!fitExtent) {
+        const demoExtent = this.demoItems
+          .find((item) => this.getLocationCode(
+            item.properties.indicatorObject,
+          ) === this.selectedItem).extent;
+        if (demoExtent) {
+          fitExtent = demoExtent;
+        } else {
+          fitExtent = this.$parent.$parent.$refs.centerPanel.$refs.map.zoomExtent;
+          if (!fitExtent) {
+            const { bounds } = this.$parent.$parent.$refs.centerPanel.$refs.map.mapDefaults;
+            fitExtent = transformExtent(bounds, 'EPSG:4326',
+              map.getView().getProjection());
+          }
+        }
+      }
+
+      setTimeout(() => {
+        map.getView().fit(fitExtent, {
+          duration: 500,
+          padding: [
+            padding[0],
+            padding[1],
+            padding[2],
+            300,
+          ],
+        });
+      }, 50);
     },
     scroll(direction) {
       const scrollElement = this.$refs.scrollContainer;
