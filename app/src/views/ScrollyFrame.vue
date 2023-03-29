@@ -123,19 +123,19 @@ export default {
         items = [
           [
             {
-              "width": 4,
-              "id": "fwb-intro--1664366589955",
-              "text": "As the winter months descend upon the picturesque city of Graz, nestled in the southeast of Austria, an invisible threat begins to lurk within its air. The city, renowned for its stunning architectural blend of Renaissance, Gothic, and Baroque styles, faces an annual battle against air pollution. This scrollytelling story explores the chilling phenomenon of deteriorating air quality in Graz during the winter season, mainly driven by the surge in nitrogen dioxide (NO2) emissions from heating systems.\n\nWhile the snow-covered landscapes and festive cheer charm the hearts of the locals and tourists alike, the air they breathe becomes increasingly hazardous. Graz, situated in a valley surrounded by mountains, is particularly susceptible to temperature inversions that trap pollutants near the ground. These NO2 emissions from residential and commercial heating systems not only affect the overall air quality but also pose significant health risks to the city's inhabitants. Join us as we unravel the complex interplay of meteorological factors and human activity in Graz, revealing the unseen consequences of winter's embrace on this enchanting city.",
-              "title": "FWB-Intro",
-            }
+              width: 4,
+              id: 'fwb-intro--1664366589955',
+              text: "As the winter months descend upon the picturesque city of Graz, nestled in the southeast of Austria, an invisible threat begins to lurk within its air. The city, renowned for its stunning architectural blend of Renaissance, Gothic, and Baroque styles, faces an annual battle against air pollution. This scrollytelling story explores the chilling phenomenon of deteriorating air quality in Graz during the winter season, mainly driven by the surge in nitrogen dioxide (NO2) emissions from heating systems.\n\nWhile the snow-covered landscapes and festive cheer charm the hearts of the locals and tourists alike, the air they breathe becomes increasingly hazardous. Graz, situated in a valley surrounded by mountains, is particularly susceptible to temperature inversions that trap pollutants near the ground. These NO2 emissions from residential and commercial heating systems not only affect the overall air quality but also pose significant health risks to the city's inhabitants. Join us as we unravel the complex interplay of meteorological factors and human activity in Graz, revealing the unseen consequences of winter's embrace on this enchanting city.",
+              title: 'FWB-Intro',
+            },
           ],
           [
             {
-              "width": 4,
-              "id": "fwb-intro--1664366589955",
-              "text": "As the winter months descend upon the picturesque city of Graz, nestled in the southeast of Austria, an invisible threat begins to lurk within its air. The city, renowned for its stunning architectural blend of Renaissance, Gothic, and Baroque styles, faces an annual battle against air pollution. This scrollytelling story explores the chilling phenomenon of deteriorating air quality in Graz during the winter season, mainly driven by the surge in nitrogen dioxide (NO2) emissions from heating systems.\n\nWhile the snow-covered landscapes and festive cheer charm the hearts of the locals and tourists alike, the air they breathe becomes increasingly hazardous. Graz, situated in a valley surrounded by mountains, is particularly susceptible to temperature inversions that trap pollutants near the ground. These NO2 emissions from residential and commercial heating systems not only affect the overall air quality but also pose significant health risks to the city's inhabitants. Join us as we unravel the complex interplay of meteorological factors and human activity in Graz, revealing the unseen consequences of winter's embrace on this enchanting city.",
-              "title": "FWB-Intro",
-              "mapInfo": {
+              width: 4,
+              id: 'fwb-intro--1664366589955',
+              text: "As the winter months descend upon the picturesque city of Graz, nestled in the southeast of Austria, an invisible threat begins to lurk within its air. The city, renowned for its stunning architectural blend of Renaissance, Gothic, and Baroque styles, faces an annual battle against air pollution. This scrollytelling story explores the chilling phenomenon of deteriorating air quality in Graz during the winter season, mainly driven by the surge in nitrogen dioxide (NO2) emissions from heating systems.\n\nWhile the snow-covered landscapes and festive cheer charm the hearts of the locals and tourists alike, the air they breathe becomes increasingly hazardous. Graz, situated in a valley surrounded by mountains, is particularly susceptible to temperature inversions that trap pollutants near the ground. These NO2 emissions from residential and commercial heating systems not only affect the overall air quality but also pose significant health risks to the city's inhabitants. Join us as we unravel the complex interplay of meteorological factors and human activity in Graz, revealing the unseen consequences of winter's embrace on this enchanting city.",
+              title: 'FWB-Intro',
+              mapInfo: {
                 poi: 'AT-AQ5',
                 baseLayer: 'EOxCloudless 2021',
                 timeline: [
@@ -152,7 +152,7 @@ export default {
                       lng: 15.421371,
                       lat: 47.076668,
                     },
-                    time: "2023-01-14",
+                    time: '2023-01-14',
                     zoom: 11.5,
                     duration: 0.25,
                   },
@@ -163,10 +163,10 @@ export default {
                     },
                     zoom: 11.6,
                     times: [
-                      "2022-09-08",
-                      "2022-10-08",
-                      "2022-11-08",
-                      "2022-12-08",
+                      '2022-09-08',
+                      '2022-10-08',
+                      '2022-11-08',
+                      '2022-12-08',
                     ],
                     duration: 0.25,
                     layers: ['Averaged NO2'],
@@ -189,17 +189,17 @@ export default {
                   },
                 ],
               },
-            }
+            },
           ],
           [
             {
               width: 1,
-              text: `<p>Graz is a beautiful city located in the southeastern region of Austria. Although the city boasts of clean air and picturesque landscapes, the air quality in Graz is generally mediocre. <br /><br /> According to recent data, Graz ranks as one of the most polluted cities in Austria. The air pollution is a result of various factors such as traffic, industrial activities, and residential heating.</p><p>During the winter months, the air quality in Graz worsens due to increased emissions from residential heating. As the temperatures drop, people rely more on heating to keep their homes warm, which leads to higher emissions of pollutants. The increased emissions, coupled with the weather conditions during winter, create a smoggy environment that is harmful to human health.</p>`,
+              text: '<p>Graz is a beautiful city located in the southeastern region of Austria. Although the city boasts of clean air and picturesque landscapes, the air quality in Graz is generally mediocre. <br /><br /> According to recent data, Graz ranks as one of the most polluted cities in Austria. The air pollution is a result of various factors such as traffic, industrial activities, and residential heating.</p><p>During the winter months, the air quality in Graz worsens due to increased emissions from residential heating. As the temperatures drop, people rely more on heating to keep their homes warm, which leads to higher emissions of pollutants. The increased emissions, coupled with the weather conditions during winter, create a smoggy environment that is harmful to human health.</p>',
               id: 'ABC1234567890',
             },
             {
               width: 3,
-              image: "",
+              image: '',
               id: 'CBA0987654321',
             },
           ],
