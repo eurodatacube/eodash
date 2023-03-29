@@ -80,7 +80,7 @@ module.exports = [
         {
           poi: 'GCAQ1-N1b',
           dataLayerTime: '2023-03-24',
-          compareLayerTime: '2022-03-29',
+          compareLayerTime: '2022-03-30',
         },
         {
           poi: 'CH4-N1',
