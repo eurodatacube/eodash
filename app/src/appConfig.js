@@ -62,6 +62,7 @@ module.exports = [
         },
         {
           poi: 'WSF-WSF',
+          story: '/eodash-data/stories/demo-mode/testDemoStory.md',
         },
         {
           poi: 'NO3-E1b',

@@ -416,7 +416,15 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
+        const demoItem = this.$route.name === 'demo'
+          ? this.appConfig.demoMode[this.$route.query.event]
+            .find((item) => item.poi === this.getLocationCode(this.indicatorObject))
+          : false;
+        if (demoItem && demoItem.story) {
+          markdown = require(`../../public${demoItem.story}`);
+        } else {
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
+        }
       } catch {
         try {
           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
