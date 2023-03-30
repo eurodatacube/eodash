@@ -267,7 +267,6 @@ export default {
       swipePixelX: null,
       queryLink: null,
       viewZoomExtentFitId: null,
-      initialView: null,
     };
   },
   computed: {
@@ -566,15 +565,7 @@ export default {
               clearTimeout(this.viewZoomExtentFitId);
             }
             this.viewZoomExtentFitId = setTimeout(() => {
-              map.getView().fit(value, {
-                duration: 500,
-                padding,
-                callback: (complete) => {
-                  if (complete) {
-                    this.initialView = true;
-                  }
-                },
-              });
+              map.getView().fit(value, { duration: 500, padding });
             }, 30);
           } else {
             map.once('change:target', () => {
@@ -598,14 +589,7 @@ export default {
           const extent = transformExtent(bounds, 'EPSG:4326',
             map.getView().getProjection());
           const padding = calculatePadding();
-          map.getView().fit(extent, {
-            padding,
-            callback: (complete) => {
-              if (complete) {
-                this.initialView = true;
-              }
-            },
-          });
+          map.getView().fit(extent, { padding });
         }, 500);
       }
     }
@@ -645,7 +629,6 @@ export default {
 
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
-      this.initialView = false;
       this.currentZoom = evt.target.getZoom();
       const center = toLonLat(evt.target.getCenter(), evt.target.getProjection());
       this.currentCenter = { lng: center[0], lat: center[1] };
@@ -780,11 +763,6 @@ export default {
       getMapInstance(this.mapId).map.getView().fit(extent, {
         duration: 500,
         padding,
-        callback: (complete) => {
-          if (complete) {
-            this.initialView = true;
-          }
-        },
       });
     },
   },

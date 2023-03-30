@@ -54,7 +54,6 @@
       <v-icon>mdi-chevron-down</v-icon>
     </v-btn>
     <v-btn
-      v-if="!initialMapView"
       style="position: absolute; left: 200px; top: 0;"
       @click="resetMapView()"
     >Recenter map</v-btn>
@@ -83,9 +82,6 @@ export default {
             .find((f) => getLocationCode(f.properties.indicatorObject) === item.poi),
         }))
         .filter((item) => !!item.properties);
-    },
-    initialMapView() {
-      return this.$parent.$parent.$refs.centerPanel.$refs.map.initialView;
     },
   },
   methods: {
