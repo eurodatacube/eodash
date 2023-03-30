@@ -420,22 +420,22 @@ export default {
           ? this.appConfig.demoMode[this.$route.query.event]
             .find((item) => item.poi === this.getLocationCode(this.indicatorObject))
           : false;
-        if (demoItem && demoItem.story) {
-          markdown = require(`../../public${demoItem.story}`);
-        } else {
-          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
-        }
+        markdown = require(`../../public${demoItem.story}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
         } catch {
           try {
-            const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-              ? this.$store.state.features.featureFilters.indicators[0]
-              : this.$store.state.features.featureFilters.indicators;
-            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
           } catch {
-            markdown = { default: '' };
+            try {
+              const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+                ? this.$store.state.features.featureFilters.indicators[0]
+                : this.$store.state.features.featureFilters.indicators;
+              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+            } catch {
+              markdown = { default: '' };
+            }
           }
         }
       }
