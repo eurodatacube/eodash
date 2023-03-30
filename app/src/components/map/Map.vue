@@ -190,6 +190,7 @@ import {
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -432,6 +433,14 @@ export default {
       if ((this.centerProp && this.zoomProp)
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
+      }
+      if (this.$route.name === 'demo') {
+        // check if a demo item custom extent is set as override
+        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+          .find((item) => item.poi === getLocationCode(this.indicator));
+        if (demoItem && demoItem.extent) {
+          return demoItem.extent;
+        }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
       const { map } = getMapInstance(this.mapId);
@@ -742,6 +751,19 @@ export default {
     },
     onResize() {
       getMapInstance(this.mapId).map.updateSize();
+    },
+    resetView() {
+      let extent = this.zoomExtent;
+      if (!extent) {
+        const { bounds } = this.mapDefaults;
+        extent = transformExtent(bounds, 'EPSG:4326',
+          getMapInstance(this.mapId).map.getView().getProjection());
+      }
+      const padding = calculatePadding();
+      getMapInstance(this.mapId).map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
     },
   },
   beforeDestroy() {
