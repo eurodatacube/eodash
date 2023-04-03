@@ -2769,7 +2769,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([43.4, 4.94]),
-        aoiID: 'RhoneDelta',
+        aoiID: 'RhoneDeltaSST',
         country: ['FR'],
         city: 'Rhone Delta - Sea Surface Temperature',
         siteName: 'Fos-sur-Mer',
@@ -2815,7 +2815,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
-        aoiID: 'BarcelonaTSM',
+        aoiID: 'BarcelonaSST',
         country: ['ES'],
         city: 'Barcelona - Sea Surface Temperature',
         siteName: 'Barcelona',
