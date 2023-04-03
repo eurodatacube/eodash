@@ -83,7 +83,7 @@ export async function loadIndicatorExternalData(time, mergedConfigs) {
   const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
   const timeKey = mergedConfigs.timeKey || 'time';
   const base = `${geodbUrl}${endpoint}${mergedConfigs.id}`;
-  const timequery = `and=(${timeKey}.gte.${time},${timeKey}.lte.${time})`;
+  const timequery = `${timeKey}=eq.${time}`;
   const url = `${base}?${timequery}&select=${mergedConfigs.parameters}`;
   const data = await fetch(url)
     .then((response) => response.json())
