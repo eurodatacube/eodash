@@ -1164,10 +1164,11 @@ export const globalIndicators = [
         yAxis: 'NO2 (μmol/m2)',
         display: {
           styles: 'sh_OrangesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
           legendUrl: 'legends/esa/GCAQ1-N1b.png',
+          crossOrigin: null,
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1196,8 +1197,9 @@ export const globalIndicators = [
         yAxis: 'PM2.5 (μg/m3)',
         display: {
           styles: 'sh_PurplesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm2p5_analysis_surface',
           legendUrl: 'legends/esa/GCAQ2-N1b.png',
           maxZoom: 13,
@@ -1228,8 +1230,9 @@ export const globalIndicators = [
         yAxis: 'PM10 (μg/m3)',
         display: {
           styles: 'sh_GreensTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm10_analysis_surface',
           legendUrl: 'legends/esa/GCAQ3-N1b.png',
           maxZoom: 13,
@@ -1260,8 +1263,9 @@ export const globalIndicators = [
         yAxis: 'O3 (μg/m3)',
         display: {
           styles: 'sh_OrangesTransparent240_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_o3_analysis_surface',
           legendUrl: 'legends/esa/GCAQ4-N1b.png',
           maxZoom: 13,
@@ -2231,7 +2235,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([43.4, 4.94]),
-        aoiID: 'RhoneDelta',
+        aoiID: 'RhoneDeltaSST',
         country: ['FR'],
         city: 'Rhone Delta - Sea Surface Temperature',
         siteName: 'Fos-sur-Mer',
@@ -2277,7 +2281,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
-        aoiID: 'BarcelonaTSM',
+        aoiID: 'BarcelonaSST',
         country: ['ES'],
         city: 'Barcelona - Sea Surface Temperature',
         siteName: 'Barcelona',
