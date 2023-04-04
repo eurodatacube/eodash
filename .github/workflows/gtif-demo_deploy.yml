@@ -30,7 +30,7 @@ jobs:
       run: |
         cd app/
         npm ci --ignore-scripts
-        npm run build -- --mode staging
+        npm run build
 
     # Inject SH Config file
     - name: replace instance ID
