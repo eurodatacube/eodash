@@ -76,7 +76,7 @@
     <div
       v-if="$vuetify.breakpoint.smAndUp"
       class="move-with-panel"
-      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -99,6 +99,7 @@
       <ZoomControl :mapId="mapId" class="pointerEvents" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
+        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
