@@ -113,7 +113,8 @@
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-if="customAreaIndicator && appConfig.id !== 'gtif'"
+                  v-if="customAreaIndicator
+                    && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="customAreaIndicator">
                 </add-to-dashboard-button>
               </div>

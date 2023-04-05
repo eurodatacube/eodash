@@ -139,7 +139,7 @@
           v-if="mapId === 'centerMap'
             && indicator
             && indicatorHasMapData(indicator)
-            && appConfig.id !== 'gtif'"
+            && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
