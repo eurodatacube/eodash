@@ -140,9 +140,7 @@ BYOD_COLLECTIONS = [
     "ESA-CCI-V2-CRYOSAT",
     "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
-    "VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE",
-    "VIS_TRUCK_DETECTION_MOTORWAYS_NEW",
-    "VIS_TRUCK_DETECTION_PRIMARY_NEW",
+    "AWS_VIS_SST_MAPS",
 ]
 
 ZARRCOLLECTIONS = [
@@ -188,6 +186,8 @@ STAC_COLLECTIONS = {
     "blue-tarp-planetscope": "https://staging-stac.delta-backend.com/collections/",
     "blue-tarp-detection": "https://staging-stac.delta-backend.com/collections/",
     "geoglam": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-antarctic-glaciers-thwaites": "https://dev-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-antarctic-glaciers-pine-island": "https://dev-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
@@ -266,9 +266,11 @@ def retrieve_stac_entries(url, offset):
                 date = f["properties"]["start_datetime"]
             elif "date" in f["properties"]:
                 date = f["properties"]["date"]
+            cog_asset_href = f["assets"].get("cog_default", {}).get("href", None)
+            product_id = f["id"]
             res.append([
                 date,
-                f["assets"]["cog_default"]["href"]
+                cog_asset_href or product_id
             ])
         if len(features) == offset_step:
             raise Exception("It seems there are more then 5000 entries for the requested collection %s"%url)
@@ -819,6 +821,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
-        # ['Sentinel_1_Vessel_Density_Europe', '']
+        ['Sentinel_1_Vessel_Density_Europe_Timeseries', '']
     ]
 )

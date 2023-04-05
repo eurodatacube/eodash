@@ -186,6 +186,44 @@ const trucksFeatures = {
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
 
+const E1bConfigInputDataAsc = [{
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+  layers: 'S1-GRD-IW-ASC-VV',
+  name: 'Daily Sentinel 1 VV Asc',
+  minZoom: 7,
+  maxZoom: 18,
+  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+}, {
+  // get layer for this month
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+    .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+    .toFormat('yyyy-MM-dd')}`,
+  name: 'Monthly Aggregated Vessel density',
+  layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+  minZoom: 6,
+  maxZoom: 14,
+  opacity: 0.6,
+}];
+
+const E1bConfigInputDataDes = [{
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+  layers: 'S1-GRD-IW-DES-VV',
+  name: 'Daily Sentinel 1 VV Desc',
+  minZoom: 7,
+  maxZoom: 18,
+  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+}, {
+  // get layer for this month
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+    .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+    .toFormat('yyyy-MM-dd')}`,
+  name: 'Monthly Aggregated Vessel density',
+  layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
+  minZoom: 6,
+  maxZoom: 14,
+  opacity: 0.6,
+}];
+
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -252,11 +290,6 @@ export const indicatorsDefinition = Object.freeze({
       ...geodbFeatures,
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
-  },
-  E1b2: {
-    indicatorSummary: 'Vessel density monthly maps',
-    themes: ['economy'],
-    story: '/eodash-data/stories/E1b',
   },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
@@ -711,6 +744,10 @@ export const layerNameMapping = Object.freeze({
   'Sentinel-5p Level-3 NO2': {
     layers: 'AWS_NO2-VISUALISATION',
   },
+  'S1A-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1B-GRD-IW-asc-VV': E1bConfigInputDataAsc,
+  'S1A-GRD-IW-des-VV': E1bConfigInputDataDes,
+  'S1B-GRD-IW-des-VV': E1bConfigInputDataDes,
 });
 
 export const indicatorClassesIcons = Object.freeze({
@@ -1127,10 +1164,11 @@ export const globalIndicators = [
         yAxis: 'NO2 (μmol/m2)',
         display: {
           styles: 'sh_OrangesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
           legendUrl: 'legends/esa/GCAQ1-N1b.png',
+          crossOrigin: null,
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1159,8 +1197,9 @@ export const globalIndicators = [
         yAxis: 'PM2.5 (μg/m3)',
         display: {
           styles: 'sh_PurplesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm2p5_analysis_surface',
           legendUrl: 'legends/esa/GCAQ2-N1b.png',
           maxZoom: 13,
@@ -1191,8 +1230,9 @@ export const globalIndicators = [
         yAxis: 'PM10 (μg/m3)',
         display: {
           styles: 'sh_GreensTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm10_analysis_surface',
           legendUrl: 'legends/esa/GCAQ3-N1b.png',
           maxZoom: 13,
@@ -1223,8 +1263,9 @@ export const globalIndicators = [
         yAxis: 'O3 (μg/m3)',
         display: {
           styles: 'sh_OrangesTransparent240_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_o3_analysis_surface',
           legendUrl: 'legends/esa/GCAQ4-N1b.png',
           maxZoom: 13,
@@ -2081,43 +2122,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Vessel density monthly maps',
-        indicator: 'E1b2',
-        indicatorName: 'Vessel density monthly maps',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates.VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE,
-        inputData: [''],
-        yAxis: '',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Vessel density',
-          layers: 'VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE',
-          minZoom: 6,
-          dateFormatFunction: (date) => date,
-          legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
-            }],
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.05, 29.9]),
         aoiID: 'DanubeDelta',
         country: ['RO'],
@@ -2131,7 +2135,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+            geometry: wkt.read('POLYGON((28.981 45.011,28.985 44.39,30.63 44.39,30.62 45.616,29.59 45.61,29.586 44.88,29.266 44.83,29.19 44.86,29.12 45.024,28.981 45.011))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM,
@@ -2164,7 +2168,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+            geometry: wkt.read('POLYGON((28.981 45.011,28.985 44.39,30.63 44.39,30.62 45.616,29.59 45.61,29.586 44.88,29.266 44.83,29.19 44.86,29.12 45.024,28.981 45.011))').toJson(),
           }],
         },
         time: availableDates.AWS_N3_CUSTOM,
@@ -2176,6 +2180,189 @@ export const globalIndicators = [
           legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.19752, 13.02978]),
+        aoiID: 'NorthAdriaticSST',
+        country: ['HR', 'IT', 'SI'],
+        city: 'North Adriatic - Sea Surface Temperature',
+        siteName: 'North Adriatic',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
+        eoSensor: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((12.17439 44.77803,12.19636 44.81699,12.08514 45.40526,12.42602 45.58351,13.15366 45.77914,13.60398 45.81168,13.80442 45.67566,13.82364 45.59696,13.62603 45.44300,13.54915 45.43337,13.62603 45.32346,13.71390 45.09523,13.78383 44.98060,13.83051 44.89215,13.83938 44.49919,12.23482 44.48155,12.06659 44.58146,12.17439 44.77803))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_VIS_SST_MAPS,
+        inputData: [''],
+        yAxis: '%',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Surface Temperature Anomaly [%]',
+          layers: 'AWS_VIS_SST_MAPS',
+          legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SST_MAPS,
+              'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([43.4, 4.94]),
+        aoiID: 'RhoneDeltaSST',
+        country: ['FR'],
+        city: 'Rhone Delta - Sea Surface Temperature',
+        siteName: 'Fos-sur-Mer',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
+        sensor: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((4.19585 43.49375, 4.19491 43.49564, 4.62253 43.49564, 4.69632 43.49753, 4.69537 43.48618, 4.67361 43.46442, 4.64523 43.45401, 4.67172 43.42090, 4.70389 43.41428, 4.71146 43.43698, 4.75592 43.43320, 4.78525 43.41806, 4.81647 43.38495, 4.83918 43.38495, 4.82877 43.40671, 4.81552 43.42469, 4.81836 43.43604, 4.86661 43.41050, 4.87040 43.41523, 4.84012 43.44928, 4.85999 43.46821, 4.88459 43.42942, 4.89499 43.43793, 4.91297 43.43509, 4.92621 43.44172, 4.94608 43.49280, 5.21949 43.49753, 5.23558 43.48996, 5.24693 43.46726, 5.23842 43.43415, 5.21476 43.41428, 5.16557 43.39157, 5.08988 43.39157, 5.01420 43.39252, 5.01893 43.37927, 5.03690 43.35657, 5.07096 43.34143, 5.11070 43.33859, 5.15327 43.34427, 5.21760 43.34049, 5.27247 43.35373, 5.30275 43.37265, 5.33208 43.36698, 5.35194 43.35657, 5.36140 43.34143, 5.36992 43.32535, 5.36992 43.31305, 5.36613 43.29791, 5.36613 43.28845, 5.37654 43.27521, 5.38600 43.26102, 5.38316 43.25250, 5.37276 43.24210, 5.35478 43.23263, 5.35005 43.22128, 5.35857 43.21088, 5.37749 43.21655, 5.39925 43.21939, 5.42195 43.21561, 5.45412 43.21939, 5.50331 43.20141, 5.50615 42.99990, 4.19301 42.99896, 4.19585 43.49375))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_VIS_SST_MAPS,
+        inputData: [''],
+        yAxis: '%',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Surface Temperature Anomaly [%]',
+          layers: 'AWS_VIS_SST_MAPS',
+          legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SST_MAPS,
+              'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([40.985, 1.769]),
+        aoiID: 'BarcelonaSST',
+        country: ['ES'],
+        city: 'Barcelona - Sea Surface Temperature',
+        siteName: 'Barcelona',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
+        sensor: null,
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((2.51654 40.48551,2.52203 41.56245,2.29138 41.48024,2.21137 41.41621,2.16469 41.3132,2.04936 41.27401,1.91756 41.26782,1.69241 41.21208,1.44803 41.17489,1.26680 41.12942,1.16796 41.07770,0.95079 41.02793,0.72612 40.81047,0.84918 40.72269,0.85468 40.68523,0.65970 40.6644,0.54987 40.57688,0.48396 40.48501,2.51654 40.48551))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_VIS_SST_MAPS,
+        inputData: [''],
+        yAxis: '%',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Surface Temperature Anomaly [%]',
+          layers: 'AWS_VIS_SST_MAPS',
+          legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SST_MAPS,
+              'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDeltaSST',
+        country: ['RO'],
+        city: 'Danube Delta  - Sea Surface Temperature',
+        siteName: 'Danube Delta',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Sea Surface Temperature Anomaly Regional Maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.981 45.011,28.985 44.39,30.63 44.39,30.62 45.616,29.59 45.61,29.586 44.88,29.266 44.83,29.19 44.86,29.12 45.024,28.981 45.011))').toJson(),
+          }],
+        },
+        yAxis: '%',
+        time: availableDates.AWS_VIS_SST_MAPS,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sea Surface Temperature Anomaly [%]',
+          layers: 'AWS_VIS_SST_MAPS',
+          legendUrl: 'legends/esa/AWS_VIS_SST_MAPS.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_SST_MAPS,
+              'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
+              'P1D',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
