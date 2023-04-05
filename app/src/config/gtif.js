@@ -2747,6 +2747,7 @@ export const globalIndicators = [
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
           maxZoom: 18,
+          visible: false,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -2783,6 +2784,7 @@ export const globalIndicators = [
           timeKey: 'date',
           parameters: 'full_id,area_diff_rel,date,area,diff_area',
           strokeOnly: true,
+          strokeWidth: 5,
           name: 'Surface Water Extent',
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),

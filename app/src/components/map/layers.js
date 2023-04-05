@@ -245,7 +245,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const strokeStyle = new Style({
       stroke: new Stroke({
         color: 'rgba(255, 255, 255, 0.0)',
-        width: 3,
+        width: config.strokeWidth || 3,
       }),
     });
     let dynamicStyleFunction = (feature) => {
