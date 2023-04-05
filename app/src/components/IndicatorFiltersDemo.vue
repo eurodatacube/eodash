@@ -54,9 +54,15 @@
       <v-icon>mdi-chevron-down</v-icon>
     </v-btn>
     <v-btn
+      color="primary"
+      class="ma-3 ml-6"
+      large
       style="position: absolute; left: 200px; top: 0;"
       @click="resetMapView()"
-    >Recenter map</v-btn>
+    >
+      <v-icon left>mdi-image-filter-center-focus</v-icon>
+      Recenter map
+    </v-btn>
   </div>
 </template>
 
