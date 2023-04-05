@@ -1686,7 +1686,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+              geometry: wkt.read('POLYGON((-8 55,25 55,25 40,-8 40,-8 55))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
@@ -1743,7 +1743,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+              geometry: wkt.read('POLYGON((-8 55,25 55,25 40,-8 40,-8 55))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
