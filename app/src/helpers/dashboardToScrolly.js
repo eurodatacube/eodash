@@ -15,20 +15,10 @@ function translateMedia(item) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
   } else if (i.mapInfo) {
-    let id = '';
-
     if (i.id.includes('@')) {
-      [id] = i.id.split('@');
+      const [id] = i.id.split('@');
+      i.mapInfo.poi = id;
     }
-    i.iframe = `${window.location.origin}/iframe?poi=${
-      id
-    }&z=${
-      i.mapInfo.zoom
-    }&lat=${
-      i.mapInfo.center.lat
-    }&lng=${
-      i.mapInfo.center.lng
-    }&embedMap=true`;
   }
 }
 
@@ -72,7 +62,46 @@ export default function dashboardToScrolly(features) {
       data.push([current]);
       i += 1;
     } else if (current.width === 1 && next) {
-      data.push(buildStickyRight(current, next, i));
+      if (next.mapInfo) {
+        translateMedia(next);
+        console.log(next);
+        var text = current.text;
+        var timeline = [{
+          center: next.mapInfo.center,
+          zoom: next.mapInfo.zoom,
+          layers: ['EOxCloudless 2021'],
+        }];
+        const mapInfo = next.mapInfo;
+        i += 2;
+
+        while (i < features.length && features[i].width === 1 && features[i + 1] && features[i + 1].mapInfo) {
+          let c = features[i];
+          let n = features[i + 1];
+
+          const item = translateMedia(c);
+
+          text += `\n\n${c.text}`;
+          timeline.push({
+            center: n.mapInfo.center,
+            zoom: n.mapInfo.zoom,
+            layers: ['EOxCloudless 2021'],
+          });
+          i += 2;
+        }
+
+        var block = {
+          width: 4,
+          text,
+          mapInfo: {
+            poi: next.mapInfo.poi,
+            timeline,
+          },
+        };
+
+        data.push([block]);
+      } else {
+        data.push(buildStickyRight(current, next, i));
+      }
       i += 2;
     } else if (current.width === 3 && next) {
       data.push(buildStickyLeft(current, next, i));
