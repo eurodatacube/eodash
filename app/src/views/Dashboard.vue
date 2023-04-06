@@ -310,6 +310,11 @@ export default {
     }),
   },
   created() {
+    // TEMP STAR - WARNING DO NOT MERGE!
+    if (this.$route.path === '/') {
+      this.$router.push('/demo?event=egu2023');
+    }
+    // TEMP END
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
   },
   mounted() {
