@@ -260,31 +260,37 @@
         </v-menu>
       </div>
       <v-row class="pa-3 justify-center" style="margin-top:10px;">
-        <v-btn
-          small
-          color="primary"
-          class="mr-3"
-          @click="exportBestZones"
-        >
-          Export best zones
-        </v-btn>
-        <a ref="imageDownload"></a>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block">
               <v-btn
                 small
-                :href="queryParameters"
-                target="_blank"
                 :disabled="adminSelected"
                 color="primary"
                 class="mr-3"
+                @click="fetchData('zones')"
+              >
+                Export best zones
+              </v-btn>
+            </div>
+            </template>
+            <span>{{ this.hoverText() }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-btn
+                small
+                :disabled="adminSelected"
+                color="primary"
+                class="mr-3"
+                @click="fetchData('report')"
               >
                 Create report
               </v-btn>
             </div>
             </template>
-            <span>Select Census Track (Zählsprengel)</span>
+            <span>{{ this.hoverText() }}</span>
         </v-tooltip>
       </v-row>
     </v-card>
@@ -298,7 +304,7 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
-import { transformExtent } from 'ol/proj';
+import { saveAs } from 'file-saver';
 
 export default {
   name: 'FilterControls',
@@ -320,31 +326,6 @@ export default {
     };
   },
   computed: {
-    queryParameters() {
-      const baseUrl = 'https://gtif-backend.hub.eox.at/report?';
-      const keyRenaming = {
-        powerDensity: 'wind_power',
-        settlementDistance: 'distance',
-      };
-      const pars = Object.entries(this.filters).map(([key, item]) => {
-        let p;
-        let currentKey;
-        currentKey = key;
-        if (keyRenaming[key]) {
-          currentKey = keyRenaming[key];
-        }
-        if (item.type && item.type === 'boolfilter') {
-          p = `${currentKey}=${item.value}`;
-        } else if (item.range && item.range.length === 2) {
-          p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
-        } else if (item.type && item.type === 'slider') {
-          p = `${currentKey}_min=${item.value}&${currentKey}_max=99999999999999`;
-        }
-        return p;
-      });
-      const aoi = `aoi=${this.adminFeature.get('id')}&`;
-      return baseUrl + aoi + pars.join('&');
-    },
     adminSelected() {
       let disabled = true;
       const adminName = this.adminLayer.get('name');
@@ -392,6 +373,44 @@ export default {
   watch: {
   },
   methods: {
+    hoverText() {
+      const adminName = this.adminLayer.get('name');
+      let text = 'Please select Census Track (Zählsprengel) zone';
+      if (adminName === 'Census Track (Zählsprengel)') {
+        text = 'Download';
+      }
+      return text;
+    },
+    fetchData(process) {
+      const baseUrl = `https://gtif-backend.hub.eox.at/${process}?`;
+      const keyRenaming = {
+        powerDensity: 'wind_power',
+        settlementDistance: 'distance',
+      };
+      const pars = Object.entries(this.filters).map(([key, item]) => {
+        let p;
+        let currentKey;
+        currentKey = key;
+        if (keyRenaming[key]) {
+          currentKey = keyRenaming[key];
+        }
+        if (item.type && item.type === 'boolfilter') {
+          p = `${currentKey}=${item.value}`;
+        } else if (item.range && item.range.length === 2) {
+          p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
+        } else if (item.type && item.type === 'slider') {
+          p = `${currentKey}_min=${item.value}&${currentKey}_max=99999999999999`;
+        }
+        return p;
+      });
+      const aoi = `aoi=${this.adminFeature.get('id')}&`;
+      const request = baseUrl + aoi + pars.join('&');
+      let fileExtension = '.pdf';
+      if (process === 'zones') {
+        fileExtension = '.geojson';
+      }
+      saveAs(request, `GTIF_${process}_this.adminFeature.get('id')${fileExtension}`);
+    },
     resetFilters() {
       this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
       this.resetMap();
@@ -467,87 +486,6 @@ export default {
     },
     removeFilter(filterId) {
       this.filters[filterId].display = false;
-    },
-    exportBestZones() {
-      const { map } = getMapInstance('centerMap');
-
-      // See https://openlayers.org/en/latest/examples/export-map.html
-      const mapCanvas = document.createElement('canvas');
-      const size = map.getSize();
-      [mapCanvas.width, mapCanvas.height] = size;
-      const mapContext = mapCanvas.getContext('2d');
-      Array.prototype.forEach.call(
-        map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
-        (canvas) => {
-          if (canvas.width > 0) {
-            const opacity = canvas.parentNode.style.opacity || canvas.style.opacity;
-            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-            let matrix;
-            const { transform } = canvas.style;
-            if (transform) {
-              // Get the transform parameters from the style's transform matrix
-              matrix = transform
-                .match(/^matrix\(([^\(]*)\)$/)[1] // eslint-disable-line
-                .split(',')
-                .map(Number);
-            } else {
-              matrix = [
-                parseFloat(canvas.style.width) / canvas.width,
-                0,
-                0,
-                parseFloat(canvas.style.height) / canvas.height,
-                0,
-                0,
-              ];
-            }
-            // Apply the transform to the export map context
-            CanvasRenderingContext2D.prototype.setTransform.apply(
-              mapContext,
-              matrix,
-            );
-            const { backgroundColor } = canvas.parentNode.style;
-            if (backgroundColor) {
-              mapContext.fillStyle = backgroundColor;
-              mapContext.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            mapContext.drawImage(canvas, 0, 0);
-          }
-        },
-      );
-      mapContext.globalAlpha = 1;
-      mapContext.setTransform(1, 0, 0, 1, 0, 0);
-
-      // Crop the canvas taking the UI sidebar into consideration
-      const croppedCanvas = document.createElement('canvas');
-      const croppedContext = croppedCanvas.getContext('2d');
-
-      const sidePanelWidth = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--data-panel-width').replace('px', ''), 10);
-      croppedCanvas.width = mapCanvas.width - sidePanelWidth;
-      croppedCanvas.height = mapCanvas.height;
-
-      croppedContext.drawImage(mapCanvas, 0, 0);
-      //
-
-      // Calculate lonLat extent by taking cropping into consideration
-      const mapExtent = map.getView().calculateExtent(map.getSize());
-      const croppedX = map.getCoordinateFromPixel([croppedCanvas.width, 0])[0];
-      const lonLatExtent = transformExtent([
-        mapExtent[0],
-        mapExtent[1],
-        croppedX,
-        mapExtent[3],
-      ], 'EPSG:3857', 'EPSG:4326');
-      //
-
-      const link = this.$refs.imageDownload;
-      link.download = `gtif_best_zones_${
-        this.$route.query.poi
-      }_${
-        lonLatExtent.map((c) => c.toFixed(3)).join('-')
-      }.png`;
-      link.href = croppedCanvas.toDataURL();
-      link.click();
     },
   },
 };
