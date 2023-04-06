@@ -73,11 +73,6 @@ const cloudlessBaseLayerDefault = [{
   visible: true,
 }, baseLayers.eoxosm, baseLayers.terrainLight];
 
-const eoxosmBaseLayerDefault = [{
-  ...baseLayers.eoxosm,
-  visible: true,
-}, baseLayers.cloudless, baseLayers.terrainLight];
-
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
   visible: true,
