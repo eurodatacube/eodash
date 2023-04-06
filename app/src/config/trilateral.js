@@ -68,6 +68,21 @@ const geodbFeatures = {
   },
 };
 
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.eoxosm, baseLayers.terrainLight];
+
+const eoxosmBaseLayerDefault = [{
+  ...baseLayers.eoxosm,
+  visible: true,
+}, baseLayers.cloudless, baseLayers.terrainLight];
+
+const mapBoxHighResoSubst = [{
+  ...baseLayers.mapboxHighReso,
+  visible: true,
+}, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
+
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
@@ -97,10 +112,7 @@ export const indicatorsDefinition = Object.freeze({
       ...geodbFeatures,
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
   },
   E1: {
     indicatorSummary: 'Status of metallic ores',
@@ -339,10 +351,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere'],
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
     story: '/eodash-data/stories/N12',
   },
   N11: {
@@ -388,10 +397,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Facebook population density',
     themes: ['economy'],
     disableTimeSelection: true,
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
   },
   SIF: {
     indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
@@ -513,6 +519,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [
       baseLayers.terrainLight,
       baseLayers.cloudless,
+      baseLayers.eoxosm,
       {
         name: 'Antarctic hillshade, bathymetry',
         baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
@@ -802,10 +809,10 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay,
@@ -819,11 +826,6 @@ export const overlayLayersRightMap = [{
 }];
 
 export const administrativeLayers = [];
-
-const mapBoxHighResoSubst = [{
-  ...baseLayers.mapboxHighReso,
-  visible: true,
-}, baseLayers.terrainLight, baseLayers.cloudless];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1966,18 +1968,27 @@ export const globalIndicators = [
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
-        display: {
+        display: [{
+          baseLayers: eoxosmBaseLayerDefault,
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
-          name: 'WSF_Evolution',
-          layers: 'WSF_Evolution',
+          name: 'DLR WSF 2019 coverage',
+          layers: 'WSF_2019',
           legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
-          maxZoom: 14,
+          maxZoom: 17,
+          labelFormatFunction: (date) => date,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        }, {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'DLR WSF Evolution 1985-2015',
+          layers: 'WSF_Evolution',
+          minZoom: 1,
+          maxZoom: 17,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
-        },
+        }],
       },
     },
   },

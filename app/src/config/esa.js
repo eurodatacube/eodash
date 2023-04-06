@@ -224,6 +224,16 @@ const E1bConfigInputDataDes = [{
   opacity: 0.6,
 }];
 
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.eoxosm, baseLayers.terrainLight];
+
+const eoxosmBaseLayerDefault = [{
+  ...baseLayers.eoxosm,
+  visible: true,
+}, baseLayers.cloudless, baseLayers.terrainLight];
+
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -448,10 +458,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-    baseLayers: [baseLayers.terrainLight, {
-      ...baseLayers.cloudless,
-      visible: true,
-    }],
+    baseLayers: cloudlessBaseLayerDefault,
     mapTimeLabelExtended: true,
     features: {
       ...geodbFeatures,
@@ -766,10 +773,10 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
@@ -1323,6 +1330,7 @@ export const globalIndicators = [
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
         display: [{
+          baseLayers: eoxosmBaseLayerDefault,
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'DLR WSF 2019 coverage',
           layers: 'WSF_2019',
@@ -1330,7 +1338,7 @@ export const globalIndicators = [
           minZoom: 1,
           maxZoom: 17,
           labelFormatFunction: (date) => date,
-          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021)}',
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
         }, {
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'DLR WSF Evolution 1985-2015',
@@ -1341,7 +1349,7 @@ export const globalIndicators = [
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
-        },],
+        }],
       },
     },
   },
@@ -1920,10 +1928,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -1958,10 +1963,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -1996,10 +1998,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2034,10 +2033,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2069,10 +2065,7 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2104,10 +2097,7 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
