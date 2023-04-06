@@ -694,6 +694,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Health Risk Index (ARI)',
         navigationDescription: 'Daily aggregated maps of ARI index',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -741,14 +747,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
@@ -792,6 +790,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Coarse particulate matter (PM10)',
         navigationDescription: 'Daily aggregated maps of PM10 concentration',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -839,14 +843,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
@@ -890,6 +886,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Fine particulate matter (PM2.5)',
         navigationDescription: 'Daily aggregated maps of PM2.5 concentration',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -937,14 +939,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
@@ -1270,6 +1264,12 @@ export const globalIndicators = [
         indicator: 'AQ5',
         lastIndicatorValue: null,
         indicatorName: 'Nitrogen Dioxide (NO2)',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1296,14 +1296,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'AQ5',
           sources: [
@@ -1346,6 +1338,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Dynamic human presence',
         navigationDescription: '',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1380,14 +1378,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
@@ -1704,6 +1694,12 @@ export const globalIndicators = [
         indicator: 'BM1',
         lastIndicatorValue: null,
         indicatorName: 'Forest Change',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1715,14 +1711,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'BM1',
           sources: [
@@ -1749,6 +1737,12 @@ export const globalIndicators = [
         indicator: 'BM2',
         lastIndicatorValue: null,
         indicatorName: 'Above Ground Biomass',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1774,14 +1768,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'BM2',
           sources: [
@@ -1840,19 +1826,15 @@ export const globalIndicators = [
         yAxis: '',
         highlights: [
           {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+          {
             name: 'Mariazell',
             location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
           },
         ],
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM2',
           sources: [
@@ -1904,6 +1886,12 @@ export const globalIndicators = [
         indicator: 'FCM3',
         lastIndicatorValue: null,
         indicatorName: 'Annual forest mask',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1915,14 +1903,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM3',
           sources: [
@@ -1966,6 +1946,12 @@ export const globalIndicators = [
         indicator: 'VTT1',
         lastIndicatorValue: null,
         indicatorName: 'Basal area',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1981,14 +1967,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT1',
           sources: [
@@ -2017,6 +1995,12 @@ export const globalIndicators = [
         indicator: 'VTT2',
         lastIndicatorValue: null,
         indicatorName: 'Broadleaf proportion',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2032,14 +2016,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT2',
           sources: [
@@ -2068,6 +2044,12 @@ export const globalIndicators = [
         indicator: 'VTT3',
         lastIndicatorValue: null,
         indicatorName: 'Coniferous proportion',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2083,14 +2065,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT3',
           sources: [
@@ -2119,6 +2093,12 @@ export const globalIndicators = [
         indicator: 'VTT4',
         lastIndicatorValue: null,
         indicatorName: 'Tree diameter',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2134,14 +2114,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT4',
           sources: [
@@ -2170,6 +2142,12 @@ export const globalIndicators = [
         indicator: 'VTT5',
         lastIndicatorValue: null,
         indicatorName: 'Tree height',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2185,14 +2163,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT5',
           sources: [
@@ -2221,6 +2191,12 @@ export const globalIndicators = [
         indicator: 'VTT6',
         lastIndicatorValue: null,
         indicatorName: 'Growing Stock Volume',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2236,14 +2212,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT6',
           sources: [
@@ -2281,6 +2249,10 @@ export const globalIndicators = [
         aoiID: 'AT',
         highlights: [
           {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+          {
             name: 'Oberhaag',
             location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
           },
@@ -2304,14 +2276,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM1',
           sources: [
@@ -2358,6 +2322,12 @@ export const globalIndicators = [
           features: [],
         },
         lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         aoi: null,
         aoiID: 'Austria',
         time: [],
@@ -2453,14 +2423,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'REP1',
           sources: [
@@ -2531,6 +2493,12 @@ export const globalIndicators = [
         indicator: 'REP2',
         lastIndicatorValue: null,
         indicatorName: 'Solar Energy',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2602,14 +2570,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'REP2',
           sources: [
@@ -2827,6 +2787,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Heat Explorer',
         eoSensor: '',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2841,14 +2807,6 @@ export const globalIndicators = [
           sourceLayer: 'LST',
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
