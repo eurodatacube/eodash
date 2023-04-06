@@ -18,6 +18,14 @@ export const baseLayers = Object.freeze({
     visible: false,
     protocol: 'xyz',
   },
+  eoxosm: {
+    name: 'OSM Background',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ OSM: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    protocol: 'xyz',
+  },
   S2GLC: {
     baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
     protocol: 'WMS',
