@@ -266,6 +266,7 @@
               <v-btn
                 small
                 :disabled="adminSelected"
+                :loading="zonesLoading"
                 color="primary"
                 class="mr-3"
                 @click="fetchData('zones')"
@@ -282,6 +283,7 @@
               <v-btn
                 small
                 :disabled="adminSelected"
+                :loading="reportLoading"
                 color="primary"
                 class="mr-3"
                 @click="fetchData('report')"
@@ -323,6 +325,8 @@ export default {
       select: null,
       variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
       originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
+      reportLoading: false,
+      zonesLoading: false,
     };
   },
   computed: {
@@ -331,6 +335,10 @@ export default {
       const adminName = this.adminLayer.get('name');
       if (adminName === 'Census Track (Zählsprengel)') {
         disabled = false;
+      }
+      // Check if other button is loading
+      if (this.zonesLoading || this.reportLoading) {
+        disabled = true;
       }
       return disabled;
     },
@@ -382,6 +390,11 @@ export default {
       return text;
     },
     fetchData(process) {
+      if (process === 'zones') {
+        this.zonesLoading = true;
+      } else {
+        this.reportLoading = true;
+      }
       const baseUrl = `https://gtif-backend.hub.eox.at/${process}?`;
       const keyRenaming = {
         powerDensity: 'wind_power',
@@ -409,7 +422,17 @@ export default {
       if (process === 'zones') {
         fileExtension = '.geojson';
       }
-      saveAs(request, `GTIF_${process}_this.adminFeature.get('id')${fileExtension}`);
+      fetch(request)
+        .then((res) => res.blob())
+        .then((blob) => {
+          saveAs(blob, `GTIF_${process}_${this.adminFeature.get('id')}${fileExtension}`);
+          this.zonesLoading = false;
+          this.reportLoading = false;
+        })
+        .error(() => {
+          this.zonesLoading = false;
+          this.reportLoading = false;
+        });
     },
     resetFilters() {
       this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
