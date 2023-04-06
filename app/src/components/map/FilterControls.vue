@@ -429,9 +429,10 @@ export default {
           this.zonesLoading = false;
           this.reportLoading = false;
         })
-        .error(() => {
+        .catch((error) => {
           this.zonesLoading = false;
           this.reportLoading = false;
+          console.log(error);
         });
     },
     resetFilters() {
