@@ -808,11 +808,11 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+  ...baseLayers.eoxosm, visible: true,
+}, baseLayers.terrainLight, baseLayers.cloudless];
 export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+  ...baseLayers.eoxosm, visible: true,
+}, baseLayers.terrainLight, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay,
@@ -1015,7 +1015,6 @@ export const globalIndicators = [
         yAxis: 'Tropospheric CH4 volume mixing ratio (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'Air Quality (CH4) - ESA',
           layers: 'AWS_CH4_WEEKLY',
@@ -1055,7 +1054,6 @@ export const globalIndicators = [
         yAxis: 'CO (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
@@ -1104,7 +1102,6 @@ export const globalIndicators = [
           minZoom: 1,
           maxZoom: 6,
           tileSize: 256,
-          opacity: 1,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0%2C108e14&bidx=1&colormap_name=reds',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1147,7 +1144,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 6,
           minZoom: 1,
-          opacity: 0.95,
           tileSize: 256,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&colormap_name=rdbu_r',
           name: 'Air Quality (NASA)',
@@ -1969,7 +1965,6 @@ export const globalIndicators = [
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
         display: [{
-          baseLayers: eoxosmBaseLayerDefault,
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'DLR WSF 2019 coverage',
           layers: 'WSF_2019',
@@ -3174,7 +3169,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 6,
           minZoom: 1,
-          opacity: 1.0,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -4416,7 +4410,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
-          opacity: 1.0,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
           url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
@@ -4457,7 +4450,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
-          opacity: 1.0,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
           url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',

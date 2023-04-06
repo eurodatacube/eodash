@@ -229,11 +229,6 @@ const cloudlessBaseLayerDefault = [{
   visible: true,
 }, baseLayers.eoxosm, baseLayers.terrainLight];
 
-const eoxosmBaseLayerDefault = [{
-  ...baseLayers.eoxosm,
-  visible: true,
-}, baseLayers.cloudless, baseLayers.terrainLight];
-
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -772,11 +767,11 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+  ...baseLayers.eoxosm, visible: true,
+}, baseLayers.terrainLight, baseLayers.cloudless];
 export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+  ...baseLayers.eoxosm, visible: true,
+}, baseLayers.terrainLight, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
@@ -954,7 +949,6 @@ export const globalIndicators = [
         yAxis: 'CO (ppbv) - 3 day average',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'TROPOMI CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
@@ -995,7 +989,6 @@ export const globalIndicators = [
         yAxis: 'CH4 volume mixing ratio (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'TROPOMI CH4',
           layers: 'AWS_CH4_WEEKLY',
@@ -1330,7 +1323,6 @@ export const globalIndicators = [
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
         display: [{
-          baseLayers: eoxosmBaseLayerDefault,
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'DLR WSF 2019 coverage',
           layers: 'WSF_2019',
