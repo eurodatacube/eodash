@@ -33,6 +33,28 @@
             </router-link>
           </div>
           <div class="esa-header__right">
+            <v-badge
+              v-if="$store.state.dashboard.dashboardConfig"
+              bordered
+              color="secondary"
+              class="mr-6"
+              :content="$store.state.dashboard.dashboardConfig
+                && $store.state.dashboard.dashboardConfig.features.length"
+              :value="$store.state.dashboard.dashboardConfig
+                && $store.state.dashboard.dashboardConfig.features.length"
+              overlap
+            >
+              <v-btn
+                block
+                text
+                small
+                style="font-size: 0.8rem"
+                color="white"
+                to="/dashboard"
+              >
+                <b>Custom Dashboard</b>
+              </v-btn>
+            </v-badge>
             <a class="esa-header__link" href="/">
               <img class="esa-header__logo" src="img/gtif/icons/ESA_Logo.svg" alt="ESA logo">
             </a>
