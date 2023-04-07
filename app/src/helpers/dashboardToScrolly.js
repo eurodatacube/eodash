@@ -69,6 +69,7 @@ export default function dashboardToScrolly(features) {
         var timeline = [{
           center: next.mapInfo.center,
           zoom: next.mapInfo.zoom,
+          duration: 0.0,
           layers: ['EOxCloudless 2021'],
         }];
         const mapInfo = next.mapInfo;
@@ -84,7 +85,7 @@ export default function dashboardToScrolly(features) {
           timeline.push({
             center: n.mapInfo.center,
             zoom: n.mapInfo.zoom,
-            layers: ['EOxCloudless 2021'],
+            duration: 0.25,
           });
           i += 2;
         }
@@ -94,6 +95,7 @@ export default function dashboardToScrolly(features) {
           text,
           mapInfo: {
             poi: next.mapInfo.poi,
+            baseLayer: 'EOxCloudless 2021',
             timeline,
           },
         };
