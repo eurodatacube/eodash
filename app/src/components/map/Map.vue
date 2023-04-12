@@ -652,11 +652,24 @@ export default {
     },
     setInitialTime() {
       if (this.mergedConfigsData?.length) {
-        this.dataLayerTime = {
-          value: this.mergedConfigsData[0].usedTimes.time[
-            this.mergedConfigsData[0].usedTimes.time.length - 1
-          ],
-        };
+        if (this.dataLayerTimeProp) {
+          this.dataLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time
+              .find((t) => t.includes(this.dataLayerTimeProp)),
+          };
+        } else {
+          this.dataLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time[
+              this.mergedConfigsData[0].usedTimes.time.length - 1
+            ],
+          };
+        }
+        if (this.compareLayerTimeProp) {
+          this.compareLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time
+              .find((t) => t.includes(this.compareLayerTimeProp)),
+          };
+        }
       }
     },
     updateSelectedAreaFeature() {
