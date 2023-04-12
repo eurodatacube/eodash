@@ -767,11 +767,11 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersLeftMap = [{
-  ...baseLayers.eoxosm, visible: true,
-}, baseLayers.terrainLight, baseLayers.cloudless];
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.eoxosm, baseLayers.cloudless];
 export const baseLayersRightMap = [{
-  ...baseLayers.eoxosm, visible: true,
-}, baseLayers.terrainLight, baseLayers.cloudless];
+  ...baseLayers.terrainLight, visible: true,
+}, baseLayers.eoxosm, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
