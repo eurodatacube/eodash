@@ -62,7 +62,7 @@ export default function dashboardToScrolly(features) {
       data.push([current]);
       i += 1;
     } else if (current.width === 1 && next) {
-      if (next.mapInfo) {
+      if (next.mapInfo && features[i + 3] && features[i + 3].mapInfo) {
         translateMedia(next);
         console.log(next);
         var text = current.text;
