@@ -1,5 +1,6 @@
 ## About the Vessel Density Indicator
-This indicator is based on the detection of ships in the major EU ports using satellite radar data.
+A vessel density map is a data product that shows the distribution of ships, based on
+the instantaneous number of vessels per unit area  in the major EU ports using satellite radar data.
 
 Vessel density indicator is computed based on Copernicus Sentinel-1 observations and complements the EMODNET Vessel Density which is based on Automatic Identification System (AIS) data, collected by coastal stations and satellites which is free and includes classification into 14 different ship categories. The use of Synthetic Aperture Radar (SAR) Copernicus Sentinel-1 satellites provide the opportunity for more frequent observations, overcoming EMODNET Vessel Density tow main limitations: its density maps processing and dissemination occurr after many months and refers only to European waters. Copernicus Sentinel-1 satellites high revisit provide this way the opportunity for more frequent observations.
 
