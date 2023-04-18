@@ -6,10 +6,13 @@ Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts 
 
 *Figure 1. Future of urbanisation. Projection based on UN World Urbanization Prospects illustrated by Our World in Data [2]*
 
-Browse the evolution of human settlement footprint on the map, or have a detailed look at some selected examples of cities with accelerated growth:
+Use the map to explore the evolution of human settlement footprint, or browse these more detailed examples of cities with accelerated growth:
 
+### [Dubai](https://race.esa.int/story?id=20be51fd9440de3e&page=1)
+### [African Cities](https://race.esa.int/story?id=029a56ddc8dba75d&page=1)
+### [Houston, TX](https://race.esa.int/story?id=2ee03160f7f9122e&page=1)
 
-
+<iframe width="649" height="360" src="https://www.youtube.com/embed/Pfyxc3eAFg0?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
 
 ## The World Settlement Footprint Dataset
 
