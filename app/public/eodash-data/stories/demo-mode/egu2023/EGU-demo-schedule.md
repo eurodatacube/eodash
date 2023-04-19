@@ -3,7 +3,8 @@
 
 # RACE Indicators shown in Demo mode
 
-- Builtup areas [https://race.esa.int/?search=World%3A+Builtup+areas&x=2029067.05722&y=5931014.04756&z=5.42864&poi=WSF-WSF], and story [Link to story text - the markdown files that we prepare in the egu folder]
+- Builtup areas [https://race.esa.int/?search=World%3A+Builtup+areas&x=2029067.05722&y=5931014.04756&z=5.42864&poi=WSF-WSF]
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/WSF-WSF.md]
   - play with the compare mode
   - select different years
   - zoom of interesting use cases using the links in the text
