@@ -23,11 +23,18 @@
   - AOI selection feature
   - Detections on specific dates 
 - Water quality maps
+  - story [] 
 - Sea Surface temperature
+  - story [] 
 - Humidity and temperature from C3S
+  - story Relative humidity [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S.md]
+  - story Temperature [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m.md]
 - Nitrogen Dioxide TROPOMI
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI.md]
 - Carbon Monoxide TROPOMI
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI.md]
 - Sulfur Dioxide TROPOMI
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI.md]
 - Flying Planes
   - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Flying_Planes.md]
 
