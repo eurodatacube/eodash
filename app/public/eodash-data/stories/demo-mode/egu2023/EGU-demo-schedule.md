@@ -29,6 +29,7 @@
 - Carbon Monoxide TROPOMI
 - Sulfur Dioxide TROPOMI
 - Flying Planes
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/Flying_Planes.md]
 
 
 # EO Dashboard Indicators shown in Demo mode
