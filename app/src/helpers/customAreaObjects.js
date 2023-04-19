@@ -202,6 +202,8 @@ export const evalScriptsDefinitions = Object.freeze({
   BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
   AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
+  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl'),
+  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn'),
 });
 
 // Define custom fetch function with configurable timeout

@@ -478,24 +478,26 @@ export default {
       const wkt = new Wkt();
       const header = `${exportKeys.join()}\n`;
       let csv = header;
-      for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
-        let row = '';
-        for (let kk = 0; kk < exportKeys.length; kk++) {
-          const cKey = exportKeys[kk];
-          let txtVal = '';
-          if (cKey === 'aoi') {
-            if (i === 0 && this.$store.state.features.selectedArea !== null) {
-              txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+      if (this.customAreaIndicator.time) {
+        for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
+          let row = '';
+          for (let kk = 0; kk < exportKeys.length; kk++) {
+            const cKey = exportKeys[kk];
+            let txtVal = '';
+            if (cKey === 'aoi') {
+              if (i === 0 && this.$store.state.features.selectedArea !== null) {
+                txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+              } else {
+                txtVal = ',';
+              }
             } else {
-              txtVal = ',';
+              txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
             }
-          } else {
-            txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+            row += txtVal;
           }
-          row += txtVal;
+          row = `${row.slice(0, -1)}\n`;
+          csv += row;
         }
-        row = `${row.slice(0, -1)}\n`;
-        csv += row;
       }
       dataHref += encodeURI(csv);
       return dataHref;
