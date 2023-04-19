@@ -62,7 +62,9 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
-        :style="mapId === 'centerMap' && $vuetify.breakpoint.smAndUp ? 'bottom: 155px' : ''"
+        :style="(mapId === 'centerMap' && $vuetify.breakpoint.smAndUp && $route.name !== 'demo')
+          ? 'bottom: 155px'
+          : ''"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -121,14 +123,20 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
-      <div class="pointerEvents mt-auto mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mt-auto mb-2"
+      >
         <IframeButton
           v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
           :indicatorObject="indicator"
           mapControl
         />
       </div>
-      <div class="pointerEvents mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mb-2"
+      >
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
@@ -138,6 +146,9 @@
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
         />
+      </div>
+      <div v-else class="mt-auto">
+        <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
       <div ref="mousePositionContainer"/>
     </div>
@@ -180,6 +191,7 @@ import {
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -413,6 +425,14 @@ export default {
       if ((this.centerProp && this.zoomProp)
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
+      }
+      if (this.$route.name === 'demo') {
+        // check if a demo item custom extent is set as override
+        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+          .find((item) => item.poi === getLocationCode(this.indicator));
+        if (demoItem && demoItem.extent) {
+          return demoItem.extent;
+        }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
       const { map } = getMapInstance(this.mapId);
@@ -723,6 +743,19 @@ export default {
     },
     onResize() {
       getMapInstance(this.mapId).map.updateSize();
+    },
+    resetView() {
+      let extent = this.zoomExtent;
+      if (!extent) {
+        const { bounds } = this.mapDefaults;
+        extent = transformExtent(bounds, 'EPSG:4326',
+          getMapInstance(this.mapId).map.getView().getProjection());
+      }
+      const padding = calculatePadding();
+      getMapInstance(this.mapId).map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
     },
   },
   beforeDestroy() {

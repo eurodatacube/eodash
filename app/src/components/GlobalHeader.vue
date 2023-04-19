@@ -68,7 +68,7 @@
           block
           text
           color="primary"
-          to="/"
+          :to="$route.name === 'demo' ? undefined : '/'"
         >
           Home
         </v-btn>
@@ -126,7 +126,7 @@
           :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
           transition="dialog-bottom-transition"
           style="z-index: 9999;"
-          v-if="appConfig && appConfig.showNewsletterButton"
+          v-if="appConfig && appConfig.showNewsletterButton && $route.name !== 'demo'"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -163,7 +163,7 @@
         dark
         class="logo"
         :class="{'no-highlight': !appConfig.enableStories}"
-        to="/"
+        :to="$route.name === 'demo' ? undefined : '/'"
         exact
       >
         {{ appConfig && appConfig.branding.appName }}
@@ -278,12 +278,18 @@
 
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
+    <h2
+      v-if="$route.name === 'demo'"
+      class="mr-2"
+    >
+      {{ appConfig && appConfig.pageMeta.rootPath  }}
+    </h2>
     <v-dialog
       v-model="showNewsletterModal"
       :width="$vuetify.breakpoint.xsOnly ? '100%' : '50%'"
       transition="dialog-bottom-transition"
       style="z-index: 9999;"
-      v-if="appConfig
+      v-else-if="appConfig
               && appConfig.showNewsletterButton
               && $vuetify.breakpoint.mdAndUp"
     >
