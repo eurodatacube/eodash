@@ -16,6 +16,7 @@ This indicator is contributed by the communnity in the context of the of the [ES
 
 ### References
 [1] [EMODnet - European Marine Observation and Data Network] (https://emodnet.ec.europa.eu/geonetwork/srv/eng/catalog.search#/metadata/0f2f3ff1-30ef-49e1-96e7-8ca78d58a07c)
-[2] [ Automatic Identification System (AIS) data](https://www.imo.org/en/OurWork/Safety/Pages/AIS.aspx)
+
+[2] [ Automatic Identification System (AIS) data] (https://www.imo.org/en/OurWork/Safety/Pages/AIS.aspx)
 [3] [Copernicus Sentinel-1] (https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1)
 
