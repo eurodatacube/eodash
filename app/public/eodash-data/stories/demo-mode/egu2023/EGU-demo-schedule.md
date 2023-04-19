@@ -22,6 +22,12 @@
   - Detections on specific dates 
 - Water quality maps
 - Sea Surface temperature
+- Nitrogen Dioxide TROPOMI
+- Carbon Monoxide TROPOMI
+- Sulfur Dioxide TROPOMI
+- Flying Planes
+
+
 # EO Dashboard Indicators shown in Demo mode
 
 - Air Quality NO2 from S5P. Map and time series [https://eodashboard.org/story?id=air-pollution-us-india-china&page=5] and the story [Link to story text - the markdown files that we prepare in the egu folder]
