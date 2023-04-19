@@ -1,0 +1,58 @@
+## Airport traffic indicator based on flying airplane detection
+
+prepared by Maurício Pamplona Segundo, Rodrigo Minetto, Cole Hill, Allan Pinto, Ricardo Da Silva Torres, and Sudeep Sarkar within the [upscaling part](https://eo4society.esa.int/2020/04/24/from-the-covid-19-custom-script-contest-to-the-euro-data-cube-european-dashboard/) of the [COVID-19 Custom Script Contest](https://www.sentinel-hub.com/contest-covid/).
+
+#### Data Acess: 
+Mauricio Pamplona Segundo, Allan Pinto, Rodrigo Minetto, Ricardo da Silva Torres, Sudeep Sarkar, July 2, 2021, "A dataset for detecting flying airplanes on satellite images", IEEE Dataport, doi: [https://dx.doi.org/10.21227/3mbt-tb11](https://dx.doi.org/10.21227/3mbt-tb11). 
+
+#### Source code: 
+
+[https://github.com/maups/covid19-custom-script-contest](https://github.com/maups/covid19-custom-script-contest)
+
+#### Publication:
+
+M. P. Segundo, A. Pinto, R. Minetto, R. d. S. Torres and S. Sarkar, "Measuring Economic Activity From Space: A Case Study Using Flying Airplanes and COVID-19," in IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, vol. 14, pp. 7213-7224, 2021, doi: [10.1109/JSTARS.2021.3094053](https://doi.org/10.1109/JSTARS.2021.3094053).
+
+---
+
+### Aircraft traffic as an indicator
+
+Air traffic is of particular interest to unveil human and economic activities (e.g., [travel](https://www.iata.org/en/pressroom/pr/2017-10-24-01/), [tourism](https://doi.org/10.1016/j.jairtraman.2005.09.007), [cargo](https://www.iata.org/en/programs/cargo/sustainability/benefits/)) and [track disease spread due to in-flight transmission](https://www.cidrap.umn.edu/news-perspective/2020/09/studies-trace-covid-19-spread-international-flights). This indicator is based on the detection of flying airplanes in images captured by the [Copernicus Sentinel-2](http://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2) satellites. We focused our analysis on Areas Of Interest (AOI) around the 30 busiest airports (i.e., airports with the highest number of passengers in 2019) in the EU. The chosen airports cover 26 different cities and 18 different countries. Each AOI is defined as a rectangle with 1.05° of width and 0.7° of height centered at the latitude and longitude coordinates of the target airport. This results in an area of about 6,000 km2 (equivalent to 840,000 soccer fields) per AOI. Airplane counts from satellite images of the same AOI are combined into monthly observations. We use a history of observations from Jul/2018 to Dec/2019 for all airports to establish reference values, which are later used to determine whether the current traffic of an airport is low, normal, or high, as illustrated in Figure 1.
+
+![](./eodash-data/stories/E13dmap.gif)
+
+*Figure 1. Air traffic for the 30 busiest airports in the EU. Red, blue and green respectively indicate low, normal, and high traffic levels.*
+
+
+### Detecting flying airplanes in Sentinel-2 images
+
+The [multispectral instrument design of Sentinel-2 satellites](https://earth.esa.int/documents/247904/685211/Sentinel-2_User_Handbook) makes them observe the earth's surface at different times in each spectral band. As the ground serves as a reference to merging bands, the resulting multispectral images (MSI) present inter-band measurement displacements due to parallax for objects at high altitudes and high-speed movement for objects at any elevation. Figure 2 shows how these displacements create a colored pattern for flying airplanes in the three MSI bands of visible light (red, green and blue) through real examples that allow observing both parallax and object movement effects simultaneously.
+
+![](./eodash-data/stories/Fig-2_E13d.png)
+
+*Figure 2. Sentinel-2 images present a displacement in the location of flying airplanes across different spectral bands. This pattern can be explored for detection and counting purposes.*
+
+We take advantage of the advances driven by deep learning algorithms − bio-inspired neural networks that learn representations with multiple abstraction levels and discover intricate patterns in massive data − to devise an automatic airplane detector. As we are only interested in counting airplanes, information like airplane size, speed and orientation are not relevant to us. So we can simply classify each pixel of the image as being the center of a flying airplane (green dot in Figure 2(c)) or not, which is more than enough to accomplish our task. With this setup, our detection problem can be seen as a segmentation problem, and we can use a [Fully Convolutional Network (FCN)](https://github.com/maups/covid19-custom-script-contest) to carry it out.
+
+### Results & validation
+
+Our automatic detector returns about 18 false detections per month for all 30 airports, i.e., less than one false detection per airport per month on average. We used the [OpenSky Network](https://opensky-network.org/) to obtain a reference value for the number of airplanes in each analyzed image so we could evaluate our estimates over time. Figure 3 shows monthly averages per airport for our estimates and OpenSky reference values. We observed an average deficit of about one airplane in our estimates, and an average Root Mean Squared Error (RMSE) of 2.2 between ours and OpenSky's signals. The main source of this difference is the absence of satellite data due to weather conditions (clouds and snow) or to a misalignment between the satellite visible area and the AOI. The latter is shown in Figure 4.
+
+![](./eodash-data/stories/Fig-3_E13d.png)
+
+*(a),(b)*
+
+*Figure 3. Average number of airplanes per image in each month of 2020 computed using (a) our detector and (b) flight tracking data from the OpenSky Network.*
+
+![](./eodash-data/stories/Fig-4_E13d.png)
+
+*Figure 4. Airplanes detected by our approach (yellow circles) and airplane locations extracted from the OpenSky Network (magenta circles). The black area shows a part of the AOI that was not captured in this satellite image, which includes four airplanes that could not be detected by our system but are still taken into account in the OpenSky's reference values.*
+
+Even though this error margin may impact the reliability of our results for individual airports, when all airports are analyzed together we obtain a stable estimate at continental level. In Figure 5 we average the observations of all considered airports and perform an Year-over-Year analysis of the obtained signal. Interestingly, our measurements of the impact of COVID-19 on air traffic were very close to the real measurements obtained from comprehensive [data released by Eurocontrol](https://www.eurocontrol.int/Economics/DailyTrafficVariation-States.html), as shown in the bottom of Figure 5.
+  
+ ![](./eodash-data/stories/Fig-5_E13d.png)
+ 
+*Figure 5. Average monthly airplane count of all considered airports (thick black line) and a Year-over-Year analysis for the last twelve months. Each circle indicates the airplane count of one airport, and its radius indicates the trustworthiness of the measurement. The impact of COVID-19 is noticeable in the last four months, for which we show the decrease in the number of flights according to our estimates and to reference values from Eurocontrol. Our estimates are based on a small observation window (about 20min per day) in at most one third of the days in a month for 30 airports, with satellite images possibly incomplete or partially occluded. Eurocontrol's data include the real number of flights per day in 41 EU countries.*
+
+### Visualising the lockdown measures effect on air traffic
+For each day, the light/dark red chart background indicates whether there were **restrictions or lockdown** measure in place in the country where the city is located. This information is based on [Oxford University’s coronavirus government response tracker](https://covidtracker.bsg.ox.ac.uk/). 
