@@ -138,7 +138,7 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         : -1));
     data.forEach((row) => {
       // Make sure to discard possible errors from sentinelhub
-      if (!Object.prototype.hasOwnProperty.call(row, 'error')) {
+      if (row && !Object.prototype.hasOwnProperty.call(row, 'error')) {
         const { stats } = row.outputs.data.bands.B0;
         newData.time.push(DateTime.fromISO(row.interval.from));
         newData.colorCode.push('');
