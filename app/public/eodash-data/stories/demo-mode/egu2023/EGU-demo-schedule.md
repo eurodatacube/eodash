@@ -16,7 +16,8 @@
   - Monthly maps
   - Daily detections
   - Time series analyses
-- Moving trucks monthly [https://race.esa.int/?search=Europe%3A+Moving+trucks+on+highways&x=907966.36668&y=6585930.00449&z=6.94244&poi=W2-E12c] and story [Link to story text - the markdown files that we prepare in the egu folder]
+- Moving trucks monthly [https://race.esa.int/?search=Europe%3A+Moving+trucks+on+highways&x=907966.36668&y=6585930.00449&z=6.94244&poi=W2-E12c]
+  - story [https://github.com/eurodatacube/eodash/blob/demo-mode/app/public/eodash-data/stories/demo-mode/egu2023/moving_truck.md]
   - Maps scroll over europe
   - Select months and see differences
   - AOI selection feature
