@@ -1815,13 +1815,6 @@ export const globalIndicators = [
             }],
           },
           projection: 'EPSG:3413',
-          /*
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: ``,
-          },
-          */
         },
       },
     },
