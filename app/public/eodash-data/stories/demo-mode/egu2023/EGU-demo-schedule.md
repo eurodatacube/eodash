@@ -42,3 +42,12 @@
 - Cryosphere
 - Nightlights
 - Air pollution
+
+
+# main messages
+
+- Open Source
+- Commuity Contributions welcome
+- Code accessible on Github + Executable on EDC - -more details will be in the afternoon
+- Open data sources - Copernicus, Cop services, EO, other open data
+- Custom Dashbord  - demo in detail on how this is done will be in the afternoon
