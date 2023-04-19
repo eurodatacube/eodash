@@ -8,3 +8,10 @@ Vessel density indicator is computed based on Copernicus Sentinel-1 observations
 Vessel detection is one of the primary applications of SAR systems, which measure the roughness of the sea surface and display features that stand out against the background (vessels appear as bright spots). To produce a vessel density map, a script was used to derive derive, for each 1 km2 pixel of the masked image of the selected area, an indicator given by the ratio: 
 
 *density_vessels= 1000 * number_vessels / number_observations*. This ratio corresponds to the intersection of all the satellite footprints of the selected month.
+
+### Community Contributed Indicator 
+![](https://img.shields.io/badge/eodash-community-blue)
+  
+This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Vessel Density based on Copernicus Sentinel-1’ was developed by Alessandro Cimbelli. 
+
+### References
