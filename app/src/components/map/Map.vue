@@ -78,7 +78,7 @@
     <div
       v-if="$vuetify.breakpoint.smAndUp"
       class="move-with-panel"
-      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -101,6 +101,7 @@
       <ZoomControl :mapId="mapId" class="pointerEvents" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
+        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
@@ -273,13 +274,8 @@ export default {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
-      if (this.isGlobalIndicator) {
-        // use their own base layers from config, if available
-        return this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].baseLayers
-          || this.baseConfig.baseLayersLeftMap;
-      }
-      return this.baseConfig.baseLayersLeftMap;
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
+        || this.baseConfig.baseLayersLeftMap;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -300,13 +296,9 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      let configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (this.isGlobalIndicator) {
-        // use their own overlay layers from config, if available
-        configs = this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].overlayLayers
-          || this.baseConfig.overlayLayersLeftMap;
-      }
+      const configs = [...((
+        this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
+      ) || this.baseConfig.overlayLayersLeftMap)];
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({

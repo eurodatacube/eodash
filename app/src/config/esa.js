@@ -224,6 +224,11 @@ const E1bConfigInputDataDes = [{
   opacity: 0.6,
 }];
 
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.eoxosm, baseLayers.terrainLight];
+
 export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
@@ -448,10 +453,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Airports: airplanes traffic',
     themes: ['economy'],
     story: '/eodash-data/stories/E13d',
-    baseLayers: [baseLayers.terrainLight, {
-      ...baseLayers.cloudless,
-      visible: true,
-    }],
+    baseLayers: cloudlessBaseLayerDefault,
     mapTimeLabelExtended: true,
     features: {
       ...geodbFeatures,
@@ -766,10 +768,10 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
@@ -947,7 +949,6 @@ export const globalIndicators = [
         yAxis: 'CO (ppbv) - 3 day average',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'TROPOMI CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
@@ -988,7 +989,6 @@ export const globalIndicators = [
         yAxis: 'CH4 volume mixing ratio (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'TROPOMI CH4',
           layers: 'AWS_CH4_WEEKLY',
@@ -1164,10 +1164,11 @@ export const globalIndicators = [
         yAxis: 'NO2 (μmol/m2)',
         display: {
           styles: 'sh_OrangesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged NO2',
           layers: 'composition_europe_no2_analysis_surface',
           legendUrl: 'legends/esa/GCAQ1-N1b.png',
+          crossOrigin: null,
           maxZoom: 13,
           minZoom: 1,
           attribution: '{ <a href="https://atmosphere.copernicus.eu/european-air-quality-information-support-covid-19-crisis" target="_blank">CAMS source data information</a> }',
@@ -1196,8 +1197,9 @@ export const globalIndicators = [
         yAxis: 'PM2.5 (μg/m3)',
         display: {
           styles: 'sh_PurplesTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm2p5_analysis_surface',
           legendUrl: 'legends/esa/GCAQ2-N1b.png',
           maxZoom: 13,
@@ -1228,8 +1230,9 @@ export const globalIndicators = [
         yAxis: 'PM10 (μg/m3)',
         display: {
           styles: 'sh_GreensTransparent40_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_pm10_analysis_surface',
           legendUrl: 'legends/esa/GCAQ3-N1b.png',
           maxZoom: 13,
@@ -1260,8 +1263,9 @@ export const globalIndicators = [
         yAxis: 'O3 (μg/m3)',
         display: {
           styles: 'sh_OrangesTransparent240_surface_concentration',
-          baseUrl: 'https://apps.ecmwf.int/wms/?token=public',
+          baseUrl: 'https://eccharts.ecmwf.int/wms/?token=public',
           name: 'CAMS daily averaged PM2.5',
+          crossOrigin: null,
           layers: 'composition_europe_o3_analysis_surface',
           legendUrl: 'legends/esa/GCAQ4-N1b.png',
           maxZoom: 13,
@@ -1318,18 +1322,26 @@ export const globalIndicators = [
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
-        display: {
+        display: [{
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
-          name: 'WSF_Evolution',
-          layers: 'WSF_Evolution',
+          name: 'DLR WSF 2019 coverage',
+          layers: 'WSF_2019',
           legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
-          maxZoom: 14,
+          maxZoom: 17,
+          labelFormatFunction: (date) => date,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        }, {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'DLR WSF Evolution 1985-2015',
+          layers: 'WSF_Evolution',
+          minZoom: 1,
+          maxZoom: 17,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
-        },
+        }],
       },
     },
   },
@@ -1362,7 +1374,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_2MTEMPERATURE&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_2MTEMPERATURE&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1397,7 +1409,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_RELHUMIDITY1000HPA&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_RELHUMIDITY1000HPA&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1432,7 +1444,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1467,7 +1479,7 @@ export const globalIndicators = [
           customAreaIndicator: true,
           areaIndicator: {
             ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_V_10M&CRS=CRS:84&TIME=2000-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_V_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
           },
         },
       },
@@ -1682,7 +1694,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+              geometry: wkt.read('POLYGON((-8 55,25 55,25 40,-8 40,-8 55))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
@@ -1739,7 +1751,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((5 45,5 50,15 50,15 45,5 45))').toJson(),
+              geometry: wkt.read('POLYGON((-8 55,25 55,25 40,-8 40,-8 55))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
@@ -1908,10 +1920,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -1946,10 +1955,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -1984,10 +1990,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2022,10 +2025,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2057,10 +2057,7 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2092,10 +2089,7 @@ export const globalIndicators = [
           layers: 'AWS_ICEYE-E13B',
           minZoom: 5,
           name: 'Airports: Detected planes',
-          baseLayers: [{
-            ...baseLayers.cloudless,
-            visible: true,
-          }, baseLayers.terrainLight],
+          baseLayers: cloudlessBaseLayerDefault,
         },
       },
     },
@@ -2231,7 +2225,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([43.4, 4.94]),
-        aoiID: 'RhoneDelta',
+        aoiID: 'RhoneDeltaSST',
         country: ['FR'],
         city: 'Rhone Delta - Sea Surface Temperature',
         siteName: 'Fos-sur-Mer',
@@ -2277,7 +2271,7 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
-        aoiID: 'BarcelonaTSM',
+        aoiID: 'BarcelonaSST',
         country: ['ES'],
         city: 'Barcelona - Sea Surface Temperature',
         siteName: 'Barcelona',
