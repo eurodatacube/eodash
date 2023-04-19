@@ -58,42 +58,59 @@ module.exports = [
     demoMode: {
       egu2023: [
         {
-          poi: 'GCAQ3-N1b',
-        },
-        {
           poi: 'WSF-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
         },
         {
-          poi: 'NO3-E1b',
+          poi: 'EG1-E200',
+          story: '/eodash-data/stories/demo-mode/egu2023/ships_in_ports',
         },
         {
-          poi: 'WorldCO-N1',
-          extent: [
-            1059600.05368,
-            5890267.49635,
-            1913764.56152,
-            6286458.69903,
-          ],
-          title: 'WorldCO over Austria',
-          dataLayerTime: '2023-03-12',
+          poi: 'DE1-E1b',
+          story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
         },
         {
-          poi: 'GCAQ1-N1b',
-          dataLayerTime: '2023-03-24',
-          compareLayerTime: '2022-03-30',
+          poi: 'W2-E12c',
+          story: '/eodash-data/stories/demo-mode/egu2023/moving_truck',
         },
         {
-          poi: 'CH4-N1',
+          poi: 'NorthAdriatic-N3a2',
+          title: 'Chlorophyll-a concentration Anomaly Maps',
+          story: '/eodash-data/stories/demo-mode/egu2023/water_quality_chlorophyll-a_concentration',
         },
         {
-          poi: 'World-N1',
+          poi: 'NorthAdriaticTSM-N3a2',
+          title: 'Total Suspended Matter Anomaly Maps',
+          story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
+        },
+        {
+          poi: 'NorthAdriaticSST-N3a2',
+          story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
+          title: 'Sea Surface Temperature Anomaly Maps',
+        },
+        {
+          poi: 'CDS-CDS1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m',
         },
         {
           poi: 'CDS-CDS2',
+          story: '/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S',
         },
         {
-          poi: 'CDS-CDS3',
+          poi: 'World-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI',
+        },
+        {
+          poi: 'WorldCO-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI',
+        },
+        {
+          poi: 'SO2-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI',
+        },
+        {
+          poi: 'AT4-E13d',
+          story: '/eodash-data/stories/demo-mode/egu2023/Flying_Planes',
         },
       ],
       test: [
