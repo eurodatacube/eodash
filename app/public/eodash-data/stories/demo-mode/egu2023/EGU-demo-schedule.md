@@ -6,7 +6,7 @@
 - Builtup areas [https://race.esa.int/?search=World%3A+Builtup+areas&x=2029067.05722&y=5931014.04756&z=5.42864&poi=WSF-WSF], and story [Link to story text - the markdown files that we prepare in the egu folder]
   - play with the compare mode
   - select different years
-  - zoom of interesting use cases.  
+  - zoom of interesting use cases using the links in the text
 - Ship detections and timeseries [https://race.esa.int/?search=Suez+%3A+Ships+in+Port&x=3683563.18384&y=3610995.46388&z=9.28355&poi=EG1-E200], and sotry [Link to story text - the markdown files that we prepare in the egu folder]
   - Canal Suez AOI
   - See detections
@@ -22,6 +22,7 @@
   - Detections on specific dates 
 - Water quality maps
 - Sea Surface temperature
+- Humidity and temperature from C3S
 - Nitrogen Dioxide TROPOMI
 - Carbon Monoxide TROPOMI
 - Sulfur Dioxide TROPOMI
