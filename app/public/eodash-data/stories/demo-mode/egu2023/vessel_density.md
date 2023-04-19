@@ -15,8 +15,9 @@ Vessel detection is one of the primary applications of SAR systems, which measur
 This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Vessel Density based on Copernicus Sentinel-1’ was developed by Alessandro Cimbelli. 
 
 ### References
-[1] [EMODnet - European Marine Observation and Data Network] (https://emodnet.ec.europa.eu/geonetwork/srv/eng/catalog.search#/metadata/0f2f3ff1-30ef-49e1-96e7-8ca78d58a07c)
+[1][EMODnet - European Marine Observation and Data Network](https://emodnet.ec.europa.eu/geonetwork/srv/eng/catalog.search#/metadata/0f2f3ff1-30ef-49e1-96e7-8ca78d58a07c)
 
-[2] [ Automatic Identification System (AIS) data] (https://www.imo.org/en/OurWork/Safety/Pages/AIS.aspx)
-[3] [Copernicus Sentinel-1] (https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1)
+[2][ Automatic Identification System (AIS) data](https://www.imo.org/en/OurWork/Safety/Pages/AIS.aspx)
+
+[3][Copernicus Sentinel-1](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1)
 
