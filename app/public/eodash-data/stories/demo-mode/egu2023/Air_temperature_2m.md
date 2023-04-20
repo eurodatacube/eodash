@@ -1,4 +1,4 @@
-## About the Air 2m Twmoerature (C3S) Indicator
+## About the Air 2m Temoperature (C3S) Indicator
 This parameter is the temperature of air at 2m above the surface of land, sea or inland waters. 2m temperature is calculated by interpolating between the lowest model level and the Earth's surface, taking account of the atmospheric conditions. This parameter has units of kelvin (K). Temperature measured in kelvin can be converted to degrees Celsius (°C) by subtracting 273.15.
 
 ## How it is generated
@@ -9,4 +9,5 @@ The data set presented here is a regridded subset of the full ERA5 data set on n
 ## References
 
 [[1] Data Source](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels-monthly-means?tab=form)
+
 [[2] Data Documentation](https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation)
