@@ -8,7 +8,7 @@ While limited to only daily observation, the Synthetic Aperture Radar (SAR) [Cop
 
 ## How it is generated
 
-Vessel detection is one of the primary applications of SAR systems, which measure the roughness of the sea surface and display features that stand out against the background (vessels appear as bright spots). To produce a vessel density map, a script was used to derive derive, for each 1 km<sup>2</sup> pixel of the masked image of the selected area, an indicator given by the ratio: 
+Vessel detection is one of the primary applications of SAR systems, which measure the roughness of the sea surface and display features that stand out against the background (vessels appear as bright spots). To produce a vessel density map, a script was used to derive, for each 1 km<sup>2</sup> pixel of the masked image of the selected area, an indicator given by the ratio: 
 
   
 *density_vessels= 1000 x number_vessels / number_observations*
