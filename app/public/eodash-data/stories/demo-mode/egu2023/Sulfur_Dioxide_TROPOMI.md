@@ -9,5 +9,11 @@ The sulfur dioxide map is measured by the Tropomi instrument on the Sentinel 5 P
 ### How is it generated
 The Copernicus Sentinel-5P SO2 measurements are those retrieved assuming SO2 at an altitude of 7km and explicitly filtering for pixels where a volcanic source is most likely (sulfurdioxide_detection_flag > 0) and where the solar zenith angle is within limits (SZA < 70°). The measurements are then mapped on a fixed latitude-longitude grid of 8193 x 16385 pixels. The grid is turned into an EPSG:4326 geotiff file using the appropriate color scale, which is again turned into an EPSG:3857 tile map.
 
+
+#### Access this data from the STAC API of Sentinel-5P Product Algorithm Laboratory (S5P-PAL) 
+
+https://data-portal.s5p-pal.com/cat-doc
+
+
 ### References
 [1 Sulfure Dioxide](http://www.tropomi.eu/data-products/sulphur-dioxide)
