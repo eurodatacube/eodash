@@ -4,13 +4,13 @@ Truck traffic is an important mode of cargo logistics in Europe, and the amount 
 The truck indicator shows if there has been an unnormal low or high number of trucks on primary roads and trucks within the respective region of interest. Truck detections are performed over non-cloudy areas, using all the available Copernicus Sentinel-2 acquisitions over the EU area between January 2020 and December 2021. 
 
 ## How is it generated
-This indicator is based on a method that enables to detect trucks on a large scale using [Sentinel-2](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) data. Sentinel-2 does not see a moving truck once but three times in the red-blue-green wavelengths. As the truck keeps traveling during this short time offset, it appears spectrally disassembled. This pattern may be used for detecting roaming trucks on roads. Although visual inspection cannot confirm that the objects are trucks, this is implied by the ratio between size of different vehicles and a Sentinel-2 pixel. However, a confusion with moving vehicles of similar size such as buses may occur. In order to generally reduce false detections the computation is constrained to road data from [Open Street Maps (OSM)](https://www.openstreetmap.org/#map=5/42.088/12.564). 
+This indicator is based on a method that enables to detect trucks on a large scale using [Sentinel-2](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) data. Sentinel-2 does not see a moving truck once but three times in the red-blue-green wavelengths. As the truck keeps traveling during this short time offset, it appears spectrally disassembled. This pattern may be used for detecting roaming trucks on roads. Although visual inspection cannot confirm that the objects are trucks, this is implied by the ratio between the size of different vehicles and a Sentinel-2 pixel. However, confusion with moving vehicles of similar size such as buses may occur. To generally reduce false detections the computation is constrained to road data from [Open Street Maps (OSM)](https://www.openstreetmap.org/#map=5/42.088/12.564). 
 
 ### Community Contributed Indicator 
 
 ![](https://img.shields.io/badge/eodash-community-blue)
   
-This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Truck Detection – Sensing Trade from Space’ was developed by Henrik Fisser (Julius-Maximilians-University Würzburg, Germany)[1]. 
+This indicator is contributed by the community in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Truck Detection – Sensing Trade from Space’ was developed by Henrik Fisser (Julius-Maximilians-University Würzburg, Germany)[1]. 
 
 
 #### Source code 
@@ -26,6 +26,3 @@ This indicator is contributed by the communnity in the context of the of the [ES
 ### References
 
 [1] [ESA Webstory - Monitoring trucks and trade from space](https://www.esa.int/Applications/Observing_the_Earth/Monitoring_trucks_and_trade_from_space) 
-
-
-

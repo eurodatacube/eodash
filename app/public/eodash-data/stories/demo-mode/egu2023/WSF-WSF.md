@@ -1,6 +1,6 @@
-## Observing growth of human settlements
+## Observing the growth of human settlements
 
-Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts the environment, economy and society. According to research [1], between 1990 and 2014 humans converted more land to settlements than in all previous millennia combined and urban sprawl almost doubled globally, increasing by close to 4% per year. 
+Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts the environment, economy, and society. According to research [1], between 1990 and 2014 humans converted more land to settlements than in all previous millennia combined, and urban sprawl almost doubled globally, increasing by close to 4% per year. 
 
 <iframe src="https://ourworldindata.org/grapher/urban-population-share-2050?time=2050" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 
@@ -19,7 +19,7 @@ Use the map to explore the evolution of human settlement footprint, or browse th
 Source: [EOC Geoservice of the Earth Observation Center (EOC) of the German Aerospace Center (DLR) ](https://geoservice.dlr.de/web/maps/eoc:wsf2019)
 
 The World Settlement Footprint (WSF) Evolution product illustrates the worldwide growth of human settlements on a year-by-year basis from 1985 to 2015.
-In particular, the layer has been derived by processing about 7-million Landsat-5 and Landsat-7 scenes and it features 30m spatial resolution.
+In particular, the layer has been derived by processing about 7 million Landsat-5 and Landsat-7 scenes and it features 30m spatial resolution.
 
 The WSF evolution is licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 
