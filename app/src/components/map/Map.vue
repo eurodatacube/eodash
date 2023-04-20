@@ -62,7 +62,9 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
-        :style="mapId === 'centerMap' && $vuetify.breakpoint.smAndUp ? 'bottom: 155px' : ''"
+        :style="(mapId === 'centerMap' && $vuetify.breakpoint.smAndUp && $route.name !== 'demo')
+          ? 'bottom: 155px'
+          : ''"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -76,7 +78,7 @@
     <div
       v-if="$vuetify.breakpoint.smAndUp"
       class="move-with-panel"
-      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -99,6 +101,7 @@
       <ZoomControl :mapId="mapId" class="pointerEvents" />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
+        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
@@ -120,14 +123,20 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
-      <div class="pointerEvents mt-auto mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mt-auto mb-2"
+      >
         <IframeButton
           v-if="mapId === 'centerMap' && indicator && isGlobalIndicator"
           :indicatorObject="indicator"
           mapControl
         />
       </div>
-      <div class="pointerEvents mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mb-2"
+      >
         <AddToDashboardButton
           v-if="mapId === 'centerMap' && indicator && indicatorHasMapData(indicator)"
           :indicatorObject="indicator"
@@ -137,6 +146,9 @@
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
         />
+      </div>
+      <div v-else class="mt-auto">
+        <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
       <div ref="mousePositionContainer"/>
     </div>
@@ -179,6 +191,7 @@ import {
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -261,13 +274,8 @@ export default {
     ...mapGetters('features', ['getGroupedFeatures', 'getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
-      if (this.isGlobalIndicator) {
-        // use their own base layers from config, if available
-        return this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].baseLayers
-          || this.baseConfig.baseLayersLeftMap;
-      }
-      return this.baseConfig.baseLayersLeftMap;
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
+        || this.baseConfig.baseLayersLeftMap;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -288,13 +296,9 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      let configs = [...this.baseConfig.overlayLayersLeftMap];
-      if (this.isGlobalIndicator) {
-        // use their own overlay layers from config, if available
-        configs = this.baseConfig.indicatorsDefinition[this.$store
-          .state.indicators.selectedIndicator.indicator].overlayLayers
-          || this.baseConfig.overlayLayersLeftMap;
-      }
+      const configs = [...((
+        this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
+      ) || this.baseConfig.overlayLayersLeftMap)];
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
@@ -421,6 +425,14 @@ export default {
       if ((this.centerProp && this.zoomProp)
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
+      }
+      if (this.$route.name === 'demo') {
+        // check if a demo item custom extent is set as override
+        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+          .find((item) => item.poi === getLocationCode(this.indicator));
+        if (demoItem && demoItem.extent) {
+          return demoItem.extent;
+        }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
       const { map } = getMapInstance(this.mapId);
@@ -731,6 +743,19 @@ export default {
     },
     onResize() {
       getMapInstance(this.mapId).map.updateSize();
+    },
+    resetView() {
+      let extent = this.zoomExtent;
+      if (!extent) {
+        const { bounds } = this.mapDefaults;
+        extent = transformExtent(bounds, 'EPSG:4326',
+          getMapInstance(this.mapId).map.getView().getProjection());
+      }
+      const padding = calculatePadding();
+      getMapInstance(this.mapId).map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
     },
   },
   beforeDestroy() {
