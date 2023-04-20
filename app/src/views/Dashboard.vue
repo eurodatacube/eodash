@@ -334,6 +334,8 @@ export default {
         // TO-DO find more reliable way of checking
         setTimeout(() => { this.dataPanelTemporary = false; }, 500);
       }
+      // trigger event for rest of app
+      window.dispatchEvent(new CustomEvent('set-fullscreen-datapanel', { detail: enable }));
     },
     clickMobileClose() {
       this.isDialogRetracted = true;
