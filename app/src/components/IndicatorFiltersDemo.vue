@@ -63,6 +63,28 @@
       <v-icon left>mdi-image-filter-center-focus</v-icon>
       Recenter map
     </v-btn>
+    <div
+      v-if="highlightsModel"
+      style="width: 230px; pointer-events: all; position:absolute; left: 230px;top: 75px;"
+    >
+      <v-list style="width: 100%; background-color: #00000000;">
+        <v-list-item-group style="width: 100%">
+          <v-list-item
+            v-for="item in highlightsModel.highlights"
+            :key="item.name"
+            class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
+            style="width: 100%"
+            @click="moveToHighlight(item.location)"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </div>
   </div>
 </template>
 
@@ -71,7 +93,14 @@ import {
   mapState,
   mapMutations,
 } from 'vuex';
+
+import GeoJSON from 'ol/format/GeoJSON';
+import { Wkt } from 'wicket';
+import { getMapInstance } from '@/components/map/map';
+import { calculatePadding } from '@/utils';
 import getLocationCode from '../mixins/getLocationCode';
+
+const wkt = new Wkt();
 
 export default {
   data: () => ({
@@ -88,6 +117,15 @@ export default {
             .find((f) => getLocationCode(f.properties.indicatorObject) === item.poi),
         }))
         .filter((item) => !!item.properties);
+    },
+    highlightsModel() {
+      if (this.selectedItem) {
+        const selectedItemModel = this.demoItems.find((item) => item.poi === this.selectedItem);
+        if (selectedItemModel && selectedItemModel.highlights) {
+          return selectedItemModel;
+        }
+      }
+      return null;
     },
   },
   methods: {
@@ -112,6 +150,18 @@ export default {
           this.$parent.$parent.$refs.centerPanel.$refs.map.enableCompare = true;
         }, 0);
       }
+    },
+    moveToHighlight(location) {
+      const { map } = getMapInstance('centerMap');
+      const featureProjection = map.getView().getProjection();
+      const geoJsonFormat = new GeoJSON({
+        featureProjection,
+      });
+      const geom = geoJsonFormat.readGeometry(wkt.read(location).toJson());
+      const padding = calculatePadding();
+      map.getView().fit(geom.getExtent(), {
+        duration: 0, padding,
+      });
     },
     resetMapView() {
       this.$parent.$parent.$refs.centerPanel.$refs.map.resetView();

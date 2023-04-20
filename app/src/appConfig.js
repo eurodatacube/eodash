@@ -60,6 +60,28 @@ module.exports = [
         {
           poi: 'WSF-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
+          highlights: [
+            {
+              name: 'Dubai, UAE',
+              location: 'POLYGON((55 26,56 26,56 25,55 25,55 26))',
+            },
+            {
+              name: 'Addis Ababa, Ethiopia',
+              location: 'POLYGON((38.5 9.1,39 9.1,39 8.7,38.5 8.7,38.5 9.1))',
+            },
+            {
+              name: 'Accra, Ghana',
+              location: 'POLYGON((-0.73 6.2,0.5 6.2,0.5 5.06,-0.73 5.06,-0.73 6.2))',
+            },
+            {
+              name: 'Houston, Texas',
+              location: 'POLYGON((-96 30.4,-94.6 30.4,-94.6 28.96,-96 28.96,-96 30.4))',
+            },
+            {
+              name: 'Vienna, Austria',
+              location: 'POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))',
+            },
+          ],
         },
         {
           poi: 'EG1-E200',
@@ -84,7 +106,7 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
         },
         {
-          poi: 'NorthAdriaticSST-N3a2',
+          poi: 'DanubeDeltaSST-N3a2',
           story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
           title: 'Sea Surface Temperature Anomaly Maps',
         },
