@@ -1,4 +1,4 @@
-## Mapping Vessel Density across major European Ports
+## About the Vessel Density indicator based on Sentinel-1
 
 A vessel density map is a data product that shows the distribution of ships, based on the instantaneous number of vessels per unit area in the major EU ports observed using satellite Synthetic Aperture Radar (SAR) data.
 
@@ -6,7 +6,7 @@ The Vessel Density indicator is computed based on Copernicus Sentinel-1 GRD (gro
 
 While limited to only daily observation, the Synthetic Aperture Radar (SAR) Copernicus Sentinel-1 satellites [2] high revisit time provide the opportunity for more frequent data updates and higher geographical coverage, overcoming EMODNET Vessel Density tow main limitations: the density maps processing and dissemination have a significant time lag from the observation (in the order of several months) and the data is available only for European waters. 
 
-## Methodology
+## How it is generated
 
 Vessel detection is one of the primary applications of SAR systems, which measure the roughness of the sea surface and display features that stand out against the background (vessels appear as bright spots). To produce a vessel density map, a script was used to derive derive, for each 1 km<sup>2</sup> pixel of the masked image of the selected area, an indicator given by the ratio: 
 
