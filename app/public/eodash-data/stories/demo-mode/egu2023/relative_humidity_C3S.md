@@ -12,4 +12,4 @@ For temperatures over 0°C (273.15 K) it is calculated for saturation over water
 
 [[1] Data Source](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-pressure-levels-monthly-means?tab=overview)
 
-[[1] Data Documentation](https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation)
+[[2] Data Documentation](https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation)
