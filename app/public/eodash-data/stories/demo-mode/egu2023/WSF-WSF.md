@@ -1,4 +1,4 @@
-# Growing human settlements
+## About the World Settlement Footprint Indicator
 
 Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts the environment, economy and society. According to research, between 1990 and 2014 humans converted more land to settlements than in all previous millennia combined and urban sprawl almost doubled globally, increasing by close to 4% per year. 
 
