@@ -1,6 +1,6 @@
-## About the World Settlement Footprint Indicator
+## Observing growth of human settlements
 
-Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts the environment, economy and society. According to research, between 1990 and 2014 humans converted more land to settlements than in all previous millennia combined and urban sprawl almost doubled globally, increasing by close to 4% per year. 
+Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts the environment, economy and society. According to research [1], between 1990 and 2014 humans converted more land to settlements than in all previous millennia combined and urban sprawl almost doubled globally, increasing by close to 4% per year. 
 
 <iframe src="https://ourworldindata.org/grapher/urban-population-share-2050?time=2050" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 
@@ -8,9 +8,9 @@ Urban sprawl (i.e. dispersed expansion of settlements at low densities) impacts 
 
 Use the map to explore the evolution of human settlement footprint, or browse these more detailed examples of cities with accelerated growth:
 
-### [Dubai](https://race.esa.int/story?id=20be51fd9440de3e&page=1)
-### [African Cities](https://race.esa.int/story?id=029a56ddc8dba75d&page=1)
-### [Houston, TX](https://race.esa.int/story?id=2ee03160f7f9122e&page=1)
+- [Dubai](https://race.esa.int/story?id=20be51fd9440de3e&page=1)
+- [African Cities](https://race.esa.int/story?id=029a56ddc8dba75d&page=1)
+- [Houston, TX](https://race.esa.int/story?id=2ee03160f7f9122e&page=1)
 
 <iframe width="649" height="360" src="https://www.youtube.com/embed/Pfyxc3eAFg0?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
 
@@ -27,6 +27,8 @@ More on mapping our human footprint from space in this [ESA Webstory](https://ww
 
 
 ### References
+
+[1] Rapid rise in urban sprawl: Global hotspots and trends since 1990, Behnisch M, Krüger T, Jaeger JAG (2022) Rapid rise in urban sprawl: Global hotspots and trends since 1990. PLOS Sustainability and Transformation 1(11): e0000034. https://doi.org/10.1371/journal.pstr.0000034
 
 [2] Future of urbanisation: Hannah Ritchie and Max Roser (2018) - "Urbanization". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/urbanization' [Online Resource]
 
