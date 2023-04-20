@@ -10,7 +10,7 @@ This indicator is based on a method that enables to detect trucks on a large sca
 
 ![](https://img.shields.io/badge/eodash-community-blue)
   
-This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Truck Detection – Sensing Trade from Space’ was developed by Henrik Fisser (Julius-Maximilians-University Würzburg, Germany)[1]. 
+This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘Truck Detection – Sensing Trade from Space’ was developed by Henrik Fisser (Julius-Maximilians-University Würzburg, Germany)[2]. 
 
 
 #### Source code 
@@ -24,8 +24,9 @@ This indicator is contributed by the communnity in the context of the of the [ES
 
 
 ### References
+[1] [Sentinel-2 Mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2)
 
-[1] [ESA Webstory - Monitoring trucks and trade from space](https://www.esa.int/Applications/Observing_the_Earth/Monitoring_trucks_and_trade_from_space) 
+[2] [ESA Webstory - Monitoring trucks and trade from space](https://www.esa.int/Applications/Observing_the_Earth/Monitoring_trucks_and_trade_from_space) 
 
-[2] [Sentinel-2 Mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2)
+
 
