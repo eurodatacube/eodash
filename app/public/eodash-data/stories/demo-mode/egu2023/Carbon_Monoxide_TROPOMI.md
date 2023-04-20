@@ -10,5 +10,14 @@ TROPOMI clear sky observations provide CO total columns with sensitivity to the 
 The carbon monoxide map shown here is measured by the Tropomi instrument on the Sentinel 5 Precursor satellite. More information on the Tropomi CO measurements and quality assessment can be found in the [Product Readme file](https://sentinels.copernicus.eu/documents/247904/3541451/Sentinel-5P-Carbon-Monoxide-Level-2-Product-Readme-File)
 The Copernicus Sentinel-5P CO measurements were first filtered according to the recommendation in the Product Readme file (only data with a qa_value >; 0.50 was used). Then the measurements are mapped on a fixed latitude-longitude grid of 4096 x 8192 pixels. The grid is turned into an EPSG:4326 geotiff file using the appropriate color scale, which is again turned into an EPSG:3857 tile map.
 
+
+#### Work with this data on Euro Data Cube 
+
+[![Jupyter Notebook](https://img.shields.io/badge/jupyter-%23FA0F00.svg?style=for-the-badge&logo=jupyter&logoColor=white)](https://eurodatacube.com/notebooks/contributions/IGARSS2022/IGARSS-22_Australian_Bushfires.ipynb)
+
+#### Access this data from the STAC API of Sentinel-5P Product Algorithm Laboratory (S5P-PAL) 
+
+https://data-portal.s5p-pal.com/cat-doc
+
 ## References
 [TROPOMI on ESA's Sentinel 5 Precursor (S5P) satellite](https://sentinel.esa.int/web/sentinel/missions/sentinel-5p)
