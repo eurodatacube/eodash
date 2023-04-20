@@ -12,7 +12,7 @@ We take advantage of the advances driven by deep learning algorithms − bio-ins
 ### Community Contributed Indicator 
 ![](https://img.shields.io/badge/eodash-community-blue)
   
-This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘A DATASET FOR DETECTING FLYING AIRPLANES ON SATELLITE IMAGES’ was developed by Mauricio Pamplona Segundo (University of South Florida)[1]. 
+This indicator is contributed by the communnity in the context of the of the [ESA COVID-19 Custom Script Contest](https://www.esa.int/Applications/Observing_the_Earth/COVID-19_how_can_satellites_help). The solution, titled ‘A dataset for detecting flying airplanes on satellite images’ was developed by Mauricio Pamplona Segundo (University of South Florida)[1]. 
 
 
 #### Source code 
