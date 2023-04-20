@@ -1,4 +1,4 @@
-## Nitrogen Dioxide observed by Sentinel-5p TROPOMI
+## About the Nitrogen Dioxide observed by Sentinel-5p TROPOMI Indicator
 
 Earth observing satellites like the **TROPOMI** instrument on the [Copernicus Sentinel-5P](https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-5P) are being used to map air pollution worldwide. One of the variables that it can provide information is on **tropospheric nitrogen dioxide (NO2)** which is linked to pollutant sectors such as traffic and industrial activities. The nitrogen dioxide concentrations vary from day to day due to changes in the weather (such as wind speed, cloudiness, etc) and **conclusions cannot be drawn based on just one day of data alone**. By combining data for a specific period of time (e.g. averaging over 14 days) the meteorological variability partially averages out and impact of changes due to human activity become more clearly visible.
 
