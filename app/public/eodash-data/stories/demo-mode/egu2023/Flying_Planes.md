@@ -20,8 +20,6 @@ This indicator is contributed by the communnity in the context of the of the [ES
 [![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/maups/covid19-custom-script-contest)
 
 
-#### Execute code on Euro Data Cube 
-
 
 ### References
 [1] [IEEE DataPort, dataset-detecting-flying-airplanes-satellite-images ](https://ieee-dataport.org/open-access/dataset-detecting-flying-airplanes-satellite-images) 
