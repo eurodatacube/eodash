@@ -88,7 +88,7 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/ships_in_ports',
         },
         {
-          poi: 'DE1-E1b',
+          poi: 'BE1-E1b',
           story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
         },
         {
