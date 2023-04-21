@@ -190,7 +190,8 @@
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
-              <IndicatorFiltersDemo v-else-if="$route.name === 'demo'" />
+              <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
+              :expanded="dataPanelFullWidth" />
               <indicator-filters v-else />
             </div>
           </v-col>
@@ -334,8 +335,6 @@ export default {
         // TO-DO find more reliable way of checking
         setTimeout(() => { this.dataPanelTemporary = false; }, 500);
       }
-      // trigger event for rest of app
-      window.dispatchEvent(new CustomEvent('set-fullscreen-datapanel', { detail: enable }));
     },
     clickMobileClose() {
       this.isDialogRetracted = true;

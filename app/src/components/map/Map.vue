@@ -548,7 +548,11 @@ export default {
         // when the calculated zoom extent changes, zoom the map to the new extent.
         // this is purely cosmetic and does not limit the ability to pan or zoom
         // paddings are calculated globally for the view.
-        if (value && JSON.stringify(old) !== JSON.stringify(value) && !(this.centerProp || this.zoomProp)) {
+        if (
+          value
+          && JSON.stringify(old) !== JSON.stringify(value)
+          && !(this.centerProp || this.zoomProp)
+        ) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
