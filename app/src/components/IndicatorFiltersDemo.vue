@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="demoItems.length > 0 && show"
+    v-if="demoItems.length > 0 && !expanded"
     class="fill-height d-flex flex-column pa-3"
     id="demoItemsList"
     style="height: calc(var(--vh, 1vh) * 100); z-index: 11; pointer-events: all"
@@ -105,15 +105,10 @@ const wkt = new Wkt();
 export default {
   data: () => ({
     selectedItem: null,
-    show: true,
   }),
-  mounted() {
-    window.addEventListener(
-      'set-fullscreen-datapanel',
-      (e) => { this.show = !e.detail; },
-      false,
-    );
-  },
+  props: [
+    'expanded',
+  ],
   computed: {
     ...mapState('config', ['appConfig']),
     ...mapState('features', ['allFeatures']),
@@ -187,9 +182,6 @@ export default {
           //
       }
     },
-  },
-  beforeDestroy() {
-    window.removeEventListener('set-fullscreen-datapanel');
   },
   watch: {
     demoItems(items) {
