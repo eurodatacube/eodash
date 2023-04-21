@@ -57,7 +57,9 @@
           v-if="!showMap
             ||  multipleTabCompare
             || (showMap && mergedConfigsData[0].customAreaIndicator)"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :cols="$vuetify.breakpoint.mdAndDown
+            || !expanded
+            || (expanded && $route.name === 'demo' && customAreaIndicator) ? 12 : 6"
           :style="`height: auto`"
         >
           <v-card
