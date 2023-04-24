@@ -523,7 +523,7 @@ export default {
                 }
               });
             });
-          } 
+          }
           // TODO:
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;

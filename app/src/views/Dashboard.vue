@@ -215,7 +215,6 @@ import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -239,7 +238,6 @@ export default {
     IndicatorFilters,
     IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
-    ESABreadcrumbs,
   },
   props: {
     source: String,

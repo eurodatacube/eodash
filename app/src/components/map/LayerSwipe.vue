@@ -112,7 +112,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
           swipeLayer.changed();
         }
       });
@@ -122,7 +129,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, time, this.drawnArea);
         }
       });
@@ -132,7 +146,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');
         }
       });
