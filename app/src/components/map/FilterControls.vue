@@ -3,7 +3,15 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-    <v-card class="pa-3">
+  <v-card class="pa-3">
+      <v-btn
+        v-if="filtersChanged"
+        absolute x-small color="primary"
+        style="top:6px; right:6px;"
+        @click="resetFilters()"
+      >
+        Reset filters
+      </v-btn>
       <div v-for="key in Object.keys(filters)"
         :key="key"
       >
@@ -40,7 +48,7 @@
               </v-col>
               <v-col
                 v-if="filters[key].changeablaDataset"
-                cols="5"
+                cols="4"
                 dense
                 x-small
                 >
@@ -90,7 +98,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="(filters[key].max-filters[key].min)/100"
-            @input="(evt) => updateMapDebounced(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;"></div>
@@ -171,9 +179,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
                   } else {
-                    updateMapDebounced([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id);
                   }
                 }"
               >
@@ -193,9 +201,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    updateMapDebounced([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
                   } else {
-                    updateMapDebounced([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id);
                   }
                 }"
               >
@@ -215,7 +223,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="(filters[key].max-filters[key].min)/100"
-            @input="(evt) => updateMapDebounced(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
@@ -282,7 +290,7 @@
 </template>
 
 <script>
-import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
@@ -301,12 +309,22 @@ export default {
   },
   data() {
     return {
-      filters: this.cogFilters.filters,
+      filters: JSON.parse(JSON.stringify(this.cogFilters.filters)),
       select: null,
       variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
+      originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
     };
   },
   computed: {
+    filtersChanged() {
+      let fchanged = false;
+      Object.keys(this.cogFilters.filters).forEach((key) => {
+        if (JSON.stringify(this.cogFilters.filters[key]) !== JSON.stringify(this.filters[key])) {
+          fchanged = true;
+        }
+      });
+      return fchanged;
+    },
     hiddenFilterKeys() {
       const keys = [];
       Object.keys(this.filters).forEach((key) => {
@@ -318,9 +336,9 @@ export default {
     },
   },
   created() {
-    this.updateMapDebounced = debounce((evt, filterId) => {
+    this.throttledUpdate = throttle((evt, filterId) => {
       this.updateMap(evt, filterId);
-    }, 70);
+    }, 150);
   },
   mounted() {
     Object.keys(this.filters).forEach((key) => {
@@ -332,11 +350,15 @@ export default {
     });
   },
   beforeUnmount() {
-    this.updateMapDebounced.cancel();
+    this.throttledUpdate.cancel();
   },
   watch: {
   },
   methods: {
+    resetFilters() {
+      this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
+      this.resetMap();
+    },
     changeSources(evt) {
       // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
       // approaches for getting selected indicator and setting the sources should be considered
@@ -362,6 +384,14 @@ export default {
       layerGroup.setLayers(new Collection([wgTileLayer]));
       // forces fixing of webgl context, simply updating layers of layergroup does not work
       map.addLayer(layerGroup);
+    },
+    resetMap() {
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
     },
     updateMap(evt, filterId) {
       const { map } = getMapInstance('centerMap');

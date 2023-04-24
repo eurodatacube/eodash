@@ -146,7 +146,7 @@
           v-if="mapId === 'centerMap'
             && indicator
             && indicatorHasMapData(indicator)
-            && appConfig.id !== 'gtif'"
+            && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
@@ -260,11 +260,6 @@ export default {
     return {
       loaded: false,
       zoom: 3,
-      tooltip: {
-        city: '',
-        indicator: '',
-        description: '',
-      },
       currentZoom: null,
       currentCenter: null,
       dataLayerTime: null,

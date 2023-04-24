@@ -303,15 +303,18 @@ export const indicatorsDefinition = Object.freeze({
     }],
     mapTimeLabelExtended: true,
     features: {
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmm"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      ...geodbFeatures,
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+      dateFormatFunction: (date) => {
+        // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
+        const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        const dateObj = DateTime.fromISO(date);
+        const dateFuture = dateObj.plus({ minutes: 45 }).toFormat(defaultFormat);
+        const datePast = dateObj.minus({ minutes: 45 }).toFormat(defaultFormat);
+        const query = `time=gte.${datePast}&time=lte.${dateFuture}`;
+        return query;
+      },
     },
-    // features: {
-    //   ...geodbFeatures,
-    //   dateFormatFunction: (date) => DateTime.fromISO(date).set({
-    //     hour: 0, minute: 0, second: 0, millisecond: 0,
-    //   }).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    // },
     largeTimeDuration: true,
   },
   E13e: {
@@ -716,13 +719,10 @@ export const globalIndicators = [
         description: 'Truck border crossing times',
         indicatorName: '(select point to load data)',
         indicator: 'GSA',
-        lastIndicatorValue: null,
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         inputData: [''],
         yAxis: 'waiting time (min)',
         time: ['TBD'],
@@ -741,14 +741,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'TROPOMI NO2',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'TROPOMI NO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates['AWS_NO2-VISUALISATION'],
         inputData: [''],
@@ -784,14 +781,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'TROPOMI CO 3 day average',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'TROPOMI CO',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'WorldCO',
         time: availableDates.AWS_VIS_CO_3DAILY_DATA,
         inputData: [''],
@@ -828,14 +822,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'TROPOMI CH4',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'TROPOMI CH4',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'CH4',
         time: availableDates.AWS_CH4_WEEKLY,
         inputData: [''],
@@ -871,14 +862,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Vessel density',
         indicator: 'E13o',
-        lastIndicatorValue: null,
         indicatorName: 'Vessel density',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
@@ -908,14 +896,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Vessel density for cargo',
         indicator: 'E13p',
-        lastIndicatorValue: null,
         indicatorName: 'Vessel density for cargo',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
@@ -945,14 +930,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Vessel density for tankers',
         indicator: 'E13q',
-        lastIndicatorValue: null,
         indicatorName: 'Vessel density for tankers',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
@@ -982,14 +964,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Vessel density for others',
         indicator: 'E13r',
-        lastIndicatorValue: null,
         indicatorName: 'Vessel density for others',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: getMonthlyDates('2017-01-01', '2020-12-01'),
         inputData: [''],
@@ -1020,14 +999,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'CAMS Air Quality',
         indicator: 'N1b',
-        lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged NO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
@@ -1055,14 +1031,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'CAMS Air Quality',
         indicator: 'N1b',
-        lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged PM2.5',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'PM2.5 (μg/m3)',
@@ -1090,14 +1063,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'CAMS Air Quality',
         indicator: 'N1b',
-        lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged PM10',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'PM10 (μg/m3)',
@@ -1125,14 +1095,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'CAMS Air Quality',
         indicator: 'N1b',
-        lastIndicatorValue: null,
         indicatorName: 'CAMS daily averaged O3',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
         inputData: [''],
         yAxis: 'O3 (μg/m3)',
@@ -1159,14 +1126,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Population',
         indicator: 'NASAPopulation',
-        lastIndicatorValue: null,
         indicatorName: 'Population density 2020',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'W6',
         time: [],
         inputData: [''],
@@ -1191,14 +1155,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'WSF Evolution',
         indicator: 'WSF',
-        lastIndicatorValue: null,
         indicatorName: 'World Settlement Footprint (WSF) Evolution',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
@@ -1227,14 +1188,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'C3S Data',
         indicator: 'CDS1',
-        lastIndicatorValue: null,
         indicatorName: 'Temperature - Climate Data Store',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_2MTEMPERATURE,
         inputData: [],
         yAxis: 'Temperature K',
@@ -1265,14 +1223,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Relative humidity 1000HPA (C3S)',
         indicator: 'CDS2',
-        lastIndicatorValue: null,
         indicatorName: 'Relative humidity 1000HPA - Climate Data Store',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_RELHUMIDITY1000HPA,
         inputData: [],
         yAxis: 'Relative Humidity 1000HPA',
@@ -1303,14 +1258,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Wind U field (C3S)',
         indicator: 'CDS3',
-        lastIndicatorValue: null,
         indicatorName: 'Wind U field - Climate Data Store',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_WIND_U_10M,
         inputData: [],
         yAxis: 'wind',
@@ -1341,14 +1293,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Wind V field (C3S)',
         indicator: 'CDS4',
-        lastIndicatorValue: null,
         indicatorName: 'Wind V field - Climate Data Store',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_WIND_V_10M,
         inputData: [],
         yAxis: 'wind',
@@ -1379,14 +1328,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'TROPOMI SO2',
         indicator: 'N1',
-        lastIndicatorValue: null,
         indicatorName: 'TROPOMI SO2',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         time: availableDates.AWS_VIS_SO2_DAILY_DATA,
         inputData: [],
         yAxis: 'SO2',
@@ -1413,11 +1359,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9999,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9999,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic',
         country: ['HR', 'IT', 'SI'],
@@ -1425,9 +1369,7 @@ export const globalIndicators = [
         siteName: 'North Adriatic',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1451,11 +1393,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9998,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9999,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDelta',
         country: ['FR'],
@@ -1463,9 +1403,7 @@ export const globalIndicators = [
         siteName: 'Fos-sur-Mer',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         sensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1489,11 +1427,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9997,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9997,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM',
         country: ['HR', 'IT', 'SI'],
@@ -1501,9 +1437,7 @@ export const globalIndicators = [
         siteName: 'North Adriatic',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1527,11 +1461,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9996,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9996,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDeltaTSM',
         country: ['FR'],
@@ -1539,9 +1471,7 @@ export const globalIndicators = [
         siteName: 'Fos-sur-Mer',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1585,7 +1515,6 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         eoSensor: null,
-        aoi: null,
         aoiID: 'W2',
         time: availableDates.VIS_TRUCK_DETECTION_MOTORWAYS_NEW,
         inputData: [''],
@@ -1671,7 +1600,6 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         eoSensor: null,
-        aoi: null,
         aoiID: 'W3',
         time: availableDates.VIS_TRUCK_DETECTION_PRIMARY_NEW,
         inputData: [''],
@@ -1742,11 +1670,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9995,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9995,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'Barcelona',
         country: ['ES'],
@@ -1754,9 +1680,7 @@ export const globalIndicators = [
         siteName: 'Barcelona',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         eoSensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1780,11 +1704,9 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9994,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9994,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'BarcelonaTSM',
         country: ['ES'],
@@ -1792,9 +1714,7 @@ export const globalIndicators = [
         siteName: 'Barcelona',
         description: 'Multi-sensor product',
         indicator: 'N3a2',
-        lastIndicatorValue: null,
         indicatorName: 'Water Quality Regional Maps',
-        lastColorCode: null,
         sensor: null,
         subAoi: {
           type: 'FeatureCollection',
@@ -1826,14 +1746,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'CMEMS Water Quality',
         indicator: 'N3c',
-        lastIndicatorValue: null,
         indicatorName: 'CMEMS Water Quality',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates.CHL,
         inputData: [''],
@@ -1868,18 +1785,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9993,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9993,
         aoi: latLng([51.954, 4.094]),
         aoiID: 'NL3',
         country: ['NL'],
         city: 'Rotterdam port',
         description: 'Oil Storage Volume',
         indicator: 'E3',
-        lastIndicatorValue: null,
         indicatorName: 'Oil Storage Volume',
         subAoi: {
           type: 'FeatureCollection',
@@ -1889,7 +1803,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((4.09798 51.94802,4.10056 51.95410,4.08811 51.95733,4.08648 51.95378,4.09584 51.94812,4.09798 51.94802))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: availableDates['AWS_ICEYE-E3'],
         inputData: [''],
         display: {
@@ -1910,18 +1823,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9991,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9991,
         aoi: latLng([48.87, 2.78]),
         aoiID: 'FR16',
         country: ['FR'],
         city: 'Disneyland Paris',
         description: 'Volume of activity at shopping center',
         indicator: 'E11',
-        lastIndicatorValue: null,
         indicatorName: 'Volume of activity at shopping center',
         subAoi: {
           type: 'FeatureCollection',
@@ -1931,7 +1841,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((2.76907 48.86129,2.76907 48.88170,2.79872 48.88170,2.79872 48.86129,2.76907 48.86129))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: availableDates['AWS_ICEYE-E11'],
         inputData: [''],
         display: {
@@ -1952,18 +1861,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9990,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9990,
         aoi: latLng([52.244, 21.045]),
         aoiID: 'PL7',
         country: ['PL'],
         city: 'Warsaw',
         description: 'Volume of activity at parking lot',
         indicator: 'E11a',
-        lastIndicatorValue: null,
         indicatorName: 'Volume of activity at parking lot',
         subAoi: {
           type: 'FeatureCollection',
@@ -1973,7 +1879,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((21.03890 52.23563,21.03890 52.24898,21.05229 52.24898,21.05229 52.23563,21.03890 52.23563))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: availableDates['AWS_ICEYE-E11A'],
         inputData: [''],
         display: {
@@ -1994,18 +1899,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9989,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9989,
         aoi: latLng([50.604, -2.37]),
         aoiID: 'UK9',
         country: ['GB'],
         city: 'Weymouth',
         description: 'Ports and Shipping - impact on cruises',
         indicator: 'E13c',
-        lastIndicatorValue: null,
         indicatorName: 'Ports and Shipping - impact on cruises',
         subAoi: {
           type: 'FeatureCollection',
@@ -2015,7 +1917,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-2.39347 50.58519,-2.39347 50.62474,-2.33785 50.62474,-2.33785 50.58519,-2.39347 50.58519))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: availableDates['AWS_ICEYE-E12B'],
         inputData: [''],
         display: {
@@ -2036,18 +1937,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9988,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9988,
         aoi: latLng([50.04, 8.5]),
         aoiID: 'DE18',
         country: ['DE'],
         city: 'Frankfurt am Main',
         description: 'Airports: Throughput',
         indicator: 'E13b',
-        lastIndicatorValue: null,
         indicatorName: 'Airports: Throughput',
         subAoi: {
           type: 'FeatureCollection',
@@ -2057,7 +1955,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((8.51604 50.03769,8.51604 50.04915,8.53346 50.04915,8.53346 50.03769,8.51604 50.03769))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: ['2020-05-12T13:35:00'],
         inputData: [''],
         display: {
@@ -2075,18 +1972,15 @@ export const globalIndicators = [
     },
   },
   {
-    id: 9987,
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        id: 9987,
         aoi: latLng([40.413, -1.23]),
         aoiID: 'ES17',
         country: ['ES'],
         city: 'Teruel',
         description: 'Airports: Throughput',
         indicator: 'E13b',
-        lastIndicatorValue: null,
         indicatorName: 'Airports: Throughput',
         subAoi: {
           type: 'FeatureCollection',
@@ -2096,7 +1990,6 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON((-1.24592 40.39428,-1.24592 40.42957,-1.20747 40.42957,-1.20747 40.39428,-1.24592 40.39428))').toJson(),
           }],
         },
-        lastColorCode: null,
         time: ['2020-03-20T03:50:00', '2020-08-25T03:15:00'],
         inputData: [''],
         display: {
@@ -2117,24 +2010,13 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: false,
-        id: 9987,
-        aoi: null,
         aoiID: 'EU1',
         country: 'indicatorall',
         city: 'Europe',
         siteName: 'global',
         description: 'Crude Oil Storage Index (EU)',
         indicator: 'OX',
-        lastIndicatorValue: null,
         indicatorName: 'Crude Oil Storage Index (EU)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: [],
-        inputData: [''],
-        display: {
-        },
       },
     },
   },
@@ -2147,14 +2029,11 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Vessel density monthly maps',
         indicator: 'E1b2',
-        lastIndicatorValue: null,
         indicatorName: 'Vessel density monthly maps',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
-        aoi: null,
         aoiID: 'World',
         time: availableDates.VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE,
         inputData: [''],
@@ -2174,6 +2053,72 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((1 55,10 55,10 51,1 51,1 55))').toJson(),
             }],
           },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDelta',
+        country: ['RO'],
+        city: 'Danube Delta - Chlorophyll-a concentration',
+        siteName: 'Danube Delta',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Water Quality Regional Maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoi: latLng([45.05, 29.9]),
+        aoiID: 'DanubeDeltaTSMNN',
+        country: ['RO'],
+        city: 'Danube Delta - Total Suspended Matter',
+        siteName: 'Danube Delta',
+        description: 'Multi-sensor product',
+        indicator: 'N3a2',
+        indicatorName: 'Water Quality Regional Maps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((28.877 45.7548,30.8381 45.7548,30.8381 44.251,28.877 44.251,28.877 45.7548))').toJson(),
+          }],
+        },
+        time: availableDates.AWS_N3_CUSTOM,
+        inputData: [''],
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Water Quality Index',
+          layers: 'AWS_N3_CUSTOM_TSMNN',
+          legendUrl: 'legends/esa/AWS_N3_CUSTOM_TSMNN.png',
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
