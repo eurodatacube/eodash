@@ -203,6 +203,11 @@ const renderVue = async () => {
         { path: '/', name: 'landing', component: ScrollyFrame },
       ] : []),
     { path: '/dashboard', component: DashboardCustom },
+    ...(store.state.config.appConfig && store.state.config.appConfig.demoMode
+      ? [
+        { path: '/demo', name: 'demo', component: Dashboard },
+      ] : []
+    ),
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', name: 'privacy', component: Privacy },
     { path: '/terms_and_conditions', name: 'terms_and_conditions', component: Terms },

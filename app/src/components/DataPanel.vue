@@ -13,7 +13,8 @@
         <v-col
           v-if="!showMap
             || (showMap && mergedConfigsData[0].customAreaIndicator)
-            || appConfig.id === 'gtif'"
+            || appConfig.id === 'gtif'
+            || (expanded && $route.name === 'demo' && customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           class="pa-0"
           :style="`height: auto`"
@@ -87,7 +88,8 @@
           </v-card>
           <v-row
             v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
-              && (!showMap || !customAreaIndicator.isEmpty)"
+              && (!showMap || !customAreaIndicator.isEmpty)
+              && $route.name !== 'demo'"
             class="mt-6"
           >
             <v-col cols="12" sm="5" ></v-col>
@@ -141,6 +143,7 @@
               <small v-else> </small>
             </v-col>
             <v-col
+              v-if="$route.name !== 'demo'"
               cols="12"
               sm="7"
               ref="buttonRow"
@@ -421,18 +424,26 @@ export default {
     story() {
       let markdown;
       try {
-        markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
+        const demoItem = this.$route.name === 'demo'
+          ? this.appConfig.demoMode[this.$route.query.event]
+            .find((item) => item.poi === this.getLocationCode(this.indicatorObject))
+          : false;
+        markdown = require(`../../public${demoItem.story}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
         } catch {
           try {
-            const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-              ? this.$store.state.features.featureFilters.indicators[0]
-              : this.$store.state.features.featureFilters.indicators;
-            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
           } catch {
-            markdown = { default: '' };
+            try {
+              const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+                ? this.$store.state.features.featureFilters.indicators[0]
+                : this.$store.state.features.featureFilters.indicators;
+              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+            } catch {
+              markdown = { default: '' };
+            }
           }
         }
       }
@@ -484,24 +495,26 @@ export default {
       const wkt = new Wkt();
       const header = `${exportKeys.join()}\n`;
       let csv = header;
-      for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
-        let row = '';
-        for (let kk = 0; kk < exportKeys.length; kk++) {
-          const cKey = exportKeys[kk];
-          let txtVal = '';
-          if (cKey === 'aoi') {
-            if (i === 0 && this.$store.state.features.selectedArea !== null) {
-              txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+      if (this.customAreaIndicator.time) {
+        for (let i = 0; i < this.customAreaIndicator.time.length; i++) {
+          let row = '';
+          for (let kk = 0; kk < exportKeys.length; kk++) {
+            const cKey = exportKeys[kk];
+            let txtVal = '';
+            if (cKey === 'aoi') {
+              if (i === 0 && this.$store.state.features.selectedArea !== null) {
+                txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+              } else {
+                txtVal = ',';
+              }
             } else {
-              txtVal = ',';
+              txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
             }
-          } else {
-            txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+            row += txtVal;
           }
-          row += txtVal;
+          row = `${row.slice(0, -1)}\n`;
+          csv += row;
         }
-        row = `${row.slice(0, -1)}\n`;
-        csv += row;
       }
       dataHref += encodeURI(csv);
       return dataHref;

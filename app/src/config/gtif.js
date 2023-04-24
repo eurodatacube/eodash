@@ -179,7 +179,7 @@ export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
 },
 baseLayers.cloudless,
-baseLayers.osm_3857,
+baseLayers.eoxosm,
 baseLayers.S2GLC,
 baseLayers.ESA_WORLD_COVER,
 baseLayers.CORINE_LAND_COVER,

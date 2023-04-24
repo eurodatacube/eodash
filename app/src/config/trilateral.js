@@ -68,6 +68,16 @@ const geodbFeatures = {
   },
 };
 
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.eoxosm, baseLayers.terrainLight];
+
+const mapBoxHighResoSubst = [{
+  ...baseLayers.mapboxHighReso,
+  visible: true,
+}, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
+
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
@@ -97,10 +107,7 @@ export const indicatorsDefinition = Object.freeze({
       ...geodbFeatures,
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
   },
   E1: {
     indicatorSummary: 'Status of metallic ores',
@@ -339,10 +346,7 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere'],
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
     story: '/eodash-data/stories/N12',
   },
   N11: {
@@ -388,10 +392,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Facebook population density',
     themes: ['economy'],
     disableTimeSelection: true,
-    baseLayers: [{
-      ...baseLayers.cloudless,
-      visible: true,
-    }, baseLayers.terrainLight],
+    baseLayers: cloudlessBaseLayerDefault,
   },
   SIF: {
     indicatorSummary: 'Solar Induced Chlorophyll Fluorescence',
@@ -513,6 +514,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [
       baseLayers.terrainLight,
       baseLayers.cloudless,
+      baseLayers.eoxosm,
       {
         name: 'Antarctic hillshade, bathymetry',
         baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
@@ -802,10 +804,10 @@ export const mapDefaults = Object.freeze({
 
 export const baseLayersLeftMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 export const baseLayersRightMap = [{
   ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
+}, baseLayers.eoxosm, baseLayers.cloudless];
 
 export const overlayLayersLeftMap = [{
   ...overlayLayers.eoxOverlay,
@@ -819,11 +821,6 @@ export const overlayLayersRightMap = [{
 }];
 
 export const administrativeLayers = [];
-
-const mapBoxHighResoSubst = [{
-  ...baseLayers.mapboxHighReso,
-  visible: true,
-}, baseLayers.terrainLight, baseLayers.cloudless];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1013,7 +1010,6 @@ export const globalIndicators = [
         yAxis: 'Tropospheric CH4 volume mixing ratio (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'Air Quality (CH4) - ESA',
           layers: 'AWS_CH4_WEEKLY',
@@ -1053,7 +1049,6 @@ export const globalIndicators = [
         yAxis: 'CO (ppbv)',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          opacity: 1.0,
           customAreaIndicator: true,
           name: 'CO',
           layers: 'AWS_VIS_CO_3DAILY_DATA',
@@ -1102,7 +1097,6 @@ export const globalIndicators = [
           minZoom: 1,
           maxZoom: 6,
           tileSize: 256,
-          opacity: 1,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0%2C108e14&bidx=1&colormap_name=reds',
           name: 'Air Quality (NASA)',
           dateFormatFunction: (date) => `url=${date[1]}`,
@@ -1145,7 +1139,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 6,
           minZoom: 1,
-          opacity: 0.95,
           tileSize: 256,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&colormap_name=rdbu_r',
           name: 'Air Quality (NASA)',
@@ -1822,13 +1815,6 @@ export const globalIndicators = [
             }],
           },
           projection: 'EPSG:3413',
-          /*
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: ``,
-          },
-          */
         },
       },
     },
@@ -1966,18 +1952,26 @@ export const globalIndicators = [
         aoiID: 'WSF',
         time: getYearlyDates('1985', '2015'),
         inputData: [''],
-        display: {
+        display: [{
           baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
-          name: 'WSF_Evolution',
-          layers: 'WSF_Evolution',
+          name: 'DLR WSF 2019 coverage',
+          layers: 'WSF_2019',
           legendUrl: 'data/trilateral/wsf_legend.png',
           minZoom: 1,
-          maxZoom: 14,
+          maxZoom: 17,
+          labelFormatFunction: (date) => date,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        }, {
+          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          name: 'DLR WSF Evolution 1985-2015',
+          layers: 'WSF_Evolution',
+          minZoom: 1,
+          maxZoom: 17,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
           labelFormatFunction: (date) => date,
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
-        },
+        }],
       },
     },
   },
@@ -2297,6 +2291,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2304,6 +2299,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2374,6 +2379,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_CHLA_NorthAdriatic_JAXA,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2381,6 +2387,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2473,6 +2489,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_CHLA_JP01,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2480,6 +2497,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2506,6 +2533,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2513,6 +2541,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2539,6 +2577,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_CHLA_JP04,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2546,6 +2585,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2572,6 +2621,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_CHLA_JP02,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2579,6 +2629,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2606,6 +2666,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2613,6 +2674,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2640,6 +2711,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2647,6 +2719,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2674,6 +2756,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2681,6 +2764,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2707,6 +2800,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2714,6 +2808,16 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2755,7 +2859,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2801,7 +2904,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2847,7 +2949,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2892,7 +2993,6 @@ export const globalIndicators = [
             ...statisticalApiBody(
               evalScriptsDefinitions.AWS_VIS_SST_MAPS,
               'byoc-92780d01-126f-4827-80f8-4e561dd8e228',
-              'P1D',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2958,6 +3058,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_TSM_NorthAdriaticTSM_JAXA,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2965,6 +3066,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -2991,6 +3102,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_TSM_JP01TSM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -2998,6 +3110,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -3024,6 +3146,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_TSM_JP04TSM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -3031,6 +3154,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -3057,6 +3190,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_JAXA_TSM_JP02TSM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -3064,6 +3198,16 @@ export const globalIndicators = [
           maxZoom: 13,
           legendUrl: 'legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -3163,7 +3307,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 6,
           minZoom: 1,
-          opacity: 1.0,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
@@ -4108,6 +4251,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -4115,6 +4259,16 @@ export const globalIndicators = [
           legendUrl: './legends/trilateral/AWS_N3_CUSTOM_TRILATERAL_TSMNN.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
+              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -4141,6 +4295,7 @@ export const globalIndicators = [
         },
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
+        yAxis: '%',
         display: {
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
@@ -4148,6 +4303,16 @@ export const globalIndicators = [
           legendUrl: './legends/trilateral/AWS_N3_CUSTOM_TRILATERAL.png',
           maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
+              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -4405,7 +4570,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
-          opacity: 1.0,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
           url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
@@ -4446,7 +4610,6 @@ export const globalIndicators = [
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
-          opacity: 1.0,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
           url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',

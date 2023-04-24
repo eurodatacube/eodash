@@ -55,6 +55,101 @@ module.exports = [
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [],
+    demoMode: {
+      egu2023: [
+        {
+          poi: 'WSF-WSF',
+          story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
+          highlights: [
+            {
+              name: 'Dubai, UAE',
+              location: 'POLYGON((55 26,56 26,56 25,55 25,55 26))',
+            },
+            {
+              name: 'Addis Ababa, Ethiopia',
+              location: 'POLYGON((38.5 9.1,39 9.1,39 8.7,38.5 8.7,38.5 9.1))',
+            },
+            {
+              name: 'Accra, Ghana',
+              location: 'POLYGON((-0.73 6.2,0.5 6.2,0.5 5.06,-0.73 5.06,-0.73 6.2))',
+            },
+            {
+              name: 'Houston, Texas',
+              location: 'POLYGON((-96 30.4,-94.6 30.4,-94.6 28.96,-96 28.96,-96 30.4))',
+            },
+            {
+              name: 'Vienna, Austria',
+              location: 'POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))',
+            },
+          ],
+        },
+        {
+          poi: 'EG1-E200',
+          story: '/eodash-data/stories/demo-mode/egu2023/ships_in_ports',
+        },
+        {
+          poi: 'BE1-E1b',
+          story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
+        },
+        {
+          poi: 'W2-E12c',
+          story: '/eodash-data/stories/demo-mode/egu2023/moving_truck',
+        },
+        {
+          poi: 'NorthAdriatic-N3a2',
+          title: 'Chlorophyll-a concentration Anomaly Maps',
+          story: '/eodash-data/stories/demo-mode/egu2023/water_quality_chlorophyll-a_concentration',
+        },
+        {
+          poi: 'NorthAdriaticTSM-N3a2',
+          title: 'Total Suspended Matter Anomaly Maps',
+          story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
+        },
+        {
+          poi: 'DanubeDeltaSST-N3a2',
+          story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
+          title: 'Sea Surface Temperature Anomaly Maps',
+        },
+        {
+          poi: 'CDS-CDS1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m',
+        },
+        {
+          poi: 'CDS-CDS2',
+          story: '/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S',
+        },
+        {
+          poi: 'World-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI',
+        },
+        {
+          poi: 'WorldCO-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI',
+        },
+        {
+          poi: 'SO2-N1',
+          story: '/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI',
+        },
+        {
+          poi: 'AT4-E13d',
+          story: '/eodash-data/stories/demo-mode/egu2023/Flying_Planes',
+        },
+      ],
+      test: [
+        {
+          poi: 'NO3-E1b',
+        },
+        {
+          poi: 'CDS-CDS2',
+        },
+        {
+          poi: 'CDS-CDS3',
+        },
+        {
+          poi: 'World-N1',
+        },
+      ],
+    },
   },
   {
     id: 'trilateral',

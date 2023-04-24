@@ -138,7 +138,7 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         : -1));
     data.forEach((row) => {
       // Make sure to discard possible errors from sentinelhub
-      if (!Object.prototype.hasOwnProperty.call(row, 'error')) {
+      if (row && !Object.prototype.hasOwnProperty.call(row, 'error')) {
         const { stats } = row.outputs.data.bands.B0;
         newData.time.push(DateTime.fromISO(row.interval.from));
         newData.colorCode.push('');
@@ -202,6 +202,8 @@ export const evalScriptsDefinitions = Object.freeze({
   BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
   AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
+  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl'),
+  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn'),
 });
 
 // Define custom fetch function with configurable timeout
