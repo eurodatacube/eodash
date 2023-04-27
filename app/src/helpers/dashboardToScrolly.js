@@ -2,6 +2,7 @@ function translateMedia(item) {
   const i = item;
   if (i.text && i.text.includes('<--IMG-->')) {
     i.image = i.text.replaceAll('<--IMG-->', '');
+    i.text = undefined;
   } else if (i.text && i.text.includes('<--COMPARE-->')) {
     i.compare = [
       i.text.replaceAll('<--COMPARE-->', '').split('|')[0],
