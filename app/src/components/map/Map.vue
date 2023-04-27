@@ -53,7 +53,7 @@
       <indicator-time-selection
         ref="timeSelection"
         v-if="displayTimeSelection && !enableScrollyMode"
-        :autofocus="!disableAutoFocus && (window.self === window.top)"
+        :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
         :compare-active.sync="enableCompare"
@@ -465,6 +465,9 @@ export default {
         map.getView().getProjection());
       }
       return undefined;
+    },
+    isInIframe() {
+      return window.self !== window.top;
     },
   },
   watch: {
