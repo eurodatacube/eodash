@@ -21,8 +21,7 @@
     <SpecialLayer
       v-if="showSpecialLayer"
       :mapId="mapId"
-      :mergedConfig="mergedConfigsData[0]"
-      :layerName="dataLayerName"
+      :mergedConfigs="mergedConfigsData"
       :options="specialLayerOptions"
       :key="dataLayerKey  + '_specialLayer'"
       :swipePixelX="swipePixelX"
@@ -43,7 +42,7 @@
         v-if="compareLayerTime"
         :mapId="mapId"
         :time="compareLayerTime.value"
-        :mergedConfigsData="mergedConfigsLayerSwipe[0]"
+        :mergedConfigsData="mergedConfigsLayerSwipe"
         :specialLayerOptionProps="specialLayerOptions"
         :enable="enableCompare"
         :drawnArea="drawnArea"
@@ -52,8 +51,8 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="displayTimeSelection"
-        :autofocus="!disableAutoFocus"
+        v-if="displayTimeSelection && !enableScrollyMode"
+        :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
         :compare-active.sync="enableCompare"
@@ -63,7 +62,9 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
-        :style="mapId === 'centerMap' && $vuetify.breakpoint.smAndUp ? 'bottom: 155px' : ''"
+        :style="(mapId === 'centerMap' && $vuetify.breakpoint.smAndUp && $route.name !== 'demo')
+          ? 'bottom: 155px'
+          : ''"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -77,7 +78,7 @@
     <div
       v-if="$vuetify.breakpoint.smAndUp"
       :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
-      :style="`position: absolute; z-index: 7; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -91,17 +92,25 @@
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
+      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
           : `${$vuetify.application.footer + 10}px`} !important`
         : ''"
     >
-      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents"/>
-      <ZoomControl :mapId="mapId" class="pointerEvents" />
+      <FullScreenControl
+        v-if="mapId !== 'centerMap'"
+        :mapId="mapId" class="pointerEvents"
+      />
+      <ZoomControl
+        v-show="!enableScrollyMode"
+        :mapId="mapId"
+        class="pointerEvents"
+      />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
+        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
@@ -121,7 +130,10 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
-      <div class="pointerEvents mt-auto mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mt-auto mb-2"
+      >
         <IframeButton
           v-if="mapId === 'centerMap'
             && indicator
@@ -134,12 +146,15 @@
           mapControl
         />
       </div>
-      <div class="pointerEvents mb-2">
+      <div
+        v-if="$route.name !== 'demo'"
+        class="pointerEvents mb-2"
+      >
         <AddToDashboardButton
           v-if="mapId === 'centerMap'
             && indicator
             && indicatorHasMapData(indicator)
-            && appConfig.id !== 'gtif'"
+            && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
@@ -147,6 +162,9 @@
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
         />
+      </div>
+      <div v-else class="mt-auto">
+        <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
       <div ref="mousePositionContainer"/>
     </div>
@@ -190,6 +208,7 @@ import {
   calculatePadding,
   getIndicatorFilteredInputData,
 } from '@/utils';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -244,6 +263,10 @@ export default {
       default: undefined,
     },
     panelActive: Boolean,
+    onScrollyModeChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -263,15 +286,14 @@ export default {
       swipePixelX: null,
       queryLink: null,
       viewZoomExtentFitId: null,
+      enableScrollyMode: false,
     };
   },
   computed: {
     ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
-      // use their own base layers from config, if available
-      return this.baseConfig.indicatorsDefinition[this.$store
-        .state.indicators.selectedIndicator?.indicator]?.baseLayers
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
         || this.baseConfig.baseLayersLeftMap;
     },
     layerNameMapping() {
@@ -293,10 +315,9 @@ export default {
       return configs;
     },
     overlayConfigs() {
-      // use their own overlay layers from config, if available
-      const configs = this.baseConfig.indicatorsDefinition[this.$store
-        .state.indicators.selectedIndicator?.indicator]?.overlayLayers
-        || this.baseConfig.overlayLayersLeftMap;
+      const configs = [...((
+        this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
+      ) || this.baseConfig.overlayLayersLeftMap)];
       // administrativeLayers replace country vectors
       if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
         configs.push({
@@ -424,6 +445,14 @@ export default {
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
       }
+      if (this.$route.name === 'demo') {
+        // check if a demo item custom extent is set as override
+        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+          .find((item) => item.poi === getLocationCode(this.indicator));
+        if (demoItem && demoItem.extent) {
+          return demoItem.extent;
+        }
+      }
       const presetView = this.mergedConfigsData[0]?.presetView;
       const { map } = getMapInstance(this.mapId);
       const readerOptions = {
@@ -453,6 +482,9 @@ export default {
         map.getView().getProjection());
       }
       return undefined;
+    },
+    isInIframe() {
+      return window.self !== window.top;
     },
   },
   watch: {
@@ -492,29 +524,33 @@ export default {
           const { map } = getMapInstance(this.mapId);
           if (this.indicator && 'queryParameters' in this.indicator) {
             // re-load indicator data for indicators where the rendering is based on external data
-            loadIndicatorExternalData(
-              timeObj.value, this.mergedConfigsData[0],
-            ).then((data) => {
-              this.$store.state.indicators.selectedIndicator.mapData = data;
-              const currLayer = map.getAllLayers().find((l) => l.get('id') === this.indicator.display.id);
-              if (currLayer) {
-                currLayer.changed();
-              }
-            });
-          } else {
-            // TODO:
-            // redraw all time-dependant layers, if time is passed via WMS params
-            const area = this.drawnArea;
-            const layers = map.getLayers().getArray();
-            this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
-              .forEach((config) => {
-                const layer = layers.find((l) => l.get('name') === config.name);
-                if (layer) {
-                  updateTimeLayer(layer, config, timeObj.value, area);
+            // get only valid configs (which has 'id')
+            const configs = this.mergedConfigsData.filter((item) => item.id);
+            configs.forEach((item) => {
+              loadIndicatorExternalData(
+                timeObj.value, item,
+              ).then((data) => {
+                this.$store.state.indicators.selectedIndicator.mapData = data;
+                // finds first layer with ID
+                const currLayer = map.getAllLayers().find((l) => l.get('id') === item.id);
+                if (currLayer) {
+                  currLayer.changed();
                 }
               });
-            this.$emit('update:datalayertime', timeObj.name);
+            });
           }
+          // TODO:
+          // redraw all time-dependant layers, if time is passed via WMS params
+          const area = this.drawnArea;
+          const layers = map.getLayers().getArray();
+          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+            .forEach((config) => {
+              const layer = layers.find((l) => l.get('name') === config.name);
+              if (layer) {
+                updateTimeLayer(layer, config, timeObj.value, area);
+              }
+            });
+          this.$emit('update:datalayertime', timeObj.name);
         }
       },
     },
@@ -522,11 +558,14 @@ export default {
       // Make sure compare data is loaded if required
       if (this.indicator && 'queryParameters' in this.indicator) {
         // TODO: Currently using first time entry as default, pretty sure we need more logic here
-        loadIndicatorExternalData(
-          this.indicator.time[0], this.mergedConfigsData[0],
-        ).then((data) => {
-          this.$store.state.indicators.selectedIndicator.compareMapData = data;
-          this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        const configs = this.mergedConfigsData.filter((item) => item.id);
+        configs.forEach((config) => {
+          loadIndicatorExternalData(
+            this.indicator.time[0], config,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+          });
         });
       } else {
         this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
@@ -562,11 +601,15 @@ export default {
     zoomExtent: {
       deep: true,
       immediate: false,
-      handler(value) {
+      handler(value, old) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
         // this is purely cosmetic and does not limit the ability to pan or zoom
         // paddings are calculated globally for the view.
-        if (value && !(this.centerProp || this.zoomProp)) {
+        if (
+          value
+          && JSON.stringify(old) !== JSON.stringify(value)
+          && !(this.centerProp || this.zoomProp)
+        ) {
           const { map } = getMapInstance(this.mapId);
           if (map.getTargetElement()) {
             const padding = calculatePadding();
@@ -656,6 +699,97 @@ export default {
       view.setZoom(this.zoomProp);
     }
     this.$emit('ready', true);
+
+    // Define a function to update the data layer
+    const updateTime = (time) => {
+      // Update the data layer with the new data
+      this.dataLayerTime = time;
+    };
+
+    // Define a function to schedule the data layer update during the next animation frame
+    const scheduleUpdateTime = (time) => {
+      // Use requestAnimationFrame to schedule the update during the next animation frame
+      requestAnimationFrame(() => {
+        updateTime(time);
+      });
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.data.command === 'map:setZoom' && event.data.zoom) {
+        // Update the state of the application using the message data
+        view.setZoom(event.data.zoom);
+      }
+
+      if (event.data.command === 'map:setTime' && event.data.time) {
+        scheduleUpdateTime(event.data.time);
+      }
+
+      if (event.data.command === 'map:setPoi' && event.data.poi) {
+        const { poi } = event.data;
+        const aoiID = poi.split('-')[0];
+        const indicatorCode = poi.split('-')[1];
+
+        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+          const { indicatorObject } = f.properties;
+          return indicatorObject.aoiID === aoiID
+            && indicatorObject.indicator === indicatorCode;
+        });
+
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature
+          ? selectedFeature.properties.indicatorObject
+          : null);
+      }
+
+      if (event.data.command === 'map:enableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(true);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') !== event.data.baseLayer) {
+            layer.setVisible(false);
+          } else {
+            layer.setVisible(true);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:disableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(false);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:setCenter' && event.data.center) {
+        // Update the state of the application using the message data
+        view.setCenter(
+          fromLonLat(
+            event.data.center,
+            map.getView().getProjection(),
+          ),
+        );
+      }
+
+      if (event.data.command === 'map:enableScrolly') {
+        this.enableScrollyMode = true;
+        this.onScrollyModeChange(true);
+        view.setProperties({
+          transition: 0,
+          constrainResolution: true,
+        });
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.set('transition', 0);
+          }
+        });
+      }
+    });
 
     this.ro = new ResizeObserver(this.onResize);
     this.ro.observe(this.$refs.mapContainer);
@@ -762,6 +896,19 @@ export default {
     onResize() {
       getMapInstance(this.mapId).map.updateSize();
     },
+    resetView() {
+      let extent = this.zoomExtent;
+      if (!extent) {
+        const { bounds } = this.mapDefaults;
+        extent = transformExtent(bounds, 'EPSG:4326',
+          getMapInstance(this.mapId).map.getView().getProjection());
+      }
+      const padding = calculatePadding();
+      getMapInstance(this.mapId).map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
+    },
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {
@@ -792,6 +939,10 @@ export default {
     height: 100%;
     pointer-events: none;
     z-index: 4;
+
+    &.hidden {
+      opacity: 0 !important;
+    }
   }
 
   .pointerEvents {

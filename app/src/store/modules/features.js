@@ -261,9 +261,6 @@ const mutations = {
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
-
-    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
-    window.dispatchEvent(new CustomEvent('area-changed'));
   },
   SET_ADMIN_BORDER_FEATURE_SELECTED(state, feature) {
     state.adminBorderFeatureSelected = feature;

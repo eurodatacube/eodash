@@ -7,8 +7,8 @@
     <!-- a comparelayer for a selected global poi with a time component -->
     <SpecialLayer
       :mapId="mapId"
-      :mergedConfig="mergedConfigsData"
-      :layerName="swipeLayerName"
+      :mergedConfigs="mergedConfigsData"
+      :compare='true'
       :options="specialLayerOptions"
       :swipePixelX="swipePixelX"
     />
@@ -40,7 +40,7 @@ export default {
   },
   props: {
     mapId: String,
-    mergedConfigsData: Object,
+    mergedConfigsData: Array[Object],
     specialLayerOptionProps: Object,
     time: {
       required: true,
@@ -57,12 +57,6 @@ export default {
     clipRight: 0,
   }),
   computed: {
-    swipeLayerName() {
-      return `${this.mergedConfigsData.name}_compare`;
-    },
-    originalLayerName() {
-      return this.mergedConfigsData.name;
-    },
     specialLayerOptions() {
       const options = { ...this.specialLayerOptionProps };
       options.time = this.time;
@@ -77,31 +71,35 @@ export default {
         this.$nextTick(() => {
           const { map } = getMapInstance(this.mapId);
           gsap.to(this.$data, { duration: 0.8, swipe: 50 });
-          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-          const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-          if (swipeLayer) {
-            swipeLayer.getLayers().forEach((l) => {
-              l.on('prerender', this.onPrerender);
-              l.on('postrender', this.onPostrender);
-            });
-            originalLayer.getLayers().forEach((l) => {
-              l.on('prerender', this.onPrerender);
-              l.on('postrender', this.onPostrender);
-            });
-            if (this.mergedConfigsData.protocol === 'cog') {
-              // special case because otherwise last time is used on enabling compare
-              updateTimeLayer(swipeLayer, this.mergedConfigsData, this.time, this.drawnArea);
+          this.mergedConfigsData.forEach((config) => {
+            const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === config.name);
+            const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+            if (swipeLayer) {
+              swipeLayer.getLayers().forEach((l) => {
+                l.on('prerender', this.onPrerender);
+                l.on('postrender', this.onPostrender);
+              });
+              originalLayer.getLayers().forEach((l) => {
+                l.on('prerender', this.onPrerender);
+                l.on('postrender', this.onPostrender);
+              });
+              if (config.protocol === 'cog') {
+                // special case because otherwise last time is used on enabling compare
+                updateTimeLayer(swipeLayer, config, this.time, this.drawnArea);
+              }
             }
-          }
+          });
         });
       } else {
         const deactivate = () => {
           this.swipeActive = false;
           const { map } = getMapInstance(this.mapId);
-          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-          originalLayer.getLayers().forEach((l) => {
-            l.un('prerender', this.onPrerender);
-            l.un('postrender', this.onPostrender);
+          this.mergedConfigsData.forEach((config) => {
+            const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === config.name);
+            originalLayer.getLayers().forEach((l) => {
+              l.un('prerender', this.onPrerender);
+              l.un('postrender', this.onPostrender);
+            });
           });
         };
         const reset = 0;
@@ -112,31 +110,53 @@ export default {
     },
     swipe() {
       const { map } = getMapInstance(this.mapId);
-      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      swipeLayer.changed();
+      this.mergedConfigsData.forEach((config) => {
+        const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
+          swipeLayer.changed();
+        }
+      });
     },
     time(time) {
       // redraw all time-dependant layers, if time is passed via WMS params
       const { map } = getMapInstance(this.mapId);
-      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
-        loadIndicatorExternalData(
-          time, this.mergedConfigsData,
-        ).then((data) => {
-          this.$store.state.indicators.selectedIndicator.compareMapData = data;
-          swipeLayer.getLayersArray()[0].changed();
-        });
-      } else if (swipeLayer) {
-        updateTimeLayer(swipeLayer, this.mergedConfigsData, time, this.drawnArea);
-      }
+      this.mergedConfigsData.forEach((config) => {
+        const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
+          updateTimeLayer(swipeLayer, config, time, this.drawnArea);
+        }
+      });
     },
     drawnArea(area) {
       // redraw all area features
       const { map } = getMapInstance(this.mapId);
-      const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === this.swipeLayerName);
-      if (swipeLayer) {
-        updateTimeLayer(swipeLayer, this.mergedConfigsData, this.time, area, 'updateArea');
-      }
+      this.mergedConfigsData.forEach((config) => {
+        const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray()[0].changed();
+          });
+        } else if (swipeLayer) {
+          updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');
+        }
+      });
     },
   },
   methods: {
@@ -153,46 +173,46 @@ export default {
         this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         const { map } = getMapInstance(this.mapId);
-        const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-        const isLayerGroup = originalLayer instanceof LayerGroup;
-        // check if the event-layer is displayed on the right side, either as single layer
-        // or as part of a layer group
-        const isRightLayer = isLayerGroup
-          ? originalLayer.getLayers().getArray().includes(evt.target)
-          : evt.target.get('name') === this.originalLayerName;
-
-        if (isRightLayer) {
-          if (ctx instanceof WebGLRenderingContext) {
-            ctx.enable(ctx.SCISSOR_TEST);
-            ctx.scissor(
-              this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height,
-            );
+        const usedConfig = this.mergedConfigsData.find((item) => evt.target.get('name').replace('_features', '') === item.name);
+        if (usedConfig) {
+          const originalLayer = map.getLayers().getArray().find((l) => l.get('name') === usedConfig.name);
+          const isLayerGroup = originalLayer instanceof LayerGroup;
+          // check if the event-layer is displayed on the right side, either as single layer
+          // or as part of a layer group
+          const isRightLayer = isLayerGroup
+            ? originalLayer.getLayers().getArray().includes(evt.target)
+            : evt.target.get('name') === usedConfig.name;
+          if (isRightLayer) {
+            if (ctx instanceof WebGLRenderingContext) {
+              ctx.enable(ctx.SCISSOR_TEST);
+              ctx.scissor(
+                this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height,
+              );
+            } else {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
+              ctx.clip();
+            }
+            if (Object.keys(this.$refs).length > 0) {
+              const w = this.$refs.container.clientWidth * (this.swipe / 100);
+              this.clipLeft = 0 - w;
+              this.clipRight = w - this.$refs.container.clientWidth;
+            }
           } else {
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
-            ctx.clip();
-          }
-
-          if (Object.keys(this.$refs).length > 0) {
-            const w = this.$refs.container.clientWidth * (this.swipe / 100);
-            this.clipLeft = 0 - w;
-            this.clipRight = w - this.$refs.container.clientWidth;
-          }
-        } else {
-          if (ctx instanceof WebGLRenderingContext) {
-            ctx.enable(ctx.SCISSOR_TEST);
-            ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
-          } else {
-            ctx.beginPath();
-            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
-            ctx.clip();
-          }
-
-          if (Object.keys(this.$refs).length > 0) {
-            const w = this.$refs.container.clientWidth * (this.swipe / 100);
-            this.clipLeft = 0 - w;
-            this.clipRight = w - this.$refs.container.clientWidth;
+            if (ctx instanceof WebGLRenderingContext) {
+              ctx.enable(ctx.SCISSOR_TEST);
+              ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
+            } else {
+              ctx.beginPath();
+              ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+              ctx.clip();
+            }
+            if (Object.keys(this.$refs).length > 0) {
+              const w = this.$refs.container.clientWidth * (this.swipe / 100);
+              this.clipLeft = 0 - w;
+              this.clipRight = w - this.$refs.container.clientWidth;
+            }
           }
         }
       }

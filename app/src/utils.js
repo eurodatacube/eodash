@@ -78,20 +78,20 @@ export function template(templateRe, str, data) {
   });
 }
 
-export async function loadIndicatorExternalData(time, mergedConfigs) {
+export async function loadIndicatorExternalData(time, mergedConfig) {
   const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
   const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
-  const timeKey = mergedConfigs.timeKey || 'time';
-  const base = `${geodbUrl}${endpoint}${mergedConfigs.id}`;
+  const timeKey = mergedConfig.timeKey || 'time';
+  const base = `${geodbUrl}${endpoint}${mergedConfig.id}`;
   const timequery = `${timeKey}=eq.${time}`;
-  const url = `${base}?${timequery}&select=${mergedConfigs.parameters}`;
+  const url = `${base}?${timequery}&select=${mergedConfig.parameters}`;
   const data = await fetch(url)
     .then((response) => response.json())
     .catch((error) => console.log(error));
   // convert to object
   const dataObject = {};
   data.forEach((entry) => {
-    dataObject[entry[mergedConfigs.adminZoneKey]] = { ...entry };
+    dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
   });
   return dataObject;
 }
@@ -282,7 +282,15 @@ export function calculatePadding() {
   const searchPanelWidth = (document.querySelector('#list') !== null)
     ? (document.querySelector('#list').clientWidth + 40) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
-  const padding = [70, 20 + dataPanelWidth, 150, 20 + searchResultWidth];
+  const demoItemsWidth = (document.querySelector('#demoItemsList') !== null)
+    ? (document.querySelector('#demoItemsList').clientWidth) : 0;
+  const percentageBasedOffsetWidth = Math.floor(window.innerWidth * 0.12);
+  const padding = [
+    70,
+    percentageBasedOffsetWidth + dataPanelWidth,
+    150,
+    percentageBasedOffsetWidth + searchResultWidth + demoItemsWidth,
+  ];
   return padding;
   // TODO  cleanup
   // const { map } = getMapInstance('centerMap');
