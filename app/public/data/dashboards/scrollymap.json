@@ -1,0 +1,88 @@
+[
+  [
+    {
+      "width": 1,
+      "text": "<p>Graz is a beautiful city located in the southeastern region of Austria. Although the city boasts of clean air and picturesque landscapes, the air quality in Graz is generally mediocre. <br /><br /> According to recent data, Graz ranks as one of the most polluted cities in Austria. The air pollution is a result of various factors such as traffic, industrial activities, and residential heating.</p><p>During the winter months, the air quality in Graz worsens due to increased emissions from residential heating. As the temperatures drop, people rely more on heating to keep their homes warm, which leads to higher emissions of pollutants. The increased emissions, coupled with the weather conditions during winter, create a smoggy environment that is harmful to human health.</p>",
+      "id": "ABC1234567890"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "poi": "AT-AQ5",
+        "timeline": [
+          {
+            "center": {
+              "lng": 15.421371,
+              "lat": 46.876668
+            },
+            "zoom": 6,
+            "duration": 0,
+            "layers": {
+              "enable": [
+                "EOxCloudless 2021"
+              ],
+              "disable": [
+                "Terrain light"
+              ]
+            }
+          },
+          {
+            "center": {
+              "lng": 15.421371,
+              "lat": 47.076668
+            },
+            "time": "2023-01-14",
+            "zoom": 11.5,
+            "duration": 0.25,
+            "layers": {
+              "enable": [
+                "EOxCloudless 2021"
+              ],
+              "disable": [
+                "Terrain light",
+                "Averaged NO2"
+              ]
+            }
+          },
+          {
+            "center": {
+              "lng": 15.421371,
+              "lat": 47.076668
+            },
+            "zoom": 11.6,
+            "times": [
+              "2022-09-08",
+              "2022-10-08",
+              "2022-11-08",
+              "2022-12-08"
+            ],
+            "duration": 0.25,
+            "layers": {
+              "enable": [
+                "Averaged NO2"
+              ],
+              "disable": []
+            }
+          },
+          {
+            "center": {
+              "lng": 15.421371,
+              "lat": 47.076668
+            },
+            "zoom": 11.7,
+            "duration": 0.25
+          },
+          {
+            "center": {
+              "lng": 15.421371,
+              "lat": 47.076668
+            },
+            "zoom": 11.7,
+            "duration": 0.25
+          }
+        ]
+      },
+      "id": "CBA0987654321"
+    }
+  ]
+]

@@ -51,8 +51,8 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="displayTimeSelection"
-        :autofocus="!disableAutoFocus"
+        v-if="displayTimeSelection && !enableScrollyMode"
+        :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
         :compare-active.sync="enableCompare"
@@ -92,15 +92,22 @@
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
+      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
           : `${$vuetify.application.footer + 10}px`} !important`
         : ''"
     >
-      <FullScreenControl v-if="mapId !== 'centerMap'" :mapId="mapId" class="pointerEvents"/>
-      <ZoomControl :mapId="mapId" class="pointerEvents" />
+      <FullScreenControl
+        v-if="mapId !== 'centerMap'"
+        :mapId="mapId" class="pointerEvents"
+      />
+      <ZoomControl
+        v-show="!enableScrollyMode"
+        :mapId="mapId"
+        class="pointerEvents"
+      />
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         :style="`z-index: 3;`"
@@ -256,6 +263,10 @@ export default {
       default: undefined,
     },
     panelActive: Boolean,
+    onScrollyModeChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -275,6 +286,7 @@ export default {
       swipePixelX: null,
       queryLink: null,
       viewZoomExtentFitId: null,
+      enableScrollyMode: false,
     };
   },
   computed: {
@@ -470,6 +482,9 @@ export default {
         map.getView().getProjection());
       }
       return undefined;
+    },
+    isInIframe() {
+      return window.self !== window.top;
     },
   },
   watch: {
@@ -685,6 +700,97 @@ export default {
     }
     this.$emit('ready', true);
 
+    // Define a function to update the data layer
+    const updateTime = (time) => {
+      // Update the data layer with the new data
+      this.dataLayerTime = time;
+    };
+
+    // Define a function to schedule the data layer update during the next animation frame
+    const scheduleUpdateTime = (time) => {
+      // Use requestAnimationFrame to schedule the update during the next animation frame
+      requestAnimationFrame(() => {
+        updateTime(time);
+      });
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.data.command === 'map:setZoom' && event.data.zoom) {
+        // Update the state of the application using the message data
+        view.setZoom(event.data.zoom);
+      }
+
+      if (event.data.command === 'map:setTime' && event.data.time) {
+        scheduleUpdateTime(event.data.time);
+      }
+
+      if (event.data.command === 'map:setPoi' && event.data.poi) {
+        const { poi } = event.data;
+        const aoiID = poi.split('-')[0];
+        const indicatorCode = poi.split('-')[1];
+
+        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+          const { indicatorObject } = f.properties;
+          return indicatorObject.aoiID === aoiID
+            && indicatorObject.indicator === indicatorCode;
+        });
+
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature
+          ? selectedFeature.properties.indicatorObject
+          : null);
+      }
+
+      if (event.data.command === 'map:enableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(true);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') !== event.data.baseLayer) {
+            layer.setVisible(false);
+          } else {
+            layer.setVisible(true);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:disableLayer' && event.data.name) {
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.setVisible(false);
+          }
+        });
+      }
+
+      if (event.data.command === 'map:setCenter' && event.data.center) {
+        // Update the state of the application using the message data
+        view.setCenter(
+          fromLonLat(
+            event.data.center,
+            map.getView().getProjection(),
+          ),
+        );
+      }
+
+      if (event.data.command === 'map:enableScrolly') {
+        this.enableScrollyMode = true;
+        this.onScrollyModeChange(true);
+        view.setProperties({
+          transition: 0,
+          constrainResolution: true,
+        });
+        map.getLayers().forEach((layer) => {
+          if (layer.get('name') === event.data.name) {
+            layer.set('transition', 0);
+          }
+        });
+      }
+    });
+
     this.ro = new ResizeObserver(this.onResize);
     this.ro.observe(this.$refs.mapContainer);
     // Fetch data for custom chart if the event is fired.
@@ -833,6 +939,10 @@ export default {
     height: 100%;
     pointer-events: none;
     z-index: 4;
+
+    &.hidden {
+      opacity: 0 !important;
+    }
   }
 
   .pointerEvents {

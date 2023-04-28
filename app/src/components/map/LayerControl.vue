@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip v-if="!show" left>
+  <v-tooltip v-if="!show && !enableScrollyMode" left>
     <template v-slot:activator="{ on }">
       <v-btn
         :color="$vuetify.theme.currentTheme.background"
@@ -77,6 +77,7 @@ export default {
     administrativeConfigs: [Array, null],
     dataLayerConfigLayerControls: [Array, null],
     isGlobalIndicator: Boolean,
+    enableScrollyMode: Boolean,
   },
   data() {
     return {
