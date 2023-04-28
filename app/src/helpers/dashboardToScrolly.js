@@ -100,12 +100,12 @@ export default function dashboardToScrolly(features) {
             if (c.type) {
               text += `\n\n${n.text}`;
               // Media is left
-              c.textSide = 'left';
+              c.textSide = 'right';
               timeline.push(c);
             } else {
               text += `\n\n${c.text}`;
               // Media is left
-              n.textSide = 'right';
+              n.textSide = 'left';
               timeline.push(n);
             }
           } else {
