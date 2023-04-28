@@ -3,23 +3,29 @@ function translateMedia(item) {
   if (i.text && i.text.includes('<--IMG-->')) {
     i.image = i.text.replaceAll('<--IMG-->', '');
     i.text = undefined;
+    i.type = 'image';
   } else if (i.text && i.text.includes('<--COMPARE-->')) {
     i.compare = [
       i.text.replaceAll('<--COMPARE-->', '').split('|')[0],
       i.text.replaceAll('<--COMPARE-->', '').split('|')[1],
     ];
+    i.type = 'compare';
   } else if (i.text && i.text.includes('<--SCRUB-->')) {
     i.scrub = i.text.replaceAll('<--SCRUB-->', '');
+    i.type = 'scrub';
   } else if (i.text && i.text.includes('<--VID-->')) {
     i.video = i.text.replaceAll('<--VID-->', '');
+    i.type = 'video';
   } else if (i.text && i.text.includes('<--AUTOPLAY-->')) {
     i.video = i.text.replaceAll('<--AUTOPLAY-->', '');
     i.autoplay = true;
+    i.type = 'autoplay';
   } else if (i.mapInfo) {
     if (i.id.includes('@')) {
       const [id] = i.id.split('@');
       i.mapInfo.poi = id;
     }
+    i.type = 'map';
   }
 }
 
@@ -66,36 +72,59 @@ export default function dashboardToScrolly(features) {
       if (next.mapInfo && features[i + 3] && features[i + 3].mapInfo) {
         translateMedia(next);
         console.log(next);
-        var text = current.text;
-        var timeline = [{
+        let { text } = current;
+        const timeline = [{
           center: next.mapInfo.center,
           zoom: next.mapInfo.zoom,
           poi: next.mapInfo.poi,
           duration: 0.25,
           layers: ['EOxCloudless 2021'],
         }];
-        const mapInfo = next.mapInfo;
+
         i += 2;
 
-        while (i < features.length && features[i].width === 1 && features[i + 1] && features[i + 1].mapInfo) {
-          let c = features[i];
-          let n = features[i + 1];
+        while (i < features.length
+          && features[i].width === 1
+          && features[i + 1]
+          && features[i + 1].mapInfo
+          || i < features.length
+          && features[i] && features[i + 1]
+          && (features[i].width === 2 && features[i + 1].width === 2)     
+        ) {
+          const c = features[i];
+          const n = features[i + 1];
 
           translateMedia(c);
           translateMedia(n);
 
           text += `\n\n${c.text}`;
+          var textSide = '';
 
-          timeline.push({
-            center: n.mapInfo.center,
-            zoom: n.mapInfo.zoom,
-            poi: n.mapInfo.poi || '',
-            duration: 0.25,
-          });
+          if (c.width === 2 && n.width === 2) {
+            if (c.type) {
+              // Media is left
+              c.textSide = 'left';
+              c.duration = 0.25;
+              timeline.push(c);
+            } else {
+              // Media is left
+              n.textSide = 'right';
+              n.duration = 0.25;
+              timeline.push(n);
+            }
+          } else {
+            timeline.push({
+              center: n.mapInfo.center,
+              zoom: n.mapInfo.zoom,
+              poi: n.mapInfo.poi || '',
+              duration: 0.25,
+            });
+          }
+
           i += 2;
         }
 
-        var block = {
+        const block = {
           width: 4,
           text,
           mapInfo: {
