@@ -146,6 +146,8 @@ export default {
   mounted() {
     document.body.classList.add('iframe');
 
+    // TODO: Is this function still needed?
+    /*
     window.addEventListener('message', (event) => {
       // Check that the message data is valid
       if (!event.data.zoom) return;
@@ -154,6 +156,7 @@ export default {
       const newZoom = event.data.zoom;
       // ...
     });
+    */
   },
   methods: {
     swipe() {
