@@ -77,7 +77,6 @@ export default function dashboardToScrolly(features) {
           center: next.mapInfo.center,
           zoom: next.mapInfo.zoom,
           poi: next.mapInfo.poi,
-          duration: 0.25,
           layers: ['EOxCloudless 2021'],
         }];
 
@@ -102,13 +101,11 @@ export default function dashboardToScrolly(features) {
               text += `\n\n${n.text}`;
               // Media is left
               c.textSide = 'left';
-              c.duration = 0.25;
               timeline.push(c);
             } else {
               text += `\n\n${c.text}`;
               // Media is left
               n.textSide = 'right';
-              n.duration = 0.25;
               timeline.push(n);
             }
           } else {
@@ -117,12 +114,13 @@ export default function dashboardToScrolly(features) {
               center: n.mapInfo.center,
               zoom: n.mapInfo.zoom,
               poi: n.mapInfo.poi || '',
-              duration: 0.25,
             });
           }
 
           i += 2;
         }
+
+        timeline.map(e => e.duration = 1.0 / timeline.length);
 
         const block = {
           width: 4,
