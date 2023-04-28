@@ -97,22 +97,22 @@ export default function dashboardToScrolly(features) {
           translateMedia(c);
           translateMedia(n);
 
-          text += `\n\n${c.text}`;
-          var textSide = '';
-
           if (c.width === 2 && n.width === 2) {
             if (c.type) {
+              text += `\n\n${n.text}`;
               // Media is left
               c.textSide = 'left';
               c.duration = 0.25;
               timeline.push(c);
             } else {
+              text += `\n\n${c.text}`;
               // Media is left
               n.textSide = 'right';
               n.duration = 0.25;
               timeline.push(n);
             }
           } else {
+            text += `\n\n${c.text}`;
             timeline.push({
               center: n.mapInfo.center,
               zoom: n.mapInfo.zoom,
