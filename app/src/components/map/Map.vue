@@ -697,20 +697,19 @@ export default {
       }
 
       if (event.data.command === 'map:setPoi' && event.data.poi) {
-        const poi = event.data.poi;
+        const { poi } = event.data;
         const aoiID = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
 
-        var selectedFeature = this.$store.state.features.allFeatures.find((f) => {
+        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
           const { indicatorObject } = f.properties;
           return indicatorObject.aoiID === aoiID
             && indicatorObject.indicator === indicatorCode;
         });
 
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature 
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature
           ? selectedFeature.properties.indicatorObject
-          : null
-        );
+          : null);
       }
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
@@ -752,7 +751,6 @@ export default {
       if (event.data.command === 'map:enableScrolly') {
         this.enableScrollyMode = true;
         this.onScrollyModeChange(true);
-        const view = map.getView();
         view.setProperties({
           transition: 0,
           constrainResolution: true,

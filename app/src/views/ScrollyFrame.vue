@@ -42,7 +42,7 @@ import FeedbackButton from '@/components/FeedbackButton.vue';
 
 import dashboardToScrolly from '../helpers/dashboardToScrolly';
 import storiesConfig from '../config/stories.json';
-import customDashboardApiFactory from '../custom-dashboard.js';
+import customDashboardApiFactory from '../custom-dashboard';
 
 export default {
   components: {
@@ -130,7 +130,7 @@ export default {
                 Expires: '0',
               },
             });
-          
+
           items = dashboardToScrolly(res.data.features);
         }
       } catch (_e) {
