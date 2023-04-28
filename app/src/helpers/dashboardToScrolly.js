@@ -82,13 +82,13 @@ export default function dashboardToScrolly(features) {
 
         i += 2;
 
-        while (i < features.length
+        while ((i < features.length
           && features[i].width === 1
           && features[i + 1]
-          && features[i + 1].mapInfo
-          || i < features.length
+          && features[i + 1].mapInfo)
+          || (i < features.length
           && features[i] && features[i + 1]
-          && (features[i].width === 2 && features[i + 1].width === 2)     
+          && (features[i].width === 2 && features[i + 1].width === 2))
         ) {
           const c = features[i];
           const n = features[i + 1];
@@ -120,7 +120,7 @@ export default function dashboardToScrolly(features) {
           i += 2;
         }
 
-        timeline.map(e => e.duration = 1.0 / timeline.length);
+        timeline.forEach((e) => { e.duration = 1.0 / timeline.length; });
 
         const block = {
           width: 4,
