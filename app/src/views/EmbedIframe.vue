@@ -4,9 +4,10 @@
       v-if="$store.state.indicators.selectedIndicator"
       class="fill-height elevation-3 d-flex flex-column"
     >
-      <v-card-title v-if="$store.state.indicators.selectedIndicator"
+      <v-card-title v-if="$store.state.indicators.selectedIndicator && !enableScrollyMode"
         :class="$store.state.indicators.selectedIndicator.description ===
-          $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
+          $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'
+        "
         color="primary"
         class="flex-grow-0"
       >
@@ -52,6 +53,7 @@
           class="pt-0 fill-height"
           mapId="embedMap"
           v-bind="mapPosition"
+          :onScrollyModeChange="(v) => { enableScrollyMode = v }"
         />
         <indicator-data
           style="top: 0px; position: absolute;"
@@ -69,7 +71,9 @@
           <span v-else>This data is updated: {{ selectedIndicator.updateFrequency }}</span>
         </small>
       </v-card-text>
-      <v-card-actions :style="`background: ${$vuetify.theme.themes.light.primary}`"
+      <v-card-actions
+        v-if="!enableScrollyMode"
+        :style="`background: ${$vuetify.theme.themes.light.primary}`"
         class="flex-grow-0"
       >
         <small class="white--text ml-2">Read the
@@ -115,6 +119,7 @@ export default {
   data: () => ({
     overlay: false,
     dataInteract: false,
+    enableScrollyMode: false,
   }),
   computed: {
     ...mapState('config', [
@@ -140,6 +145,18 @@ export default {
   },
   mounted() {
     document.body.classList.add('iframe');
+
+    // TODO: Is this function still needed?
+    /*
+    window.addEventListener('message', (event) => {
+      // Check that the message data is valid
+      if (!event.data.zoom) return;
+
+      // Update the state of the application using the message data
+      const newZoom = event.data.zoom;
+      // ...
+    });
+    */
   },
   methods: {
     swipe() {

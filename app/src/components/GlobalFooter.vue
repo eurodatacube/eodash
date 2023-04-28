@@ -3,6 +3,9 @@
     app
     :color="color"
     class="d-flex justify-center align-center white--text text-center"
+    :class="{
+      demoMode: $route.name === 'demo'
+    }"
     style="z-index: 8"
     :height="$vuetify.breakpoint.xsOnly ? '60px' : '40px'"
   >
@@ -46,7 +49,7 @@
         <img :src="`${publicPath}img/EOX_Logo_weiss.svg`" height="11px" class="my-0" />
       </a>
     </small>
-    <feedback-button />
+    <feedback-button v-if="$route.name !== 'demo'" />
   </v-footer>
 </template>
 
@@ -88,3 +91,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.demoMode a {
+  pointer-events: none;
+}
+</style>

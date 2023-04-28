@@ -8,7 +8,7 @@
     <v-row>
       <v-col>
         <h3>
-          2023-02-10: Three new stories published in Cryosphere.
+          2023-03-13: Three new stories published in Cryosphere.
         </h3>
         <p>
           Learn about the research of NASA, ESA and JAXA on glaciers

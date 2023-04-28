@@ -203,6 +203,11 @@ const renderVue = async () => {
         { path: '/', name: 'landing', component: ScrollyFrame },
       ] : []),
     { path: '/dashboard', component: DashboardCustom },
+    ...(store.state.config.appConfig && store.state.config.appConfig.demoMode
+      ? [
+        { path: '/demo', name: 'demo', component: Dashboard },
+      ] : []
+    ),
     { path: '/story', component: DashboardCustom },
     { path: '/privacy', name: 'privacy', component: Privacy },
     { path: '/terms_and_conditions', name: 'terms_and_conditions', component: Terms },
@@ -238,6 +243,7 @@ const renderVue = async () => {
         { path: '/sustainable-cities', name: 'gtif-sustainable-cities', component: ScrollyFrame },
         { path: '/carbon-accounting', name: 'gtif-carbon-accounting', component: ScrollyFrame },
         { path: '/eo-adaptation-services', name: 'gtif-eo-adaptation-services', component: ScrollyFrame },
+        { path: '/scrollymaps', name: 'scrollymaps', component: ScrollyFrame },
       ]
       : []
     ),

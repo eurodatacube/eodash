@@ -42,6 +42,7 @@ import FeedbackButton from '@/components/FeedbackButton.vue';
 
 import dashboardToScrolly from '../helpers/dashboardToScrolly';
 import storiesConfig from '../config/stories.json';
+import customDashboardApiFactory from '../custom-dashboard';
 
 export default {
   components: {
@@ -96,39 +97,58 @@ export default {
       'setCurrentDomain',
     ]),
     async onLoaded() {
+      const css = await axios.get('./css/gtif-scrolly.css');
+
+      const footer = await axios.get('./data/gtif/components/footer.json');
+      const bottom = await axios.get('./data/gtif/components/bottom.json');
+      const header = await axios.get('./data/gtif/components/header.json');
+
+      this.footer = footer.data;
+      this.bottomNav = bottom.data;
+      this.header = header.data;
+
+      let items;
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const customDashboardApi = customDashboardApiFactory();
+
       try {
-        const css = await axios.get('./css/gtif-scrolly.css');
+        // If custom ID is present in the query string, use that instead of the cached ones.
+        if (id !== null) {
+          console.log(`Scrolly Preview Mode (${id})`);
+          const res = await customDashboardApi.listen(id);
+          console.log('Fetched dashboard:', res);
 
-        const footer = await axios.get('./data/gtif/components/footer.json');
-        const bottom = await axios.get('./data/gtif/components/bottom.json');
-        const header = await axios.get('./data/gtif/components/header.json');
+          items = dashboardToScrolly(res.features);
+          console.log(items);
+        } else {
+          const res = await axios
+            .get(`./data/dashboards/${this.getDashboardID()}.json`, {
+              headers: {
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0',
+              },
+            });
 
-        this.footer = footer.data;
-        this.bottomNav = bottom.data;
-        this.header = header.data;
-
-        const res = await axios
-          .get(`./data/dashboards/${this.getDashboardID()}.json`, {
-            headers: {
-              'Cache-Control': 'no-cache',
-              Pragma: 'no-cache',
-              Expires: '0',
-            },
-          });
-
-        this.linkStyle(css.data);
-        this.setScrollyStory(dashboardToScrolly(res.data.features));
-
-        console.log(process.env.BASE_URL);
-
-        if (this.$route.name === 'landing') {
-          this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+          items = dashboardToScrolly(res.data.features);
         }
-        this.setComponentHook('footer', this.footer);
-        this.setComponentHook('header', this.header, { routeName: this.$route.name });
-      } catch (error) {
-        console.error(`Error loading dashboard data: ${error}`);
+      } catch (_e) {
+        console.error(`Something went wrong while loading the dashboard: ${_e}`);
       }
+
+      console.log(JSON.stringify(items));
+
+      this.linkStyle(css.data);
+      this.setScrollyStory(items);
+
+      console.log(process.env.BASE_URL);
+
+      if (this.$route.name === 'landing') {
+        this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+      }
+      this.setComponentHook('footer', this.footer);
+      this.setComponentHook('header', this.header, { routeName: this.$route.name });
     },
     /**
      * Add the CSS styles from a given path to the iframe.
