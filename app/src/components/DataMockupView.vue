@@ -139,8 +139,8 @@ export default {
               const ind = {
                 ...this.indicatorObject,
                 time: retrievedData.time,
-                measurement: retrievedData[par],
-                // TODO: Add possible additional fields
+                measurement: retrievedData[selected],
+                yAxis: selected,
               };
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
