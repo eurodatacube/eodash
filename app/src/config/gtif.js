@@ -1764,7 +1764,7 @@ export const globalIndicators = [
           filters: {
             biomass: {
               display: true,
-              label: 'CCI Biomass [t/ha]',
+              label: 'Biomass [t/ha]',
               id: 'biomass',
               min: 0,
               max: 420,
@@ -1785,7 +1785,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'BM2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/3857/CCI-BIOMASS2020-Austria_COG_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/FCM_AGB-2021_Austria_20m_EPSG3857-COG.tif' },
           ],
           style: {
             variables: {
@@ -1974,12 +1974,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_basal_area_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_basal_area_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_basal_area_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_basal_area_2015_8bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_basal_area_DA_2018_8bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_basal_area_DA_2021_8bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT1',
+          filters: {
+            basalarea: {
+              display: true,
+              label: 'Basal area m²/ha',
+              id: 'basalarea',
+              min: 0,
+              max: 65,
+              header: true,
+              range: [0, 65],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -1992,10 +2006,34 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT1',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              basalareaMin: 0,
+              basalareaMax: 65,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 1], ['var', 'basalareaMin'], ['var', 'basalareaMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                // normalize(['band', 1], 'basalareaMin', 'basalareaMax'),
+                0.0,
+                [255, 255, 255, 1],
+                65,
+                [128, 3, 120, 1],
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
@@ -2025,12 +2063,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_broadleaf_proportion_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_broadleaf_proportion_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_broadleaf_proportion_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_broadleaf_2015_8bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_broadleaf_DA_2018_8bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_broadleaf_DA_2021_8bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT2',
+          filters: {
+            broadleaf: {
+              display: true,
+              label: 'Broadleaf proportion [%]',
+              id: 'broadleaf',
+              min: 0,
+              max: 100,
+              header: true,
+              range: [0, 100],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -2043,10 +2095,26 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              broadleafMin: 0,
+              broadleafMax: 100,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 1, 100],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'broadleafMin', 'broadleafMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
