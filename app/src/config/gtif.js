@@ -310,6 +310,7 @@ const energyTransitionDefaults = {
     ...baseLayersLeftMap,
     baseLayers.bodenwertigkeitskarte_agri,
     baseLayers.bodenwertigkeitskarte_grassland,
+    baseLayers.dsr_schnelllade_10km,
   ],
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
