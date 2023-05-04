@@ -53,8 +53,6 @@ export default {
     swipeLayerObject: null,
     swipe: 0,
     swipePixelX: null,
-    clipLeft: 0,
-    clipRight: 0,
   }),
   computed: {
     specialLayerOptions() {
@@ -166,7 +164,7 @@ export default {
         const ctx = evt.context;
 
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-          ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
+          ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
             : document.querySelector('.data-panel').clientWidth
           : 0;
@@ -194,24 +192,15 @@ export default {
               ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
               ctx.clip();
             }
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
           } else {
             if (ctx instanceof WebGLRenderingContext) {
               ctx.enable(ctx.SCISSOR_TEST);
               ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
             } else {
+              ctx.save();
               ctx.beginPath();
               ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
               ctx.clip();
-            }
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
             }
           }
         }
