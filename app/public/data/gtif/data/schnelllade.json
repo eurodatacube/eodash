@@ -1,8 +1,8 @@
 {
   "version": 8,
   "name": "schnelllade",
-  "center": [0, 0],
-  "zoom": 3,
+  "minZoom": 0,
+  "maxZoom": 14,
   "glyphs": "{fontstack}/{range}",
   "sources": {
     "schnellade_source": {
@@ -17,19 +17,39 @@
     {
       "id": "background",
       "type": "background",
+      "layout": {"visibility": "visible"},
       "paint": {
-        "background-color": "rgba(0,0,0,0)"
+        "background-color": "#ff0000"
       }
     },
     {
-      "id": "GRExisting",
+      "id": "Gr50_10km",
       "type": "fill",
-      "source": "schnellade",
-      "source-layer": "schnelllade_source",
-      "filter": ["all"],
+      "source": "schnellade_source",
+      "source-layer": "GTIF_dsr_schnelllade_10km",
+      "filter": [
+        "in",
+        ["string", "Gr50_10km"],
+        ["string", ["get", "poly_typ"]]
+      ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "fill-color": "#686868"
+        "fill-color": "rgba(62, 143, 77, 1)"
+      }
+    },
+    {
+      "id": "CLC2018",
+      "type": "fill",
+      "source": "schnellade_source",
+      "source-layer": "GTIF_dsr_schnelllade_10km",
+      "filter": [
+        "in",
+        ["string", "CLC2018"],
+        ["string", ["get", "poly_typ"]]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(150, 150, 150, 1)"
       }
     }
   ]

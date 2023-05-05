@@ -80,7 +80,7 @@ export const baseLayers = Object.freeze({
     protocol: 'vectortile',
   },
   dsr_schnelllade_10km: {
-    name: 'Schnellade',
+    name: 'Funding map for fast charging stations',
     id: 'schnellade',
     styleFile: 'data/gtif/data/schnelllade.json',
     attribution: '{ <a href="https://www.austriatech.at/" target="_blank"> DSR Schnelllade </a> }',
