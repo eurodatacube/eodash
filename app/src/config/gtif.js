@@ -570,6 +570,16 @@ export const indicatorsDefinition = Object.freeze({
       adminZoneIds: ['gemeinde'],
     },
   },
+  AQ1: {
+    indicator: 'Aggregated mobility data',
+    class: 'air',
+    themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
+    customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
+  },
   AQ2: {
     indicator: 'Innsbruck hot-spot',
     class: 'air',
@@ -679,6 +689,145 @@ export const globalIndicators = [
         inputData: [''],
         // display: {
         // },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Aggregated mobility data',
+        indicator: 'AQ1',
+        lastIndicatorValue: null,
+        indicatorName: 'Aggregated mobility data',
+        navigationDescription: 'Mobility & Air quality',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: availableDates.aggregated_data.sort((a, b) => {
+          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
+          return val;
+        }),
+        inputData: [''],
+        yAxis: 'Aggregated data',
+        queryParameters: {
+          // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
+          // motorized_share, motorized_count, satellite_values, mean_value
+          sourceLayer: 'aggregated_trajs_model_satellite',
+          selected: 'satellite_values',
+          items: [
+            {
+              id: 'satellite_values',
+              description: 'Sentinel-5p values',
+              dataInfo: '',
+              min: 0,
+              max: 50,
+              colormapUsed: grywrd,
+              markdown: '',
+            },
+            {
+              id: 'mean_value',
+              description: 'Model value (WRFChem)',
+              dataInfo: '',
+              min: 0,
+              max: 50,
+              colormapUsed: grywrd,
+              markdown: '',
+            },
+            {
+              id: 'congestion_index',
+              description: 'Congestion index',
+              dataInfo: '',
+              min: 0,
+              max: 1,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'speed',
+              description: 'Speed',
+              dataInfo: '',
+              min: 0,
+              max: 120,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'n_trajectories',
+              description: 'Number of trajectories',
+              dataInfo: '',
+              min: 0,
+              max: 50000,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'motorized_count',
+              description: 'Motirized count',
+              dataInfo: '',
+              min: 0,
+              max: 20000,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'motorized_share',
+              description: 'Motorized share',
+              dataInfo: '',
+              min: 0,
+              max: 100,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#00000000';
+            const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+              const id = Number(feature.properties_.object_id);
+              const ind = store.state.indicators.selectedIndicator;
+              const currPar = ind.queryParameters.items
+                .find((item) => item.id === ind.queryParameters.selected);
+              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                const value = ind[dataSource][id][currPar.id];
+                if (value != null) {
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+            }
+            return color;
+          },
+          id: 'aggregated_trajs_model_satellite',
+          timeKey: 'timestamp',
+          name: 'Aggregated data',
+          adminZoneKey: 'satellite_id',
+          parameters: 'satellite_id,satellite_values,mean_value,speed,congestion_index,n_trajectories,motorized_count,motorized_share',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
       },
     },
   },
