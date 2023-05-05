@@ -192,16 +192,14 @@ export default {
               ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
               ctx.clip();
             }
+          } else if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
           } else {
-            if (ctx instanceof WebGLRenderingContext) {
-              ctx.enable(ctx.SCISSOR_TEST);
-              ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
-            } else {
-              ctx.save();
-              ctx.beginPath();
-              ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
-              ctx.clip();
-            }
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+            ctx.clip();
           }
         }
       }
