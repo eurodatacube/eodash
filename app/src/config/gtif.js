@@ -216,6 +216,15 @@ export const administrativeLayers = [{
   name: 'NUTS L0',
   id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
+  minZoom: 1,
+  maxZoom: 18,
+}];
+
+const completeAustriaAdministrativeLayers = [{
+  ...nutsStyle,
+  name: 'NUTS L0',
+  id: 'nuts_0',
+  url: 'data/gtif/data/AT_NUTS_L0.geojson',
   minZoom: 4,
   maxZoom: 7.5,
 }, {
@@ -356,11 +365,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
-    baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm,
-      visible: true,
-    }],
-    overlayLayers: [],
     disableCSV: true,
     geoDBDataQuery: 'sobothstausee_surface_water_extent?',
     geoDBParameters: 'date,area_diff_rel,area,diff_area',
@@ -741,6 +745,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -839,6 +844,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -937,6 +943,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1095,36 +1102,6 @@ export const globalIndicators = [
       },
     },
   },
-  /*
-  // TODO: placeholder, do we need this?
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'High resolution Data',
-        indicator: 'AQ3',
-        lastIndicatorValue: null,
-        indicatorName: 'High resolution Data',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ3',
-        },
-      },
-    },
-  },
-  */
   {
     //  is collection with data and AT_Network_edges_3857
     properties: {
@@ -1222,6 +1199,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
           getColor: (feature, store, options) => {
@@ -1380,6 +1358,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1495,6 +1474,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'GTIF_AT_Rooftops_3857',
           STYLES: 'grimpactscore_filtered',
@@ -1579,6 +1559,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'GTIF_AT_Rooftops_3857',
           STYLES: 'PVEPPMwhHP',

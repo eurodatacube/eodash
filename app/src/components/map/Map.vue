@@ -330,7 +330,8 @@ export default {
       return configs;
     },
     administrativeConfigs() {
-      return [...this.baseConfig.administrativeLayers];
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].administrativeLayers)
+        || this.baseConfig.administrativeLayers;
     },
     mapDefaults() {
       return {
