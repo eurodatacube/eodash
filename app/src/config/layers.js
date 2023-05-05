@@ -83,7 +83,7 @@ export const baseLayers = Object.freeze({
     name: 'Funding map for fast charging stations',
     id: 'schnellade',
     styleFile: 'data/gtif/data/schnelllade.json',
-    attribution: '{ <a href="https://www.austriatech.at/" target="_blank"> DSR Schnelllade </a> }',
+    attribution: '{ Funding map: green = enough fast charging available, grey = subsidies available - source <a href="https://www.austriatech.at/" target="_blank"> Austriatech </a> }',
     visible: false,
     maxZoom: 17,
     protocol: 'vectortile',
