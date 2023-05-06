@@ -94,7 +94,7 @@ for item in hydro_swe_daily_means_data:
             "country": None,
             "indicator": 'REP4_1',
             "siteName": None,
-            "city": None,
+            "city": '',
             "region": None,
             "description": 'Surface water extent - storage level',
             "indicatorName": None,
