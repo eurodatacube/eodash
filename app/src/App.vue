@@ -168,7 +168,7 @@ export default {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
         const { poi, country, indicator } = this.$route.query;
-        const indicatorsFilter = (indicator && indicator.split(",")) || [];
+        const indicatorsFilter = (indicator && indicator.split(',')) || [];
         if (poi || indicatorsFilter.length > 0) {
           // poi or indicator was present on app init
           this.$store.commit('setInitWithQuery', true);

@@ -96,7 +96,7 @@ for item in hydro_swe_daily_means_data:
             "indicator": 'REP4_1',
             "siteName": None,
             "city": '',
-            "description": 'Surface water extent - current energy potential',
+            "description": 'Surface water extent - current daily energy potential',
             "yAxis": 'Area [km²]',
             "subAoi": dams[id]["subAoi"],
             # Actual data
@@ -112,12 +112,17 @@ for item in hydro_swe_monthly_means:
     # dummy date as table has a row = month of data
     individualValues = {
         datetime(2010, month, 1).strftime("%Y-%m-%d"): format(item["area_monthly"], '.5f'),
-        datetime(2018, month, 1).strftime("%Y-%m-%d"): format(item["2018"], '.5f') if item["2018"] else '/',
-        datetime(2019, month, 1).strftime("%Y-%m-%d"): format(item["2019"], '.5f') if item["2019"] else '/',
-        datetime(2020, month, 1).strftime("%Y-%m-%d"): format(item["2020"], '.5f') if item["2020"] else '/',
-        datetime(2021, month, 1).strftime("%Y-%m-%d"): format(item["2021"], '.5f') if item["2021"] else '/',
-        datetime(2022, month, 1).strftime("%Y-%m-%d"): format(item["2022"], '.5f') if item["2022"] else '/',
     }
+    if item["2018"]:
+        individualValues[datetime(2018, month, 1).strftime("%Y-%m-%d")] = format(item["2018"], '.5f')
+    if item["2019"]:
+        individualValues[datetime(2019, month, 1).strftime("%Y-%m-%d")] = format(item["2019"], '.5f')
+    if item["2020"]:
+        individualValues[datetime(2020, month, 1).strftime("%Y-%m-%d")] = format(item["2020"], '.5f')
+    if item["2021"]:
+        individualValues[datetime(2021, month, 1).strftime("%Y-%m-%d")] = format(item["2021"], '.5f')
+    if item["2022"]:
+        individualValues[datetime(2022, month, 1).strftime("%Y-%m-%d")] = format(item["2022"], '.5f')
     for k, v in individualValues.items():
         object_always_present = {
             "time": k,

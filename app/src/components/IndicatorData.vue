@@ -125,7 +125,7 @@ export default {
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -139,11 +139,11 @@ export default {
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7',
+        'E10a2', 'E10a6', 'E10a7', 'REP4_2',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4_1'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4_1', 'REP4_2'],
     };
   },
 
@@ -179,8 +179,8 @@ export default {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#bbb',
-        '#6ce', '#994499', '#aaaa11', '#6633cc', '#e67300',
+        '#22aa99', '#a37', '#47a', '#a67', '#283', '#aaaa11',
+        '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
       ];
       let labels = [];
       const datasets = [];
@@ -546,7 +546,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2'].includes(indicatorCode)) {
+            && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -707,17 +707,20 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
             ));
-            return {
+            const result = {
               t: date,
               y: measurement[i],
-              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
             };
+            if (indicator.referenceValue[i]) {
+              result.referenceValue = indicator.referenceValue[i].replace(/[[\]]/g, '');
+            }
+            return result;
           });
           const dataGroups = {};
           const colorGroups = {};
@@ -743,10 +746,14 @@ export default {
           uniqueYears.sort();
           const yLength = uniqueYears.length - 1;
           uniqueYears.forEach((key, i) => {
+            let label = key;
+            if (['REP4_2'].includes(indicatorCode) && key === '2010') {
+              label = 'Monthly mean';
+            }
             datasets.push({
               // fill with empty values
               indLabels: Array(dataGroups[key].length).join('.').split('.'),
-              label: key,
+              label,
               fill: false,
               data: dataGroups[key],
               backgroundColor: refColors[yLength - i],
@@ -1239,7 +1246,7 @@ export default {
           };
         }
         // Another special case to also show days in tooltip
-        if (indicatorCode === 'E10c') {
+        if (['E10c'].includes(indicatorCode)) {
           customSettings.timeConfig.tooltipFormat = 'dd. MMM';
         }
         if (['VITS', 'PRCTS', 'SMCTS'].includes(indicatorCode)) {
