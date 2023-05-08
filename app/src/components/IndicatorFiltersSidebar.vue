@@ -248,7 +248,7 @@ export default {
           // special case with grouping
           this.setSelectedIndicator(null);
           this.setFeatureFilter({
-            indicators: ['REP4_1'],
+            indicators: ['REP4_1', 'REP4_2'],
           });
         } else {
           this.setSelectedIndicator(item.properties.indicatorObject);

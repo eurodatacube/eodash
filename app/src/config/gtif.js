@@ -384,6 +384,13 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP4',
     maxDecimals: 5,
   },
+  REP4_2: {
+    indicator: 'Hydro Power SWE monthly',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
+  },
   REP5: {
     ...energyTransitionDefaults,
     indicator: 'Micro Hydropower',
