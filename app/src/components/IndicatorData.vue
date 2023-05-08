@@ -179,7 +179,7 @@ export default {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#aaaa11',
+        '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
         '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
       ];
       let labels = [];
@@ -746,20 +746,24 @@ export default {
           uniqueYears.sort();
           const yLength = uniqueYears.length - 1;
           uniqueYears.forEach((key, i) => {
-            let label = key;
-            if (['REP4_2'].includes(indicatorCode) && key === '2010') {
-              label = 'Monthly mean';
-            }
-            datasets.push({
+            const ds = {
               // fill with empty values
               indLabels: Array(dataGroups[key].length).join('.').split('.'),
-              label,
+              label: key,
               fill: false,
               data: dataGroups[key],
               backgroundColor: refColors[yLength - i],
               borderColor: refColors[yLength - i],
               borderWidth: 2,
-            });
+            }
+            if (['REP4_2'].includes(indicatorCode) && key === '2010') {
+              ds.borderDash = [4,2];
+              ds.borderWidth = 5;
+              ds.label = 'Monthly mean';
+              ds.pointStyle = 'triangle';
+              ds.pointRadius = 5;
+            }
+            datasets.push(ds);
           });
         } else if (['OX'].includes(indicatorCode)) {
           const data = [];
