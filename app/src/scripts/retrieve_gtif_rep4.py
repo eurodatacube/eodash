@@ -102,6 +102,7 @@ for item in hydro_swe_daily_means_data:
             # Actual data
             "poi_data": [object_always_present],
         }
+
 ############### hydro_swe_monthly_means
 hydro_swe_monthly_means:dict = requests.get('https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_swe_monthly_means').json()
 for item in hydro_swe_monthly_means:
@@ -109,39 +110,38 @@ for item in hydro_swe_monthly_means:
     id:str = str(item["object_id"])
     month = item["month"]
     # dummy date as table has a row = month of data
-    time:datetime = datetime(2000, month, 1)
     individualValues = {
+        datetime(2010, month, 1).strftime("%Y-%m-%d"): format(item["area_monthly"], '.5f'),
         datetime(2018, month, 1).strftime("%Y-%m-%d"): format(item["2018"], '.5f') if item["2018"] else '/',
         datetime(2019, month, 1).strftime("%Y-%m-%d"): format(item["2019"], '.5f') if item["2019"] else '/',
         datetime(2020, month, 1).strftime("%Y-%m-%d"): format(item["2020"], '.5f') if item["2020"] else '/',
         datetime(2021, month, 1).strftime("%Y-%m-%d"): format(item["2021"], '.5f') if item["2021"] else '/',
         datetime(2022, month, 1).strftime("%Y-%m-%d"): format(item["2022"], '.5f') if item["2022"] else '/',
     }
-    object_always_present = {
-        "time": time,
-        "measurement_value": format(item["area_monthly"], '.5f'),
-        "reference_value": f"[{','.join(list(individualValues.values()))}]",
-        "reference_time": f"[{','.join(list(individualValues.keys()))}]",
-    }
-    if poi_key in poi_dict:
-        # If key already saved we add the relevant data
-        if time not in [i["time"] for i in poi_dict[poi_key]["poi_data"]]:
-            poi_dict[poi_key]["poi_data"].append(object_always_present)
-    else:
-        poi_dict[poi_key] = {
-            # Unique poi data
-            "aoi": dams[id]["aoi"],
-            "aoiID": id,
-            "country": None,
-            "indicator": 'REP4_2',
-            "siteName": None,
-            "city": '',
-            "description": 'Surface water extent - expected vs. actual monthly energy potential',
-            "yAxis": 'Area [km²]',
-            "subAoi": dams[id]["subAoi"],
-            # Actual data
-            "poi_data": [object_always_present],
+    for k, v in individualValues.items():
+        object_always_present = {
+            "time": k,
+            "measurement_value": v,
         }
+        if poi_key in poi_dict:
+            # If key already saved we add the relevant data
+            if time not in [i["time"] for i in poi_dict[poi_key]["poi_data"]]:
+                poi_dict[poi_key]["poi_data"].append(object_always_present)
+        else:
+            poi_dict[poi_key] = {
+                # Unique poi data
+                "aoi": dams[id]["aoi"],
+                "aoiID": id,
+                "country": None,
+                "indicator": 'REP4_2',
+                "siteName": None,
+                "city": '',
+                "description": 'Surface water extent - expected vs. actual monthly energy potential',
+                "yAxis": 'Area [km²]',
+                "subAoi": dams[id]["subAoi"],
+                # Actual data
+                "poi_data": [object_always_present],
+            }
 
 outKeys = [
     "aoi", "aoiID", "country", "indicator", "siteName", "city",
@@ -155,14 +155,25 @@ for poi_key in poi_dict:
 output_file = "/public/data/gtif/pois_gtif.json"
 output_folder = "/public/data/gtif/internal/"
 
-output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
-ordered_dict = collections.OrderedDict(sorted(output_dict.items()))
-print(f"creating file {output_file}")
-with open(output_file, "w") as fp:
-    json.dump(list(ordered_dict.values()), fp, indent=4, default=date_converter, sort_keys=True)
+
+
 
 # Generate all unique location json files
 for poi_key in poi_dict:
     print(f"creating file for {poi_key}")
     with open("%s%s.json" % (output_folder, poi_key), "w") as gp:
         json.dump(poi_dict[poi_key]["poi_data"], gp, indent=4, default=date_converter, sort_keys=True)
+
+output_dict = {key: {subkey: poi_dict[key][subkey] for subkey in outKeys} for key in poi_dict}
+ordered_dict = collections.OrderedDict(sorted(output_dict.items()))
+
+print(f"creating file {output_file}")
+with open(output_file, "w") as fp:
+    json.dump(list(ordered_dict.values()), fp, indent=4, default=date_converter, sort_keys=True)
+
+
+
+
+
+
+

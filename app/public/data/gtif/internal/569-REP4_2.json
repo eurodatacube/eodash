@@ -1,74 +1,262 @@
 [
     {
         "measurement_value": "0.12640",
-        "reference_time": "[2018-01-01,2019-01-01,2020-01-01,2021-01-01,2022-01-01]",
-        "reference_value": "[/,0.12517,0.11823,0.12763,0.16819]",
-        "time": "2000-01-01T00:00:00"
+        "time": "2010-01-01"
     },
     {
         "measurement_value": "0.13727",
-        "reference_time": "[2018-02-01,2019-02-01,2020-02-01,2021-02-01,2022-02-01]",
-        "reference_value": "[/,0.13666,0.12599,0.13788,0.18328]",
-        "time": "2000-02-01T00:00:00"
+        "time": "2010-02-01"
     },
     {
         "measurement_value": "0.14557",
-        "reference_time": "[2018-03-01,2019-03-01,2020-03-01,2021-03-01,2022-03-01]",
-        "reference_value": "[/,0.14523,0.13436,0.14591,0.17658]",
-        "time": "2000-03-01T00:00:00"
+        "time": "2010-03-01"
     },
     {
         "measurement_value": "0.15387",
-        "reference_time": "[2018-04-01,2019-04-01,2020-04-01,2021-04-01,2022-04-01]",
-        "reference_value": "[/,0.15381,0.14202,0.15394,0.16280]",
-        "time": "2000-04-01T00:00:00"
+        "time": "2010-04-01"
     },
     {
         "measurement_value": "0.15910",
-        "reference_time": "[2018-05-01,2019-05-01,2020-05-01,2021-05-01,2022-05-01]",
-        "reference_value": "[/,0.16519,0.14918,0.16492,0.15327]",
-        "time": "2000-05-01T00:00:00"
+        "time": "2010-05-01"
     },
     {
         "measurement_value": "0.16153",
-        "reference_time": "[2018-06-01,2019-06-01,2020-06-01,2021-06-01,2022-06-01]",
-        "reference_value": "[/,0.16592,0.15919,0.16387,0.15488]",
-        "time": "2000-06-01T00:00:00"
+        "time": "2010-06-01"
     },
     {
         "measurement_value": "0.16584",
-        "reference_time": "[2018-07-01,2019-07-01,2020-07-01,2021-07-01,2022-07-01]",
-        "reference_value": "[0.17479,0.17050,0.16544,0.16584,0.15339]",
-        "time": "2000-07-01T00:00:00"
+        "time": "2010-07-01"
     },
     {
         "measurement_value": "0.17393",
-        "reference_time": "[2018-08-01,2019-08-01,2020-08-01,2021-08-01,2022-08-01]",
-        "reference_value": "[0.17741,0.16524,0.17673,0.17393,0.14477]",
-        "time": "2000-08-01T00:00:00"
+        "time": "2010-08-01"
     },
     {
         "measurement_value": "0.17242",
-        "reference_time": "[2018-09-01,2019-09-01,2020-09-01,2021-09-01,2022-09-01]",
-        "reference_value": "[0.17279,0.15265,0.17269,0.17242,0.14404]",
-        "time": "2000-09-01T00:00:00"
+        "time": "2010-09-01"
     },
     {
         "measurement_value": "0.14859",
-        "reference_time": "[2018-10-01,2019-10-01,2020-10-01,2021-10-01,2022-10-01]",
-        "reference_value": "[0.14859,0.13842,0.15291,0.16449,0.14535]",
-        "time": "2000-10-01T00:00:00"
+        "time": "2010-10-01"
     },
     {
         "measurement_value": "0.13321",
-        "reference_time": "[2018-11-01,2019-11-01,2020-11-01,2021-11-01,2022-11-01]",
-        "reference_value": "[0.13259,0.11840,0.13321,0.14740,0.15038]",
-        "time": "2000-11-01T00:00:00"
+        "time": "2010-11-01"
     },
     {
         "measurement_value": "0.11933",
-        "reference_time": "[2018-12-01,2019-12-01,2020-12-01,2021-12-01,2022-12-01]",
-        "reference_value": "[0.11919,0.11562,0.11947,0.14572,/]",
-        "time": "2000-12-01T00:00:00"
+        "time": "2010-12-01"
+    },
+    {
+        "measurement_value": "0.17479",
+        "time": "2018-07-01"
+    },
+    {
+        "measurement_value": "0.17741",
+        "time": "2018-08-01"
+    },
+    {
+        "measurement_value": "0.17279",
+        "time": "2018-09-01"
+    },
+    {
+        "measurement_value": "0.14859",
+        "time": "2018-10-01"
+    },
+    {
+        "measurement_value": "0.13259",
+        "time": "2018-11-01"
+    },
+    {
+        "measurement_value": "0.11919",
+        "time": "2018-12-01"
+    },
+    {
+        "measurement_value": "0.12517",
+        "time": "2019-01-01"
+    },
+    {
+        "measurement_value": "0.13666",
+        "time": "2019-02-01"
+    },
+    {
+        "measurement_value": "0.14523",
+        "time": "2019-03-01"
+    },
+    {
+        "measurement_value": "0.15381",
+        "time": "2019-04-01"
+    },
+    {
+        "measurement_value": "0.16519",
+        "time": "2019-05-01"
+    },
+    {
+        "measurement_value": "0.16592",
+        "time": "2019-06-01"
+    },
+    {
+        "measurement_value": "0.17050",
+        "time": "2019-07-01"
+    },
+    {
+        "measurement_value": "0.16524",
+        "time": "2019-08-01"
+    },
+    {
+        "measurement_value": "0.15265",
+        "time": "2019-09-01"
+    },
+    {
+        "measurement_value": "0.13842",
+        "time": "2019-10-01"
+    },
+    {
+        "measurement_value": "0.11840",
+        "time": "2019-11-01"
+    },
+    {
+        "measurement_value": "0.11562",
+        "time": "2019-12-01"
+    },
+    {
+        "measurement_value": "0.11823",
+        "time": "2020-01-01"
+    },
+    {
+        "measurement_value": "0.12599",
+        "time": "2020-02-01"
+    },
+    {
+        "measurement_value": "0.13436",
+        "time": "2020-03-01"
+    },
+    {
+        "measurement_value": "0.14202",
+        "time": "2020-04-01"
+    },
+    {
+        "measurement_value": "0.14918",
+        "time": "2020-05-01"
+    },
+    {
+        "measurement_value": "0.15919",
+        "time": "2020-06-01"
+    },
+    {
+        "measurement_value": "0.16544",
+        "time": "2020-07-01"
+    },
+    {
+        "measurement_value": "0.17673",
+        "time": "2020-08-01"
+    },
+    {
+        "measurement_value": "0.17269",
+        "time": "2020-09-01"
+    },
+    {
+        "measurement_value": "0.15291",
+        "time": "2020-10-01"
+    },
+    {
+        "measurement_value": "0.13321",
+        "time": "2020-11-01"
+    },
+    {
+        "measurement_value": "0.11947",
+        "time": "2020-12-01"
+    },
+    {
+        "measurement_value": "0.12763",
+        "time": "2021-01-01"
+    },
+    {
+        "measurement_value": "0.13788",
+        "time": "2021-02-01"
+    },
+    {
+        "measurement_value": "0.14591",
+        "time": "2021-03-01"
+    },
+    {
+        "measurement_value": "0.15394",
+        "time": "2021-04-01"
+    },
+    {
+        "measurement_value": "0.16492",
+        "time": "2021-05-01"
+    },
+    {
+        "measurement_value": "0.16387",
+        "time": "2021-06-01"
+    },
+    {
+        "measurement_value": "0.16584",
+        "time": "2021-07-01"
+    },
+    {
+        "measurement_value": "0.17393",
+        "time": "2021-08-01"
+    },
+    {
+        "measurement_value": "0.17242",
+        "time": "2021-09-01"
+    },
+    {
+        "measurement_value": "0.16449",
+        "time": "2021-10-01"
+    },
+    {
+        "measurement_value": "0.14740",
+        "time": "2021-11-01"
+    },
+    {
+        "measurement_value": "0.14572",
+        "time": "2021-12-01"
+    },
+    {
+        "measurement_value": "0.16819",
+        "time": "2022-01-01"
+    },
+    {
+        "measurement_value": "0.18328",
+        "time": "2022-02-01"
+    },
+    {
+        "measurement_value": "0.17658",
+        "time": "2022-03-01"
+    },
+    {
+        "measurement_value": "0.16280",
+        "time": "2022-04-01"
+    },
+    {
+        "measurement_value": "0.15327",
+        "time": "2022-05-01"
+    },
+    {
+        "measurement_value": "0.15488",
+        "time": "2022-06-01"
+    },
+    {
+        "measurement_value": "0.15339",
+        "time": "2022-07-01"
+    },
+    {
+        "measurement_value": "0.14477",
+        "time": "2022-08-01"
+    },
+    {
+        "measurement_value": "0.14404",
+        "time": "2022-09-01"
+    },
+    {
+        "measurement_value": "0.14535",
+        "time": "2022-10-01"
+    },
+    {
+        "measurement_value": "0.15038",
+        "time": "2022-11-01"
     }
 ]
