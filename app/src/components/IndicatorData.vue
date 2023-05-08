@@ -978,6 +978,40 @@ export default {
             cubicInterpolationMode: 'monotone',
           });
         }
+        if (['REP4_1'].includes(indicatorCode)) {
+          // monthly average as extra dataset
+          const average = [];
+          let tempDate = indicator.time[0];
+          let tmpVal = 0;
+          let counter = 0;
+          indicator.measurement.forEach((item, i) => {
+            if (
+              tempDate.month === indicator.time[i].month
+              && tempDate.year === indicator.time[i].year
+            ) {
+              tmpVal += item;
+              counter += 1;
+            } else {
+              average.push({
+                t: DateTime.fromISO(tempDate.toISODate()).set({ day: 15 }),
+                y: tmpVal / counter,
+              });
+              tempDate = DateTime.fromISO(indicator.time[i].toISODate());
+              counter = 0;
+              tmpVal = 0;
+            }
+          });
+          datasets.push({
+            label: 'Monthly average',
+            data: average,
+            fill: false,
+            borderColor: 'black',
+            backgroundColor: 'black',
+            borderWidth: 2,
+            pointRadius: 0,
+            showLine: true,
+          });
+        }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
           const data = indicator.time.map((date, i) => {
