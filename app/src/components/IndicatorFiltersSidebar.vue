@@ -184,12 +184,12 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('themes', ['themes']),
     ...mapState('gtif', ['currentDomain']),
-    ...mapGetters('features', ['getGroupedFeatures']),
+    ...mapGetters('features', ['getFeatures']),
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalIndicators() {
-      return this.getGroupedFeatures && this.getGroupedFeatures
+      return this.$store.state.features.allFeatures && this.$store.state.features.allFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
         .sort((a, b) => ((a.properties.indicatorObject.indicatorName
           > b.properties.indicatorObject.indicatorName)
@@ -215,6 +215,9 @@ export default {
   methods: {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+    }),
+    ...mapMutations('features', {
+      setFeatureFilter: 'SET_FEATURE_FILTER',
     }),
     ...mapActions('gtif', ['setCurrentDomain']),
     globalIndicatorsForTheme(theme) {
@@ -243,8 +246,15 @@ export default {
       if (!item.properties.indicatorObject.disabled) {
         if (['REP4'].includes(item.properties.indicatorObject.indicator)) {
           // special case with grouping
+          this.setSelectedIndicator(null);
+          this.setFeatureFilter({
+            indicators: ['REP4_1'],
+          });
         } else {
           this.setSelectedIndicator(item.properties.indicatorObject);
+          this.setFeatureFilter({
+            indicators: null,
+          });
         }
         this.showLayerMenu = false;
       }

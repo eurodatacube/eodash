@@ -160,13 +160,15 @@ export const dataEndpoints = [
 ];
 
 export const layerNameMapping = Object.freeze({
-  S2L2A: {
+  S2L2A_REP4: {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     maxZoom: 18,
+    subAoiTransparent: true,
   },
-  S1GRD: {
+  S1GRD_REP4: {
     layers: 'E8_SENTINEL1',
     maxZoom: 18,
+    subAoiTransparent: true,
   },
 });
 
@@ -380,6 +382,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'water',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
   },
   REP5: {
     ...energyTransitionDefaults,
