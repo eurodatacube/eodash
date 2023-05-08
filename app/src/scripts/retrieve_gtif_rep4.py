@@ -72,9 +72,9 @@ for item in hydro_swe_daily_means_data:
     time:datetime = try_parsing_date(item["date"], item)
     sensor:str = item["sensor"].strip()
     if sensor.find('s2-') != -1:
-        input_data:str = 'S2L2A'
+        input_data:str = 'S2L2A_REP4'
     elif sensor.find('s1-') != -1:
-        input_data:str = 'S1GRD'
+        input_data:str = 'S1GRD_REP4'
     else:
         input_data:str = sensor
     object_always_present = {
