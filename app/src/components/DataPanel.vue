@@ -475,8 +475,10 @@ export default {
           let txtVal = '';
           if (cKey === 'aoi') {
             txtVal = `"${this.indicatorObject[cKey]}",`;
-          } else {
+          } else if (this.indicatorObject.hasOwn(cKey)) {
             txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          } else {
+            txtVal = ',';
           }
           row += txtVal;
         }

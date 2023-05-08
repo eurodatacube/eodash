@@ -1,5 +1,5 @@
 import { Wkt } from 'wicket';
-import { shTimeFunction } from '@/utils';
+import { shTimeFunction, shS2TimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
@@ -151,7 +151,7 @@ function contspace(v, varOffset, varSpacing) {
 
 const wkt = new Wkt();
 
-export const dataPath = './data/gtif/data/';
+export const dataPath = './data/gtif/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',
@@ -159,7 +159,16 @@ export const dataEndpoints = [
   },
 ];
 
-export const layerNameMapping = Object.freeze({});
+export const layerNameMapping = Object.freeze({
+  S2L2A: {
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    dateFormatFunction: shS2TimeFunction,
+  },
+  S1GRD: {
+    layers: 'E8_SENTINEL1',
+    dateFormatFunction: shS2TimeFunction,
+  },
+});
 
 export const indicatorClassesIcons = Object.freeze({
   agriculture: 'mdi-barley',
@@ -368,6 +377,12 @@ export const indicatorsDefinition = Object.freeze({
     disableCSV: true,
     geoDBDataQuery: 'sobothstausee_surface_water_extent?',
     geoDBParameters: 'date,area_diff_rel,area,diff_area',
+  },
+  REP4_1: {
+    indicator: 'Hydro Power',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
   },
   REP5: {
     ...energyTransitionDefaults,

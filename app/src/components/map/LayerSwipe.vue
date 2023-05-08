@@ -115,7 +115,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           swipeLayer.changed();
@@ -132,7 +132,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, time, this.drawnArea);
@@ -149,7 +149,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');

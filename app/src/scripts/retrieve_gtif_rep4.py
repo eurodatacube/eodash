@@ -64,23 +64,24 @@ for dam in dams_data:
     dams[id]["subAoi"] = re.sub(r'([0-9]+\.[0-9]{6})([0-9]+)', r'\1', geom_wgs84.wkt)
 
 
-hydro_swe_daily_means_data = requests.get('https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_swe_daily_means').json()
+hydro_swe_daily_means_data:dict = requests.get('https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_swe_daily_means').json()
 poi_dict = {}
 for item in hydro_swe_daily_means_data:
-    poi_key = "%s-%s" % (item["object_id"], 'REP4_1')
-    id = str(item["object_id"])
-    time = try_parsing_date(item["date"], item)
-    sensor = item["sensor"].strip()
+    poi_key:str = "%s-%s" % (item["object_id"], 'REP4_1')
+    id:str = str(item["object_id"])
+    time:datetime = try_parsing_date(item["date"], item)
+    sensor:str = item["sensor"].strip()
+    if sensor.find('s2-') != -1:
+        input_data:str = 'S2L2A'
+    elif sensor.find('s1-') != -1:
+        input_data:str = 'S1GRD'
+    else:
+        input_data:str = sensor
     object_always_present = {
         "eo_sensor": sensor,
-        "input_data": item["sensor"].strip(),
+        "input_data": input_data,
         "time": time,
-        "measurement_value": item["area_nrt"],
-        "reference_time": None,
-        "reference_value": None,
-        "indicator_value": None,
-        "color_code": None,
-        "data_provider": None,
+        "measurement_value": float(format(item["area_nrt"], '.5f')),
     }
     if poi_key in poi_dict:
         # If key already saved we add the relevant data
@@ -95,31 +96,15 @@ for item in hydro_swe_daily_means_data:
             "indicator": 'REP4_1',
             "siteName": None,
             "city": '',
-            "region": None,
             "description": 'Surface water extent - storage level',
-            "indicatorName": None,
             "yAxis": None,
             "subAoi": dams[id]["subAoi"],
-            "updateFrequency": None,
-            "lastTime" : "",
-            "lastMeasurement" : "",
-            "lastColorCode" : "",
-            "lastIndicatorValue" : "",
-            "lastReferenceTime" : "",
-            "lastReferenceValue" : "",
             # Actual data
             "poi_data": [object_always_present],
         }
 outKeys = [
-    "aoi", "aoiID", "country", "indicator", "siteName", "city", "region",
-    "description", "indicatorName", "yAxis", "subAoi",
-    "lastTime",
-    "lastMeasurement",
-    "lastColorCode",
-    "lastIndicatorValue",
-    "lastReferenceTime",
-    "lastReferenceValue",
-    "updateFrequency"
+    "aoi", "aoiID", "country", "indicator", "siteName", "city",
+    "description", "yAxis", "subAoi",
 ]
 for poi_key in poi_dict:
     poi_dict[poi_key]["poi_data"] = sorted(
