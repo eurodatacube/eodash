@@ -72,10 +72,7 @@
                     ? 'pointer-events: all; cursor: default'
                     : ''
                   }`"
-                  @click="() => {
-                    if (item.properties.indicatorObject.disabled ) { return }
-                    setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
-                  }"
+                  @click="handleSelectionClick(item)"
                 >
                   <v-list-item-avatar>
                     <v-img
@@ -241,6 +238,16 @@ export default {
         return;
       }
       this.showLayerMenu = false;
+    },
+    handleSelectionClick(item) {
+      if (!item.properties.indicatorObject.disabled) {
+        if (['REP4'].includes(item.properties.indicatorObject.indicator)) {
+          // special case with grouping
+        } else {
+          this.setSelectedIndicator(item.properties.indicatorObject);
+        }
+        this.showLayerMenu = false;
+      }
     },
     moveToHighlight(location) {
       const { map } = getMapInstance('centerMap');

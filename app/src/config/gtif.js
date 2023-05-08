@@ -91,20 +91,20 @@ const blgrrd = {
   }),
 };
 
-const drrglb = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [209, 55, 78] },
-      { index: 0.2, rgb: [254, 173, 84] },
-      { index: 0.4, rgb: [254, 237, 177] },
-      { index: 0.6, rgb: [216, 254, 181] },
-      { index: 0.8, rgb: [73, 227, 206] },
-      { index: 1, rgb: [1, 152, 189] },
-    ],
-    nshades: 32,
-  }),
-};
+// const drrglb = {
+//   steps: 32,
+//   colors: colormap({
+//     colormap: [
+//       { index: 0, rgb: [209, 55, 78] },
+//       { index: 0.2, rgb: [254, 173, 84] },
+//       { index: 0.4, rgb: [254, 237, 177] },
+//       { index: 0.6, rgb: [216, 254, 181] },
+//       { index: 0.8, rgb: [73, 227, 206] },
+//       { index: 1, rgb: [1, 152, 189] },
+//     ],
+//     nshades: 32,
+//   }),
+// };
 
 /*
 const ihrCS = {
@@ -162,12 +162,10 @@ export const dataEndpoints = [
 export const layerNameMapping = Object.freeze({
   S2L2A: {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    dateFormatFunction: shTimeFunction,
     maxZoom: 18,
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shTimeFunction,
     maxZoom: 18,
   },
 });
@@ -372,16 +370,13 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP3',
   },
   REP4: {
-    indicator: 'Hydro Power',
-    class: 'air',
+    indicator: 'Hydro Power SWE unified',
+    class: 'water',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
-    disableCSV: true,
-    geoDBDataQuery: 'sobothstausee_surface_water_extent?',
-    geoDBParameters: 'date,area_diff_rel,area,diff_area',
   },
   REP4_1: {
-    indicator: 'Hydro Power',
+    indicator: 'Hydro Power SWE daily',
     class: 'water',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
@@ -2722,75 +2717,11 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
         aoi: null,
-        queryParameters: {
-          sourceLayer: 'sobothstausee_surface_water_extent',
-          selected: 'area_diff_rel',
-          dataInfo: 'SWE',
-          items: [
-            {
-              id: 'area_diff_rel',
-              description: 'Surface Water Extent',
-              min: -0.3,
-              max: 0,
-              colormapUsed: drrglb,
-              markdown: 'SWE',
-            },
-          ],
-        },
-        display: [{
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Daily Sentinel 2 L2A',
-          minZoom: 7,
-          maxZoom: 18,
-          visible: false,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.01 46.70,15.01 46.69,15.03 46.685,15.04 46.685,15.04 46.69,15.01 46.70))').toJson(),
-            }],
-          },
-          disableCompare: true,
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        }, {
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_reservoirs',
-          protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.get('full_id');
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-              }
-            }
-            return color;
-          },
-          id: 'sobothstausee_surface_water_extent',
-          adminZoneKey: 'full_id',
-          timeKey: 'date',
-          parameters: 'full_id,area_diff_rel,date,area,diff_area',
-          strokeOnly: true,
-          strokeWidth: 5,
-          name: 'Surface Water Extent',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        }],
         aoiID: 'Austria',
-        time: ['2018-04-30', '2018-05-31', '2018-06-30', '2018-07-31', '2018-08-31', '2018-09-30', '2018-10-31', '2018-11-30', '2018-12-31', '2019-03-31', '2019-04-30', '2019-05-31', '2019-06-30', '2019-07-31', '2019-08-31', '2019-09-30', '2019-10-31', '2019-11-30', '2019-12-31', '2020-03-31', '2020-04-30', '2020-05-31', '2020-06-30', '2020-07-31', '2020-08-31', '2020-09-30', '2020-10-31', '2020-11-30', '2020-12-31', '2021-03-31', '2021-04-30', '2021-05-31', '2021-06-30', '2021-07-31', '2021-08-31', '2021-09-30', '2021-10-31', '2021-11-30', '2021-12-31', '2022-03-31', '2022-04-30', '2022-05-31', '2022-06-30', '2022-07-31', '2022-08-31', '2022-09-30', '2022-10-31', '2022-11-30', '2022-12-31'],
+        time: [],
         inputData: [''],
-        yAxis: 'Surface Water Extent relative change wrt. reference value [%]',
+        yAxis: '',
       },
     },
   },
