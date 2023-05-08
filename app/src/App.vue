@@ -192,13 +192,13 @@ export default {
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
         let selectedIndicators = this.getIndicators
-          .map((item) => item.code).filter((f) => indicator.includes(f));
+          .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
         // If selectedIndicator is undefined and indicator has been provided
         // it could be an archived indicator so we activate
-        if (typeof indicator !== 'undefined' && typeof selectedIndicators.length > 0) {
+        if (typeof selectedIndicators !== 'undefined' && indicatorsFilter.length > 0) {
           this.$store.commit('features/SET_FEATURE_FILTER', { includeArchived: true });
           selectedIndicators = this.getIndicators
-            .map((item) => item.code).filter((f) => indicator.includes(f));
+            .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
         }
         this.$store.commit('features/INIT_FEATURE_FILTER', {
           countries: selectedCountry,

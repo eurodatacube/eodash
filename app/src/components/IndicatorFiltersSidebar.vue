@@ -253,7 +253,7 @@ export default {
         } else {
           this.setSelectedIndicator(item.properties.indicatorObject);
           this.setFeatureFilter({
-            indicators: null,
+            indicators: [],
           });
         }
         this.showLayerMenu = false;
