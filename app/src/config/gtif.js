@@ -318,6 +318,13 @@ const energyTransitionDefaults = {
   ],
 };
 
+const mobilityTransitionDefaults = {
+  baseLayers: [
+    ...baseLayersLeftMap,
+    baseLayers.dsr_schnelllade_10km,
+  ],
+};
+
 export const indicatorsDefinition = Object.freeze({
   BM1: {
     indicator: 'Forest Change',
@@ -374,6 +381,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP3',
   },
   MOBI1: {
+    ...mobilityTransitionDefaults,
     indicator: 'mobility',
     class: 'mobi1',
     themes: ['mobility-transition'],
@@ -542,6 +550,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['carbon-accounting'],
   },
   AQA: {
+    ...mobilityTransitionDefaults,
     indicator: 'Health Risk Index (ARI)',
     class: 'air',
     themes: ['mobility-transition'],
@@ -552,6 +561,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   AQB: {
+    ...mobilityTransitionDefaults,
     indicator: 'Fine particulate matter (PM2.5)',
     class: 'air',
     themes: ['mobility-transition'],
@@ -562,6 +572,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   AQC: {
+    ...mobilityTransitionDefaults,
     indicator: 'Coarse particulate matter (PM10)',
     class: 'air',
     themes: ['mobility-transition'],
@@ -572,6 +583,7 @@ export const indicatorsDefinition = Object.freeze({
     },
   },
   AQ2: {
+    ...mobilityTransitionDefaults,
     indicator: 'Innsbruck hot-spot',
     class: 'air',
     themes: ['mobility-transition'],
@@ -583,6 +595,7 @@ export const indicatorsDefinition = Object.freeze({
     overlayLayers: [],
   },
   AQ3: {
+    ...mobilityTransitionDefaults,
     indicator: 'Innsbruck hot-spot',
     class: 'air',
     themes: ['mobility-transition'],
@@ -598,12 +611,14 @@ export const indicatorsDefinition = Object.freeze({
     }],
   },
   AQ4: {
+    ...mobilityTransitionDefaults,
     indicator: 'Human Mobility Patterns',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ4',
   },
   AQ5: {
+    ...mobilityTransitionDefaults,
     indicator: 'Nitrogen Dioxide (NO2)',
     class: 'air',
     themes: ['mobility-transition'],
