@@ -63,7 +63,7 @@ for dam in dams_data:
     dams[id]["aoi"] = aoi
     dams[id]["subAoi"] = re.sub(r'([0-9]+\.[0-9]{6})([0-9]+)', r'\1', geom_wgs84.wkt)
 
-
+############## hydro_swe_daily_means
 hydro_swe_daily_means_data:dict = requests.get('https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_swe_daily_means').json()
 poi_dict = {}
 for item in hydro_swe_daily_means_data:
@@ -96,12 +96,53 @@ for item in hydro_swe_daily_means_data:
             "indicator": 'REP4_1',
             "siteName": None,
             "city": '',
-            "description": 'Surface water extent - storage level',
-            "yAxis": 'km²',
+            "description": 'Surface water extent - current energy potential',
+            "yAxis": 'Area [km²]',
             "subAoi": dams[id]["subAoi"],
             # Actual data
             "poi_data": [object_always_present],
         }
+############### hydro_swe_monthly_means
+hydro_swe_monthly_means:dict = requests.get('https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_swe_monthly_means').json()
+for item in hydro_swe_monthly_means:
+    poi_key:str = "%s-%s" % (item["object_id"], 'REP4_2')
+    id:str = str(item["object_id"])
+    month = item["month"]
+    # dummy date as table has a row = month of data
+    time:datetime = datetime(2000, month, 1)
+    individualValues = {
+        datetime(2018, month, 1).strftime("%Y-%m-%d"): format(item["2018"], '.5f') if item["2018"] else '/',
+        datetime(2019, month, 1).strftime("%Y-%m-%d"): format(item["2019"], '.5f') if item["2019"] else '/',
+        datetime(2020, month, 1).strftime("%Y-%m-%d"): format(item["2020"], '.5f') if item["2020"] else '/',
+        datetime(2021, month, 1).strftime("%Y-%m-%d"): format(item["2021"], '.5f') if item["2021"] else '/',
+        datetime(2022, month, 1).strftime("%Y-%m-%d"): format(item["2022"], '.5f') if item["2022"] else '/',
+    }
+    object_always_present = {
+        "time": time,
+        "measurement_value": format(item["area_monthly"], '.5f'),
+        "reference_value": f"[{','.join(list(individualValues.values()))}]",
+        "reference_time": f"[{','.join(list(individualValues.keys()))}]",
+    }
+    if poi_key in poi_dict:
+        # If key already saved we add the relevant data
+        if time not in [i["time"] for i in poi_dict[poi_key]["poi_data"]]:
+            poi_dict[poi_key]["poi_data"].append(object_always_present)
+    else:
+        poi_dict[poi_key] = {
+            # Unique poi data
+            "aoi": dams[id]["aoi"],
+            "aoiID": id,
+            "country": None,
+            "indicator": 'REP4_2',
+            "siteName": None,
+            "city": '',
+            "description": 'Surface water extent - expected vs. actual monthly energy potential',
+            "yAxis": 'Area [km²]',
+            "subAoi": dams[id]["subAoi"],
+            # Actual data
+            "poi_data": [object_always_present],
+        }
+
 outKeys = [
     "aoi", "aoiID", "country", "indicator", "siteName", "city",
     "description", "yAxis", "subAoi",
@@ -110,7 +151,6 @@ for poi_key in poi_dict:
     poi_dict[poi_key]["poi_data"] = sorted(
         poi_dict[poi_key]["poi_data"], key=lambda k: k["time"]
     )
-#print(poi_dict)
 
 output_file = "/public/data/gtif/pois_gtif.json"
 output_folder = "/public/data/gtif/internal/"
