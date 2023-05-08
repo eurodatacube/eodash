@@ -122,7 +122,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2',
@@ -143,7 +143,7 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4_1'],
     };
   },
 
@@ -929,7 +929,7 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -947,18 +947,9 @@ export default {
             });
           });
           */
-          let data = indicator.time.map((date, i) => (
+          const data = indicator.time.map((date, i) => (
             { t: date, y: indicator.measurement[i] }
           ));
-          if (indicatorCode === 'REP4') {
-            data = indicator.time.map((date, i) => (
-              {
-                t: date,
-                y: indicator.measurement[i],
-                referenceValue: indicator.referenceValue[i],
-              }
-            ));
-          }
           datasets.push({
             label: indicator.yAxis,
             fill: false,
@@ -1426,25 +1417,6 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: () => '',
-          },
-        };
-      }
-
-      if (['REP4'].includes(indicatorCode)) {
-        // Special tooltip information for this indicator
-        customSettings.tooltips = {
-          callbacks: {
-            footer: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const refV = obj.referenceValue;
-              const labelOutput = [
-                `area: ${(Number(refV[0])).toPrecision(4)} km²`,
-                `abs. change of area wrt. reference: ${(Number(refV[1])).toPrecision(4)} km²`,
-                `rel. change of area wrt. reference value: ${100 * Number(obj.y).toPrecision(4)} %`,
-              ];
-              return labelOutput;
-            },
           },
         };
       }

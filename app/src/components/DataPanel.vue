@@ -475,7 +475,7 @@ export default {
           let txtVal = '';
           if (cKey === 'aoi') {
             txtVal = `"${this.indicatorObject[cKey]}",`;
-          } else if (this.indicatorObject.hasOwn(cKey)) {
+          } else if (Object.prototype.hasOwnProperty.call(this.indicatorObject, cKey)) {
             txtVal = `"${this.indicatorObject[cKey][i]}",`;
           } else {
             txtVal = ',';

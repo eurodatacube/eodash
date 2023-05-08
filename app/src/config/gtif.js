@@ -1,5 +1,5 @@
 import { Wkt } from 'wicket';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
@@ -162,11 +162,13 @@ export const dataEndpoints = [
 export const layerNameMapping = Object.freeze({
   S2L2A: {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
+    maxZoom: 18,
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
+    maxZoom: 18,
   },
 });
 

@@ -81,7 +81,7 @@ for item in hydro_swe_daily_means_data:
         "eo_sensor": sensor,
         "input_data": input_data,
         "time": time,
-        "measurement_value": float(format(item["area_nrt"], '.5f')),
+        "measurement_value": format(item["area_nrt"], '.5f'),
     }
     if poi_key in poi_dict:
         # If key already saved we add the relevant data
@@ -97,7 +97,7 @@ for item in hydro_swe_daily_means_data:
             "siteName": None,
             "city": '',
             "description": 'Surface water extent - storage level',
-            "yAxis": None,
+            "yAxis": 'km²',
             "subAoi": dams[id]["subAoi"],
             # Actual data
             "poi_data": [object_always_present],
