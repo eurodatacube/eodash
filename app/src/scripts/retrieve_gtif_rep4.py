@@ -82,6 +82,12 @@ mappings = {
         'indicator_code': 'REP4_4',
         'description': 'Water surface elevation',
         'yAxis': 'Height [m]',
+    },
+    'hydro_storage_change_subset_data': {
+        'data_key': 'volume',
+        'indicator_code': 'REP4_6',
+        'description': 'Water volume - storage change',
+        'yAxis': 'Volume [10^6 m3]',
     }
 }
 poi_dict = {}
