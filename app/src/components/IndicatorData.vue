@@ -755,9 +755,9 @@ export default {
               backgroundColor: refColors[yLength - i],
               borderColor: refColors[yLength - i],
               borderWidth: 2,
-            }
+            };
             if (['REP4_2'].includes(indicatorCode) && key === '2010') {
-              ds.borderDash = [4,2];
+              ds.borderDash = [4, 2];
               ds.borderWidth = 5;
               ds.label = 'Monthly mean';
               ds.pointStyle = 'triangle';

@@ -173,13 +173,11 @@ export const layerNameMapping = Object.freeze({
 });
 
 export const indicatorClassesIcons = Object.freeze({
-  agriculture: 'mdi-barley',
-  water: 'mdi-water',
-  land: 'mdi-image-filter-hdr',
-  health: 'mdi-hospital-box-outline',
-  combined: 'mdi-set-center',
-  air: 'mdi-weather-windy',
-  economic: 'mdi-currency-eur',
+  'energy-transition': 'mdi-water',
+  'mobility-transition': 'mdi-car',
+  'sustainable-cities': 'mdi-solar-panel-large',
+  'carbon-accounting': 'mdi-pine-tree',
+  'eo-adaptation-services': 'mdi-set-center',
 });
 
 export const mapDefaults = Object.freeze({
@@ -413,7 +411,31 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.geolandbasemap,
     baseLayers.bmapgelaende],
   },
-  REP5: {
+  REP4_3: {
+    indicator: 'Hydro Power SWE daily',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
+    baseLayers: [{
+      ...baseLayers.bmaporthofoto30cm, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.cloudless,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmapgelaende],
+  },
+  REP4_4: {
+    indicator: 'Hydro Power WSE monthly',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+  },
+  REP6: {
     ...energyTransitionDefaults,
     indicator: 'Micro Hydropower',
     class: 'air',
@@ -2766,7 +2788,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Potential Assessment',
         navigationDescription: 'Potential Assessment',
-        indicator: 'REP5',
+        indicator: 'REP6',
         disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Micro Hydropower',
