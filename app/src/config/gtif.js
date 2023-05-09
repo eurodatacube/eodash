@@ -2163,20 +2163,18 @@ export const globalIndicators = [
             },
             color: [
               'case',
-              [
-                'all',
-                ['>', ['band', 1], 0],
-                ['between', ['band', 1], ['var', 'basalareaMin'], ['var', 'basalareaMax']],
-              ],
+              ['between', ['band', 1], 0.1, 100],
+              // 'case',
+              // [
+              //   'all',
+              //   ['>', ['band', 1], 0],
+              //   ['between', ['band', 1], ['var', 'basalareaMin'], ['var', 'basalareaMax']],
+              // ],
               [
                 'interpolate',
                 ['linear'],
-                ['band', 1],
-                // normalize(['band', 1], 'basalareaMin', 'basalareaMax'),
-                0.0,
-                [255, 255, 255, 1],
-                65,
-                [128, 3, 120, 1],
+                normalize(['band', 1], 'basalareaMin', 'basalareaMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -2252,7 +2250,7 @@ export const globalIndicators = [
             },
             color: [
               'case',
-              ['between', ['band', 1], 1, 100],
+              ['between', ['band', 1], 0.1, 100],
               [
                 'interpolate',
                 ['linear'],
@@ -2292,12 +2290,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_conifer_proportion_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_conifer_proportion_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_conifer_proportion_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_conifer_2015_8bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_conifer_DA_2018_8bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_conifer_DA_2021_8bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT3',
+          filters: {
+            coniferous: {
+              display: true,
+              label: 'Coniferous proportion [%]',
+              id: 'coniferous',
+              min: 0,
+              max: 100,
+              header: true,
+              range: [0, 100],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -2310,10 +2322,32 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT3',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              coniferousMin: 0,
+              coniferousMax: 100,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.1, 100],
+              //'case',
+              // [
+              //   'all',
+              //   ['>', ['band', 1], 0],
+              //   ['between', ['band', 1], ['var', 'coniferousMin'], ['var', 'coniferousMax']],
+              // ],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'coniferousMin', 'coniferousMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
@@ -2343,12 +2377,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_diameter_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_diameter_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_diameter_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_diameter_2015_8bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_diameter_DA_2018_8bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_diameter_DA_2021_8bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT4',
+          filters: {
+            diameter: {
+              display: true,
+              label: 'Tree diameter [cm]',
+              id: 'diameter',
+              min: 0,
+              max: 100,
+              header: true,
+              range: [0, 100],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -2361,10 +2409,32 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT4',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              diameterMin: 0,
+              diameterMax: 100,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.1, 100],
+              // 'case',
+              // [
+              //   'all',
+              //   ['>', ['band', 1], 0],
+              //   ['between', ['band', 1], ['var', 'diameterMin'], ['var', 'diameterMax']],
+              // ],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'diameterMin', 'diameterMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
@@ -2394,12 +2464,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_height_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_height_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_height_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_height_2015_16bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_height_DA_2018_16bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_height_DA_2021_16bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT5',
+          filters: {
+            height: {
+              display: true,
+              label: 'Tree height [dm]',
+              id: 'height',
+              min: 0,
+              max: 350,
+              header: true,
+              range: [0, 350],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -2412,10 +2496,32 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT5',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              heightMin: 0,
+              heightMax: 350,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.1, 350],
+              // 'case',
+              // [
+              //   'all',
+              //   ['>', ['band', 1], 0],
+              //   ['between', ['band', 1], ['var', 'heightMin'], ['var', 'heightMax']],
+              // ],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'heightMin', 'heightMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
@@ -2445,12 +2551,26 @@ export const globalIndicators = [
         aoi: null,
         aoiID: 'Austria',
         time: [
-          ['2015', '2015/Styria_volume_2015-rendered_COG_3857.tif'],
-          ['2018', '2018/Styria_volume_2018-rendered_COG_3857.tif'],
-          ['2021', '2021/Styria_volume_2021-rendered_COG_3857.tif'],
+          ['2015', 'Styria_volume_2015_16bit-EPSG3857-COG.tif'],
+          ['2018', 'Styria_volume_DA_2018_16bit-EPSG3857-COG.tif'],
+          ['2021', 'Styria_volume_DA_2021_16bit-EPSG3857-COG.tif'],
         ],
         inputData: [''],
         yAxis: '',
+        cogFilters: {
+          sourceLayer: 'VTT6',
+          filters: {
+            volume: {
+              display: true,
+              label: 'Growing Stock Volume [m³/ha]',
+              id: 'volume',
+              min: 0,
+              max: 1000,
+              header: true,
+              range: [0, 1000],
+            },
+          },
+        },
         display: {
           presetView: {
             type: 'FeatureCollection',
@@ -2463,10 +2583,32 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'VTT6',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/VTT/{time}' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/VTT/{time}' },
           ],
-          normalize: true,
           style: {
+            variables: {
+              volumeMin: 0,
+              volumeMax: 1000,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.1, 1000],
+              // 'case',
+              // [
+              //   'all',
+              //   ['>', ['band', 1], 0],
+              //   ['between', ['band', 1], ['var', 'volumeMin'], ['var', 'volumeMax']],
+              // ],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'volumeMin', 'volumeMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
           },
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
