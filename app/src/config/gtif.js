@@ -2568,7 +2568,7 @@ export const globalIndicators = [
               header: true,
               min: 0,
               max: 8,
-              range: [0, 4],
+              range: [2, 4],
               changeablaDataset: {
                 items: [
                   {
@@ -2662,7 +2662,7 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              solarMin: 0,
+              solarMin: 2,
               solarMax: 4,
               aspectMin: 90,
               aspectMax: 270,
