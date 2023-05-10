@@ -122,7 +122,8 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'REP4_2',
@@ -135,7 +136,7 @@ export default {
         'E10a1', 'E10a5', 'N2',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL2',
+        'SOL1', 'SOL2', 'REP4_5',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -143,7 +144,8 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4_1', 'REP4_2'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1',
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2'],
     };
   },
 
@@ -940,7 +942,8 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
+            'REP4_4', 'REP4_6'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -988,8 +991,24 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
+        } else if (['REP4_5'].includes(indicatorCode)) {
+          // Rendering for reservoirs LAC curve
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          // This should be done somehow different, but xAxis is not in indicator mapping
+          this.indicatorObject.xAxis = 'Area [m²]';
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            pointRadius: 4,
+          });
         }
-        if (['REP4_1'].includes(indicatorCode)) {
+        if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
           // monthly average as extra dataset
           const average = [];
           let tempDate = indicator.time[0];

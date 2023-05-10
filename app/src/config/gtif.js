@@ -411,24 +411,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.geolandbasemap,
     baseLayers.bmapgelaende],
   },
-  REP4_3: {
-    indicator: 'Hydro Power SWE daily',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
-    maxDecimals: 5,
-    baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm, visible: true,
-    },
-    baseLayers.terrainLight,
-    baseLayers.cloudless,
-    baseLayers.eoxosm,
-    baseLayers.S2GLC,
-    baseLayers.ESA_WORLD_COVER,
-    baseLayers.CORINE_LAND_COVER,
-    baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
-  },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
     class: 'water',
@@ -436,7 +418,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP4',
   },
   REP4_5: {
-    indicator: 'Hydro Power WSE monthly',
+    indicator: 'Hydro Power LAC monthly',
     class: 'water',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
@@ -459,7 +441,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.geolandbasemap,
     baseLayers.bmapgelaende],
   },
-  REP6: {
+  REP5: {
     ...energyTransitionDefaults,
     indicator: 'Micro Hydropower',
     class: 'air',
@@ -2812,7 +2794,7 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Potential Assessment',
         navigationDescription: 'Potential Assessment',
-        indicator: 'REP6',
+        indicator: 'REP5',
         disabled: true,
         lastIndicatorValue: null,
         indicatorName: 'Micro Hydropower',

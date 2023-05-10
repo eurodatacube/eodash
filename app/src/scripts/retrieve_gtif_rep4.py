@@ -71,22 +71,16 @@ mappings = {
         'description': 'Surface water extent - current daily energy potential',
         'yAxis': 'Area [km²]',
     },
-    'hydro_swe_subset_data': {
-        'data_key': 'area_nrt',
-        'indicator_code': 'REP4_3',
-        'description': 'Surface water extent - current daily energy potential',
-        'yAxis': 'Area [km²]',
-    },
     'hydro_wse_subset_data': {
         'data_key': 'height',
         'indicator_code': 'REP4_4',
-        'description': 'Water surface elevation',
+        'description': 'Water levels',
         'yAxis': 'Height [m]',
     },
     'hydro_storage_change_subset_data': {
         'data_key': 'volume',
         'indicator_code': 'REP4_6',
-        'description': 'Water volume - storage change',
+        'description': 'Storage change',
         'yAxis': 'Volume [10^6 m3]',
     }
 }
@@ -101,7 +95,7 @@ for k, v in mappings.items():
             "time": time,
             "measurement_value": format(item[v['data_key']], '.5f'),
         }
-        if v['indicator_code'] in ['REP4_1', 'REP4_3', 'REP4_6']:
+        if v['indicator_code'] in ['REP4_1', 'REP4_6']:
             sensor:str = item["sensor"].strip()
             if sensor.find('s2-') != -1:
                 input_data:str = 'S2L2A_REP4'
@@ -175,6 +169,38 @@ for item in hydro_swe_monthly_means:
                 # Actual data
                 "poi_data": [object_always_present],
             }
+
+data:dict = requests.get(f'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_hydro_hypso_subset_data').json()
+for item in data:
+    poi_key:str = "%s-%s" % (item["object_id"], 'REP4_5')
+    id:str = str(item["object_id"])
+    time:datetime = try_parsing_date(item["date"], item)
+    object_always_present = {
+        "time": time,
+        "measurement_value": format(item['height'], '.8f'),
+        "reference_value": format(item['area_nrt'], '.8f'),
+    }
+    if poi_key in poi_dict:
+        # If key already saved we add the relevant data
+        if time not in [i["time"] for i in poi_dict[poi_key]["poi_data"]]:
+            poi_dict[poi_key]["poi_data"].append(object_always_present)
+    else:
+        poi_dict[poi_key] = {
+            # Unique poi data
+            "aoi": dams[id]["aoi"],
+            "aoiID": id,
+            "country": None,
+            "indicator": 'REP4_5',
+            "siteName": None,
+            "city": '',
+            "description": 'Level-Area-Height curve (LAC)',
+            "yAxis": 'Height [m]',
+            "subAoi": dams[id]["subAoi"],
+            # Actual data
+            "poi_data": [object_always_present],
+        }
+
+
 
 outKeys = [
     "aoi", "aoiID", "country", "indicator", "siteName", "city",
