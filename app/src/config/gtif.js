@@ -1579,7 +1579,7 @@ export const globalIndicators = [
             },
             {
               id: 'PVExisting',
-              description: 'Existing photovoltaic Panels',
+              description: 'Existing photovoltaic panels',
               markdown: 'SOL1_PVExisting',
             },
             {
@@ -1687,7 +1687,7 @@ export const globalIndicators = [
           items: [
             {
               id: 'PVExisting',
-              description: 'Existing photovoltaic panels',
+              description: 'PV Detections',
               markdown: 'SOL10_PVExisting',
             },
           ],
