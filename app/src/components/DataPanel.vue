@@ -475,8 +475,10 @@ export default {
           let txtVal = '';
           if (cKey === 'aoi') {
             txtVal = `"${this.indicatorObject[cKey]}",`;
-          } else {
+          } else if (Object.prototype.hasOwnProperty.call(this.indicatorObject, cKey)) {
             txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          } else {
+            txtVal = ',';
           }
           row += txtVal;
         }
@@ -523,17 +525,14 @@ export default {
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
-      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+      const city = currInd.city || 'global';
+      return `${city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAOIDownloadFilename() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     showMap() {
-      // TODO: remove this hack
-      if (['REP4'].includes(this.indicatorObject.indicator)) {
-        return false;
-      }
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },

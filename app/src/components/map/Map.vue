@@ -12,6 +12,7 @@
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      :mergedConfigsData="mergedConfigsData[0]"
       :isGlobal="isGlobalIndicator"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
@@ -290,7 +291,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getFeatures', 'getFeaturesGtifMap']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
@@ -330,7 +331,8 @@ export default {
       return configs;
     },
     administrativeConfigs() {
-      return [...this.baseConfig.administrativeLayers];
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].administrativeLayers)
+        || this.baseConfig.administrativeLayers;
     },
     mapDefaults() {
       return {
@@ -489,6 +491,18 @@ export default {
   },
   watch: {
     getFeatures(features) {
+      if (this.appConfig.id === 'gtif') {
+        return;
+      }
+      if (this.mapId === 'centerMap' && features) {
+        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+        cluster.setFeatures(features);
+      }
+    },
+    getFeaturesGtifMap(features) {
+      if (this.appConfig.id !== 'gtif') {
+        return;
+      }
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
@@ -634,7 +648,11 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
-      cluster.setFeatures(this.getFeatures);
+      if (this.appConfig.id === 'gtif') {
+        cluster.setFeatures(this.getFeaturesGtifMap);
+      } else {
+        cluster.setFeatures(this.getFeatures);
+      }
       const { x, y, z } = this.$route.query;
       if (!x && !y && !z) {
         setTimeout(() => {
