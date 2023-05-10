@@ -1,0 +1,3302 @@
+[
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07703",
+        "time": "2016-01-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07688",
+        "time": "2016-01-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07627",
+        "time": "2016-01-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07555",
+        "time": "2016-02-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07450",
+        "time": "2016-02-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07404",
+        "time": "2016-02-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07219",
+        "time": "2016-02-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07049",
+        "time": "2016-02-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07308",
+        "time": "2016-03-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07403",
+        "time": "2016-03-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07096",
+        "time": "2016-03-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07052",
+        "time": "2016-03-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06951",
+        "time": "2016-03-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07058",
+        "time": "2016-03-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07185",
+        "time": "2016-04-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07618",
+        "time": "2016-04-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07145",
+        "time": "2016-04-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06578",
+        "time": "2016-04-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06198",
+        "time": "2016-05-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06870",
+        "time": "2016-05-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06644",
+        "time": "2016-05-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06171",
+        "time": "2016-06-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05939",
+        "time": "2016-06-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05514",
+        "time": "2016-06-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05644",
+        "time": "2016-06-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06438",
+        "time": "2016-06-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06746",
+        "time": "2016-06-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07599",
+        "time": "2016-07-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07799",
+        "time": "2016-07-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07548",
+        "time": "2016-07-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07161",
+        "time": "2016-08-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07161",
+        "time": "2016-08-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07225",
+        "time": "2016-08-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07205",
+        "time": "2016-08-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06822",
+        "time": "2016-08-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06869",
+        "time": "2016-09-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06747",
+        "time": "2016-09-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07095",
+        "time": "2016-09-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06563",
+        "time": "2016-10-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06691",
+        "time": "2016-10-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06683",
+        "time": "2016-10-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06640",
+        "time": "2016-10-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06576",
+        "time": "2016-10-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06685",
+        "time": "2016-10-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06794",
+        "time": "2016-10-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06845",
+        "time": "2016-10-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07017",
+        "time": "2016-10-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07051",
+        "time": "2016-11-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07195",
+        "time": "2016-11-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07294",
+        "time": "2016-11-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07313",
+        "time": "2016-11-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07313",
+        "time": "2016-11-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07162",
+        "time": "2016-11-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06979",
+        "time": "2016-11-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06970",
+        "time": "2016-11-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06848",
+        "time": "2016-11-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06512",
+        "time": "2016-12-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06625",
+        "time": "2016-12-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06915",
+        "time": "2016-12-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07197",
+        "time": "2016-12-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07258",
+        "time": "2017-01-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07431",
+        "time": "2017-01-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07497",
+        "time": "2017-02-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07457",
+        "time": "2017-02-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07278",
+        "time": "2017-02-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07210",
+        "time": "2017-03-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07161",
+        "time": "2017-03-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07127",
+        "time": "2017-03-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07178",
+        "time": "2017-03-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07308",
+        "time": "2017-03-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07045",
+        "time": "2017-03-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06996",
+        "time": "2017-03-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06979",
+        "time": "2017-04-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07216",
+        "time": "2017-04-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07297",
+        "time": "2017-04-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07561",
+        "time": "2017-04-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07546",
+        "time": "2017-04-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07518",
+        "time": "2017-04-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07480",
+        "time": "2017-04-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07483",
+        "time": "2017-04-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06982",
+        "time": "2017-05-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06755",
+        "time": "2017-05-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06705",
+        "time": "2017-05-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06550",
+        "time": "2017-05-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06459",
+        "time": "2017-05-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06215",
+        "time": "2017-05-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06078",
+        "time": "2017-05-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06112",
+        "time": "2017-05-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06215",
+        "time": "2017-05-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06076",
+        "time": "2017-05-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05576",
+        "time": "2017-06-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05548",
+        "time": "2017-06-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05552",
+        "time": "2017-06-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05661",
+        "time": "2017-06-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05915",
+        "time": "2017-06-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06223",
+        "time": "2017-06-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06297",
+        "time": "2017-06-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06306",
+        "time": "2017-06-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06551",
+        "time": "2017-07-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06759",
+        "time": "2017-07-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06573",
+        "time": "2017-07-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06503",
+        "time": "2017-07-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06617",
+        "time": "2017-07-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06861",
+        "time": "2017-07-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06981",
+        "time": "2017-07-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06987",
+        "time": "2017-07-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07046",
+        "time": "2017-07-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07213",
+        "time": "2017-08-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07297",
+        "time": "2017-08-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07321",
+        "time": "2017-08-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07190",
+        "time": "2017-08-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07159",
+        "time": "2017-08-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07128",
+        "time": "2017-08-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07121",
+        "time": "2017-08-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07135",
+        "time": "2017-08-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07181",
+        "time": "2017-08-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07159",
+        "time": "2017-08-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07097",
+        "time": "2017-09-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07085",
+        "time": "2017-09-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07092",
+        "time": "2017-09-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07172",
+        "time": "2017-09-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07248",
+        "time": "2017-09-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07303",
+        "time": "2017-09-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07320",
+        "time": "2017-09-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07306",
+        "time": "2017-09-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07334",
+        "time": "2017-09-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07460",
+        "time": "2017-09-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07496",
+        "time": "2017-09-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07581",
+        "time": "2017-10-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07474",
+        "time": "2017-10-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07281",
+        "time": "2017-10-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07175",
+        "time": "2017-10-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07028",
+        "time": "2017-10-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06930",
+        "time": "2017-10-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06678",
+        "time": "2017-10-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06295",
+        "time": "2017-10-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06185",
+        "time": "2017-10-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06101",
+        "time": "2017-10-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06104",
+        "time": "2017-11-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06486",
+        "time": "2017-11-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06776",
+        "time": "2017-11-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06853",
+        "time": "2017-11-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07480",
+        "time": "2017-11-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07787",
+        "time": "2017-11-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07842",
+        "time": "2017-12-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07681",
+        "time": "2017-12-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07646",
+        "time": "2017-12-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07596",
+        "time": "2017-12-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07505",
+        "time": "2017-12-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07501",
+        "time": "2017-12-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07505",
+        "time": "2017-12-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07399",
+        "time": "2017-12-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07290",
+        "time": "2018-01-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07189",
+        "time": "2018-01-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07074",
+        "time": "2018-01-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06835",
+        "time": "2018-01-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06857",
+        "time": "2018-01-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06911",
+        "time": "2018-01-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06960",
+        "time": "2018-01-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07051",
+        "time": "2018-01-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07105",
+        "time": "2018-01-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07183",
+        "time": "2018-01-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07259",
+        "time": "2018-02-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07489",
+        "time": "2018-02-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07542",
+        "time": "2018-02-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07480",
+        "time": "2018-02-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07462",
+        "time": "2018-02-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07201",
+        "time": "2018-02-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07268",
+        "time": "2018-03-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07425",
+        "time": "2018-03-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07487",
+        "time": "2018-03-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07461",
+        "time": "2018-03-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07493",
+        "time": "2018-03-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07500",
+        "time": "2018-03-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07486",
+        "time": "2018-03-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07413",
+        "time": "2018-03-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07367",
+        "time": "2018-03-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07317",
+        "time": "2018-03-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07387",
+        "time": "2018-04-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07527",
+        "time": "2018-04-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07592",
+        "time": "2018-04-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07802",
+        "time": "2018-04-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07860",
+        "time": "2018-04-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07925",
+        "time": "2018-04-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08206",
+        "time": "2018-04-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08206",
+        "time": "2018-04-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08171",
+        "time": "2018-04-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08109",
+        "time": "2018-04-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07749",
+        "time": "2018-04-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07250",
+        "time": "2018-04-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07045",
+        "time": "2018-05-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06549",
+        "time": "2018-05-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06337",
+        "time": "2018-05-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06062",
+        "time": "2018-05-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06049",
+        "time": "2018-05-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06180",
+        "time": "2018-05-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06298",
+        "time": "2018-05-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07264",
+        "time": "2018-06-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07331",
+        "time": "2018-06-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06684",
+        "time": "2018-06-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06675",
+        "time": "2018-06-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06703",
+        "time": "2018-07-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06826",
+        "time": "2018-07-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05639",
+        "time": "2018-08-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06553",
+        "time": "2018-09-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07795",
+        "time": "2018-10-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07948",
+        "time": "2018-11-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07858",
+        "time": "2018-12-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07333",
+        "time": "2019-01-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07859",
+        "time": "2019-02-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08008",
+        "time": "2019-02-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08219",
+        "time": "2019-03-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07977",
+        "time": "2019-03-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07335",
+        "time": "2019-03-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07171",
+        "time": "2019-03-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07084",
+        "time": "2019-03-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07073",
+        "time": "2019-03-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07134",
+        "time": "2019-03-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07177",
+        "time": "2019-03-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07298",
+        "time": "2019-03-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07490",
+        "time": "2019-04-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07553",
+        "time": "2019-04-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07588",
+        "time": "2019-04-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07684",
+        "time": "2019-04-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07664",
+        "time": "2019-04-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07479",
+        "time": "2019-05-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07248",
+        "time": "2019-05-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06856",
+        "time": "2019-05-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06877",
+        "time": "2019-05-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06857",
+        "time": "2019-05-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06418",
+        "time": "2019-05-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06477",
+        "time": "2019-05-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06536",
+        "time": "2019-05-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06627",
+        "time": "2019-05-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06710",
+        "time": "2019-06-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06833",
+        "time": "2019-06-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06702",
+        "time": "2019-06-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05960",
+        "time": "2019-06-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05860",
+        "time": "2019-06-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05750",
+        "time": "2019-06-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05962",
+        "time": "2019-06-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06019",
+        "time": "2019-06-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06060",
+        "time": "2019-06-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06214",
+        "time": "2019-07-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06308",
+        "time": "2019-07-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06684",
+        "time": "2019-07-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07598",
+        "time": "2019-07-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07831",
+        "time": "2019-07-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07774",
+        "time": "2019-07-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07686",
+        "time": "2019-07-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07654",
+        "time": "2019-07-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07644",
+        "time": "2019-07-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07687",
+        "time": "2019-08-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07824",
+        "time": "2019-08-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07834",
+        "time": "2019-08-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07542",
+        "time": "2019-08-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07454",
+        "time": "2019-08-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07434",
+        "time": "2019-08-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07313",
+        "time": "2019-08-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07236",
+        "time": "2019-08-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07169",
+        "time": "2019-08-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07146",
+        "time": "2019-08-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07098",
+        "time": "2019-08-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07054",
+        "time": "2019-09-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07094",
+        "time": "2019-09-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07078",
+        "time": "2019-09-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07157",
+        "time": "2019-09-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07216",
+        "time": "2019-09-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07376",
+        "time": "2019-09-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07383",
+        "time": "2019-09-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07489",
+        "time": "2019-09-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07667",
+        "time": "2019-09-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07382",
+        "time": "2019-10-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07277",
+        "time": "2019-10-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07172",
+        "time": "2019-10-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06980",
+        "time": "2019-10-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06832",
+        "time": "2019-10-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06763",
+        "time": "2019-10-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06806",
+        "time": "2019-10-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06957",
+        "time": "2019-10-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07360",
+        "time": "2019-11-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07523",
+        "time": "2019-11-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07745",
+        "time": "2019-11-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07768",
+        "time": "2019-11-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07928",
+        "time": "2019-11-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07704",
+        "time": "2019-11-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07445",
+        "time": "2019-11-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07259",
+        "time": "2019-12-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07216",
+        "time": "2019-12-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07178",
+        "time": "2019-12-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07249",
+        "time": "2019-12-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07219",
+        "time": "2019-12-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07038",
+        "time": "2019-12-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07157",
+        "time": "2019-12-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07187",
+        "time": "2020-01-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07226",
+        "time": "2020-01-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07426",
+        "time": "2020-01-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07587",
+        "time": "2020-01-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07888",
+        "time": "2020-01-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07904",
+        "time": "2020-01-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07920",
+        "time": "2020-01-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07920",
+        "time": "2020-01-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07904",
+        "time": "2020-01-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07815",
+        "time": "2020-01-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07593",
+        "time": "2020-01-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07370",
+        "time": "2020-02-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07371",
+        "time": "2020-02-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07360",
+        "time": "2020-02-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07312",
+        "time": "2020-02-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07299",
+        "time": "2020-02-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07459",
+        "time": "2020-02-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07524",
+        "time": "2020-02-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07688",
+        "time": "2020-02-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07890",
+        "time": "2020-02-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07875",
+        "time": "2020-02-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08044",
+        "time": "2020-03-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08064",
+        "time": "2020-03-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08102",
+        "time": "2020-03-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08183",
+        "time": "2020-03-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08204",
+        "time": "2020-03-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08137",
+        "time": "2020-03-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08090",
+        "time": "2020-03-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08024",
+        "time": "2020-03-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08024",
+        "time": "2020-03-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08032",
+        "time": "2020-04-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08042",
+        "time": "2020-04-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08094",
+        "time": "2020-04-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08145",
+        "time": "2020-04-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08169",
+        "time": "2020-04-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08207",
+        "time": "2020-04-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08238",
+        "time": "2020-04-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08238",
+        "time": "2020-04-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08206",
+        "time": "2020-04-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08174",
+        "time": "2020-04-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08322",
+        "time": "2020-04-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08380",
+        "time": "2020-04-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08314",
+        "time": "2020-04-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08027",
+        "time": "2020-05-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07831",
+        "time": "2020-05-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07583",
+        "time": "2020-05-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07387",
+        "time": "2020-05-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07260",
+        "time": "2020-05-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06344",
+        "time": "2020-05-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06203",
+        "time": "2020-05-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06175",
+        "time": "2020-06-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06133",
+        "time": "2020-06-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06019",
+        "time": "2020-06-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05635",
+        "time": "2020-06-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05510",
+        "time": "2020-06-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.05678",
+        "time": "2020-06-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05745",
+        "time": "2020-06-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06009",
+        "time": "2020-06-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06109",
+        "time": "2020-06-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06215",
+        "time": "2020-06-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06389",
+        "time": "2020-07-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06423",
+        "time": "2020-07-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06487",
+        "time": "2020-07-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06615",
+        "time": "2020-07-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06860",
+        "time": "2020-07-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06803",
+        "time": "2020-07-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06849",
+        "time": "2020-07-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07079",
+        "time": "2020-08-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07327",
+        "time": "2020-08-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07441",
+        "time": "2020-08-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07477",
+        "time": "2020-08-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07490",
+        "time": "2020-08-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07423",
+        "time": "2020-08-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07527",
+        "time": "2020-08-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07582",
+        "time": "2020-08-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07631",
+        "time": "2020-08-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07500",
+        "time": "2020-09-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07472",
+        "time": "2020-09-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07448",
+        "time": "2020-09-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07354",
+        "time": "2020-09-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07246",
+        "time": "2020-09-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07232",
+        "time": "2020-09-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07103",
+        "time": "2020-09-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07059",
+        "time": "2020-09-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07036",
+        "time": "2020-09-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07040",
+        "time": "2020-09-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07086",
+        "time": "2020-09-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07204",
+        "time": "2020-09-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07414",
+        "time": "2020-10-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07525",
+        "time": "2020-10-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07623",
+        "time": "2020-10-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07642",
+        "time": "2020-10-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07756",
+        "time": "2020-10-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07784",
+        "time": "2020-10-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07784",
+        "time": "2020-10-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07712",
+        "time": "2020-10-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07663",
+        "time": "2020-10-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07589",
+        "time": "2020-11-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07560",
+        "time": "2020-11-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07498",
+        "time": "2020-11-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07619",
+        "time": "2020-11-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08046",
+        "time": "2020-11-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07986",
+        "time": "2020-11-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07848",
+        "time": "2020-12-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07438",
+        "time": "2020-12-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07314",
+        "time": "2020-12-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07073",
+        "time": "2020-12-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06778",
+        "time": "2020-12-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06814",
+        "time": "2020-12-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06874",
+        "time": "2020-12-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07038",
+        "time": "2021-01-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06830",
+        "time": "2021-01-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06575",
+        "time": "2021-01-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06766",
+        "time": "2021-01-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07339",
+        "time": "2021-02-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07318",
+        "time": "2021-02-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07235",
+        "time": "2021-02-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07173",
+        "time": "2021-03-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07386",
+        "time": "2021-04-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07496",
+        "time": "2021-04-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07613",
+        "time": "2021-05-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05945",
+        "time": "2021-05-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05442",
+        "time": "2021-06-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.05869",
+        "time": "2021-06-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.06602",
+        "time": "2021-06-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06297",
+        "time": "2021-09-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06749",
+        "time": "2021-09-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.06949",
+        "time": "2021-09-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07049",
+        "time": "2021-09-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07259",
+        "time": "2021-09-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07421",
+        "time": "2021-09-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07531",
+        "time": "2021-09-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07590",
+        "time": "2021-09-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07869",
+        "time": "2021-09-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07784",
+        "time": "2021-10-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07696",
+        "time": "2021-10-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07567",
+        "time": "2021-10-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07346",
+        "time": "2021-10-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07267",
+        "time": "2021-10-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07166",
+        "time": "2021-10-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07139",
+        "time": "2021-10-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07143",
+        "time": "2021-10-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07131",
+        "time": "2021-10-29T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07109",
+        "time": "2021-10-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07097",
+        "time": "2021-10-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07372",
+        "time": "2021-11-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07662",
+        "time": "2021-11-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07646",
+        "time": "2021-11-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07724",
+        "time": "2021-11-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07817",
+        "time": "2021-11-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07879",
+        "time": "2021-11-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07821",
+        "time": "2021-11-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07759",
+        "time": "2021-11-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07591",
+        "time": "2021-12-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07495",
+        "time": "2021-12-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07309",
+        "time": "2021-12-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07221",
+        "time": "2021-12-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07174",
+        "time": "2021-12-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07158",
+        "time": "2021-12-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07314",
+        "time": "2021-12-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07472",
+        "time": "2022-01-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07630",
+        "time": "2022-01-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07597",
+        "time": "2022-01-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07602",
+        "time": "2022-01-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07622",
+        "time": "2022-01-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07579",
+        "time": "2022-01-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07527",
+        "time": "2022-02-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07601",
+        "time": "2022-02-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07633",
+        "time": "2022-02-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07926",
+        "time": "2022-02-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07969",
+        "time": "2022-02-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08042",
+        "time": "2022-02-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08071",
+        "time": "2022-02-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08109",
+        "time": "2022-02-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08119",
+        "time": "2022-02-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08114",
+        "time": "2022-02-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08118",
+        "time": "2022-03-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08117",
+        "time": "2022-03-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07974",
+        "time": "2022-03-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07855",
+        "time": "2022-03-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07811",
+        "time": "2022-03-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07816",
+        "time": "2022-03-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07856",
+        "time": "2022-03-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07879",
+        "time": "2022-03-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07962",
+        "time": "2022-03-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08085",
+        "time": "2022-03-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08157",
+        "time": "2022-03-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08324",
+        "time": "2022-04-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08305",
+        "time": "2022-04-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08263",
+        "time": "2022-04-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08237",
+        "time": "2022-04-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08151",
+        "time": "2022-04-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.08049",
+        "time": "2022-04-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.08031",
+        "time": "2022-04-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07953",
+        "time": "2022-04-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07906",
+        "time": "2022-04-21T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07732",
+        "time": "2022-04-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07725",
+        "time": "2022-05-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07828",
+        "time": "2022-05-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07823",
+        "time": "2022-05-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07789",
+        "time": "2022-05-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07779",
+        "time": "2022-05-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07762",
+        "time": "2022-05-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07673",
+        "time": "2022-06-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07573",
+        "time": "2022-06-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07664",
+        "time": "2022-06-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07704",
+        "time": "2022-07-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07694",
+        "time": "2022-07-04T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07608",
+        "time": "2022-07-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07589",
+        "time": "2022-07-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07589",
+        "time": "2022-07-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07592",
+        "time": "2022-07-14T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07581",
+        "time": "2022-07-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07566",
+        "time": "2022-07-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07548",
+        "time": "2022-07-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07558",
+        "time": "2022-07-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07569",
+        "time": "2022-07-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07652",
+        "time": "2022-08-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07707",
+        "time": "2022-08-03T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07900",
+        "time": "2022-08-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07873",
+        "time": "2022-08-15T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07849",
+        "time": "2022-08-16T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07848",
+        "time": "2022-08-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07839",
+        "time": "2022-08-27T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07831",
+        "time": "2022-08-28T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07840",
+        "time": "2022-08-31T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07848",
+        "time": "2022-09-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07818",
+        "time": "2022-09-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07813",
+        "time": "2022-09-08T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07803",
+        "time": "2022-09-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07806",
+        "time": "2022-09-12T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07780",
+        "time": "2022-09-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07768",
+        "time": "2022-09-22T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07758",
+        "time": "2022-09-24T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07679",
+        "time": "2022-10-02T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07603",
+        "time": "2022-10-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07579",
+        "time": "2022-10-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07557",
+        "time": "2022-10-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07519",
+        "time": "2022-10-10T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07595",
+        "time": "2022-10-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07637",
+        "time": "2022-10-18T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07679",
+        "time": "2022-10-20T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07667",
+        "time": "2022-10-26T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07620",
+        "time": "2022-10-30T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07689",
+        "time": "2022-11-06T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07678",
+        "time": "2022-11-07T00:00:00"
+    },
+    {
+        "eo_sensor": "s2-nrt-imp",
+        "input_data": "S2L2A_REP4",
+        "measurement_value": "0.07621",
+        "time": "2022-11-09T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07624",
+        "time": "2022-11-11T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07482",
+        "time": "2022-11-19T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07579",
+        "time": "2022-11-23T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07815",
+        "time": "2022-12-01T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07773",
+        "time": "2022-12-05T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07766",
+        "time": "2022-12-13T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07762",
+        "time": "2022-12-17T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-44-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07732",
+        "time": "2022-12-25T00:00:00"
+    },
+    {
+        "eo_sensor": "s1-nrt-95-imp",
+        "input_data": "S1GRD_REP4",
+        "measurement_value": "0.07706",
+        "time": "2022-12-29T00:00:00"
+    }
+]

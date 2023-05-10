@@ -33,6 +33,7 @@ export default {
     mapId: String,
     indicator: Object,
     isGlobal: Boolean,
+    mergedConfigsData: Object,
   },
   data: () => ({
     constrainingExtent: undefined,
@@ -96,10 +97,11 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-
+    const { subAoiTransparent } = this.mergedConfigsData;
+    const fillTransparency = subAoiTransparent ? 0 : 0.5;
     const subAoiStyle = new Style({
       fill: new Fill({
-        color: 'rgba(100, 160, 255, 0.4)',
+        color: `rgba(100, 160, 255, ${fillTransparency})`,
       }),
       stroke: new Stroke({
         width: 2,
@@ -109,7 +111,7 @@ export default {
 
     const inverseStyle = new Style({
       fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.5)',
+        color: `rgba(0, 0, 0, ${fillTransparency})`,
       }),
       stroke: new Stroke({
         width: 2,

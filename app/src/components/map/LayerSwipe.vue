@@ -115,7 +115,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           swipeLayer.changed();
@@ -132,7 +132,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, time, this.drawnArea);
@@ -149,7 +149,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');
@@ -192,16 +192,14 @@ export default {
               ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
               ctx.clip();
             }
+          } else if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
           } else {
-            if (ctx instanceof WebGLRenderingContext) {
-              ctx.enable(ctx.SCISSOR_TEST);
-              ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
-            } else {
-              ctx.save();
-              ctx.beginPath();
-              ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
-              ctx.clip();
-            }
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+            ctx.clip();
           }
         }
       }
