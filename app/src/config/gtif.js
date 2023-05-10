@@ -1495,7 +1495,7 @@ export const globalIndicators = [
             },
             {
               id: 'grexisting',
-              description: 'Existing Green Roofs',
+              description: 'Existing green rooftops',
               markdown: 'SOL1_GRExisting',
             },
             {
