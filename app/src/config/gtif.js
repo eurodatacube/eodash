@@ -1546,7 +1546,7 @@ export const globalIndicators = [
             },
             {
               id: 'grexisting',
-              description: 'Existing Green Roofs',
+              description: 'Existing green rooftops',
               markdown: 'SOL1_GRExisting',
             },
             {
@@ -1631,7 +1631,7 @@ export const globalIndicators = [
             },
             {
               id: 'PVExisting',
-              description: 'Existing PV Panels',
+              description: 'Existing photovoltaic panels',
               markdown: 'SOL1_PVExisting',
             },
             {
@@ -1740,7 +1740,7 @@ export const globalIndicators = [
           items: [
             {
               id: 'PVExisting',
-              description: 'Existing PV Panels',
+              description: 'PV Detections',
               markdown: 'SOL10_PVExisting',
             },
           ],
