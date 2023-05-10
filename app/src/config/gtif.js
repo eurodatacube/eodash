@@ -2563,12 +2563,12 @@ export const globalIndicators = [
             solar: {
               display: true,
               dataInfo: 'GlobalHorizontalIrradiation',
-              label: 'Solar Power Potential',
+              label: 'Solar Power Potential [kWh/m²/day]',
               id: 'solar',
               header: true,
               min: 0,
-              max: 8000000,
-              range: [1840000, 4000000],
+              max: 8,
+              range: [0, 4],
               changeablaDataset: {
                 items: [
                   {
@@ -2662,8 +2662,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              solarMin: 1840000,
-              solarMax: 4000000,
+              solarMin: 0,
+              solarMax: 4,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -2704,7 +2704,7 @@ export const globalIndicators = [
               [
                 'interpolate',
                 ['linear'],
-                normalize(bandModifier(0, 0, 1e6), 'solarMin', 'solarMax'),
+                normalize(['band', 1], 'solarMin', 'solarMax'),
                 ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
