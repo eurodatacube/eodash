@@ -943,7 +943,7 @@ export default {
             clipMap: 'items',
           });
         } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
-            'REP4_4', 'REP4_6'].includes(indicatorCode)) {
+          'REP4_4', 'REP4_6'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -997,6 +997,7 @@ export default {
             { x, y: indicator.measurement[i] }
           ));
           // This should be done somehow different, but xAxis is not in indicator mapping
+          // eslint-disable-next-line
           this.indicatorObject.xAxis = 'Area [m²]';
           datasets.push({
             label: indicator.yAxis,
