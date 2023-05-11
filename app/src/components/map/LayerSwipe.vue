@@ -166,7 +166,7 @@ export default {
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
           ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
-            : document.querySelector('.data-panel').clientWidth
+            : document.querySelector('.data-panel').clientWidth / window.devicePixelRatio
           : 0;
         const actualWidth = ctx.canvas.width / window.devicePixelRatio;
         const actualHeight = ctx.canvas.height / window.devicePixelRatio;
