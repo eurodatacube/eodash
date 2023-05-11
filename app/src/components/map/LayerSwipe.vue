@@ -166,9 +166,13 @@ export default {
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
           ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
-            : document.querySelector('.data-panel').clientWidth
+            : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
-        this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
+        // on retina displays, the actual part of canvas that data-panel occupies
+        // need to be multiplied by the devicePixelRatio
+        const actualWidth = ctx.canvas.width;
+        const actualHeight = ctx.canvas.height;
+        this.swipePixelX = (actualWidth - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         const { map } = getMapInstance(this.mapId);
         const usedConfig = this.mergedConfigsData.find((item) => evt.target.get('name').replace('_features', '') === item.name);
@@ -184,21 +188,21 @@ export default {
             if (ctx instanceof WebGLRenderingContext) {
               ctx.enable(ctx.SCISSOR_TEST);
               ctx.scissor(
-                this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height,
+                this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight,
               );
             } else {
               ctx.save();
               ctx.beginPath();
-              ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
+              ctx.rect(this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight);
               ctx.clip();
             }
           } else if (ctx instanceof WebGLRenderingContext) {
             ctx.enable(ctx.SCISSOR_TEST);
-            ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
+            ctx.scissor(0, 0, this.swipePixelX, actualHeight);
           } else {
             ctx.save();
             ctx.beginPath();
-            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+            ctx.rect(0, 0, this.swipePixelX, actualHeight);
             ctx.clip();
           }
         }
