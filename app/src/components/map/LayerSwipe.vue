@@ -166,10 +166,12 @@ export default {
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
           ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
-            : document.querySelector('.data-panel').clientWidth / window.devicePixelRatio
+            : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
-        const actualWidth = ctx.canvas.width / window.devicePixelRatio;
-        const actualHeight = ctx.canvas.height / window.devicePixelRatio;
+        // on retina displays, the actual part of canvas that data-panel occupies
+        // need to be multiplied by the devicePixelRatio
+        const actualWidth = ctx.canvas.width;
+        const actualHeight = ctx.canvas.height;
         this.swipePixelX = (actualWidth - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         const { map } = getMapInstance(this.mapId);
