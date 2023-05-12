@@ -1,5 +1,7 @@
 ## Biomass
 
+<img style="width:400px" src="data/gtif/images/legends/viridis.png"></img>
+
 Humans have exploited forest biomass as a material and energy source for millennia, but population growth and increasing demand for resources have diminished the extent and condition of forests, including the amount of carbon they store and exchange with the atmosphere.
 
 The [Global Climate Observing System](https://gcos.wmo.int/) considers above-ground biomass (AGB) an Essential Climate Variable due to its functions as both a source of atmospheric CO2 (and other greenhouse gases) when forest is lost under Land Use Change or by degradation, and as a sink for CO2 due to forest growth.

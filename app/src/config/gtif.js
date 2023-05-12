@@ -317,6 +317,19 @@ const energyTransitionDefaults = {
   ],
 };
 
+const eoadaptationDefaults = {
+  baseLayers: [
+    {
+      ...baseLayers.s2AT2022,
+      visible: true,
+    },
+    baseLayers.s2AT2021,
+    baseLayers.terrainLight,
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.cloudless,
+  ],
+};
+
 export const indicatorsDefinition = Object.freeze({
   BM1: {
     indicator: 'Forest Change',
@@ -491,12 +504,14 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     story: '/data/gtif/markdown/FCM',
     themes: ['eo-adaptation-services'],
+    ...eoadaptationDefaults,
   },
   FCM2: {
     indicator: 'Forest disturbance type',
     class: 'air',
     story: '/data/gtif/markdown/FCM2',
     themes: ['eo-adaptation-services'],
+    ...eoadaptationDefaults,
   },
   FCM3: {
     indicator: 'Annual forest mask',
@@ -1853,7 +1868,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
           protocol: 'cog',
@@ -2663,14 +2678,13 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
           protocol: 'cog',
           id: 'FCM1',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/{time}' },
-            //{ url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],

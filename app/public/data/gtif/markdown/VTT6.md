@@ -4,4 +4,4 @@ The growing stock volume (GSV) of a forest is the total volume of the stems of a
 
 **Disclaimer**: The forest parameter values are the output of a growth model based on EO and meteorological data, and are not yet validated.
 
-<img style="width:400px" src="data/gtif/images/legends/VTT6.png"></img>
+<img style="width:400px" src="data/gtif/images/legends/viridis.png"></img>
