@@ -1348,7 +1348,7 @@ export const globalIndicators = [
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/N9-W8.png',
+          legendUrl: 'legends/trilateral/N9_W8.png',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e14,

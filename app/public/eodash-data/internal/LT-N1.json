@@ -1281,9 +1281,20 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "16.874468",
+        "measurement_value": "17.966820000000002",
         "reference_time": "2023-04-03T00:00:00",
-        "reference_value": "[17.133339, 7.0961075, 46.942703, 0.20087238, 94.10569105691057]",
+        "reference_value": "[18.155859, 7.1500998, 45.934845, 0.5425475, 96.64634146341463]",
         "time": "2023-04-03T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "29.316135",
+        "reference_time": "2023-04-17T00:00:00",
+        "reference_value": "[29.172894, 3.6317253, 41.460957, 19.06819, 100.0]",
+        "time": "2023-04-17T00:00:00"
     }
 ]
