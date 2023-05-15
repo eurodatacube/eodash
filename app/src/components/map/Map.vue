@@ -734,8 +734,15 @@ export default {
 
     // Define a function to update the data layer
     const updateTime = (time) => {
+      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+
+      if (timeEntry === undefined) {
+        console.error(`Cannot find a time entry for the given time: ${time}`);
+        return
+      }
+
       // Update the data layer with the new data
-      this.dataLayerTime = time;
+      this.dataLayerTime = timeEntry;
     };
 
     // Define a function to schedule the data layer update during the next animation frame
