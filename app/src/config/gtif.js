@@ -1457,6 +1457,9 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
+          selection: {
+            mode: 'multiple', // or single
+          },
           getColor: (feature, store, options) => {
             let color = '#00000000';
             const dataSource = options.dataProp ? options.dataProp : 'mapData';

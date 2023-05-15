@@ -11,20 +11,10 @@
 <script>
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import { getMapInstance } from '@/components/map/map';
-import GeoJSON from 'ol/format/GeoJSON';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
-import Fill from 'ol/style/Fill';
-import Stroke from 'ol/style/Stroke';
-import turfDifference from '@turf/difference';
 import { createLayerFromConfig } from '@/components/map/layers';
-import getMapCursor from '@/components/map/MapCursor';
 import Select from 'ol/interaction/Select';
 import Group from 'ol/layer/Group';
 import { getCenter } from 'ol/extent';
-
-const geoJsonFormat = new GeoJSON({});
 
 /**
  */
@@ -58,63 +48,14 @@ export default {
     // initiate hover over admin interaction
     map.on('pointermove', this.adminBorderHover);
 
-    const adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
+    this.adminLayerGroups = this.administrativeConfigs.map((l) => createLayerFromConfig(l,
       map,
       {
         zIndex: 21,
       }));
-    this.adminLayerGroups = adminLayerGroups;
-    // setup listener on featuresloadend on first layer and set maxZoom to high number to
-    // trigger fetching data, original layer.maxZoom is reset in event handler
-    const layer = this.getLayerFromGroup(
-      this.adminLayerGroups[0], this.administrativeConfigs[0],
-    );
-    layer.getSource().once('featuresloadend', this.setInitialDefaultSelectedArea);
-    layer.setMaxZoom(28);
-    adminLayerGroups.forEach((l) => {
+    this.adminLayerGroups.forEach((l) => {
       map.addLayer(l);
     });
-
-    const highlightStyle = new Style({
-      stroke: new Stroke({
-        width: 2,
-        color: ' #00ae9d',
-      }),
-    });
-
-    const highlightLayer = new VectorLayer({
-      name: 'highlightAdminLayer',
-      zIndex: 21,
-      source: new VectorSource({}),
-      style: highlightStyle,
-    });
-
-    const inverseStyle = new Style({
-      fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.5)',
-      }),
-      stroke: new Stroke({
-        width: 2,
-        color: 'rgba(0, 0, 0, 0.5)',
-      }),
-    });
-
-    const inverseAdministrativeLayer = new VectorLayer({
-      name: 'inverseAdministrativeLayer',
-      zIndex: 20,
-      source: new VectorSource({}),
-      style: inverseStyle,
-    });
-    this.inverseAdministrativeLayer = inverseAdministrativeLayer;
-    this.highlightLayer = highlightLayer;
-    // when layers visibilitites are disabled via LayerControl, other layers here are hidden
-    this.adminLayerGroups[0].on('change:visible', (e) => {
-      const visible = e.target.getVisible();
-      inverseAdministrativeLayer.setVisible(visible);
-      highlightLayer.setVisible(visible);
-    });
-    map.addLayer(inverseAdministrativeLayer);
-    map.addLayer(highlightLayer);
   },
   methods: {
     getLayerFromGroup(layer, config) {
@@ -135,124 +76,20 @@ export default {
         const clickLayer = this.selectInteraction.getLayer(feature);
         const layerIndex = this.administrativeConfigs.findIndex((l) => l.name === clickLayer.get('name'));
         if (layerIndex > -1) {
-          // admin layer clicked, fit map to it, set inverse polygon
+          // admin layer clicked
           // and update zoom to nearest minzoom or maxzoom of next layer
-          // TODO: for now we disable fitting
-          // this.zoomToFeatureAdminLayerIndex(feature, layerIndex + 1);
           this.$store.commit(
             'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
           );
           this.$store.commit(
             'features/SET_ADMIN_BORDER_LAYER_SELECTED', clickLayer,
           );
-          this.setupInverseFeatureLayer(feature);
-        } else if (clickLayer.get('name') === 'inverseAdministrativeLayer') {
-        // inverse layer clicked, reset to default layer
-          this.setDefaultSelectedArea(true);
         }
         // if some other vector layer was clicked, do not care and do not handle the action
         // no else block
-      } else {
-        // click did not hit any other layer, set first admin layer as selected
-        this.setDefaultSelectedArea(true);
       }
-    },
-    zoomToFeatureAdminLayerIndex(feature, layerIndex) {
-      // performs pan and zoom to feature
-      // but additionally taking in account:
-      // configured minZoom of admin layer on given layerIndex - fits to it
-      // or configured maxZoom of layer on given layerIndex, fits to it
-      let minZoom;
-      let maxZoom;
-      if (this.administrativeConfigs[layerIndex] !== undefined) {
-        minZoom = this.administrativeConfigs[layerIndex].minZoom;
-        maxZoom = this.administrativeConfigs[layerIndex].maxZoom;
-      }
-      const { map } = getMapInstance(this.mapId);
-      const extent = feature.getGeometry().getExtent();
-      const center = getCenter(extent);
-      const resolution = map.getView().getResolutionForExtent(extent);
-      const zoomFromResolution = map.getView().getZoomForResolution(resolution);
-      // 0.1 added or subtracted to show the layer, if zoom is equal to l.minzoom, not shown
-      let zoom = zoomFromResolution;
-      if (minZoom !== undefined) {
-        zoom = minZoom + 0.1;
-      } else if (maxZoom !== undefined) {
-        zoom = maxZoom - 0.1;
-      } else if (this.administrativeConfigs[layerIndex - 1] !== undefined) {
-        // do not let zoom to be lower than layerIndex -1 .minZoom
-        if (this.administrativeConfigs[layerIndex - 1].minZoom !== undefined) {
-          if (zoom < this.administrativeConfigs[layerIndex - 1].minZoom) {
-            zoom = this.administrativeConfigs[layerIndex - 1].minZoom + 0.1;
-          }
-        }
-      }
-      map.getView().animate({
-        center,
-        duration: 500,
-        zoom,
-      });
-    },
-    setupInverseFeatureLayer(feature) {
-      // create inverse polygon geometry and add it to inverse layer
-      const globalBox = {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[[-1800, -90], [1800, -90], [1800, 90], [-1800, 90], [-1800, -90]]],
-        },
-      };
-      const { map } = getMapInstance(this.mapId);
-      const featureGeomClone = feature.getGeometry().clone().transform(map.getView().getProjection(), 'EPSG:4326');
-      const diff = turfDifference(
-        globalBox, geoJsonFormat.writeGeometryObject(featureGeomClone),
-      );
-      const clone = feature.clone();
-      const transformedGeom = geoJsonFormat.readGeometry(diff.geometry, {
-        dataProjection: 'EPSG:4326',
-      }).transform('EPSG:4326', map.getView().getProjection());
-      clone.setGeometry(transformedGeom);
-      this.inverseAdministrativeLayer.getSource().clear();
-      this.inverseAdministrativeLayer.getSource().addFeature(clone);
-    },
-    setInitialDefaultSelectedArea() {
-      // reset maxZoom from admin layer on index 0 and setDefaultSelectedArea
-      if (this.administrativeConfigs[0].maxZoom !== undefined) {
-        const layer = this.getLayerFromGroup(
-          this.adminLayerGroups[0], this.administrativeConfigs[0],
-        );
-        layer.setMaxZoom(this.administrativeConfigs[0].maxZoom);
-      }
-      // set default area without zooming in to honor URL search parameters x,y,z
-      this.setDefaultSelectedArea(false);
-    },
-    setDefaultSelectedArea(/* performZoomTo */) {
-      // select first layer from admin layers to store and create inverse polygon accordingly
-      const layer = this.getLayerFromGroup(
-        this.adminLayerGroups[0], this.administrativeConfigs[0],
-      );
-      // get features and setup the inverse
-      const feature = layer.getSource().getFeatures()[0];
-      this.$store.commit(
-        'features/SET_ADMIN_BORDER_FEATURE_SELECTED', feature,
-      );
-      this.$store.commit(
-        'features/SET_ADMIN_BORDER_LAYER_SELECTED', layer,
-      );
-      this.setupInverseFeatureLayer(feature);
-      // TODO: for now we disable automatic zoom to feature
-      /*
-      if (performZoomTo) {
-        this.zoomToFeatureAdminLayerIndex(feature, 0);
-      }
-      */
     },
     clearHighlightedFeature() {
-      const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
-      MapCursor.reserveCursor('adminBorders', null);
-      this.highlightLayer.getSource().clear();
-      this.highlightedFeature = null;
       this.overlayCoordinate = null;
       this.overlayContent = null;
       this.overlayHeaders = [];
@@ -274,7 +111,7 @@ export default {
           const layer = this.getLayerFromGroup(
             l, this.administrativeConfigs[i],
           );
-          if (layer.getSource().hasFeature(feature)) {
+          if (layer && layer.getSource().hasFeature(feature)) {
             anyAdminLayerHasFeature = true;
             foundLayer = layer;
           }
@@ -294,15 +131,6 @@ export default {
           } else {
             this.overlayRows = [];
           }
-
-          const MapCursor = getMapCursor(this.mapId, { mapId: this.mapId });
-          MapCursor.reserveCursor('adminBorders', 'pointer');
-
-          if (feature !== this.highlightedFeature) {
-            this.highlightLayer.getSource().clear();
-            this.highlightLayer.getSource().addFeature(feature);
-            this.highlightedFeature = feature;
-          }
         } else {
           this.clearHighlightedFeature();
         }
@@ -317,8 +145,6 @@ export default {
       map.removeLayer(layer);
     });
     this.clearHighlightedFeature();
-    map.removeLayer(this.inverseAdministrativeLayer);
-    map.removeLayer(this.highlightLayer);
     map.removeInteraction(this.selectInteraction);
     map.un('pointermove', this.adminBorderHover);
   },
