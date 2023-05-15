@@ -220,14 +220,14 @@ const nutsStyle = {
   },
 };
 
-export const administrativeLayers = [{
+export const darkOverlayLayers = [{
   ...nutsStyle,
   name: 'NUTS L0',
   id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
-  minZoom: 1,
-  maxZoom: 18,
 }];
+
+export const administrativeLayers = [];
 
 const completeAustriaAdministrativeLayers = [{
   ...nutsStyle,
