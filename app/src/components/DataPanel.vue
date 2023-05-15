@@ -505,8 +505,8 @@ export default {
             const cKey = exportKeys[kk];
             let txtVal = '';
             if (cKey === 'aoi') {
-              if (i === 0 && this.$store.state.features.selectedArea !== null) {
-                txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+              if (i === 0 && this.selectedArea !== null) {
+                txtVal = `"${wkt.read(JSON.stringify(this.selectedArea)).write()}",`;
               } else {
                 txtVal = ',';
               }
