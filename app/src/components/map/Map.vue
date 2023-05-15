@@ -8,6 +8,13 @@
       v-if="administrativeConfigs.length > 0"
       :key="dataLayerName + '_adminLayers'"
     />
+    <!-- a layer adding a (potential) dark overlay, z-index 4 -->
+    <DarkOverlayLayer
+      :mapId="mapId"
+      :configs="darkOverlayLayers"
+      v-if="darkOverlayLayers.length > 0"
+      :key="dataLayerName + '_darkoverlay'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
@@ -203,6 +210,7 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
+import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
@@ -228,6 +236,7 @@ export default {
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
+    DarkOverlayLayer,
   },
   props: {
     mapId: {
@@ -319,8 +328,8 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersLeftMap)];
-      // administrativeLayers replace country vectors
-      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
+      // darkOverlayLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.darkOverlayLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -332,7 +341,12 @@ export default {
     },
     administrativeConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].administrativeLayers)
-        || this.baseConfig.administrativeLayers;
+        || this.baseConfig.administrativeLayers || [];
+    },
+    darkOverlayLayers() {
+      // non-interactive layer definitions rendered as inverse semi-transparent overlay
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].darkOverlayLayers)
+        || this.baseConfig.darkOverlayLayers || [];
     },
     mapDefaults() {
       return {

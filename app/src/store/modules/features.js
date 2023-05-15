@@ -18,6 +18,7 @@ const state = {
     custom: [],
   },
   selectedArea: null,
+  selectedFeatures: [],
   adminBorderLayerSelected: null,
   adminBorderFeatureSelected: null,
 };
@@ -269,6 +270,9 @@ const mutations = {
     if (hasFeature('custom')) {
       state.featureFilters.custom = options.custom;
     }
+  },
+  SET_SELECTED_FEATURES(state, features) {
+    state.selectedFeatures = features;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;

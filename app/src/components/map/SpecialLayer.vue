@@ -142,7 +142,7 @@ export default {
       map.un('pointermove', h);
     });
     if (this.resetProjectionOnDestroy) {
-      // reset to default map ection if different from it
+      // reset to default map projection if different from it
       const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
       const projection = getProjectionOl(defaultProjection);
       if (map.getView().getProjection().getCode() !== projection?.getCode()) {
