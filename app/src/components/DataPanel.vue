@@ -188,7 +188,7 @@
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-else-if="!showMap"
+                  v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
