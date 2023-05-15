@@ -90,7 +90,6 @@ function buildTimeline(current, next, idx, features) {
     text,
     mapInfo: {
       poi: next.mapInfo.poi,
-      baseLayer: 'EOxCloudless 2021',
       timeline,
     },
   };
