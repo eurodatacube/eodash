@@ -1997,9 +1997,28 @@ export const globalIndicators = [
         cogFilters: {
           sourceLayer: 'VTT',
           filters: {
+            visualization: {
+              display: true,
+              label: 'Dataset displayed',
+              id: 'visualization',
+              dataInfo: 'visualization',
+              min: 0,
+              max: 100,
+              range: [0, 100],
+            },
+            selectedBand: {
+              display: true,
+              label: 'Selected band',
+              id: 'selectedBand',
+              dataInfo: 'selectedBand',
+              type: 'slider',
+              min: 0,
+              max: 10,
+              value: 1,
+            },
             basalarea: {
               display: true,
-              label: 'Basal area',
+              label: 'Filter for Basal area',
               id: 'basalarea',
               dataInfo: 'basalarea',
               min: 0,
@@ -2074,6 +2093,9 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
+              selectedBand: 1,
+              visualizationMin: 0,
+              visualizationMax: 100,
               basalareaMin: 0,
               basalareaMax: 100,
               broadleafMin: 0,
@@ -2100,7 +2122,10 @@ export const globalIndicators = [
                 ['between', ['band', 6], ['var', 'volumeMin'], ['var', 'volumeMax']],
               ],
               [
-                'color', 38, 80, 25, 1,
+                'interpolate',
+                ['linear'],
+                normalize(['band', ['var', 'selectedBand']], 'visualizationMin', 'visualizationMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
