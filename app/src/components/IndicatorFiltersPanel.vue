@@ -1,6 +1,5 @@
 <template>
   <eox-itemfilter
-    aggregateResults="themes"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
       z-index: 11;
@@ -54,6 +53,7 @@ export default {
 
       const EOxItemFilter = document.querySelector('eox-itemfilter');
       EOxItemFilter.filterProperties = ['themes'];
+      EOxItemFilter.aggregateResults = 'themes';
       EOxItemFilter.apply(this.searchItems);
     },
   },
