@@ -70,30 +70,37 @@ export default {
       const featureLayer = layer.getLayers().getArray()
         .find((l) => l instanceof VectorLayer && l.get('name')?.includes('_features'));
       if (featureLayer || config.selection) {
+        // initiate hover over functionality optionally for both featureLayer
+        // and 'selection' config (main layer)
+        const candidateLayers = [];
+        if (config.selection) {
+          candidateLayers.push(layer.getLayers().getArray()[0]);
+        }
+        if (featureLayer) {
+          candidateLayers.push(featureLayer);
+        }
         const pointerMoveHandler = (e) => {
           const features = map.getFeaturesAtPixel(e.pixel, {
-            layerFilter: (candidate) => candidate === featureLayer,
+            layerFilter: (candidate) => candidateLayers.includes(candidate),
           });
           // when layer swiping is active, only check for features on this layers side
-          const isRightLayer = !config.name.includes('_compare');
-          // check if the layer
           const isCorrectSide = this.swipePixelX !== null
-            ? (isRightLayer && this.swipePixelX < e.pixel[0])
-            || (!isRightLayer && this.swipePixelX > e.pixel[0])
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
           // consider layergroup
-          if (isCorrectSide && features.length && config.features) {
+          if (isCorrectSide && features.length && (config.features || config.selection)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
             const coordinate = getCenter(feature.getGeometry().getExtent());
             if (config.selection) {
-              this.overlayHeaders = [featureLayer.get('name')];
+              this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
             }
             this.overlayCoordinate = coordinate;
             const rows = [];
             const props = feature.getProperties();
             // some indicators have 'allowedParameters', which define the keys to display
-            const keys = config.features.allowedParameters
+            const keys = config.features?.allowedParameters || config?.allowedParameters
               || Object.keys(props).filter((k) => k !== 'geometry');
             keys.forEach((key) => {
               if (props[key]) {
@@ -123,10 +130,9 @@ export default {
         const multiple = config.selection.mode === 'multiple'
           || config.features?.selection?.mode === 'multiple';
         const selectHandler = (e) => {
-          const isRightLayer = !config.name.includes('_compare');
           const isCorrectSide = this.swipePixelX !== null
-            ? (isRightLayer && this.swipePixelX < e.pixel[0])
-            || (!isRightLayer && this.swipePixelX > e.pixel[0])
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
           // when layer swiping is active, only check for features on this layers side
           if (isCorrectSide) {
@@ -152,6 +158,7 @@ export default {
               }
               return true;
             });
+            // only set store if something was clicked (not by clicking empty space intentionally)
             if (finalFeatures.length > 0) {
               this.$store.commit('features/SET_SELECTED_FEATURES', selectedFeatures);
             }
