@@ -2491,6 +2491,16 @@ export const globalIndicators = [
               max: 5000,
               value: 0,
             },
+            cadasterDistance: {
+              display: false,
+              label: 'Distance to settlements - cadaster [km]',
+              id: 'cadasterDistance',
+              dataInfo: 'CadasterDistance',
+              type: 'slider',
+              min: 0,
+              max: 200,
+              value: 0,
+            },
             energyGridDistance: {
               display: false,
               label: 'Distance to energy grid [m]',
@@ -2540,6 +2550,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/Cadaster_Proximity_EUCdistance_CROPPED_COG_3857_fix.tif' },
           ],
           style: {
             variables: {
@@ -2553,6 +2564,7 @@ export const globalIndicators = [
               energyGridDistance: 25000,
               protected: 0,
               ruggedness: 1,
+              cadasterDistance: 0,
             },
             color: [
               'case',
@@ -2565,6 +2577,7 @@ export const globalIndicators = [
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
+                ['>', ['band', 8], ['var', 'cadasterDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
