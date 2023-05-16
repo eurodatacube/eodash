@@ -734,7 +734,7 @@ export default {
 
     // Define a function to update the data layer
     const updateTime = (time) => {
-      var timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
 
       if (timeEntry === undefined) {
         // Use most recent time since there is none defined in the map timeline
