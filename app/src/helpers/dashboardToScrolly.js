@@ -77,6 +77,7 @@ function buildTimeline(current, next, idx, features) {
       center: n.mapInfo.center,
       zoom: n.mapInfo.zoom,
       poi: n.mapInfo.poi || '',
+      dataLayerTime: n.mapInfo.dataLayerTime || undefined,
     });
 
     i += 2;
@@ -89,7 +90,6 @@ function buildTimeline(current, next, idx, features) {
     text,
     mapInfo: {
       poi: next.mapInfo.poi,
-      baseLayer: 'EOxCloudless 2021',
       timeline,
     },
   };
