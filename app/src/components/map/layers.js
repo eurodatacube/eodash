@@ -19,7 +19,7 @@ import { createXYZ } from 'ol/tilegrid';
 import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
-import { MVT } from 'ol/format';
+import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
 import { bbox } from 'ol/loadingstrategy';
@@ -28,7 +28,7 @@ import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/custom
 import getProjectionOl from '@/helpers/projutils';
 
 const geoJsonFormat = new GeoJSON({});
-
+const wkb = new WKB({});
 /**
  * manually fetches geojson features and replaces the features in the source
  * invalid `null`-ids will be transformed into `undefined`-IDs
@@ -63,6 +63,11 @@ export async function fetchData({
       features.forEach((ftr) => {
         if (ftr.getId() === null) {
           ftr.setId(undefined);
+        }
+        if (config.features?.selection && ftr.getId() === undefined) {
+          // we need an unique ID added
+          const geom = wkb.writeGeometry(ftr.getGeometry());
+          ftr.setId(geom);
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
@@ -100,7 +105,7 @@ function dynamicStrokeSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0
     return store.state.config.appConfig.refColors[colorIdx];
   }
   return defaultColor;
-};
+}
 
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
@@ -645,22 +650,34 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const fill = new Fill({
       color: config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)',
     });
+    const strokeColor = config?.style?.color || '#F7A400';
     const stroke = new Stroke({
       width: config?.style?.width || 2,
-      color: config?.style?.color || '#F7A400',
+      color: strokeColor,
     });
+    const style = new Style({
+      fill,
+      stroke,
+      image: new Circle({
+        fill,
+        stroke,
+        radius: 4,
+      }),
+    });
+
+    const dynamicStyleFunction = (feature) => {
+      if (config.features?.selection) {
+        const col = dynamicStrokeSelection(feature, strokeColor);
+        style.getStroke().setColor(col);
+        style.getImage().getStroke().setColor(col);
+      }
+      return style;
+    };
+
     const featuresLayer = new VectorLayer({
       source: featuresSource,
       name: `${config.name}_features`,
-      style: new Style({
-        fill,
-        stroke,
-        image: new Circle({
-          fill,
-          stroke,
-          radius: 4,
-        }),
-      }),
+      style: dynamicStyleFunction,
     });
 
     layers.push(featuresLayer);

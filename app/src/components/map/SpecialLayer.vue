@@ -127,7 +127,7 @@ export default {
         if (config?.features?.selection) {
           usedLayers.push(featureLayer);
         }
-        const multiple = config.selection.mode === 'multiple'
+        const multiple = config.selection?.mode === 'multiple'
           || config.features?.selection?.mode === 'multiple';
         const selectHandler = (e) => {
           const isCorrectSide = this.swipePixelX !== null
