@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
+    "@eox/layerswitcher": "^0.0.4",
     "@geoblocks/ol-maplibre-layer": "git+https://git@github.com/EOX-A/ol-maplibre-layer.git#37c00560e4140a13d3083a148dca46d490aac4bd",
     "@turf/difference": "^6.5.0",
     "axios": "^0.21.1",
@@ -42,8 +43,8 @@
     "medium-zoom": "^1.0.6",
     "monotone-chain-convex-hull": "^1.0.0",
     "ol": "^7.1.1-dev.1664383879017",
-    "proj4": "^2.8.0",
     "ol-mapbox-style": "^9.2.0",
+    "proj4": "^2.8.0",
     "pub-sub-es": "^2.0.1",
     "regl": "^2.1.0",
     "regl-scatterplot": "^1.3.1",

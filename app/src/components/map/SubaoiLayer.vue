@@ -143,6 +143,7 @@ export default {
       map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
+    subAoiLayer.set('displayInLayerSwitcher', false);
     map.addLayer(subAoiLayer);
   },
   methods: {
