@@ -90,6 +90,18 @@ function fgbBoundingBox(extent, projection) {
   };
 }
 
+function dynamicStrokeSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)') {
+  const idxInSelected = store.state.features.selectedFeatures.findIndex(
+    (ftr) => ftr.getId() === feature.getId(),
+  );
+  if (idxInSelected !== -1) {
+    // compensate for limited list of colors (start from beginning if needed)
+    const colorIdx = idxInSelected % store.state.config.appConfig.refColors.length;
+    return store.state.config.appConfig.refColors[colorIdx];
+  }
+  return defaultColor;
+};
+
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
@@ -241,6 +253,10 @@ export function createLayerFromConfig(config, map, _options = {}) {
       fill: new Fill({
         color: 'rgba(255, 255, 255, 0.0)',
       }),
+      stroke: new Stroke({
+        color: 'rgba(255, 255, 255, 0.0)',
+        width: config.strokeWidth || 3,
+      }),
     });
     const strokeStyle = new Style({
       stroke: new Stroke({
@@ -249,6 +265,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     });
     let dynamicStyleFunction = (feature) => {
+      if (config.selection) {
+        style.getStroke().setColor(dynamicStrokeSelection(feature));
+      }
       style.getFill().setColor(config.getColor(feature, store, options));
       return style;
     };

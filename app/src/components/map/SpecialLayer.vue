@@ -147,7 +147,7 @@ export default {
               );
               if (foundIndex !== -1) {
                 // was in selection, remove from selection
-                selectedFeatures = selectedFeatures.toSpliced(f, 1);
+                selectedFeatures = selectedFeatures.toSpliced(foundIndex, 1);
               } else if (multiple) {
                 // add to selection
                 selectedFeatures = selectedFeatures.concat([f]);
@@ -161,6 +161,9 @@ export default {
             // only set store if something was clicked (not by clicking empty space intentionally)
             if (finalFeatures.length > 0) {
               this.$store.commit('features/SET_SELECTED_FEATURES', selectedFeatures);
+              // trigger change to refresh style on this layer
+              // (but does not propagate to "compare" layer)
+              usedLayers.forEach((l) => l.changed());
             }
           }
         };

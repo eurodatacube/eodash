@@ -180,10 +180,7 @@ export default {
     datacollection() {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
-      const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
-        '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
-      ];
+      const { refColors } = this.appConfig;
       let labels = [];
       const datasets = [];
       if (indicator) {
