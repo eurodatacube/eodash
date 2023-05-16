@@ -107,6 +107,36 @@ function dynamicStrokeSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0
   return defaultColor;
 }
 
+function createVectorLayerStyle(config) {
+  const fill = new Fill({
+    color: config?.style?.fillColor || 'rgba(0, 0, 0, 0.5)',
+  });
+  const strokeColor = config?.style?.color || '#F7A400';
+  const stroke = new Stroke({
+    width: config?.style?.width || 2,
+    color: strokeColor,
+  });
+  const style = new Style({
+    fill,
+    stroke,
+    image: new Circle({
+      fill,
+      stroke,
+      radius: 4,
+    }),
+  });
+
+  const dynamicStyleFunction = (feature) => {
+    if (config?.selection) {
+      const col = dynamicStrokeSelection(feature, strokeColor);
+      style.getStroke().setColor(col);
+      style.getImage().getStroke().setColor(col);
+    }
+    return style;
+  };
+  return dynamicStyleFunction;
+}
+
 function createFromTemplate(template, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
@@ -297,28 +327,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     tilelayer.set('id', config.id);
     layers.push(tilelayer);
   }
-  if (config.protocol === 'vectorgeojson') {
-    const layer = new VectorLayer();
-    layer.set('id', config.id);
-    layer.set('name', config.name);
-    layer.set('styleFile', config.styleFile);
-    layer.set('selectedStyleLayer', config.selectedStyleLayer);
-    layers.push(layer);
-    fetch(config.styleFile).then((r) => r.json())
-      .then((glStyle) => {
-        const newGlStyle = JSON.parse(JSON.stringify(glStyle));
-        let currentTime = '2022_09_17';
-        if (config.usedTimes?.time?.length) {
-          currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
-          currentTime = currentTime.replaceAll('-', '_');
-        }
-        newGlStyle.sources.air_quality.data = newGlStyle.sources.air_quality.data.replace(
-          '{{time}}', currentTime,
-        );
-        applyStyle(layer, newGlStyle, [config.selectedStyleLayer]);
-      })
-      .catch(() => console.log('Issue loading mapbox style'));
-  }
   if (config.protocol === 'countries') {
     const countriesSource = new VectorSource({
       features: geoJsonFormat.readFeatures(countries, {
@@ -356,20 +364,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
         featureProjection: map.getView().getProjection(),
       }),
     };
+    const dynamicStyleFunction = createVectorLayerStyle(config);
+
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source: new VectorSource(vectorSourceOpts),
-      style: new Style({
-        fill: new Fill({
-          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
-        }),
-        stroke: new Stroke({
-          width: config.style.weight || 1.5,
-          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
-        }),
-      }),
+      style: dynamicStyleFunction,
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
@@ -405,20 +407,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }
     }
     source.setLoader(updateResults);
+    const dynamicStyleFunction = createVectorLayerStyle(config);
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source,
-      style: new Style({
-        fill: new Fill({
-          color: config.style.fillColor || 'rgba(0, 0, 0, 0.5)',
-        }),
-        stroke: new Stroke({
-          width: config.style.weight || 1.5,
-          color: config.style.color || 'rgba(0, 0, 0, 0.5)',
-        }),
-      }),
+      style: dynamicStyleFunction,
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
@@ -647,33 +642,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     if (config.customAreaFeatures) {
       featuresSource.set('updateArea', featuresUpdate);
     }
-    const fill = new Fill({
-      color: config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)',
-    });
-    const strokeColor = config?.style?.color || '#F7A400';
-    const stroke = new Stroke({
-      width: config?.style?.width || 2,
-      color: strokeColor,
-    });
-    const style = new Style({
-      fill,
-      stroke,
-      image: new Circle({
-        fill,
-        stroke,
-        radius: 4,
-      }),
-    });
-
-    const dynamicStyleFunction = (feature) => {
-      if (config.features?.selection) {
-        const col = dynamicStrokeSelection(feature, strokeColor);
-        style.getStroke().setColor(col);
-        style.getImage().getStroke().setColor(col);
-      }
-      return style;
-    };
-
+    const dynamicStyleFunction = createVectorLayerStyle(config.features);
     const featuresLayer = new VectorLayer({
       source: featuresSource,
       name: `${config.name}_features`,
