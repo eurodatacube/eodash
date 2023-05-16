@@ -189,8 +189,9 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
-              <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
+              <!-- TEMP, do not merge -->
+              <!-- <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" /> -->
+              <IndicatorFiltersDemo v-if="$route.name === 'demo'"
               :expanded="dataPanelFullWidth" />
               <IndicatorFiltersPanel v-else />
             </div>

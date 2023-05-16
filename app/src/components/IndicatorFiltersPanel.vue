@@ -1,19 +1,31 @@
 <template>
   <eox-itemfilter
+    class="elevation-1 rounded"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
       z-index: 11;
       pointer-events: all;
+      height: 500px;
+      width: 300px;
+      margin: 1rem;
     `"
   >
-    Filter Indicators
-  </eox-itemfilter>
+    <div slot="filterstitle">
+      <h4>Filter</h4>
+      <hr class="my-2" style="opacity: 0.4" />
+    </div>
+    <div slot="resultstitle">
+      <h4>Results</h4>
+      <hr class="my-2" style="opacity: 0.4" />
+    </div>
+    </eox-itemfilter>
 </template>
 
 <script>
 import {
   mapState,
   mapGetters,
+  mapMutations,
 } from 'vuex';
 import '@eox/itemfilter';
 
@@ -22,6 +34,9 @@ export default {
     searchItems: [],
   }),
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
     ...mapState('features', ['allFeatures']),
     ...mapGetters('features', [
       'getIndicators',
@@ -35,6 +50,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('features', {
+      setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
     getSearchItems() {
       const itemArray = [
         ...this.getIndicators
@@ -52,8 +70,28 @@ export default {
       this.searchItems = itemArray;
 
       const EOxItemFilter = document.querySelector('eox-itemfilter');
-      EOxItemFilter.filterProperties = ['themes'];
-      EOxItemFilter.aggregateResults = 'themes';
+      const configs = {
+        esa: {
+          filterProperties: ['themes'],
+          aggregateResults: 'themes',
+          enableSearch: true,
+          onSelect: (item) => {
+            this.setFeatureFilter({
+              indicators: item.code,
+            });
+          },
+        },
+        gtif: {
+          filterProperties: ['themes'],
+          onSelect: (item) => {
+            this.setFeatureFilter({
+              indicators: item.code,
+            });
+          },
+          exclusiveFilters: true,
+        },
+      };
+      EOxItemFilter.config = configs[this.appConfig.id];
       EOxItemFilter.apply(this.searchItems);
     },
   },
