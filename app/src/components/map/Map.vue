@@ -734,15 +734,15 @@ export default {
 
     // Define a function to update the data layer
     const updateTime = (time) => {
-      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+      var timeEntry = this.availableTimeEntries.find((e) => e.name === time);
 
       if (timeEntry === undefined) {
-        console.error(`Cannot find a time entry for the given time: ${time}`);
-        return
+        // Use most recent time since there is none defined in the map timeline
+        this.dataLayerTime = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+      } else {
+        // Use the provided time
+        this.dataLayerTime = timeEntry;
       }
-
-      // Update the data layer with the new data
-      this.dataLayerTime = timeEntry;
     };
 
     // Define a function to schedule the data layer update during the next animation frame
