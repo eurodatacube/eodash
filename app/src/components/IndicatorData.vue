@@ -122,10 +122,11 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4', 'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -135,15 +136,16 @@ export default {
         'E10a1', 'E10a5', 'N2',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL2',
+        'SOL1', 'SOL2', 'REP4_5',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7',
+        'E10a2', 'E10a6', 'E10a7', 'REP4_2',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1', 'REP4'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1',
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2'],
     };
   },
 
@@ -179,8 +181,8 @@ export default {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
       const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#bbb',
-        '#6ce', '#994499', '#aaaa11', '#6633cc', '#e67300',
+        '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+        '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
       ];
       let labels = [];
       const datasets = [];
@@ -546,7 +548,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2'].includes(indicatorCode)) {
+            && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -707,17 +709,20 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
             ));
-            return {
+            const result = {
               t: date,
               y: measurement[i],
-              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
             };
+            if (indicator.referenceValue[i]) {
+              result.referenceValue = indicator.referenceValue[i].replace(/[[\]]/g, '');
+            }
+            return result;
           });
           const dataGroups = {};
           const colorGroups = {};
@@ -743,7 +748,7 @@ export default {
           uniqueYears.sort();
           const yLength = uniqueYears.length - 1;
           uniqueYears.forEach((key, i) => {
-            datasets.push({
+            const ds = {
               // fill with empty values
               indLabels: Array(dataGroups[key].length).join('.').split('.'),
               label: key,
@@ -752,7 +757,15 @@ export default {
               backgroundColor: refColors[yLength - i],
               borderColor: refColors[yLength - i],
               borderWidth: 2,
-            });
+            };
+            if (['REP4_2'].includes(indicatorCode) && key === '2010') {
+              ds.borderDash = [4, 2];
+              ds.borderWidth = 5;
+              ds.label = 'Monthly mean';
+              ds.pointStyle = 'triangle';
+              ds.pointRadius = 5;
+            }
+            datasets.push(ds);
           });
         } else if (['OX'].includes(indicatorCode)) {
           const data = [];
@@ -929,7 +942,8 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
+          'REP4_4', 'REP4_6'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -947,18 +961,9 @@ export default {
             });
           });
           */
-          let data = indicator.time.map((date, i) => (
+          const data = indicator.time.map((date, i) => (
             { t: date, y: indicator.measurement[i] }
           ));
-          if (indicatorCode === 'REP4') {
-            data = indicator.time.map((date, i) => (
-              {
-                t: date,
-                y: indicator.measurement[i],
-                referenceValue: indicator.referenceValue[i],
-              }
-            ));
-          }
           datasets.push({
             label: indicator.yAxis,
             fill: false,
@@ -985,6 +990,57 @@ export default {
             // pointStyle: 'line',
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
+          });
+        } else if (['REP4_5'].includes(indicatorCode)) {
+          // Rendering for reservoirs LAC curve
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          // This should be done somehow different, but xAxis is not in indicator mapping
+          // eslint-disable-next-line
+          this.indicatorObject.xAxis = 'Area [m²]';
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            pointRadius: 4,
+          });
+        }
+        if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
+          // monthly average as extra dataset
+          const average = [];
+          let tempDate = indicator.time[0];
+          let tmpVal = 0;
+          let counter = 0;
+          indicator.measurement.forEach((item, i) => {
+            if (
+              tempDate.month === indicator.time[i].month
+              && tempDate.year === indicator.time[i].year
+            ) {
+              tmpVal += item;
+              counter += 1;
+            } else {
+              average.push({
+                t: DateTime.fromISO(tempDate.toISODate()).set({ day: 15 }),
+                y: tmpVal / counter,
+              });
+              tempDate = DateTime.fromISO(indicator.time[i].toISODate());
+              counter = 0;
+              tmpVal = 0;
+            }
+          });
+          datasets.push({
+            label: 'Monthly average',
+            data: average,
+            fill: false,
+            borderColor: 'black',
+            backgroundColor: 'black',
+            borderWidth: 2,
+            pointRadius: 0,
+            showLine: true,
           });
         }
         if (datasets.length === 0) {
@@ -1214,7 +1270,7 @@ export default {
           };
         }
         // Another special case to also show days in tooltip
-        if (indicatorCode === 'E10c') {
+        if (['E10c'].includes(indicatorCode)) {
           customSettings.timeConfig.tooltipFormat = 'dd. MMM';
         }
         if (['VITS', 'PRCTS', 'SMCTS'].includes(indicatorCode)) {
@@ -1426,25 +1482,6 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: () => '',
-          },
-        };
-      }
-
-      if (['REP4'].includes(indicatorCode)) {
-        // Special tooltip information for this indicator
-        customSettings.tooltips = {
-          callbacks: {
-            footer: (context) => {
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const refV = obj.referenceValue;
-              const labelOutput = [
-                `area: ${(Number(refV[0])).toPrecision(4)} km²`,
-                `abs. change of area wrt. reference: ${(Number(refV[1])).toPrecision(4)} km²`,
-                `rel. change of area wrt. reference value: ${100 * Number(obj.y).toPrecision(4)} %`,
-              ];
-              return labelOutput;
-            },
           },
         };
       }

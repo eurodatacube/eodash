@@ -79,6 +79,15 @@ export const baseLayers = Object.freeze({
     maxZoom: 17,
     protocol: 'vectortile',
   },
+  dsr_schnelllade_10km: {
+    name: 'Funding map for fast charging stations',
+    id: 'schnellade',
+    styleFile: 'data/gtif/data/schnelllade.json',
+    attribution: '{ Funding map: green = enough fast charging available, grey = subsidies available - source <a href="https://www.austriatech.at/" target="_blank"> Austriatech </a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'vectortile',
+  },
   CORINE_LAND_COVER: {
     baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
     protocol: 'WMS',

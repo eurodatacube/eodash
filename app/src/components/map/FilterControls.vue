@@ -378,7 +378,6 @@ export default {
       const layers = map.getLayers().getArray();
       // get layerGroup and recreate it, otherwise the webglcontext has visual glitches, if we
       // would just replace the source of a layer
-      debugger;
       const layerGroup = layers.find((l) => l.get('name') === this.mergedConfigsData.name);
       map.removeLayer(layerGroup);
       // TODO hardcoded first item in array, we should match by ID or so
