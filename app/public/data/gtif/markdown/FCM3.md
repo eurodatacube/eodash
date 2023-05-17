@@ -1,1 +1,1 @@
-## Anual forest mask
+## Annual forest mask
