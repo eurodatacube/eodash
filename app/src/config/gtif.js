@@ -2563,7 +2563,7 @@ export const globalIndicators = [
             solar: {
               display: true,
               dataInfo: 'GlobalHorizontalIrradiation',
-              label: 'Solar Power Potential [kWh/m²/day]',
+              label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
               min: 0,
