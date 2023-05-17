@@ -139,7 +139,7 @@ const trucksAreaIndicator = {
 
 const trucksFeatures = {
   style: {
-    color: '#00c3ff',
+    strokeColor: '#00c3ff',
   },
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',

@@ -95,7 +95,7 @@ function fgbBoundingBox(extent, projection) {
   };
 }
 
-function dynamicStrokeSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)') {
+function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)') {
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
     (ftr) => ftr.getId() === feature.getId(),
   );
@@ -107,11 +107,12 @@ function dynamicStrokeSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0
   return defaultColor;
 }
 
-function createVectorLayerStyle(config) {
+function createVectorLayerStyle(config, options) {
+  const strokeColor = config?.style?.strokeColor || '#F7A400';
+  const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
   const fill = new Fill({
-    color: config?.style?.fillColor || 'rgba(0, 0, 0, 0.5)',
+    color: fillColor,
   });
-  const strokeColor = config?.style?.color || '#F7A400';
   const stroke = new Stroke({
     width: config?.style?.width || 2,
     color: strokeColor,
@@ -127,11 +128,20 @@ function createVectorLayerStyle(config) {
   });
 
   const dynamicStyleFunction = (feature) => {
-    if (config?.selection) {
-      const col = dynamicStrokeSelection(feature, strokeColor);
-      style.getStroke().setColor(col);
-      style.getImage().getStroke().setColor(col);
+    let defaultC = strokeColor;
+    let defaultFillC = fillColor;
+    if (typeof config?.style?.getStrokeColor === 'function') {
+      defaultC = config.style.getStrokeColor(feature, store, options);
     }
+    if (typeof config?.style?.getColor === 'function') {
+      defaultFillC = config.style.getColor(feature, store, options);
+    }
+    if (config.selection) {
+      defaultC = dynamicColorForSelection(feature, defaultC);
+      defaultFillC = dynamicColorForSelection(feature, defaultFillC);
+    }
+    style.getStroke().setColor(defaultC);
+    style.getFill().setColor(defaultFillC);
     return style;
   };
   return dynamicStyleFunction;
@@ -284,34 +294,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     createWMTSSourceFromCapabilities(config, WMTSLayer);
   }
   if (config.protocol === 'geoserverTileLayer') {
-    const style = new Style({
-      fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.0)',
-      }),
-      stroke: new Stroke({
-        color: 'rgba(255, 255, 255, 0.0)',
-        width: config.strokeWidth || 3,
-      }),
-    });
-    const strokeStyle = new Style({
-      stroke: new Stroke({
-        color: 'rgba(255, 255, 255, 0.0)',
-        width: config.strokeWidth || 3,
-      }),
-    });
-    let dynamicStyleFunction = (feature) => {
-      if (config.selection) {
-        style.getStroke().setColor(dynamicStrokeSelection(feature));
-      }
-      style.getFill().setColor(config.getColor(feature, store, options));
-      return style;
-    };
-    if (config.strokeOnly) {
-      dynamicStyleFunction = (feature) => {
-        strokeStyle.getStroke().setColor(config.getColor(feature, store, options));
-        return strokeStyle;
-      };
-    }
+    const dynamicStyleFunction = createVectorLayerStyle(config, options);
+
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = '3857';
     const tilelayer = new VectorTileLayer({
@@ -364,7 +348,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         featureProjection: map.getView().getProjection(),
       }),
     };
-    const dynamicStyleFunction = createVectorLayerStyle(config);
+    const dynamicStyleFunction = createVectorLayerStyle(config, options);
 
     layers.push(new VectorLayer({
       name: config.name,
@@ -407,7 +391,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }
     }
     source.setLoader(updateResults);
-    const dynamicStyleFunction = createVectorLayerStyle(config);
+    const dynamicStyleFunction = createVectorLayerStyle(config, options);
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
@@ -642,7 +626,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     if (config.customAreaFeatures) {
       featuresSource.set('updateArea', featuresUpdate);
     }
-    const dynamicStyleFunction = createVectorLayerStyle(config.features);
+    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
     const featuresLayer = new VectorLayer({
       source: featuresSource,
       name: `${config.name}_features`,

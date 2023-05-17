@@ -216,7 +216,7 @@ const nutsStyle = {
   protocol: 'GeoJSON',
   style: {
     fillColor: 'rgba(0, 0, 0, 0)',
-    color: '#006762',
+    strokeColor: '#006762',
   },
 };
 
@@ -259,10 +259,10 @@ const completeAustriaAdministrativeLayers = [{
   maxZoom: 10.5,
 }, {
   ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'District (Bezirk)',
+  layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Bezirke_3857',
+  protocol: 'geoserverTileLayer',
   id: 'bezirk',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
+  name: 'District (Bezirk)',
   minZoom: 10.5,
   maxZoom: 12,
   attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
@@ -832,8 +832,8 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
+          // administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -844,23 +844,26 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Health Risk Index (ARI)',
@@ -869,7 +872,17 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Bezirke_3857',
+          protocol: 'geoserverTileLayer',
+          id: 'bezirk',
+          selection: {
+            mode: 'single',
+          },
+          name: 'District (Bezirk)',
+          attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
+        }],
       },
     },
   },
@@ -943,23 +956,26 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'PM10',
@@ -1042,23 +1058,26 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Fine particulate matter (PM2.5)',
@@ -1290,33 +1309,35 @@ export const globalIndicators = [
           administrativeLayers: completeAustriaAdministrativeLayers,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.get('fid');
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                let f = clamp((value - min) / (max - min), 0, 1);
-                if (['n_trajectories'].includes(dataSource)) {
-                  f = clamp((Math.log10(value) - Math.log10(min))
-                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+          style: {
+            getStrokeColor: (feature, store, options) => {
+              let color = '#000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.get('fid');
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  let f = clamp((value - min) / (max - min), 0, 1);
+                  if (['n_trajectories'].includes(dataSource)) {
+                    f = clamp((Math.log10(value) - Math.log10(min))
+                      / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  }
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
                 }
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
-            }
-            return color;
+              return color;
+            },
+            fillColor: '#ffffff',
           },
           id: 'trajectories_on_edges_austria_december_first_week',
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
           name: 'Human Mobility Patterns',
-          strokeOnly: true,
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
@@ -1457,28 +1478,28 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          selection: {
-            mode: 'multiple', // or single
-          },
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                // apply logarithmic scale specially for population
-                const f = clamp((Math.log10(value) - Math.log10(min))
-                  / (Math.log10(max) - Math.log10(min)), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  // apply logarithmic scale specially for population
+                  const f = clamp((Math.log10(value) - Math.log10(min))
+                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
+            strokeColor: 'rgba(0,0,0,0)',
           },
           opacity: 0.7,
           id: 'mobility_v1',

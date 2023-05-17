@@ -3317,7 +3317,7 @@ export const globalIndicators = [
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
-              color: '#696868',
+              strokeColor: '#696868',
               opacity: 0.5,
             },
           },
