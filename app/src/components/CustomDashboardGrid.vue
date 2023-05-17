@@ -257,6 +257,25 @@
                 </template>
                 <span>Delete element</span>
               </v-tooltip>
+              <v-tooltip left>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="my-2"
+                    style="background: var(--v-background-base)"
+                    fab
+                    outlined
+                    x-small
+                    color="primary"
+                    v-on="on"
+                    @click="performChange('cloneFeature', element)"
+                  >
+                    <v-icon>
+                      mdi-content-copy
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Clone element</span>
+              </v-tooltip>
               <v-tooltip v-if="showTooltip(element) || element.text" left>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -631,6 +650,7 @@ export default {
   methods: {
     ...mapActions('dashboard', [
       'removeFeature',
+      'cloneFeature',
       'addMarketingInfo',
       'resizeFeatureShrink',
       'resizeFeatureExpand',
@@ -771,8 +791,9 @@ export default {
           this.baseConfig,
           feature.properties.indicatorObject,
         );
-
-        if (f.mapInfo && (firstCall || f.poi === this.savedPoi)) {
+        if (f.mapInfo
+          && (firstCall || f.poi === this.savedPoi || !this.localCenter[f.poi])
+        ) {
           this.$set(this.localZoom, f.poi, f.mapInfo.zoom);
           this.$set(this.localCenter, f.poi, f.mapInfo.center);
           this.$set(this.localDirection, f.poi, f.mapInfo.direction);

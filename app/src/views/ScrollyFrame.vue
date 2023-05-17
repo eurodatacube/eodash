@@ -133,8 +133,8 @@ export default {
 
           items = dashboardToScrolly(res.data.features);
         }
-      } catch (_e) {
-        console.error(`Something went wrong while loading the dashboard: ${_e}`);
+      } catch (e) {
+        console.error(`Something went wrong while loading the dashboard: ${JSON.stringify(e)}`);
       }
 
       console.log(JSON.stringify(items));
