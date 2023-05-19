@@ -68,6 +68,10 @@
       Reset Zoom
     </v-btn>
   </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="eoxElementsChartIndicators.includes(indicatorObject.indicator)">
+    <EOXElementsChart></EOXElementsChart>
+  </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
       id="chart" ref="lineChart"
@@ -97,6 +101,7 @@ import {
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
 import ScatterChart from '@/components/ScatterChart.vue';
+import EOXElementsChart from '@/components/EOXElementsChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
@@ -111,6 +116,7 @@ export default {
     BarChart,
     LineChart,
     ScatterChart,
+    EOXElementsChart,
     MapChart,
     IndicatorTimeSelection,
   },
@@ -122,7 +128,7 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
+        'NPP', 'AQA', 'AQB', 'AQC', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -137,6 +143,9 @@ export default {
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL2', 'REP4_5',
+      ],
+      eoxElementsChartIndicators: [
+        'AQ3',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
