@@ -2483,7 +2483,7 @@ export const globalIndicators = [
             },
             settlementDistance: {
               display: false,
-              label: 'Distance to settlements [m]',
+              label: 'Distance to settlements WSF [m]',
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
               type: 'slider',
@@ -2493,12 +2493,12 @@ export const globalIndicators = [
             },
             cadasterDistance: {
               display: false,
-              label: 'Distance to settlements - cadaster [km]',
+              label: 'Distance to settlements Austrian Cadaster [m]',
               id: 'cadasterDistance',
-              dataInfo: 'CadasterDistance',
+              // dataInfo: 'CadasterDistance',
               type: 'slider',
               min: 0,
-              max: 200,
+              max: 5000,
               value: 0,
             },
             energyGridDistance: {
@@ -2577,7 +2577,7 @@ export const globalIndicators = [
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
-                ['>', ['band', 8], ['var', 'cadasterDistance']],
+                ['>', ['*', ['band', 8], 10], ['var', 'cadasterDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
