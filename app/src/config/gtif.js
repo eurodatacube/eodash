@@ -744,7 +744,7 @@ export const globalIndicators = [
               description: 'Sentinel-5p values',
               dataInfo: '',
               min: 0,
-              max: 50,
+              max: 500,
               colormapUsed: grywrd,
               markdown: '',
             },
