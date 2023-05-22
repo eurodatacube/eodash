@@ -227,8 +227,6 @@ export const darkOverlayLayers = [{
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
 }];
 
-export const administrativeLayers = [];
-
 const completeAustriaAdministrativeLayers = [{
   ...nutsStyle,
   name: 'NUTS L0',
@@ -833,7 +831,6 @@ export const globalIndicators = [
           ],
         },
         display: [{
-          // administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1466,8 +1463,7 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1509,7 +1505,19 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          id: 'gemeinde',
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
+          minZoom: 10,
+          name: 'Gemeinde (Municipality)',
+          attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
+        }],
       },
     },
   },

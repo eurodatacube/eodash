@@ -95,14 +95,18 @@ function fgbBoundingBox(extent, projection) {
   };
 }
 
-function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)') {
+function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)', applyDynamic = true) {
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
     (ftr) => ftr.getId() === feature.getId(),
   );
   if (idxInSelected !== -1) {
-    // compensate for limited list of colors (start from beginning if needed)
-    const colorIdx = idxInSelected % store.state.config.appConfig.refColors.length;
-    return store.state.config.appConfig.refColors[colorIdx];
+    if (applyDynamic) {
+      // compensate for limited list of colors (start from beginning if needed)
+      const colorIdx = idxInSelected % store.state.config.appConfig.refColors.length;
+      return store.state.config.appConfig.refColors[colorIdx];
+    }
+    // if not applyDynamic, set color to white mostly transparent
+    return 'rgba(255, 255, 255, 0.3)';
   }
   return defaultColor;
 }
@@ -138,7 +142,7 @@ function createVectorLayerStyle(config, options) {
     }
     if (config.selection) {
       defaultC = dynamicColorForSelection(feature, defaultC);
-      defaultFillC = dynamicColorForSelection(feature, defaultFillC);
+      defaultFillC = dynamicColorForSelection(feature, defaultFillC, false);
     }
     style.getStroke().setColor(defaultC);
     style.getFill().setColor(defaultFillC);
@@ -302,6 +306,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       style: dynamicStyleFunction,
       opacity: config.opacity,
       name: config.name,
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
       source: new VectorTileSource({
         projection: 'EPSG:3857',
         format: new MVT(),

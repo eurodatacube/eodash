@@ -59,7 +59,6 @@ export default {
   props: {
     indicatorObject: Object,
     adminFeature: Object,
-    adminLayer: Object,
     updateQueryParametersTrigger: Number,
   },
   watch: {
@@ -93,13 +92,9 @@ export default {
       }
       return null;
     },
-    adminLayerName() {
-      return this.adminLayer.get('name');
-    },
   },
   data() {
     return {
-      overlayRows: [],
       GRStatistics: null,
       SRStatistics: null,
     };
@@ -111,164 +106,162 @@ export default {
       this.GRStatistics = null;
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
-      if (this.adminLayerName === 'Municipality (Gemeinde)') {
-        if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
-          const adminId = feature.get('id');
-          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const expUrl = `${geodbEndpoint}${sourceLayer}?id_3=eq.${adminId}&select=${selected},time`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const retrievedData = {};
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                Object.keys(entry).forEach((key) => {
-                  let value = entry[key];
-                  if (key === 'time') {
-                    value = DateTime.fromISO(value);
-                  }
-                  if (key in retrievedData) {
-                    retrievedData[key].push(value);
-                  } else {
-                    retrievedData[key] = [value];
-                  }
-                });
+      if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
+        const adminId = feature.get('id');
+        const { selected, sourceLayer } = this.indicatorObject.queryParameters;
+        const expUrl = `${geodbEndpoint}${sourceLayer}?id_3=eq.${adminId}&select=${selected},time`;
+        fetch(expUrl)
+          .then((resp) => resp.json())
+          .then((json) => {
+            const retrievedData = {};
+            json.sort((a, b) => (
+              DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+            ));
+            json.forEach((entry) => {
+              Object.keys(entry).forEach((key) => {
+                let value = entry[key];
+                if (key === 'time') {
+                  value = DateTime.fromISO(value);
+                }
+                if (key in retrievedData) {
+                  retrievedData[key].push(value);
+                } else {
+                  retrievedData[key] = [value];
+                }
               });
-              const ind = {
-                ...this.indicatorObject,
-                time: retrievedData.time,
-                measurement: retrievedData[selected],
-                yAxis: selected,
-              };
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
-        }
-        if (this.indicatorObject.indicator === 'MOBI1') {
-          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const adminId = feature.get('id');
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_${sourceLayer}?adminzoneid=eq.${adminId}&select=${selected},time`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO(entry.time));
-                newData.measurement.push(entry[selected]);
-              });
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
-                yAxis: selected,
-              };
-              console.log(ind);
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            const ind = {
+              ...this.indicatorObject,
+              time: retrievedData.time,
+              measurement: retrievedData[selected],
+              yAxis: selected,
+            };
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+            );
+            window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+          });
+      }
+      if (this.indicatorObject.indicator === 'MOBI1') {
+        const { selected, sourceLayer } = this.indicatorObject.queryParameters;
+        const adminId = feature.get('id');
+        const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_${sourceLayer}?adminzoneid=eq.${adminId}&select=${selected},time`;
+        fetch(expUrl)
+          .then((resp) => resp.json())
+          .then((json) => {
+            const newData = {
+              time: [],
+              measurement: [],
+              referenceValue: [],
+              colorCode: [],
+            };
+            json.sort((a, b) => (
+              DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+            ));
+            json.forEach((entry) => {
+              newData.time.push(DateTime.fromISO(entry.time));
+              newData.measurement.push(entry[selected]);
             });
-        }
-      } else if (this.adminLayerName === 'Census Track (Zählsprengel)') {
-        if (['SOL1'].includes(this.indicatorObject.indicator)) {
-          const description = 'Green roof potential area [m²]';
-          const adminId = feature.get('id');
-          const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              let roofArea = 0;
-              let grpotare9 = 0;
-              let grpotare15 = 0;
-              let grpotare20 = 0;
-              let lst2021 = 0;
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry.grimpscore);
-                newData.referenceValue.push(entry.roof_area);
-                // compute statistics
-                lst2021 += entry.lst2021;
-                roofArea += entry.roof_area;
-                grpotare9 += entry.grpotare9;
-                grpotare15 += entry.grpotare15;
-                grpotare20 += entry.grpotare20;
-              });
-              lst2021 /= json.length;
-              const unused = (1 - (grpotare9 + grpotare15 + grpotare20) / roofArea) * 100;
-              this.GRStatistics = {
-                lst2021: lst2021.toFixed(1),
-                roofArea: roofArea.toFixed(0),
-                grpotare9: grpotare9.toFixed(0),
-                grpotare15: grpotare15.toFixed(0),
-                grpotare20: grpotare20.toFixed(0),
-                unused: unused.toFixed(2),
-              };
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
-                xAxis: 'Roof area [m²]',
-              };
-              ind.yAxis = description;
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            const ind = {
+              ...this.indicatorObject,
+              ...newData,
+              yAxis: selected,
+            };
+            console.log(ind);
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+            );
+            window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+          });
+      }
+      if (['SOL1'].includes(this.indicatorObject.indicator)) {
+        const description = 'Green roof potential area [m²]';
+        const adminId = feature.get('id');
+        const { sourceLayer } = this.indicatorObject.wmsStyles;
+        const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
+        fetch(expUrl)
+          .then((resp) => resp.json())
+          .then((json) => {
+            const newData = {
+              time: [],
+              measurement: [],
+              referenceValue: [],
+              colorCode: [],
+            };
+            json.sort((a, b) => (
+              DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+            ));
+            let roofArea = 0;
+            let grpotare9 = 0;
+            let grpotare15 = 0;
+            let grpotare20 = 0;
+            let lst2021 = 0;
+            json.forEach((entry) => {
+              newData.time.push(DateTime.fromISO('20220601'));
+              newData.measurement.push(entry.grimpscore);
+              newData.referenceValue.push(entry.roof_area);
+              // compute statistics
+              lst2021 += entry.lst2021;
+              roofArea += entry.roof_area;
+              grpotare9 += entry.grpotare9;
+              grpotare15 += entry.grpotare15;
+              grpotare20 += entry.grpotare20;
             });
-        } else if (['SOL2'].includes(this.indicatorObject.indicator)) {
-          const description = 'PV Power potential [MWh]';
-          const adminId = feature.get('id');
-          const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,pveppmwhhp`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry.pveppmwhhp);
-                newData.referenceValue.push(entry.roof_area);
-              });
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
-                xAxis: 'Roof area [m²]',
-              };
-              ind.yAxis = description;
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            lst2021 /= json.length;
+            const unused = (1 - (grpotare9 + grpotare15 + grpotare20) / roofArea) * 100;
+            this.GRStatistics = {
+              lst2021: lst2021.toFixed(1),
+              roofArea: roofArea.toFixed(0),
+              grpotare9: grpotare9.toFixed(0),
+              grpotare15: grpotare15.toFixed(0),
+              grpotare20: grpotare20.toFixed(0),
+              unused: unused.toFixed(2),
+            };
+            const ind = {
+              ...this.indicatorObject,
+              ...newData,
+              xAxis: 'Roof area [m²]',
+            };
+            ind.yAxis = description;
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+            );
+            window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+          });
+      }
+      if (['SOL2'].includes(this.indicatorObject.indicator)) {
+        const description = 'PV Power potential [MWh]';
+        const adminId = feature.get('id');
+        const { sourceLayer } = this.indicatorObject.wmsStyles;
+        const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,pveppmwhhp`;
+        fetch(expUrl)
+          .then((resp) => resp.json())
+          .then((json) => {
+            const newData = {
+              time: [],
+              measurement: [],
+              referenceValue: [],
+              colorCode: [],
+            };
+            json.sort((a, b) => (
+              DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+            ));
+            json.forEach((entry) => {
+              newData.time.push(DateTime.fromISO('20220601'));
+              newData.measurement.push(entry.pveppmwhhp);
+              newData.referenceValue.push(entry.roof_area);
             });
-        }
+            const ind = {
+              ...this.indicatorObject,
+              ...newData,
+              xAxis: 'Roof area [m²]',
+            };
+            ind.yAxis = description;
+            this.$store.commit(
+              'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+            );
+            window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+          });
       }
     },
   },

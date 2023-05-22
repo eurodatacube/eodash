@@ -1,13 +1,6 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
     z-index: 1" class="d-flex justify-center">
-    <!-- a layer adding a (potential) admin borders with onclick selection, z-index 3 -->
-    <AdminBordersLayers
-      :mapId="mapId"
-      :administrativeConfigs="administrativeConfigs"
-      v-if="administrativeConfigs.length > 0"
-      :key="dataLayerName + '_adminLayers'"
-    />
     <!-- a layer adding a (potential) dark overlay, z-index 4 -->
     <DarkOverlayLayer
       :mapId="mapId"
@@ -125,7 +118,6 @@
         :mapId="mapId"
         :baseLayerConfigs="baseLayerConfigs"
         :overlayConfigs="overlayConfigs"
-        :administrativeConfigs="administrativeConfigs"
         :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
         :isGlobalIndicator="isGlobalIndicator"
       />
@@ -209,7 +201,6 @@ import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
-import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
 import {
@@ -232,7 +223,6 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     SubaoiLayer,
-    AdminBordersLayers,
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
@@ -338,10 +328,6 @@ export default {
         });
       }
       return configs;
-    },
-    administrativeConfigs() {
-      return (this.mergedConfigsData.length && this.mergedConfigsData[0].administrativeLayers)
-        || this.baseConfig.administrativeLayers || [];
     },
     darkOverlayLayers() {
       // non-interactive layer definitions rendered as inverse semi-transparent overlay

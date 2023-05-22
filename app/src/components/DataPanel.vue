@@ -19,9 +19,9 @@
           class="pa-0"
           :style="`height: auto`"
         >
-        <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
-          <AdminLayersInfoBar class="pb-6"
-          :mergedConfigsData="mergedConfigsData[0]"/>
+        <template v-if="selectableLayerConfigs.length > 0">
+          <SelectionInfoBar class="pb-2"
+          :selectableLayerConfigs="selectableLayerConfigs"/>
         </template>
           <v-card
             v-if="showCustomAreaCard"
@@ -205,7 +205,6 @@
           <!-- TODO: remove GTIF brand check -->
           <data-mockup-view v-if="appConfig.id === 'gtif'"
             :indicatorObject="indicatorObject"
-            :adminLayer="$store.state.features.adminBorderLayerSelected"
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
@@ -370,7 +369,7 @@ import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 // import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
-import AdminLayersInfoBar from '@/components/AdminLayersInfoBar.vue';
+import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 
 export default {
   props: [
@@ -387,7 +386,7 @@ export default {
     VectorTileStyleControl,
     // ScatterPlot,
     DataMockupView,
-    AdminLayersInfoBar,
+    SelectionInfoBar,
   },
   data: () => ({
     overlay: false,
@@ -583,12 +582,14 @@ export default {
         0,
       );
     },
+    selectableLayerConfigs() {
+      return this.mergedConfigsData.filter((l) => l?.selection || l?.features?.selection);
+    },
   },
   mounted() {
     this.$nextTick(() => {
       this.mounted = true;
     });
-
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'set-custom-area-indicator-loading',
