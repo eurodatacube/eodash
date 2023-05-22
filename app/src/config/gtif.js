@@ -625,6 +625,18 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/VTT6',
     themes: ['carbon-accounting'],
   },
+  ADO: {
+    indicator: 'Alpine Drought Observatory',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/ADO',
+    /*
+    customAreaIndicator: true,
+    adminLayersCustomIndicator: {
+      adminZoneIds: ['gemeinde'],
+    },
+    */
+  },
   AQA: {
     ...mobilityTransitionDefaults,
     indicator: 'Health Risk Index (ARI)',
@@ -771,6 +783,102 @@ export const globalIndicators = [
         inputData: [''],
         // display: {
         // },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Alpine Drought Exploratory',
+        indicator: 'ADO',
+        lastIndicatorValue: null,
+        indicatorName: 'Alpine Drought Exploratory',
+        // navigationDescription: '',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: [],
+        inputData: [''],
+        yAxis: 'ADO',
+        queryParameters: {
+          externalSource: 'https://ado.eurac.edu/_next/data/4srD2VAOk7_uhaG_GsnYA/{{id}}.json',
+          selected: 'SPEI1',
+          items: [
+            {
+              id: 'spei-1',
+              description: 'SPEI-1',
+              dataInfo: 'SPEI',
+              min: 0,
+              max: 100,
+              colormapUsed: grywrd,
+              markdown: 'SPEI',
+            },
+            // {
+            //   id: 'pm10',
+            //   description: 'Particulate Matter < 10µm',
+            //   dataInfo: 'PM10',
+            //   min: 0,
+            //   max: 50,
+            //   colormapUsed: grywrd,
+            //   markdown: 'AQ_PM10',
+            // },
+            // {
+            //   id: 'pm25',
+            //   description: 'Particulate Matter < 2.5µm',
+            //   dataInfo: 'PM25',
+            //   min: 0,
+            //   max: 50,
+            //   colormapUsed: grywrd,
+            //   markdown: 'AQ_PM25',
+            // },
+          ],
+        },
+        display: {
+          administrativeLayers: completeAustriaAdministrativeLayers,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_NUTS_L3_3857',
+          protocol: 'geoserverTileLayer',
+          getColor: (feature, store, options) => {
+            let color = '#ff0000';
+            // const dataSource = options.dataProp ? options.dataProp : 'mapData';
+            // if (store.state.indicators.selectedIndicator
+            //     && store.state.indicators.selectedIndicator[dataSource]) {
+            //   const id = feature.id_;
+            //   const ind = store.state.indicators.selectedIndicator;
+            //   const currPar = ind.queryParameters.items
+            //     .find((item) => item.id === ind.queryParameters.selected);
+            //   if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+            //     const value = ind[dataSource][id][currPar.id];
+            //     const { min, max, colormapUsed } = currPar;
+            //     const f = clamp((value - min) / (max - min), 0, 1);
+            //     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+            //   }
+            // }
+            return color;
+          },
+          id: 'ado',
+          name: 'Health Risk Index (ARI)',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          minZoom: 1,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
       },
     },
   },
