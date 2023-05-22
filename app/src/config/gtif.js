@@ -2564,12 +2564,36 @@ export const globalIndicators = [
             solar: {
               display: true,
               dataInfo: 'GlobalHorizontalIrradiation',
-              label: 'Global Horizontal Irradiation (kWh/m²/yr)',
+              label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
-              min: 300,
-              max: 1400,
-              range: [300, 1400],
+              min: 0,
+              max: 8,
+              range: [2, 4],
+              changeablaDataset: {
+                items: [
+                  {
+                    description: 'Annual',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Fall',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Fall_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Spring',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Summer',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Winter',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif',
+                  },
+                ],
+              },
             },
             aspect: {
               display: true,
@@ -2630,7 +2654,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/GHI_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
@@ -2639,8 +2663,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              solarMin: 300,
-              solarMax: 1400,
+              solarMin: 2,
+              solarMax: 4,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -2656,8 +2680,8 @@ export const globalIndicators = [
               'case',
               [
                 'all',
-                ['>', ['band', 1], 0],
-                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
+                ['>', ['band', 1], 1],
+                // ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['any',
                   ['between',
                     ['band', 2],
@@ -2681,8 +2705,8 @@ export const globalIndicators = [
               [
                 'interpolate',
                 ['linear'],
-                ['band', 1],
-                ...getColorStops('rdbu', 1100, 1300, 50, false),
+                normalize(['band', 1], 'solarMin', 'solarMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
