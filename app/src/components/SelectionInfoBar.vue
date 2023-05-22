@@ -61,7 +61,9 @@
               :key="i"
             >
               <v-list-item-content>
-                <v-list-item-title class="text-body-1">{{getFeatureName(item, i)}}</v-list-item-title>
+                <v-list-item-title class="text-body-1">
+                  {{getFeatureName(item, i)}}
+                </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
                 <v-icon color="primary" @click="removeFromSelection(item)">mdi-delete</v-icon>
