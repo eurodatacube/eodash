@@ -528,6 +528,7 @@ export default {
               this.$nextTick(() => { this.enableCompare = true; });
             }
           }
+          this.$store.commit('features/SET_SELECTED_FEATURES', []);
         });
       },
     },

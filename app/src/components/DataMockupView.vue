@@ -97,22 +97,23 @@ export default {
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
-        if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
+        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
           const feature = features[0];
           const adminId = feature.getId();
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const expUrl = `${geodbEndpoint}${sourceLayer}?id_3=eq.${adminId}&select=${selected},time`;
+          const { adminZoneKey, timeKey } = this.indicatorObject.display;
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=eq.${adminId}&select=${selected},${timeKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
               const retrievedData = {};
               json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+                DateTime.fromISO(a[timeKey]).toMillis() - DateTime.fromISO(b[timeKey]).toMillis()
               ));
               json.forEach((entry) => {
                 Object.keys(entry).forEach((key) => {
                   let value = entry[key];
-                  if (key === 'time') {
+                  if (key === timeKey) {
                     value = DateTime.fromISO(value);
                   }
                   if (key in retrievedData) {
@@ -124,40 +125,8 @@ export default {
               });
               const ind = {
                 ...this.indicatorObject,
-                time: retrievedData.time,
+                time: retrievedData[timeKey],
                 measurement: retrievedData[selected],
-                yAxis: selected,
-              };
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
-            });
-        }
-        if (this.indicatorObject.indicator === 'MOBI1') {
-          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const feature = features[0];
-          const adminId = feature.getId();
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_${sourceLayer}?adminzoneid=eq.${adminId}&select=${selected},time`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO(entry.time));
-                newData.measurement.push(entry[selected]);
-              });
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
                 yAxis: selected,
               };
               this.$store.commit(

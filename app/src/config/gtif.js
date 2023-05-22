@@ -161,13 +161,13 @@ export const dataEndpoints = [
 
 export const layerNameMapping = Object.freeze({
   S2L2A_REP4: {
+    minZoom: 7,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    maxZoom: 18,
     subAoiTransparent: true,
   },
   S1GRD_REP4: {
+    minZoom: 7,
     layers: 'E8_SENTINEL1',
-    maxZoom: 18,
     subAoiTransparent: true,
   },
 });
@@ -562,7 +562,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-
   },
   AQB: {
     ...mobilityTransitionDefaults,
@@ -790,7 +789,6 @@ export const globalIndicators = [
           name: 'Health Risk Index (ARI)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -895,7 +893,6 @@ export const globalIndicators = [
           name: 'PM10',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -1000,7 +997,6 @@ export const globalIndicators = [
           name: 'Fine particulate matter (PM2.5)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -1125,7 +1121,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Flux tower',
-          minZoom: 1,
         },
       },
     },
@@ -1258,7 +1253,6 @@ export const globalIndicators = [
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
           name: 'Human Mobility Patterns',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
         },
@@ -1336,7 +1330,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Averaged NO2',
-          minZoom: 1,
         },
       },
     },

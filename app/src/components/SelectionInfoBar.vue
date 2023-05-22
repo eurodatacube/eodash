@@ -61,7 +61,7 @@
               :key="i"
             >
               <v-list-item-content>
-                <v-list-item-title class="text-body-1">{{getFeatureName(item)}}</v-list-item-title>
+                <v-list-item-title class="text-body-1">{{getFeatureName(item, i)}}</v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
                 <v-icon color="primary" @click="removeFromSelection(item)">mdi-delete</v-icon>
@@ -106,7 +106,7 @@ export default {
     getLayerText(item) {
       return `${item.name}${item.minZoom ? ` - from map zoom ${item.minZoom}` : ''}`;
     },
-    getFeatureName(item) {
+    getFeatureName(item, i) {
       const props = item.getProperties();
       const key = Object.keys(props).find(
         (k) => ['name', 'nuts_name', 'id'].includes(k.toLowerCase()),
@@ -114,7 +114,7 @@ export default {
       if (props[key]) {
         return props[key];
       }
-      return '';
+      return `Unnamed feature ${i + 1}`;
     },
     layerSelectClick(item) {
       const layer = this.selectableLayerConfigs.find((i) => i.id === item.id);
