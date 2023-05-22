@@ -57,7 +57,7 @@
             <v-col
               v-else-if="showMap &&
                 (mergedConfigsData[0].customAreaIndicator &&
-                  !mergedConfigsData[0].adminLayersCustomIndicator
+                  !hasSelectionEnabled
                 )"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
@@ -78,7 +78,7 @@
                 </v-btn>
               </template>
             </v-col>
-            <template v-else-if="mergedConfigsData[0].adminLayersCustomIndicator">
+            <template v-else-if="hasSelectionEnabled">
             </template>
             <indicator-data
               style="top: 0px; position: absolute;"
@@ -202,10 +202,9 @@
               </div>
             </v-col>
           </v-row>
-          <!-- TODO: remove GTIF brand check -->
           <data-mockup-view v-if="appConfig.id === 'gtif'"
             :indicatorObject="indicatorObject"
-            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :selectedFeatures="$store.state.features.selectedFeatures"
             :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
@@ -453,10 +452,14 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     showCustomAreaCard() {
-      if (this.mergedConfigsData[0].adminLayersCustomIndicator && !this.customAreaIndicator) {
+      if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }
-      return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
+      return !this.showMap || (this.showMap && this.hasSelectionEnabled);
+    },
+    hasSelectionEnabled() {
+      return this.mergedConfigsData.length
+        && this.mergedConfigsData.find((layer) => layer?.selection || layer?.features?.selection);
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';

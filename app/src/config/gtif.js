@@ -209,7 +209,6 @@ export const overlayLayersLeftMap = [
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
@@ -222,66 +221,9 @@ const nutsStyle = {
 
 export const darkOverlayLayers = [{
   ...nutsStyle,
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   name: 'NUTS L0',
-  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
-}];
-
-const completeAustriaAdministrativeLayers = [{
-  ...nutsStyle,
-  name: 'NUTS L0',
-  id: 'nuts_0',
-  url: 'data/gtif/data/AT_NUTS_L0.geojson',
-  minZoom: 4,
-  maxZoom: 7.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L1',
-  id: 'nuts_1',
-  url: 'data/gtif/data/AT_NUTS_L1.geojson',
-  minZoom: 7.5,
-  maxZoom: 8.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L2',
-  id: 'nuts_2',
-  url: 'data/gtif/data/AT_NUTS_L2.geojson',
-  minZoom: 8.5,
-  maxZoom: 9.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L3',
-  id: 'nuts_3',
-  url: 'data/gtif/data/AT_NUTS_L3.geojson',
-  minZoom: 9.5,
-  maxZoom: 10.5,
-}, {
-  ...nutsStyle,
-  layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Bezirke_3857',
-  protocol: 'geoserverTileLayer',
-  id: 'bezirk',
-  name: 'District (Bezirk)',
-  minZoom: 10.5,
-  maxZoom: 12,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'Municipality (Gemeinde)',
-  id: 'gemeinde',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
-  minZoom: 12,
-  maxZoom: 13.5,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  id: 'zahlsprengel',
-  name: 'Census Track (Zählsprengel)',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
-  minZoom: 13.5,
-  maxZoom: 18,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
 export const defaultLayersDisplay = {
@@ -293,7 +235,6 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -461,9 +402,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -474,9 +412,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -487,9 +422,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -630,9 +562,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
+
   },
   AQB: {
     ...mobilityTransitionDefaults,
@@ -641,9 +571,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQC: {
     ...mobilityTransitionDefaults,
@@ -652,9 +579,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQ2: {
     ...mobilityTransitionDefaults,
@@ -830,7 +754,7 @@ export const globalIndicators = [
             },
           ],
         },
-        display: [{
+        display: {
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -869,17 +793,11 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
-        }, {
-          ...nutsStyle,
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Bezirke_3857',
-          protocol: 'geoserverTileLayer',
-          id: 'bezirk',
           selection: {
             mode: 'single',
           },
-          name: 'District (Bezirk)',
-          attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-        }],
+          allowedParameters: ['name'],
+        },
       },
     },
   },
@@ -942,7 +860,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -981,6 +898,10 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1044,7 +965,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1083,6 +1003,10 @@ export const globalIndicators = [
           minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1303,7 +1227,6 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1463,7 +1386,7 @@ export const globalIndicators = [
             },
           ],
         },
-        display: [{
+        display: {
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1502,22 +1425,13 @@ export const globalIndicators = [
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
           name: 'Mobility Data',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
-        }, {
-          ...nutsStyle,
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
-          protocol: 'geoserverTileLayer',
-          id: 'gemeinde',
           selection: {
             mode: 'single',
           },
           allowedParameters: ['name'],
-          minZoom: 10,
-          name: 'Gemeinde (Municipality)',
-          attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-        }],
+        },
       },
     },
   },
@@ -1593,20 +1507,28 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'Green Roofs',
           STYLES: 'grimpactscore_filtered',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'grimpactscore_filtered',
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -1678,20 +1600,28 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'Solar Roofs',
           STYLES: 'PVEPPMwhHP',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'PVEPPMwhHP',
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -1782,8 +1712,6 @@ export const globalIndicators = [
           name: 'AT_Rooftops_PV_bundesland_3857',
           STYLES: 'PVExisting',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
           protocol: 'WMS',
@@ -1833,7 +1761,6 @@ export const globalIndicators = [
           style: {
           },
           name: 'Forest Change',
-          minZoom: 1,
         },
       },
     },
@@ -1912,7 +1839,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Above Ground Biomass',
-          minZoom: 1,
         },
       },
     },
@@ -1988,7 +1914,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest disturbance type',
-          minZoom: 1,
         },
       },
     },
@@ -2050,7 +1975,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Annual Forest Mask',
-          minZoom: 1,
         },
       },
     },
@@ -2101,7 +2025,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Basal area',
-          minZoom: 1,
         },
       },
     },
@@ -2152,7 +2075,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Broadleaf proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2203,7 +2125,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Coniferous proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2254,7 +2175,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree diameter',
-          minZoom: 1,
         },
       },
     },
@@ -2305,7 +2225,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree height',
-          minZoom: 1,
         },
       },
     },
@@ -2356,7 +2275,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree volume',
-          minZoom: 1,
         },
       },
     },
@@ -2437,7 +2355,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest change detections',
-          minZoom: 1,
         },
       },
     },
@@ -2615,7 +2532,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Wind Energy',
-          minZoom: 1,
         },
       },
     },
@@ -2774,7 +2690,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Solar Energy',
-          minZoom: 1,
         },
       },
     },
@@ -2896,7 +2811,6 @@ export const globalIndicators = [
             }],
           },
           protocol: 'xyz',
-          minZoom: 1,
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',

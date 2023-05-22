@@ -126,7 +126,7 @@
         v-if="loaded && mapId === 'centerMap'"
         class="pointerEvents"
         :mapId="mapId"
-        :mergedConfigsData="mergedConfigsData[0]"
+        :mergedConfigsData="mergedConfigsData"
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />

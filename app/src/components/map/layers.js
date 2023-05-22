@@ -142,6 +142,7 @@ function createVectorLayerStyle(config, options) {
     }
     if (config.selection) {
       defaultC = dynamicColorForSelection(feature, defaultC);
+      // todo find out a fitting selection fill style for all
       defaultFillC = dynamicColorForSelection(feature, defaultFillC, false);
     }
     style.getStroke().setColor(defaultC);
