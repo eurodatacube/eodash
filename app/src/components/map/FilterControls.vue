@@ -399,6 +399,9 @@ export default {
       const keyRenaming = {
         powerDensity: 'wind_power',
         settlementDistance: 'distance',
+        protectedZones: 'nature2000',
+        ruggedness: 'roughness',
+        energyGridDistance: 'dist_egrid_min',
       };
       const pars = Object.entries(this.filters).map(([key, item]) => {
         let p;
@@ -416,6 +419,12 @@ export default {
         }
         return p;
       });
+
+      if (Object.keys(this.filters.powerDensity).includes('height')) {
+        pars.push(`height=${this.filters.powerDensity.height}`);
+      } else {
+        pars.push('height=200');
+      }
       const aoi = `aoi=${this.adminFeature.get('id')}&`;
       const request = baseUrl + aoi + pars.join('&');
       let fileExtension = '.pdf';
@@ -450,6 +459,19 @@ export default {
       map.removeLayer(layerGroup);
       // TODO hardcoded first item in array, we should match by ID or so
       const { sources, style } = this.mergedConfigsData;
+      switch (evt.description) {
+        case '200m height':
+          this.filters.powerDensity.height = 200;
+          break;
+        case '100m height':
+          this.filters.powerDensity.height = 100;
+          break;
+        case '50m height':
+          this.filters.powerDensity.height = 50;
+          break;
+        default:
+          break;
+      }
       sources[0].url = evt.url;
       const wgTileLayer = new WebGLTileLayer({
         source: new GeoTIFF({
