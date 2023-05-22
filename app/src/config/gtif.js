@@ -809,7 +809,7 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'ADO',
         queryParameters: {
-          externalSource: 'https://ado.eurac.edu/_next/data/4srD2VAOk7_uhaG_GsnYA/{{id}}.json',
+          sourceLayer: 'ado',
           selected: 'SPEI1',
           items: [
             {
