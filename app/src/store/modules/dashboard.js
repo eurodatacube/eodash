@@ -159,6 +159,17 @@ const actions = {
 
     commit('REMOVE_FEATURE', f);
   },
+  cloneFeature( // eslint-disable-line
+    {
+      dispatch,
+    },
+    f,
+  ) {
+    const clonedFeature = { ...f };
+    clonedFeature.poi = `${f.poi.split('@')[0]}@${+new Date()}`;
+
+    dispatch('addFeature', clonedFeature);
+  },
   changeTitle( // eslint-disable-line
     {
       commit,

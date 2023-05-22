@@ -91,20 +91,20 @@ const blgrrd = {
   }),
 };
 
-const drrglb = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [209, 55, 78] },
-      { index: 0.2, rgb: [254, 173, 84] },
-      { index: 0.4, rgb: [254, 237, 177] },
-      { index: 0.6, rgb: [216, 254, 181] },
-      { index: 0.8, rgb: [73, 227, 206] },
-      { index: 1, rgb: [1, 152, 189] },
-    ],
-    nshades: 32,
-  }),
-};
+// const drrglb = {
+//   steps: 32,
+//   colors: colormap({
+//     colormap: [
+//       { index: 0, rgb: [209, 55, 78] },
+//       { index: 0.2, rgb: [254, 173, 84] },
+//       { index: 0.4, rgb: [254, 237, 177] },
+//       { index: 0.6, rgb: [216, 254, 181] },
+//       { index: 0.8, rgb: [73, 227, 206] },
+//       { index: 1, rgb: [1, 152, 189] },
+//     ],
+//     nshades: 32,
+//   }),
+// };
 
 /*
 const ihrCS = {
@@ -151,7 +151,7 @@ function contspace(v, varOffset, varSpacing) {
 
 const wkt = new Wkt();
 
-export const dataPath = './data/gtif/data/';
+export const dataPath = './data/gtif/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',
@@ -159,16 +159,25 @@ export const dataEndpoints = [
   },
 ];
 
-export const layerNameMapping = Object.freeze({});
+export const layerNameMapping = Object.freeze({
+  S2L2A_REP4: {
+    minZoom: 7,
+    layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+    subAoiTransparent: true,
+  },
+  S1GRD_REP4: {
+    minZoom: 7,
+    layers: 'E8_SENTINEL1',
+    subAoiTransparent: true,
+  },
+});
 
 export const indicatorClassesIcons = Object.freeze({
-  agriculture: 'mdi-barley',
-  water: 'mdi-water',
-  land: 'mdi-image-filter-hdr',
-  health: 'mdi-hospital-box-outline',
-  combined: 'mdi-set-center',
-  air: 'mdi-weather-windy',
-  economic: 'mdi-currency-eur',
+  'energy-transition': 'mdi-water',
+  'mobility-transition': 'mdi-car',
+  'sustainable-cities': 'mdi-solar-panel-large',
+  'carbon-accounting': 'mdi-pine-tree',
+  'eo-adaptation-services': 'mdi-set-center',
 });
 
 export const mapDefaults = Object.freeze({
@@ -200,72 +209,21 @@ export const overlayLayersLeftMap = [
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
   protocol: 'GeoJSON',
   style: {
     fillColor: 'rgba(0, 0, 0, 0)',
-    color: '#006762',
+    strokeColor: '#006762',
   },
 };
 
-export const administrativeLayers = [{
+export const darkOverlayLayers = [{
   ...nutsStyle,
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   name: 'NUTS L0',
-  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
-  minZoom: 4,
-  maxZoom: 7.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L1',
-  id: 'nuts_1',
-  url: 'data/gtif/data/AT_NUTS_L1.geojson',
-  minZoom: 7.5,
-  maxZoom: 8.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L2',
-  id: 'nuts_2',
-  url: 'data/gtif/data/AT_NUTS_L2.geojson',
-  minZoom: 8.5,
-  maxZoom: 9.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L3',
-  id: 'nuts_3',
-  url: 'data/gtif/data/AT_NUTS_L3.geojson',
-  minZoom: 9.5,
-  maxZoom: 10.5,
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'District (Bezirk)',
-  id: 'bezirk',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
-  minZoom: 10.5,
-  maxZoom: 12,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'Municipality (Gemeinde)',
-  id: 'gemeinde',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
-  minZoom: 12,
-  maxZoom: 13.5,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  id: 'zahlsprengel',
-  name: 'Census Track (Zählsprengel)',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
-  minZoom: 13.5,
-  maxZoom: 18,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
 export const defaultLayersDisplay = {
@@ -277,7 +235,6 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -360,18 +317,76 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP3',
   },
   REP4: {
-    indicator: 'Hydro Power',
-    class: 'air',
+    indicator: 'Hydro Power SWE unified',
+    class: 'water',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP4',
+  },
+  REP4_1: {
+    indicator: 'Hydro Power SWE daily',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
     baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm,
-      visible: true,
-    }],
-    overlayLayers: [],
-    disableCSV: true,
-    geoDBDataQuery: 'sobothstausee_surface_water_extent?',
-    geoDBParameters: 'date,area_diff_rel,area,diff_area',
+      ...baseLayers.bmaporthofoto30cm, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.cloudless,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmapgelaende],
+  },
+  REP4_2: {
+    indicator: 'Hydro Power SWE monthly',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
+    baseLayers: [{
+      ...baseLayers.bmaporthofoto30cm, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.cloudless,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmapgelaende],
+  },
+  REP4_4: {
+    indicator: 'Hydro Power WSE monthly',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+  },
+  REP4_5: {
+    indicator: 'Hydro Power LAC monthly',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+  },
+  REP4_6: {
+    indicator: 'Hydro Power inferred volume daily',
+    class: 'water',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP4',
+    maxDecimals: 5,
+    baseLayers: [{
+      ...baseLayers.bmaporthofoto30cm, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.cloudless,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmapgelaende],
   },
   REP5: {
     ...energyTransitionDefaults,
@@ -387,9 +402,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -400,9 +412,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -413,9 +422,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -556,9 +562,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQB: {
     ...mobilityTransitionDefaults,
@@ -567,9 +570,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQC: {
     ...mobilityTransitionDefaults,
@@ -578,9 +578,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQ1: {
     indicator: 'Aggregated mobility data',
@@ -916,31 +913,37 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Health Risk Index (ARI)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1014,31 +1017,37 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'PM10',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1112,31 +1121,37 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Fine particulate matter (PM2.5)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1255,41 +1270,10 @@ export const globalIndicators = [
             ],
           },
           name: 'Flux tower',
-          minZoom: 1,
         },
       },
     },
   },
-  /*
-  // TODO: placeholder, do we need this?
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'High resolution Data',
-        indicator: 'AQ3',
-        lastIndicatorValue: null,
-        indicatorName: 'High resolution Data',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ3',
-        },
-      },
-    },
-  },
-  */
   {
     //  is collection with data and AT_Network_edges_3857
     properties: {
@@ -1389,34 +1373,35 @@ export const globalIndicators = [
         display: {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.get('fid');
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                let f = clamp((value - min) / (max - min), 0, 1);
-                if (['n_trajectories'].includes(dataSource)) {
-                  f = clamp((Math.log10(value) - Math.log10(min))
-                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+          style: {
+            getStrokeColor: (feature, store, options) => {
+              let color = '#000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.get('fid');
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  let f = clamp((value - min) / (max - min), 0, 1);
+                  if (['n_trajectories'].includes(dataSource)) {
+                    f = clamp((Math.log10(value) - Math.log10(min))
+                      / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  }
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
                 }
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
-            }
-            return color;
+              return color;
+            },
+            fillColor: '#ffffff',
           },
           id: 'trajectories_on_edges_austria_december_first_week',
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
           name: 'Human Mobility Patterns',
-          strokeOnly: true,
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
         },
@@ -1494,7 +1479,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Averaged NO2',
-          minZoom: 1,
         },
       },
     },
@@ -1555,34 +1539,40 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                // apply logarithmic scale specially for population
-                const f = clamp((Math.log10(value) - Math.log10(min))
-                  / (Math.log10(max) - Math.log10(min)), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  // apply logarithmic scale specially for population
+                  const f = clamp((Math.log10(value) - Math.log10(min))
+                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
+            strokeColor: 'rgba(0,0,0,0)',
           },
           opacity: 0.7,
           id: 'mobility_v1',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
           name: 'Mobility Data',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1644,7 +1634,7 @@ export const globalIndicators = [
             },
             {
               id: 'grexisting',
-              description: 'Existing Green Roofs',
+              description: 'Existing green rooftops',
               markdown: 'SOL1_GRExisting',
             },
             {
@@ -1659,19 +1649,28 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
+          name: 'Green Roofs',
           STYLES: 'grimpactscore_filtered',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'grimpactscore_filtered',
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -1728,7 +1727,7 @@ export const globalIndicators = [
             },
             {
               id: 'PVExisting',
-              description: 'Existing PV Panels',
+              description: 'Existing photovoltaic panels',
               markdown: 'SOL1_PVExisting',
             },
             {
@@ -1743,19 +1742,28 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
+          name: 'Solar Roofs',
           STYLES: 'PVEPPMwhHP',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'PVEPPMwhHP',
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -1836,7 +1844,7 @@ export const globalIndicators = [
           items: [
             {
               id: 'PVExisting',
-              description: 'Existing PV Panels',
+              description: 'PV Detections',
               markdown: 'SOL10_PVExisting',
             },
           ],
@@ -1846,8 +1854,6 @@ export const globalIndicators = [
           name: 'AT_Rooftops_PV_bundesland_3857',
           STYLES: 'PVExisting',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
           protocol: 'WMS',
@@ -1897,7 +1903,6 @@ export const globalIndicators = [
           style: {
           },
           name: 'Forest Change',
-          minZoom: 1,
         },
       },
     },
@@ -1976,7 +1981,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Above Ground Biomass',
-          minZoom: 1,
         },
       },
     },
@@ -2052,7 +2056,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest disturbance type',
-          minZoom: 1,
         },
       },
     },
@@ -2114,7 +2117,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Annual Forest Mask',
-          minZoom: 1,
         },
       },
     },
@@ -2165,7 +2167,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Basal area',
-          minZoom: 1,
         },
       },
     },
@@ -2216,7 +2217,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Broadleaf proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2267,7 +2267,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Coniferous proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2318,7 +2317,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree diameter',
-          minZoom: 1,
         },
       },
     },
@@ -2369,7 +2367,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree height',
-          minZoom: 1,
         },
       },
     },
@@ -2420,7 +2417,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree volume',
-          minZoom: 1,
         },
       },
     },
@@ -2501,7 +2497,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest change detections',
-          minZoom: 1,
         },
       },
     },
@@ -2679,7 +2674,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Wind Energy',
-          minZoom: 1,
         },
       },
     },
@@ -2712,12 +2706,36 @@ export const globalIndicators = [
             solar: {
               display: true,
               dataInfo: 'GlobalHorizontalIrradiation',
-              label: 'Global Horizontal Irradiation (kWh/m²/yr)',
+              label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
-              min: 300,
-              max: 1400,
-              range: [300, 1400],
+              min: 0,
+              max: 8,
+              range: [2, 4],
+              changeablaDataset: {
+                items: [
+                  {
+                    description: 'Annual',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Fall',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Fall_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Spring',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Summer',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Winter',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif',
+                  },
+                ],
+              },
             },
             aspect: {
               display: true,
@@ -2778,7 +2796,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'REP2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/GHI_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
@@ -2787,8 +2805,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              solarMin: 300,
-              solarMax: 1400,
+              solarMin: 2,
+              solarMax: 4,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -2804,8 +2822,8 @@ export const globalIndicators = [
               'case',
               [
                 'all',
-                ['>', ['band', 1], 0],
-                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
+                ['>', ['band', 1], 1],
+                // ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['any',
                   ['between',
                     ['band', 2],
@@ -2829,8 +2847,8 @@ export const globalIndicators = [
               [
                 'interpolate',
                 ['linear'],
-                ['band', 1],
-                ...getColorStops('rdbu', 1100, 1300, 50, false),
+                normalize(['band', 1], 'solarMin', 'solarMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -2838,7 +2856,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Solar Energy',
-          minZoom: 1,
         },
       },
     },
@@ -2889,75 +2906,11 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: null,
         aoi: null,
-        queryParameters: {
-          sourceLayer: 'sobothstausee_surface_water_extent',
-          selected: 'area_diff_rel',
-          dataInfo: 'SWE',
-          items: [
-            {
-              id: 'area_diff_rel',
-              description: 'Surface Water Extent',
-              min: -0.3,
-              max: 0,
-              colormapUsed: drrglb,
-              markdown: 'SWE',
-            },
-          ],
-        },
-        display: [{
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Daily Sentinel 2 L2A',
-          minZoom: 7,
-          maxZoom: 18,
-          visible: false,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((15.01 46.70,15.01 46.69,15.03 46.685,15.04 46.685,15.04 46.69,15.01 46.70))').toJson(),
-            }],
-          },
-          disableCompare: true,
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        }, {
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_reservoirs',
-          protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.get('full_id');
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-              }
-            }
-            return color;
-          },
-          id: 'sobothstausee_surface_water_extent',
-          adminZoneKey: 'full_id',
-          timeKey: 'date',
-          parameters: 'full_id,area_diff_rel,date,area,diff_area',
-          strokeOnly: true,
-          strokeWidth: 5,
-          name: 'Surface Water Extent',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        }],
         aoiID: 'Austria',
-        time: ['2018-04-30', '2018-05-31', '2018-06-30', '2018-07-31', '2018-08-31', '2018-09-30', '2018-10-31', '2018-11-30', '2018-12-31', '2019-03-31', '2019-04-30', '2019-05-31', '2019-06-30', '2019-07-31', '2019-08-31', '2019-09-30', '2019-10-31', '2019-11-30', '2019-12-31', '2020-03-31', '2020-04-30', '2020-05-31', '2020-06-30', '2020-07-31', '2020-08-31', '2020-09-30', '2020-10-31', '2020-11-30', '2020-12-31', '2021-03-31', '2021-04-30', '2021-05-31', '2021-06-30', '2021-07-31', '2021-08-31', '2021-09-30', '2021-10-31', '2021-11-30', '2021-12-31', '2022-03-31', '2022-04-30', '2022-05-31', '2022-06-30', '2022-07-31', '2022-08-31', '2022-09-30', '2022-10-31', '2022-11-30', '2022-12-31'],
+        time: [],
         inputData: [''],
-        yAxis: 'Surface Water Extent relative change wrt. reference value [%]',
+        yAxis: '',
       },
     },
   },
@@ -3024,7 +2977,6 @@ export const globalIndicators = [
             }],
           },
           protocol: 'xyz',
-          minZoom: 1,
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',

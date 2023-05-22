@@ -18,8 +18,7 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  adminBorderLayerSelected: null,
-  adminBorderFeatureSelected: null,
+  selectedFeatures: [],
 };
 
 const getters = {
@@ -145,6 +144,17 @@ const getters = {
 
     return features;
   },
+  getFeaturesGtifMap(state) {
+    let features = state.allFeatures;
+    // explicitly include only those features from current indicators filters
+    if (state.featureFilters.indicators.length > 0) {
+      features = features
+        .filter((f) => state.featureFilters.indicators
+          .includes(f.properties.indicatorObject.indicator));
+      return features;
+    }
+    return [];
+  },
   getGroupedFeatures(state, getters, rootState) {
     let allFeatures = [];
     if (state.allFeatures.length > 0) {
@@ -258,6 +268,9 @@ const mutations = {
     if (hasFeature('custom')) {
       state.featureFilters.custom = options.custom;
     }
+  },
+  SET_SELECTED_FEATURES(state, features) {
+    state.selectedFeatures = features;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;

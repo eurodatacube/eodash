@@ -820,8 +820,6 @@ export const overlayLayersRightMap = [{
   updateOpacityOnZoom: true,
 }];
 
-export const administrativeLayers = [];
-
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
@@ -1348,7 +1346,7 @@ export const globalIndicators = [
           name: 'NO2 OMI Annual',
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/N9-W8.png',
+          legendUrl: 'legends/trilateral/N9_W8.png',
           customAreaIndicator: true,
           areaIndicator: nasaStatisticsConfig(
             (value) => value / 1e14,
@@ -3317,7 +3315,7 @@ export const globalIndicators = [
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
-              color: '#696868',
+              strokeColor: '#696868',
               opacity: 0.5,
             },
           },
