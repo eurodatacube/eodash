@@ -189,10 +189,11 @@
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
-              <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
+              <!-- TEMP, do not merge -->
+              <!-- <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" /> -->
+              <IndicatorFiltersDemo v-if="$route.name === 'demo'"
               :expanded="dataPanelFullWidth" />
-              <indicator-filters v-else />
+              <IndicatorFiltersPanel v-else />
             </div>
           </v-col>
         </v-row>
@@ -210,7 +211,7 @@ import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
-import IndicatorFilters from '@/components/IndicatorFilters.vue';
+import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
@@ -234,7 +235,7 @@ export default {
     DataPanel,
     GlobalHeader,
     GlobalFooter,
-    IndicatorFilters,
+    IndicatorFiltersPanel,
     IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
     ESABreadcrumbs,
