@@ -4,7 +4,17 @@
     style="max-width: 1400px;"
   >
     <h3 class="mb-10" :class="[headingClass]">News</h3>
-
+    <v-row>
+      <v-col>
+        <h3>
+          2023-05-23: Space for Climate Protection awarded to EO Dashboard!
+        </h3>
+        <p>
+          <a target="_blank" href="https://www.esa.int/Applications/Observing_the_Earth/ESA_receives_Space_for_Climate_Protection_Award">EO Dashboard receives the 'Space for Climate Protection' Special Award by the International Astronautical Federation during the 2023 Global Space Conference on Climate Change in Oslo, Norway</a>.
+          
+        </p>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
         <h3>
