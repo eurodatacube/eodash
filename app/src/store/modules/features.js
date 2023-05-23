@@ -19,8 +19,6 @@ const state = {
   },
   selectedArea: null,
   selectedFeatures: [],
-  adminBorderLayerSelected: null,
-  adminBorderFeatureSelected: null,
 };
 
 const getters = {

@@ -334,9 +334,12 @@ export default {
       return this.mergedConfigsData.processingEnabled;
     },
     adminSelected() {
+      let selection = null;
+      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
+        selection = true;
+      }
       let disabled = true;
-      const adminName = this.adminLayer.get('name');
-      if (adminName === 'Census Track (Zählsprengel)') {
+      if (selection !== null) {
         disabled = false;
       }
       // Check if other button is loading
@@ -385,11 +388,14 @@ export default {
   },
   methods: {
     hoverText() {
-      // const adminName = this.adminLayer.get('name');
+      let selection = false;
+      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
+        selection = true;
+      }
       let text = 'Please select Census Track (Zählsprengel) zone';
-      // if (adminName === 'Census Track (Zählsprengel)') {
-      //   text = 'Download';
-      // }
+      if (selection) {
+        text = 'Download';
+      }
       return text;
     },
     fetchData(process) {
@@ -404,7 +410,7 @@ export default {
         settlementDistance: 'distance',
         protectedZones: 'nature2000',
         ruggedness: 'roughness',
-        energyGridDistance: 'dist_egrid_min',
+        energyGridDistance: 'dist_egrid',
       };
       const pars = Object.entries(this.filters).map(([key, item]) => {
         let p;
@@ -432,7 +438,8 @@ export default {
       } else {
         pars.push('height=200');
       }
-      const aoi = `aoi=${this.adminFeature.get('id')}&`;
+      const id = this.$store.state.features.selectedFeatures[0].id_;
+      const aoi = `aoi=${id}&`;
       const request = baseUrl + aoi + pars.join('&');
       let fileExtension = '.pdf';
       if (process === 'zones') {
@@ -441,7 +448,7 @@ export default {
       fetch(request)
         .then((res) => res.blob())
         .then((blob) => {
-          saveAs(blob, `GTIF_${process}_${this.adminFeature.get('id')}${fileExtension}`);
+          saveAs(blob, `GTIF_${process}_${id}${fileExtension}`);
           this.zonesLoading = false;
           this.reportLoading = false;
         })
