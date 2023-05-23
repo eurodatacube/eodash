@@ -106,6 +106,7 @@ export default {
         map.on('pointermove', pointerMoveHandler);
         this.pointerMoveHandlers.push(pointerMoveHandler);
       }
+      layer.set('displayInLayerSwitcher', false);
       map.addLayer(layer);
     });
     // update view if previous projection !== new projection

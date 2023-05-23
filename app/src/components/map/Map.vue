@@ -152,6 +152,15 @@
       </div>
       <div ref="mousePositionContainer"/>
     </div>
+    <eox-layerswitcher
+      identifier="name"
+      sortBy="zIndex"
+      title="name"
+      style="position: absolute; top: 250px; left: 0; margin: 5px; width: 500px; height: 500px;
+      z-index: 1; background: white;"
+    >
+      Map Layers
+    </eox-layerswitcher>
   </div>
 </template>
 
@@ -187,6 +196,7 @@ import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
+import '@eox/layerswitcher';
 import {
   calculatePadding,
   getIndicatorFilteredInputData,
@@ -574,6 +584,7 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
+    document.querySelector('eox-layerswitcher').attachTo(map);
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);

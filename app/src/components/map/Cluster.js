@@ -280,6 +280,7 @@ class Cluster {
   setActive(active, overlayCallback) {
     if (active) {
       [this.clusters, this.clusterCircles].forEach((l) => {
+        l.set('displayInLayerSwitcher', false);
         this.map.addLayer(l);
       });
       this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));

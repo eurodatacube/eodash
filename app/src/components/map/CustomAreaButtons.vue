@@ -173,6 +173,7 @@ export default {
       style: this.drawStyleFunction,
       declutter: false,
     });
+    drawnAreaLayer.set('displayInLayerSwitcher', false);
     this.drawnAreaLayer = drawnAreaLayer;
     map.addLayer(drawnAreaLayer);
 
