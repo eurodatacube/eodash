@@ -11,7 +11,6 @@
         </h3>
         <p>
           <a target="_blank" href="https://www.esa.int/Applications/Observing_the_Earth/ESA_receives_Space_for_Climate_Protection_Award">EO Dashboard receives the 'Space for Climate Protection' Special Award by the International Astronautical Federation during the 2023 Global Space Conference on Climate Change in Oslo, Norway</a>.
-          
         </p>
       </v-col>
     </v-row>
