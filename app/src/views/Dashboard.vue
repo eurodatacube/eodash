@@ -25,11 +25,15 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
+        <span v-if="queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city">
           {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+        </span>
+        <span>
           {{
             queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
             || queryIndicatorObject.properties.indicatorObject.description)
           }}
+        </span>
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName

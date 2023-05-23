@@ -21,7 +21,7 @@
             single-line
             hide-details
             menu-props="auto"
-            :items="baseConfig.administrativeLayers"
+            :items="administrativeConfigs"
             item-value="id"
             item-text="name"
             v-model="currentAdminLevelModel"
@@ -98,12 +98,15 @@ export default {
     ...mapState('config', ['baseConfig']),
     allowedAdminLevels() {
       if (this.mergedConfigsData.adminLayersCustomIndicator?.adminZoneIds) {
-        const layers = this.baseConfig.administrativeLayers
+        const layers = this.administrativeConfigs
           .filter((l) => this.mergedConfigsData.adminLayersCustomIndicator?.adminZoneIds
             .includes(l.id));
         return layers;
       }
       return null;
+    },
+    administrativeConfigs() {
+      return this.mergedConfigsData.administrativeLayers || [];
     },
   },
   methods: {
@@ -111,13 +114,13 @@ export default {
       const { map } = getMapInstance('centerMap');
       const zoom = map.getView().getZoom();
       // taking the assumption of minZoom maxZoom logic to get currently displayed admin level
-      const adminLayerCurrentlyShown = this.baseConfig.administrativeLayers.find(
+      const adminLayerCurrentlyShown = this.administrativeConfigs.find(
         (l) => l.minZoom <= zoom && zoom <= l.maxZoom,
       );
       this.currentAdminLevelModel = adminLayerCurrentlyShown;
     },
     change(evt) {
-      const layer = this.baseConfig.administrativeLayers.find((i) => i.id === evt.id);
+      const layer = this.administrativeConfigs.find((i) => i.id === evt.id);
       const { map } = getMapInstance('centerMap');
       map.getView().animate({
         duration: 500,

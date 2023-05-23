@@ -385,11 +385,11 @@ export default {
   },
   methods: {
     hoverText() {
-      const adminName = this.adminLayer.get('name');
+      // const adminName = this.adminLayer.get('name');
       let text = 'Please select Census Track (Zählsprengel) zone';
-      if (adminName === 'Census Track (Zählsprengel)') {
-        text = 'Download';
-      }
+      // if (adminName === 'Census Track (Zählsprengel)') {
+      //   text = 'Download';
+      // }
       return text;
     },
     fetchData(process) {

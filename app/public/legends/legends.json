@@ -393,11 +393,6 @@
             "label": "Population density [people/km2]",
             "logarithmic": true,
             "ticks": [1, 10, 100, 1000, 10000]
-        },
-        "REP4_SWE": {
-            "range": [-30,0],
-            "cm": ["#d1374e", "#fead54", "#feedb1", "#d8feb5","#49e3ce", "#0198bd"], 
-            "label": "SWE relative change wrt. reference value [%]"
         }
     }
 }

@@ -8,10 +8,18 @@
       v-if="administrativeConfigs.length > 0"
       :key="dataLayerName + '_adminLayers'"
     />
+    <!-- a layer adding a (potential) dark overlay, z-index 4 -->
+    <DarkOverlayLayer
+      :mapId="mapId"
+      :configs="darkOverlayLayers"
+      v-if="darkOverlayLayers.length > 0"
+      :key="dataLayerName + '_darkoverlay'"
+    />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
+      :mergedConfigsData="mergedConfigsData[0]"
       :isGlobal="isGlobalIndicator"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
@@ -202,6 +210,7 @@ import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
+import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
@@ -227,6 +236,7 @@ export default {
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
+    DarkOverlayLayer,
   },
   props: {
     mapId: {
@@ -290,7 +300,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures']),
+    ...mapGetters('features', ['getFeatures', 'getFeaturesGtifMap']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
@@ -318,8 +328,8 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersLeftMap)];
-      // administrativeLayers replace country vectors
-      if (!this.isGlobalIndicator && this.baseConfig.administrativeLayers?.length === 0) {
+      // darkOverlayLayers replace country vectors
+      if (!this.isGlobalIndicator && this.baseConfig.darkOverlayLayers?.length === 0) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -330,7 +340,13 @@ export default {
       return configs;
     },
     administrativeConfigs() {
-      return [...this.baseConfig.administrativeLayers];
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].administrativeLayers)
+        || this.baseConfig.administrativeLayers || [];
+    },
+    darkOverlayLayers() {
+      // non-interactive layer definitions rendered as inverse semi-transparent overlay
+      return (this.mergedConfigsData.length && this.mergedConfigsData[0].darkOverlayLayers)
+        || this.baseConfig.darkOverlayLayers || [];
     },
     mapDefaults() {
       return {
@@ -489,6 +505,18 @@ export default {
   },
   watch: {
     getFeatures(features) {
+      if (this.appConfig.id === 'gtif') {
+        return;
+      }
+      if (this.mapId === 'centerMap' && features) {
+        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+        cluster.setFeatures(features);
+      }
+    },
+    getFeaturesGtifMap(features) {
+      if (this.appConfig.id !== 'gtif') {
+        return;
+      }
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
@@ -634,7 +662,11 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
-      cluster.setFeatures(this.getFeatures);
+      if (this.appConfig.id === 'gtif') {
+        cluster.setFeatures(this.getFeaturesGtifMap);
+      } else {
+        cluster.setFeatures(this.getFeatures);
+      }
       const { x, y, z } = this.$route.query;
       if (!x && !y && !z) {
         setTimeout(() => {
@@ -702,8 +734,15 @@ export default {
 
     // Define a function to update the data layer
     const updateTime = (time) => {
-      // Update the data layer with the new data
-      this.dataLayerTime = time;
+      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+
+      if (timeEntry === undefined) {
+        // Use most recent time since there is none defined in the map timeline
+        this.dataLayerTime = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+      } else {
+        // Use the provided time
+        this.dataLayerTime = timeEntry;
+      }
     };
 
     // Define a function to schedule the data layer update during the next animation frame
@@ -824,11 +863,24 @@ export default {
     },
     setInitialTime() {
       if (this.mergedConfigsData?.length) {
-        this.dataLayerTime = {
-          value: this.mergedConfigsData[0].usedTimes.time[
-            this.mergedConfigsData[0].usedTimes.time.length - 1
-          ],
-        };
+        if (this.dataLayerTimeProp) {
+          this.dataLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time
+              .find((t) => t.includes(this.dataLayerTimeProp)),
+          };
+        } else {
+          this.dataLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time[
+              this.mergedConfigsData[0].usedTimes.time.length - 1
+            ],
+          };
+        }
+        if (this.compareLayerTimeProp) {
+          this.compareLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time
+              .find((t) => t.includes(this.compareLayerTimeProp)),
+          };
+        }
       }
     },
     updateSelectedAreaFeature() {

@@ -47,6 +47,59 @@ function buildStickyLeft(current, next) {
   return [c, n];
 }
 
+function buildTimeline(current, next, idx, features) {
+  let i = idx;
+  translateMedia(next);
+  let { text } = current;
+  const timeline = [{
+    center: next.mapInfo.center,
+    zoom: next.mapInfo.zoom,
+    poi: next.mapInfo.poi,
+    layers: ['EOxCloudless 2021'],
+  }];
+
+  i += 2;
+
+  while ((i < features.length
+      && features[i].width === 1
+      && features[i + 1]
+      && features[i + 1].mapInfo)
+  ) {
+    console.log(`      --> TIMELINE ITERATION    (${i})`);
+    const c = features[i];
+    const n = features[i + 1];
+
+    translateMedia(c);
+    translateMedia(n);
+
+    text += `\n\n${c.text}`;
+    timeline.push({
+      center: n.mapInfo.center,
+      zoom: n.mapInfo.zoom,
+      poi: n.mapInfo.poi || '',
+      dataLayerTime: n.mapInfo.dataLayerTime || undefined,
+    });
+
+    i += 2;
+  }
+
+  timeline.forEach((e) => { e.duration = 1.0 / timeline.length; });
+
+  const block = {
+    width: 4,
+    text,
+    mapInfo: {
+      poi: next.mapInfo.poi,
+      timeline,
+    },
+  };
+
+  return {
+    block: [block],
+    index: i,
+  };
+}
+
 /**
  * Convert a given RACE dashboard to the scrollytelling format used by [`microscrolly`](https://github.com/spectrachrome/microscrolly).
  *
@@ -61,83 +114,66 @@ export default function dashboardToScrolly(features) {
   let i = 0;
 
   while (i < features.length) {
+    console.info('<---> parser iteration');
     const current = features[i];
     const next = features[i + 1];
 
     if (current.width === 4) {
+      console.info(`   -> FWB                       (${i})`);
+      // FULL WIDTH BLOCK
       translateMedia(current);
       data.push([current]);
       i += 1;
-    } else if (current.width === 1 && next) {
-      if (next.mapInfo && features[i + 3] && features[i + 3].mapInfo) {
-        translateMedia(next);
-        console.log(next);
-        let { text } = current;
-        const timeline = [{
-          center: next.mapInfo.center,
-          zoom: next.mapInfo.zoom,
-          poi: next.mapInfo.poi,
-          layers: ['EOxCloudless 2021'],
-        }];
+    } else if (current.width === 2 && next && next.width === 2) {
+      console.info(`   -> 2-2                       (${i})`);
+      const c = current;
+      const n = next;
 
-        i += 2;
+      translateMedia(c);
+      translateMedia(n);
 
-        while ((i < features.length
-          && features[i].width === 1
-          && features[i + 1]
-          && features[i + 1].mapInfo)
-          || (i < features.length
-          && features[i] && features[i + 1]
-          && (features[i].width === 2 && features[i + 1].width === 2))
-        ) {
-          const c = features[i];
-          const n = features[i + 1];
+      const timeline = [];
 
-          translateMedia(c);
-          translateMedia(n);
+      if (c.type) {
+        c.textSide = 'right';
+        timeline.push(c);
+      } else {
+        n.textSide = 'left';
+        timeline.push(n);
+      }
 
-          if (c.width === 2 && n.width === 2) {
-            if (c.type) {
-              text += `\n\n${n.text}`;
-              // Media is left
-              c.textSide = 'right';
-              timeline.push(c);
-            } else {
-              text += `\n\n${c.text}`;
-              // Media is left
-              n.textSide = 'left';
-              timeline.push(n);
-            }
-          } else {
-            text += `\n\n${c.text}`;
-            timeline.push({
-              center: n.mapInfo.center,
-              zoom: n.mapInfo.zoom,
-              poi: n.mapInfo.poi || '',
-            });
-          }
-
-          i += 2;
-        }
-
-        timeline.forEach((e) => { e.duration = 1.0 / timeline.length; });
-
-        const block = {
+      data.push([
+        {
           width: 4,
-          text,
+          text: current.text || next.text,
           mapInfo: {
-            poi: next.mapInfo.poi,
+            // TODO: Remove map-specific config here
+            poi: 'AT-AQ5',
             baseLayer: 'EOxCloudless 2021',
             timeline,
           },
-        };
-
-        data.push([block]);
-      } else {
-        data.push(buildStickyRight(current, next, i));
-      }
+        },
+      ]);
       i += 2;
-    } else if (current.width === 3 && next) {
+    } else if (current.width === 1 && next && next.width === 3) {
+      if (next.mapInfo
+          && features[i + 2]
+          && features[i + 2].width === 1
+          && features[i + 3]
+          && features[i + 3].width === 3
+          && features[i + 3].mapInfo
+      ) {
+        console.info(`   -> SCROLLY MAP                   (${i})`);
+        const result = buildTimeline(current, next, i, features);
+        data.push(result.block);
+        i = result.index;
+      } else {
+        console.info('   -> STICKY RIGHT');
+        data.push(buildStickyRight(current, next, i));
+        i += 2;
+      }
+    } else if (current.width === 3 && next && next.width === 1) {
+      console.info('   -> STICKY LEFT');
       data.push(buildStickyLeft(current, next, i));
       i += 2;
     } else {

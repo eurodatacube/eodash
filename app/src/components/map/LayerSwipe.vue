@@ -53,8 +53,6 @@ export default {
     swipeLayerObject: null,
     swipe: 0,
     swipePixelX: null,
-    clipLeft: 0,
-    clipRight: 0,
   }),
   computed: {
     specialLayerOptions() {
@@ -117,7 +115,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           swipeLayer.changed();
@@ -134,7 +132,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, time, this.drawnArea);
@@ -151,7 +149,7 @@ export default {
             time, this.mergedConfigsData,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.getLayersArray()[0].changed();
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
           });
         } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');
@@ -166,11 +164,15 @@ export default {
         const ctx = evt.context;
 
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-          ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
+          ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
-            : document.querySelector('.data-panel').clientWidth
+            : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
-        this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
+        // on retina displays, the actual part of canvas that data-panel occupies
+        // need to be multiplied by the devicePixelRatio
+        const actualWidth = ctx.canvas.width;
+        const actualHeight = ctx.canvas.height;
+        this.swipePixelX = (actualWidth - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
         const { map } = getMapInstance(this.mapId);
         const usedConfig = this.mergedConfigsData.find((item) => evt.target.get('name').replace('_features', '') === item.name);
@@ -186,33 +188,22 @@ export default {
             if (ctx instanceof WebGLRenderingContext) {
               ctx.enable(ctx.SCISSOR_TEST);
               ctx.scissor(
-                this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height,
+                this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight,
               );
             } else {
               ctx.save();
               ctx.beginPath();
-              ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
+              ctx.rect(this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight);
               ctx.clip();
             }
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
+          } else if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(0, 0, this.swipePixelX, actualHeight);
           } else {
-            if (ctx instanceof WebGLRenderingContext) {
-              ctx.enable(ctx.SCISSOR_TEST);
-              ctx.scissor(0, 0, this.swipePixelX, ctx.canvas.height);
-            } else {
-              ctx.beginPath();
-              ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
-              ctx.clip();
-            }
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, 0, this.swipePixelX, actualHeight);
+            ctx.clip();
           }
         }
       }
