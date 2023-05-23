@@ -415,7 +415,11 @@ export default {
         } else if (item.range && item.range.length === 2) {
           p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
         } else if (item.type && item.type === 'slider') {
-          p = `${currentKey}_min=${item.value}&${currentKey}_max=99999999999999`;
+          if (item.inverted) {
+            p = `${currentKey}_min=${item.min}&${currentKey}_max=${item.value}`;
+          } else {
+            p = `${currentKey}_min=${item.value}&${currentKey}_max=${item.max}`;
+          }
         }
         return p;
       });
