@@ -181,7 +181,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: [9, 46, 18, 49.5],
+  bounds: [10, 46, 20, 49.5],
 });
 
 export const baseLayersLeftMap = [{

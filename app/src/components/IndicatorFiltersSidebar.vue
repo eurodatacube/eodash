@@ -121,9 +121,7 @@
                 padding: $vuetify.breakpoint.smAndDown ? '6px 0' : '12px 0',
               }"
             >
-              <v-list-item-title>
-                {{ item.name }}
-              </v-list-item-title>
+              <v-list-item-title v-html="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
