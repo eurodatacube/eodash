@@ -196,7 +196,6 @@ import { toStringXY } from 'ol/coordinate';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
-import '@eox/layerswitcher';
 import {
   calculatePadding,
   getIndicatorFilteredInputData,

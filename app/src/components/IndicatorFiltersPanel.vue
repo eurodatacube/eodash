@@ -27,7 +27,6 @@ import {
   mapGetters,
   mapMutations,
 } from 'vuex';
-import '@eox/itemfilter';
 
 export default {
   data: () => ({
