@@ -2,16 +2,34 @@
   <v-sheet
   v-if="selectableLayerConfigs"
   class="pa-2">
-    <div class="text-h6 pa-1">
-      Map Selection Time Series
+    <div class="text-h7 font-weight-bold">
+      <v-row align="center"
+      class="pa-3">
+        <span>Map Selection</span>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-icon color="primary" class="pl-2">
+                mdi-information-outline
+              </v-icon>
+            </div>
+        </template>
+        <p>
+          Click on "Zoom to" entry to show selectable zones.
+        </p>
+        <p>
+          Click on features on the map to allow further interaction with data.
+        </p>
+        <p>
+          Deselect features by clicking on it again or by using delete icon in the list.
+        </p>
+        </v-tooltip>
+      </v-row>
     </div>
     <v-row v-if="anyLayerZoomConstraint"
       align="center"
-      class="pa-2">
+      class="pl-3 pr-3">
       <v-col cols="12" class="pa-0">
-      <div v-if="anyLayerZoomConstraint" class="text-body-1 ma-0">
-        Zoom map to a selection layer by selecting an item from the list.
-      </div>
       <v-list dense>
         <v-list-item-group
           color="primary"
@@ -23,7 +41,7 @@
           >
             <v-list-item-content>
               <v-list-item-title
-              class="text-body-1"
+              class=""
               @click="layerSelectClick(item)">
               <span>
                 {{ getLayerText(item)}}
@@ -36,23 +54,12 @@
       </v-list>
       </v-col>
     </v-row>
-    <v-row align="center"
-      class="pa-2">
-      <v-col cols="12" class="pa-0">
-        <div class="text-body-1 ma-0">
-          Click on polygons on the map to get time series for the selected area.
-        </div>
-        <div class="text-body-1 ma-0">
-          Deselect area by clicking on it again or by using delete icon in the list.
-        </div>
-      </v-col>
-    </v-row>
     <v-row
       align="center"
-      class="pa-2">
+      class="pl-2 pr-2">
       <v-col cols="12" class="pa-0">
-        <v-list dense class="pa-0">
-          <v-subheader class="text-h6" color="black">Selected Features</v-subheader>
+        <v-list dense class="pl-0">
+          <v-subheader class="text-body-1 font-weight-bold">Selected Features</v-subheader>
           <v-list-item-group
           v-if="selectedFeatures.length"
           >
@@ -61,7 +68,7 @@
               :key="i"
             >
               <v-list-item-content>
-                <v-list-item-title class="text-body-1">
+                <v-list-item-title class="text-body-0">
                   {{getFeatureName(item, i)}}
                 </v-list-item-title>
               </v-list-item-content>
@@ -70,7 +77,7 @@
               </v-list-item-icon>
             </v-list-item>
           </v-list-item-group>
-          <div class="text-body-1" v-else>No features in the selection</div>
+          <div class="pl-2 text-body-0" v-else>No features in the selection</div>
         </v-list>
       </v-col>
     </v-row>
@@ -106,7 +113,7 @@ export default {
   },
   methods: {
     getLayerText(item) {
-      return `${item.name}${item.minZoom ? ` - from map zoom ${item.minZoom}` : ''}`;
+      return `Zoom to ${item.name} level`;
     },
     getFeatureName(item, i) {
       const props = item.getProperties();

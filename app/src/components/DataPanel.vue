@@ -19,10 +19,6 @@
           class="pa-0"
           :style="`height: auto`"
         >
-        <template v-if="selectableLayerConfigs.length > 0">
-          <SelectionInfoBar class="pb-2"
-          :selectableLayerConfigs="selectableLayerConfigs"/>
-        </template>
           <v-card
             v-if="showCustomAreaCard"
             class="fill-height"
@@ -202,17 +198,23 @@
               </div>
             </v-col>
           </v-row>
+          <filter-controls v-if="indicatorObject.cogFilters"
+            :cogFilters="indicatorObject.cogFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :mergedConfigsData="mergedConfigsData[0]"
+          >
+          </filter-controls>
+          <template v-if="selectableLayerConfigs.length > 0">
+            <SelectionInfoBar class="pb-2"
+            :selectableLayerConfigs="selectableLayerConfigs"/>
+          </template>
           <data-mockup-view v-if="appConfig.id === 'gtif'"
             :indicatorObject="indicatorObject"
             :selectedFeatures="$store.state.features.selectedFeatures"
             :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
-          <filter-controls v-if="indicatorObject.cogFilters"
-            :cogFilters="indicatorObject.cogFilters"
-            :mergedConfigsData="mergedConfigsData[0]"
-          >
-          </filter-controls>
           <!--
           TODO disabling this for now as it is not ready for public use
           <v-col v-if="indicatorObject.cogFilters"
