@@ -98,8 +98,10 @@ export default {
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
         if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
-          const feature = features[0];
-          const adminId = feature.getId();
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
           const { adminZoneKey } = this.indicatorObject.display;
           let { timeKey } = this.indicatorObject.display;
@@ -107,7 +109,7 @@ export default {
             timeKey = 'time';
           }
 
-          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=eq.${adminId}&select=${selected},${timeKey}`;
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -142,10 +144,14 @@ export default {
         }
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const description = 'Green roof potential area [m²]';
-          const feature = features[0];
-          const adminId = feature.getId();
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
+          // ideally, we would iterate over all items from display if an array
+          const { adminZoneKey } = this.indicatorObject.display[0];
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -198,10 +204,13 @@ export default {
         }
         if (['SOL2'].includes(this.indicatorObject.indicator)) {
           const description = 'PV Power potential [MWh]';
-          const feature = features[0];
-          const adminId = feature.getId();
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,pveppmwhhp`;
+          const { adminZoneKey } = this.indicatorObject.display[0];
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,pveppmwhhp,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {

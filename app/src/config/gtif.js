@@ -1500,6 +1500,7 @@ export const globalIndicators = [
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'grimpactscore_filtered',
+          adminZoneKey: 'zsp_id',
         }, {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
@@ -1593,6 +1594,7 @@ export const globalIndicators = [
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'PVEPPMwhHP',
+          adminZoneKey: 'zsp_id',
         }, {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
