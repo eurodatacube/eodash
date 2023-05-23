@@ -233,15 +233,15 @@ export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   C2: {
     indicatorSummary: 'Combined 2',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   C3: {
     indicatorSummary: 'Combined 3',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   E200: {
     indicatorSummary: 'Changes in Ships traffic within the Port',
