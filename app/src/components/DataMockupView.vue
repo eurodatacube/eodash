@@ -101,7 +101,12 @@ export default {
           const feature = features[0];
           const adminId = feature.getId();
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const { adminZoneKey, timeKey } = this.indicatorObject.display;
+          const { adminZoneKey } = this.indicatorObject.display;
+          let { timeKey } = this.indicatorObject.display;
+          if (!timeKey) {
+            timeKey = 'time';
+          }
+
           const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=eq.${adminId}&select=${selected},${timeKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
