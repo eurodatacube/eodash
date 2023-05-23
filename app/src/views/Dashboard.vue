@@ -9,79 +9,6 @@
     <ESABreadcrumbs
       v-if="appConfig.enableESALayout"
     />
-    <v-navigation-drawer
-      v-if="$vuetify.breakpoint.mdAndUp"
-      v-model="drawerRight"
-      right
-      stateless
-      app
-      clipped
-      temporary
-      hide-overlay
-      :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
-      :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
-      class="data-panel"
-    >
-      <v-toolbar flat>
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
-          :class="$store.state.indicators.selectedIndicator.description ===
-            $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
-        >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
-          {{
-            queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
-            || queryIndicatorObject.properties.indicatorObject.description)
-          }}
-          <div v-if="
-            $store.state.indicators.selectedIndicator.description !==
-            $store.state.indicators.selectedIndicator.indicatorName
-            && $store.state.indicators.customAreaIndicator === null"
-            class="subheading" style="font-size: 0.8em">
-            {{ queryIndicatorObject
-              && queryIndicatorObject.properties.indicatorObject.description }}
-          </div>
-        </v-toolbar-title>
-        <v-toolbar-title
-          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
-        >
-          {{ firstIndicatorObject
-            .description }}
-          <div v-if="
-            firstIndicatorObject.description !==
-            firstIndicatorObject.indicatorName"
-            class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
-          </div>
-        </v-toolbar-title>
-        <v-tooltip
-          v-if="$store.state.indicators.selectedIndicator"
-          left
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              icon
-              class="elevation-1 rounded-lg"
-              style="position: absolute; right: 30px; width: 36px; height: 36px;"
-              @click="dataPanelFullWidth
-                ? setDataPanelWidth(false)
-                : setDataPanelWidth(true)"
-            >
-              <v-icon>{{ dataPanelFullWidth ? 'mdi-close' : 'mdi-fullscreen' }}</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
-        </v-tooltip>
-      </v-toolbar>
-
-      <data-panel
-        v-if="$store.state.indicators.selectedIndicator
-          || $store.state.features.featureFilters.indicators.length > 0"
-        :key="panelKey"
-        :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
-    </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
       left
@@ -185,15 +112,112 @@
             class="py-0 fill-height"
           >
             <center-panel ref="centerPanel" :panelActive="drawerRight" />
-            <div
+            <!-- <div
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; pointer-events: none"
             >
-              <!-- TEMP, do not merge -->
-              <!-- <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" /> -->
+              <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <IndicatorFiltersDemo v-if="$route.name === 'demo'"
               :expanded="dataPanelFullWidth" />
               <IndicatorFiltersPanel v-else />
+            </div> -->
+            <div
+              :style="`
+                position: absolute;
+                ${$vuetify.breakpoint.smAndUp ? 'top' : 'bottom'}: 0;
+                left: 0;
+                width: 100%;
+                height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
+                padding: 8px;
+                display: ${$vuetify.breakpoint.smAndUp ? 'grid' : 'flex'};
+                grid-template-columns: repeat(${$vuetify.breakpoint.lgAndUp ? 5 : 4}, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                grid-column-gap: 1rem;
+                grid-row-gap: 1rem;
+                pointer-events: none;
+              `"
+            >
+              <UiPanel
+                left
+                title="Filter"
+                :style="`grid-area: 1 / 1 / 4 / 2;`"
+              >
+                <IndicatorFiltersPanel />
+              </UiPanel>
+              <UiPanel
+                left
+                title="Map Layers"
+                :style="`grid-area: 4 / 1 / 6 / 2;`"
+              >
+                <eox-layerswitcher
+                layerIdentifier="name"
+                sortBy="zIndex"
+                layerTitle="name"
+                ></eox-layerswitcher>
+              </UiPanel>
+              <UiPanel
+                title="Description"
+                :style="`grid-area: 1 / ${$vuetify.breakpoint.lgAndUp ? 5 : 4} / 6 / ${($vuetify.breakpoint.lgAndUp ? 5 : 4)+1};`"
+              >
+                <v-toolbar flat>
+                  <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
+                    :class="$store.state.indicators.selectedIndicator.description ===
+                      $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
+                  >
+                    {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+                    {{
+                      queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
+                      || queryIndicatorObject.properties.indicatorObject.description)
+                    }}
+                    <div v-if="
+                      $store.state.indicators.selectedIndicator.description !==
+                      $store.state.indicators.selectedIndicator.indicatorName
+                      && $store.state.indicators.customAreaIndicator === null"
+                      class="subheading" style="font-size: 0.8em">
+                      {{ queryIndicatorObject
+                        && queryIndicatorObject.properties.indicatorObject.description }}
+                    </div>
+                  </v-toolbar-title>
+                  <v-toolbar-title
+                    v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
+                  >
+                    {{ firstIndicatorObject
+                      .description }}
+                    <div v-if="
+                      firstIndicatorObject.description !==
+                      firstIndicatorObject.indicatorName"
+                      class="subheading" style="font-size: 0.8em">
+                      {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
+                    </div>
+                  </v-toolbar-title>
+                  <v-tooltip
+                    v-if="$store.state.indicators.selectedIndicator"
+                    left
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        icon
+                        class="elevation-1 rounded-lg"
+                        style="position: absolute; right: 30px; width: 36px; height: 36px;"
+                        @click="dataPanelFullWidth
+                          ? setDataPanelWidth(false)
+                          : setDataPanelWidth(true)"
+                      >
+                        <v-icon>{{ dataPanelFullWidth ? 'mdi-close' : 'mdi-fullscreen' }}</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
+                  </v-tooltip>
+                </v-toolbar>
+
+                <data-panel
+                  v-if="$store.state.indicators.selectedIndicator
+                    || $store.state.features.featureFilters.indicators.length > 0"
+                  :key="panelKey"
+                  :newsBanner="$refs.newsBanner"
+                  :expanded="dataPanelFullWidth" class="px-5" />
+              </UiPanel>
             </div>
           </v-col>
         </v-row>
@@ -215,6 +239,8 @@ import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import UiPanel from '@/components/UiPanel.vue';
+import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -236,9 +262,9 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFiltersPanel,
-    IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
     ESABreadcrumbs,
+    UiPanel,
   },
   props: {
     source: String,
@@ -322,6 +348,8 @@ export default {
       this.$refs.globalHeader.showText = 'welcome';
       this.$refs.globalHeader.showInfoDialog = true;
     }
+    const { map } = getMapInstance('centerMap');
+    document.querySelector('eox-layerswitcher').attachTo(map);
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);

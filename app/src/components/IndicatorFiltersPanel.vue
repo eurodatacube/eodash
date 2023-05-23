@@ -1,15 +1,5 @@
 <template>
-  <eox-itemfilter
-    class="elevation-1 rounded"
-    :style="`
-      background: ${$vuetify.theme.currentTheme.background};
-      z-index: 11;
-      pointer-events: all;
-      height: 500px;
-      width: 300px;
-      margin: 1rem;
-    `"
-  >
+  <eox-itemfilter>
     <div slot="filterstitle">
       <h4>Filter</h4>
       <hr class="my-2" style="opacity: 0.4" />
@@ -68,30 +58,32 @@ export default {
       itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.searchItems = itemArray;
 
-      const EOxItemFilter = document.querySelector('eox-itemfilter');
-      const configs = {
-        esa: {
-          filterProperties: ['themes'],
-          aggregateResults: 'themes',
-          enableSearch: true,
-          onSelect: (item) => {
-            this.setFeatureFilter({
-              indicators: item.code,
-            });
+      this.$nextTick(() => {
+        const EOxItemFilter = document.querySelector('eox-itemfilter');
+        const configs = {
+          esa: {
+            filterProperties: ['themes'],
+            aggregateResults: 'themes',
+            enableSearch: true,
+            onSelect: (item) => {
+              this.setFeatureFilter({
+                indicators: item.code,
+              });
+            },
           },
-        },
-        gtif: {
-          filterProperties: ['themes'],
-          onSelect: (item) => {
-            this.setFeatureFilter({
-              indicators: item.code,
-            });
+          gtif: {
+            filterProperties: ['themes'],
+            onSelect: (item) => {
+              this.setFeatureFilter({
+                indicators: item.code,
+              });
+            },
+            exclusiveFilters: true,
           },
-          exclusiveFilters: true,
-        },
-      };
-      EOxItemFilter.config = configs[this.appConfig.id];
-      EOxItemFilter.apply(this.searchItems);
+        };
+        EOxItemFilter.config = configs[this.appConfig.id];
+        EOxItemFilter.apply(this.searchItems);
+      });
     },
   },
   watch: {
