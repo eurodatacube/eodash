@@ -2426,6 +2426,7 @@ export const globalIndicators = [
           },
         },
         display: {
+          processingEnabled: true,
           protocol: 'cog',
           id: 'REP1',
           sources: [

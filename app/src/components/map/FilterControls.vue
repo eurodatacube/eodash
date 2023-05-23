@@ -259,7 +259,7 @@
           </v-list>
         </v-menu>
       </div>
-      <v-row class="pa-3 justify-center" style="margin-top:10px;">
+      <v-row v-if="processEnabled" class="pa-3 justify-center" style="margin-top:10px;">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block">
@@ -330,6 +330,9 @@ export default {
     };
   },
   computed: {
+    processEnabled() {
+      return this.mergedConfigsData.processingEnabled;
+    },
     adminSelected() {
       let disabled = true;
       const adminName = this.adminLayer.get('name');
