@@ -117,6 +117,26 @@ export const baseLayers = Object.freeze({
     visible: false,
     protocol: 'xyz',
   },
+  s2AT2021: {
+    name: 'Sentinel-2 Autrian mosaic 2021',
+    attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
+    visible: false,
+    protocol: 'cog',
+    sources: [
+      { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/S2_Austrian_Mosaic_rendered_2021_COG.tif' },
+    ],
+    normalize: true,
+  },
+  s2AT2022: {
+    name: 'Sentinel-2 Autrian mosaic 2022',
+    attribution: '{ Contains modified Copernicus Sentinel data 2022 }',
+    visible: false,
+    protocol: 'cog',
+    sources: [
+      { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/S2_Austrian_Mosaic_rendered_2022_COG.tif' },
+    ],
+    normalize: true,
+  },
 });
 
 export const overlayLayers = Object.freeze({

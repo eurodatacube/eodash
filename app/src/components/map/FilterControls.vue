@@ -25,7 +25,7 @@
                 style="font-size:16px; color: #000000;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog :infoSource="filters[key].dataInfo"/>
+                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 </span>
               </v-col>
               <v-col
@@ -35,7 +35,7 @@
                 style="color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog :infoSource="filters[key].dataInfo"/>
+                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 <v-btn
                   v-if="!filters[key].header"
                   icon x-small color="primary"
@@ -77,6 +77,7 @@
               @change="(evt) => updateMapBool(evt, filters[key].id)"
             ></v-checkbox>
             <info-dialog
+              v-if="filters[key].dataInfo"
               style="margin-top:10px; margin-left:5px;"
               :infoSource="filters[key].dataInfo"
             />
@@ -107,6 +108,17 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
+          <v-select v-else-if="filters[key].type && filters[key].type=='select'"
+            class="pl-2 pr-2 ml-14 mr-14"
+            align="center"
+            v-model="filters[key].value"
+            :items="filters[key].entries"
+            @input="(evt) => updateVisualizationBand(evt, filters[key].id)"
+            dense
+            persistent-hint
+            single-line
+            return-object
+          ></v-select>
           <v-row
             v-else-if="filters[key].isCircular"
             class="mt-4 px-4"
@@ -537,6 +549,19 @@ export default {
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       // converts to 0/1
       this.variables[filterId] = +evt;
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
+    },
+    updateVisualizationBand(evt, filterId) {
+      if (Object.keys(this.filters).includes('visualization')) {
+        this.filters.visualization.range = evt.range;
+        [this.filters.visualization.min, this.filters.visualization.max] = evt.range;
+      }
+      [this.variables.visualizationMin, this.variables.visualizationMax] = evt.range;
+      this.variables[filterId] = evt.value;
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
       if (gtl) {
         gtl.updateStyleVariables(this.variables);
       }
