@@ -2818,17 +2818,24 @@ export const globalIndicators = [
         time: [''],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'LST',
-        },
-        display: {
+        display: [{
           protocol: 'xyz',
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
           name: 'Heat Explorer',
-          // legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
-        },
+        }, {
+          name: 'Heatmap areas',
+          id: 'heatmap_vector',
+          styleFile: 'data/gtif/data/heatmap_vector.json',
+          attribution: '{}',
+          visible: true,
+          protocol: 'vectortile',
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['gemeinde', 'mean_temp', 'min_temp', 'max_temp', 'percentage'],
+        }],
       },
     },
   },
