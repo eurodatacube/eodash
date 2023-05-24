@@ -58,48 +58,33 @@ export default {
   },
   props: {
     indicatorObject: Object,
-    adminFeature: Object,
-    adminLayer: Object,
+    selectedFeatures: Array[Object],
     updateQueryParametersTrigger: Number,
   },
   watch: {
-    adminFeature(feature) {
-      this.fetchCustomChartForFeature(feature);
+    selectedFeatures(features) {
+      this.fetchCustomChartForFeatures(features);
     },
     updateQueryParametersTrigger() {
-      // if selected admin feature, fetch custom chart
+      // if selected feature, fetch custom chart
       // (triggered by component for vector style)
-      const feature = this.$store.state.features.adminBorderFeatureSelected;
-      if (feature) {
-        this.fetchCustomChartForFeature(feature);
+      const features = this.$store.state.features.selectedFeatures;
+      if (features) {
+        this.fetchCustomChartForFeatures(features);
       }
     },
   },
   computed: {
     show() {
-      return this.adminLayer && this.adminFeature && this.indicatorObject
+      return this.selectedFeatures.length && this.indicatorObject
       && ['SOL1',
         // 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
-    adminFeatureName() {
-      const props = this.adminFeature.getProperties();
-      const key = Object.keys(props).find(
-        (k) => ['name', 'nuts_name', 'id'].includes(k.toLowerCase()),
-      );
-      if (props[key]) {
-        return props[key];
-      }
-      return null;
-    },
-    adminLayerName() {
-      return this.adminLayer.get('name');
-    },
   },
   data() {
     return {
-      overlayRows: [],
       GRStatistics: null,
       SRStatistics: null,
     };
@@ -107,26 +92,35 @@ export default {
   mounted() {
   },
   methods: {
-    fetchCustomChartForFeature(feature) {
+    fetchCustomChartForFeatures(features) {
       this.GRStatistics = null;
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
-      if (this.adminLayerName === 'Municipality (Gemeinde)') {
-        if (['AQA', 'AQB', 'AQC'].includes(this.indicatorObject.indicator)) {
-          const adminId = feature.get('id');
+      if (features.length > 0) {
+        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const expUrl = `${geodbEndpoint}${sourceLayer}?id_3=eq.${adminId}&select=${selected},time`;
+          const { adminZoneKey } = this.indicatorObject.display;
+          let { timeKey } = this.indicatorObject.display;
+          if (!timeKey) {
+            timeKey = 'time';
+          }
+
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
               const retrievedData = {};
               json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
+                DateTime.fromISO(a[timeKey]).toMillis() - DateTime.fromISO(b[timeKey]).toMillis()
               ));
               json.forEach((entry) => {
                 Object.keys(entry).forEach((key) => {
                   let value = entry[key];
-                  if (key === 'time') {
+                  if (key === timeKey) {
                     value = DateTime.fromISO(value);
                   }
                   if (key in retrievedData) {
@@ -138,7 +132,7 @@ export default {
               });
               const ind = {
                 ...this.indicatorObject,
-                time: retrievedData.time,
+                time: retrievedData[timeKey],
                 measurement: retrievedData[selected],
                 yAxis: selected,
               };
@@ -148,44 +142,16 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
-        if (this.indicatorObject.indicator === 'MOBI1') {
-          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const adminId = feature.get('id');
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_${sourceLayer}?adminzoneid=eq.${adminId}&select=${selected},time`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO(entry.time));
-                newData.measurement.push(entry[selected]);
-              });
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
-                yAxis: selected,
-              };
-              console.log(ind);
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
-            });
-        }
-      } else if (this.adminLayerName === 'Census Track (Zählsprengel)') {
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const description = 'Green roof potential area [m²]';
-          const adminId = feature.get('id');
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20`;
+          // ideally, we would iterate over all items from display if an array
+          const { adminZoneKey } = this.indicatorObject.display[0];
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -235,11 +201,16 @@ export default {
               );
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
-        } else if (['SOL2'].includes(this.indicatorObject.indicator)) {
+        }
+        if (['SOL2'].includes(this.indicatorObject.indicator)) {
           const description = 'PV Power potential [MWh]';
-          const adminId = feature.get('id');
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
           const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?zsp_id=eq.${adminId}&select=roof_area,pveppmwhhp`;
+          const { adminZoneKey } = this.indicatorObject.display[0];
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,pveppmwhhp,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
