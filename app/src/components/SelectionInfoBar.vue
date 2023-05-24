@@ -30,7 +30,7 @@
       align="center"
       class="pl-3 pr-3">
       <v-col cols="12" class="pa-0">
-      <v-list dense>
+      <v-list dense class="pa-0">
         <v-list-item-group
           color="primary"
         >
@@ -58,7 +58,7 @@
       align="center"
       class="pl-2 pr-2">
       <v-col cols="12" class="pa-0">
-        <v-list dense class="pl-0">
+        <v-list dense class="pa-0">
           <v-subheader class="text-body-1 font-weight-bold">Selected Features</v-subheader>
           <v-list-item-group
           v-if="selectedFeatures.length"
@@ -66,6 +66,7 @@
             <v-list-item
               v-for="(item, i) in selectedFeatures"
               :key="i"
+              class="pa-0"
             >
               <v-list-item-content>
                 <v-list-item-title class="text-body-0">

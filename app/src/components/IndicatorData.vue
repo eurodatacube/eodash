@@ -972,7 +972,24 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
+        } else if (['SOL1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          Object.keys(indicator.fetchedData).forEach((key, ind) => {
+            const data = {
+              x: indicator.fetchedData[key].measurement,
+              y: indicator.fetchedData[key].referenceValue,
+            };
+            datasets.push({
+              label: key,
+              fill: false,
+              data,
+              backgroundColor: refColors[ind],
+              borderColor: refColors[ind],
+              borderWidth: 1,
+              pointRadius: 2,
+            });
+          });
+        } else if (['SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = indicator.referenceValue.map((x, i) => (
             { x, y: indicator.measurement[i] }
