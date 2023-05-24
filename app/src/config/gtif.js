@@ -163,13 +163,13 @@ export const dataEndpoints = [
 
 export const layerNameMapping = Object.freeze({
   S2L2A_REP4: {
+    minZoom: 7,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    maxZoom: 18,
     subAoiTransparent: true,
   },
   S1GRD_REP4: {
+    minZoom: 7,
     layers: 'E8_SENTINEL1',
-    maxZoom: 18,
     subAoiTransparent: true,
   },
 });
@@ -183,7 +183,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: [9, 46, 18, 49.5],
+  bounds: [10, 46, 20, 49.5],
 });
 
 export const baseLayersLeftMap = [{
@@ -211,81 +211,21 @@ export const overlayLayersLeftMap = [
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
   protocol: 'GeoJSON',
   style: {
     fillColor: 'rgba(0, 0, 0, 0)',
-    color: '#006762',
+    strokeColor: '#006762',
   },
 };
 
 export const darkOverlayLayers = [{
   ...nutsStyle,
+  attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   name: 'NUTS L0',
-  id: 'nuts_0',
   url: 'data/gtif/data/AT_NUTS_L0.geojson',
-}];
-
-export const administrativeLayers = [];
-
-const completeAustriaAdministrativeLayers = [{
-  ...nutsStyle,
-  name: 'NUTS L0',
-  id: 'nuts_0',
-  url: 'data/gtif/data/AT_NUTS_L0.geojson',
-  minZoom: 4,
-  maxZoom: 7.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L1',
-  id: 'nuts_1',
-  url: 'data/gtif/data/AT_NUTS_L1.geojson',
-  minZoom: 7.5,
-  maxZoom: 8.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L2',
-  id: 'nuts_2',
-  url: 'data/gtif/data/AT_NUTS_L2.geojson',
-  minZoom: 8.5,
-  maxZoom: 9.5,
-}, {
-  ...nutsStyle,
-  name: 'NUTS L3',
-  id: 'nuts_3',
-  url: 'data/gtif/data/AT_NUTS_L3.geojson',
-  minZoom: 9.5,
-  maxZoom: 10.5,
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'District (Bezirk)',
-  id: 'bezirk',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_POLBEZ_20220101.fgb',
-  minZoom: 10.5,
-  maxZoom: 12,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  name: 'Municipality (Gemeinde)',
-  id: 'gemeinde',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_GEM_20220101.fgb',
-  minZoom: 12,
-  maxZoom: 13.5,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
-}, {
-  ...nutsStyle,
-  protocol: 'flatgeobuf',
-  id: 'zahlsprengel',
-  name: 'Census Track (Zählsprengel)',
-  url: '//eox-gtif-public.s3.eu-central-1.amazonaws.com/admin_borders/STATISTIK_AUSTRIA_ZSP_20220101.fgb',
-  minZoom: 13.5,
-  maxZoom: 18,
-  attribution: 'Data source: Statistics Austria — data.statistik.gv.at',
 }];
 
 export const defaultLayersDisplay = {
@@ -297,7 +237,6 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -583,9 +522,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   SOL1: {
     indicator: 'sus cities',
@@ -596,9 +532,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL2: {
     indicator: 'sus cities',
@@ -609,9 +542,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['zahlsprengel'],
-    },
   },
   SOL3: {
     indicator: 'urban trees',
@@ -752,9 +682,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQB: {
     ...mobilityTransitionDefaults,
@@ -763,9 +690,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQC: {
     ...mobilityTransitionDefaults,
@@ -774,9 +698,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQ2: {
     ...mobilityTransitionDefaults,
@@ -1036,6 +957,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Health Risk Index (ARI)',
         navigationDescription: 'Daily aggregated maps of ARI index',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1083,42 +1010,39 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Health Risk Index (ARI)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1135,6 +1059,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Coarse particulate matter (PM10)',
         navigationDescription: 'Daily aggregated maps of PM10 concentration',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1182,42 +1112,39 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'PM10',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1234,6 +1161,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Fine particulate matter (PM2.5)',
         navigationDescription: 'Daily aggregated maps of PM2.5 concentration',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1281,42 +1214,39 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
           },
           id: 'air_quality_new_id',
           name: 'Fine particulate matter (PM2.5)',
           adminZoneKey: 'id_3',
           parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1435,7 +1365,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Flux tower',
-          minZoom: 1,
         },
       },
     },
@@ -1537,37 +1466,37 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.get('fid');
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                let f = clamp((value - min) / (max - min), 0, 1);
-                if (['n_trajectories'].includes(dataSource)) {
-                  f = clamp((Math.log10(value) - Math.log10(min))
-                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+          style: {
+            getStrokeColor: (feature, store, options) => {
+              let color = '#000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.get('fid');
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  let f = clamp((value - min) / (max - min), 0, 1);
+                  if (['n_trajectories'].includes(dataSource)) {
+                    f = clamp((Math.log10(value) - Math.log10(min))
+                      / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  }
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
                 }
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
               }
-            }
-            return color;
+              return color;
+            },
+            fillColor: '#ffffff',
           },
           id: 'trajectories_on_edges_austria_december_first_week',
           adminZoneKey: 'unique_id',
           parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
           name: 'Human Mobility Patterns',
-          strokeOnly: true,
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
         },
@@ -1586,6 +1515,12 @@ export const globalIndicators = [
         indicator: 'AQ5',
         lastIndicatorValue: null,
         indicatorName: 'Nitrogen Dioxide (NO2)',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1612,14 +1547,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'AQ5',
           sources: [
@@ -1645,7 +1572,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Averaged NO2',
-          minZoom: 1,
         },
       },
     },
@@ -1662,6 +1588,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Dynamic human presence',
         navigationDescription: '',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -1696,45 +1628,42 @@ export const globalIndicators = [
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = feature.id_;
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                const { min, max, colormapUsed } = currPar;
-                // apply logarithmic scale specially for population
-                const f = clamp((Math.log10(value) - Math.log10(min))
-                  / (Math.log10(max) - Math.log10(min)), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  // apply logarithmic scale specially for population
+                  const f = clamp((Math.log10(value) - Math.log10(min))
+                    / (Math.log10(max) - Math.log10(min)), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
               }
-            }
-            return color;
+              return color;
+            },
+            strokeColor: 'rgba(0,0,0,0)',
           },
           opacity: 0.7,
           id: 'mobility_v1',
           adminZoneKey: 'adminzoneid',
           parameters: 'adminzoneid,users_count,users_density',
           name: 'Mobility Data',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
         },
       },
     },
@@ -1811,20 +1740,29 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'Green Roofs',
           STYLES: 'grimpactscore_filtered',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'grimpactscore_filtered',
-        },
+          adminZoneKey: 'zsp_id',
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -1896,20 +1834,29 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
+        display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           name: 'Solar Roofs',
           STYLES: 'PVEPPMwhHP',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'PVEPPMwhHP',
-        },
+          adminZoneKey: 'zsp_id',
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13.5,
+          selection: {
+            mode: 'multiple',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -2000,8 +1947,6 @@ export const globalIndicators = [
           name: 'AT_Rooftops_PV_bundesland_3857',
           STYLES: 'PVExisting',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{}',
           sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
           protocol: 'WMS',
@@ -2023,6 +1968,12 @@ export const globalIndicators = [
         indicator: 'BM1',
         lastIndicatorValue: null,
         indicatorName: 'Forest Change',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2034,14 +1985,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'BM1',
           sources: [
@@ -2051,7 +1994,6 @@ export const globalIndicators = [
           style: {
           },
           name: 'Forest Change',
-          minZoom: 1,
         },
       },
     },
@@ -2068,6 +2010,12 @@ export const globalIndicators = [
         indicator: 'BM2',
         lastIndicatorValue: null,
         indicatorName: 'Above Ground Biomass',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2093,14 +2041,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'BM2',
           sources: [
@@ -2130,7 +2070,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Above Ground Biomass',
-          minZoom: 1,
         },
       },
     },
@@ -2159,19 +2098,15 @@ export const globalIndicators = [
         yAxis: '',
         highlights: [
           {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+          {
             name: 'Mariazell',
             location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
           },
         ],
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM2',
           sources: [
@@ -2206,7 +2141,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest disturbance type',
-          minZoom: 1,
         },
       },
     },
@@ -2223,6 +2157,12 @@ export const globalIndicators = [
         indicator: 'FCM3',
         lastIndicatorValue: null,
         indicatorName: 'Annual forest mask',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2234,14 +2174,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM3',
           sources: [
@@ -2268,7 +2200,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Annual Forest Mask',
-          minZoom: 1,
         },
       },
     },
@@ -2285,6 +2216,12 @@ export const globalIndicators = [
         indicator: 'VTT1',
         lastIndicatorValue: null,
         indicatorName: 'Basal area',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2300,14 +2237,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT1',
           sources: [
@@ -2319,7 +2248,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Basal area',
-          minZoom: 1,
         },
       },
     },
@@ -2351,14 +2279,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT2',
           sources: [
@@ -2370,7 +2290,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Broadleaf proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2387,6 +2306,12 @@ export const globalIndicators = [
         indicator: 'VTT3',
         lastIndicatorValue: null,
         indicatorName: 'Coniferous proportion',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2402,14 +2327,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT3',
           sources: [
@@ -2421,7 +2338,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Coniferous proportion',
-          minZoom: 1,
         },
       },
     },
@@ -2438,6 +2354,12 @@ export const globalIndicators = [
         indicator: 'VTT4',
         lastIndicatorValue: null,
         indicatorName: 'Tree diameter',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2453,14 +2375,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT4',
           sources: [
@@ -2472,7 +2386,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree diameter',
-          minZoom: 1,
         },
       },
     },
@@ -2489,6 +2402,12 @@ export const globalIndicators = [
         indicator: 'VTT5',
         lastIndicatorValue: null,
         indicatorName: 'Tree height',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2504,14 +2423,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT5',
           sources: [
@@ -2523,7 +2434,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree height',
-          minZoom: 1,
         },
       },
     },
@@ -2540,6 +2450,12 @@ export const globalIndicators = [
         indicator: 'VTT6',
         lastIndicatorValue: null,
         indicatorName: 'Growing Stock Volume',
+        highlights: [
+          {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2555,14 +2471,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT6',
           sources: [
@@ -2574,7 +2482,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => date[0],
           name: 'Tree volume',
-          minZoom: 1,
         },
       },
     },
@@ -2600,6 +2507,10 @@ export const globalIndicators = [
         aoiID: 'AT',
         highlights: [
           {
+            name: 'Styria overview',
+            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+          },
+          {
             name: 'Oberhaag',
             location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
           },
@@ -2623,14 +2534,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'FCM1',
           sources: [
@@ -2655,7 +2558,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Forest change detections',
-          minZoom: 1,
         },
       },
     },
@@ -2677,6 +2579,12 @@ export const globalIndicators = [
           features: [],
         },
         lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         aoi: null,
         aoiID: 'Austria',
         time: [],
@@ -2737,6 +2645,7 @@ export const globalIndicators = [
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
               type: 'slider',
+              inverted: false,
               min: 0,
               max: 5000,
               value: 0,
@@ -2747,6 +2656,7 @@ export const globalIndicators = [
               id: 'energyGridDistance',
               dataInfo: 'EnergyGridDistance',
               type: 'slider',
+              inverted: true,
               min: 0,
               max: 25000,
               value: 25000,
@@ -2756,6 +2666,7 @@ export const globalIndicators = [
               label: 'Filter for ruggedness index',
               id: 'ruggedness',
               type: 'slider',
+              inverted: true,
               dataInfo: 'Ruggedness',
               min: 0,
               max: 1,
@@ -2771,15 +2682,8 @@ export const globalIndicators = [
             },
           },
         },
-        display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
+        display: [{
+          processingEnabled: true,
           protocol: 'cog',
           id: 'REP1',
           sources: [
@@ -2833,8 +2737,18 @@ export const globalIndicators = [
             ],
           },
           name: 'Wind Energy',
-          minZoom: 1,
-        },
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 12,
+          selection: {
+            mode: 'single',
+          },
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
@@ -2850,6 +2764,12 @@ export const globalIndicators = [
         indicator: 'REP2',
         lastIndicatorValue: null,
         indicatorName: 'Solar Energy',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -2866,12 +2786,36 @@ export const globalIndicators = [
             solar: {
               display: true,
               dataInfo: 'GlobalHorizontalIrradiation',
-              label: 'Global Horizontal Irradiation (kWh/m²/yr)',
+              label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
-              min: 300,
-              max: 1400,
-              range: [300, 1400],
+              min: 0,
+              max: 8,
+              range: [2, 4],
+              changeablaDataset: {
+                items: [
+                  {
+                    description: 'Annual',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Fall',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Fall_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Spring',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Summer',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif',
+                  },
+                  {
+                    description: 'Winter',
+                    url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif',
+                  },
+                ],
+              },
             },
             aspect: {
               display: true,
@@ -2921,18 +2865,10 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'REP2',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/GHI_Austria_COG_3857_clipped_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Aspect_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
@@ -2941,8 +2877,8 @@ export const globalIndicators = [
           ],
           style: {
             variables: {
-              solarMin: 300,
-              solarMax: 1400,
+              solarMin: 2,
+              solarMax: 4,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -2958,8 +2894,8 @@ export const globalIndicators = [
               'case',
               [
                 'all',
-                ['>', ['band', 1], 0],
-                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
+                ['>', ['band', 1], 1],
+                // ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['any',
                   ['between',
                     ['band', 2],
@@ -2983,8 +2919,8 @@ export const globalIndicators = [
               [
                 'interpolate',
                 ['linear'],
-                ['band', 1],
-                ...getColorStops('rdbu', 1100, 1300, 50, false),
+                normalize(['band', 1], 'solarMin', 'solarMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -2992,7 +2928,6 @@ export const globalIndicators = [
             ],
           },
           name: 'Solar Energy',
-          minZoom: 1,
         },
       },
     },
@@ -3091,6 +3026,12 @@ export const globalIndicators = [
         lastIndicatorValue: null,
         indicatorName: 'Heat Explorer',
         eoSensor: '',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -3105,16 +3046,7 @@ export const globalIndicators = [
           sourceLayer: 'LST',
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           protocol: 'xyz',
-          minZoom: 1,
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
