@@ -4,6 +4,8 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
+import GeoJSON from 'ol/format/GeoJSON';
+import WKB from 'ol/format/WKB';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -227,7 +229,7 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
   protocol: 'WMS',
   dateFormatFunction: shTimeFunction,
   format: 'image/png',
@@ -280,6 +282,124 @@ const mobilityTransitionDefaults = {
     ...baseLayersLeftMap,
     baseLayers.dsr_schnelllade_10km,
   ],
+};
+
+const wkb = new WKB();
+const geojsonFormat = new GeoJSON();
+const trucksAreaIndicator = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'time,geometry',
+    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    if (Array.isArray(responseJson[0].src)) {
+      const data = responseJson[0].src;
+      const datesObj = {};
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+        ? 1
+        : -1));
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((row) => {
+        // for each entry, extract just those points that actually intersect the area
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
+        let intersectingFtrs = 0;
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              intersectingFtrs += 1;
+            }
+          });
+        }
+        if (intersectingFtrs > 0) {
+          // as data is structured one entry per country, we need to aggregate on date
+          if (row.time in datesObj) {
+            datesObj[row.time] += intersectingFtrs;
+          } else {
+            datesObj[row.time] = intersectingFtrs;
+          }
+        }
+      });
+      Object.entries(datesObj).forEach((entry) => {
+        const [key, value] = entry;
+        // convert to structure indicatorData expects
+        newData.time.push(DateTime.fromISO(key));
+        newData.measurement.push(value);
+      });
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    }
+    return null;
+  },
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+};
+
+const trucksFeatures = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'geometry,time',
+    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND time=\'{featuresTime}\'',
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    const ftrs = [];
+    const data = responseJson[0].src;
+    if (Array.isArray(data)) {
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((ftr) => {
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              const { geometry, ...properties } = ftr;
+              ftrs.push({
+                type: 'Feature',
+                properties,
+                geometry: singleGeometry,
+              });
+            }
+          });
+        }
+      });
+    }
+    const ftrColl = {
+      type: 'FeatureCollection',
+      features: ftrs,
+    };
+    return ftrColl;
+  },
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}T00:00:00`,
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
 
 export const indicatorsDefinition = Object.freeze({
@@ -661,9 +781,139 @@ export const indicatorsDefinition = Object.freeze({
     disableCSV: true,
     alternateDataPath: './eodash-data/internal/',
   },
+  E12c: {
+    indicatorSummary: 'Number of Trucks - highways',
+    themes: ['mobility-transition'],
+    customAreaIndicator: true,
+    customAreaFeatures: true,
+    story: '/data/gtif/markdown/E12c',
+  },
+  E12d: {
+    indicatorSummary: 'Number of Trucks, main roads',
+    themes: ['mobility-transition'],
+    customAreaIndicator: true,
+    customAreaFeatures: true,
+    story: '/data/gtif/markdown/E12c',
+  },
 });
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks',
+        indicator: 'E12c',
+        lastIndicatorValue: 'Moving truck detections',
+        navigationDescription: 'Highways',
+        indicatorName: 'Moving truck detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: 'primary',
+        eoSensor: null,
+        aoiID: 'W2',
+        time: getDailyDates('2020-01-01', '2021-12-31'),
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          maxZoom: 18,
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'TRUCK_REPROCESSING_MOTORWAY',
+          minZoom: 1,
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks',
+        indicator: 'E12d',
+        lastIndicatorValue: 'Regional Truck Traffic Primary',
+        indicatorName: 'Moving truck detections',
+        navigationDescription: 'Primary Roads',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: 'primary',
+        eoSensor: null,
+        aoiID: 'W3',
+        time: getDailyDates('2020-01-01', '2021-12-31'),
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          maxZoom: 18,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'TRUCK_REPROCESSING_PRIMARY',
+          minZoom: 1,
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
