@@ -1742,7 +1742,7 @@ export const globalIndicators = [
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Green Roofs',
+          name: 'GTIF_AT_Rooftops_3857',
           STYLES: 'grimpactscore_filtered',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
           attribution: '{}',
@@ -1836,7 +1836,7 @@ export const globalIndicators = [
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Solar Roofs',
+          name: 'GTIF_AT_Rooftops_3857',
           STYLES: 'PVEPPMwhHP',
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
           attribution: '{}',
