@@ -613,15 +613,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.terrainLight],
   },
-  SOL10: {
-    indicator: 'solar',
-    clas: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.terrainLight],
-  },
   LST: {
     indicator: 'Heat Explorer',
     class: 'air',
@@ -1690,7 +1681,7 @@ export const globalIndicators = [
         ],
         wmsStyles: {
           dataInfo: 'GreenRoofs',
-          sourceLayer: 'GTIF_AT_Rooftops_3857',
+          sourceLayer: 'Green Roofs',
           items: [
             {
               id: 'grimpactscore_filtered',
@@ -1698,7 +1689,7 @@ export const globalIndicators = [
               markdown: 'SOL1_GRImpact',
             },
             {
-              id: 'lst2021',
+              id: 'lst30mme',
               description: 'Max Land Surface Temperature',
               markdown: 'SOL_temp',
             },
@@ -1713,7 +1704,7 @@ export const globalIndicators = [
               markdown: '',
             },
             {
-              id: 'grpotpar20',
+              id: 'grpotare20',
               description: 'Percentage GR-Potential Area in relation to Total Roof Area',
               markdown: '',
             },
@@ -1721,11 +1712,11 @@ export const globalIndicators = [
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
+          name: 'Green Roofs',
           STYLES: 'grimpactscore_filtered',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops.sld',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v1.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'grimpactscore_filtered',
@@ -1789,7 +1780,7 @@ export const globalIndicators = [
         ],
         wmsStyles: {
           dataInfo: 'SolarRoofs',
-          sourceLayer: 'GTIF_AT_Rooftops_3857',
+          sourceLayer: 'Solar Roofs',
           items: [
             {
               id: 'PVEPPMwhHP',
@@ -1815,11 +1806,11 @@ export const globalIndicators = [
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'GTIF_AT_Rooftops_3857',
+          name: 'Solar Roofs',
           STYLES: 'PVEPPMwhHP',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_3857',
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops.sld',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops_v1.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: 'PVEPPMwhHP',
@@ -1830,7 +1821,7 @@ export const globalIndicators = [
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
           visible: true,
-          minZoom: 13.5,
+          minZoom: 13,
           selection: {
             mode: 'multiple',
           },
@@ -1885,52 +1876,6 @@ export const globalIndicators = [
 
         display: {
 
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'PV Detections',
-        indicator: 'SOL10',
-        lastIndicatorValue: null,
-        indicatorName: 'PV Detections',
-        navigationDescription: 'Preliminary detections',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        wmsStyles: {
-          sourceLayer: 'AT_Rooftops_PV_bundesland_3857',
-          items: [
-            {
-              id: 'PVExisting',
-              description: 'PV Detections',
-              markdown: 'SOL10_PVExisting',
-            },
-          ],
-        },
-        display: {
-          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'AT_Rooftops_PV_bundesland_3857',
-          STYLES: 'PVExisting',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857',
-          attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/preliminary_solar_rooftops.sld',
-          protocol: 'WMS',
-          exceptions: 'application/vnd.ogc.se_inimage',
-          selectedStyle: 'PVExisting',
         },
       },
     },
