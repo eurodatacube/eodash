@@ -457,7 +457,7 @@ export default {
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }
-      return !this.showMap || (this.showMap && this.hasSelectionEnabled);
+      return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
     },
     hasSelectionEnabled() {
       return this.mergedConfigsData.length

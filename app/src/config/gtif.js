@@ -786,14 +786,14 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     customAreaIndicator: true,
     customAreaFeatures: true,
-    story: '/eodash-data/stories/E12c',
+    story: '/data/gtif/markdown/E12c',
   },
   E12d: {
     indicatorSummary: 'Number of Trucks, main roads',
     themes: ['mobility-transition'],
     customAreaIndicator: true,
     customAreaFeatures: true,
-    story: '/eodash-data/stories/E12d',
+    story: '/data/gtif/markdown/E12c',
   },
 });
 
