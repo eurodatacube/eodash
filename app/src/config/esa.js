@@ -10,6 +10,7 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { E13bRemovedFtrs } from '@/config/otherdata';
 import availableDates from '@/config/data_dates.json';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
+import colormap from 'colormap';
 
 import {
   statisticalApiHeaders,
@@ -30,6 +31,23 @@ export const dataEndpoints = [
     provider: './data/internal/pois_eodash.json',
   },
 ];
+
+// Helper function to create colorscales for cog style rendering
+function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -656,6 +674,11 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/OW-OW',
     disableCSV: true,
   },
+  Polartep_S1: {
+    indicatorSummary: 'Polartep demo',
+    themes: ['water'],
+    story: '/eodash-data/stories/Polartep_S1',
+  },
   /*
   GSA: {
     indicatorSummary: 'Mobility',
@@ -890,6 +913,66 @@ export const globalIndicators = [
     },
   },
   */
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Polartep',
+        indicator: 'Polartep_S1',
+        indicatorName: 'Polartep',
+        presetView: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-12.14843 70.31497,7.18750 70.31497,7.18750 61.0953,-12.14843 61.0953,-12.14843 70.31497))').toJson(),
+          }],
+        },
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: [
+          ['20230524T04:55:52Z', 's1a-iw-grd-vh-20230524t045552-20230524t045619-048671-05da94-002_COG.tiff'],
+        ],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/{time}' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          name: 'Polartep S1',
+          style: {
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['>', ['band', 1], 0],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 0, 400, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          minZoom: 1,
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

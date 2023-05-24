@@ -135,6 +135,11 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/Flying_Planes',
         },
       ],
+      polartep: [
+        {
+          poi: 'World-Polartep_S1',
+        },
+      ],
       test: [
         {
           poi: 'NO3-E1b',

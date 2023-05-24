@@ -194,10 +194,12 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const source = new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
+      interpolate: false,
     });
     const wgTileLayer = new WebGLTileLayer({
       source,
       style: config.style,
+      name: config.name,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     wgTileLayer.set('id', config.id);
