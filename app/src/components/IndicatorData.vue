@@ -975,16 +975,17 @@ export default {
         } else if (['SOL1'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           Object.keys(indicator.fetchedData).forEach((key, ind) => {
-            const data = {
+            const data = [{
               x: indicator.fetchedData[key].measurement,
               y: indicator.fetchedData[key].referenceValue,
-            };
+            }];
+            const index = ind % refColors.length;
             datasets.push({
               label: key,
               fill: false,
               data,
-              backgroundColor: refColors[ind],
-              borderColor: refColors[ind],
+              backgroundColor: refColors[index],
+              borderColor: refColors[index],
               borderWidth: 1,
               pointRadius: 2,
             });
