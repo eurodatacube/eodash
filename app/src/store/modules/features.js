@@ -71,10 +71,13 @@ const getters = {
           archived: f.properties.indicatorObject.description
             && (f.properties.indicatorObject.description.includes('(archived)')),
           code: f.properties.indicatorObject.indicator,
+          description: f.properties.indicatorObject.description,
           indicator: f.properties.indicatorObject.description,
+          region: f.properties.indicatorObject.region,
           themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].themes,
+          title: f.properties.indicatorObject.indicatorName,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,

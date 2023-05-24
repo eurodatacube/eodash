@@ -246,7 +246,6 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
-import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import UiPanel from '@/components/UiPanel.vue';

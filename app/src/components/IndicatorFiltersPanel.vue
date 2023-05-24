@@ -52,24 +52,21 @@ export default {
           .filter((i) => !i.dummyFeature)
           .filter(
             (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
-          )
-          .map((i) => ({
-            ...i,
-            name: i.indicator,
-          })),
+          ),
       ];
-      itemArray.sort((a, b) => (a.name.localeCompare(b.name)));
-      itemArray.sort((a, b) => (b.filterPriority || 0) - (a.filterPriority || 0));
       this.searchItems = itemArray;
 
       this.$nextTick(() => {
         const EOxItemFilter = document.querySelector('eox-itemfilter');
         const configs = {
           esa: {
-            filterProperties: ['themes'],
+            titleProperty: 'title',
+            filterProperties: ['themes', 'region'],
             aggregateResults: 'themes',
             enableSearch: true,
+            enableHighlighting: true,
             onSelect: (item) => {
+              console.log(this.getGroupedFeatures[0].properties.indicatorObject);
               this.setFeatureFilter({
                 indicators: item.code,
               });
@@ -81,8 +78,12 @@ export default {
                 this.setSelectedIndicator(null);
               }
             },
+            fuseConfig: {
+              keys: ['title', 'description', 'themes', 'region'],
+            },
           },
           gtif: {
+            titleProperty: 'title',
             filterProperties: ['themes'],
             onSelect: (item) => {
               this.setFeatureFilter({
@@ -97,6 +98,9 @@ export default {
               }
             },
             exclusiveFilters: true,
+            fuseConfig: {
+              keys: ['title'],
+            },
           },
         };
         EOxItemFilter.config = configs[this.appConfig.id];
