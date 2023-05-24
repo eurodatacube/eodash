@@ -213,11 +213,11 @@
               <UiPanel
                 left
                 title="Filter"
-                :style="`grid-area: 1 / 1 / 4 / 2;`"
+                :style="`grid-area: 1 / 1 / 5 / 2;`"
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
-              <UiPanel
+              <!-- <UiPanel
                 left
                 title="Map Layers"
                 :style="`grid-area: 4 / 1 / 6 / 2;`"
@@ -227,7 +227,7 @@
                 sortBy="zIndex"
                 layerTitle="name"
                 ></eox-layerswitcher>
-              </UiPanel>
+              </UiPanel> -->
             </div>
           </v-col>
         </v-row>
@@ -359,7 +359,10 @@ export default {
     }
     if (this.$route.name !== 'demo') {
       const { map } = getMapInstance('centerMap');
-      document.querySelector('eox-layerswitcher').attachTo(map);
+      const mapElement = document.querySelector('eox-layerswitcher');
+      if (mapElement) {
+        document.querySelector('eox-layerswitcher').attachTo(map);
+      }
     }
   },
   beforeDestroy() {
