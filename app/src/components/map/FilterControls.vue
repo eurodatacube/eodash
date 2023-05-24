@@ -420,7 +420,7 @@ export default {
           currentKey = keyRenaming[key];
         }
         if (item.type && item.type === 'boolfilter') {
-          p = `${currentKey}=${item.value}`;
+          p = `${currentKey}=${item.value ? 1 : 0}`;
         } else if (item.range && item.range.length === 2) {
           p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
         } else if (item.type && item.type === 'slider') {
