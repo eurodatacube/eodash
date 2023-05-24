@@ -1,13 +1,14 @@
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
+import ClusterSource from 'ol/source/Cluster';
 import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import WMTSCapabilities from 'ol/format/WMTSCapabilities';
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
 import countries from '@/assets/countries.json';
 import {
-  Fill, Stroke, Style, Circle,
+  Fill, Stroke, Style, Circle, Text,
 } from 'ol/style';
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
@@ -356,17 +357,71 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     };
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-
+    const source = new VectorSource(vectorSourceOpts);
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
       updateOpacityOnZoom: false,
-      source: new VectorSource(vectorSourceOpts),
+      source,
       style: dynamicStyleFunction,
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     }));
+    if (config.clusterLayer) {
+      const clusterSource = new ClusterSource({
+        ...vectorSourceOpts,
+        source,
+        distance: 50,
+        geometryFunction: (feature) => {
+          const geom = feature.getGeometry();
+          let polygon = geom;
+          if (geom.getType() === 'Point') {
+            return geom;
+          }
+          if (geom.getType() === 'MultiPolygon') {
+            polygon = geom.getPolygon(0);
+          }
+          return polygon.getInteriorPoint();
+        },
+      });
+      const styleCache = {};
+      layers.push(new VectorLayer({
+        name: `${config.name}_clustered`,
+        zIndex: options.zIndex,
+        updateOpacityOnZoom: false,
+        source: clusterSource,
+        style: (feature) => {
+          const size = feature.get('features').length;
+          let style = styleCache[size];
+          if (!style) {
+            style = new Style({
+              image: new Circle({
+                radius: 20,
+                stroke: new Stroke({
+                  color: '#fff',
+                }),
+                fill: new Fill({
+                  color: store.state.config.appConfig.branding.primaryColor,
+                }),
+              }),
+              text: new Text({
+                text: size.toString(),
+                font: '16px Calibri,sans-serif',
+                fill: new Fill({
+                  color: '#fff',
+                }),
+              }),
+            });
+            styleCache[size] = style;
+          }
+          return style;
+        },
+        // intentionally setting minZoom as maxZoom to distinguish from normal layer
+        maxZoom: config.minZoom,
+        opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
+      }));
+    }
   }
   if (config.protocol === 'flatgeobuf') {
     const vectorSourceOpts = {
@@ -574,6 +629,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       name: config.name,
       zIndex: options.zIndex,
       attribution: config.attribution,
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
       maplibreOptions: {
         style: config.maplibreStyles,
       },
