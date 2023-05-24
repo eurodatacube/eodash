@@ -29,6 +29,7 @@ export default {
     ...mapState('features', ['allFeatures']),
     ...mapGetters('features', [
       'getIndicators',
+      'getGroupedFeatures',
     ]),
   },
   created() {
@@ -41,6 +42,9 @@ export default {
   methods: {
     ...mapMutations('features', {
       setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
     getSearchItems() {
       const itemArray = [
@@ -69,6 +73,13 @@ export default {
               this.setFeatureFilter({
                 indicators: item.code,
               });
+              if (this.getGroupedFeatures[0].properties.indicatorObject.siteName === 'global') {
+                this.setSelectedIndicator(
+                  this.getGroupedFeatures[0].properties.indicatorObject,
+                );
+              } else {
+                this.setSelectedIndicator(null);
+              }
             },
           },
           gtif: {
@@ -77,6 +88,13 @@ export default {
               this.setFeatureFilter({
                 indicators: item.code,
               });
+              if (this.getGroupedFeatures[0].properties.indicatorObject.siteName === 'global') {
+                this.setSelectedIndicator(
+                  this.getGroupedFeatures[0].properties.indicatorObject,
+                );
+              } else {
+                this.setSelectedIndicator(null);
+              }
             },
             exclusiveFilters: true,
           },
