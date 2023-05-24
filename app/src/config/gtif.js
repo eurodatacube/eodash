@@ -2825,7 +2825,7 @@ export const globalIndicators = [
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
           name: 'Heat Explorer',
         }, {
-          name: 'Heatmap areas',
+          name: 'Communities',
           id: 'heatmap_vector',
           styleFile: 'data/gtif/data/heatmap_vector.json',
           attribution: '{}',
