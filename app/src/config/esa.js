@@ -678,6 +678,7 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Polartep demo',
     themes: ['water'],
     story: '/eodash-data/stories/Polartep_S1',
+    disableCompare: true,
   },
   Polartep_SeaIce: {
     indicatorSummary: 'Polartep demo',
@@ -953,7 +954,11 @@ export const globalIndicators = [
         },
         aoiID: 'World',
         time: [
-          ['20230524T04:55:52Z', 's1a-iw-grd-vh-20230524t045552-20230524t045619-048671-05da94-002_COG.tiff'],
+          ['20230524T04:55:52Z', 's1a-iw-grd-vh-20230524t045552-20230524t045619-048671-05da94-002_COG.tiff', 'Sentinel-1 IW VH'],
+          ['20230524T17:52:21Z', 's1a-iw-grd-vv-20230524t175221-20230524t175248-048679-05dad0-001_COG.tiff', 'Sentinel-1 IW VV'],
+          ['20230524T17:52:21Z', 's1a-iw-grd-vh-20230524t175221-20230524t175248-048679-05dad0-002_COG.tiff', 'Sentinel-1 IW VH'],
+          ['20230524T17:53:20Z', 's1a-iw-grd-vv-20230524t175320-20230524t175344-048679-05dad0-001_COG.tiff', 'Sentinel-1 IW VV'],
+          ['20230524T17:53:20Z', 's1a-iw-grd-vh-20230524t175320-20230524t175344-048679-05dad0-002_COG.tiff', 'Sentinel-1 IW VH'],
         ],
         inputData: [''],
         yAxis: '',
@@ -963,7 +968,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/{time}' },
           ],
           dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss'),
+          labelFormatFunction: (date) => `${DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss')}-${date[2]}`,
           name: 'Polartep S1',
           style: {
             color: [
