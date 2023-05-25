@@ -2852,6 +2852,7 @@ export const globalIndicators = [
           visible: true,
           protocol: 'vectortile',
           tooltip: {
+            // trigger: 'singleclick',
             tooltipFormatFunction: (feature) => [
               `${feature.get('gemeinde')}`,
               `Mean temperature: ${Number(feature.get('mean_temp')).toFixed(2)}°C`,
