@@ -1992,7 +1992,6 @@ export const globalIndicators = [
           id: 'FCM2',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
           ],
           style: {
             color: [
