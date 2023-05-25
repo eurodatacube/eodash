@@ -2417,11 +2417,21 @@ export const globalIndicators = [
             },
             settlementDistance: {
               display: false,
-              label: 'Distance to settlements [m]',
+              label: 'Distance to settlements WSF [m]',
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
               type: 'slider',
               inverted: false,
+              min: 0,
+              max: 5000,
+              value: 0,
+            },
+            cadasterDistance: {
+              display: false,
+              label: 'Distance to settlements Austrian Cadaster [m]',
+              id: 'cadasterDistance',
+              // dataInfo: 'CadasterDistance',
+              type: 'slider',
               min: 0,
               max: 5000,
               value: 0,
@@ -2470,6 +2480,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/CadasterDistance_COG_v2.tif' },
           ],
           style: {
             variables: {
@@ -2483,6 +2494,7 @@ export const globalIndicators = [
               energyGridDistance: 25000,
               protected: 0,
               ruggedness: 1,
+              cadasterDistance: 0,
             },
             color: [
               'case',
@@ -2495,6 +2507,7 @@ export const globalIndicators = [
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
+                ['>', ['band', 8], ['var', 'cadasterDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
