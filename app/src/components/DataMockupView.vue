@@ -26,24 +26,24 @@
               </thead>
               <tbody>
                 <tr>
-                  <td> Maximum Annual Land Surface Temperature (2021)</td>
-                  <td> {{ v.lst2021 }} degrees C </td>
+                  <td> Maximum Annual Land Surface Temperature</td>
+                  <td> {{ v.LST30mME }} degrees C </td>
                 </tr>
                 <tr>
                   <td> Total Roof area</td>
-                  <td> {{ v.roofArea }} m² </td>
+                  <td> {{ v.Roof_Area }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope &lt; 9 degree</td>
-                  <td> {{ v.grpotare9 }} m² </td>
+                  <td> Existing Green Roof area with a slope &lt; 5 degree</td>
+                  <td> {{ v.GRPotAre5 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope ≥ 9 and &lt; 15 degree</td>
-                  <td> {{ v.grpotare15 }} m² </td>
+                  <td> Existing Green Roof area with a slope ≥ 5 and &lt; 20 degree</td>
+                  <td> {{ v.GRPotAre20 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope ≥ 15 and &lt; 20 degree</td>
-                  <td> {{ v.grpotare20 }} m² </td>
+                  <td> Existing Green Roof area with a slope ≥ 20 and &lt; 45 degree</td>
+                  <td> {{ v.GRPotAre45 }} m² </td>
                 </tr>
                 <tr>
                   <td>Unused Potential Area for Green Roof</td>
@@ -160,7 +160,7 @@ export default {
           const { sourceLayer } = this.indicatorObject.wmsStyles;
           // ideally, we would iterate over all items from display if an array
           const { adminZoneKey } = this.indicatorObject.display[0];
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,grimpscore,lst2021,grpotare9,grpotare15,grpotare20,${adminZoneKey}`;
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=Roof_Area,LST30mME,GRPotAre5,GRPotAre20,GRPotAre45,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -170,20 +170,20 @@ export default {
                   groupedBySelection, entry[adminZoneKey],
                 )) {
                   groupedBySelection[entry[adminZoneKey]] = {
-                    roofArea: 0,
-                    grpotare9: 0,
-                    grpotare15: 0,
-                    grpotare20: 0,
-                    lst2021: 0,
+                    Roof_Area: 0,
+                    GRPotAre5: 0,
+                    GRPotAre20: 0,
+                    GRPotAre45: 0,
+                    LST30mME: 0,
                     count: 0,
                   };
                 }
                 // compute statistics
-                groupedBySelection[entry[adminZoneKey]].lst2021 += entry.lst2021;
-                groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area;
-                groupedBySelection[entry[adminZoneKey]].grpotare9 += entry.grpotare9;
-                groupedBySelection[entry[adminZoneKey]].grpotare15 += entry.grpotare15;
-                groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
+                groupedBySelection[entry[adminZoneKey]].LST30mME += entry.LST30mME;
+                groupedBySelection[entry[adminZoneKey]].Roof_Area += entry.Roof_Area;
+                groupedBySelection[entry[adminZoneKey]].GRPotAre5 += entry.GRPotAre5;
+                groupedBySelection[entry[adminZoneKey]].GRPotAre20 += entry.GRPotAre20;
+                groupedBySelection[entry[adminZoneKey]].GRPotAre45 += entry.GRPotAre45;
                 groupedBySelection[entry[adminZoneKey]].count += 1;
               });
               const statistics = {};
@@ -196,22 +196,22 @@ export default {
               };
               Object.keys(groupedBySelection).forEach((key) => {
                 const {
-                  grpotare9, grpotare15, grpotare20, roofArea,
+                  GRPotAre5, GRPotAre20, GRPotAre45, Roof_Area,
                 } = groupedBySelection[key];
-                groupedBySelection[key].lst2021 /= groupedBySelection[key].count;
-                const { lst2021 } = groupedBySelection[key];
-                const unused = (1 - (grpotare9 + grpotare15 + grpotare20) / roofArea) * 100;
+                groupedBySelection[key].LST30mME /= groupedBySelection[key].count;
+                const { LST30mME } = groupedBySelection[key];
+                const unused = (1 - (GRPotAre5 + GRPotAre20 + GRPotAre45) / Roof_Area) * 100;
                 statistics[key] = {
-                  lst2021: lst2021.toFixed(1),
-                  roofArea: roofArea.toFixed(0),
-                  grpotare9: grpotare9.toFixed(0),
-                  grpotare15: grpotare15.toFixed(0),
-                  grpotare20: grpotare20.toFixed(0),
+                  LST30mME: LST30mME.toFixed(1),
+                  Roof_Area: Roof_Area.toFixed(0),
+                  GRPotAre5: GRPotAre5.toFixed(0),
+                  GRPotAre20: GRPotAre20.toFixed(0),
+                  GRPotAre45: GRPotAre45.toFixed(0),
                   unused: unused.toFixed(2),
                 };
                 ind.fetchedData[key] = {
-                  measurement: [grpotare9 + grpotare15 + grpotare20],
-                  referenceValue: [roofArea],
+                  measurement: [GRPotAre5 + GRPotAre20 + GRPotAre45],
+                  referenceValue: [Roof_Area],
                 };
               });
               this.GRStatistics = statistics;
