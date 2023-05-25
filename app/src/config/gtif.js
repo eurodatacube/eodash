@@ -2308,7 +2308,7 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
-        display: {
+        display: [{
           protocol: 'cog',
           id: 'FCM1',
           sources: [
@@ -2334,6 +2334,16 @@ export const globalIndicators = [
           },
           name: 'Forest change detections',
         },
+        {
+          protocol: 'GeoJSON',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/AT_biomass_loss.geojson',
+          name: 'Biomass loss',
+          style: {
+            strokeColor: 'rgba(0,0,0,0.9)',
+            fillColor: 'rgba(0,0,0,0.0001)',
+          },
+          minZoom: 1,
+        }],
       },
     },
   },
