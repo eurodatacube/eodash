@@ -2838,17 +2838,30 @@ export const globalIndicators = [
         time: [''],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'LST',
-        },
-        display: {
+        display: [{
           protocol: 'xyz',
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
           name: 'Heat Explorer',
-          // legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
-        },
+        }, {
+          name: 'Communities',
+          id: 'heatmap_vector',
+          styleFile: 'data/gtif/data/heatmap_vector.json',
+          attribution: '{}',
+          visible: true,
+          protocol: 'vectortile',
+          tooltip: {
+            // trigger: 'singleclick',
+            tooltipFormatFunction: (feature) => [
+              `${feature.get('gemeinde')}`,
+              `Mean temperature: ${Number(feature.get('mean_temp')).toFixed(2)}°C`,
+              `Maximum temperature: ${Number(feature.get('max_temp')).toFixed(2)}°C`,
+              `Minimum temperature: ${Number(feature.get('min_temp')).toFixed(2)}°C`,
+              `Population exposed to surface temperature >35°C: ${Number(feature.get('percentage')).toFixed(2)}%`,
+            ],
+          },
+        }],
       },
     },
   },
