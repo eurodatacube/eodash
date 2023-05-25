@@ -106,7 +106,7 @@ export default {
             let rows = [];
             if (config?.tooltip?.tooltipFormatFunction) {
               // has to return a list of rows
-              rows = config?.tooltip?.tooltipFormatFunction(feature);
+              rows = config?.tooltip?.tooltipFormatFunction(feature, config);
             } else {
               const props = feature.getProperties();
               // some indicators have 'allowedParameters', which define the keys to display
