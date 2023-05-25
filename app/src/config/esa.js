@@ -679,6 +679,22 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['water'],
     story: '/eodash-data/stories/Polartep_S1',
   },
+  Polartep_SeaIce: {
+    indicatorSummary: 'Polartep demo',
+    themes: ['water'],
+    story: '/eodash-data/stories/Polartep_SeaIce',
+  },
+  N12: {
+    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
+    themes: ['water'],
+    baseLayers: cloudlessBaseLayerDefault,
+    story: '/eodash-data/stories/N12',
+  },
+  SITI: {
+    indicatorSummary: 'SITI',
+    story: '/eodash-data/stories/SITI',
+    themes: ['water'],
+  },
   /*
   GSA: {
     indicatorSummary: 'Mobility',
@@ -920,7 +936,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Polartep',
+        description: 'Polartep Sentinel 1',
         indicator: 'Polartep_S1',
         indicatorName: 'Polartep',
         presetView: {
@@ -969,6 +985,133 @@ export const globalIndicators = [
             ],
           },
           minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Concentration geometries',
+        indicator: 'Polartep_SeaIce',
+        indicatorName: 'Polartep_SeaIce',
+        presetView: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-12.14843 70.31497,7.18750 70.31497,7.18750 61.0953,-12.14843 61.0953,-12.14843 70.31497))').toJson(),
+          }],
+        },
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          protocol: 'GeoJSON',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/s411_seaice_concentration.geojson',
+          name: 'Sea Ice Concentration detections',
+          style: {
+            strokeColor: 'rgba(0,0,0,0.8)',
+            fillColor: 'rgba(0,0,0,0.0)',
+          },
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sea Ice Thickness (ICESat-2)',
+        indicator: 'SITI',
+        indicatorName: 'Sea Ice Thickness (ICESat-2)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'W10',
+        time: availableDates['IS2SITMOGR4-cog'],
+        inputData: [''],
+        showGlobe: true,
+        display: {
+          protocol: 'xyz',
+          tileSize: 256,
+          minZoom: 1,
+          maxZoom: 12,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
+          name: 'Sea Ice Thickness (ICESat-2)',
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
+          legendUrl: 'legends/trilateral/SITI-W10.png',
+          mapProjection: {
+            name: 'EPSG:3413',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
+          projection: 'EPSG:3857',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Global',
+        siteName: 'global',
+        description: 'Sea Ice Concentration Arctic (GCOM-W)',
+        indicator: 'N12',
+        indicatorName: 'Sea Ice Concentration Arctic (GCOM-W)',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'Arctic',
+        time: getDailyDates('1978-11-01', '2023-01-30'),
+        inputData: [''],
+        display: {
+          name: 'Sea Ice Concentration',
+          legendUrl: 'legends/trilateral/World-SIC.png',
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          layers: 'SIC_N',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+          projection: 'EPSG:3411',
+          mapProjection: {
+            name: 'EPSG:3411',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+            extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+          },
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
         },
       },
     },

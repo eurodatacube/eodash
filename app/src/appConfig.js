@@ -139,6 +139,24 @@ module.exports = [
         {
           poi: 'World-Polartep_S1',
         },
+        {
+          poi: 'World-Polartep_SeaIce',
+        },
+        {
+          poi: 'W10-SITI',
+        },
+        {
+          poi: 'Arctic-N12',
+        },
+        {
+          poi: 'CDS-CDS3',
+        },
+        {
+          poi: 'CDS-CDS4',
+        },
+        {
+          poi: 'CDS-CDS1',
+        },
       ],
       test: [
         {

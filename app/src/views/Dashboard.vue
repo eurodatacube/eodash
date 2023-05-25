@@ -311,6 +311,9 @@ export default {
     }),
   },
   created() {
+    if (this.$route.path === '/') {
+      this.$router.push('/demo?event=polartep');
+    }
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
   },
   mounted() {

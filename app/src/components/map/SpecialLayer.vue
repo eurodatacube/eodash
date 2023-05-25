@@ -66,7 +66,7 @@ export default {
       const layer = createLayerFromConfig(config, map, options);
       layer.set('name', this.compare ? `${config.name}_compare` : config.name);
       const featureLayer = layer.getLayers().getArray().find((l) => {
-        const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
+        const found = l instanceof VectorLayer;
         return found;
       });
       if (featureLayer) {
@@ -82,7 +82,7 @@ export default {
             || (!isRightLayer && this.swipePixelX > e.pixel[0]))
             : true;
           // consider layergroup
-          if (isCorrectSide && features.length && config.features) {
+          if (isCorrectSide && features.length) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
             const coordinate = getCenter(feature.getGeometry().getExtent());
@@ -90,7 +90,7 @@ export default {
             const rows = [];
             const props = feature.getProperties();
             // some indicators have "allowedParameters", which define the keys to display
-            const keys = config.features.allowedParameters
+            const keys = config?.allowedParameters || config?.features?.allowedParameters
             || Object.keys(props).filter((k) => k !== 'geometry');
             keys.forEach((key) => {
               if (props[key]) {
