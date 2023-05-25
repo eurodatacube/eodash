@@ -2348,6 +2348,12 @@ export const globalIndicators = [
             fillColor: 'rgba(0,0,0,0.0001)',
           },
           minZoom: 1,
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `Region: ${feature.get('NUTS_NAME')}`,
+              `Biomass loss: ${Number(feature.get('BMLoss_sum')).toFixed(2)}`,
+            ],
+          },
         }],
       },
     },
