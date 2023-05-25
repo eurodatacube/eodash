@@ -2851,10 +2851,15 @@ export const globalIndicators = [
           attribution: '{}',
           visible: true,
           protocol: 'vectortile',
-          selection: {
-            mode: 'single',
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `${feature.get('gemeinde')}`,
+              `Mean temperature: ${Number(feature.get('mean_temp')).toFixed(2)}°C`,
+              `Maximum temperature: ${Number(feature.get('max_temp')).toFixed(2)}°C`,
+              `Minimum temperature: ${Number(feature.get('min_temp')).toFixed(2)}°C`,
+              `Population exposed to surface temperature >35°C: ${Number(feature.get('percentage')).toFixed(2)}%`,
+            ],
           },
-          allowedParameters: ['gemeinde', 'mean_temp', 'min_temp', 'max_temp', 'percentage'],
         }],
       },
     },
