@@ -1998,7 +1998,6 @@ export const globalIndicators = [
           id: 'FCM2',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
           ],
           style: {
             color: [
@@ -2040,14 +2039,14 @@ export const globalIndicators = [
         city: 'Styria',
         siteName: 'global',
         description: 'Annual forest mask',
-        navigationDescription: '2021',
+        navigationDescription: '2022',
         indicator: 'FCM3',
         lastIndicatorValue: null,
         indicatorName: 'Annual forest mask',
         highlights: [
           {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
           },
         ],
         subAoi: {
@@ -2064,8 +2063,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'FCM3',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
-            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
           ],
           style: {
             color: [
@@ -2315,7 +2313,7 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
-        display: {
+        display: [{
           protocol: 'cog',
           id: 'FCM1',
           sources: [
@@ -2341,6 +2339,22 @@ export const globalIndicators = [
           },
           name: 'Forest change detections',
         },
+        {
+          protocol: 'GeoJSON',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/AT_biomass_loss.geojson',
+          name: 'Biomass loss',
+          style: {
+            strokeColor: 'rgba(0,0,0,0.9)',
+            fillColor: 'rgba(0,0,0,0.0001)',
+          },
+          minZoom: 1,
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `Region: ${feature.get('NUTS_NAME')}`,
+              `Biomass loss: ${Number(feature.get('BMLoss_sum')).toFixed(2)}`,
+            ],
+          },
+        }],
       },
     },
   },
