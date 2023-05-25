@@ -27,23 +27,23 @@
               <tbody>
                 <tr>
                   <td> Maximum Annual Land Surface Temperature</td>
-                  <td> {{ v.LST30mME }} degrees C </td>
+                  <td> {{ v.lst30mme }} degrees C </td>
                 </tr>
                 <tr>
                   <td> Total Roof area</td>
-                  <td> {{ v.Roof_Area }} m² </td>
+                  <td> {{ v.roof_area }} m² </td>
                 </tr>
                 <tr>
                   <td> Existing Green Roof area with a slope &lt; 5 degree</td>
-                  <td> {{ v.GRPotAre5 }} m² </td>
+                  <td> {{ v.grpotare5 }} m² </td>
                 </tr>
                 <tr>
                   <td> Existing Green Roof area with a slope ≥ 5 and &lt; 20 degree</td>
-                  <td> {{ v.GRPotAre20 }} m² </td>
+                  <td> {{ v.grpotare20 }} m² </td>
                 </tr>
                 <tr>
                   <td> Existing Green Roof area with a slope ≥ 20 and &lt; 45 degree</td>
-                  <td> {{ v.GRPotAre45 }} m² </td>
+                  <td> {{ v.grpotare45 }} m² </td>
                 </tr>
                 <tr>
                   <td>Unused Potential Area for Green Roof</td>
@@ -153,14 +153,22 @@ export default {
             });
         }
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
-          const adminIds = [];
-          features.forEach((ftr) => {
-            adminIds.push(ftr.getId());
-          });
-          const { sourceLayer } = this.indicatorObject.wmsStyles;
-          // ideally, we would iterate over all items from display if an array
+          const zspStrings = [];
+          const originalZsps = [];
+          // gemeinde used as prefix for ZSP 35100 -> 31510000 - 31510999
           const { adminZoneKey } = this.indicatorObject.display[0];
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=Roof_Area,LST30mME,GRPotAre5,GRPotAre20,GRPotAre45,${adminZoneKey}`;
+          features.forEach((ftr) => {
+            const gemIdStr = Math.floor(ftr.getId()/1000).toString();
+            const zspIds = [parseInt(`${gemIdStr}000`, 10),parseInt(`${gemIdStr}999`, 10)];
+            // zsp between min and max available
+            const zspIdsMerged = `and(${adminZoneKey}.gte.${zspIds[0]},${adminZoneKey}.lte.${zspIds[1]})`;
+            zspStrings.push(zspIdsMerged);
+            originalZsps.push(ftr.getId());
+          });
+          
+          const sourceLayer = this.indicatorObject.display.find((item) => item?.selection?.layer);
+          // ideally, we would iterate over all items from display if an array
+          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -170,20 +178,20 @@ export default {
                   groupedBySelection, entry[adminZoneKey],
                 )) {
                   groupedBySelection[entry[adminZoneKey]] = {
-                    Roof_Area: 0,
-                    GRPotAre5: 0,
-                    GRPotAre20: 0,
-                    GRPotAre45: 0,
-                    LST30mME: 0,
+                    roof_area: 0,
+                    grpotare5: 0,
+                    grpotare20: 0,
+                    grpotare45: 0,
+                    lst30mme: 0,
                     count: 0,
                   };
                 }
                 // compute statistics
-                groupedBySelection[entry[adminZoneKey]].LST30mME += entry.LST30mME;
-                groupedBySelection[entry[adminZoneKey]].Roof_Area += entry.Roof_Area;
-                groupedBySelection[entry[adminZoneKey]].GRPotAre5 += entry.GRPotAre5;
-                groupedBySelection[entry[adminZoneKey]].GRPotAre20 += entry.GRPotAre20;
-                groupedBySelection[entry[adminZoneKey]].GRPotAre45 += entry.GRPotAre45;
+                groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
+                groupedBySelection[entry[adminZoneKey]].roof_area += entry.roof_area;
+                groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
+                groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
+                groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
                 groupedBySelection[entry[adminZoneKey]].count += 1;
               });
               const statistics = {};
@@ -196,22 +204,25 @@ export default {
               };
               Object.keys(groupedBySelection).forEach((key) => {
                 const {
-                  GRPotAre5, GRPotAre20, GRPotAre45, Roof_Area,
+                  grpotare5, grpotare20, grpotare45, roof_area,
                 } = groupedBySelection[key];
-                groupedBySelection[key].LST30mME /= groupedBySelection[key].count;
-                const { LST30mME } = groupedBySelection[key];
-                const unused = (1 - (GRPotAre5 + GRPotAre20 + GRPotAre45) / Roof_Area) * 100;
-                statistics[key] = {
-                  LST30mME: LST30mME.toFixed(1),
-                  Roof_Area: Roof_Area.toFixed(0),
-                  GRPotAre5: GRPotAre5.toFixed(0),
-                  GRPotAre20: GRPotAre20.toFixed(0),
-                  GRPotAre45: GRPotAre45.toFixed(0),
-                  unused: unused.toFixed(2),
-                };
+                if (originalZsps.includes(key)) {
+                  // for statistics consider only originally clicked ZSPs
+                  groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
+                  const { lst30mme } = groupedBySelection[key];
+                  const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roof_area) * 100;
+                  statistics[key] = {
+                    lst30mme: lst30mme.toFixed(1),
+                    roof_area: roof_area.toFixed(0),
+                    grpotare5: grpotare5.toFixed(0),
+                    grpotare20: grpotare20.toFixed(0),
+                    grpotare45: grpotare45.toFixed(0),
+                    unused: unused.toFixed(2),
+                  };
+                }
                 ind.fetchedData[key] = {
-                  measurement: [GRPotAre5 + GRPotAre20 + GRPotAre45],
-                  referenceValue: [Roof_Area],
+                  measurement: [grpotare5 + grpotare20 + grpotare45],
+                  referenceValue: [roof_area],
                 };
               });
               this.GRStatistics = statistics;
