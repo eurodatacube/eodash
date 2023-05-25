@@ -1012,6 +1012,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1114,6 +1115,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1216,6 +1218,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1633,6 +1636,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1731,6 +1735,7 @@ export const globalIndicators = [
           selection: {
             mode: 'multiple',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
@@ -1825,6 +1830,7 @@ export const globalIndicators = [
           selection: {
             mode: 'multiple',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
@@ -2536,6 +2542,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
