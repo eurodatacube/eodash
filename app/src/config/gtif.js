@@ -765,6 +765,18 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFeatures: true,
     story: '/data/gtif/markdown/E12c',
   },
+  EO4A: {
+    indicator: 'Snow depth',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/EO4A',
+  },
+  EO4A2: {
+    indicator: 'Snow water equivalent',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/EO4A',
+  },
 });
 
 export const globalIndicators = [
@@ -2876,6 +2888,100 @@ export const globalIndicators = [
             ],
           },
         }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Snowdepth',
+        indicator: 'EO4A',
+        lastIndicatorValue: null,
+        indicatorName: 'Snow depth',
+        // navigationDescription: 'EO4Alps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: getDailyDates('2020-10-01', '2022-06-30'),
+        inputData: [''],
+        yAxis: '',
+        display: {
+          selectedTime: '2022-01-30',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
+          name: 'Snow depth',
+          layers: 'SNOW-DEPTH',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
+          protocol: 'WMS',
+          dateFormatFunction: (date) => (
+            `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`
+          ),
+          projection: 'EPSG:4326',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Snow water equivalent',
+        indicator: 'EO4A2',
+        lastIndicatorValue: null,
+        indicatorName: 'Snow water equivalent',
+        // navigationDescription: 'EO4Alps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: getDailyDates('2020-10-01', '2022-06-30'),
+        inputData: [''],
+        yAxis: '',
+        display: {
+          selectedTime: '2022-01-30',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
+          name: 'Snow water equivalent',
+          layers: 'SWE',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
+          protocol: 'WMS',
+          dateFormatFunction: (date) => (
+            `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`
+          ),
+          projection: 'EPSG:4326',
+        },
       },
     },
   },
