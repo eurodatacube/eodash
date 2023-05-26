@@ -675,9 +675,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
   },
   AQ2: {
     ...mobilityTransitionDefaults,
@@ -1044,26 +1041,33 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#00000000';
-            const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            if (store.state.indicators.selectedIndicator
-                && store.state.indicators.selectedIndicator[dataSource]) {
-              const id = Number(feature.properties_.object_id);
-              const ind = store.state.indicators.selectedIndicator;
-              const currPar = ind.queryParameters.items
-                .find((item) => item.id === ind.queryParameters.selected);
-              if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                const value = ind[dataSource][id][currPar.id];
-                if (value != null) {
-                  const { min, max, colormapUsed } = currPar;
-                  const f = clamp((value - min) / (max - min), 0, 1);
-                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = Number(feature.properties_.object_id);
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  if (value != null) {
+                    const { min, max, colormapUsed } = currPar;
+                    const f = clamp((value - min) / (max - min), 0, 1);
+                    color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                  }
                 }
               }
-            }
-            return color;
+              return color;
+            },
           },
+          selection: {
+            mode: 'multiple',
+          },
+          tooltip: false,
           id: 'aggregated_trajs_model_satellite',
           timeKey: 'timestamp',
           name: 'Aggregated data',

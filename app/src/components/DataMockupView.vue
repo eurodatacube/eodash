@@ -97,7 +97,7 @@ export default {
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
-        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
+        if (['AQA', 'AQB', 'AQC', 'MOBI1'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(ftr.getId());
@@ -232,6 +232,42 @@ export default {
                 ...this.indicatorObject,
                 ...newData,
                 xAxis: 'Roof area [m²]',
+              };
+              ind.yAxis = description;
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            });
+        }
+        if (['AQ1'].includes(this.indicatorObject.indicator)) {
+          const description = 'SO2 [µmol/m2](S5p)';
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(Number(ftr.get('fid')));
+          });
+          const { sourceLayer } = this.indicatorObject.queryParameters;
+          // ideally, we would iterate over all items from display if an array
+          const { adminZoneKey } = this.indicatorObject.display;
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=satellite_values,n_trajectories,${adminZoneKey}`;
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+                colorCode: [],
+              };
+              json.forEach((entry) => {
+                newData.time.push(DateTime.fromISO('20220601'));
+                newData.measurement.push(entry.satellite_values);
+                newData.referenceValue.push(entry.n_trajectories);
+              });
+              const ind = {
+                ...this.indicatorObject,
+                ...newData,
+                xAxis: 'Number of trajectories',
               };
               ind.yAxis = description;
               this.$store.commit(
