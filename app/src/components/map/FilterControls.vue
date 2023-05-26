@@ -7,10 +7,10 @@
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
-        style="top:6px; right:6px;"
+        style="top:6px; right:6px;font-size:8px;"
         @click="resetFilters()"
       >
-        Reset filters
+        Reset constraints
       </v-btn>
       <div v-for="key in Object.keys(filters)"
         :key="key"
@@ -25,7 +25,7 @@
                 style="font-size:16px; color: #000000;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog :infoSource="filters[key].dataInfo"/>
+                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 </span>
               </v-col>
               <v-col
@@ -35,7 +35,7 @@
                 style="color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog :infoSource="filters[key].dataInfo"/>
+                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 <v-btn
                   v-if="!filters[key].header"
                   icon x-small color="primary"
@@ -77,6 +77,7 @@
               @change="(evt) => updateMapBool(evt, filters[key].id)"
             ></v-checkbox>
             <info-dialog
+              v-if="filters[key].dataInfo"
               style="margin-top:10px; margin-left:5px;"
               :infoSource="filters[key].dataInfo"
             />
@@ -107,6 +108,17 @@
               <div class="pr-4" style="width:60px; overflow:hidden;">{{filters[key].value}}</div>
             </template>
           </v-slider>
+          <v-select v-else-if="filters[key].type && filters[key].type=='select'"
+            class="pl-2 pr-2 ml-14 mr-14"
+            align="center"
+            v-model="filters[key].value"
+            :items="filters[key].entries"
+            @input="(evt) => updateVisualizationBand(evt, filters[key].id)"
+            dense
+            persistent-hint
+            single-line
+            return-object
+          ></v-select>
           <v-row
             v-else-if="filters[key].isCircular"
             class="mt-4 px-4"
@@ -244,7 +256,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              Add filter
+              Add constraint
             </v-btn>
           </template>
           <v-list>
@@ -259,30 +271,40 @@
           </v-list>
         </v-menu>
       </div>
-      <v-row class="pa-3 justify-center" style="margin-top:10px;">
-        <v-btn
-          small
-          color="primary"
-          class="mr-3"
-          @click="exportBestZones"
-        >
-          Export best zones
-        </v-btn>
-        <a ref="imageDownload"></a>
+      <v-row v-if="processEnabled" class="pa-3 justify-center" style="margin-top:10px;">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block">
               <v-btn
                 small
-                disabled
+                :disabled="adminSelected"
+                :loading="zonesLoading"
                 color="primary"
                 class="mr-3"
+                @click="fetchData('zones')"
+              >
+                Export best zones
+              </v-btn>
+            </div>
+            </template>
+            <span>{{ this.hoverText() }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="d-inline-block">
+              <v-btn
+                small
+                :disabled="adminSelected"
+                :loading="reportLoading"
+                color="primary"
+                class="mr-3"
+                @click="fetchData('report')"
               >
                 Create report
               </v-btn>
             </div>
             </template>
-            <span>Coming soon.</span>
+            <span>{{ this.hoverText() }}</span>
         </v-tooltip>
       </v-row>
     </v-card>
@@ -296,7 +318,7 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import Collection from 'ol/Collection';
-import { transformExtent } from 'ol/proj';
+import { saveAs } from 'file-saver';
 
 export default {
   name: 'FilterControls',
@@ -306,6 +328,8 @@ export default {
   props: {
     cogFilters: Object,
     mergedConfigsData: Object,
+    adminLayer: Object,
+    adminFeature: Object,
   },
   data() {
     return {
@@ -313,9 +337,29 @@ export default {
       select: null,
       variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
       originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
+      reportLoading: false,
+      zonesLoading: false,
     };
   },
   computed: {
+    processEnabled() {
+      return this.mergedConfigsData.processingEnabled;
+    },
+    adminSelected() {
+      let selection = null;
+      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
+        selection = true;
+      }
+      let disabled = true;
+      if (selection !== null) {
+        disabled = false;
+      }
+      // Check if other button is loading
+      if (this.zonesLoading || this.reportLoading) {
+        disabled = true;
+      }
+      return disabled;
+    },
     filtersChanged() {
       let fchanged = false;
       Object.keys(this.cogFilters.filters).forEach((key) => {
@@ -355,6 +399,77 @@ export default {
   watch: {
   },
   methods: {
+    hoverText() {
+      let selection = false;
+      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
+        selection = true;
+      }
+      let text = 'Please select Census Track (Zählsprengel) zone';
+      if (selection) {
+        text = 'Download';
+      }
+      return text;
+    },
+    fetchData(process) {
+      if (process === 'zones') {
+        this.zonesLoading = true;
+      } else {
+        this.reportLoading = true;
+      }
+      const baseUrl = `https://gtif-backend.hub.eox.at/${process}?`;
+      const keyRenaming = {
+        powerDensity: 'wind_power',
+        settlementDistance: 'distance',
+        protectedZones: 'nature2000',
+        ruggedness: 'roughness',
+        energyGridDistance: 'dist_egrid',
+      };
+      const pars = Object.entries(this.filters).map(([key, item]) => {
+        let p;
+        let currentKey;
+        currentKey = key;
+        if (keyRenaming[key]) {
+          currentKey = keyRenaming[key];
+        }
+        if (item.type && item.type === 'boolfilter') {
+          p = `${currentKey}=${item.value ? 1 : 0}`;
+        } else if (item.range && item.range.length === 2) {
+          p = `${currentKey}_min=${item.range[0]}&${currentKey}_max=${item.range[1]}`;
+        } else if (item.type && item.type === 'slider') {
+          if (item.inverted) {
+            p = `${currentKey}_min=${item.min}&${currentKey}_max=${item.value}`;
+          } else {
+            p = `${currentKey}_min=${item.value}&${currentKey}_max=${item.max}`;
+          }
+        }
+        return p;
+      });
+
+      if (Object.keys(this.filters.powerDensity).includes('height')) {
+        pars.push(`height=${this.filters.powerDensity.height}`);
+      } else {
+        pars.push('height=200');
+      }
+      const id = this.$store.state.features.selectedFeatures[0].id_;
+      const aoi = `aoi=${id}&`;
+      const request = baseUrl + aoi + pars.join('&');
+      let fileExtension = '.pdf';
+      if (process === 'zones') {
+        fileExtension = '.geojson';
+      }
+      fetch(request)
+        .then((res) => res.blob())
+        .then((blob) => {
+          saveAs(blob, `GTIF_${process}_${id}${fileExtension}`);
+          this.zonesLoading = false;
+          this.reportLoading = false;
+        })
+        .catch((error) => {
+          this.zonesLoading = false;
+          this.reportLoading = false;
+          console.log(error);
+        });
+    },
     resetFilters() {
       this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
       this.resetMap();
@@ -370,6 +485,19 @@ export default {
       map.removeLayer(layerGroup);
       // TODO hardcoded first item in array, we should match by ID or so
       const { sources, style } = this.mergedConfigsData;
+      switch (evt.description) {
+        case '200m height':
+          this.filters.powerDensity.height = 200;
+          break;
+        case '100m height':
+          this.filters.powerDensity.height = 100;
+          break;
+        case '50m height':
+          this.filters.powerDensity.height = 50;
+          break;
+        default:
+          break;
+      }
       sources[0].url = evt.url;
       const wgTileLayer = new WebGLTileLayer({
         source: new GeoTIFF({
@@ -425,92 +553,24 @@ export default {
         gtl.updateStyleVariables(this.variables);
       }
     },
+    updateVisualizationBand(evt, filterId) {
+      if (Object.keys(this.filters).includes('visualization')) {
+        this.filters.visualization.range = evt.range;
+        [this.filters.visualization.min, this.filters.visualization.max] = evt.range;
+      }
+      [this.variables.visualizationMin, this.variables.visualizationMax] = evt.range;
+      this.variables[filterId] = evt.value;
+      const { map } = getMapInstance('centerMap');
+      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+      if (gtl) {
+        gtl.updateStyleVariables(this.variables);
+      }
+    },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
     },
     removeFilter(filterId) {
       this.filters[filterId].display = false;
-    },
-    exportBestZones() {
-      const { map } = getMapInstance('centerMap');
-
-      // See https://openlayers.org/en/latest/examples/export-map.html
-      const mapCanvas = document.createElement('canvas');
-      const size = map.getSize();
-      [mapCanvas.width, mapCanvas.height] = size;
-      const mapContext = mapCanvas.getContext('2d');
-      Array.prototype.forEach.call(
-        map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
-        (canvas) => {
-          if (canvas.width > 0) {
-            const opacity = canvas.parentNode.style.opacity || canvas.style.opacity;
-            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-            let matrix;
-            const { transform } = canvas.style;
-            if (transform) {
-              // Get the transform parameters from the style's transform matrix
-              matrix = transform
-                .match(/^matrix\(([^\(]*)\)$/)[1] // eslint-disable-line
-                .split(',')
-                .map(Number);
-            } else {
-              matrix = [
-                parseFloat(canvas.style.width) / canvas.width,
-                0,
-                0,
-                parseFloat(canvas.style.height) / canvas.height,
-                0,
-                0,
-              ];
-            }
-            // Apply the transform to the export map context
-            CanvasRenderingContext2D.prototype.setTransform.apply(
-              mapContext,
-              matrix,
-            );
-            const { backgroundColor } = canvas.parentNode.style;
-            if (backgroundColor) {
-              mapContext.fillStyle = backgroundColor;
-              mapContext.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            mapContext.drawImage(canvas, 0, 0);
-          }
-        },
-      );
-      mapContext.globalAlpha = 1;
-      mapContext.setTransform(1, 0, 0, 1, 0, 0);
-
-      // Crop the canvas taking the UI sidebar into consideration
-      const croppedCanvas = document.createElement('canvas');
-      const croppedContext = croppedCanvas.getContext('2d');
-
-      const sidePanelWidth = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--data-panel-width').replace('px', ''), 10);
-      croppedCanvas.width = mapCanvas.width - sidePanelWidth;
-      croppedCanvas.height = mapCanvas.height;
-
-      croppedContext.drawImage(mapCanvas, 0, 0);
-      //
-
-      // Calculate lonLat extent by taking cropping into consideration
-      const mapExtent = map.getView().calculateExtent(map.getSize());
-      const croppedX = map.getCoordinateFromPixel([croppedCanvas.width, 0])[0];
-      const lonLatExtent = transformExtent([
-        mapExtent[0],
-        mapExtent[1],
-        croppedX,
-        mapExtent[3],
-      ], 'EPSG:3857', 'EPSG:4326');
-      //
-
-      const link = this.$refs.imageDownload;
-      link.download = `gtif_best_zones_${
-        this.$route.query.poi
-      }_${
-        lonLatExtent.map((c) => c.toFixed(3)).join('-')
-      }.png`;
-      link.href = croppedCanvas.toDataURL();
-      link.click();
     },
   },
 };

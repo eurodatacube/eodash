@@ -72,10 +72,7 @@
                     ? 'pointer-events: all; cursor: default'
                     : ''
                   }`"
-                  @click="() => {
-                    if (item.properties.indicatorObject.disabled ) { return }
-                    setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
-                  }"
+                  @click="handleSelectionClick(item)"
                 >
                   <v-list-item-avatar>
                     <v-img
@@ -124,9 +121,7 @@
                 padding: $vuetify.breakpoint.smAndDown ? '6px 0' : '12px 0',
               }"
             >
-              <v-list-item-title>
-                {{ item.name }}
-              </v-list-item-title>
+              <v-list-item-title v-html="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -187,12 +182,12 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('themes', ['themes']),
     ...mapState('gtif', ['currentDomain']),
-    ...mapGetters('features', ['getGroupedFeatures']),
+    ...mapGetters('features', ['getFeatures']),
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalIndicators() {
-      return this.getGroupedFeatures && this.getGroupedFeatures
+      return this.$store.state.features.allFeatures && this.$store.state.features.allFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
         .sort((a, b) => ((a.properties.indicatorObject.indicatorName
           > b.properties.indicatorObject.indicatorName)
@@ -219,6 +214,9 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    ...mapMutations('features', {
+      setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
     ...mapActions('gtif', ['setCurrentDomain']),
     globalIndicatorsForTheme(theme) {
       if (!theme) {
@@ -241,6 +239,23 @@ export default {
         return;
       }
       this.showLayerMenu = false;
+    },
+    handleSelectionClick(item) {
+      if (!item.properties.indicatorObject.disabled) {
+        if (['REP4'].includes(item.properties.indicatorObject.indicator)) {
+          // special case with grouping
+          this.setSelectedIndicator(null);
+          this.setFeatureFilter({
+            indicators: ['REP4_1', 'REP4_2', 'REP4_4', 'REP4_5', 'REP4_6'],
+          });
+        } else {
+          this.setSelectedIndicator(item.properties.indicatorObject);
+          this.setFeatureFilter({
+            indicators: [],
+          });
+        }
+        this.showLayerMenu = false;
+      }
     },
     moveToHighlight(location) {
       const { map } = getMapInstance('centerMap');

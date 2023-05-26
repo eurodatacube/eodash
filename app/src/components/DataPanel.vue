@@ -19,10 +19,6 @@
           class="pa-0"
           :style="`height: auto`"
         >
-        <template v-if="mergedConfigsData[0].adminLayersCustomIndicator">
-          <AdminLayersInfoBar class="pb-6"
-          :mergedConfigsData="mergedConfigsData[0]"/>
-        </template>
           <v-card
             v-if="showCustomAreaCard"
             class="fill-height"
@@ -57,7 +53,7 @@
             <v-col
               v-else-if="showMap &&
                 (mergedConfigsData[0].customAreaIndicator &&
-                  !mergedConfigsData[0].adminLayersCustomIndicator
+                  !hasSelectionEnabled
                 )"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
@@ -78,7 +74,7 @@
                 </v-btn>
               </template>
             </v-col>
-            <template v-else-if="mergedConfigsData[0].adminLayersCustomIndicator">
+            <template v-else-if="hasSelectionEnabled">
             </template>
             <indicator-data
               style="top: 0px; position: absolute;"
@@ -188,7 +184,7 @@
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-else-if="!showMap"
+                  v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
@@ -202,19 +198,23 @@
               </div>
             </v-col>
           </v-row>
-          <!-- TODO: remove GTIF brand check -->
-          <data-mockup-view v-if="appConfig.id === 'gtif'"
-            :indicatorObject="indicatorObject"
-            :adminLayer="$store.state.features.adminBorderLayerSelected"
-            :adminFeature="$store.state.features.adminBorderFeatureSelected"
-            :updateQueryParametersTrigger="updateQueryParametersTrigger"
-          >
-          </data-mockup-view>
           <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
           >
           </filter-controls>
+          <template v-if="selectableLayerConfigs.length > 0">
+            <SelectionInfoBar class="pb-2"
+            :selectableLayerConfigs="selectableLayerConfigs"/>
+          </template>
+          <data-mockup-view v-if="appConfig.id === 'gtif'"
+            :indicatorObject="indicatorObject"
+            :selectedFeatures="$store.state.features.selectedFeatures"
+            :updateQueryParametersTrigger="updateQueryParametersTrigger"
+          >
+          </data-mockup-view>
           <!--
           TODO disabling this for now as it is not ready for public use
           <v-col v-if="indicatorObject.cogFilters"
@@ -370,7 +370,7 @@ import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 // import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
-import AdminLayersInfoBar from '@/components/AdminLayersInfoBar.vue';
+import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 
 export default {
   props: [
@@ -387,7 +387,7 @@ export default {
     VectorTileStyleControl,
     // ScatterPlot,
     DataMockupView,
-    AdminLayersInfoBar,
+    SelectionInfoBar,
   },
   data: () => ({
     overlay: false,
@@ -454,10 +454,14 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     showCustomAreaCard() {
-      if (this.mergedConfigsData[0].adminLayersCustomIndicator && !this.customAreaIndicator) {
+      if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }
       return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
+    },
+    hasSelectionEnabled() {
+      return this.mergedConfigsData.length
+        && this.mergedConfigsData.find((layer) => layer?.selection || layer?.features?.selection);
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -475,8 +479,10 @@ export default {
           let txtVal = '';
           if (cKey === 'aoi') {
             txtVal = `"${this.indicatorObject[cKey]}",`;
-          } else {
+          } else if (Object.prototype.hasOwnProperty.call(this.indicatorObject, cKey)) {
             txtVal = `"${this.indicatorObject[cKey][i]}",`;
+          } else {
+            txtVal = ',';
           }
           row += txtVal;
         }
@@ -503,8 +509,8 @@ export default {
             const cKey = exportKeys[kk];
             let txtVal = '';
             if (cKey === 'aoi') {
-              if (i === 0 && this.$store.state.features.selectedArea !== null) {
-                txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+              if (i === 0 && this.selectedArea !== null) {
+                txtVal = `"${wkt.read(JSON.stringify(this.selectedArea)).write()}",`;
               } else {
                 txtVal = ',';
               }
@@ -523,17 +529,14 @@ export default {
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
-      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+      const city = currInd.city || 'global';
+      return `${city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAOIDownloadFilename() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     showMap() {
-      // TODO: remove this hack
-      if (['REP4'].includes(this.indicatorObject.indicator)) {
-        return false;
-      }
       // if returns true, we are showing map, if false we show chart
       return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
@@ -584,12 +587,14 @@ export default {
         0,
       );
     },
+    selectableLayerConfigs() {
+      return this.mergedConfigsData.filter((l) => l?.selection || l?.features?.selection);
+    },
   },
   mounted() {
     this.$nextTick(() => {
       this.mounted = true;
     });
-
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'set-custom-area-indicator-loading',
