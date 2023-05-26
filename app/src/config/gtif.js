@@ -765,6 +765,18 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFeatures: true,
     story: '/data/gtif/markdown/E12c',
   },
+  EO4A: {
+    indicator: 'Snow depth',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/EO4A',
+  },
+  EO4A2: {
+    indicator: 'Snow water equivalent',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/EO4A',
+  },
 });
 
 export const globalIndicators = [
@@ -1012,6 +1024,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1114,6 +1127,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1216,6 +1230,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1633,6 +1648,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         },
       },
@@ -1731,6 +1747,7 @@ export const globalIndicators = [
           selection: {
             mode: 'multiple',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
@@ -1825,6 +1842,7 @@ export const globalIndicators = [
           selection: {
             mode: 'multiple',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
@@ -1992,7 +2010,6 @@ export const globalIndicators = [
           id: 'FCM2',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
           ],
           style: {
             color: [
@@ -2034,14 +2051,14 @@ export const globalIndicators = [
         city: 'Styria',
         siteName: 'global',
         description: 'Annual forest mask',
-        navigationDescription: '2021',
+        navigationDescription: '2022',
         indicator: 'FCM3',
         lastIndicatorValue: null,
         indicatorName: 'Annual forest mask',
         highlights: [
           {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
           },
         ],
         subAoi: {
@@ -2058,8 +2075,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'FCM3',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/A_FM_AnualForestMask-2021-08-31_cog_3857.tif' },
-            // { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/JR/S24B_StyriaMosaic2021_Cog-001_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
           ],
           style: {
             color: [
@@ -2309,7 +2325,7 @@ export const globalIndicators = [
         ],
         inputData: [''],
         yAxis: '',
-        display: {
+        display: [{
           protocol: 'cog',
           id: 'FCM1',
           sources: [
@@ -2335,6 +2351,22 @@ export const globalIndicators = [
           },
           name: 'Forest change detections',
         },
+        {
+          protocol: 'GeoJSON',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/AT_biomass_loss.geojson',
+          name: 'Biomass loss',
+          style: {
+            strokeColor: 'rgba(0,0,0,0.9)',
+            fillColor: 'rgba(0,0,0,0.0001)',
+          },
+          minZoom: 1,
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `Region: ${feature.get('NUTS_NAME')}`,
+              `Biomass loss: ${Number(feature.get('BMLoss_sum')).toFixed(2)}`,
+            ],
+          },
+        }],
       },
     },
   },
@@ -2417,11 +2449,21 @@ export const globalIndicators = [
             },
             settlementDistance: {
               display: false,
-              label: 'Distance to settlements [m]',
+              label: 'Distance to settlements WSF [m]',
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
               type: 'slider',
               inverted: false,
+              min: 0,
+              max: 5000,
+              value: 0,
+            },
+            cadasterDistance: {
+              display: false,
+              label: 'Distance to settlements Austrian Cadaster [m]',
+              id: 'cadasterDistance',
+              // dataInfo: 'CadasterDistance',
+              type: 'slider',
               min: 0,
               max: 5000,
               value: 0,
@@ -2470,6 +2512,7 @@ export const globalIndicators = [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/CadasterDistance_COG_v2.tif' },
           ],
           style: {
             variables: {
@@ -2483,6 +2526,7 @@ export const globalIndicators = [
               energyGridDistance: 25000,
               protected: 0,
               ruggedness: 1,
+              cadasterDistance: 0,
             },
             color: [
               'case',
@@ -2495,6 +2539,7 @@ export const globalIndicators = [
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
+                ['>=', ['band', 8], ['var', 'cadasterDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
@@ -2523,6 +2568,7 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+          tooltip: true,
           allowedParameters: ['name'],
         }],
       },
@@ -2818,16 +2864,123 @@ export const globalIndicators = [
         time: [''],
         inputData: [''],
         yAxis: '',
-        cogFilters: {
-          sourceLayer: 'LST',
-        },
-        display: {
+        display: [{
           protocol: 'xyz',
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
           name: 'Heat Explorer',
-          // legendUrl: 'data/trilateral/no2Legend-monthly-nasa.png',
+        }, {
+          name: 'Communities',
+          id: 'heatmap_vector',
+          styleFile: 'data/gtif/data/heatmap_vector.json',
+          attribution: '{}',
+          visible: true,
+          protocol: 'vectortile',
+          tooltip: {
+            // trigger: 'singleclick',
+            tooltipFormatFunction: (feature) => [
+              `${feature.get('gemeinde')}`,
+              `Mean temperature: ${Number(feature.get('mean_temp')).toFixed(2)}°C`,
+              `Maximum temperature: ${Number(feature.get('max_temp')).toFixed(2)}°C`,
+              `Minimum temperature: ${Number(feature.get('min_temp')).toFixed(2)}°C`,
+              `Population exposed to surface temperature >35°C: ${Number(feature.get('percentage')).toFixed(2)}%`,
+            ],
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Snowdepth',
+        indicator: 'EO4A',
+        lastIndicatorValue: null,
+        indicatorName: 'Snow depth',
+        // navigationDescription: 'EO4Alps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: getDailyDates('2020-10-01', '2022-06-30'),
+        inputData: [''],
+        yAxis: '',
+        display: {
+          selectedTime: '2022-01-30',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
+          name: 'Snow depth',
+          layers: 'SNOW-DEPTH',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
+          protocol: 'WMS',
+          dateFormatFunction: (date) => (
+            `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`
+          ),
+          projection: 'EPSG:4326',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Snow water equivalent',
+        indicator: 'EO4A2',
+        lastIndicatorValue: null,
+        indicatorName: 'Snow water equivalent',
+        // navigationDescription: 'EO4Alps',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'Austria',
+        time: getDailyDates('2020-10-01', '2022-06-30'),
+        inputData: [''],
+        yAxis: '',
+        display: {
+          selectedTime: '2022-01-30',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
+          name: 'Snow water equivalent',
+          layers: 'SWE',
+          maxZoom: 18,
+          minZoom: 1,
+          attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
+          protocol: 'WMS',
+          dateFormatFunction: (date) => (
+            `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`
+          ),
+          projection: 'EPSG:4326',
         },
       },
     },
