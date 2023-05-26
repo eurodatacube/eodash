@@ -978,7 +978,7 @@ export default {
             { x, y: indicator.measurement[i] }
           ));
           datasets.push({
-            label: indicator.yAxis,
+            label: 'data for selected bins',
             fill: false,
             data,
             backgroundColor: refColors[0],

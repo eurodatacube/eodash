@@ -963,8 +963,17 @@ export const globalIndicators = [
           // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
           // motorized_share, motorized_count, satellite_values, mean_value
           sourceLayer: 'aggregated_trajs_model_satellite',
-          selected: 'satellite_values',
+          selected: 'n_trajectories',
           items: [
+            {
+              id: 'n_trajectories',
+              description: 'Number of trajectories',
+              dataInfo: '',
+              min: 0,
+              max: 50000,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
             {
               id: 'satellite_values',
               description: 'Sentinel-5p values',
@@ -998,15 +1007,6 @@ export const globalIndicators = [
               dataInfo: '',
               min: 0,
               max: 120,
-              colormapUsed: blgrrd,
-              markdown: '',
-            },
-            {
-              id: 'n_trajectories',
-              description: 'Number of trajectories',
-              dataInfo: '',
-              min: 0,
-              max: 50000,
               colormapUsed: blgrrd,
               markdown: '',
             },

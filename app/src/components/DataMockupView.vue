@@ -241,15 +241,14 @@ export default {
             });
         }
         if (['AQ1'].includes(this.indicatorObject.indicator)) {
-          const description = 'SO2 [µmol/m2](S5p)';
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(Number(ftr.get('fid')));
           });
-          const { sourceLayer } = this.indicatorObject.queryParameters;
+          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
           // ideally, we would iterate over all items from display if an array
           const { adminZoneKey } = this.indicatorObject.display;
-          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=satellite_values,n_trajectories,${adminZoneKey}`;
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=satellite_values,${selected},${adminZoneKey}`;
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -261,15 +260,15 @@ export default {
               };
               json.forEach((entry) => {
                 newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry.satellite_values);
-                newData.referenceValue.push(entry.n_trajectories);
+                newData.measurement.push(entry[selected]);
+                newData.referenceValue.push(entry.satellite_values);
               });
               const ind = {
                 ...this.indicatorObject,
                 ...newData,
-                xAxis: 'Number of trajectories',
+                xAxis: 'SO2 [µmol/m2](Sentinel-5p)',
               };
-              ind.yAxis = description;
+              ind.yAxis = selected;
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );
