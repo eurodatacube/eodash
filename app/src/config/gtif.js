@@ -2914,6 +2914,7 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
+          selectedTime: '2022-01-30',
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -2960,6 +2961,7 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
+          selectedTime: '2022-01-30',
           presetView: {
             type: 'FeatureCollection',
             features: [{
