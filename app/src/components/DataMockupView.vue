@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                   <td> Total Roof area</td>
-                  <td> {{ v.roof_area }} m² </td>
+                  <td> {{ v.roofArea }} m² </td>
                 </tr>
                 <tr>
                   <td> Existing Green Roof area with a slope &lt; 5 degree</td>
@@ -158,14 +158,13 @@ export default {
           // gemeinde used as prefix for ZSP 35100 -> 31510000 - 31510999
           const { adminZoneKey } = this.indicatorObject.display[0];
           features.forEach((ftr) => {
-            const gemIdStr = Math.floor(ftr.getId()/1000).toString();
-            const zspIds = [parseInt(`${gemIdStr}000`, 10),parseInt(`${gemIdStr}999`, 10)];
+            const gemIdStr = Math.floor(ftr.getId() / 1000).toString();
+            const zspIds = [parseInt(`${gemIdStr}000`, 10), parseInt(`${gemIdStr}999`, 10)];
             // zsp between min and max available
             const zspIdsMerged = `and(${adminZoneKey}.gte.${zspIds[0]},${adminZoneKey}.lte.${zspIds[1]})`;
             zspStrings.push(zspIdsMerged);
-            originalZsps.push(ftr.getId());
+            originalZsps.push(ftr);
           });
-          
           const sourceLayer = this.indicatorObject.display.find((item) => item?.selection?.layer);
           // ideally, we would iterate over all items from display if an array
           const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,${adminZoneKey}`;
@@ -178,7 +177,7 @@ export default {
                   groupedBySelection, entry[adminZoneKey],
                 )) {
                   groupedBySelection[entry[adminZoneKey]] = {
-                    roof_area: 0,
+                    roofArea: 0,
                     grpotare5: 0,
                     grpotare20: 0,
                     grpotare45: 0,
@@ -188,7 +187,7 @@ export default {
                 }
                 // compute statistics
                 groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
-                groupedBySelection[entry[adminZoneKey]].roof_area += entry.roof_area;
+                groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area;
                 groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
                 groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
                 groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
@@ -201,28 +200,34 @@ export default {
                 time: [DateTime.fromISO('20220601')],
                 xAxis: 'Green roof existing [m²]',
                 yAxis: 'Green roof potential [m²]',
+                originalZsps,
               };
               Object.keys(groupedBySelection).forEach((key) => {
                 const {
-                  grpotare5, grpotare20, grpotare45, roof_area,
+                  grpotare5, grpotare20, grpotare45, roofArea,
                 } = groupedBySelection[key];
-                if (originalZsps.includes(key)) {
+                if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
                   // for statistics consider only originally clicked ZSPs
                   groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
                   const { lst30mme } = groupedBySelection[key];
-                  const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roof_area) * 100;
+                  const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roofArea) * 100;
                   statistics[key] = {
                     lst30mme: lst30mme.toFixed(1),
-                    roof_area: roof_area.toFixed(0),
+                    roofArea: roofArea.toFixed(0),
                     grpotare5: grpotare5.toFixed(0),
                     grpotare20: grpotare20.toFixed(0),
                     grpotare45: grpotare45.toFixed(0),
                     unused: unused.toFixed(2),
                   };
                 }
-                ind.fetchedData[key] = {
+                const gemId = Math.floor(parseInt(key, 10) / 1000);
+                if (!ind.fetchedData.hasOwnProperty(gemId)) {
+                  ind.fetchedData[gemId] = {};
+                }
+                // group all entries by gemeinde
+                ind.fetchedData[gemId][key] = {
                   measurement: [grpotare5 + grpotare20 + grpotare45],
-                  referenceValue: [roof_area],
+                  referenceValue: [roofArea],
                 };
               });
               this.GRStatistics = statistics;

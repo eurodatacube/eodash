@@ -974,18 +974,30 @@ export default {
           });
         } else if (['SOL1'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          Object.keys(indicator.fetchedData).forEach((key, ind) => {
-            const data = [{
-              x: indicator.fetchedData[key].measurement,
-              y: indicator.fetchedData[key].referenceValue,
-            }];
-            const index = ind % refColors.length;
+          Object.keys(indicator.fetchedData).forEach((gemId, ind) => {
+            // for each gemeinde group into a dataset
+            const x = [];
+            const y = [];
+            const clrs = [];
+            Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
+              x.push(indicator.fetchedData[gemId][zspId].measurement);
+              y.push(indicator.fetchedData[gemId][zspId].referenceValue);
+              if (indicator.originalZsps.map((ftr) => ftr.getId()).includes(parseInt(zspId, 10))) {
+                clrs.push('#ff0000');
+              } else {
+                const index = ind % refColors.length;
+                clrs.push(refColors[index]);
+              }
+            });
+            const data = x.map((measurement, j) => (
+              { x: measurement, y: y[j] }
+            ));
             datasets.push({
-              label: key,
+              label: gemId,
               fill: false,
               data,
-              backgroundColor: refColors[index],
-              borderColor: refColors[index],
+              backgroundColor: clrs,
+              borderColor: clrs,
               borderWidth: 1,
               pointRadius: 2,
             });
