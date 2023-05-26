@@ -2527,7 +2527,7 @@ export const globalIndicators = [
                 ['>', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
-                ['>', ['band', 8], ['var', 'cadasterDistance']],
+                ['>=', ['band', 8], ['var', 'cadasterDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
