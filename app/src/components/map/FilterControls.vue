@@ -7,7 +7,7 @@
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
-        style="top:6px; right:6px;"
+        style="top:6px; right:6px;font-size:8px;"
         @click="resetFilters()"
       >
         Reset constraints
