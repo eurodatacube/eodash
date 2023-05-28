@@ -308,7 +308,8 @@ const trucksAreaIndicator = {
   requestBody: {
     collection: 'eodash_{indicator}-detections',
     select: 'time,geometry',
-    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+    order: 'time',
+    where: 'aoi_id=\'AT\' AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
   },
   callbackFunction: (responseJson, indicator, area) => {
     if (Array.isArray(responseJson[0].src)) {
@@ -799,7 +800,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W2',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
@@ -856,7 +857,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W3',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
@@ -1743,9 +1744,10 @@ export const globalIndicators = [
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
           visible: true,
-          minZoom: 13.5,
+          minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
