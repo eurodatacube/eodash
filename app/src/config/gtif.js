@@ -651,12 +651,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['eo-adaptation-services'],
     story: '/data/gtif/markdown/ADO',
-    /*
-    customAreaIndicator: true,
-    adminLayersCustomIndicator: {
-      adminZoneIds: ['gemeinde'],
-    },
-    */
   },
   AQA: {
     ...mobilityTransitionDefaults,
@@ -959,44 +953,52 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [],
+        time: getDailyDates('2015-01-01', '2023-05-18'),
         inputData: [''],
         yAxis: 'ADO',
         queryParameters: {
-          sourceLayer: 'ado',
-          selected: 'SPEI1',
+          sourceLayer: 'ado_data',
+          selected: 'spi-1',
           items: [
+            {
+              id: 'spi-1',
+              description: 'SPI-1',
+              dataInfo: 'SPI',
+              min: -3,
+              max: 3,
+              colormapUsed: grywrd,
+              markdown: 'SPI',
+            },
+            {
+              id: 'spi-12',
+              description: 'SPI-12',
+              dataInfo: 'SPI',
+              min: -3,
+              max: 3,
+              colormapUsed: grywrd,
+              markdown: 'SPI',
+            },
             {
               id: 'spei-1',
               description: 'SPEI-1',
               dataInfo: 'SPEI',
-              min: 0,
-              max: 100,
+              min: -3,
+              max: 3,
               colormapUsed: grywrd,
               markdown: 'SPEI',
             },
-            // {
-            //   id: 'pm10',
-            //   description: 'Particulate Matter < 10µm',
-            //   dataInfo: 'PM10',
-            //   min: 0,
-            //   max: 50,
-            //   colormapUsed: grywrd,
-            //   markdown: 'AQ_PM10',
-            // },
-            // {
-            //   id: 'pm25',
-            //   description: 'Particulate Matter < 2.5µm',
-            //   dataInfo: 'PM25',
-            //   min: 0,
-            //   max: 50,
-            //   colormapUsed: grywrd,
-            //   markdown: 'AQ_PM25',
-            // },
+            {
+              id: 'spei-12',
+              description: 'SPEI-12',
+              dataInfo: 'SPEI',
+              min: -3,
+              max: 3,
+              colormapUsed: grywrd,
+              markdown: 'SPEI',
+            },
           ],
         },
         display: {
-          administrativeLayers: completeAustriaAdministrativeLayers,
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1005,33 +1007,40 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
             }],
           },
+          opacity: 0.7,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_NUTS_L3_3857',
           protocol: 'geoserverTileLayer',
-          getColor: (feature, store, options) => {
-            let color = '#ff0000';
-            // const dataSource = options.dataProp ? options.dataProp : 'mapData';
-            // if (store.state.indicators.selectedIndicator
-            //     && store.state.indicators.selectedIndicator[dataSource]) {
-            //   const id = feature.id_;
-            //   const ind = store.state.indicators.selectedIndicator;
-            //   const currPar = ind.queryParameters.items
-            //     .find((item) => item.id === ind.queryParameters.selected);
-            //   if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-            //     const value = ind[dataSource][id][currPar.id];
-            //     const { min, max, colormapUsed } = currPar;
-            //     const f = clamp((value - min) / (max - min), 0, 1);
-            //     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-            //   }
-            // }
-            return color;
+          style: {
+            strokeColor: 'rgba(0,0,0,1)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+              return color;
+            },
           },
-          id: 'ado',
-          name: 'Health Risk Index (ARI)',
-          adminZoneKey: 'id_3',
-          parameters: 'pm10,pm25,ihr,id_3',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-          labelFormatFunction: (date) => date,
+          id: 'ado_data',
+          allowedParameters: ['nuts_name', 'nuts_id'],
+          name: 'Alpine Drought Exploratory',
+          adminZoneKey: 'nuts_id',
+          parameters: 'spi-1,spi-12,spei-1,spei-12,nuts_id',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
