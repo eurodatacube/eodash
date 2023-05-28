@@ -1743,9 +1743,10 @@ export const globalIndicators = [
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
           visible: true,
-          minZoom: 13.5,
+          minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
