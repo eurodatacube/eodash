@@ -155,6 +155,7 @@ export default {
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const zspStrings = [];
           const originalZsps = [];
+          const gemIds = [];
           // gemeinde used as prefix for ZSP 35100 -> 31510000 - 31510999
           const { adminZoneKey } = this.indicatorObject.display[0];
           features.forEach((ftr) => {
@@ -164,77 +165,93 @@ export default {
             const zspIdsMerged = `and(${adminZoneKey}.gte.${zspIds[0]},${adminZoneKey}.lte.${zspIds[1]})`;
             zspStrings.push(zspIdsMerged);
             originalZsps.push(ftr);
+            gemIds.push(gemIdStr);
           });
           const sourceLayer = this.indicatorObject.display.find((item) => item?.selection?.layer);
-          // ideally, we would iterate over all items from display if an array
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,${adminZoneKey}`;
-          fetch(expUrl)
+          const urlGem = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_AT_Gemeinden_3857?id=in.(${gemIds.join(',')})&select=name,id`;
+          const ind = {
+            ...this.indicatorObject,
+            fetchedData: {},
+            time: [DateTime.fromISO('20220601')],
+            xAxis: 'Green roof existing [m²]',
+            yAxis: 'Green roof potential [m²]',
+            originalZsps,
+            gemIds: {},
+          };
+          window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
+          fetch(urlGem)
             .then((resp) => resp.json())
-            .then((json) => {
-              const groupedBySelection = {};
-              json.forEach((entry) => {
-                if (!Object.prototype.hasOwnProperty.call(
-                  groupedBySelection, entry[adminZoneKey],
-                )) {
-                  groupedBySelection[entry[adminZoneKey]] = {
-                    roofArea: 0,
-                    grpotare5: 0,
-                    grpotare20: 0,
-                    grpotare45: 0,
-                    lst30mme: 0,
-                    count: 0,
-                  };
-                }
-                // compute statistics
-                groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
-                groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area;
-                groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
-                groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
-                groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
-                groupedBySelection[entry[adminZoneKey]].count += 1;
+            .then((gemIdResponse) => {
+              gemIdResponse.forEach((item) => {
+                const gemName = item.name;
+                const gemId = item.id;
+                ind.gemIds[gemId] = gemName;
               });
-              const statistics = {};
-              const ind = {
-                ...this.indicatorObject,
-                fetchedData: {},
-                time: [DateTime.fromISO('20220601')],
-                xAxis: 'Green roof existing [m²]',
-                yAxis: 'Green roof potential [m²]',
-                originalZsps,
-              };
-              Object.keys(groupedBySelection).forEach((key) => {
-                const {
-                  grpotare5, grpotare20, grpotare45, roofArea,
-                } = groupedBySelection[key];
-                if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
-                  // for statistics consider only originally clicked ZSPs
-                  groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
-                  const { lst30mme } = groupedBySelection[key];
-                  const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roofArea) * 100;
-                  statistics[key] = {
-                    lst30mme: lst30mme.toFixed(1),
-                    roofArea: roofArea.toFixed(0),
-                    grpotare5: grpotare5.toFixed(0),
-                    grpotare20: grpotare20.toFixed(0),
-                    grpotare45: grpotare45.toFixed(0),
-                    unused: unused.toFixed(2),
-                  };
-                }
-                const gemId = Math.floor(parseInt(key, 10) / 1000);
-                if (!ind.fetchedData.hasOwnProperty(gemId)) {
-                  ind.fetchedData[gemId] = {};
-                }
-                // group all entries by gemeinde
-                ind.fetchedData[gemId][key] = {
-                  measurement: [grpotare5 + grpotare20 + grpotare45],
-                  referenceValue: [roofArea],
-                };
-              });
-              this.GRStatistics = statistics;
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            })
+            .then(() => {
+              const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,${adminZoneKey}`;
+              fetch(expUrl)
+                .then((resp) => resp.json())
+                .then((json) => {
+                  const groupedBySelection = {};
+                  json.forEach((entry) => {
+                    if (!Object.prototype.hasOwnProperty.call(
+                      groupedBySelection, entry[adminZoneKey],
+                    )) {
+                      groupedBySelection[entry[adminZoneKey]] = {
+                        roofArea: 0,
+                        grpotare5: 0,
+                        grpotare20: 0,
+                        grpotare45: 0,
+                        lst30mme: 0,
+                        count: 0,
+                      };
+                    }
+                    // compute statistics
+                    groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
+                    groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area;
+                    groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
+                    groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
+                    groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
+                    groupedBySelection[entry[adminZoneKey]].count += 1;
+                  });
+                  const statistics = {};
+                  Object.keys(groupedBySelection).forEach((key) => {
+                    const {
+                      grpotare5, grpotare20, grpotare45, roofArea,
+                    } = groupedBySelection[key];
+                    if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
+                      // for statistics consider only originally clicked ZSPs
+                      groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
+                      const { lst30mme } = groupedBySelection[key];
+                      const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roofArea) * 100;
+                      statistics[key] = {
+                        lst30mme: lst30mme.toFixed(1),
+                        roofArea: roofArea.toFixed(0),
+                        grpotare5: grpotare5.toFixed(0),
+                        grpotare20: grpotare20.toFixed(0),
+                        grpotare45: grpotare45.toFixed(0),
+                        unused: unused.toFixed(2),
+                      };
+                    }
+                    const gemId = Math.floor(parseInt(key, 10) / 1000);
+                    if (!Object.prototype.hasOwnProperty.call(ind.fetchedData, gemId)) {
+                      ind.fetchedData[gemId] = {};
+                    }
+                    // group all entries by gemeinde
+                    ind.fetchedData[gemId][key] = {
+                      measurement: [grpotare5 + grpotare20 + grpotare45],
+                      referenceValue: [roofArea],
+                    };
+                  });
+                  this.GRStatistics = statistics;
+                  this.$store.commit(
+                    'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+                  );
+                })
+                .finally(() => {
+                  window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+                });
             });
         }
         if (['SOL2'].includes(this.indicatorObject.indicator)) {

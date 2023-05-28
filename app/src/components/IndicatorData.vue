@@ -978,22 +978,25 @@ export default {
             // for each gemeinde group into a dataset
             const x = [];
             const y = [];
+            const zsps = [];
             const clrs = [];
             Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
               x.push(indicator.fetchedData[gemId][zspId].measurement);
               y.push(indicator.fetchedData[gemId][zspId].referenceValue);
-              if (indicator.originalZsps.map((ftr) => ftr.getId()).includes(parseInt(zspId, 10))) {
+              zsps.push(zspId);
+              if (indicator.originalZsps.map((ftr) => ftr.getId())
+                .includes(parseInt(zspId, 10))) {
                 clrs.push('#ff0000');
               } else {
                 const index = ind % refColors.length;
                 clrs.push(refColors[index]);
               }
             });
-            const data = x.map((measurement, j) => (
-              { x: measurement, y: y[j] }
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j], zsp: zsps[j] }
             ));
             datasets.push({
-              label: gemId,
+              label: indicator.gemIds[gemId].trim(),
               fill: false,
               data,
               backgroundColor: clrs,
@@ -1318,6 +1321,7 @@ export default {
           };
         }
       }
+
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
@@ -1630,6 +1634,43 @@ export default {
 
       if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
         customSettings.hideRestrictions = true;
+      }
+
+      if (['SOL1'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              const obj = data.datasets[context.datasetIndex].data[context.index];
+              const label = `Gemeinde ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, existing: ${obj.x[0].toFixed(0)} m², potential: ${obj.y[0].toFixed(0)} m²`;
+              return label;
+            },
+          },
+        };
+        customSettings.hideRestrictions = true;
+        const { refColors } = this.appConfig;
+        customSettings.legend = {
+          labels: {
+            generateLabels: (chart) => {
+              const visibility = [];
+              for (let i = 0; i < chart.data.datasets.length; i++) {
+                if (chart.isDatasetVisible(i) === false) {
+                  visibility.push(true);
+                } else {
+                  visibility.push(false);
+                }
+              }
+              return chart.data.datasets.map(
+                (dataset, index) => ({
+                  text: dataset.label,
+                  fillStyle: refColors[index],
+                  strokeStyle: refColors[index],
+                  fontColor: refColors[index],
+                  hidden: visibility[index],
+                }),
+              );
+            },
+          },
+        };
       }
 
       return {
