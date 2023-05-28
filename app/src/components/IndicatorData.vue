@@ -123,7 +123,7 @@ export default {
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'AQ1',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'REP4_2',
@@ -144,7 +144,7 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'MOBI1',
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
         'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2'],
     };
   },
@@ -180,10 +180,7 @@ export default {
     datacollection() {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
-      const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
-        '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
-      ];
+      const { refColors } = this.appConfig;
       let labels = [];
       const datasets = [];
       if (indicator) {
@@ -942,7 +939,7 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
+        } else if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1', 'AQ3', 'REP4_1',
           'REP4_4', 'REP4_6'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
@@ -975,7 +972,40 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['SOL1', 'SOL2'].includes(indicatorCode)) {
+        } else if (['SOL1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          Object.keys(indicator.fetchedData).forEach((gemId, ind) => {
+            // for each gemeinde group into a dataset
+            const x = [];
+            const y = [];
+            const zsps = [];
+            const clrs = [];
+            Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
+              x.push(indicator.fetchedData[gemId][zspId].measurement);
+              y.push(indicator.fetchedData[gemId][zspId].referenceValue);
+              zsps.push(zspId);
+              if (indicator.originalZsps.map((ftr) => ftr.getId())
+                .includes(parseInt(zspId, 10))) {
+                clrs.push('#ff0000');
+              } else {
+                const index = ind % refColors.length;
+                clrs.push(refColors[index]);
+              }
+            });
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j], zsp: zsps[j] }
+            ));
+            datasets.push({
+              label: indicator.gemIds[gemId].trim(),
+              fill: false,
+              data,
+              backgroundColor: clrs,
+              borderColor: clrs,
+              borderWidth: 1,
+              pointRadius: 2,
+            });
+          });
+        } else if (['SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = indicator.referenceValue.map((x, i) => (
             { x, y: indicator.measurement[i] }
@@ -1291,6 +1321,7 @@ export default {
           };
         }
       }
+
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
@@ -1603,6 +1634,43 @@ export default {
 
       if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
         customSettings.hideRestrictions = true;
+      }
+
+      if (['SOL1'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              const obj = data.datasets[context.datasetIndex].data[context.index];
+              const label = `Gemeinde ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, existing: ${obj.x[0].toFixed(0)} m², potential: ${obj.y[0].toFixed(0)} m²`;
+              return label;
+            },
+          },
+        };
+        customSettings.hideRestrictions = true;
+        const { refColors } = this.appConfig;
+        customSettings.legend = {
+          labels: {
+            generateLabels: (chart) => {
+              const visibility = [];
+              for (let i = 0; i < chart.data.datasets.length; i++) {
+                if (chart.isDatasetVisible(i) === false) {
+                  visibility.push(true);
+                } else {
+                  visibility.push(false);
+                }
+              }
+              return chart.data.datasets.map(
+                (dataset, index) => ({
+                  text: dataset.label,
+                  fillStyle: refColors[index],
+                  strokeStyle: refColors[index],
+                  fontColor: refColors[index],
+                  hidden: visibility[index],
+                }),
+              );
+            },
+          },
+        };
       }
 
       return {
