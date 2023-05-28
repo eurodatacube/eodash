@@ -308,7 +308,8 @@ const trucksAreaIndicator = {
   requestBody: {
     collection: 'eodash_{indicator}-detections',
     select: 'time,geometry',
-    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+    order: 'time',
+    where: 'aoi_id=\'AT\' AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
   },
   callbackFunction: (responseJson, indicator, area) => {
     if (Array.isArray(responseJson[0].src)) {
@@ -799,7 +800,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W2',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
@@ -856,7 +857,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W3',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
