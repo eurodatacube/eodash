@@ -80,8 +80,9 @@ export default {
           candidateLayers.push(featureLayer);
         }
         const pointerMoveHandler = (e) => {
+          const visibleCandidateLayers = candidateLayers.filter((l) => l.getVisible());
           const features = map.getFeaturesAtPixel(e.pixel, {
-            layerFilter: (candidate) => candidateLayers.includes(candidate),
+            layerFilter: (candidate) => visibleCandidateLayers.includes(candidate),
           });
           // when layer swiping is active, only check for features on this layers side
           const isCorrectSide = this.swipePixelX !== null
@@ -152,8 +153,9 @@ export default {
             : true;
           // when layer swiping is active, only check for features on this layers side
           if (isCorrectSide) {
+            const visibleCandidateLayers = usedLayers.filter((l) => l.getVisible());
             const finalFeatures = map.getFeaturesAtPixel(e.pixel, {
-              layerFilter: ((candidate) => usedLayers.includes(candidate)),
+              layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
             });
             // crosscheck with store
             let { selectedFeatures } = this.$store.state.features;
@@ -189,6 +191,28 @@ export default {
         });
         map.on('singleclick', selectHandler);
         this.singleClickHandlers.push(selectHandler);
+      }
+      if (config.getTimeFromProperty) {
+        const usedLayers = [layer.getLayers().getArray()[0]];
+        const clickHandler = (e) => {
+          const isCorrectSide = this.swipePixelX !== null
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
+            : true;
+          // when layer swiping is active, only check for features on this layers side
+          if (isCorrectSide) {
+            const visibleCandidateLayers = usedLayers.filter((l) => l.getVisible());
+            const finalFeatures = map.getFeaturesAtPixel(e.pixel, {
+              layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
+            });
+            if (finalFeatures.length > 0) {
+              const time = finalFeatures[0].get(config.getTimeFromProperty);
+              this.$emit('setMapTime', time);
+            }
+          }
+        };
+        map.on('singleclick', clickHandler);
+        this.singleClickHandlers.push(clickHandler);
       }
       map.addLayer(layer);
     });

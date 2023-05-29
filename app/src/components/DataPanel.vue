@@ -514,8 +514,10 @@ export default {
               } else {
                 txtVal = ',';
               }
-            } else {
+            } else if (this.customAreaIndicator[cKey]) {
               txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+            } else {
+              txtVal = ',';
             }
             row += txtVal;
           }

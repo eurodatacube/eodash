@@ -308,7 +308,8 @@ const trucksAreaIndicator = {
   requestBody: {
     collection: 'eodash_{indicator}-detections',
     select: 'time,geometry',
-    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+    order: 'time',
+    where: 'aoi_id=\'AT\' AND ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
   },
   callbackFunction: (responseJson, indicator, area) => {
     if (Array.isArray(responseJson[0].src)) {
@@ -521,6 +522,17 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
+  },
+  REP6: {
+    indicator: 'Wind Turbines',
+    class: 'air',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP6',
+    baseLayers: baseLayersLeftMap,
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   MOBI1: {
     ...mobilityTransitionDefaults,
@@ -806,7 +818,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W2',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
@@ -821,7 +833,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+              geometry: wkt.read('POLYGON((13.8150 48.7647,17.48452 48.7647,17.48452 46.966583,13.8150 46.966583,13.8150 48.7647))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
@@ -863,7 +875,7 @@ export const globalIndicators = [
         lastColorCode: 'primary',
         eoSensor: null,
         aoiID: 'W3',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        time: availableDates.E12c,
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
@@ -1896,9 +1908,10 @@ export const globalIndicators = [
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
           visible: true,
-          minZoom: 13.5,
+          minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
@@ -2723,6 +2736,66 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
+        }, {
+          protocol: 'GeoJSON',
+          visible: true,
+          name: 'Wind turbine detections',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          style: {
+            strokeColor: '#ff0000',
+            width: 4,
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Wind Turbine Detections',
+        navigationDescription: 'Wind Turbine Detections',
+        indicator: 'REP6',
+        lastIndicatorValue: null,
+        indicatorName: 'Wind Turbines',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromFormat(date, 'yyyyMMdd').toFormat('yyyy-MM-dd')}/${DateTime.fromFormat(date, 'yyyyMMdd').plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel 2 L2A',
+          minZoom: 13,
+          maxZoom: 18,
+          timeFromProperty: true,
+        }, {
+          minZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          tooltip: true,
+          getTimeFromProperty: 'detection_time',
+          visible: true,
+          name: 'Wind turbine detections',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          style: {
+            strokeColor: '#ff0000',
+            width: 5,
+          },
         }],
       },
     },
