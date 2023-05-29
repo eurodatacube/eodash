@@ -56,7 +56,7 @@ export default {
       overlayRows: [],
       overlayCoordinate: null,
       pointerMoveHandlers: [],
-      selectHandlers: [],
+      singleClickHandlers: [],
     };
   },
   mounted() {
@@ -69,11 +69,11 @@ export default {
       // find first feature layer
       const featureLayer = layer.getLayers().getArray()
         .find((l) => l instanceof VectorLayer && l.get('name')?.includes('_features'));
-      if (featureLayer || config.selection) {
+      if (featureLayer || config.tooltip) {
         // initiate hover over functionality optionally for both featureLayer
         // and 'selection' config (main layer)
         const candidateLayers = [];
-        if (config.selection) {
+        if (config.tooltip) {
           candidateLayers.push(layer.getLayers().getArray()[0]);
         }
         if (featureLayer) {
@@ -90,24 +90,35 @@ export default {
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
           // consider layergroup
-          if (isCorrectSide && features.length && (config.features || config.selection)) {
+          if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
-            const coordinate = getCenter(feature.getGeometry().getExtent());
+            const geom = feature.getGeometry();
+            let coordinate = null;
+            if (geom.getType() === 'Polygon' && geom.getInteriorPoint) {
+              coordinate = geom.getInteriorPoint().getCoordinates();
+            } else {
+              coordinate = getCenter(geom.getExtent());
+            }
             if (config.selection) {
               this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
             }
             this.overlayCoordinate = coordinate;
-            const rows = [];
-            const props = feature.getProperties();
-            // some indicators have 'allowedParameters', which define the keys to display
-            const keys = config.features?.allowedParameters || config?.allowedParameters
-              || Object.keys(props).filter((k) => k !== 'geometry');
-            keys.forEach((key) => {
-              if (props[key]) {
-                rows.push(`${key}: ${props[key]}`);
-              }
-            });
+            let rows = [];
+            if (config?.tooltip?.tooltipFormatFunction) {
+              // has to return a list of rows
+              rows = config?.tooltip?.tooltipFormatFunction(feature, config);
+            } else {
+              const props = feature.getProperties();
+              // some indicators have 'allowedParameters', which define the keys to display
+              const keys = config.features?.allowedParameters || config?.allowedParameters
+                || Object.keys(props).filter((k) => k !== 'geometry');
+              keys.forEach((key) => {
+                if (props[key]) {
+                  rows.push(`${key}: ${props[key]}`);
+                }
+              });
+            }
             this.overlayRows = rows;
           } else {
             this.overlayHeaders = null;
@@ -115,8 +126,13 @@ export default {
             this.overlayContent = null;
           }
         };
-        map.on('pointermove', pointerMoveHandler);
-        this.pointerMoveHandlers.push(pointerMoveHandler);
+        if (config?.tooltip?.trigger === 'singleclick') {
+          map.on('singleclick', pointerMoveHandler);
+          this.singleClickHandlers.push(pointerMoveHandler);
+        } else {
+          map.on('pointermove', pointerMoveHandler);
+          this.pointerMoveHandlers.push(pointerMoveHandler);
+        }
       }
       if (config.selection || config?.features?.selection) {
         // initiate select interaction
@@ -174,7 +190,7 @@ export default {
           }
         });
         map.on('singleclick', selectHandler);
-        this.selectHandlers.push(selectHandler);
+        this.singleClickHandlers.push(selectHandler);
       }
       map.addLayer(layer);
     });
@@ -215,7 +231,7 @@ export default {
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);
     });
-    this.selectHandlers.forEach((h) => {
+    this.singleClickHandlers.forEach((h) => {
       map.un('singleclick', h);
     });
     if (this.resetProjectionOnDestroy) {

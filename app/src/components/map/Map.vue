@@ -855,6 +855,11 @@ export default {
             value: this.mergedConfigsData[0].usedTimes.time
               .find((t) => t.includes(this.dataLayerTimeProp)),
           };
+        } else if (this.mergedConfigsData[0].selectedTime) {
+          this.dataLayerTime = {
+            value: this.mergedConfigsData[0].usedTimes.time
+              .find((t) => t.includes(this.mergedConfigsData[0].selectedTime)),
+          };
         } else {
           this.dataLayerTime = {
             value: this.mergedConfigsData[0].usedTimes.time[

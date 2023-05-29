@@ -6,8 +6,10 @@ indicates greater wind power potential.
 
 
 ### Distance to Settlement
-Each federal province in Austria has distance requirements between wind turbines and settlements.
-Increase the minimum distance to select areas further from settlements.
+Each federal province in Austria has distance requirements between wind turbines and settlements. Increase the minimum distance to select areas further from settlements, you can chose between two distance layers:
+
+* WSF: the distance to settlements is based on the World Settlement Footprint (product obtained from satellite data)
+* Austrian Cadaster: the distance to settlements layer is based on the national Austrian cadaster data
 
 
 ### Distance to transmission network

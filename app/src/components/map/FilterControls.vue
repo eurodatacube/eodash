@@ -7,10 +7,10 @@
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
-        style="top:6px; right:6px;"
+        style="top:6px; right:6px;font-size:8px;"
         @click="resetFilters()"
       >
-        Reset filters
+        Reset constraints
       </v-btn>
       <div v-for="key in Object.keys(filters)"
         :key="key"
@@ -256,7 +256,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              Add filter
+              Add constraint
             </v-btn>
           </template>
           <v-list>
