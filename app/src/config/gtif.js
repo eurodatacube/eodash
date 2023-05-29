@@ -523,6 +523,17 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
   },
+  REP6: {
+    indicator: 'Wind Turbines',
+    class: 'air',
+    themes: ['energy-transition'],
+    story: '/data/gtif/markdown/REP6',
+    baseLayers: baseLayersLeftMap,
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
+  },
   MOBI1: {
     ...mobilityTransitionDefaults,
     indicator: 'mobility',
@@ -815,7 +826,7 @@ export const globalIndicators = [
             features: [{
               type: 'Feature',
               properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+              geometry: wkt.read('POLYGON((13.8150 48.7647,17.48452 48.7647,17.48452 46.966583,13.8150 46.966583,13.8150 48.7647))').toJson(),
             }],
           },
           areaIndicator: trucksAreaIndicator,
@@ -2572,6 +2583,66 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
+        }, {
+          protocol: 'GeoJSON',
+          visible: true,
+          name: 'Wind turbine detections',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          style: {
+            strokeColor: '#ff0000',
+            width: 4,
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Wind Turbine Detections',
+        navigationDescription: 'Wind Turbine Detections',
+        indicator: 'REP6',
+        lastIndicatorValue: null,
+        indicatorName: 'Wind Turbines',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromFormat(date, 'yyyyMMdd').toFormat('yyyy-MM-dd')}/${DateTime.fromFormat(date, 'yyyyMMdd').plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Sentinel 2 L2A',
+          minZoom: 13,
+          maxZoom: 18,
+          timeFromProperty: true,
+        }, {
+          minZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          tooltip: true,
+          getTimeFromProperty: 'detection_time',
+          visible: true,
+          name: 'Wind turbine detections',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          style: {
+            strokeColor: '#ff0000',
+            width: 5,
+          },
         }],
       },
     },

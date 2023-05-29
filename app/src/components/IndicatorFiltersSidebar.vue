@@ -153,6 +153,7 @@ export default {
       'Austria-REP3',
       'Austria-REP4',
       'Austria-REP2',
+      'Austria-REP6',
       'Austria-REP1',
       'AT-AQ',
       'Innsbruck-SOL3',

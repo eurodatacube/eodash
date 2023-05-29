@@ -29,6 +29,7 @@
       :resetProjectionOnDestroy='true'
       @updatecenter="handleSpecialLayerCenter"
       @updatezoom="handleSpecialLayerZoom"
+      @setMapTime="(time) => dataLayerTime = {value: time}"
     />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
@@ -558,7 +559,9 @@ export default {
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
           const layers = map.getLayers().getArray();
-          this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+          this.mergedConfigsDataIndexAware.filter(
+            (config) => config.timeFromProperty || config.usedTimes?.time?.length,
+          )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
               if (layer) {
@@ -674,7 +677,9 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
+          if (this.appConfig.id !== 'gtif') {
+            cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
+          }
         }
       }
     });
