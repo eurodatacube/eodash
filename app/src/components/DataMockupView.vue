@@ -319,8 +319,8 @@ export default {
                 ...this.indicatorObject,
                 ...newData,
                 xAxis: 'SO2 [µmol/m2](Sentinel-5p)',
+                yAxis: selected,
               };
-              ind.yAxis = selected;
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );

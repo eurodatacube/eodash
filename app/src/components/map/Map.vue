@@ -30,6 +30,7 @@
       @updatecenter="handleSpecialLayerCenter"
       @updatezoom="handleSpecialLayerZoom"
       @setMapTime="(time) => dataLayerTime = {value: time}"
+      @setTimeArray="handleSetTimeArray"
     />
     <!-- compare layer has same zIndex as specialLayer -->
     <div
@@ -288,6 +289,7 @@ export default {
       queryLink: null,
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
+      externallySuppliedTimeEntries: null,
     };
   },
   computed: {
@@ -342,9 +344,9 @@ export default {
       };
     },
     displayTimeSelection() {
-      return this.indicator?.time.length > 1
+      return this.externallySuppliedTimeEntries || (this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && this.indicatorHasMapData(this.indicator);
+        && this.indicatorHasMapData(this.indicator));
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -424,7 +426,7 @@ export default {
       };
     },
     availableTimeEntries() {
-      return createAvailableTimeEntries(
+      return this.externallySuppliedTimeEntries || createAvailableTimeEntries(
         this.indicator,
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
@@ -844,6 +846,15 @@ export default {
     handleSpecialLayerCenter(e) {
       this.$emit('update:center', e);
       this.currentCenter = e;
+    },
+    handleSetTimeArray(entries) {
+      this.externallySuppliedTimeEntries = entries.map((item) => {
+        const obj = {
+          value: item,
+          name: item,
+        };
+        return obj;
+      });
     },
     indicatorHasMapData(indicatorObject) {
       return indicatorHasMapData(indicatorObject);
