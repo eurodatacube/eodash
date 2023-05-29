@@ -203,8 +203,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
       const source = new WMTS({
         attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
         ...optsFromCapabilities,
       });
       layer.setSource(source);
@@ -546,8 +544,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
         const singleSource = new TileWMS({
           attributions: config.attribution,
-          maxZoom: c.maxZoom,
-          minZoom: c.minZoom,
           crossOrigin: typeof c.crossOrigin !== 'undefined' ? c.crossOrigin : 'anonymous',
           transition: 0,
           projection: getProjectionOl(c.projection),
@@ -574,6 +570,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
         });
         layers.push(new TileLayer({
           name: config.name,
+          maxZoom: c.maxZoom,
+          minZoom: c.minZoom,
           updateOpacityOnZoom: options.updateOpacityOnZoom,
           zIndex: options.zIndex,
           source: singleSource,
@@ -596,8 +594,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }
       source = new TileWMS({
         attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
         crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
         transition: 0,
         projection: getProjectionOl(config.projection),
@@ -649,6 +645,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
   if (source) {
     layers.push(new TileLayer({
       name: config.name,
+      maxZoom: config.maxZoom,
+      minZoom: config.minZoom,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       zIndex: options.zIndex,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
