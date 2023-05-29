@@ -206,7 +206,7 @@ export default {
               layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
             });
             if (finalFeatures.length > 0) {
-              // if (this.options.indicator === 'AQ1') {
+              if (this.options.indicator === 'AQ1') {
                 // // emit new event for map to update list of dates
                 // const array = [];
                 // const ll = 'aggregated_trajs_model_satellite_v1';
@@ -224,10 +224,10 @@ export default {
                 //     this.$emit('setTimeArray', array);
                 //     this.$emit('setMapTime', array.at(-1));
                 //   });
-              // } else {
-              const time = finalFeatures[0].get(config.getTimeFromProperty);
-              this.$emit('setMapTime', time);
-              // }
+              } else {
+                const time = finalFeatures[0].get(config.getTimeFromProperty);
+                this.$emit('setMapTime', time);
+              }
             }
           }
         };
