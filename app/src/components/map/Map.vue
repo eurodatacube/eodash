@@ -674,7 +674,9 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
+          if (this.appConfig.id !== 'gtif') {
+            cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
+          }
         }
       }
     });

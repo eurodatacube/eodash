@@ -2590,7 +2590,7 @@ export const globalIndicators = [
           url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
           style: {
             strokeColor: '#ff0000',
-            width: 5,
+            width: 4,
           },
         }],
       },
