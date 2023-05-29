@@ -123,7 +123,12 @@ export default {
             timeKey = 'time';
           }
 
-          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}`;
+          let additionalQuery = '';
+          if (this.indicatorObject.indicator === 'ADO') {
+            additionalQuery = '&time=gt.2018-06-01';
+          }
+
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}${additionalQuery}`;
           window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
           fetch(expUrl)
             .then((resp) => resp.json())

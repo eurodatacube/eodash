@@ -49,7 +49,26 @@ const blackbody64 = {
 };
 */
 
-const stp = 1 / 7;
+let stp = 1 / 6;
+
+const adoColor = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [215, 25, 28] },
+      { index: stp * 1, rgb: [253, 174, 97] },
+      { index: stp * 2, rgb: [255, 255, 191] },
+      { index: stp * 3, rgb: [255, 255, 255] },
+      { index: stp * 4, rgb: [245, 153, 246] },
+      { index: stp * 5, rgb: [180, 103, 221] },
+      { index: stp * 6, rgb: [69, 0, 153] },
+    ],
+    nshades: 32,
+  }),
+};
+
+stp = 1 / 7;
+
 const grywrd = {
   steps: 128,
   colors: colormap({
@@ -651,6 +670,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['eo-adaptation-services'],
     story: '/data/gtif/markdown/ADO',
+    customAreaIndicator: true,
   },
   AQA: {
     ...mobilityTransitionDefaults,
@@ -964,36 +984,36 @@ export const globalIndicators = [
               id: 'spi-1',
               description: 'SPI-1',
               dataInfo: 'SPI',
-              min: -3,
-              max: 3,
-              colormapUsed: grywrd,
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
               markdown: 'SPI',
             },
             {
               id: 'spi-12',
               description: 'SPI-12',
               dataInfo: 'SPI',
-              min: -3,
-              max: 3,
-              colormapUsed: grywrd,
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
               markdown: 'SPI',
             },
             {
               id: 'spei-1',
               description: 'SPEI-1',
-              dataInfo: 'SPEI',
-              min: -3,
-              max: 3,
-              colormapUsed: grywrd,
+              dataInfo: 'SPEI1',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
               markdown: 'SPEI',
             },
             {
               id: 'spei-12',
               description: 'SPEI-12',
-              dataInfo: 'SPEI',
-              min: -3,
-              max: 3,
-              colormapUsed: grywrd,
+              dataInfo: 'SPEI12',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
               markdown: 'SPEI',
             },
           ],
@@ -1015,13 +1035,13 @@ export const globalIndicators = [
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_NUTS_L3_3857',
           protocol: 'geoserverTileLayer',
           style: {
-            strokeColor: 'rgba(0,0,0,1)',
+            strokeColor: 'rgba(0,0,0,0)',
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
               if (store.state.indicators.selectedIndicator
                   && store.state.indicators.selectedIndicator[dataSource]) {
-                const id = feature.id_;
+                const id = feature.get('nuts_id').replace(/\s/g, ''); // need to remove white spaces
                 const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
@@ -1030,6 +1050,23 @@ export const globalIndicators = [
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                  /*
+                  if (value < -2) {
+                    color = 'rgba(215, 25, 28, 0.7)';
+                  } else if (value < -1.5) {
+                    color = 'rgba(253, 174, 97, 0.7);';
+                  } else if (value < -1) {
+                    color = 'rgba(255, 255, 191, 0.7);';
+                  } else if (value < 1) {
+                    color = 'rgba(255, 255, 255, 0.7)';
+                  } else if (value < 1.5) {
+                    color = 'rgba(245, 153, 246, 0.7)';
+                  } else if (value < 2) {
+                    color = 'rgba(180, 103, 221, 0.7)';
+                  } else if (value >= 2) {
+                    color = 'rgba(69, 0, 153, 0.7)';
+                  }
+                  */
                 }
               }
               return color;
