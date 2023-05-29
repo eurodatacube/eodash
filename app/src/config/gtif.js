@@ -965,7 +965,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: [],
+        time: availableDates.aggregated_data,
         inputData: [''],
         yAxis: 'Aggregated data',
         queryParameters: {
@@ -1050,10 +1050,10 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
-          getTimeFromProperty: 'timestamp',
-          timeFromProperty: true,
+          // getTimeFromProperty: 'timestamp',
+          // timeFromProperty: true,
           style: {
-            strokeColor: 'rgba(0,0,0,0.5)',
+            strokeColor: 'rgba(0,0,0,0)',
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
