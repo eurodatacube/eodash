@@ -965,16 +965,13 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.aggregated_data.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
+        time: availableDates.aggregated_data,
         inputData: [''],
         yAxis: 'Aggregated data',
         queryParameters: {
           // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
           // motorized_share, motorized_count, satellite_values, mean_value
-          sourceLayer: 'aggregated_trajs_model_satellite',
+          sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: 'n_trajectories',
           items: [
             {
@@ -1009,7 +1006,7 @@ export const globalIndicators = [
               description: 'Congestion index',
               dataInfo: '',
               min: 0,
-              max: 1,
+              max: 10,
               colormapUsed: blgrrd,
               markdown: '',
             },
@@ -1024,7 +1021,7 @@ export const globalIndicators = [
             },
             {
               id: 'motorized_count',
-              description: 'Motirized count',
+              description: 'Motorized count',
               dataInfo: '',
               min: 0,
               max: 20000,
@@ -1053,6 +1050,8 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
+          // getTimeFromProperty: 'timestamp',
+          // timeFromProperty: true,
           style: {
             strokeColor: 'rgba(0,0,0,0)',
             getColor: (feature, store, options) => {
@@ -1060,13 +1059,13 @@ export const globalIndicators = [
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
               if (store.state.indicators.selectedIndicator
                   && store.state.indicators.selectedIndicator[dataSource]) {
-                const id = Number(feature.properties_.object_id);
+                const id = Number(feature.get('object_id'));
                 const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
                   const value = ind[dataSource][id][currPar.id];
-                  if (value != null) {
+                  if (value != null && value !== 0) {
                     const { min, max, colormapUsed } = currPar;
                     const f = clamp((value - min) / (max - min), 0, 1);
                     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1077,15 +1076,14 @@ export const globalIndicators = [
             },
           },
           selection: {
-            mode: 'multiple',
+            mode: 'single',
           },
           tooltip: false,
-          id: 'aggregated_trajs_model_satellite',
+          id: 'aggregated_trajs_model_satellite_v1',
           timeKey: 'timestamp',
           name: 'Aggregated data',
           adminZoneKey: 'satellite_id',
           parameters: 'satellite_id,satellite_values,mean_value,speed,congestion_index,n_trajectories,motorized_count,motorized_share',
-          minZoom: 1,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
         },
