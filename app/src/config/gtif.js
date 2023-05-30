@@ -1536,7 +1536,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: getMinuteIntervals('2022-12-01T00:00:00Z', '2022-12-07T22:00:00Z', 60),
+        time: getDailyDates('2022-01-01T00:00:00Z', '2022-07-01T22:00:00Z'),
         inputData: [''],
         yAxis: '',
         highlights: [
@@ -1559,53 +1559,53 @@ export const globalIndicators = [
           },
         ],
         queryParameters: {
-          sourceLayer: 'trajectories_on_edges_austria_december_first_week',
-          selected: 'congestion_index',
+          sourceLayer: 'trajectories_on_edges_austria_daily',
+          selected: 'congestion_index_max',
           dataInfo: 'AQ4',
           items: [
             {
-              id: 'congestion_index',
-              description: 'Congestion index',
+              id: 'congestion_index_max',
+              description: 'Max. congestion index',
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
               markdown: 'AQ4_congestion_index',
             },
             {
-              id: 'duration',
-              description: 'Traffic-free trip duration',
+              id: 'duration_max',
+              description: 'Max. Traffic-free trip duration',
               min: 0,
               max: 240,
               colormapUsed: blgrrd,
               markdown: 'AQ4_duration',
             },
             {
-              id: 'speed',
-              description: 'Traffic-free trip speed',
+              id: 'speed_max',
+              description: 'Max. Traffic-free trip speed',
               min: 0,
               max: 140,
               colormapUsed: blgrrd,
               markdown: 'AQ4_speed',
             },
             {
-              id: 'distance',
-              description: 'Trip distance',
+              id: 'distance_max',
+              description: 'Max. Trip distance',
               min: 0,
               max: 300,
               colormapUsed: blgrrd,
               markdown: 'AQ4_distance',
             },
             {
-              id: 'n_trajectories',
-              description: 'Trajectories',
+              id: 'n_trajectories_max',
+              description: 'Max. Trajectories',
               min: 1,
               max: 4000,
               colormapUsed: blgrrd,
               markdown: 'AQ4_trajectories',
             },
             {
-              id: 'motorized_share',
-              description: 'Motorized trip share index',
+              id: 'motorized_share_max',
+              description: 'Max. Motorized trip share index',
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
@@ -1614,11 +1614,11 @@ export const globalIndicators = [
           ],
         },
         display: {
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_subset_3857',
           protocol: 'geoserverTileLayer',
           style: {
             getStrokeColor: (feature, store, options) => {
-              let color = '#000000';
+              let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
               if (store.state.indicators.selectedIndicator
                   && store.state.indicators.selectedIndicator[dataSource]) {
@@ -1641,9 +1641,9 @@ export const globalIndicators = [
             },
             fillColor: '#ffffff',
           },
-          id: 'trajectories_on_edges_austria_december_first_week',
+          id: 'trajectories_on_edges_austria_daily',
           adminZoneKey: 'unique_id',
-          parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
+          parameters: 'unique_id,congestion_index_max,duration_max, speed_max, distance_max, n_trajectories_max, motorized_share_max',
           name: 'Human Mobility Patterns',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
