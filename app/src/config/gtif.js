@@ -2946,7 +2946,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['>', ['band', 1], 1],
-                // ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
+                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['any',
                   ['between',
                     ['band', 2],
