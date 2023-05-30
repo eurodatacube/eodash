@@ -114,6 +114,14 @@ export default {
     },
     render() {
       const extendedSettings = Object.assign(this.defaultOptions, this.options);
+      if ('yAxisOverwrite' in extendedSettings) {
+        extendedSettings.scales.yAxes[0] = {
+          ...extendedSettings.scales.yAxes[0],
+          ...extendedSettings.yAxisOverwrite,
+        };
+      } else {
+        extendedSettings.scales.yAxes[0].scaleLabel.labelString = this.options.yAxis;
+      }
       this.renderChart(this.chartData, extendedSettings);
     },
   },

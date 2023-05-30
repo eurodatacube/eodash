@@ -10,4 +10,4 @@
 
 **Color Range:** linear scale [0 - 100]
 
-![Legend](legends/gtif/AQ4_motorized_share.png "Motorized trip share index")
+<img style="float:right; margin-top:-60px;" alt="Motorized trip share index" src="legends/gtif/AQ4_motorized_share.png" width="45%" style="vertical-align: middle;"/>

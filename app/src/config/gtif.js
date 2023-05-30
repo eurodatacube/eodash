@@ -717,6 +717,13 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
   },
+  AQ1: {
+    indicator: 'Aggregated mobility data',
+    class: 'air',
+    themes: ['mobility-transition'],
+    story: '/data/gtif/markdown/AQ',
+    customAreaIndicator: true,
+  },
   AQ2: {
     ...mobilityTransitionDefaults,
     indicator: 'Innsbruck hot-spot',
@@ -972,6 +979,150 @@ export const globalIndicators = [
         inputData: [''],
         // display: {
         // },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Aggregated mobility data',
+        indicator: 'AQ1',
+        lastIndicatorValue: null,
+        indicatorName: 'Aggregated mobility data',
+        navigationDescription: 'Mobility & Air quality',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: availableDates.aggregated_data,
+        inputData: [''],
+        yAxis: 'Aggregated data',
+        queryParameters: {
+          // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
+          // motorized_share, motorized_count, satellite_values, mean_value
+          sourceLayer: 'aggregated_trajs_model_satellite_v1',
+          selected: 'n_trajectories',
+          items: [
+            {
+              id: 'n_trajectories',
+              description: 'Number of trajectories',
+              dataInfo: '',
+              min: 0,
+              max: 50000,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'satellite_values',
+              description: 'Sentinel-5p values',
+              dataInfo: '',
+              min: 0,
+              max: 500,
+              colormapUsed: grywrd,
+              markdown: '',
+            },
+            {
+              id: 'mean_value',
+              description: 'Model value (WRFChem)',
+              dataInfo: '',
+              min: 0,
+              max: 50,
+              colormapUsed: grywrd,
+              markdown: '',
+            },
+            {
+              id: 'congestion_index',
+              description: 'Congestion index',
+              dataInfo: '',
+              min: 0,
+              max: 10,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'speed',
+              description: 'Speed',
+              dataInfo: '',
+              min: 0,
+              max: 120,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'motorized_count',
+              description: 'Motorized count',
+              dataInfo: '',
+              min: 0,
+              max: 20000,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+            {
+              id: 'motorized_share',
+              description: 'Motorized share',
+              dataInfo: '',
+              min: 0,
+              max: 100,
+              colormapUsed: blgrrd,
+              markdown: '',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
+          protocol: 'geoserverTileLayer',
+          // getTimeFromProperty: 'timestamp',
+          // timeFromProperty: true,
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = Number(feature.get('object_id'));
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  if (value != null && value !== 0) {
+                    const { min, max, colormapUsed } = currPar;
+                    const f = clamp((value - min) / (max - min), 0, 1);
+                    color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                  }
+                }
+              }
+              return color;
+            },
+          },
+          selection: {
+            mode: 'multiple',
+          },
+          tooltip: false,
+          id: 'aggregated_trajs_model_satellite_v1',
+          timeKey: 'timestamp',
+          name: 'Aggregated data',
+          adminZoneKey: 'satellite_id',
+          parameters: 'satellite_id,satellite_values,mean_value,speed,congestion_index,n_trajectories,motorized_count,motorized_share',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+        },
       },
     },
   },
@@ -1549,7 +1700,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: getMinuteIntervals('2022-12-01T00:00:00Z', '2022-12-07T22:00:00Z', 60),
+        time: getDailyDates('2022-01-01T00:00:00Z', '2022-07-01T22:00:00Z'),
         inputData: [''],
         yAxis: '',
         highlights: [
@@ -1572,53 +1723,53 @@ export const globalIndicators = [
           },
         ],
         queryParameters: {
-          sourceLayer: 'trajectories_on_edges_austria_december_first_week',
-          selected: 'congestion_index',
+          sourceLayer: 'trajectories_on_edges_austria_daily',
+          selected: 'congestion_index_max',
           dataInfo: 'AQ4',
           items: [
             {
-              id: 'congestion_index',
-              description: 'Congestion index',
+              id: 'congestion_index_max',
+              description: 'Max. Congestion index',
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
               markdown: 'AQ4_congestion_index',
             },
             {
-              id: 'duration',
-              description: 'Traffic-free trip duration',
+              id: 'duration_max',
+              description: 'Max. Trip duration',
               min: 0,
               max: 240,
               colormapUsed: blgrrd,
               markdown: 'AQ4_duration',
             },
             {
-              id: 'speed',
-              description: 'Traffic-free trip speed',
+              id: 'speed_max',
+              description: 'Max. Trip speed',
               min: 0,
               max: 140,
               colormapUsed: blgrrd,
               markdown: 'AQ4_speed',
             },
             {
-              id: 'distance',
-              description: 'Trip distance',
+              id: 'distance_max',
+              description: 'Max. Trip distance',
               min: 0,
               max: 300,
               colormapUsed: blgrrd,
               markdown: 'AQ4_distance',
             },
             {
-              id: 'n_trajectories',
-              description: 'Trajectories',
+              id: 'n_trajectories_max',
+              description: 'Max. Trajectories',
               min: 1,
               max: 4000,
               colormapUsed: blgrrd,
               markdown: 'AQ4_trajectories',
             },
             {
-              id: 'motorized_share',
-              description: 'Motorized trip share index',
+              id: 'motorized_share_max',
+              description: 'Max. Motorized trip share index',
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
@@ -1627,11 +1778,11 @@ export const globalIndicators = [
           ],
         },
         display: {
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_3857',
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_subset_3857',
           protocol: 'geoserverTileLayer',
           style: {
             getStrokeColor: (feature, store, options) => {
-              let color = '#000000';
+              let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
               if (store.state.indicators.selectedIndicator
                   && store.state.indicators.selectedIndicator[dataSource]) {
@@ -1643,7 +1794,7 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
-                  if (['n_trajectories'].includes(dataSource)) {
+                  if (['n_trajectories_max'].includes(dataSource)) {
                     f = clamp((Math.log10(value) - Math.log10(min))
                       / (Math.log10(max) - Math.log10(min)), 0, 1);
                   }
@@ -1654,9 +1805,9 @@ export const globalIndicators = [
             },
             fillColor: '#ffffff',
           },
-          id: 'trajectories_on_edges_austria_december_first_week',
+          id: 'trajectories_on_edges_austria_daily',
           adminZoneKey: 'unique_id',
-          parameters: 'unique_id,congestion_index,duration,speed,distance,n_trajectories,motorized_share',
+          parameters: 'unique_id,congestion_index_max,duration_max, speed_max, distance_max, n_trajectories_max, motorized_share_max',
           name: 'Human Mobility Patterns',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,

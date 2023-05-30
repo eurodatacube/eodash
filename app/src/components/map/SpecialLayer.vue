@@ -206,8 +206,28 @@ export default {
               layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
             });
             if (finalFeatures.length > 0) {
-              const time = finalFeatures[0].get(config.getTimeFromProperty);
-              this.$emit('setMapTime', time);
+              if (this.options.indicator === 'AQ1') {
+                // // emit new event for map to update list of dates
+                // const array = [];
+                // const ll = 'aggregated_trajs_model_satellite_v1';
+                // const adminZoneKey = 'object_id';
+                // const adminId = finalFeatures[0].get(adminZoneKey);
+                // const url = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_${ll}?${config.adminZoneKey}=eq.${adminId}&select=${config.timeKey}&order=${config.timeKey}`;
+                // fetch(url)
+                //   .then((resp) => resp.json())
+                //   .then((json) => {
+                //     json.forEach((entry) => {
+                //       array.push(entry[config.timeKey]);
+                //     });
+                //   })
+                //   .finally(() => {
+                //     this.$emit('setTimeArray', array);
+                //     this.$emit('setMapTime', array.at(-1));
+                //   });
+              } else {
+                const time = finalFeatures[0].get(config.getTimeFromProperty);
+                this.$emit('setMapTime', time);
+              }
             }
           }
         };

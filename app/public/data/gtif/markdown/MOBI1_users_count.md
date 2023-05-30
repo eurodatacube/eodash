@@ -11,4 +11,4 @@ Administrative Unit (LAU) during a given hour.
 
 **Color Range:** logarithmic scale [100, 100 000]
 
-![Legend](legends/gtif/MOBI1_users_count.png "Population count")
+<img style="float:right; margin-top:-60px;" alt="Population count" src="legends/gtif/MOBI1_users_count.png" width="45%" style="vertical-align: middle;"/>
