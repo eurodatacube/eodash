@@ -1749,16 +1749,22 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Austria',
-        time: getMinuteIntervals('2022-12-01T00:00:00Z', '2022-12-31T23:00:00Z', 60),
+        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z', 60),
         inputData: [''],
         yAxis: '',
+        /*
+        "adminzoneid", "time",  "users_count_min", "users_count_p25", "users_count_p50",
+        "users_count_p75",  "users_count_max", "users_count_mean",  "users_density_min",
+        "users_density_p25", "users_density_p50", "users_density_p75",  "users_density_max",
+        "users_density_mean",
+        */
         queryParameters: {
           sourceLayer: 'dynamic_human_presence',
-          selected: 'users_count',
+          selected: 'users_count_mean',
           dataInfo: 'MOBI1',
           items: [
             {
-              id: 'users_count',
+              id: 'users_count_mean',
               description: 'Population count',
               min: 100,
               max: 100000,
@@ -1766,7 +1772,7 @@ export const globalIndicators = [
               markdown: 'MOBI1_users_count',
             },
             {
-              id: 'users_density',
+              id: 'users_density_mean',
               description: 'Population density',
               min: 1,
               max: 10000,
@@ -1802,9 +1808,9 @@ export const globalIndicators = [
             strokeColor: 'rgba(0,0,0,0)',
           },
           opacity: 0.7,
-          id: 'mobility_v1',
+          id: 'mobility_daily',
           adminZoneKey: 'adminzoneid',
-          parameters: 'adminzoneid,users_count,users_density',
+          parameters: 'adminzoneid,users_count_mean,users_density_mean',
           name: 'Mobility Data',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
