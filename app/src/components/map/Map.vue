@@ -506,7 +506,7 @@ export default {
       if (this.appConfig.id !== 'gtif') {
         return;
       }
-      if (this.mapId === 'centerMap' && features) {
+      if (this.mapId === 'centerMap') {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }

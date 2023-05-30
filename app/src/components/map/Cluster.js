@@ -462,9 +462,6 @@ class Cluster {
    * @param {Array} indicatorFeatures indicator feature definition objects
    */
   setFeatures(indicatorFeatures) {
-    if (!indicatorFeatures.length > 0) {
-      return;
-    }
     const features = indicatorFeatures.filter((i) => i.properties.indicatorObject.aoi).map((i) => {
       const feature = new Feature({
         properties: i.properties,
