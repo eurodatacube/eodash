@@ -2552,6 +2552,14 @@ export const globalIndicators = [
           },
         },
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
+            }],
+          },
           protocol: 'cog',
           id: 'VTT',
           sources: [
