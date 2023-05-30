@@ -14,4 +14,5 @@ featuring different surface extensions and amount of visitors.
 
 **Color Range:** logarithmic scale [1, 10 000]
 
-![Legend](legends/gtif/MOBI1_users_density.png "Population density")
+<img style="float:right; margin-top:-60px;" alt="Population density" src="legends/gtif/MOBI1_users_density.png" width="45%" style="vertical-align: middle;"/>
+
