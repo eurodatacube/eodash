@@ -3003,7 +3003,7 @@ export const globalIndicators = [
               header: true,
               min: 0,
               max: 8,
-              range: [2, 4],
+              range: [0, 8],
               changeablaDataset: {
                 items: [
                   {
