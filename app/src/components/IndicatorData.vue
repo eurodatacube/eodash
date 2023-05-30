@@ -999,16 +999,22 @@ export default {
             const y = [];
             const zsps = [];
             const clrs = [];
+            let counter = 0;
+            const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
+              '#9a08c7', '#e60532', '#d66d11'];
             Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
               x.push(indicator.fetchedData[gemId][zspId].measurement);
               y.push(indicator.fetchedData[gemId][zspId].referenceValue);
               zsps.push(zspId);
               if (indicator.originalZsps.map((ftr) => ftr.getId())
                 .includes(parseInt(zspId, 10))) {
-                clrs.push('#ff0000');
+                const ii = counter % availableSelectedColors.length;
+                clrs.push(`${availableSelectedColors[ii]}80`);
+                counter += 1;
               } else {
                 const index = ind % refColors.length;
-                clrs.push(refColors[index]);
+                // adding 0.5 alpha to each color
+                clrs.push(`${refColors[index]}80`);
               }
             });
             const data = x.map((mm, j) => (
