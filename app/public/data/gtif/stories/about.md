@@ -1,4 +1,27 @@
 
-## GTIF - Beta release
+## GTIF - Release 1.0
 
-You are currently viewing a beta release of the Green Transition Information Factory (GTIF) demonstrator for Austria. This release features an initial set of tools and content. There is much more in development and coming! Please also note that this version is not yet optimised for mobile view and there might be some issues with certain browsers. For now, we invite you to explore the GTIF environment and get engaged to support our transition to a sustainable future. Feel free to provide feedback, wished and recommendations using the feedback form or via gtif@esa.int.
+Welcome to the V1.0 release of the Green Transition Information Factory – Demonstrator for Austria! 
+**What’s new**:  
+
+- **Energy Transition:**
+  - Hydroelectric reservoir monitoring 
+  - ML-based wind turbine detection
+  - Energy planning: Seasonal solar irradiation, new constraining variables
+- **Sustainable cities:** 
+  - Full country green & solar roofs analyses
+- **Carbon accounting:** 
+  - 20m forest biomass products
+  - Country wide disturbance mapping & change attribution
+- **Mobility transition:** 
+  - Correlation explorer: Air quality & human mobility
+  - Sentinel-2-based truck detection indicator
+- **EO adaptation services:**
+  - Expanded heat explorer
+  - Snow depth & snow water equivalent products
+  - Alpine Drought Explorer elements
+- **New and Improved scrollytelling narratives**
+  - UI/UX enhancements: 
+  - Compare regions
+  - Export regions as geoJson
+  - Create report
