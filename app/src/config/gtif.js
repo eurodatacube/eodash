@@ -2972,12 +2972,12 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'Wind Energy',
+          name: 'Wind Power Density',
         }, {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
-          name: 'Census Track (Zählsprengel)',
+          name: 'Admin units (Zählsprengel)',
           visible: true,
           minZoom: 12,
           selection: {
