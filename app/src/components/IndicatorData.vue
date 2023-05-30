@@ -1337,6 +1337,27 @@ export default {
         }
       }
 
+      /*
+      if (['AQ1'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              debugger;
+              const label = `${data.datasets[context.datasetIndex].label} measurement: ${Number(context.value)}`;
+              return label;
+            },
+            footer: (context) => {
+              debugger;
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const labelOutput = `Time: ${obj.referenceValue}`;
+              return labelOutput;
+            },
+          },
+        };
+      }
+      */
+
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
@@ -1687,7 +1708,6 @@ export default {
           },
         };
       }
-
       return {
         ...customSettings,
         annotation: {

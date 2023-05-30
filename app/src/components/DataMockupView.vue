@@ -311,9 +311,11 @@ export default {
                 colorCode: [],
               };
               json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry[selected]);
-                newData.referenceValue.push(entry.satellite_values);
+                if (entry[selected] !== null && entry.satellite_values !== null) {
+                  newData.time.push(DateTime.fromISO(entry.time));
+                  newData.measurement.push(entry[selected]);
+                  newData.referenceValue.push(entry.satellite_values);
+                }
               });
               const ind = {
                 ...this.indicatorObject,
