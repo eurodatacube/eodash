@@ -1693,6 +1693,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        disabled: true,
         country: 'all',
         city: 'Austria',
         siteName: 'global',
@@ -1899,6 +1900,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        disabled: true,
         country: 'all',
         city: 'Austria',
         siteName: 'global',
