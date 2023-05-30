@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
@@ -6,7 +7,6 @@ import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
-
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -547,7 +547,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP6',
-    baseLayers:  [{
+    baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
     baseLayers.terrainLight,
