@@ -123,7 +123,7 @@ export default {
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'AQ1',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'REP4_2',
@@ -136,7 +136,7 @@ export default {
         'E10a1', 'E10a5', 'N2',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL2', 'REP4_5',
+        'SOL1', 'SOL2', 'REP4_5', 'AQ1',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -145,7 +145,7 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO'],
     };
   },
 
@@ -939,8 +939,8 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
+          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -961,14 +961,33 @@ export default {
           const data = indicator.time.map((date, i) => (
             { t: date, y: indicator.measurement[i] }
           ));
+          let label = indicator.yAxis;
+          if (['MOBI1'].includes(indicatorCode)) {
+            label = 'time series for selected area';
+          }
           datasets.push({
-            label: indicator.yAxis,
+            label,
             fill: false,
             data,
             backgroundColor: refColors[0],
             borderColor: refColors[0],
             borderWidth: 1,
             // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
+        } else if (['AQ1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: 'data for selected bins',
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
@@ -1322,6 +1341,28 @@ export default {
         }
       }
 
+      /*
+      if (['AQ1'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              debugger;
+              // const label = `${data.datasets[context.datasetIndex].label} measurement:
+              // ${Number(context.value)}`;
+              return label;
+            },
+            footer: (context) => {
+              debugger;
+              const { datasets } = this.datacollection;
+              const obj = datasets[context[0].datasetIndex].data[context[0].index];
+              const labelOutput = `Time: ${obj.referenceValue}`;
+              return labelOutput;
+            },
+          },
+        };
+      }
+      */
+
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
@@ -1672,7 +1713,6 @@ export default {
           },
         };
       }
-
       return {
         ...customSettings,
         annotation: {

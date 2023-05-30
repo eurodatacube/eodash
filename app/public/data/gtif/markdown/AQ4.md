@@ -19,6 +19,6 @@ than an exact representation of reality. Anyhow, despite their limitations, popu
 and human mobility predictions can still provide valuable insights into trends and patterns that
 can support a comprehensive understanding of human behaviour.
 
-![Luftblick Logo](data/gtif/images/logos/luftblick.png "Luftblick Logo")
-![University Innsbruck Logo](data/gtif/images/logos/uniinnsbruck.png "University Innsbruck Logo")
-![DLR Logo](data/gtif/images/logos/dlr.png "DLR Logo")
+<div align="middle">
+  <img alt="Mindearth Logo" src="data/gtif/images/logos/mindearth.png" width="45%" style="vertical-align: middle;"/>
+</div>

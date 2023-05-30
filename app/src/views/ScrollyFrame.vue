@@ -84,6 +84,7 @@ export default {
       case 'gtif-sustainable-cities':
       case 'gtif-carbon-accounting':
       case 'gtif-eo-adaptation-services':
+      case 'gtif-eo-adaptation-services-snow':
       case 'landing':
         this.setCurrentDomain(this.$route.name);
         return '';

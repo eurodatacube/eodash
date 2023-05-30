@@ -272,6 +272,10 @@ export default {
               name: 'Adapting forest management practices in a changing climate',
               routeName: 'gtif-eo-adaptation-services',
             },
+            {
+              name: 'Water in snow as a resource for hydropower',
+              routeName: 'gtif-eo-adaptation-services-snow',
+            },
           ],
         },
       ],

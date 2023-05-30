@@ -107,19 +107,29 @@ export default {
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
-        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
+        if (['AQA', 'AQB', 'AQC', 'MOBI1', 'ADO'].includes(this.indicatorObject.indicator)) {
+          const { adminZoneKey } = this.indicatorObject.display;
           const adminIds = [];
           features.forEach((ftr) => {
-            adminIds.push(ftr.getId());
+            let id = ftr.getId();
+            if (this.indicatorObject.indicator === 'ADO') {
+              id = ftr.get(adminZoneKey);
+            }
+            adminIds.push(id);
           });
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const { adminZoneKey } = this.indicatorObject.display;
           let { timeKey } = this.indicatorObject.display;
           if (!timeKey) {
             timeKey = 'time';
           }
 
-          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}`;
+          let additionalQuery = '';
+          if (this.indicatorObject.indicator === 'ADO') {
+            additionalQuery = '&time=gt.2018-06-01';
+          }
+
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}${additionalQuery}`;
+          window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -149,8 +159,8 @@ export default {
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
-            });
+            })
+            .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
         }
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const zspStrings = [];
@@ -286,6 +296,43 @@ export default {
                 xAxis: 'Roof area [m²]',
               };
               ind.yAxis = description;
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+            });
+        }
+        if (['AQ1'].includes(this.indicatorObject.indicator)) {
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(Number(ftr.get('fid')));
+          });
+          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
+          // ideally, we would iterate over all items from display if an array
+          const { adminZoneKey } = this.indicatorObject.display;
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=satellite_values,${selected},${adminZoneKey}`;
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+                colorCode: [],
+              };
+              json.forEach((entry) => {
+                if (entry[selected] !== null && entry.satellite_values !== null) {
+                  newData.time.push(DateTime.fromISO(entry.time));
+                  newData.measurement.push(entry[selected]);
+                  newData.referenceValue.push(entry.satellite_values);
+                }
+              });
+              const ind = {
+                ...this.indicatorObject,
+                ...newData,
+                xAxis: 'NO2 [µmol/m2](Sentinel-5p)',
+                yAxis: selected,
+              };
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );
