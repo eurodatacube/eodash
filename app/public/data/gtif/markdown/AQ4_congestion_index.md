@@ -10,4 +10,4 @@
 
 **Color Range:** linear scale [0 - 100]
 
-![Legend](legends/gtif/AQ4_congestion_index.png "Congestion index")
+<img style="float:right; margin-top:-60px;" alt="Congestion index" src="legends/gtif/AQ4_congestion_index.png" width="45%" style="vertical-align: middle;"/>

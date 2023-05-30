@@ -10,4 +10,4 @@
 
 **Color Range:** linear scale [0, 300]
 
-![Legend](legends/gtif/AQ4_distance.png "Trip distance")
+<img style="float:right; margin-top:-60px;" alt="Trip distance" src="legends/gtif/AQ4_distance.png" width="45%" style="vertical-align: middle;"/>

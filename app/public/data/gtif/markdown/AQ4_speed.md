@@ -10,4 +10,4 @@
 
 **Color Range:** linear scale [0 - 130]
 
-![Legend](legends/gtif/AQ4_speed.png "Traffic-free trip speed")
+<img style="float:right; margin-top:-60px;" alt="Traffic-free trip speed" src="legends/gtif/AQ4_speed.png" width="45%" style="vertical-align: middle;"/>

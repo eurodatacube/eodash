@@ -318,7 +318,7 @@ export default {
               const ind = {
                 ...this.indicatorObject,
                 ...newData,
-                xAxis: 'SO2 [µmol/m2](Sentinel-5p)',
+                xAxis: 'NO2 [µmol/m2](Sentinel-5p)',
                 yAxis: selected,
               };
               this.$store.commit(

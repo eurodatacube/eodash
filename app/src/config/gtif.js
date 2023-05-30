@@ -1076,7 +1076,7 @@ export const globalIndicators = [
             },
           },
           selection: {
-            mode: 'single',
+            mode: 'multiple',
           },
           tooltip: false,
           id: 'aggregated_trajs_model_satellite_v1',

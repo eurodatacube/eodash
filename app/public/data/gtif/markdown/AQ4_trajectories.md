@@ -10,4 +10,4 @@
 
 **Color Range:** logarithmic scale [1 - 4000]
 
-![Legend](legends/gtif/AQ4_trajectories.png "Trajectories count")
+<img style="float:right; margin-top:-60px;" alt="Trajectories count" src="legends/gtif/AQ4_trajectories.png" width="45%" style="vertical-align: middle;"/>

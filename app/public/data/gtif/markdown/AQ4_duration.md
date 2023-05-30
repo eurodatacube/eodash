@@ -10,4 +10,5 @@
 
 **Color Range:** linear scale [0, 60]
 
-![Legend](legends/gtif/AQ4_duration.png "Traffic-free trip duration")
+<img style="float:right; margin-top:-60px;" alt="Traffic-free trip duration" src="legends/gtif/AQ4_duration.png" width="45%" style="vertical-align: middle;"/>
+
