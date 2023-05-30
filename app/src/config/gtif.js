@@ -1729,7 +1729,7 @@ export const globalIndicators = [
           items: [
             {
               id: 'congestion_index_max',
-              description: 'Max. congestion index',
+              description: 'Max. Congestion index',
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
@@ -1737,7 +1737,7 @@ export const globalIndicators = [
             },
             {
               id: 'duration_max',
-              description: 'Max. Traffic-free trip duration',
+              description: 'Max. Trip duration',
               min: 0,
               max: 240,
               colormapUsed: blgrrd,
@@ -1745,7 +1745,7 @@ export const globalIndicators = [
             },
             {
               id: 'speed_max',
-              description: 'Max. Traffic-free trip speed',
+              description: 'Max. Trip speed',
               min: 0,
               max: 140,
               colormapUsed: blgrrd,
@@ -1794,7 +1794,7 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
-                  if (['n_trajectories'].includes(dataSource)) {
+                  if (['n_trajectories_max'].includes(dataSource)) {
                     f = clamp((Math.log10(value) - Math.log10(min))
                       / (Math.log10(max) - Math.log10(min)), 0, 1);
                   }
