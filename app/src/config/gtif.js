@@ -476,7 +476,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP4',
     maxDecimals: 5,
     baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm, visible: true,
+      ...baseLayers.bmapgelaende, visible: true,
     },
     baseLayers.terrainLight,
     baseLayers.cloudless,
@@ -485,7 +485,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmaporthofoto30cm],
   },
   REP4_2: {
     indicator: 'Hydro Power SWE monthly',
@@ -494,7 +494,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/gtif/markdown/REP4',
     maxDecimals: 5,
     baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm, visible: true,
+      ...baseLayers.bmapgelaende, visible: true,
     },
     baseLayers.terrainLight,
     baseLayers.cloudless,
@@ -503,7 +503,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmaporthofoto30cm],
   },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
