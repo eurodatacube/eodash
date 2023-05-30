@@ -1,7 +1,8 @@
 
 ## GTIF - Release 1.0
 
-Welcome to the V1.0 release of the Green Transition Information Factory – Demonstrator for Austria! 
+Welcome to the V1.0 release of the Green Transition Information Factory – Demonstrator for Austria!
+
 **What’s new**:  
 
 - **Energy Transition:**
