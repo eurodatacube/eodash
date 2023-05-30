@@ -983,7 +983,7 @@ export const globalIndicators = [
             {
               id: 'spi-1',
               description: 'SPI-1',
-              dataInfo: 'SPI',
+              dataInfo: 'SPI1',
               min: -2,
               max: 2,
               colormapUsed: adoColor,
@@ -992,7 +992,7 @@ export const globalIndicators = [
             {
               id: 'spi-12',
               description: 'SPI-12',
-              dataInfo: 'SPI',
+              dataInfo: 'SPI12',
               min: -2,
               max: 2,
               colormapUsed: adoColor,
