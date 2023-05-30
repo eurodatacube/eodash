@@ -107,19 +107,29 @@ export default {
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
-        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1'].includes(this.indicatorObject.indicator)) {
+        if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1', 'ADO'].includes(this.indicatorObject.indicator)) {
+          const { adminZoneKey } = this.indicatorObject.display;
           const adminIds = [];
           features.forEach((ftr) => {
-            adminIds.push(ftr.getId());
+            let id = ftr.getId();
+            if (this.indicatorObject.indicator === 'ADO') {
+              id = ftr.get(adminZoneKey);
+            }
+            adminIds.push(id);
           });
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
-          const { adminZoneKey } = this.indicatorObject.display;
           let { timeKey } = this.indicatorObject.display;
           if (!timeKey) {
             timeKey = 'time';
           }
 
-          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}`;
+          let additionalQuery = '';
+          if (this.indicatorObject.indicator === 'ADO') {
+            additionalQuery = '&time=gt.2018-06-01';
+          }
+
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected},${timeKey},${adminZoneKey}${additionalQuery}`;
+          window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
@@ -149,8 +159,8 @@ export default {
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
               );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
-            });
+            })
+            .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
         }
         if (['SOL1'].includes(this.indicatorObject.indicator)) {
           const zspStrings = [];

@@ -123,7 +123,7 @@ export default {
         'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'AQ1',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'AQ1', 'ADO',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'REP4_2',
@@ -145,7 +145,7 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO'],
     };
   },
 
@@ -940,7 +940,7 @@ export default {
             clipMap: 'items',
           });
         } else if (['AQA', 'AQB', 'AQC', 'AQ1', 'MOBI1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6'].includes(indicatorCode)) {
+          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
