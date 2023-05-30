@@ -547,7 +547,17 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP6',
-    baseLayers: baseLayersLeftMap,
+    baseLayers:  [{
+      ...baseLayers.bmapgelaende, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmaporthofoto30cm,
+    ],
     overlayLayers: [
       { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
       { ...overlayLayers.eoxOverlay, visible: true },
