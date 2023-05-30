@@ -1,7 +1,13 @@
-### SPEI-12 - Standardized Precipitation and Evapotranspiration Index - 12
-
-The Standardized Precipitation Index (SPI) is the most commonly used indicator worldwide for detecting and characterizing meteorological droughts. The SPI indicator, which was developed by McKee et al. (1993), and described in detail by Edwards and McKee (1997), measures precipitation anomalies at a given location, based on a comparison of observed total precipitation amounts for an accumulation period of interest (e.g. 1, 3, 12, 48 months), with the long-term historic rainfall record for that period. For any given region, increasingly severe rainfall deficits (i.e., meteorological droughts) are indicated as SPI decreases below ‒1.0.  A new variation of SPI - the Standardized Precipitation and Evapotranspiration Index (SPEI) - has been developed (Vicente-Serrano et al., 2010), which includes precipitation and temperature, in order to identify increases in drought severity linked with higher water demand by evapotranspiration.
-
-[Download SPEI-12 Factsheet](https://raw.githubusercontent.com/Eurac-Research/ado-data/main/factsheets/SPEI_4.pdf)
-
-https://doi.org/10.48784/166E51EE-534A-11EC-9143-02000A08F41D
+|Product Name| Standardized Precipitation-Evapotranspiration Index - ERA5_QM SPEI-12 |
+| --- | --- |
+| Spatial resolution | 5Km |
+| Temporal reference | 1978-12-31 - 2022-11-12 |
+| CRS | 3035 |
+| Coverage | [4.056368, 42.853812] [17.360182, 50.310634] |
+| Value range | [-3,3] |
+| Product description | The Standardized Precipitation-Evapotranspiration Index (SPEI) represents a standardized measure of what a certain value of surface water balance (precipitation minus potential evapotranspiration) over the selected time period means in relation to expected value of surface water balance for this period. SPEI is calculated on different time scales (1, 2, 3, 6, 12 months). The value of the SPEI index around 0 represents the normal expected conditions for the surface water balance in the selected period based on the long-term average (1981-2020). The value of 1 represents approximately one standard deviation of the surplus in the surface water balance, while the value of -1 is about one standard deviation of the deficit. Drought is usually defined as period when SPEI values fall below -1. Input precipitation data is downscaled from ERA5 reanalysis using quantile mapping. Contains modified Copernicus Climate Change Service information [1978-current year]; Contains modified Copernicus Atmosphere Monitoring Service information [1978-current year]. |
+| Source URL | https://edp-portal.eurac.edu/discovery/1653510a-534a-11ec-a1e6-02000a08f41d |
+| Source DOI | https://doi.org/10.48784/1653510a-534a-11ec-a1e6-02000a08f41d |
+|Input datasets| https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview |
+| Reported accuracy | N/A |
+| License | CC BY 4.0 |

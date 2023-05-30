@@ -1140,10 +1140,10 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Alpine Drought Exploratory',
+        description: 'Alpine Drought Observatory',
         indicator: 'ADO',
         lastIndicatorValue: null,
-        indicatorName: 'Alpine Drought Exploratory',
+        indicatorName: 'Alpine Drought Observatory',
         // navigationDescription: '',
         subAoi: {
           type: 'FeatureCollection',
