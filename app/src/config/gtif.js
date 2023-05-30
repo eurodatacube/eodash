@@ -2411,10 +2411,6 @@ export const globalIndicators = [
         yAxis: '',
         highlights: [
           {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
             name: 'Mariazell',
             location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
           },
