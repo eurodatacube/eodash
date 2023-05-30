@@ -1930,21 +1930,21 @@ export const globalIndicators = [
         "users_density_mean",
         */
         queryParameters: {
-          sourceLayer: 'dynamic_human_presence',
-          selected: 'users_count_mean',
+          sourceLayer: 'mobility_daily',
+          selected: 'users_count_max',
           dataInfo: 'MOBI1',
           items: [
             {
-              id: 'users_count_mean',
-              description: 'Population count',
+              id: 'users_count_max',
+              description: 'Max population count (for day)',
               min: 100,
               max: 100000,
               colormapUsed: blgrrd,
               markdown: 'MOBI1_users_count',
             },
             {
-              id: 'users_density_mean',
-              description: 'Population density',
+              id: 'users_density_max',
+              description: 'Max population density (for day)',
               min: 1,
               max: 10000,
               colormapUsed: blgrrd,
@@ -1981,7 +1981,7 @@ export const globalIndicators = [
           opacity: 0.7,
           id: 'mobility_daily',
           adminZoneKey: 'adminzoneid',
-          parameters: 'adminzoneid,users_count_mean,users_density_mean',
+          parameters: 'adminzoneid,users_count_max,users_density_max',
           name: 'Mobility Data',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,

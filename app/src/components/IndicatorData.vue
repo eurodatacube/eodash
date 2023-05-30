@@ -961,8 +961,12 @@ export default {
           const data = indicator.time.map((date, i) => (
             { t: date, y: indicator.measurement[i] }
           ));
+          let label = indicator.yAxis;
+          if (['MOBI1'].includes(indicatorCode)) {
+            label = 'time series for selected area';
+          }
           datasets.push({
-            label: indicator.yAxis,
+            label,
             fill: false,
             data,
             backgroundColor: refColors[0],
