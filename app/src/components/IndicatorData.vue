@@ -1343,7 +1343,8 @@ export default {
           callbacks: {
             label: (context, data) => {
               debugger;
-              const label = `${data.datasets[context.datasetIndex].label} measurement: ${Number(context.value)}`;
+              // const label = `${data.datasets[context.datasetIndex].label} measurement:
+              // ${Number(context.value)}`;
               return label;
             },
             footer: (context) => {
