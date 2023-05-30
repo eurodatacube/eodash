@@ -49,7 +49,26 @@ const blackbody64 = {
 };
 */
 
-const stp = 1 / 7;
+let stp = 1 / 6;
+
+const adoColor = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [215, 25, 28] },
+      { index: stp * 1, rgb: [253, 174, 97] },
+      { index: stp * 2, rgb: [255, 255, 191] },
+      { index: stp * 3, rgb: [255, 255, 255] },
+      { index: stp * 4, rgb: [245, 153, 246] },
+      { index: stp * 5, rgb: [180, 103, 221] },
+      { index: stp * 6, rgb: [69, 0, 153] },
+    ],
+    nshades: 32,
+  }),
+};
+
+stp = 1 / 7;
+
 const grywrd = {
   steps: 128,
   colors: colormap({
@@ -528,7 +547,17 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP6',
-    baseLayers: baseLayersLeftMap,
+    baseLayers:  [{
+      ...baseLayers.bmapgelaende, visible: true,
+    },
+    baseLayers.terrainLight,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmaporthofoto30cm,
+    ],
     overlayLayers: [
       { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
       { ...overlayLayers.eoxOverlay, visible: true },
@@ -656,6 +685,13 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     story: '/data/gtif/markdown/VTT',
     themes: ['eo-adaptation-services'],
+  },
+  ADO: {
+    indicator: 'Alpine Drought Observatory',
+    class: 'air',
+    themes: ['eo-adaptation-services'],
+    story: '/data/gtif/markdown/ADO',
+    customAreaIndicator: true,
   },
   AQA: {
     ...mobilityTransitionDefaults,
@@ -1086,6 +1122,134 @@ export const globalIndicators = [
           parameters: 'satellite_id,satellite_values,mean_value,speed,congestion_index,n_trajectories,motorized_count,motorized_share',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Alpine Drought Exploratory',
+        indicator: 'ADO',
+        lastIndicatorValue: null,
+        indicatorName: 'Alpine Drought Exploratory',
+        // navigationDescription: '',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: getDailyDates('2015-01-01', '2023-05-18'),
+        inputData: [''],
+        yAxis: 'ADO',
+        queryParameters: {
+          sourceLayer: 'ado_data',
+          selected: 'spi-1',
+          items: [
+            {
+              id: 'spi-1',
+              description: 'SPI-1',
+              dataInfo: 'SPI1',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
+              markdown: 'SPI',
+            },
+            {
+              id: 'spi-12',
+              description: 'SPI-12',
+              dataInfo: 'SPI12',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
+              markdown: 'SPI',
+            },
+            {
+              id: 'spei-1',
+              description: 'SPEI-1',
+              dataInfo: 'SPEI1',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
+              markdown: 'SPEI',
+            },
+            {
+              id: 'spei-12',
+              description: 'SPEI-12',
+              dataInfo: 'SPEI12',
+              min: -2,
+              max: 2,
+              colormapUsed: adoColor,
+              markdown: 'SPEI',
+            },
+          ],
+        },
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          opacity: 0.7,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_NUTS_L3_3857',
+          protocol: 'geoserverTileLayer',
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.get('nuts_id').replace(/\s/g, ''); // need to remove white spaces
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                  /*
+                  if (value < -2) {
+                    color = 'rgba(215, 25, 28, 0.7)';
+                  } else if (value < -1.5) {
+                    color = 'rgba(253, 174, 97, 0.7);';
+                  } else if (value < -1) {
+                    color = 'rgba(255, 255, 191, 0.7);';
+                  } else if (value < 1) {
+                    color = 'rgba(255, 255, 255, 0.7)';
+                  } else if (value < 1.5) {
+                    color = 'rgba(245, 153, 246, 0.7)';
+                  } else if (value < 2) {
+                    color = 'rgba(180, 103, 221, 0.7)';
+                  } else if (value >= 2) {
+                    color = 'rgba(69, 0, 153, 0.7)';
+                  }
+                  */
+                }
+              }
+              return color;
+            },
+          },
+          id: 'ado_data',
+          allowedParameters: ['nuts_name', 'nuts_id'],
+          name: 'Alpine Drought Exploratory',
+          adminZoneKey: 'nuts_id',
+          parameters: 'spi-1,spi-12,spei-1,spei-12,nuts_id',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
@@ -2012,6 +2176,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -2062,6 +2227,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {
@@ -2941,7 +3107,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['>', ['band', 1], 1],
-                // ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
+                ['between', ['band', 1], ['var', 'solarMin'], ['var', 'solarMax']],
                 ['any',
                   ['between',
                     ['band', 2],
@@ -2978,6 +3144,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -3008,6 +3175,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {
@@ -3032,6 +3200,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -3060,6 +3229,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {
