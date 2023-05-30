@@ -2089,6 +2089,7 @@ export const globalIndicators = [
             layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
+          dynamicSelectionStroke: false,
           allowedParameters: ['name'],
         }],
       },

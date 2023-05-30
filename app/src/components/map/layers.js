@@ -100,26 +100,37 @@ function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
     (ftr) => ftr.getId() === feature.getId(),
   );
-  if (idxInSelected !== -1) {
+  if (idxInSelected !== -1 && applyDynamic) {
     if (applyDynamic) {
       // compensate for limited list of colors (start from beginning if needed)
       const colorIdx = idxInSelected % store.state.config.appConfig.refColors.length;
       return store.state.config.appConfig.refColors[colorIdx];
     }
     // if not applyDynamic, set color to white mostly transparent
-    return 'rgba(255, 255, 255, 0.3)';
+    return 'rgba(255, 255, 255, 0.4)';
   }
   return defaultColor;
+}
+
+function dynamicWidth(feature, defaultWidth) {
+  const idxInSelected = store.state.features.selectedFeatures.findIndex(
+    (ftr) => ftr.getId() === feature.getId(),
+  );
+  if (idxInSelected !== -1) {
+    return defaultWidth + 3;
+  }
+  return defaultWidth;
 }
 
 function createVectorLayerStyle(config, options) {
   const strokeColor = config?.style?.strokeColor || '#F7A400';
   const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
+  const strokeWidth = config?.style?.width || 2;
   const fill = new Fill({
     color: fillColor,
   });
   const stroke = new Stroke({
-    width: config?.style?.width || 2,
+    width: strokeWidth,
     color: strokeColor,
   });
   const style = new Style({
@@ -135,6 +146,11 @@ function createVectorLayerStyle(config, options) {
   const dynamicStyleFunction = (feature) => {
     let defaultC = strokeColor;
     let defaultFillC = fillColor;
+    let defaultWidth = strokeWidth;
+    const dynamicSelectionFill = config?.dynamicSelectionFill !== undefined
+      ? config.dynamicSelectionFill : false;
+    const dynamicSelectionStroke = config?.dynamicSelectionStroke !== undefined
+      ? config.dynamicSelectionStroke : true;
     if (typeof config?.style?.getStrokeColor === 'function') {
       defaultC = config.style.getStrokeColor(feature, store, options);
     }
@@ -142,10 +158,14 @@ function createVectorLayerStyle(config, options) {
       defaultFillC = config.style.getColor(feature, store, options);
     }
     if (config.selection) {
-      defaultC = dynamicColorForSelection(feature, defaultC);
+      defaultC = dynamicColorForSelection(feature, defaultC, dynamicSelectionStroke);
       // todo find out a fitting selection fill style for all
-      defaultFillC = dynamicColorForSelection(feature, defaultFillC, false);
+      defaultFillC = dynamicColorForSelection(
+        feature, defaultFillC, dynamicSelectionFill,
+      );
+      defaultWidth = dynamicWidth(feature, defaultWidth);
     }
+    style.getStroke().setWidth(defaultWidth);
     style.getStroke().setColor(defaultC);
     style.getFill().setColor(defaultFillC);
     return style;
