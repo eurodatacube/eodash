@@ -115,12 +115,8 @@ export default {
       try {
         // If custom ID is present in the query string, use that instead of the cached ones.
         if (id !== null) {
-          console.log(`Scrolly Preview Mode (${id})`);
           const res = await customDashboardApi.listen(id);
-          console.log('Fetched dashboard:', res);
-
           items = dashboardToScrolly(res.features);
-          console.log(items);
         } else {
           const res = await axios
             .get(`./data/dashboards/${this.getDashboardID()}.json`, {
@@ -137,12 +133,8 @@ export default {
         console.error(`Something went wrong while loading the dashboard: ${JSON.stringify(e)}`);
       }
 
-      console.log(JSON.stringify(items));
-
       this.linkStyle(css.data);
       this.setScrollyStory(items);
-
-      console.log(process.env.BASE_URL);
 
       if (this.$route.name === 'landing') {
         this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });

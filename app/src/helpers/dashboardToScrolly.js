@@ -65,7 +65,6 @@ function buildTimeline(current, next, idx, features) {
       && features[i + 1]
       && features[i + 1].mapInfo)
   ) {
-    console.log(`      --> TIMELINE ITERATION    (${i})`);
     const c = features[i];
     const n = features[i + 1];
 
@@ -114,18 +113,15 @@ export default function dashboardToScrolly(features) {
   let i = 0;
 
   while (i < features.length) {
-    console.info('<---> parser iteration');
     const current = features[i];
     const next = features[i + 1];
 
     if (current.width === 4) {
-      console.info(`   -> FWB                       (${i})`);
       // FULL WIDTH BLOCK
       translateMedia(current);
       data.push([current]);
       i += 1;
     } else if (current.width === 2 && next && next.width === 2) {
-      console.info(`   -> 2-2                       (${i})`);
       const c = current;
       const n = next;
 
@@ -163,17 +159,14 @@ export default function dashboardToScrolly(features) {
           && features[i + 3].width === 3
           && features[i + 3].mapInfo
       ) {
-        console.info(`   -> SCROLLY MAP                   (${i})`);
         const result = buildTimeline(current, next, i, features);
         data.push(result.block);
         i = result.index;
       } else {
-        console.info('   -> STICKY RIGHT');
         data.push(buildStickyRight(current, next, i));
         i += 2;
       }
     } else if (current.width === 3 && next && next.width === 1) {
-      console.info('   -> STICKY LEFT');
       data.push(buildStickyLeft(current, next, i));
       i += 2;
     } else {
