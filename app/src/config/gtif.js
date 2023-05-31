@@ -559,7 +559,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     ],
     overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
+      { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
       { ...overlayLayers.eoxOverlay, visible: true },
     ],
   },
@@ -3047,6 +3047,9 @@ export const globalIndicators = [
           style: {
             strokeColor: '#ff0000',
             width: 5,
+          },
+          selection: {
+            mode: 'single',
           },
         }],
       },
