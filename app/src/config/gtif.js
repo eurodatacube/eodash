@@ -1811,6 +1811,7 @@ export const globalIndicators = [
               return color;
             },
             fillColor: '#ffffff',
+            width: 5,
           },
           id: 'trajectories_on_edges_austria_daily',
           adminZoneKey: 'unique_id',
