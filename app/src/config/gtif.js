@@ -1693,7 +1693,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        disabled: true,
         country: 'all',
         city: 'Austria',
         siteName: 'global',
@@ -1708,7 +1707,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: getDailyDates('2022-01-01T00:00:00Z', '2022-07-01T22:00:00Z'),
+        time: getDailyDates('2022-01-01T00:00:00Z', '2022-12-31T22:00:00Z'),
         inputData: [''],
         yAxis: '',
         highlights: [
@@ -1900,7 +1899,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        disabled: true,
         country: 'all',
         city: 'Austria',
         siteName: 'global',
