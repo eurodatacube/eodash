@@ -7,7 +7,7 @@ export const baseLayers = Object.freeze({
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
     visible: false,
-    maxZoom: 16,
+    maxZoom: 17,
     protocol: 'xyz',
   },
   terrainLight: {
@@ -42,7 +42,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
   },
   bmapgelaende: {
@@ -50,7 +50,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
   },
   bmaporthofoto30cm: {
@@ -58,7 +58,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
   },
   bodenwertigkeitskarte_agri: {

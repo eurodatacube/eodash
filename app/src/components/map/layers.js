@@ -98,7 +98,12 @@ function fgbBoundingBox(extent, projection) {
 
 function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)', applyDynamic = true) {
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
-    (ftr) => ftr.getId() === feature.getId(),
+    (ftr) => {
+      if (feature.getId() !== undefined) {
+        return ftr.getId() === feature.getId();
+      }
+      return ftr.get('id') === feature.get('id');
+    },
   );
   if (idxInSelected !== -1 && applyDynamic) {
     if (applyDynamic) {
