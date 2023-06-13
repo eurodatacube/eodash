@@ -1,4 +1,4 @@
-Click on a bin on the map to display a scatterplot of your currently selected parameter against Sentinel-5p measurements.
+Click on a bin on the map to display a scatterplot of your currently selected parameter against Sentinel5-p measurements.
 
 ### Disclaimer
 This tool allows exploring potential correlations between Sentinel-5P/TROPOMI measurements and human mobility data, with the objective to better understand how people's movement and mobility affects air quality parameters.

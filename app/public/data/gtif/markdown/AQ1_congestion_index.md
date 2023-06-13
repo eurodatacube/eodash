@@ -1,0 +1,1 @@
+<img style="float:right; margin-top:-60px;" alt="Congestion index" src="legends/gtif/AQ1_congestion_index.png" width="45%" style="vertical-align: middle;"/>
