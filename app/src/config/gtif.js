@@ -559,7 +559,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     ],
     overlayLayers: [
-      { ...overlayLayers.powerOpenInfrastructure, visible: true, minZoom: 13 },
+      { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
       { ...overlayLayers.eoxOverlay, visible: true },
     ],
   },
@@ -1021,37 +1021,37 @@ export const globalIndicators = [
               id: 'n_trajectories',
               description: 'Number of trajectories',
               dataInfo: '',
-              min: 0,
-              max: 50000,
+              min: 1,
+              max: 40000,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ1_trajectories',
             },
             {
               id: 'satellite_values',
-              description: 'Sentinel-5p values',
+              description: 'Sentinel5-p NO2 [µmol/m²]',
               dataInfo: '',
               min: 0,
               max: 500,
               colormapUsed: grywrd,
-              markdown: '',
+              markdown: 'AQ1_satellite_values',
             },
             {
               id: 'mean_value',
-              description: 'Model value (WRFChem)',
+              description: 'Mean value [µg/m³]',
               dataInfo: '',
               min: 0,
               max: 50,
               colormapUsed: grywrd,
-              markdown: '',
+              markdown: 'AQ1_mean_value',
             },
             {
               id: 'congestion_index',
               description: 'Congestion index',
               dataInfo: '',
               min: 0,
-              max: 10,
+              max: 50,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ1_congestion_index',
             },
             {
               id: 'speed',
@@ -1060,16 +1060,16 @@ export const globalIndicators = [
               min: 0,
               max: 120,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ1_speed',
             },
             {
               id: 'motorized_count',
               description: 'Motorized count',
               dataInfo: '',
-              min: 0,
+              min: 1,
               max: 20000,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ1_motorized_count',
             },
             {
               id: 'motorized_share',
@@ -1078,7 +1078,7 @@ export const globalIndicators = [
               min: 0,
               max: 100,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ1_motorized_share',
             },
           ],
         },
@@ -1110,7 +1110,15 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   if (value != null && value !== 0) {
                     const { min, max, colormapUsed } = currPar;
-                    const f = clamp((value - min) / (max - min), 0, 1);
+                    let f = clamp((value - min) / (max - min), 0, 1);
+                    if (['n_trajectories', 'motorized_count'].includes(currPar.id)) {
+                      const normalized = (Math.log10(value) - Math.log10(min))
+                      / (Math.log10(max) - Math.log10(min));
+                      if (id === 44451) {
+                        console.log(normalized);
+                      }
+                      f = clamp(normalized, 0, 1);
+                    }
                     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
                   }
                 }
@@ -1801,7 +1809,7 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
-                  if (['n_trajectories_max'].includes(dataSource)) {
+                  if (['n_trajectories_max'].includes(currPar.id)) {
                     f = clamp((Math.log10(value) - Math.log10(min))
                       / (Math.log10(max) - Math.log10(min)), 0, 1);
                   }
@@ -1811,6 +1819,7 @@ export const globalIndicators = [
               return color;
             },
             fillColor: '#ffffff',
+            width: 5,
           },
           id: 'trajectories_on_edges_austria_daily',
           adminZoneKey: 'unique_id',
@@ -3047,6 +3056,9 @@ export const globalIndicators = [
           style: {
             strokeColor: '#ff0000',
             width: 5,
+          },
+          selection: {
+            mode: 'single',
           },
         }],
       },

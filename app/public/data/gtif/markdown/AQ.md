@@ -1,4 +1,4 @@
-Click on a bin on the map to display a scatterplot of your currently selected parameter against Sentinel-5p measurements.
+Click on a bin on the map to display a scatterplot of your currently selected parameter against Sentinel5-p measurements.
 
 ### Disclaimer
 This tool allows exploring potential correlations between Sentinel-5P/TROPOMI measurements and human mobility data, with the objective to better understand how people's movement and mobility affects air quality parameters.
@@ -10,10 +10,7 @@ The mobility data only captures around 22% of the population and is then calibra
 Being a demonstrator on how to integrate and interactively compare air quality parameters versus mobility statistics, further validation is needed to be able to allow meaningful conclusions.
 
 <div align="middle">
-  <img alt="Luftblick Logo" src="data/gtif/images/logos/luftblick.png" width="45%" style="vertical-align: middle;"/>
-  <img alt="University Innsbruck Logo" src="data/gtif/images/logos/uniinnsbruck.jpg" width="45%" style="vertical-align: middle;"/> 
-</div>
-<div align="middle">
-<img alt="DLR Logo" src="data/gtif/images/logos/dlr.png" width="45%" style="vertical-align: middle;"/>
-<img alt="Mindearth Logo" src="data/gtif/images/logos/mindearth.png" width="45%" style="vertical-align: middle;"/>
+  <img alt="geosphere" src="data/gtif/images/logos/geosphere.svg" width="32%" style="vertical-align: bottom;"/>
+  <img alt="Mindearth Logo" src="data/gtif/images/logos/mindearth.png" width="32%" style="vertical-align: bottom;margin-left:10px;margin-right:10px"/>
+  <img alt="SISTEMA Logo" src="data/gtif/images/logos/sistema.png" width="30%" style="vertical-align: bottom;"/> 
 </div>

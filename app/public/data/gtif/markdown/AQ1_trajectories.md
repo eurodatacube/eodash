@@ -1,0 +1,1 @@
+<img style="float:right; margin-top:-60px;" alt="Trajectories count" src="legends/gtif/AQ1_n_trajectories.png" width="45%" style="vertical-align: middle;"/>

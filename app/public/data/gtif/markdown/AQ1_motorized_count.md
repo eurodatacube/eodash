@@ -1,0 +1,1 @@
+<img style="float:right; margin-top:-60px;" alt="Motorized count" src="legends/gtif/AQ1_motorized_count.png" width="45%" style="vertical-align: middle;"/>

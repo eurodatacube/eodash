@@ -305,7 +305,7 @@ export default {
         if (['AQ1'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
-            adminIds.push(Number(ftr.get('fid')));
+            adminIds.push(Number(ftr.get('object_id')));
           });
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
           // ideally, we would iterate over all items from display if an array
@@ -330,7 +330,7 @@ export default {
               const ind = {
                 ...this.indicatorObject,
                 ...newData,
-                xAxis: 'NO2 [µmol/m2](Sentinel-5p)',
+                xAxis: 'Sentinel5-p NO2 [µmol/m²]',
                 yAxis: selected,
               };
               this.$store.commit(
