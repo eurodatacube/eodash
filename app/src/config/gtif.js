@@ -1021,14 +1021,14 @@ export const globalIndicators = [
               id: 'n_trajectories',
               description: 'Number of trajectories',
               dataInfo: '',
-              min: 0,
-              max: 50000,
+              min: 1,
+              max: 40000,
               colormapUsed: blgrrd,
-              markdown: '',
+              markdown: 'AQ_trajectories',
             },
             {
               id: 'satellite_values',
-              description: 'Sentinel-5p values',
+              description: 'Sentinel5-p NO2 [µmol/m²]',
               dataInfo: '',
               min: 0,
               max: 500,
@@ -1037,7 +1037,7 @@ export const globalIndicators = [
             },
             {
               id: 'mean_value',
-              description: 'Model value (WRFChem)',
+              description: 'Mean value [µg/m³]',
               dataInfo: '',
               min: 0,
               max: 50,
@@ -1066,7 +1066,7 @@ export const globalIndicators = [
               id: 'motorized_count',
               description: 'Motorized count',
               dataInfo: '',
-              min: 0,
+              min: 1,
               max: 20000,
               colormapUsed: blgrrd,
               markdown: '',
@@ -1110,7 +1110,15 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   if (value != null && value !== 0) {
                     const { min, max, colormapUsed } = currPar;
-                    const f = clamp((value - min) / (max - min), 0, 1);
+                    let f = clamp((value - min) / (max - min), 0, 1);
+                    if (['n_trajectories', 'motorized_count'].includes(currPar.id)) {
+                      const normalized = (Math.log10(value) - Math.log10(min))
+                      / (Math.log10(max) - Math.log10(min));
+                      if (id === 44451) {
+                        console.log(normalized);
+                      }
+                      f = clamp(normalized, 0, 1);
+                    }
                     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
                   }
                 }
@@ -1801,7 +1809,7 @@ export const globalIndicators = [
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
-                  if (['n_trajectories_max'].includes(dataSource)) {
+                  if (['n_trajectories_max'].includes(currPar.id)) {
                     f = clamp((Math.log10(value) - Math.log10(min))
                       / (Math.log10(max) - Math.log10(min)), 0, 1);
                   }
