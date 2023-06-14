@@ -574,6 +574,16 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['agriculture'],
     story: '/data/trilateral/VITS',
   },
+  LWE: {
+    indicatorSummary: 'Lake Water Extent timeseries',
+    themes: ['oceans'],
+    story: '/data/trilateral/LWE',
+  },
+  LWL: {
+    indicatorSummary: 'Lake Water Level timeseries',
+    themes: ['oceans'],
+    story: '/data/trilateral/LWL',
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],

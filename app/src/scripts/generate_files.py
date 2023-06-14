@@ -765,6 +765,8 @@ generateData(
         ['VITS_Vegetation_Index_Timeseries', ''],
         ['SMCTS_Soil_Moisture_Timeseries', ''],
         ['PRCTS_Precipitation_Timeseries', ''],
+        ['Lake_water_extent_tri_timeseries', ''],
+        ['Lake_water_level_tri_timeseries', ''],
     ]
 )
 
@@ -821,6 +823,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
-        ['Sentinel_1_Vessel_Density_Europe_Timeseries', '']
+        ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
     ]
 )
