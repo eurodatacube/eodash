@@ -141,6 +141,9 @@ BYOD_COLLECTIONS = [
     "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
     "AWS_VIS_SST_MAPS",
+    "LAKES_SURFACE_WATER_TEMPERATURE",
+    #"LAKE_WATE_QUALITY_TRUECOLOR",
+    #"LAKE_WATER_QUALITY_TURBIDITY_MEAN",
 ]
 
 ZARRCOLLECTIONS = [
@@ -220,11 +223,14 @@ BBOX = {
         ("34.2,136.4,35.2,137.4", "JP04TSM"),
         ("33.85,134.5,34.85,135.5", "JP02TSM"),
     ],
+    "LAKES_SURFACE_WATER_TEMPERATURE": [
+        ("46.55,17.08,47.12,18.24", "Balaton"),
+        ("58.2,12.05,59.5,14.4", "Vanern"),
+        #("12.03,103.58,13.33,104.88", "Tonlesap"),
+        ("34.94,135.81,35.54,136.36", "Biwa"),
+    ],
 }
 
-# TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
-
-# WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
 MIGRATEDENDPOINT ="https://services.sentinel-hub.com/ogc/wfs/"
 REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
     "GetFeature", "EPSG:4326",

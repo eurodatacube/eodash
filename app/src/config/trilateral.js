@@ -589,6 +589,11 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['oceans'],
     story: '/data/trilateral/Lakes_S2L2A',
   },
+  Lakes_SWT: {
+    indicatorSummary: 'Surface Water Temperature Lakes',
+    story: '/data/trilateral/stories/Lakes_SWT',
+    themes: ['oceans'],
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -4826,6 +4831,161 @@ export const globalIndicators = [
           minZoom: 7,
           maxZoom: 17,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Aral Lake',
+        siteName: 'Aral Lake',
+        description: 'Sentinel 2 L2A - Aral Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+          }],
+        },
+        time: ['2017-04-07', '2017-08-05', '2017-08-20', '2017-08-25', '2017-09-14', '2018-04-02', '2018-04-12', '2018-04-27', '2018-05-17', '2018-06-16', '2018-07-01', '2018-07-26', '2018-08-30', '2018-09-14', '2018-09-24', '2018-10-04', '2018-10-09', '2019-06-06', '2019-07-16', '2019-07-22', '2019-08-20', '2019-08-25', '2019-09-19', '2019-10-04', '2019-10-19', '2019-10-22', '2019-11-08', '2020-05-26', '2020-06-15', '2020-06-20', '2020-07-15', '2020-07-20', '2020-09-03', '2020-09-28', '2020-10-18', '2020-10-28', '2020-11-22', '2021-04-11', '2021-04-16', '2021-05-16', '2021-06-20', '2021-06-25', '2021-07-20', '2021-07-25', '2021-08-09', '2021-08-19', '2021-08-24', '2021-09-03', '2021-09-23', '2021-10-13', '2021-10-18', '2021-10-28', '2021-11-07', '2022-04-01', '2022-05-16', '2022-06-25', '2022-06-30', '2022-07-20', '2022-08-19', '2022-08-24', '2022-08-29', '2022-09-13', '2022-09-23', '2022-10-03', '2022-10-08', '2022-10-13', '2022-10-18', '2023-03-17', '2023-03-22', '2023-03-27', '2023-04-01', '2023-04-21', '2023-06-05'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Biwa',
+        aoi: latLng([35.284, 136.095]),
+        country: ['JP'],
+        city: 'Lake Biwa',
+        siteName: 'Lake Biwa',
+        description: 'Surface Water Temperature - Biwa Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+        },
+      },
+    },
+  },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       dataLoadFinished: true,
+  //       aoiID: 'TonleSap',
+  //       aoi: latLng([12.7, 104.2]),
+  //       country: ['KH'],
+  //       city: 'Tonlé Sap Lake',
+  //       siteName: 'Tonlé Sap',
+  //       description: 'Surface Water Temperature - Tonlé Sap Lake',
+  //       indicator: 'Lakes_SWT',
+  //       indicatorName: 'Surface Water Temperature',
+  //       subAoi: {
+  //         type: 'FeatureCollection',
+  //         features: [{
+  //           type: 'Feature',
+  //           properties: {},
+  //           geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+  //         }],
+  //       },
+  //       time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
+  //       inputData: [''],
+  //       display: {
+  //         dateFormatFunction: shTimeFunction,
+  //         minZoom: 7,
+  //         maxZoom: 14,
+  //         layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+  //       },
+  //     },
+  //   },
+  // },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Vanern',
+        aoi: latLng([59.07, 13.535]),
+        country: ['SW'],
+        city: 'Vänern Lake',
+        siteName: 'Vänern Lake',
+        description: 'Vänern Lake Surface Water Temperature',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Balaton',
+        aoi: latLng([45.89, 17.77]),
+        country: ['HU'],
+        city: 'Balaton Lake',
+        siteName: 'Balaton Lake',
+        description: 'Balaton Lake Surface Water Temperature',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
         },
       },
     },
