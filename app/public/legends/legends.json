@@ -352,6 +352,12 @@
             "label": "Lake Surface Temperature [K]",
             "ticks": [1,2,3,4,5,6,7],
             "tickLabels": [270,275,280,285,290,300,350]
+        },
+        "LAKE_WATER_QUALITY_TURBIDITY_MEAN": {
+            "range": [0,10],
+            "cm": [[0, [56, 56, 148]], [2,[82, 133, 140]], [4,[111, 213, 132]], [6,[136, 210, 111]], [8,[155, 116, 78]], [10,[175, 28, 47]]],
+            "label": "Turbidity [NTU]",
+            "ticks": [0, 2, 4, 6, 8, 10]
         }
     },
     "gtif": {

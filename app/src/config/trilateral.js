@@ -5000,6 +5000,92 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Global Turbidity Layer Lakes CCI',
+        indicator: 'Lakes_WQ_TURB',
+        indicatorName: 'Lake Water Quality Turbidity',
+        eoSensor: 'Sentinel-3 OLCI',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: availableDates['LAKE_WATER_QUALITY_TURBIDITY_MEAN'],
+        inputData: [''],
+        yAxis: 'Turbidity [NTU]',
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Lakes Water Quality Turbidity Mean CCI 300m',
+          layers: 'LAKE_WATE_QUALITY_TRUECOLOR',
+          legendUrl: 'legends/trilateral/LAKE_WATER_QUALITY_TURBIDITY_MEAN.png',
+          minZoom: 8,
+          maxZoom: 16,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Global Water Quality True Color Lakes CCI',
+        indicator: 'Lakes_WQ_TC',
+        indicatorName: 'Lake Water Quality True Color',
+        eoSensor: 'Sentinel-3 OLCI',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: availableDates['LAKE_WATER_QUALITY_TURBIDITY_MEAN'],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Lakes Water Quality True Color CCI 300m',
+          layers: 'LAKE_WATE_QUALITY_TRUECOLOR',
+          minZoom: 8,
+          maxZoom: 16,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
 ];
 
 const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSensor, time) => (
