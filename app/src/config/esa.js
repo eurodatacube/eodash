@@ -24,11 +24,12 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
+export const STACEndpoint = 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json'
 export const dataEndpoints = [
-  {
-    type: 'eox',
-    provider: './data/internal/pois_eodash.json',
-  },
+  // {
+  //   type: 'eox',
+  //   provider: './data/internal/pois_eodash.json',
+  // },
 ];
 
 const geodbFeatures = {

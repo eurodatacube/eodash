@@ -1,6 +1,7 @@
 module.exports = [
   {
     id: 'esa',
+    catalogUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json',
     mailingList: {
       development: 2,
       staging: 2,

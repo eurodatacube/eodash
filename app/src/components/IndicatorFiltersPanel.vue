@@ -28,12 +28,15 @@ export default {
     ]),
     ...mapState('features', ['allFeatures']),
     ...mapGetters('features', [
-      'getIndicators',
       'getGroupedFeatures',
+    ]),
+    ...mapState('indicators', ['indicators']),
+    ...mapGetters('indicators', [
+      'getIndicators',
     ]),
   },
   created() {
-    if (this.allFeatures) {
+    if (this.indicators) {
       if (!this.searchItem) {
         this.getSearchItems();
       }
@@ -48,11 +51,13 @@ export default {
     }),
     getSearchItems() {
       const itemArray = [
-        ...this.getIndicators
-          .filter((i) => !i.dummyFeature)
-          .filter(
-            (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
-          ),
+        ...this.getIndicators,
+        /*
+        .filter((i) => !i.dummyFeature)
+        .filter(
+          (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
+        ),
+        */
       ];
       this.searchItems = itemArray;
 
@@ -66,14 +71,11 @@ export default {
             enableSearch: true,
             enableHighlighting: true,
             onSelect: (item) => {
-              console.log(this.getGroupedFeatures[0].properties.indicatorObject);
               this.setFeatureFilter({
                 indicators: item.code,
               });
-              if (this.getGroupedFeatures[0].properties.indicatorObject.siteName === 'global') {
-                this.setSelectedIndicator(
-                  this.getGroupedFeatures[0].properties.indicatorObject,
-                );
+              if (item.region === 'global') {
+                this.setSelectedIndicator(item);
               } else {
                 this.setSelectedIndicator(null);
               }
@@ -109,6 +111,11 @@ export default {
     },
   },
   watch: {
+    indicators() {
+      if (!this.searchItem) {
+        this.getSearchItems();
+      }
+    },
     allFeatures() {
       if (!this.searchItem) {
         this.getSearchItems();
