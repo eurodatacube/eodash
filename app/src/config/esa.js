@@ -24,7 +24,7 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
-export const STACEndpoint = 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json'
+export const STACEndpoint = 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json';
 export const dataEndpoints = [
   // {
   //   type: 'eox',
@@ -1420,7 +1420,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'CDS',
-        dataLoadFinished: true,
+        // dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1431,7 +1431,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: availableDates.AWS_VIS_WIND_U_10M,
+        // time: availableDates.AWS_VIS_WIND_U_10M,
         inputData: [],
         yAxis: 'wind',
         display: {
@@ -1455,7 +1455,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'CDS',
-        dataLoadFinished: true,
+        // dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1466,7 +1466,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: availableDates.AWS_VIS_WIND_V_10M,
+        // time: availableDates.AWS_VIS_WIND_V_10M,
         inputData: [],
         yAxis: 'wind',
         display: {

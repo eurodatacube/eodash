@@ -86,6 +86,22 @@ export async function loadIndicatorData(baseConfig, payload) {
     && payload.dataLoadFinished) {
     indicatorObject = payload;
   } else {
+    if (payload.type === 'stac') {
+      console.log(payload.link);
+      const response = await fetch(payload.link);
+      const jsonData = await response.json();
+      const times = [];
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          times.push(link.datetime);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+      indicatorObject = payload;
+      indicatorObject.time = times;
+      indicatorObject.dataLoadFinished = true;
+      return indicatorObject;
+    }
     // Start loading of data from indicator
     let { dataPath } = baseConfig;
     // Check if indicator uses another data path

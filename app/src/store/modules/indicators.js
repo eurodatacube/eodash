@@ -44,12 +44,17 @@ const actions = {
         data.links.forEach((link) => {
           if (link.rel === 'child') {
             let resultIndicator = {
-              code: 'CDS3',
+              type: 'stac',
+              link: `${url.replace('catalog.json', '')}${link.href}`,
+              code: link.code,
               description: link.description,
               indicator: link.description,
               region: 'global',
-              themes: ['test'],
+              themes: link.themes,
+              tags: link.tags ? link.tags.split(',') : [],
               title: link.title,
+              satellite: link.satellite ? link.satellite.split(',') : [],
+              sensor: link.sensor ? link.sensor.split(',') : [],
             };
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
@@ -58,7 +63,6 @@ const actions = {
                 resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
               }
             });
-            console.log(resultIndicator);
             indicators.push(resultIndicator);
           }
         });
