@@ -9392,6 +9392,10 @@
         [
             "2021-01-01T00:00:00",
             "s3://veda-data-store-staging/OMI_trno2-COG/OMI_trno2_0.10x0.10_2021_Col3_V4.tif"
+        ],
+        [
+            "2022-01-01T00:00:00",
+            "s3://veda-data-store-staging/OMI_trno2-COG/OMI_trno2_0.10x0.10_2022_Col3_V4.tif"
         ]
     ],
     "OMSO2PCA-COG": [
