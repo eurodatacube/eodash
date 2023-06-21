@@ -81,7 +81,9 @@ export default {
               }
             },
             fuseConfig: {
-              keys: ['title', 'description', 'themes', 'region'],
+              keys: [
+                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor'
+              ],
             },
           },
           gtif: {
