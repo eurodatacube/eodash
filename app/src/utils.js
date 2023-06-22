@@ -87,9 +87,33 @@ export async function loadIndicatorData(baseConfig, payload) {
     indicatorObject = payload;
   } else {
     if (payload.type === 'stac') {
-      console.log(payload.link);
+      indicatorObject = payload;
       const response = await fetch(payload.link);
       const jsonData = await response.json();
+
+      // Configure display based on type
+      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+      if (wmsEndpoint) {
+        const layers = wmsEndpoint['wms:layers'].join(',');
+        indicatorObject.display = {
+          baseUrl: wmsEndpoint.href,
+          name: jsonData.name,
+          layers,
+          // legendUrl: 'legend.png',
+          minZoom: 1,
+          maxZoom: 13,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          // TODO: need to think how the stat api acces can be described in stac disabling for now
+          /*
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...shFisAreaIndicatorStdConfig,
+            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+          },
+          */
+        };
+      }
+
       const times = [];
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
@@ -97,7 +121,6 @@ export async function loadIndicatorData(baseConfig, payload) {
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
-      indicatorObject = payload;
       indicatorObject.time = times;
       indicatorObject.dataLoadFinished = true;
       return indicatorObject;

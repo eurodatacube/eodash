@@ -82,7 +82,7 @@ export default {
             },
             fuseConfig: {
               keys: [
-                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor'
+                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
               ],
             },
           },

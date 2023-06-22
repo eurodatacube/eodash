@@ -24,7 +24,7 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
-export const STACEndpoint = 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json';
+export const STACEndpoint = 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/main/build/RACE/catalog.json';
 export const dataEndpoints = [
   // {
   //   type: 'eox',
@@ -1416,6 +1416,7 @@ export const globalIndicators = [
       },
     },
   },
+  /*
   {
     properties: {
       indicatorObject: {
@@ -1486,6 +1487,7 @@ export const globalIndicators = [
       },
     },
   },
+  */
   {
     properties: {
       indicatorObject: {

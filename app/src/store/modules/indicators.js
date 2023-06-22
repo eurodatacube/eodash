@@ -48,19 +48,33 @@ const actions = {
               link: `${url.replace('catalog.json', '')}${link.href}`,
               code: link.code,
               description: link.description,
-              indicator: link.description,
+              indicatorName: 'Wind V field - Climate Data Store',
+              indicator: link.code,
               region: 'global',
               themes: link.themes,
               tags: link.tags ? link.tags.split(',') : [],
               title: link.title,
               satellite: link.satellite ? link.satellite.split(',') : [],
               sensor: link.sensor ? link.sensor.split(',') : [],
+              // TODO: This is usually used in the client to define if it is a global indicator
+              // it should be handled with a unique value
+              country: 'all',
+              city: 'World',
+              siteName: 'global',
+              // aoiID: 'CDS',
+              // TODO: some default values we seem to need would be great if we can remove them
+              subAoi: {
+                type: 'FeatureCollection',
+                features: [],
+              },
+              inputData: [],
+              // yAxis: 'wind',
             };
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
               if (indicator.properties.indicatorObject.indicator === resultIndicator.code) {
-                resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
+                resultIndicator = { ...indicator.properties.indicatorObject, ...resultIndicator };
               }
             });
             indicators.push(resultIndicator);
