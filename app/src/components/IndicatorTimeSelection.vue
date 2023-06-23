@@ -16,7 +16,7 @@
       ></v-slider>
       <SliderTicks
         style="transform: translateY(-20px)"
-        :numLines="availableValues.length - 1"
+        :numLines="availableValues.length"
       />
     </v-col>
     <v-col
