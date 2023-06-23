@@ -14,7 +14,10 @@
         :step="1"
         thumb-label
       ></v-slider>
-      <SliderTicks />
+      <SliderTicks
+        style="transform: translateY(-20px)"
+        :numLines="availableValues.length - 1"
+      />
     </v-col>
     <v-col
       v-if="currentlyComparing"
