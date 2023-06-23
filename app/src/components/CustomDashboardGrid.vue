@@ -368,6 +368,7 @@
           <v-dialog
             v-model="dialog"
             width="500"
+            :retain-focus="false"
           >
             <v-card>
               <v-card-title class="headline primary--text mb-5">
