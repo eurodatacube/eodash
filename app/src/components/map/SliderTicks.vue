@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       svgWidth: 560,
-      svgHeight: 10,
+      svgHeight: 7,
     };
   },
   computed: {
