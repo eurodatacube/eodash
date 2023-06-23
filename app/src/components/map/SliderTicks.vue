@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "SvgComponent",
+  name: 'SliderTicks',
   props: {
     numLines: {
       type: Number,
@@ -35,11 +35,11 @@ export default {
   },
   computed: {
     lines() {
-      let num = this.numLines > 280
+      const num = this.numLines > 280
         ? 280
         : this.numLines;
 
-      let spacing = this.svgWidth / (this.numLines - 1);
+      const spacing = this.svgWidth / (num - 1);
       return Array.from({ length: this.numLines }, (_, i) => i * spacing);
     },
   },
