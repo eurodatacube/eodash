@@ -35,6 +35,10 @@ export default {
   },
   computed: {
     lines() {
+      let num = this.numLines > 280
+        ? 280
+        : this.numLines;
+
       let spacing = this.svgWidth / (this.numLines - 1);
       return Array.from({ length: this.numLines }, (_, i) => i * spacing);
     },
