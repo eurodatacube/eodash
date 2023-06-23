@@ -6,6 +6,16 @@
       ? 'top: 10px'
       : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
   >
+    <v-col>
+      <v-slider
+        v-model="originalTimeIndex"
+        :min="0"
+        :max="availableValues.length - 1"
+        :step="1"
+        thumb-label
+      ></v-slider>
+      <SliderTicks />
+    </v-col>
     <v-col
       v-if="currentlyComparing"
       cols="6"
@@ -92,7 +102,12 @@
 <script>
 import { DateTime } from 'luxon';
 
+import SliderTicks from './map/SliderTicks.vue';
+
 export default {
+  components: {
+    SliderTicks,
+  },
   props: {
     autofocus: {
       type: Boolean,
@@ -127,6 +142,7 @@ export default {
   data: () => ({
     compareTimeModel: null,
     originalTimeModel: null,
+    originalTimeIndex: 0,
   }),
   computed: {
     currentlyComparing() {
@@ -206,6 +222,16 @@ export default {
       deep: true,
       handler(timeObj) {
         this.$emit('update:originalTime', timeObj);
+        // Update the slider if the dropdown changes the value
+        this.originalTimeIndex = this.availableValues.indexOf(timeObj);
+      },
+    },
+    originalTimeIndex: {
+      deep: true,
+      handler(index) {
+        // Update the model when the slider index changes
+        this.$emit('update:originalTime', this.availableValues[index]);
+        console.log('time index watcher');
       },
     },
   },
