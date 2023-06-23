@@ -12,7 +12,7 @@
         :y1="svgHeight - 10"
         :x2="line"
         :y2="svgHeight"
-        stroke="black"
+        stroke="#777"
       />
     </svg>
   </div>
@@ -24,7 +24,7 @@ export default {
   props: {
     numLines: {
       type: Number,
-      default: 20,
+      default: 280,
     },
   },
   data() {
