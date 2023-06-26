@@ -1715,7 +1715,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: getDailyDates('2022-01-01T00:00:00Z', '2022-12-31T22:00:00Z'),
+        time: getDailyDates('2019-07-01T00:00Z', '2022-12-31T22:00:00Z'),
         inputData: [''],
         yAxis: '',
         highlights: [
@@ -2889,7 +2889,7 @@ export const globalIndicators = [
               display: false,
               label: 'Distance to settlements Austrian Cadaster [m]',
               id: 'cadasterDistance',
-              // dataInfo: 'CadasterDistance',
+              dataInfo: 'CadasterDistance',
               type: 'slider',
               min: 0,
               max: 5000,
