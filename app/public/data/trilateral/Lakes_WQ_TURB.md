@@ -1,4 +1,4 @@
-# Lake Water Quality 300m
+# Lake Water Quality  - Turbidity 300m
 
 ## Dataset Description: 
 The Lake Water Quality NRT 300m product provides optical observations of global inland water bodies (nominally 4200) that are either 
