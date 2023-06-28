@@ -99,6 +99,11 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  NLK: {
+    indicatorSummary: 'Lakes',
+    story: '/data/trilateral/NLK',
+    themes: ['oceans'],
+  },
   E13c: {
     indicatorSummary: 'Changes in Ships traffic within the Port',
     story: '/data/trilateral/E13c',
@@ -4703,6 +4708,44 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Aral Lake',
+        siteName: 'Aral Lake',
+        description: 'Landsat - Aral Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-aral-sea'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-aral-sea&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lakes aral sea (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((56.91258402 43.48369514, 56.91258402 47.12012485, 63.64131735 47.12012485, 63.64131735 43.48369514, 56.91258402 43.48369514))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'Biwa',
         aoi: latLng([35.284, 136.095]),
         country: ['JP'],
@@ -4728,6 +4771,44 @@ export const globalIndicators = [
               type: 'Feature',
               properties: {},
               geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Biwa',
+        aoi: latLng([35.284, 136.095]),
+        country: ['JP'],
+        city: 'Lake Biwa',
+        siteName: 'Lake Biwa',
+        description: 'Landsat- Biwa Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-lake-biwa'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-lake-biwa&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Biwa (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((135.13362826 33.53534479, 135.13362826 35.75089521, 138.17282533 35.75089521, 138.17282533 33.53534479, 135.13362826 33.53534479))').toJson(),
             }],
           },
         },
@@ -4808,6 +4889,44 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'TonleSap',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Landsat - Tonlé Sap Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-tonle-sap'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-tonle-sap&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Tonle Sap (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((101.93844223 11.94560442, 101.93844223 14.06740558, 106.37030883 14.06740558, 106.37030883 11.94560442, 101.93844223 11.94560442))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'Vanern',
         aoi: latLng([59.07, 13.535]),
         country: ['SW'],
@@ -4843,6 +4962,44 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'Vanern',
+        aoi: latLng([59.07, 13.535]),
+        country: ['SW'],
+        city: 'Vänern Lake',
+        siteName: 'Vänern Lake',
+        description: 'Landsat - Vänern Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-vanern'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-vanern&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Vanern (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((10.69941816 57.35328549, 10.69941816 59.83119443, 15.98482535 59.83119443, 15.98482535 57.35328549, 10.69941816 57.35328549))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'Balaton',
         aoi: latLng([45.89, 17.77]),
         country: ['HU'],
@@ -4868,6 +5025,44 @@ export const globalIndicators = [
               type: 'Feature',
               properties: {},
               geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Balaton',
+        aoi: latLng([45.89, 17.77]),
+        country: ['HU'],
+        city: 'Balaton Lake',
+        siteName: 'Balaton Lake',
+        description: 'Landsat - Balaton Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-lake-balaton'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-lake-balaton&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Balaton (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((15.04798484 46.34951509, 15.04798484 48.51911491, 19.16156268 48.51911491, 19.16156268 46.34951509, 15.04798484 46.34951509))').toJson(),
             }],
           },
         },
@@ -4922,6 +5117,7 @@ export const globalIndicators = [
   //         features: [{
   //           type: 'Feature',
   //           properties: {},
+  // eslint-disable-next-line max-len
   //           geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
   //         }],
   //       },
