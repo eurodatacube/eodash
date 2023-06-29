@@ -4673,6 +4673,41 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'Tulare',
+        aoi: latLng([36.0508, -119.7830]),
+        country: ['US'],
+        city: 'Lake Tulare',
+        siteName: 'Lake Tulare',
+        description: 'Sentinel 2 L2A - Tulare Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-07-15', '2017-12-07', '2018-03-12', '2018-05-11', '2018-06-25', '2018-07-15', '2018-08-04', '2018-10-03', '2018-11-07', '2018-11-27', '2018-12-02', '2019-04-16', '2019-05-11', '2019-08-09', '2019-11-02', '2020-03-21', '2020-03-26', '2020-04-25', '2020-04-30', '2020-08-23', '2020-10-02', '2020-10-27', '2021-03-31', '2021-04-10', '2021-04-15', '2021-04-20', '2021-05-10', '2021-07-24', '2021-09-27', '2021-10-22', '2021-11-06', '2022-01-10', '2022-02-09', '2022-04-05', '2022-04-10', '2022-04-20', '2022-05-05', '2022-06-09', '2022-07-24', '2022-09-12', '2022-10-02', '2022-11-06', '2023-03-06', '2023-03-11', '2023-04-10', '2023-05-10'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-119.986955 36.176881, -119.488389 36.176881, -119.488389 35.706412,-119.986955 35.706412 ,-119.986955 36.176881))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'Aral',
         aoi: latLng([45.303, 58.581]),
         country: ['UZ', 'KZ'],
