@@ -5,7 +5,9 @@ import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction } from '@/utils';
+import {
+  simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
+} from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -5127,7 +5129,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
         inputData: [''],
         display: {
-          dateFormatFunction: shTimeFunction,
+          dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
@@ -5159,7 +5161,7 @@ export const globalIndicators = [
   //       time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
   //       inputData: [''],
   //       display: {
-  //         dateFormatFunction: shTimeFunction,
+  //         dateFormatFunction: simplifiedshTimeFunction,
   //         minZoom: 7,
   //         maxZoom: 14,
   //         layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
@@ -5190,7 +5192,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
         inputData: [''],
         display: {
-          dateFormatFunction: shTimeFunction,
+          dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
@@ -5222,7 +5224,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
         inputData: [''],
         display: {
-          dateFormatFunction: shTimeFunction,
+          dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
