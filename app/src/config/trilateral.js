@@ -5133,42 +5133,43 @@ export const globalIndicators = [
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
         },
       },
     },
   },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       dataLoadFinished: true,
-  //       aoiID: 'TonleSap',
-  //       aoi: latLng([12.7, 104.2]),
-  //       country: ['KH'],
-  //       city: 'Tonlé Sap Lake',
-  //       siteName: 'Tonlé Sap',
-  //       description: 'Surface Water Temperature - Tonlé Sap Lake',
-  //       indicator: 'Lakes_SWT',
-  //       indicatorName: 'Surface Water Temperature',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  // eslint-disable-next-line max-len
-  //           geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
-  //         }],
-  //       },
-  //       time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
-  //       inputData: [''],
-  //       display: {
-  //         dateFormatFunction: simplifiedshTimeFunction,
-  //         minZoom: 7,
-  //         maxZoom: 14,
-  //         layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
-  //       },
-  //     },
-  //   },
-  // },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Surface Water Temperature - Tonlé Sap Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
+        inputData: [''],
+        display: {
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
