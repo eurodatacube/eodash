@@ -98,7 +98,7 @@ export default {
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
+        'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
         // Year overlap comparison
@@ -369,6 +369,8 @@ export default {
         referenceDecompose.E8.referenceData[0].key = 'roll average';
         referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.LWL = referenceDecompose.E12c;
+        referenceDecompose.LWE = referenceDecompose.E12c;
 
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
