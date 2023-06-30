@@ -118,7 +118,7 @@ export const baseLayers = Object.freeze({
     protocol: 'xyz',
   },
   s2AT2021: {
-    name: 'Sentinel-2 Autrian mosaic 2021',
+    name: 'Sentinel-2 Austrian mosaic 2021',
     attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
     visible: false,
     protocol: 'cog',
@@ -128,7 +128,7 @@ export const baseLayers = Object.freeze({
     normalize: true,
   },
   s2AT2022: {
-    name: 'Sentinel-2 Autrian mosaic 2022',
+    name: 'Sentinel-2 Austrian mosaic 2022',
     attribution: '{ Contains modified Copernicus Sentinel data 2022 }',
     visible: false,
     protocol: 'cog',
