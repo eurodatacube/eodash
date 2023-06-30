@@ -482,6 +482,16 @@
     },
     "OW": {
      "title": "Covid-19 vaccinations"
+    },
+    "LWE": {
+      "title": "Lake Water Extent",
+      "description": "Lake Water Level timeseries",
+      "city": "Vänern"
+    },
+    "LWL": {
+      "title": "Lake Water Level",
+      "description": "Lake Water Level timeseries",
+      "city": "Vänern"
     }
   },
   "gtif": {

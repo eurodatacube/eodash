@@ -217,10 +217,15 @@ const mutations = {
             }
           });
         } else {
-          indicatorObject.indicatorName = foundMapping.title
-            ? foundMapping.title : indicatorObject.indicatorName;
-          indicatorObject.description = foundMapping.description
-            ? foundMapping.description : indicatorObject.description;
+          // allow arbitrary override of the data
+          const keys = Object.keys(foundMapping);
+          for (let kk = 0; kk < keys.length; kk += 1) {
+            if (keys[kk] === 'title') {
+              indicatorObject.indicatorName = foundMapping[keys[kk]];
+            } else {
+              indicatorObject[keys[kk]] = foundMapping[keys[kk]];
+            }
+          }
         }
       }
     });
