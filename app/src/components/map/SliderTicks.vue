@@ -2,17 +2,17 @@
   <div class="fill-width d-flex justify-center">
     <svg
       ref="svg"
-      style="width: 560px; height: 10px;"
-      :viewBox="`-1 0 ${svgWidth + 2} ${svgHeight}`"
+      :style="`width: ${width}px; height: 10px;`"
+      :viewBox="`-1 0 ${width + 2} ${height}`"
     >
       <line
         v-for="(line, index) in lines"
         :key="index"
         :x1="line"
-        :y1="svgHeight - 10"
+        :y1="height - 6"
         :x2="line"
-        :y2="svgHeight"
-        stroke="#777"
+        :y2="height"
+        stroke="#7596A2"
       />
     </svg>
   </div>
@@ -24,22 +24,25 @@ export default {
   props: {
     numLines: {
       type: Number,
-      default: 280,
+      default: 235,
+    },
+    width: {
+      type: Number,
+      required: true,
     },
   },
   data() {
     return {
-      svgWidth: 560,
-      svgHeight: 7,
+      height: 6,
     };
   },
   computed: {
     lines() {
-      const num = this.numLines > 280
-        ? 280
+      const num = this.numLines > (this.width / 2)
+        ? (this.width / 2)
         : this.numLines;
 
-      const spacing = this.svgWidth / (num - 1);
+      const spacing = this.width / (num - 1);
       return Array.from({ length: this.numLines }, (_, i) => i * spacing);
     },
   },
@@ -53,7 +56,7 @@ export default {
   methods: {
     handleResize() {
       this.svgWidth = this.$refs.svg.clientWidth;
-      this.svgHeight = this.$refs.svg.clientHeight;
+      this.height = this.$refs.svg.clientHeight;
     },
   },
   watch: {
