@@ -13,10 +13,37 @@
         :max="availableValues.length - 1"
         :step="1"
         thumb-label
-      ></v-slider>
+      >
+        <template v-slot:prepend>
+          <v-btn
+            dark
+            x-small
+            color="primary"
+            :disabled="originalTimeIndex === 0"
+            class="h-3"
+            @click="originalTimeIndex--"
+          >
+            <v-icon small>mdi-arrow-left</v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            dark
+            x-small
+            color="primary"
+            :disabled="originalTimeIndex === availableValues.length - 1"
+            class="h-3"
+            @click="originalTimeIndex++"
+          >
+            <v-icon small>mdi-arrow-right</v-icon>
+          </v-btn>
+        </template>
+      </v-slider>
       <SliderTicks
-        style="transform: translateY(-20px)"
+        style="transform: translateY(-30px)"
         :numLines="availableValues.length"
+        :width="timeSliderWidth"
       />
     </v-col>
     <v-col
@@ -154,6 +181,9 @@ export default {
         pass = !this.indicator.compareDisplay;
       }
       return this.compareActive && pass;
+    },
+    timeSliderWidth() {
+      return 470;
     },
   },
   created() {
