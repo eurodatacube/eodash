@@ -264,7 +264,7 @@ export default {
       handler(index) {
         // Update the model when the slider index changes
         this.$emit('update:originalTime', this.availableValues[index]);
-        console.log('time index watcher');
+        this.originalTimeModel = this.availableValues[index];
       },
     },
   },
