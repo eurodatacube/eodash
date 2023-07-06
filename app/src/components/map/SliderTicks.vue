@@ -2,27 +2,27 @@
   <div class="fill-width d-flex justify-center">
     <svg
       ref="svg"
-      :style="`width: ${width}px; height: 20px;`"
+      :style="`width: ${width}px; height: 30px;`"
       :viewBox="`-1 0 ${width + 2} ${height}`"
     >
       <line
         v-for="(line, index) in lines"
         :key="index"
         :x1="line"
-        :y1="height - 6"
+        :y1="0"
         :x2="line"
-        :y2="height"
+        :y2="6"
         stroke="#7596A2"
       />
 
       <text
         v-for="(year, index) in yearMarks"
         :key="`y${index}`"
-        :x="year.position"
-        :y="height - 10"
-        fill="#333"
-        font-size="12"
-        weight="600"
+        :x="year.position - 1"
+        :y="height - 3"
+        fill="#555"
+        font-size="13"
+        font-weight="500"
       >
         {{ year.label }}
       </text>
@@ -66,6 +66,7 @@ export default {
 
     yearMarks() {
       const yearIndices = [];
+      let lastDecade = null;
       let lastYear = null;
 
       // Calculate first and last dates as fractions of a year
@@ -77,23 +78,54 @@ export default {
       // Calculate the total range in fractions of a year
       const totalYears = lastTimeYear - firstYear;
 
+      // If the total range of years crosses a certain threshold (e.g., 10 years), we will show marks for every decade
+      const showDecades = totalYears > 10;
+
       this.times.forEach((time, i) => {
         const currentTime = DateTime.fromISO(time.value);
         const currentTimeYear = currentTime.year + (currentTime.ordinal / 365);
 
-        if (Math.floor(currentTimeYear) !== lastYear) {
-          yearIndices.push({
-            label: Math.floor(currentTimeYear),
-            position: ((currentTimeYear - firstYear) / totalYears) * this.width
-          });
-          lastYear = Math.floor(currentTimeYear);
+        if (showDecades) {
+          // If we are in a new decade, place a mark
+          const currentDecade = Math.floor(currentTimeYear / 10) * 10;
+          if (currentDecade !== lastDecade) {
+            yearIndices.push({
+              label: currentDecade,
+              position: ((currentTimeYear - firstYear) / totalYears) * this.width
+            });
+            lastDecade = currentDecade;
+          }
+        } else {
+          // If we are in a new year, place a mark
+          const currentYear = Math.floor(currentTimeYear);
+          if (currentYear !== lastYear) {
+            yearIndices.push({
+              label: currentYear,
+              position: ((currentTimeYear - firstYear) / totalYears) * this.width
+            });
+            lastYear = currentYear;
+          }
         }
       });
 
-      return yearIndices;
+      // Create a new array with removed overlapping labels
+      const nonOverlappingYearIndices = yearIndices.filter((yearMark, index, array) => {
+        // If it's the last item in the array, it can't overlap with a next item
+        if (index === array.length - 1) return true;
+
+        // Get the next item in the array
+        const nextYearMark = array[index + 1];
+
+        // Determine the distance between the current and next labels
+        const distance = nextYearMark.position - yearMark.position;
+
+        // Only keep this label if it's more than a certain distance from the next one
+        const minDistance = 50;  // set this to the minimum acceptable distance
+        return distance > minDistance;
+      });
+
+      return nonOverlappingYearIndices;
     },
-
-
   },
   mounted() {
     this.handleResize();
