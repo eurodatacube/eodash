@@ -43,7 +43,7 @@ export default {
     times: {
       type: Array,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -60,7 +60,7 @@ export default {
       return Array.from({ length: this.numLines }, (_, i) => i * spacing);
     },
 
-    numLines () {
+    numLines() {
       return this.times.length;
     },
 
@@ -78,10 +78,11 @@ export default {
       // Calculate the total range in fractions of a year
       const totalYears = lastTimeYear - firstYear;
 
-      // If the total range of years crosses a certain threshold (e.g., 10 years), we will show marks for every decade
+      // If the total range of years crosses a certain threshold (e.g., 10 years),
+      // we will show marks for every decade.
       const showDecades = totalYears > 10;
 
-      this.times.forEach((time, i) => {
+      this.times.forEach((time) => {
         const currentTime = DateTime.fromISO(time.value);
         const currentTimeYear = currentTime.year + (currentTime.ordinal / 365);
 
@@ -91,7 +92,7 @@ export default {
           if (currentDecade !== lastDecade) {
             yearIndices.push({
               label: currentDecade,
-              position: ((currentTimeYear - firstYear) / totalYears) * this.width
+              position: ((currentTimeYear - firstYear) / totalYears) * this.width,
             });
             lastDecade = currentDecade;
           }
@@ -101,7 +102,7 @@ export default {
           if (currentYear !== lastYear) {
             yearIndices.push({
               label: currentYear,
-              position: ((currentTimeYear - firstYear) / totalYears) * this.width
+              position: ((currentTimeYear - firstYear) / totalYears) * this.width,
             });
             lastYear = currentYear;
           }
@@ -120,7 +121,7 @@ export default {
         const distance = nextYearMark.position - yearMark.position;
 
         // Only keep this label if it's more than a certain distance from the next one
-        const minDistance = 50;  // set this to the minimum acceptable distance
+        const minDistance = 50; // set this to the minimum acceptable distance
         return distance > minDistance;
       });
 
