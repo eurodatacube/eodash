@@ -11,15 +11,16 @@
         :x1="line"
         :y1="0"
         :x2="line"
-        :y2="6"
-        stroke="#7596A2"
+        :y2="isYearLine(line) ? 12 : 6"
+        :stroke="isYearLine(line) ? `#333` : `#7596A2`"
+        :stroke-width="isYearLine(line) ? 1 : 1"
       />
 
       <text
         v-for="(year, index) in yearMarks"
         :key="`y${index}`"
         :x="year.position - 1"
-        :y="height - 3"
+        :y="height - 1"
         fill="#555"
         font-size="13"
         font-weight="500"
@@ -139,6 +140,14 @@ export default {
     handleResize() {
       this.svgWidth = this.$refs.svg.clientWidth;
       this.height = this.$refs.svg.clientHeight;
+    },
+
+    isYearLine(line) {
+      // Check if this line's position is approximately equal to any year mark position
+      const isYearMark = this.yearMarks
+        .some((yearMark) => Math.abs(yearMark.position - line) < 1.0);
+
+      return isYearMark;
     },
   },
   watch: {
