@@ -42,7 +42,7 @@
       </v-slider>
       <SliderTicks
         style="transform: translateY(-30px)"
-        :numLines="availableValues.length"
+        :times="availableValues"
         :width="timeSliderWidth"
       />
     </v-col>
