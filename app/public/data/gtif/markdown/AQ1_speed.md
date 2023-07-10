@@ -1,0 +1,1 @@
+<img style="float:right; margin-top:-60px;" alt="Traffic-free trip speed" src="legends/gtif/AQ1_speed.png" width="45%" style="vertical-align: middle;"/>

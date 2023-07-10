@@ -21,12 +21,12 @@
         ></v-select>
       </v-col>
     </v-row>
-     <v-row align="center">
-        <div
-          v-html="story"
-          class="md-body"
-        ></div>
-     </v-row>
+    <v-row align="center">
+      <div
+        v-html="story"
+        class="md-body"
+      ></div>
+    </v-row>
   </v-container>
 </template>
 
@@ -36,7 +36,7 @@ import { getMapInstance } from '@/components/map/map';
 import { applyStyle } from 'ol-mapbox-style';
 
 export default {
-  name: 'FilterControls',
+  name: 'StyleControls',
   components: {},
   props: {
     vectorStyles: Object,
@@ -64,11 +64,13 @@ export default {
     updateMap(evt) {
       const { map } = getMapInstance('centerMap');
       const vLayer = map.getAllLayers().find((l) => l.get('id') === this.vectorStyles.sourceLayer);
-      applyStyle(
-        vLayer,
-        this.$store.state.indicators.selectedIndicator.display.styleFile,
-        [evt.id],
-      );
+      if (vLayer) {
+        applyStyle(
+          vLayer,
+          this.$store.state.indicators.selectedIndicator.display.styleFile,
+          [evt.id],
+        );
+      }
     },
   },
 };

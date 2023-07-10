@@ -141,12 +141,15 @@ BYOD_COLLECTIONS = [
     "ESA-CCI-V2-ENVISAT",
     "AWS_CH4_WEEKLY",
     "AWS_VIS_SST_MAPS",
+    "LAKES_SURFACE_WATER_TEMPERATURE",
+    "LAKE_WATER_QUALITY_TURBIDITY_MEAN",
 ]
 
 ZARRCOLLECTIONS = [
     "BICEP_NPP_VIS_PP",
     "ESA-CCI-V2-CRYOSAT",
     "ESA-CCI-V2-ENVISAT",
+    "LAKE_WATER_QUALITY_TURBIDITY_MEAN",
 ]
 
 WMSCOLLECTIONS = {
@@ -188,6 +191,11 @@ STAC_COLLECTIONS = {
     "geoglam": "https://staging-stac.delta-backend.com/collections/",
     "landsat-c2l2-sr-antarctic-glaciers-thwaites": "https://dev-stac.delta-backend.com/collections/",
     "landsat-c2l2-sr-antarctic-glaciers-pine-island": "https://dev-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-lakes-aral-sea": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-lakes-lake-balaton": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-lakes-lake-biwa": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-lakes-tonle-sap": "https://staging-stac.delta-backend.com/collections/",
+    "landsat-c2l2-sr-lakes-vanern": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
@@ -220,11 +228,14 @@ BBOX = {
         ("34.2,136.4,35.2,137.4", "JP04TSM"),
         ("33.85,134.5,34.85,135.5", "JP02TSM"),
     ],
+    "LAKES_SURFACE_WATER_TEMPERATURE": [
+        ("46.55,17.08,47.12,18.24", "Balaton"),
+        ("58.2,12.05,59.5,14.4", "Vanern"),
+        ("12.03,103.58,13.33,104.88", "Tonlesap"),
+        ("34.94,135.81,35.54,136.36", "Biwa"),
+    ],
 }
 
-# TODO: what to do about SENTINEL-2-L2A-TRUE-COLOR collection, not BYOD
-
-# WFSENDPOINT = "https://shservices.mundiwebservices.com/ogc/wfs/"
 MIGRATEDENDPOINT ="https://services.sentinel-hub.com/ogc/wfs/"
 REQUESTOPTIONS = "?REQUEST=%s&srsName=%s&TIME=%s&outputformat=%s"%(
     "GetFeature", "EPSG:4326",
@@ -765,6 +776,8 @@ generateData(
         ['VITS_Vegetation_Index_Timeseries', ''],
         ['SMCTS_Soil_Moisture_Timeseries', ''],
         ['PRCTS_Precipitation_Timeseries', ''],
+        ['Lake_water_extent_tri_timeseries', ''],
+        ['Lake_water_level_tri_timeseries', ''],
     ]
 )
 
@@ -821,6 +834,6 @@ generateData(
         ['N3', ''],
         ['N1', ''],
         ['E200', ''],
-        ['Sentinel_1_Vessel_Density_Europe_Timeseries', '']
+        ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
     ]
 )

@@ -168,7 +168,8 @@ export default {
       if (mutation.type === 'features/ADD_NEW_FEATURES') {
         // Read route query and set selected poi
         const { poi, country, indicator } = this.$route.query;
-        if (poi || indicator) {
+        const indicatorsFilter = (indicator && indicator.split(',')) || [];
+        if (poi || indicatorsFilter.length > 0) {
           // poi or indicator was present on app init
           this.$store.commit('setInitWithQuery', true);
           this.$store.commit('changeBackButtonDisplay', true);
@@ -184,22 +185,24 @@ export default {
           });
         }
         this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+        // TODO: Is there a reason why this was called twice?
+        // eslint-disable-next-line
+        // this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
-        let selectedIndicator = this.getIndicators
-          .map((item) => item.code).find((f) => f === indicator);
+        let selectedIndicators = this.getIndicators
+          .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
         // If selectedIndicator is undefined and indicator has been provided
         // it could be an archived indicator so we activate
-        if (typeof indicator !== 'undefined' && typeof selectedIndicator === 'undefined') {
+        if (typeof selectedIndicators !== 'undefined' && indicatorsFilter.length > 0) {
           this.$store.commit('features/SET_FEATURE_FILTER', { includeArchived: true });
-          selectedIndicator = this.getIndicators
-            .map((item) => item.code).find((f) => f === indicator);
+          selectedIndicators = this.getIndicators
+            .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
         }
         this.$store.commit('features/INIT_FEATURE_FILTER', {
           countries: selectedCountry,
-          indicators: selectedIndicator,
+          indicators: selectedIndicators,
         });
       }
       // Url query replacement
@@ -227,8 +230,8 @@ export default {
             const urlSearchParams = new URLSearchParams(window.location.search);
             const params = Object.fromEntries(urlSearchParams.entries());
             this.$router.push({ query: params });
-            this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators[0] }) }).catch(err => {}); // eslint-disable-line
-            this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators[0]);
+            this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators.join(',') }) }).catch(err => {}); // eslint-disable-line
+            this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators.join(','));
           }
         }
       }

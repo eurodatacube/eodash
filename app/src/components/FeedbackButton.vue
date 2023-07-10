@@ -12,7 +12,7 @@
         dark
         small
         color="secondary"
-        class="ml-1"
+        class="ml-1 feedback-button"
         @click="dialog = true"
       >
         <v-icon :left="!$vuetify.breakpoint.xsOnly" small>mdi-account-voice</v-icon>

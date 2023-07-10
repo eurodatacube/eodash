@@ -1,0 +1,48 @@
+{
+  "version": 8,
+  "name": "heatmap_vector",
+  "minZoom": 0,
+  "maxZoom": 14,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "heatmap_source": {
+      "type": "vector",
+      "tiles": [
+          "https://tileserver.geoville.com/heatMap/gemeinden_statistics_Z1-16/%7Bz%7D/%7Bx%7D/%7By%7D.pbf/gemeinden_statistics_Z1-16/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 16
+  }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "background-color": "#000000"
+      }
+    },
+    {
+      "id": "gemeinden_statistics",
+      "type": "line",
+      "source": "heatmap_source",
+      "source-layer": "gemeinden_statistics",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 0, 0, 1)"
+      }
+    },
+    {
+      "id": "gemeinden_statistics_fill",
+      "type": "fill",
+      "source": "heatmap_source",
+      "source-layer": "gemeinden_statistics",
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(0, 0, 0, 0.001)"
+      }
+    }
+  ]
+}
