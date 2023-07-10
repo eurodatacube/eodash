@@ -4,6 +4,10 @@
       <v-col cols="6">
         <v-subheader>
           Data properties
+          <info-dialog
+            v-if="wmsStyles.dataInfo"
+            :infoSource="wmsStyles.dataInfo"
+          />
         </v-subheader>
       </v-col>
 
@@ -23,6 +27,7 @@
     </v-row>
      <v-row align="center">
         <div
+          style="width: 100%"
           v-html="story"
           class="md-body"
         ></div>
@@ -32,11 +37,14 @@
 
 <script>
 
-import getMapInstance from '@/components/map/map';
+import { getMapInstance } from '@/components/map/map';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     wmsStyles: Object,
   },
@@ -63,9 +71,11 @@ export default {
     updateMap(evt) {
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('name') === this.wmsStyles.sourceLayer);
-      layer.getSource().updateParams({
-        STYLES: evt.id,
-      });
+      if (layer) {
+        layer.getSource().updateParams({
+          STYLES: evt.id,
+        });
+      }
     },
   },
 };

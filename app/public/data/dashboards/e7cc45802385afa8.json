@@ -1,0 +1,168 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Environmental monitoring"
+    ]
+  },
+  "features": [
+    {
+      "width": 4,
+      "text": "# AIR QUALITY AND HUMAN MOBILITY OVER AUSTRIA",
+      "id": ".-1675974176282",
+      "title": ".",
+      "__generatedText__": "<h1>AIR QUALITY AND HUMAN MOBILITY OVER AUSTRIA</h1>\n"
+    },
+    {
+      "width": 4,
+      "id": ".-1675960078086",
+      "text": "This GTIF scenario on **air quality and human mobility** allows to assess the correlation between population density and mobility modalities and how their evolution over time impacts air pollution, population health and contributes to climate change. On a daily basis, this scenario provides essential parameters for Air Quality (AQ) retrieved from satellites, ground-based observations and models combined with High-Frequency Location-Based data (HFLB).\n\nIn more detail the scenario consists of: \n- The Aggregated Risk Index (ARI) provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants;  \n- Satellite data allow the observation of pollutants like Nitrogen dioxide (NO2) over the whole country once per day. This is used to provide large scale measurements that complement AQ models and verify mobility data; \n- Ground-based in-situ and remote sensing data offer the possibility to characterize a very localized AQ situation; \n- Model simulations merged with satellite and ground-based observations which provide essential parameters for AQ; \n- Mobility data represent position / time of mobile devices with a very high accuracy. It can provide information to assess population density and identify different mobility modalities and trajectories. Further, it can be used as a proxy to estimate potential emissions of pollutants. \n",
+      "title": ".",
+      "__generatedText__": "<p>This GTIF scenario on <strong>air quality and human mobility</strong> allows to assess the correlation between population density and mobility modalities and how their evolution over time impacts air pollution, population health and contributes to climate change. On a daily basis, this scenario provides essential parameters for Air Quality (AQ) retrieved from satellites, ground-based observations and models combined with High-Frequency Location-Based data (HFLB).</p>\n<p>In more detail the scenario consists of: </p>\n<ul>\n<li>The Aggregated Risk Index (ARI) provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants;  </li>\n<li>Satellite data allow the observation of pollutants like Nitrogen dioxide (NO2) over the whole country once per day. This is used to provide large scale measurements that complement AQ models and verify mobility data; </li>\n<li>Ground-based in-situ and remote sensing data offer the possibility to characterize a very localized AQ situation; </li>\n<li>Model simulations merged with satellite and ground-based observations which provide essential parameters for AQ; </li>\n<li>Mobility data represent position / time of mobile devices with a very high accuracy. It can provide information to assess population density and identify different mobility modalities and trajectories. Further, it can be used as a proxy to estimate potential emissions of pollutants. </li>\n</ul>\n"
+    },
+    {
+      "width": 1,
+      "id": "Title-1675960857415",
+      "text": "## Aggregated Risk Index\n\nThe ARI provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants (nitrogen dioxide, particulate matter, sulphur dioxide and surfacer ozone).\n\nThe ARI is derived by aggregating pollutant concentrations weighted by health outcome-specific Relative Risk factors of increased mortality due to causes provided by the World Health Organization (WHO).\n\nTypical ARI data over Austria show high values close to densely populated areas such as Vienna, Graz and Linz.\n\nThese patterns are also confirmed by the space-borne observations from Copernicus Sentinel-5p and by model based the particulate matter concentrations.\n\n<--EXPAND-SMALL-->Figure 1. Daily ARI map over Austria for a selected day.",
+      "title": "Title",
+      "__generatedText__": "<h2>Aggregated Risk Index</h2>\n<p>The ARI provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants (nitrogen dioxide, particulate matter, sulphur dioxide and surfacer ozone).</p>\n<p>The ARI is derived by aggregating pollutant concentrations weighted by health outcome-specific Relative Risk factors of increased mortality due to causes provided by the World Health Organization (WHO).</p>\n<p>Typical ARI data over Austria show high values close to densely populated areas such as Vienna, Graz and Linz.</p>\n<p>These patterns are also confirmed by the space-borne observations from Copernicus Sentinel-5p and by model based the particulate matter concentrations.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 1. Daily ARI map over Austria for a selected day.</p>\n"
+    },
+    {
+      "mapInfo": {
+        "compareLayerTime": null,
+        "zoom": 6.5,
+        "center": {
+          "lng": 14,
+          "lat": 47.5
+        }
+      },
+      "width": 3,
+      "id": "AT-AQA@1665877423776",
+      "title": "Daily ARI map over Austria for a selected day"
+    },
+    {
+      "width": 4,
+      "text": "<div class=\"full-width d-flex justify-center flex-column flex-md-row\">\n<iframe class=\"item\" src=\"http://gtif.esa.int/iframe?poi=AT-AQB&embedMap=true&z=6.5&lat=47.5&lng=14\" width=\"800px\" height=\"500px\" frameBorder=\"0\" scroll=\"no\" style=\"overflow:hidden\"></iframe>\n<iframe class=\"item\" src=\"http://gtif.esa.int/iframe?poi=AT-AQ5&embedMap=true&z=6.5&lat=47.5&lng=14\" width=\"800px\" height=\"500px\" frameBorder=\"0\" scroll=\"no\" style=\"overflow:hidden\"></iframe>\n</div>\n\n<--EXPAND-SMALL-->Figure 2. Modelled PM10 and Space-borne NO2 concentrations over Austria for a selected day",
+      "id": ".-1675963493221",
+      "title": ".",
+      "__generatedText__": "<div>\n&lt;iframe class=\"item\" src=\"http://gtif.esa.int/iframe?poi=AT-AQB&embedMap=true&z=6.5&lat=47.5&lng=14\" width=\"800px\" height=\"500px\" frameBorder=\"0\" scroll=\"no\" style=\"overflow:hidden\"&gt;&lt;/iframe&gt;\n&lt;iframe class=\"item\" src=\"http://gtif.esa.int/iframe?poi=AT-AQ5&embedMap=true&z=6.5&lat=47.5&lng=14\" width=\"800px\" height=\"500px\" frameBorder=\"0\" scroll=\"no\" style=\"overflow:hidden\"&gt;&lt;/iframe&gt;\n</div>\n\n<p>&lt;--EXPAND-SMALL--&gt;Figure 2. Modelled PM10 and Space-borne NO2 concentrations over Austria for a selected day</p>\n"
+    },
+    {
+      "width": 1,
+      "id": "Title-1675960983423",
+      "text": "## High-Frequency Location-Based Data\n\nPopulation presence information have been aggregated using the districts classification provided by Statistik Austria. Population presence patterns reflects the pollutants concentrations and differ from working days to weekends. Assessing these changes allows monitoring and forecasting where and how pollution evolution dynamics.\n\n<--EXPAND-SMALL-->Figure 3. Presence data aggregated over the administrative boundaries: comparison between working days (top) and weekend days (bottom) (24h loop).",
+      "title": "Title",
+      "__generatedText__": "<h2>High-Frequency Location-Based Data</h2>\n<p>Population presence information have been aggregated using the districts classification provided by Statistik Austria. Population presence patterns reflects the pollutants concentrations and differ from working days to weekends. Assessing these changes allows monitoring and forecasting where and how pollution evolution dynamics.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 3. Presence data aggregated over the administrative boundaries: comparison between working days (top) and weekend days (bottom) (24h loop).</p>\n"
+    },
+    {
+      "width": 3,
+      "id": "vid-1675961364469",
+      "text": "<--AUTOPLAY-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4<--AUTOPLAY-->",
+      "title": "vid",
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675961474742",
+      "text": "Unlike rural areas, where private motorised vehicles are still the most common transportation way, in urban areas there has been a clear evolution in the mobility modalities with a reduction of cars and increase of bikes and electric mobility. In the mobility scenario we provide the necessary tools for monitoring the impact on the pollutants burden of the recent policies related to the sustainable mobility and the associated emissions reductions.\n\n<--EXPAND-SMALL-->Figure 4. Evolution of the mobility modalities with a reduction of cars and increase of bikes and electric mobility (figures from Ajanovicet al. Electric Mobility in Cities: The Case of Vienna.\u202f[https://doi.org/10.3390/en14010217](https://doi.org/10.3390/en14010217)). ",
+      "title": ".",
+      "__generatedText__": "<p>Unlike rural areas, where private motorised vehicles are still the most common transportation way, in urban areas there has been a clear evolution in the mobility modalities with a reduction of cars and increase of bikes and electric mobility. In the mobility scenario we provide the necessary tools for monitoring the impact on the pollutants burden of the recent policies related to the sustainable mobility and the associated emissions reductions.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 4. Evolution of the mobility modalities with a reduction of cars and increase of bikes and electric mobility (figures from Ajanovicet al. Electric Mobility in Cities: The Case of Vienna.\u202f<a href=\"https://doi.org/10.3390/en14010217\">https://doi.org/10.3390/en14010217</a>). </p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675961540150",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_2.png<--IMG-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_2.png\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/social_mobility_2.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675961695634",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/no2_concentrations.png<--IMG-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/no2_concentrations.png\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/no2_concentrations.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675961685056",
+      "text": "## Hot spot analysis: The Inn Valley\n\nInn Valley show that\u202fNO2 has not decreased\u202fas projected until recently. Due to a slower than expected decrease of NO2 levels and stricter air quality standards, regulatory\u202fthresholds of NO2\u202fare now\u202fviolated\u202fat\u202fmany stations, including most\u202froadside\u202fstations along the\u202fInn Valley.\n\n<--EXPAND-SMALL-->Figure 5. Annual NO2 concentrations measured at different locations in Innsbruck\n",
+      "title": ".",
+      "__generatedText__": "<h2>Hot spot analysis: The Inn Valley</h2>\n<p>Inn Valley show that\u202fNO2 has not decreased\u202fas projected until recently. Due to a slower than expected decrease of NO2 levels and stricter air quality standards, regulatory\u202fthresholds of NO2\u202fare now\u202fviolated\u202fat\u202fmany stations, including most\u202froadside\u202fstations along the\u202fInn Valley.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 5. Annual NO2 concentrations measured at different locations in Innsbruck</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675961760968",
+      "text": "The Innsbruck Atmospheric Observatory (IAO) allows studying urban exchange processes of momentum, energy, trace gases and aerosols in an Alpine environment.\n\nVarious long-term continuous measurements are augmented by regularly focused research campaigns with state-of \u2013the art instrumentation, linking different classes of data (e.g. remote sensing vs in-situ data products), and addressing significant gaps in scientific data availability for urban environments. (Karl et al., 2020: doi: 10.1175/BAMS-D-19-0270.1, Karl et al., 2023:doi:10.1126/sciadv.add2365).\n\nFor each half hour, the isolines show the magnitude of surface NOx emissions in units of nmol/m2/s obtained at the IAO. This indicator can be used as ground truth of surface NOx emissions.\n\n<--EXPAND-SMALL-->Figure 6. NO2 flux footprint measured at IAO",
+      "title": ".",
+      "__generatedText__": "<p>The Innsbruck Atmospheric Observatory (IAO) allows studying urban exchange processes of momentum, energy, trace gases and aerosols in an Alpine environment.</p>\n<p>Various long-term continuous measurements are augmented by regularly focused research campaigns with state-of \u2013the art instrumentation, linking different classes of data (e.g. remote sensing vs in-situ data products), and addressing significant gaps in scientific data availability for urban environments. (Karl et al., 2020: doi: 10.1175/BAMS-D-19-0270.1, Karl et al., 2023:doi:10.1126/sciadv.add2365).</p>\n<p>For each half hour, the isolines show the magnitude of surface NOx emissions in units of nmol/m2/s obtained at the IAO. This indicator can be used as ground truth of surface NOx emissions.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 6. NO2 flux footprint measured at IAO</p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675961881468",
+      "text": "<--AUTOPLAY-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4<--AUTOPLAY-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/mobility_transition/GTIF_EC_2022.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675961949412",
+      "text": "Particularly the synergy between these observations and human mobility patterns will be exploited to understand how local emissions influence NO2 surface concentrations.\n\nMore than 90% of the emissions in the target area are associated with traffic and follow a distinct diurnal cycle peaking during the day. Surface concentrations of NO2 and NOx are greatly modulated by the depth of the PBL and often decoupled from the actual emission peak.\n\n<--EXPAND-SMALL-->Figure 7. Innsbruck human mobility patterns",
+      "title": ".",
+      "__generatedText__": "<p>Particularly the synergy between these observations and human mobility patterns will be exploited to understand how local emissions influence NO2 surface concentrations.</p>\n<p>More than 90% of the emissions in the target area are associated with traffic and follow a distinct diurnal cycle peaking during the day. Surface concentrations of NO2 and NOx are greatly modulated by the depth of the PBL and often decoupled from the actual emission peak.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 7. Innsbruck human mobility patterns</p>\n"
+    },
+    {
+      "mapInfo": {
+        "zoom": 13.700000000000003,
+        "center": {
+          "lng": 11.407273655439639,
+          "lat": 47.26980945037769
+        }
+      },
+      "width": 3,
+      "id": "AT-AQ4@1665877423778",
+      "title": "Innsbruck Mobility Patterns"
+    },
+    {
+      "width": 1,
+      "id": ".-1675962122166",
+      "text": "Also clearly observable is the difference of NOx concentrations between weekend and weekday. The weekend to weekday variability ranges between a factor of 2 to 3. \n\n<--EXPAND-SMALL-->Figure 8. Time series plots of NO2 for Jan 2020 \u2013 Dec 2021\nTop and middle: Left: time series of NOx and NO2, Right: diurnal cycle of winter, summer and annual NOx/NO2 mixing ratios\nBottom: left time series of NO2, right diurnal cycle for weekdays/weekend",
+      "title": ".",
+      "__generatedText__": "<p>Also clearly observable is the difference of NOx concentrations between weekend and weekday. The weekend to weekday variability ranges between a factor of 2 to 3. </p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 8. Time series plots of NO2 for Jan 2020 \u2013 Dec 2021\nTop and middle: Left: time series of NOx and NO2, Right: diurnal cycle of winter, summer and annual NOx/NO2 mixing ratios\nBottom: left time series of NO2, right diurnal cycle for weekdays/weekend</p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675962218342",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png<--IMG-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675962289928",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos.jpeg<--IMG-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos.jpeg\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos.jpeg</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675962239296",
+      "text": "## The KARLOS instrument on Innsbruck\u2019s Nordkette Hafelekar: a game-changer for Innsbruck air quality monitoring\n\nKARLOS is a\u202f**2D imaging UV/VIS spectrometer\u202fsystem** (similar to what is deployed on e.g. Copernicus Sentinel-5p) that will be operated at a local mountaintop site (Hafelekar) to scan across the urban area in a downward viewing mode.\n\nThe instruments can operate with two ground resolution setups:\u202f**10x10 m2**\u202fand\u202f**1x1 m2**\u202ffor the primary target species NO2. Other species are e.g. O3, and SO2, but also aerosols.\n\nDepending on the target resolution and scan mode a full image of the city will be available below\u202f**5 min. temporal resolution**.\n\n<--EXPAND-SMALL-->Figure 9. Left \u2013 KARLOS instrument with the telescope (right), connected to a tracking device (left). Right \u2013 sketch of the measurement system (left) and the operation principle at the mountain site (right).",
+      "title": ".",
+      "__generatedText__": "<h2>The KARLOS instrument on Innsbruck\u2019s Nordkette Hafelekar: a game-changer for Innsbruck air quality monitoring</h2>\n<p>KARLOS is a\u202f<strong>2D imaging UV/VIS spectrometer\u202fsystem</strong> (similar to what is deployed on e.g. Copernicus Sentinel-5p) that will be operated at a local mountaintop site (Hafelekar) to scan across the urban area in a downward viewing mode.</p>\n<p>The instruments can operate with two ground resolution setups:\u202f<strong>10x10 m2</strong>\u202fand\u202f<strong>1x1 m2</strong>\u202ffor the primary target species NO2. Other species are e.g. O3, and SO2, but also aerosols.</p>\n<p>Depending on the target resolution and scan mode a full image of the city will be available below\u202f<strong>5 min. temporal resolution</strong>.</p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 9. Left \u2013 KARLOS instrument with the telescope (right), connected to a tracking device (left). Right \u2013 sketch of the measurement system (left) and the operation principle at the mountain site (right).</p>\n"
+    },
+    {
+      "width": 3,
+      "id": ".-1675962436556",
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos_data.png<--IMG-->",
+      "title": ".",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos_data.png\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/karlos_data.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "id": ".-1675962417570",
+      "text": "The main goal for KARLOS is to acquire 2D NOx emission fields by the conversion of native NO2 column measurements.\n\nThose fields will be validated using emissions calculated within the flux footprint around the Innsbruck Atmospheric Observatory (IAO) through in-situ measurements.\n\nTo support data interpretation, horizontal NO2 concentration gradients retrieved from co-located ground-based Pandora spectrometer measurements are used.\n\nKARLOS is scheduled to be deployed on Hafelekar once safety is guaranteed related to the period of avalanche blasting (Spring 2023).\n\nAfter testing, KARLOS will then continuously operate, deliver NO2 column data, which will enter further analysis with ground-based data and models to allow\u202f**yet unprecedented high temporal\u202fand\u202fspatial resolution NO2 plume reconstruction**.\n\nOnce the full measurement and analysis strategy is demonstrated, the capability can be deployed on sites with similar topography. \n\n<--EXPAND-SMALL-->Figure 10. KARLOS simulated instrument data showing vertical column NO2 measurements at coarse resolution.\n",
+      "title": ".",
+      "__generatedText__": "<p>The main goal for KARLOS is to acquire 2D NOx emission fields by the conversion of native NO2 column measurements.</p>\n<p>Those fields will be validated using emissions calculated within the flux footprint around the Innsbruck Atmospheric Observatory (IAO) through in-situ measurements.</p>\n<p>To support data interpretation, horizontal NO2 concentration gradients retrieved from co-located ground-based Pandora spectrometer measurements are used.</p>\n<p>KARLOS is scheduled to be deployed on Hafelekar once safety is guaranteed related to the period of avalanche blasting (Spring 2023).</p>\n<p>After testing, KARLOS will then continuously operate, deliver NO2 column data, which will enter further analysis with ground-based data and models to allow\u202f<strong>yet unprecedented high temporal\u202fand\u202fspatial resolution NO2 plume reconstruction</strong>.</p>\n<p>Once the full measurement and analysis strategy is demonstrated, the capability can be deployed on sites with similar topography. </p>\n<p>&lt;--EXPAND-SMALL--&gt;Figure 10. KARLOS simulated instrument data showing vertical column NO2 measurements at coarse resolution.</p>\n"
+    }
+  ],
+  "title": "GTIF | mobility-transition"
+}

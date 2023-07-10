@@ -7,7 +7,7 @@ export const baseLayers = Object.freeze({
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
     visible: false,
-    maxZoom: 16,
+    maxZoom: 17,
     protocol: 'xyz',
   },
   terrainLight: {
@@ -42,7 +42,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
   },
   bmapgelaende: {
@@ -50,7 +50,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
   },
   bmaporthofoto30cm: {
@@ -58,8 +58,35 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 17,
+    maxZoom: 18,
     protocol: 'xyz',
+  },
+  bodenwertigkeitskarte_agri: {
+    name: 'Soil value - Cropland - bodenkarte.at',
+    id: 'bodenwertigkeitskarte_agri',
+    styleFile: 'https://bodenkarte.at/styles/ackerwert.json',
+    attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'vectortile',
+  },
+  bodenwertigkeitskarte_grassland: {
+    name: 'Soil value - Grassland - bodenkarte.at',
+    id: 'bodenwertigkeitskarte_grassland',
+    styleFile: 'https://bodenkarte.at/styles/gruenlandwert.json',
+    attribution: '{ Digital soil map Austria; <a href="https://bodenkarte.at" target="_blank"> Digitale Bodenkarte</a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'vectortile',
+  },
+  dsr_schnelllade_10km: {
+    name: 'Funding map for fast charging stations',
+    id: 'schnellade',
+    styleFile: 'data/gtif/data/schnelllade.json',
+    attribution: '{ Funding map: green = enough fast charging available, grey = subsidies available - source <a href="https://www.austriatech.at/" target="_blank"> Austriatech </a> }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'vectortile',
   },
   CORINE_LAND_COVER: {
     baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
@@ -89,6 +116,26 @@ export const baseLayers = Object.freeze({
     attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
     visible: false,
     protocol: 'xyz',
+  },
+  s2AT2021: {
+    name: 'Sentinel-2 Austrian mosaic 2021',
+    attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
+    visible: false,
+    protocol: 'cog',
+    sources: [
+      { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/S2_Austrian_Mosaic_rendered_2021_COG.tif' },
+    ],
+    normalize: true,
+  },
+  s2AT2022: {
+    name: 'Sentinel-2 Austrian mosaic 2022',
+    attribution: '{ Contains modified Copernicus Sentinel data 2022 }',
+    visible: false,
+    protocol: 'cog',
+    sources: [
+      { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/S2_Austrian_Mosaic_rendered_2022_COG.tif' },
+    ],
+    normalize: true,
   },
 });
 
