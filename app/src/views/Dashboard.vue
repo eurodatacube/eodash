@@ -16,8 +16,8 @@
       temporary
       hide-overlay
       :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
-      :style="`margin-top: ${appConfig.id === 'gtif' ? 112 : 68}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer + 48}px;`"
+      :style="`margin-top: ${$vuetify.application.top}px;
+        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
       <v-toolbar flat>
@@ -172,10 +172,9 @@
       </v-container>
     </div>
 
-    <v-content
-      :style="`padding-top: ${appConfig.id === 'gtif' ? 112 : 68}px; height: 100vh;
-      height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top +
-      $vuetify.application.footer}px); overflow:hidden; width: 100%`"
+    <v-main
+      :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
     >
       <v-container
         class="fill-height pa-0"
@@ -203,7 +202,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
     <global-footer
       :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
     />
