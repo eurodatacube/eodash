@@ -321,8 +321,12 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersLeftMap)];
+      const darkOverlay = (
+        'darkOverlayLayers' in this.baseConfig
+        && this.baseConfig.darkOverlayLayers.length > 0
+      );
       // darkOverlayLayers replace country vectors
-      if (!this.isGlobalIndicator && this.baseConfig.darkOverlayLayers?.length === 0) {
+      if (!this.isGlobalIndicator && !darkOverlay) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
