@@ -189,10 +189,6 @@
             <div
               class="d-flex justify-start"
               style="position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none"
-              :style="{'height': $vuetify.breakpoint.smAndDown && drawerRight
-                ? 'calc(66vh - 112px)'
-                : '100%'
-              }"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
