@@ -125,6 +125,34 @@
       }
     },
     "oceans": {
+      "lakes-intro": {
+        "originalDashboardId": "fa8eb12853a73ec7",
+        "title": "Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters",
+        "subtitle": "Read more about how the climate crisis affects lakes and rivers",
+        "image": "./data/story-images/lakes_cover.jpg",
+        "imagePlaceholder": "./data/story-images/lakes_cover_small.jpeg"
+      },
+      "lakes-climate": {
+        "originalDashboardId": "d6764af9c646d2b7",
+        "title": "Changes  in temperature, precipitation patterns and extremes on inland water",
+        "subtitle": "Read more about monitoring their impact with Earth Observations",
+        "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
+        "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
+      },
+      "lakes-algae": {
+        "originalDashboardId": "cc21f006274175d0",
+        "title": "Algae Bloom",
+        "subtitle": "Subtitle placeholder",
+        "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
+        "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
+      },
+      "lakes-human-activity": {
+        "originalDashboardId": "893f906ba40d35b2",
+        "title": "Anthropogenic influences",
+        "subtitle": "Subtitle placeholder",
+        "image": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg",
+        "imagePlaceholder": "./data/story-images/1-EO_PIX_Ocean_COVER_Photo.jpeg"
+      },
       "ocean-plants": {
         "originalDashboardId": "6ea3293aade90541",
         "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
