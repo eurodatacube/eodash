@@ -30,7 +30,6 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
-
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -595,6 +594,16 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Sentinel 2 L2A for Lake areas',
     themes: ['oceans'],
     story: '/data/trilateral/Lakes_S2L2A',
+  },
+  Lakes_ALOS2: {
+    indicatorSummary: 'ALOS2 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_ALOS2',
+  },
+  Lakes_Sentinel1: {
+    indicatorSummary: 'Sentinel 1 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_Sentinel1',
   },
   Lakes_WQ_TURB: {
     indicatorSummary: 'Water Quality Turbidity mean Lakes',
@@ -4908,6 +4917,146 @@ export const globalIndicators = [
           minZoom: 7,
           maxZoom: 17,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_HH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_HV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HV',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2016-10-24', '2017-10-07', '2017-10-07', '2018-05-11', '2018-05-11', '2018-10-20', '2018-10-20', '2019-05-06', '2019-05-06', '2019-10-09', '2019-10-09', '2020-05-12', '2020-10-15', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-10', '2021-10-24', '2022-05-14', '2022-05-14', '2022-10-17', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2017-10-07', '2018-05-11', '2018-10-20', '2019-05-06', '2019-10-09', '2020-05-12', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-24', '2022-05-14', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VV',
           presetView: {
             type: 'FeatureCollection',
             features: [{
