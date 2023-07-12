@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    :style="`position:absolute; width:100%; margin-top: ${$vuetify.application.top}px;`"
+  >
     <v-app-bar flat app clipped-left >
       <nav class="esa-header-wrapper">
         <section id="esa-header" class="esa-header monitoring-safeguarding">

@@ -74,8 +74,7 @@ export default {
   background: #1E4B5F;
   width: 100%;
   height: 48px;
-  position: fixed;
-  top: 64px;
+  position: relative;
   font-size: 18px;
   z-index: 4;
   color: #CDD7DA;
