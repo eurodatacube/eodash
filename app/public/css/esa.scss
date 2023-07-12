@@ -5,6 +5,16 @@
   src: url('./notesesabol-webfont.ttf') format('truetype');
 }
 
+@font-face{
+  font-family: 'NotesESA';
+  src: url('./notesesareg.woff2') format('woff2'),
+       url('./notesesareg.ttf') format('truetype');
+}
+
+.v-application {
+  font-family: 'NotesESA', 'Open Sans', sans-serif;
+}
+
 .brand-esa {
   $body-font-family: 'Arial', 'Open Sans', sans-serif;
 
