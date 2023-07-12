@@ -5300,6 +5300,49 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Lake Aral',
+        siteName: 'Lake Aral',
+        description: 'Surface Water Temperature - Aral Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Aral,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'TonleSap',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
