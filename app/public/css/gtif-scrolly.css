@@ -1,0 +1,122 @@
+@import url("https://eox.at/fonts/opensans/opensans.css");
+@font-face {
+  font-family: "NotesESABold";
+  src: url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesabol-webfont.ttf") format("truetype");
+}
+@font-face {
+  font-family: "NotesESA";
+  src: url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesareg.woff2") format("woff2"), url("https://eox-gtif-public.s3.eu-central-1.amazonaws.com/fonts/notesesareg.ttf") format("truetype");
+}
+#scroll-target {
+  font-family: "NotesESA", "Open Sans", sans-serif;
+  overflow-x: hidden;
+}
+.v-application--wrap {
+  align-items: center;
+}
+
+/*TODO: remove following line after insertion of carbon-accounting text in div into a p element*/
+#carbon {
+  font-size: 1.3rem;
+  margin-bottom: 3em; /*adding some space for footer to start*/
+}
+
+.highlight {
+  font-size: 1.7rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3,
+.h4,
+.headline,
+.v-application .display-1,
+.v-application .display-2,
+.v-application .display-3,
+.v-btn__content,
+.v-toolbar__title,
+.v-card__title,
+.v-tab {
+  font-family: "NotesESABold", sans-serif !important;
+}
+
+h1 {
+  color: #00ae9d;
+  text-align: center;
+}
+
+@media screen and (min-width: 10000px) {
+  h1 {
+    margin-top: -33vw;
+    font-size: 8rem;
+    text-shadow: 0 0 7px #000d,
+    0 0 14px #0009,
+    0 0 80px #0007;
+    animation: fadeIn ease-in-out 1.5s;
+    /* text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem; */
+  }
+
+  /* Landing page only */
+  :not(.domainpage+.row) .row:nth-child(2) h2,
+  :not(.domainpage+.row) .row:nth-child(2) p {
+    text-align: center;
+    text-shadow: 0 0 7px #000d,
+    0 0 14px #0009,
+    0 0 120px #0007;
+    animation: fadeIn ease-in-out 1.5s;
+  }
+
+  :not(.domainpage+.row) .row:nth-child(2) h2 {
+    font-size: 4rem;
+    animation-delay: 500ms;
+  }
+
+  :not(.domainpage+.row) .row:nth-child(2) p {
+    font-size: 2rem !important;
+    animation-delay: 700ms;
+  }
+
+  :not(.domainpage+.row) .row:nth-child(2) .full-width {
+    padding: 0 !important;
+  }
+
+  /* Domain pages */
+
+  .domainpage+.row h1 {
+    color: #fff;
+    margin-top: -450px;
+    font-size: 3rem;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    70% { transform: translateY(0); }
+    100% { opacity: 1; }
+  }
+}
+
+#special-background {
+  position: relative;
+  color: white;
+}
+
+#special-background::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(180deg, #003247, #006762);
+  height: calc(100% + 1550px);
+  width: 200vw;
+  top: -550px;
+  left: -50vw;
+  z-index: -1;
+}
+
+#windkraft-iframe {
+  margin-left: 0px;
+}

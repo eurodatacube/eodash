@@ -30,7 +30,6 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
-
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -596,6 +595,16 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['oceans'],
     story: '/data/trilateral/Lakes_S2L2A',
   },
+  Lakes_ALOS2: {
+    indicatorSummary: 'ALOS2 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_ALOS2',
+  },
+  Lakes_Sentinel1: {
+    indicatorSummary: 'Sentinel 1 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_Sentinel1',
+  },
   Lakes_WQ_TURB: {
     indicatorSummary: 'Water Quality Turbidity mean Lakes',
     story: '/data/trilateral/stories/Lakes_WQ_TURB',
@@ -861,8 +870,6 @@ export const overlayLayersRightMap = [{
   visible: true,
   updateOpacityOnZoom: true,
 }];
-
-export const administrativeLayers = [];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -3359,7 +3366,7 @@ export const globalIndicators = [
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
-              color: '#696868',
+              strokeColor: '#696868',
               opacity: 0.5,
             },
           },
@@ -4687,7 +4694,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: ['2017-07-15', '2017-12-07', '2018-03-12', '2018-05-11', '2018-06-25', '2018-07-15', '2018-08-04', '2018-10-03', '2018-11-07', '2018-11-27', '2018-12-02', '2019-04-16', '2019-05-11', '2019-08-09', '2019-11-02', '2020-03-21', '2020-03-26', '2020-04-25', '2020-04-30', '2020-08-23', '2020-10-02', '2020-10-27', '2021-03-31', '2021-04-10', '2021-04-15', '2021-04-20', '2021-05-10', '2021-07-24', '2021-09-27', '2021-10-22', '2021-11-06', '2022-01-10', '2022-02-09', '2022-04-05', '2022-04-10', '2022-04-20', '2022-05-05', '2022-06-09', '2022-07-24', '2022-09-12', '2022-10-02', '2022-11-06', '2023-03-06', '2023-03-11', '2023-04-10', '2023-05-10'],
+        time: ['2023-01-01', '2023-01-06', '2023-01-21', '2023-01-26', '2023-01-31', '2023-02-05', '2023-02-10', '2023-02-15', '2023-03-02', '2023-03-07', '2023-03-27', '2023-04-01', '2023-04-06', '2023-04-11', '2023-04-21', '2023-04-26', '2023-05-11', '2023-05-16', '2023-05-21', '2023-05-26'],
         inputData: [''],
         display: {
           dateFormatFunction: shTimeFunction,
@@ -4926,6 +4933,146 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
+        aoiID: 'TonleSap_HH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_HV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HV',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2016-10-24', '2017-10-07', '2017-10-07', '2018-05-11', '2018-05-11', '2018-10-20', '2018-10-20', '2019-05-06', '2019-05-06', '2019-10-09', '2019-10-09', '2020-05-12', '2020-10-15', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-10', '2021-10-24', '2022-05-14', '2022-05-14', '2022-10-17', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2017-10-07', '2018-05-11', '2018-10-20', '2019-05-06', '2019-10-09', '2020-05-12', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-24', '2022-05-14', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VV',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
         aoiID: 'TonleSap',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -5128,12 +5275,66 @@ export const globalIndicators = [
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
         inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
         display: {
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
           legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Lake Aral',
+        siteName: 'Lake Aral',
+        description: 'Surface Water Temperature - Aral Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+          }],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Aral,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -5160,12 +5361,23 @@ export const globalIndicators = [
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
         inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
         display: {
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
           legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -5192,12 +5404,23 @@ export const globalIndicators = [
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
         inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
         display: {
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
           legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },
@@ -5224,12 +5447,23 @@ export const globalIndicators = [
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
         inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
         display: {
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
           layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
           legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
         },
       },
     },

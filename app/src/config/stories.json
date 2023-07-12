@@ -156,61 +156,39 @@
     }
   },
   "gtif": {
-    "energy": {
-      "wind-solar-hydro": {
-        "originalDashboardId": "8886df64b15699e5",
-        "title": "Wind/Solar/Hydro potential & current utilisation",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv_wind.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv_wind.jpeg"
-      },
-      "photo-voltaic": {
-        "originalDashboardId": "643b655a6863208a",
-        "title": "Photovoltaic on rooftops in urban areas",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv.jpeg"
+    "landing": {
+      "landing": {
+        "originalDashboardId": "6a0caf41464d6899"
       }
     },
-    "transport-emission": {
-      "emission-footprints": {
-        "originalDashboardId": "7c1644ec316b72d6",
-        "title": "NO2 NOX emission footprints",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/emissions.jpg",
-        "imagePlaceholder": "./data/story-images/gtif/emissions.jpg"
-      },
-      "travel-modality": {
-        "originalDashboardId": "9cfef467b514ec2e",
-        "title": "Travel modality and social mobility",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/public_transport.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/public_transport.jpeg"
+    "energy-transition": {
+      "energy-transition": {
+        "originalDashboardId": "7524445653e3669a"
       }
     },
-    "green-finance": {
-      "carbon-credits": {
-        "originalDashboardId": "867341f38c5dc1fe",
-        "title": "Carbon credits: forest biomass, secondary biomass",
-        "subtitle": "",
-        "image": "data/story-images/gtif/credits.jpg",
-        "imagePlaceholder": "data/story-images/gtif/credits.jpeg"
+    "mobility-transition": {
+      "mobility-transition": {
+        "originalDashboardId": "fb489fa7fde57de1"
       }
     },
-    "food-ecosystems-biodiversity": {
-      "crop-production": {
-        "originalDashboardId": "eaa8a5fd4c9d2cb9",
-        "title": "Energy Crop Production vs Food/Fodder",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/biodiversity.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/biodiversity.jpeg"
-      },
-      "agriculture-forestry": {
-        "originalDashboardId": "96ebe0730ed462eb",
-        "title": "Supporting EO adaptation services: Agriculture & Forestry",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/agriculture.jpeg"
+    "sustainable-cities": {
+      "sustainable-cities": {
+        "originalDashboardId": "c81ab30bc45a6583"
+      }
+    },
+    "carbon-accounting": {
+      "carbon-accounting": {
+        "originalDashboardId": "367b2a1c2a3b66f7"
+      }
+    },
+    "eo-adaptation-services": {
+      "eo-adaptation-services": {
+        "originalDashboardId": "5783c58e9e22fbcb"
+      }
+    },
+    "eo-adaptation-services-snow": {
+      "eo-adaptation-services-snow": {
+        "originalDashboardId": "210a3a84b9c01756"
       }
     }
   }

@@ -360,5 +360,90 @@
         }
     },
     "gtif": {
+        "AQ1_n_trajectories": {
+            "range": [1, 40000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trajectories count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 40000]
+        },
+        "AQ1_satellite_values": {
+            "range": [0, 500],
+            "cm": ["#00531E","#C3E556","#FFDD56","#F67758","#FF973F","#FF6331","#D5001F","#63000D"],
+            "label": "[µmol/m²]"
+        },
+        "AQ1_mean_value": {
+            "range": [0, 50],
+            "cm": ["#00531E","#C3E556","#FFDD56","#F67758","#FF973F","#FF6331","#D5001F","#63000D"],
+            "label": "Mean value [µg/m³]"
+        },
+        "AQ1_congestion_index": {
+            "range": [0, 50],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Congestion index [%]"
+        },
+        "AQ1_speed": {
+            "range": [0, 120],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip speed [km/h]"
+        },
+        "AQ1_motorized_count": {
+            "range": [1, 20000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 20000]
+        },
+        "AQ1_motorized_share": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized trip share index [%]"
+        },
+        "AQ4_congestion_index": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Congestion index [%]"
+        },
+        "AQ4_motorized_share": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized trip share index [%]"
+        },
+        "AQ4_duration": {
+            "range": [0, 240],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip duration (minutes)"
+        },
+        "AQ4_speed": {
+            "range": [0,140],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip speed [km/h]"
+        },
+        "AQ4_distance": {
+            "range": [0,300],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trip distance [km]"
+        },
+        "AQ4_trajectories": {
+            "range": [1,4000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trajectories count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 4000]
+        },
+        "MOBI1_users_count": {
+            "range": [100,100000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population count",
+            "logarithmic": true,
+            "ticks": [100, 1000, 10000, 100000]
+        },
+        "MOBI1_users_density": {
+            "range": [1,10000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population density [people/km2]",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 10000]
+        }
     }
 }

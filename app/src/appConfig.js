@@ -55,6 +55,10 @@ module.exports = [
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     demoMode: {
       egu2023: [
         {
@@ -240,6 +244,10 @@ module.exports = [
       'EG01-SIF',
     ],
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
@@ -304,6 +312,10 @@ module.exports = [
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
     configuredMapPois: [],
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     enableStories: false,
     enableESALayout: true,
     enableScrollyTelling: true,
