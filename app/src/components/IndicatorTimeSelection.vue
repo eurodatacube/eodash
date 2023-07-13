@@ -6,13 +6,12 @@
       ? 'top: 10px'
       : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
   >
-    <v-col>
+    <v-col v-if="showTimeSlider" style="height:68px;">
       <v-slider
         v-model="originalTimeIndex"
         :min="0"
         :max="availableValues.length - 1"
         :step="1"
-        thumb-label
       >
         <template v-slot:prepend>
           <v-btn
@@ -43,7 +42,6 @@
       <SliderTicks
         style="transform: translateY(-30px)"
         :times="availableValues"
-        :width="timeSliderWidth"
       />
     </v-col>
     <v-col
@@ -182,8 +180,12 @@ export default {
       }
       return this.compareActive && pass;
     },
-    timeSliderWidth() {
-      return 470;
+    showTimeSlider() {
+      let show = false;
+      if (this.indicator) {
+        show = this.indicator.showTimeSlider;
+      }
+      return show;
     },
   },
   created() {
@@ -256,15 +258,24 @@ export default {
       handler(timeObj) {
         this.$emit('update:originalTime', timeObj);
         // Update the slider if the dropdown changes the value
-        this.originalTimeIndex = this.availableValues.indexOf(timeObj);
+        // Find index base on value
+        let index = -1;
+        this.availableValues.forEach((item, idx) => {
+          if (item.value === timeObj.value) {
+            index = idx;
+          }
+        });
+        this.originalTimeIndex = index;
       },
     },
     originalTimeIndex: {
       deep: true,
       handler(index) {
         // Update the model when the slider index changes
-        this.$emit('update:originalTime', this.availableValues[index]);
-        this.originalTimeModel = this.availableValues[index];
+        if (index !== -1) {
+          this.$emit('update:originalTime', this.availableValues[index]);
+          this.originalTimeModel = this.availableValues[index];
+        }
       },
     },
   },
