@@ -3,7 +3,7 @@
     v-if="mapDataReady"
     ref="map"
     class="fill-height"
-    :class="$vuetify.breakpoint.xsOnly ? '' : ''"
+    :class="($vuetify.breakpoint.xsOnly && !appConfig.enableESALayout) ? 'mt-16' : ''"
     :disableAutoFocus="false"
     :panelActive="panelActive"
   />
@@ -32,6 +32,9 @@ export default {
     mapDataReady() {
       return !!(this.baseConfig);
     },
+    ...mapState('config', [
+      'appConfig',
+    ]),
   },
 };
 </script>

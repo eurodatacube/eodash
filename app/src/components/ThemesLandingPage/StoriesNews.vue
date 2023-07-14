@@ -7,6 +7,23 @@
     <v-row>
       <v-col>
         <h3>
+          2023-07-14: Multiple new stories added to EO Dashboard related to Lakes!
+        </h3>
+        <ul>
+          <li><a href="story?id=lakes-intro">
+            Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters
+          </a></li>
+          <li><a href="story?id=lakes-climate">Changes  in temperature, precipitation patterns and
+             extremes impacting surface water hydrology
+          </a></li>
+          <li><a href="story?id=lakes-algae">Algal blooms in lake waters</a></li>
+          <li><a href="story?id=lakes-human-activity">Changing lakes due to human activity</a></li>
+        </ul>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2023-05-23: Space for Climate Protection awarded to EO Dashboard!
         </h3>
         <p>
