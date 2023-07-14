@@ -13,11 +13,11 @@
           <li><a href="story?id=lakes-intro">
             Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters
           </a></li>
-          <li><a href="story?id=lakes-intro">Changes  in temperature, precipitation patterns and
+          <li><a href="story?id=lakes-climate">Changes  in temperature, precipitation patterns and
              extremes impacting surface water hydrology
           </a></li>
-          <li><a href="story?id=lakes-intro">Algal blooms in lake waters</a></li>
-          <li><a href="story?id=lakes-intro">Changing lakes due to human activity</a></li>
+          <li><a href="story?id=lakes-algae">Algal blooms in lake waters</a></li>
+          <li><a href="story?id=lakes-human-activity">Changing lakes due to human activity</a></li>
         </ul>
       </v-col>
     </v-row>
