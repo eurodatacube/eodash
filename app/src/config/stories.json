@@ -125,6 +125,34 @@
       }
     },
     "oceans": {
+      "lakes-intro": {
+        "originalDashboardId": "fa8eb12853a73ec7",
+        "title": "Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters",
+        "subtitle": "Read more about how the climate crisis affects lakes and rivers",
+        "image": "./data/story-images/lakes_cover.jpg",
+        "imagePlaceholder": "./data/story-images/lakes_cover_small.jpeg"
+      },
+      "lakes-climate": {
+        "originalDashboardId": "d6764af9c646d2b7",
+        "title": "Changes  in temperature, precipitation patterns and extremes impacting surface water hydrology",
+        "subtitle": "Read more about monitoring these impacts with Earth Observations",
+        "image": "./data/story-images/Alakol_Lake.jpg",
+        "imagePlaceholder": "./data/story-images/Alakol_Lake_small.jpeg"
+      },
+      "lakes-algae": {
+        "originalDashboardId": "cc21f006274175d0",
+        "title": "Algal blooms in lake waters",
+        "subtitle": "Read more about observing the increases in algal blooms with ESA, NASA and JAXA satellites",
+        "image": "./data/story-images/Cambodian_rivers.jpg",
+        "imagePlaceholder": "./data/story-images/Cambodian_rivers_small.jpg"
+      },
+      "lakes-human-activity": {
+        "originalDashboardId": "893f906ba40d35b2",
+        "title": "Changing lakes due to human activity",
+        "subtitle": "Read more about how human activities impact inland waters around the world",
+        "image": "./data/story-images/Biwa.jpeg",
+        "imagePlaceholder": "./data/story-images/Biwa_small.jpeg"
+      },
       "ocean-plants": {
         "originalDashboardId": "6ea3293aade90541",
         "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
