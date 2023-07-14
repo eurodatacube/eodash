@@ -37,10 +37,6 @@ import { DateTime } from 'luxon';
 export default {
   name: 'SliderTicks',
   props: {
-    width: {
-      type: Number,
-      required: true,
-    },
     times: {
       type: Array,
       required: true,
@@ -49,6 +45,7 @@ export default {
   data() {
     return {
       height: 6,
+      width: null,
     };
   },
   computed: {
@@ -130,6 +127,9 @@ export default {
     },
   },
   mounted() {
+    this.$nextTick(() => {
+      this.width = this.$el.clientWidth - 105;
+    });
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
   },
@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     handleResize() {
-      this.svgWidth = this.$refs.svg.clientWidth;
+      this.width = this.$el.clientWidth - 100;
       this.height = this.$refs.svg.clientHeight;
     },
 
