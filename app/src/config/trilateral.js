@@ -5267,16 +5267,21 @@ export const globalIndicators = [
         indicatorName: 'Surface Water Temperature',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
-          }],
+          features: [],
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
@@ -5310,16 +5315,21 @@ export const globalIndicators = [
         indicatorName: 'Surface Water Temperature',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
-          }],
+          features: [],
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Aral,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
@@ -5353,16 +5363,21 @@ export const globalIndicators = [
         indicatorName: 'Surface Water Temperature',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
-          }],
+          features: [],
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
@@ -5396,16 +5411,21 @@ export const globalIndicators = [
         indicatorName: 'Surface Water Temperature',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
-          }],
+          features: [],
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
@@ -5439,16 +5459,21 @@ export const globalIndicators = [
         indicatorName: 'Surface Water Temperature',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
-          }],
+          features: [],
         },
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
           dateFormatFunction: simplifiedshTimeFunction,
           minZoom: 7,
           maxZoom: 14,
