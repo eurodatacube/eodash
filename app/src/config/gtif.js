@@ -699,6 +699,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['eo-adaptation-services'],
     story: '/data/gtif/markdown/ADO',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   AQA: {
     ...mobilityTransitionDefaults,
@@ -707,6 +708,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   AQB: {
     ...mobilityTransitionDefaults,
@@ -715,6 +717,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   AQC: {
     ...mobilityTransitionDefaults,
@@ -723,6 +726,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   AQ1: {
     indicator: 'Aggregated mobility data',
@@ -730,6 +734,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   AQ2: {
     ...mobilityTransitionDefaults,
@@ -742,6 +747,7 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.geolandbasemap],
     overlayLayers: [],
+    showTimeSlider: true,
   },
   AQ3: {
     ...mobilityTransitionDefaults,
@@ -772,6 +778,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ5',
+    showTimeSlider: true,
   },
   WSF: {
     indicator: 'World Settlement Footprint',
@@ -819,6 +826,7 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     customAreaFeatures: true,
     story: '/data/gtif/markdown/E12c',
+    showTimeSlider: true,
   },
   E12d: {
     indicatorSummary: 'Number of Trucks, main roads',
@@ -826,18 +834,21 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     customAreaFeatures: true,
     story: '/data/gtif/markdown/E12c',
+    showTimeSlider: true,
   },
   EO4A: {
     indicator: 'Snow depth',
     class: 'air',
     themes: ['eo-adaptation-services'],
     story: '/data/gtif/markdown/EO4A',
+    showTimeSlider: true,
   },
   EO4A2: {
     indicator: 'Snow water equivalent',
     class: 'air',
     themes: ['eo-adaptation-services'],
     story: '/data/gtif/markdown/EO4A',
+    showTimeSlider: true,
   },
 });
 
