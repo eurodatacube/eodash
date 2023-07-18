@@ -1,7 +1,8 @@
 <template>
   <div
     :style="
-      `height: 100%; background: ${$vuetify.theme.currentTheme.background}`
+      `height: 100%; background: ${$vuetify.theme.currentTheme.background};
+       padding-bottom: ${$vuetify.application.footer +8}px;`
     "
     v-click-outside="onClickOutside"
   >
@@ -15,10 +16,10 @@
       :style="{
         'height': indicatorObject && $vuetify.breakpoint.smAndDown
           ? `calc(100vh - 33vh - 120px)`
-          : `calc(100vh - 112px)`
+          : `calc(100vh - 112px);`
       }"
     >
-      <v-list class="py-0">
+      <v-list class="py-0" style="padding-bottom: 70px;">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
           <v-list-item
             v-for="theme in themes"
@@ -53,7 +54,7 @@
         class="gtif-indicator-menu fill-height"
         style="width: 250px; pointer-events: all;"
       >
-        <v-list v-if="themes[domainModel]" style="width: 100%">
+        <v-list v-if="themes[domainModel]" style="width: 100%;">
           <v-list-item-group style="width: 100%">
             <v-tooltip
               v-for="item in globalIndicators.filter(

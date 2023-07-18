@@ -65,9 +65,7 @@
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
-        :style="(mapId === 'centerMap' && $vuetify.breakpoint.smAndUp && $route.name !== 'demo')
-          ? 'bottom: 155px'
-          : ''"
+        :style="calculatePosition"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -321,8 +319,12 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersLeftMap)];
+      const darkOverlay = (
+        'darkOverlayLayers' in this.baseConfig
+        && this.baseConfig.darkOverlayLayers.length > 0
+      );
       // darkOverlayLayers replace country vectors
-      if (!this.isGlobalIndicator && this.baseConfig.darkOverlayLayers?.length === 0) {
+      if (!this.isGlobalIndicator && !darkOverlay) {
         configs.push({
           name: 'Country vectors',
           protocol: 'countries',
@@ -490,6 +492,18 @@ export default {
     },
     isInIframe() {
       return window.self !== window.top;
+    },
+    calculatePosition() {
+      let position = 'bottom: 155px';
+      if (this.mapId === 'centerMap'
+        && this.$vuetify.breakpoint.smAndUp && this.$route.name !== 'demo') {
+        position = 'bottom: 155px';
+      }
+      if (this.mapId === 'centerMap'
+        && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
+        position = 'bottom: 80px';
+      }
+      return position;
     },
   },
   watch: {

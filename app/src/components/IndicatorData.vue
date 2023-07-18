@@ -120,10 +120,11 @@ export default {
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
+        'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
+        'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'REP4_2',
@@ -145,7 +146,7 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
     };
   },
 
@@ -393,6 +394,8 @@ export default {
         referenceDecompose.E8.referenceData[0].key = 'roll average';
         referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.LWL = referenceDecompose.E12c;
+        referenceDecompose.LWE = referenceDecompose.E12c;
 
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
@@ -404,6 +407,7 @@ export default {
         referenceDecompose.CDS3 = referenceDecompose.N1;
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
+        referenceDecompose.Lakes_SWT = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
