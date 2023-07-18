@@ -728,7 +728,7 @@ export const indicatorsDefinition = Object.freeze({
     indicator: 'Aggregated mobility data',
     class: 'air',
     themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
+    story: '/data/gtif/markdown/AQ1',
     customAreaIndicator: true,
   },
   AQ2: {
