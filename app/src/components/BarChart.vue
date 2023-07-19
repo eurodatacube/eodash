@@ -43,7 +43,7 @@ export default {
               let labelSet = chart._getSortedDatasetMetas();
               labelSet = labelSet.filter((meta) => {
                 let includeLabel = false;
-                if (Object.prototype.hasOwnProperty.call(datasets[meta.index], 'label')) {
+                if ('label' in datasets[meta.index] && typeof datasets[meta.index].label !== 'undefined') {
                   includeLabel = !datasets[meta.index].label.startsWith('hide_');
                 }
                 return includeLabel;

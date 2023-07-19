@@ -469,7 +469,9 @@ class Cluster {
    * @param {Array} indicatorFeatures indicator feature definition objects
    */
   setFeatures(indicatorFeatures) {
+    const clusterSource = this.clusters.getSource().getSource();
     if (!indicatorFeatures.length > 0) {
+      clusterSource.clear();
       return;
     }
     const features = indicatorFeatures.filter((i) => i.properties.indicatorObject.aoi).map((i) => {
@@ -482,7 +484,6 @@ class Cluster {
       feature.setId(i.id);
       return feature;
     });
-    const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
     const router = this.vm.$router;
