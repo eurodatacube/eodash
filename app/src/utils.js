@@ -80,87 +80,80 @@ export function template(templateRe, str, data) {
 }
 
 export async function loadIndicatorData(baseConfig, payload) {
-  let indicatorObject;
+  let indicatorObject = payload;
 
-  // Check if data was already loaded
-  if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
-    && payload.dataLoadFinished) {
+  if (payload.type === 'stac') {
     indicatorObject = payload;
-  } else {
-    if (payload.type === 'stac') {
-      indicatorObject = payload;
-      const response = await fetch(payload.link);
-      const jsonData = await response.json();
+    const response = await fetch(payload.link);
+    const jsonData = await response.json();
 
-      let timeBasedLayerFound = false;
-      // Configure display based on type
-      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
-      if (wmsEndpoint) {
-        const layers = wmsEndpoint['wms:layers'].join(',');
-        indicatorObject.display = {
-          baseUrl: wmsEndpoint.href,
-          name: jsonData.name,
-          layers,
-          // legendUrl: 'legend.png',
-          minZoom: 1,
-          maxZoom: 13,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          // TODO: need to think how the stat api acces can be described in stac disabling for now
-          /*
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...shFisAreaIndicatorStdConfig,
-            url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-          },
-          */
-        };
-        timeBasedLayerFound = true;
-      }
-
-      const times = [];
-      if (timeBasedLayerFound) {
-        jsonData.links.forEach((link) => {
-          if (link.rel === 'item') {
-            times.push(link.datetime);
-          }
-        });
-        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
-      }
-
-      if (payload.endpointType === 'GeoDB') {
-        // We create all relevant features (pois) to be shown on map
-        const features = [];
-        jsonData.links.forEach((link) => {
-          if (link.rel === 'item') {
-            const featureObject = {};
-            const coordinates = link.identifier.split(',').map(Number);
-            featureObject.id = link.identifier;
-            featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
-            featureObject.indicator = jsonData.id;
-            featureObject.indicatorValue = [''];
-            features.push({
-              id: link.identifier,
-              properties: {
-                indicatorObject: featureObject,
-              },
-            });
-          }
-        });
-        store.commit('features/SET_FEATURES', features);
-      }
-      indicatorObject.time = times;
-      indicatorObject.dataLoadFinished = true;
-      return indicatorObject;
+    let timeBasedLayerFound = false;
+    // Configure display based on type
+    const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+    if (wmsEndpoint) {
+      const layers = wmsEndpoint['wms:layers'].join(',');
+      indicatorObject.display = {
+        baseUrl: wmsEndpoint.href,
+        name: jsonData.name,
+        layers,
+        // legendUrl: 'legend.png',
+        minZoom: 1,
+        maxZoom: 13,
+        dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        // TODO: need to think how the stat api acces can be described in stac disabling for now
+        /*
+        customAreaIndicator: true,
+        areaIndicator: {
+          ...shFisAreaIndicatorStdConfig,
+          url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+        },
+        */
+      };
+      timeBasedLayerFound = true;
     }
-    // Start loading of data from indicator
-    let { dataPath } = baseConfig;
-    // Check if indicator uses another data path
-    const indDefs = baseConfig.indicatorsDefinition;
-    const currInd = payload.indicator;
-    if (currInd in indDefs && 'alternateDataPath' in indDefs[currInd]) {
-      dataPath = indDefs[currInd].alternateDataPath;
+
+    const times = [];
+    if (timeBasedLayerFound) {
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          times.push(link.datetime);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
-    const url = `${dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
+
+    const features = [];
+    if (payload.endpointType === 'GeoDB') {
+      // We create all relevant features (pois) to be shown on map
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          const featureObject = {};
+          const coordinates = link.latlng.split(',').map(Number);
+          featureObject.aoiID = link.id;
+          featureObject.isFeature = true;
+          featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
+          featureObject.indicator = jsonData.id;
+          featureObject.indicatorValue = [''];
+          featureObject.city = link.city;
+          featureObject.country = link.country;
+          // featureObject.description = jsonData.description;
+          features.push({
+            id: link.id,
+            properties: {
+              indicatorObject: featureObject,
+            },
+          });
+        }
+      });
+      store.commit('features/SET_FEATURES', features);
+    }
+    indicatorObject.time = times;
+  }
+  // Fetch data from geodb
+  // TODO: should change logic to just pass identifier to eoxelements chart
+  if ('isFeature' in payload) {
+    const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
+    const url = `${geodbUrl}_${payload.indicator}?aoi_id=eq.${payload.aoiID}`;
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
@@ -178,13 +171,12 @@ export async function loadIndicatorData(baseConfig, payload) {
         referenceTime: 'reference_time',
         referenceValue: 'reference_value',
         time: 'time',
-        siteName: 'site_name_arr',
+        siteName: 'city',
       };
       // Global indicator case where we do not want the siteName to be overwritten
       if (payload.country === 'indicatorall') {
         delete mapping.siteName;
       }
-
       const parsedData = {};
       // Special handling for mobility, covid and other special data
       if ('Values' in data) {
@@ -235,7 +227,6 @@ export async function loadIndicatorData(baseConfig, payload) {
       Object.entries(parsedData).forEach(([key, value]) => {
         indicatorObject[key] = value;
       });
-      indicatorObject.dataLoadFinished = true;
     }
   }
   return indicatorObject;
