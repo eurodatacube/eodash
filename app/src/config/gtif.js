@@ -3128,14 +3128,18 @@ export const globalIndicators = [
           allowedParameters: ['ws_code', 'area_sqm', 'flowrate', 'head', 'pr_mw', 'annp', 'gwh_pot', 'z_min', 'z_max', 'z_mean', 'slength', 'min_slope', 'max_slope', 'avg_slope', 'max_sl_nor', 'meanrunoff', 'meanannflo'],
           url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
           styleFunction: (feature) => {
-            let radius = 5; // power generation between 0 and 1 MW
-            const powerGenerationValue = feature.get('pr_mw');
-            if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
+            let radius = 0;
+            const powerGenerationValue = feature.get('gwh_pot');
+            if (powerGenerationValue > 0 && powerGenerationValue < 1) {
+              radius = 5;
+            } else if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
               radius = 8;
-            } else if (powerGenerationValue >= 10 && powerGenerationValue <= 50) {
+            } else if (powerGenerationValue > 10 && powerGenerationValue <= 50) {
               radius = 12;
-            } else if (powerGenerationValue >= 50 && powerGenerationValue <= 750) {
+            } else if (powerGenerationValue > 50 && powerGenerationValue <= 750) {
               radius = 16;
+            } else {
+              radius = 20;
             }
             const fill = new Fill({
               color: 'rgba(255, 255, 255, 0.3)',
