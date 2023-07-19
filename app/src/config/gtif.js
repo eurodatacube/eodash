@@ -7,6 +7,9 @@ import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -536,11 +539,25 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmapgelaende],
   },
   REP5: {
-    ...energyTransitionDefaults,
-    indicator: 'Micro Hydropower',
-    class: 'air',
+    indicator: 'Potential Assessment',
+    class: 'water',
     themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP3',
+    story: '/data/gtif/markdown/REP5',
+    baseLayers: [{
+      ...baseLayers.terrainLight, visible: true,
+    },
+    baseLayers.bmapgelaende,
+    baseLayers.eoxosm,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmaporthofoto30cm,
+    ],
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP6: {
     indicator: 'Wind Turbines',
@@ -3082,6 +3099,84 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
+        description: 'Micro Hydropower Potential Assessment',
+        navigationDescription: 'Micro Hydropower',
+        indicator: 'REP5',
+        lastIndicatorValue: null,
+        indicatorName: 'Micro Hydropower',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        display: [{
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          tooltip: true,
+          visible: true,
+          name: 'Micro Hydropower Potential',
+          allowedParameters: ['ws_code', 'area_sqm', 'flowrate', 'head', 'pr_mw', 'annp', 'gwh_pot', 'z_min', 'z_max', 'z_mean', 'slength', 'min_slope', 'max_slope', 'avg_slope', 'max_sl_nor', 'meanrunoff', 'meanannflo'],
+          url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
+          styleFunction: (feature) => {
+            let radius = 4; // power generation between 0 and 1 MW
+            const powerGenerationValue = feature.get('pr_mw');
+            if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
+              radius = 8;
+            } else if (powerGenerationValue >= 10 && powerGenerationValue <= 50) {
+              radius = 12;
+            } else if (powerGenerationValue >= 50 && powerGenerationValue <= 750) {
+              radius = 16;
+            }
+            const fill = new Fill({
+              color: 'rgba(255, 255, 255, 0.3)',
+            });
+            const stroke = new Stroke({
+              width: 3,
+              color: '#003247',
+            });
+            const style = new Style({
+              image: new Circle({
+                fill,
+                stroke,
+                radius,
+              }),
+            });
+            return style;
+          },
+          selection: {
+            mode: 'single',
+          },
+        }, {
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          visible: true,
+          name: 'Micro Hydropower Watersheds',
+          urlTemplate: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_watersheds&outputFormat=application/json&cql_filter=hydropowerpotential_ws_code={ws_code}',
+          style: {
+            strokeColor: '#ff0000',
+            width: 5,
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
         description: 'Site Suitability Assessment & Trade-off Explorer',
         navigationDescription: 'Site Suitability Assessment & Trade-off Explorer',
         indicator: 'REP2',
@@ -3308,34 +3403,6 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Potential Assessment',
-        navigationDescription: 'Potential Assessment',
-        indicator: 'REP5',
-        disabled: true,
-        lastIndicatorValue: null,
-        indicatorName: 'Micro Hydropower',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        display: {
-        },
       },
     },
   },

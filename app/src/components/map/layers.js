@@ -30,13 +30,18 @@ import getProjectionOl from '@/helpers/projutils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
+
+function renderTemplate(urlTemplate) {
+  // TODO
+  return urlTemplate;
+}
+
 /**
  * manually fetches geojson features and replaces the features in the source
  * invalid `null`-ids will be transformed into `undefined`-IDs
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
 }) {
@@ -128,6 +133,10 @@ function dynamicWidth(feature, defaultWidth) {
 }
 
 function createVectorLayerStyle(config, options) {
+  if (typeof config?.styleFunction === 'function') {
+    // pass down the style function from config accepting a possible feature
+    return config.styleFunction;
+  }
   const strokeColor = config?.style?.strokeColor || '#F7A400';
   const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
   const strokeWidth = config?.style?.width || 2;
@@ -367,8 +376,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
   if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
-    const vectorSourceOpts = config.url ? {
-      url: config.url,
+    const url = config.urlTemplate ? renderTemplate(config.urlTemplate) : config.url;
+    const vectorSourceOpts = url ? {
+      url,
       format: new GeoJSON({
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
