@@ -3012,7 +3012,7 @@ export const globalIndicators = [
           protocol: 'GeoJSON',
           visible: true,
           name: 'Wind turbine detections',
-          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
           style: {
             strokeColor: '#ff0000',
             width: 4,
@@ -3063,7 +3063,7 @@ export const globalIndicators = [
           getTimeFromProperty: 'detection_time',
           visible: true,
           name: 'Wind turbine detections',
-          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind_turbines_austria.geojson',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
           style: {
             strokeColor: '#ff0000',
             width: 5,
