@@ -3,6 +3,7 @@ import axios from 'axios';
 import store from '@/store';
 import { generateUsedTimes } from '@/helpers/mapConfig';
 
+import latLng from '@/latLng';
 import { Vector } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
@@ -91,6 +92,7 @@ export async function loadIndicatorData(baseConfig, payload) {
       const response = await fetch(payload.link);
       const jsonData = await response.json();
 
+      let timeBasedLayerFound = false;
       // Configure display based on type
       const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
       if (wmsEndpoint) {
@@ -112,15 +114,40 @@ export async function loadIndicatorData(baseConfig, payload) {
           },
           */
         };
+        timeBasedLayerFound = true;
       }
 
       const times = [];
-      jsonData.links.forEach((link) => {
-        if (link.rel === 'item') {
-          times.push(link.datetime);
-        }
-      });
-      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+      if (timeBasedLayerFound) {
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            times.push(link.datetime);
+          }
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+      }
+
+      if (payload.endpointType === 'GeoDB') {
+        // We create all relevant features (pois) to be shown on map
+        const features = [];
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            const featureObject = {};
+            const coordinates = link.identifier.split(',').map(Number);
+            featureObject.id = link.identifier;
+            featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
+            featureObject.indicator = jsonData.id;
+            featureObject.indicatorValue = [''];
+            features.push({
+              id: link.identifier,
+              properties: {
+                indicatorObject: featureObject,
+              },
+            });
+          }
+        });
+        store.commit('features/SET_FEATURES', features);
+      }
       indicatorObject.time = times;
       indicatorObject.dataLoadFinished = true;
       return indicatorObject;

@@ -203,9 +203,15 @@ function isFeatureSelected(feature) {
 function clusterMemberStyle(clusterMember) {
   const { indicatorObject } = clusterMember.getProperties().properties;
   const indicatorCode = indicatorObject.indicator;
-  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
+  const indicator = store.getters['indicators/getIndicators'].find((i) => i.code === indicatorCode);
   const isSelected = isFeatureSelected(clusterMember);
-  const image = indicatorClassesStyles[indicator.themes[0]]?.[isSelected ? 'large' : 'small'];
+  let theme = null;
+  if (Array.isArray(indicator.themes)) {
+    [theme] = indicator.themes;
+  } else {
+    theme = indicator.themes;
+  }
+  const image = indicatorClassesStyles[theme]?.[isSelected ? 'large' : 'small'];
   const iconStyle = new Style({
     image,
     geometry: clusterMember.getGeometry(),

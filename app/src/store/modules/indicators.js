@@ -48,7 +48,7 @@ const actions = {
               link: `${url.replace('catalog.json', '')}${link.href}`,
               code: link.code,
               description: link.description,
-              indicatorName: 'Wind V field - Climate Data Store',
+              indicatorName: link.title,
               indicator: link.code,
               region: 'global',
               themes: link.themes,
@@ -56,6 +56,7 @@ const actions = {
               title: link.title,
               satellite: link.satellite ? link.satellite.split(',') : [],
               sensor: link.sensor ? link.sensor.split(',') : [],
+              endpointType: link.endpointtype,
               // TODO: This is usually used in the client to define if it is a global indicator
               // it should be handled with a unique value
               country: 'all',

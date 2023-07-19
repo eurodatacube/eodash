@@ -195,6 +195,9 @@ const mutations = {
   //     this.state.config.baseConfig.globalIndicators,
   //   );
   // },
+  SET_FEATURES(state, features) {
+    state.allFeatures = features;
+  },
   ADD_NEW_FEATURES(state, features) {
     // We do name replacing as based on the configuration file
     // as some data sources are external to us
