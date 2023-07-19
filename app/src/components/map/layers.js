@@ -27,13 +27,17 @@ import { bbox } from 'ol/loadingstrategy';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
+import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
 
-function renderTemplate(urlTemplate) {
-  // TODO
-  return urlTemplate;
+export function renderTemplateSelectedFeature(urlTemplate) {
+  const templateRe = /\{ *([\w_ -]+) *\}/g;
+  const ftrs = store.state.features.selectedFeatures;
+  const templateSubst = ftrs[0]?.getProperties() || {};
+  const url = template(templateRe, urlTemplate, templateSubst);
+  return url;
 }
 
 /**
@@ -187,12 +191,12 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-function createFromTemplate(template, tileCoord) {
+function createFromTemplate(templateStr, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
   const yRegEx = /\{y\}/g;
   const dashYRegEx = /\{-y\}/g;
-  return template.replace(zRegEx, tileCoord[0].toString())
+  return templateStr.replace(zRegEx, tileCoord[0].toString())
     .replace(xRegEx, tileCoord[1].toString())
     .replace(yRegEx, tileCoord[2].toString())
     .replace(dashYRegEx, () => {
@@ -376,7 +380,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
   if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
-    const url = config.urlTemplate ? renderTemplate(config.urlTemplate) : config.url;
+    const url = config.urlTemplateSelectedFeature
+      ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
+      : config.url;
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({

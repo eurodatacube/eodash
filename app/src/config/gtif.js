@@ -3128,7 +3128,7 @@ export const globalIndicators = [
           allowedParameters: ['ws_code', 'area_sqm', 'flowrate', 'head', 'pr_mw', 'annp', 'gwh_pot', 'z_min', 'z_max', 'z_mean', 'slength', 'min_slope', 'max_slope', 'avg_slope', 'max_sl_nor', 'meanrunoff', 'meanannflo'],
           url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
           styleFunction: (feature) => {
-            let radius = 4; // power generation between 0 and 1 MW
+            let radius = 5; // power generation between 0 and 1 MW
             const powerGenerationValue = feature.get('pr_mw');
             if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
               radius = 8;
@@ -3161,10 +3161,11 @@ export const globalIndicators = [
           protocol: 'GeoJSON',
           visible: true,
           name: 'Micro Hydropower Watersheds',
-          urlTemplate: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_watersheds&outputFormat=application/json&cql_filter=hydropowerpotential_ws_code={ws_code}',
+          urlTemplateSelectedFeature: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_watersheds&outputFormat=application/json&cql_filter=hydropowerpotential_ws_code={ws_code}',
           style: {
-            strokeColor: '#ff0000',
-            width: 5,
+            strokeColor: '#003247',
+            width: 2,
+            fillColor: 'rgba(179, 240, 252, 0.5)',
           },
         }],
       },
