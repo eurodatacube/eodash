@@ -183,6 +183,8 @@ export async function loadIndicatorData(baseConfig, payload) {
         */
       };
       timeBasedLayerFound = true;
+    } else {
+      indicatorObject.display = null;
     }
 
     const times = [];

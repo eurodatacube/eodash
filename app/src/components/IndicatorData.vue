@@ -23,6 +23,7 @@
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
       <map-chart
+        v-if='datacollection'
         id="chart"
         class="fill-height"
         :width="null"
@@ -49,7 +50,7 @@
       </div>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
-    <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
+    <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator) && dataObject'
       id="chart" ref="lineChart"
       @extentChanged="extentChanged"
       class="fill-height"

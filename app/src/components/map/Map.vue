@@ -335,7 +335,8 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      return getIndicatorFilteredInputData(this.currentIndicator);
+      return this.$store.state.indicators.selectedIndicator;
+      // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and

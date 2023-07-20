@@ -192,7 +192,7 @@
                   :href="dataHrefCSV"
                   :download="downloadFileName"
                   target="_blank"
-                  v-if="indicatorObject
+                  v-if="dataObject
                     && !showMap
                     && !this.baseConfig.indicatorsDefinition[
                       indicatorObject.indicator
@@ -453,6 +453,9 @@ export default {
       }
       return indicatorObject;
     },
+    dataObject() {
+      return this.$store.state.features.featureData;
+    },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
@@ -462,15 +465,15 @@ export default {
       ];
       const header = `${exportKeys.join()}\n`;
       let csv = header;
-      for (let i = 0; i < this.indicatorObject.time.length; i++) {
+      for (let i = 0; i < this.dataObject.time.length; i++) {
         let row = '';
         for (let kk = 0; kk < exportKeys.length; kk++) {
           const cKey = exportKeys[kk];
           let txtVal = '';
           if (cKey === 'aoi') {
-            txtVal = `"${this.indicatorObject[cKey]}",`;
+            txtVal = `"${this.dataObject[cKey]}",`;
           } else {
-            txtVal = `"${this.indicatorObject[cKey][i]}",`;
+            txtVal = `"${this.dataObject[cKey][i]}",`;
           }
           row += txtVal;
         }
