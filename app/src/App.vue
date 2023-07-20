@@ -69,7 +69,7 @@ import {
   mapGetters,
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
-import { loadIndicatorData } from '@/utils';
+import { loadIndicatorData, loadFeatureData } from '@/utils';
 
 import axios from 'axios';
 import { Wkt } from 'wicket';
@@ -242,6 +242,9 @@ export default {
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
         }
       }
+      if (['features/SET_SELECTED_FEATURE'].includes(mutation.type)) {
+        this.loadFeatureData(mutation.payload);
+      }
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
@@ -279,6 +282,14 @@ export default {
       const indicatorObject = await loadIndicatorData(this.baseConfig, payload);
       if (indicatorObject) {
         this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
+      }
+    },
+    async loadFeatureData(payload) {
+      // TODO: if using eoxchart we dont need to load feature data here
+      //  implement use of eoxchart for these indicators
+      const featureData = await loadFeatureData(this.baseConfig, payload);
+      if (featureData) {
+        this.$store.commit('features/FEATURE_LOAD_FINISHED', featureData);
       }
     },
     acceptCookies() {

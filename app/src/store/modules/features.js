@@ -10,6 +10,8 @@ const format = new Wkt();
 let globalIdCounter = 0;
 const state = {
   allFeatures: [],
+  selectedFeature: null,
+  featureData: null,
   featureFilters: {
     countries: [],
     indicators: [],
@@ -189,12 +191,12 @@ const getters = {
 };
 
 const mutations = {
-  // SET_MANUAL_FEATURES(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(
-  //     features,
-  //     this.state.config.baseConfig.globalIndicators,
-  //   );
-  // },
+  SET_SELECTED_FEATURE(state, feature) {
+    state.selectedFeature = feature;
+  },
+  FEATURE_LOAD_FINISHED(state, featureData) {
+    state.featureData = featureData;
+  },
   SET_FEATURES(state, features) {
     state.allFeatures = features;
   },

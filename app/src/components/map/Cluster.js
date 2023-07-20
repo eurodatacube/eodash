@@ -559,7 +559,7 @@ class Cluster {
 
     const { indicatorObject } = feature.getProperties().properties;
     if (!indicatorObject.dummyFeature) {
-      store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
+      store.commit('features/SET_SELECTED_FEATURE', feature);
     }
   }
 }

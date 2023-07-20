@@ -527,8 +527,9 @@ export default {
       return this.baseConfig.layerNameMapping;
     },
     showMap() {
+      return false;
       // if returns true, we are showing map, if false we show chart
-      return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+      // return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[

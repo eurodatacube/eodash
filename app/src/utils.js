@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
-import axios from 'axios';
 import store from '@/store';
 import { generateUsedTimes } from '@/helpers/mapConfig';
 
+import axios from 'axios';
 import latLng from '@/latLng';
 import { Vector } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
@@ -78,6 +78,79 @@ export function template(templateRe, str, data) {
     return value;
   });
 }
+export async function loadFeatureData(baseConfig, feature) {
+  const parsedData = {};
+  const { indicatorObject } = feature.getProperties().properties;
+  // Fetch data from geodb
+  const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
+  const url = `${geodbUrl}_${indicatorObject.indicator}?aoi_id=eq.${indicatorObject.aoiID}`;
+  // Fetch location data
+  const response = await axios.get(url, { credentials: 'same-origin' });
+  if (response) {
+    const { data } = response;
+    // Set data to indicator object
+    // Convert data first
+    const mapping = {
+      colorCode: 'color_code',
+      dataProvider: 'data_provider',
+      eoSensor: 'eo_sensor',
+      indicatorValue: 'indicator_value',
+      inputData: 'input_data',
+      measurement: 'measurement_value',
+      referenceTime: 'reference_time',
+      referenceValue: 'reference_value',
+      time: 'time',
+      siteName: 'city',
+    };
+    // Special handling for mobility, covid and other special data
+    if ('Values' in data) {
+      parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
+      parsedData.Values = data.Values;
+    } else {
+      for (let i = 0; i < data.length; i += 1) {
+        Object.entries(mapping).forEach(([key, value]) => {
+          let val = data[i][value];
+          if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+            // If key already there add element to array
+            if (['time', 'referenceTime'].includes(key)) {
+              val = DateTime.fromISO(val);
+            } else if (['measurement'].includes(key)) {
+              if (val.length > 0) {
+                // We have a special array case here
+                if (val[0] === '[') {
+                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                } else {
+                  val = Number(val);
+                }
+              } else {
+                val = Number.NaN;
+              }
+            }
+            parsedData[key].push(val);
+          } else {
+            // If not then set element as array
+            if (['time', 'referenceTime'].includes(key)) {
+              val = DateTime.fromISO(val);
+            } else if (['measurement'].includes(key)) {
+              if (val.length > 0) {
+                // We have a special array case here
+                if (val[0] === '[') {
+                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                } else {
+                  val = Number(val);
+                }
+              } else {
+                val = Number.NaN;
+              }
+            }
+            parsedData[key] = [val];
+          }
+        });
+      }
+    }
+  }
+  return parsedData;
+}
 
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject = payload;
@@ -148,86 +221,6 @@ export async function loadIndicatorData(baseConfig, payload) {
       store.commit('features/SET_FEATURES', features);
     }
     indicatorObject.time = times;
-  }
-  // Fetch data from geodb
-  // TODO: should change logic to just pass identifier to eoxelements chart
-  if ('isFeature' in payload) {
-    const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
-    const url = `${geodbUrl}_${payload.indicator}?aoi_id=eq.${payload.aoiID}`;
-    // Fetch location data
-    const response = await axios.get(url, { credentials: 'same-origin' });
-    if (response) {
-      const { data } = response;
-      indicatorObject = payload;
-      // Set data to indicator object
-      // Convert data first
-      const mapping = {
-        colorCode: 'color_code',
-        dataProvider: 'data_provider',
-        eoSensor: 'eo_sensor',
-        indicatorValue: 'indicator_value',
-        inputData: 'input_data',
-        measurement: 'measurement_value',
-        referenceTime: 'reference_time',
-        referenceValue: 'reference_value',
-        time: 'time',
-        siteName: 'city',
-      };
-      // Global indicator case where we do not want the siteName to be overwritten
-      if (payload.country === 'indicatorall') {
-        delete mapping.siteName;
-      }
-      const parsedData = {};
-      // Special handling for mobility, covid and other special data
-      if ('Values' in data) {
-        parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
-        parsedData.Values = data.Values;
-      } else {
-        for (let i = 0; i < data.length; i += 1) {
-          Object.entries(mapping).forEach(([key, value]) => {
-            let val = data[i][value];
-            if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
-              // If key already there add element to array
-              if (['time', 'referenceTime'].includes(key)) {
-                val = DateTime.fromISO(val);
-              } else if (['measurement'].includes(key)) {
-                if (val.length > 0) {
-                  // We have a special array case here
-                  if (val[0] === '[') {
-                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
-                  } else {
-                    val = Number(val);
-                  }
-                } else {
-                  val = Number.NaN;
-                }
-              }
-              parsedData[key].push(val);
-            } else {
-              // If not then set element as array
-              if (['time', 'referenceTime'].includes(key)) {
-                val = DateTime.fromISO(val);
-              } else if (['measurement'].includes(key)) {
-                if (val.length > 0) {
-                  // We have a special array case here
-                  if (val[0] === '[') {
-                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
-                  } else {
-                    val = Number(val);
-                  }
-                } else {
-                  val = Number.NaN;
-                }
-              }
-              parsedData[key] = [val];
-            }
-          });
-        }
-      }
-      Object.entries(parsedData).forEach(([key, value]) => {
-        indicatorObject[key] = value;
-      });
-    }
   }
   return indicatorObject;
 }

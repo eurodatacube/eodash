@@ -122,23 +122,26 @@ export default {
   },
 
   mounted() {
+    /*
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     const formatted = d.toFormat('dd. MMM');
     this.dataLayerTime = {
       value: formatted,
       name: formatted,
     };
+    */
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
     arrayOfObjects() {
       const indicator = { ...this.indicatorObject };
+      const featureData = this.dataObject;
       const indicatorCode = indicator.indicator;
       const selectionOptions = [];
       if (this.mapchartIndicators.includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.time.map((d) => d.toFormat('dd. MMM')),
+          featureData.time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -151,7 +154,11 @@ export default {
     },
     datacollection() {
       const indicator = { ...this.indicatorObject };
+      const featureData = this.dataObject;
       const indicatorCode = indicator.indicator;
+      if (!featureData) {
+        return false;
+      }
       const refColors = [
         '#22aa99', '#a37', '#47a', '#a67', '#283', '#bbb',
         '#6ce', '#994499', '#aaaa11', '#6633cc', '#e67300',
@@ -386,8 +393,8 @@ export default {
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
-            const data = indicator.measurement.map((val, rowIdx) => ({
-              t: indicator.time[rowIdx],
+            const data = featureData.measurement.map((val, rowIdx) => ({
+              t: featureData.time[rowIdx],
               y: val,
             }));
             datasets.push({
@@ -397,8 +404,8 @@ export default {
           }
           referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
             const data = [];
-            indicator.referenceValue.forEach((item, rowIdx) => {
-              const usedTime = 'referenceTime' in entry ? indicator.referenceTime[rowIdx] : indicator.time[rowIdx];
+            featureData.referenceValue.forEach((item, rowIdx) => {
+              const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
               if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
                 let obj;
                 if ('valueDecompose' in referenceDecompose[indicatorCode]) {
@@ -419,7 +426,7 @@ export default {
                 } else if ('calc' in entry) {
                   data.push({
                     t: usedTime,
-                    y: entry.calc(indicator.measurement[rowIdx], obj),
+                    y: entry.calc(featureData.measurement[rowIdx], obj),
                   });
                 }
               } else {
@@ -445,12 +452,12 @@ export default {
         if (indicatorCode === 'N3') {
           // Find unique indicator values
           const indicatorValues = {};
-          indicator.indicatorValue.map((val, i) => {
+          featureData.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
             if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
-                indicator.colorCode[i],
+                featureData.colorCode[i],
                 true,
               );
             }
@@ -460,11 +467,11 @@ export default {
           Object.entries(indicatorValues).forEach(([key, value]) => {
             const data = measurement.map((row, i) => {
               let val = row;
-              if (indicator.indicatorValue[i] !== key.toUpperCase()) {
+              if (featureData.indicatorValue[i] !== key.toUpperCase()) {
                 val = NaN;
               }
               return {
-                t: indicator.time[i],
+                t: featureData.time[i],
                 y: Number.isNaN(val) ? Number.NaN : (10 ** val),
               };
             });
@@ -483,8 +490,8 @@ export default {
         // Generate data for datasets where a string array is passed as measurements
         if (Object.keys(measDecompose).includes(indicatorCode)) {
           measDecompose[indicatorCode].forEach((key, idx) => {
-            const data = indicator.measurement.map((row, rowIdx) => ({
-              t: indicator.time[rowIdx],
+            const data = featureData.measurement.map((row, rowIdx) => ({
+              t: featureData.time[rowIdx],
               y: row[idx],
             }));
             datasets.push({
@@ -502,7 +509,7 @@ export default {
         // Generate data for datasets where a string array is passed as indicator object
         if (Object.keys(indicatorDecompose).includes(indicatorCode)) {
           indicatorDecompose[indicatorCode].forEach((key, idx) => {
-            const data = indicator.Values.map((entry) => ({
+            const data = featureData.Values.map((entry) => ({
               t: DateTime.fromISO(entry.date),
               y: entry[key],
             }));
@@ -524,9 +531,9 @@ export default {
             && !['E10c', 'N2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
-          const referenceValue = indicator.referenceValue.map(Number);
+          const referenceValue = featureData.referenceValue.map(Number);
           let datemodifier = { year: 2000 };
-          if ((indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
+          if ((indicatorCode === 'E10a1' && featureData.aoiID === 'ES8')
               || indicatorCode === 'E10a5') {
             // ES8 has different days as reference value, can only be grouped
             // when having same date, we set them all to day 1 of month
@@ -534,18 +541,18 @@ export default {
               year: 2000, day: 1, hour: 1, minute: 0, second: 0,
             };
           }
-          indicator.time.forEach((date, i) => {
+          featureData.time.forEach((date, i) => {
             const meas = {
               t: date.set(datemodifier),
               y: measurement[i],
-              indicatorValue: indicator.indicatorValue[i],
+              indicatorValue: featureData.indicatorValue[i],
             };
             if (typeof uniqueMeas.find((item) => item.t.equals(meas.t)) === 'undefined') {
               uniqueMeas.push(meas);
             }
           });
-          indicator.referenceTime.forEach((date, i) => {
-            if (!['', '/'].includes(indicator.referenceValue[i])) {
+          featureData.referenceTime.forEach((date, i) => {
+            if (!['', '/'].includes(featureData.referenceValue[i])) {
               const ref = {
                 t: date.set(datemodifier),
                 y: referenceValue[i],
@@ -576,12 +583,12 @@ export default {
         }
 
         if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator.eoSensor)).sort();
+          const sensors = Array.from(new Set(featureData.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
-            const data = indicator.time.map((date, i) => {
+            const data = featureData.time.map((date, i) => {
               let output = null;
-              if (indicator.eoSensor[i] === pKey) {
+              if (featureData.eoSensor[i] === pKey) {
                 output = { t: date, y: measurement[i] };
               }
               return output;
@@ -600,15 +607,15 @@ export default {
             });
           }
         } else if (['N4c'].includes(indicatorCode)) {
-          const measData = indicator.measurement.map(Number);
+          const measData = featureData.measurement.map(Number);
           measData.shift();
-          const refData = indicator.referenceValue.map(Number);
+          const refData = featureData.referenceValue.map(Number);
           refData.shift();
 
           labels = [
-            indicator.referenceTime[0].toISODate(),
-            indicator.time[0].toISODate(),
-            indicator.time[5].toISODate(),
+            featureData.referenceTime[0].toISODate(),
+            featureData.time[0].toISODate(),
+            featureData.time[5].toISODate(),
           ];
 
           datasets.push({
@@ -634,9 +641,9 @@ export default {
         } else if (['E10a10'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
-          indicator.time.forEach((t, i) => {
+          featureData.time.forEach((t, i) => {
             data.push({ t, y: measurement[i] * 100 });
-            refData.push({ t, y: indicator.referenceValue[i] * 100 });
+            refData.push({ t, y: featureData.referenceValue[i] * 100 });
           });
           datasets.push({
             label: 'Observation',
@@ -659,16 +666,16 @@ export default {
         } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
-          indicator.indicatorValue.forEach((ind, idx) => {
+          featureData.indicatorValue.forEach((ind, idx) => {
             if (Object.keys(types).includes(ind)) {
               types[ind].push({
-                t: DateTime.fromISO(indicator.time[idx]),
-                y: Number(indicator.measurement[idx]),
+                t: DateTime.fromISO(featureData.time[idx]),
+                y: Number(featureData.measurement[idx]),
               });
             } else {
               types[ind] = [{
-                t: DateTime.fromISO(indicator.time[idx]),
-                y: Number(indicator.measurement[idx]),
+                t: DateTime.fromISO(featureData.time[idx]),
+                y: Number(featureData.measurement[idx]),
               }];
             }
           });
@@ -684,14 +691,14 @@ export default {
           });
         } else if (['N2', 'E10c'].includes(indicatorCode)) {
           /* Group data by year in month slices */
-          const data = indicator.time.map((date, i) => {
+          const data = featureData.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
-              indicator.colorCode[i],
+              featureData.colorCode[i],
             ));
             return {
               t: date,
               y: measurement[i],
-              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
+              referenceValue: featureData.referenceValue[i].replace(/[[\]]/g, ''),
             };
           });
           const dataGroups = {};
@@ -737,15 +744,15 @@ export default {
           let tmpTime = 0;
           const min = Math.min(...this.indicatorObject.measurement);
           const max = Math.max(...this.indicatorObject.measurement);
-          indicator.measurement.forEach((item, i) => {
+          featureData.measurement.forEach((item, i) => {
             data.push({
-              t: indicator.time[i],
+              t: featureData.time[i],
               y: item,
-              color: indicator.indicatorValue[i],
+              color: featureData.indicatorValue[i],
             });
             if (counter < 4) {
               tmpVal += item;
-              tmpTime += indicator.time[i].toMillis();
+              tmpTime += featureData.time[i].toMillis();
               counter += 1;
             } else {
               average.push({
@@ -835,11 +842,11 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === indicator.siteName[i]));
+              f.properties.NUTS_ID === featureData.siteName[i]));
             let output;
             if (geom) {
-              if (currIDs.indexOf(indicator.siteName[i]) === -1) {
-                currIDs.push(indicator.siteName[i]);
+              if (currIDs.indexOf(featureData.siteName[i]) === -1) {
+                currIDs.push(featureData.siteName[i]);
                 outline.push({
                   type: 'Feature',
                   properties: {},
@@ -863,15 +870,15 @@ export default {
                 latitude: centerPoint.lat,
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
-                time: indicator.time[i],
+                time: featureData.time[i],
                 value: Number(meas),
-                referenceTime: indicator.referenceTime[i],
-                referenceValue: indicator.referenceValue[i],
-                color: indicator.colorCode[i],
+                referenceTime: featureData.referenceTime[i],
+                referenceValue: featureData.referenceValue[i],
+                color: featureData.colorCode[i],
               };
               if (indicatorCode === 'E10a8') {
                 // Swap value to have reference value
-                output.value = Number(indicator.referenceValue[i]);
+                output.value = Number(featureData.referenceValue[i]);
                 output.referenceValue = Number(meas);
               }
             }
@@ -907,9 +914,9 @@ export default {
         }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
-          const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
-            return { t: date, y: indicator.measurement[i] };
+          const data = featureData.time.map((date, i) => {
+            colors.push(this.getIndicatorColor(featureData.colorCode[i]));
+            return { t: date, y: featureData.measurement[i] };
           });
           const conf = {
             data,
@@ -931,6 +938,9 @@ export default {
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
+    },
+    dataObject() {
+      return this.$store.state.features.featureData;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
@@ -1004,7 +1014,7 @@ export default {
         },
       };
       const indicatorCode = this.indicatorObject.indicator;
-      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
+      const reference = Number.parseFloat(this.dataObject.referenceValue);
       const annotations = [];
       let low = 0;
       let high = 0;
@@ -1087,11 +1097,11 @@ export default {
       if (['C1', 'C2', 'C3'].includes(indicatorCode)) {
         customSettings.yAxisRange = [
           Math.min(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) - 2,
           Math.max(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ),
         ];
@@ -1153,7 +1163,7 @@ export default {
         customSettings.yAxisRange = [
           0,
           Math.max(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ),
         ];
@@ -1311,8 +1321,8 @@ export default {
           mode: 'nearest',
         };
         // We use min max values to define y axis scale range
-        const min = Math.min(...this.indicatorObject.measurement);
-        const max = Math.max(...this.indicatorObject.measurement);
+        const min = Math.min(...this.dataObject.measurement);
+        const max = Math.max(...this.dataObject.measurement);
         customSettings.yAxisOverwrite = {
           ticks: {
             callback: (...args) => {
