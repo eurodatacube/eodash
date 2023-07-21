@@ -140,7 +140,7 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
   }
   const finalConfigs = [];
   let usedConfigForMerge = [];
-  let name = indicatorObject.description;
+  let { name } = indicatorObject;
 
   if (!displayTmp && inputDataConfig.length === 0) {
     // no additional config specified, use defaults
@@ -154,7 +154,7 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
   }
   usedConfigForMerge.forEach((item) => {
     // merge configs for each layer
-    name = item.name || name;
+    name = item.name ? item.name : name;
     // Check to see if we have grouped layers, if we do we need to add
     // the default to them too
     const extendedItem = item;
@@ -171,6 +171,13 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
         };
       }
     }
+    // only add default layer if a display configuration exists
+    /*
+    let defaultLayers = {};
+    if (indicatorObject.display) {
+      defaultLayers = baseConfig.defaultLayersDisplay;
+    }
+    */
     finalConfigs.push({
       ...baseConfig.defaultLayersDisplay,
       ...indDefinition,
@@ -231,6 +238,7 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
       name: label,
     });
   }
+  debugger;
   return selectionOptions;
 };
 

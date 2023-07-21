@@ -320,9 +320,14 @@ export default {
       };
     },
     displayTimeSelection() {
-      return this.indicator?.time.length > 1
+      return (
+          this.featureData?.time
+          && this.featureData.time.length > 1
+      ) || (
+        this.indicator?.time.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && this.indicatorHasMapData(this.indicator);
+        && this.indicatorHasMapData(this.indicator)
+      );
     },
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
@@ -339,7 +344,10 @@ export default {
       // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     featureObject() {
-      return this.$store.state.features.selectedFeature;
+      return this.$store.state.features.selectedFeature?.getProperties().properties.indicatorObject;
+    },
+    featureData() {
+      return this.$store.state.features.featureData;
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
@@ -352,6 +360,20 @@ export default {
       // only display the "special layers" for global indicators
       if (!this.indicator) {
         return [];
+      }
+      if (this.featureObject && this.featureData) {
+        // merge information from both
+        const mergedIndicator = {
+          ...this.featureObject,
+          ...this.featureData,
+        };
+        // Add name from top level indicator to feature indicator
+        mergedIndicator.name = this.indicator.name;
+        return createConfigFromIndicator(
+          mergedIndicator,
+          'data',
+          -1, // initial time is last in array - indexed via array.at(-1)
+        );
       }
       // to do: indicator "code" (this.indicator.indicator, e.g. "E13b")
       // is not available after createConfigFromIndicator. it is overwritten by an indicator name
@@ -376,6 +398,20 @@ export default {
       // just for time update to correctly use current time index
       if (!this.indicator) {
         return [];
+      }
+      if (this.featureObject && this.featureData) {
+        // merge information from both
+        const mergedIndicator = {
+          ...this.featureObject,
+          ...this.featureData,
+        };
+        // Add name from top level indicator to feature indicator
+        mergedIndicator.name = this.indicator.name;
+        return createConfigFromIndicator(
+          mergedIndicator,
+          'data',
+          this.currentTimeIndex,
+        );
       }
       return createConfigFromIndicator(
         this.indicator,
@@ -406,6 +442,25 @@ export default {
       };
     },
     availableTimeEntries() {
+      if (this.featureObject && this.featureData) {
+        // merge information from both
+        const mergedIndicator = {
+          ...this.featureObject,
+          ...this.featureData,
+        };
+        // Add name from top level indicator to feature indicator
+        mergedIndicator.name = this.indicator.name;
+        // Convert time back to strings
+        const stringTime = [];
+        this.featureData.time.forEach(
+          (t) => stringTime.push(t.toISO({ suppressMilliseconds: true })),
+        );
+        mergedIndicator.time = stringTime;
+        return createAvailableTimeEntries(
+          mergedIndicator,
+          this.mergedConfigsData,
+        );
+      }
       return createAvailableTimeEntries(
         this.indicator,
         this.mergedConfigsData, // TODO do we really need to pass the config here?
@@ -451,6 +506,8 @@ export default {
         );
         return presetViewGeom.getExtent();
       }
+      debugger;
+      // TODO: Consider how to fetch subaoi
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
@@ -460,9 +517,11 @@ export default {
         // geoJsonFormat
         return [];
       }
-      if (this.indicator.aoi) {
-        return transformExtent([this.indicator.lng, this.indicator.lat,
-          this.indicator.lng, this.indicator.lat],
+      debugger;
+      // TOD: Make sure tthis works
+      if (this.featureObject.aoi) {
+        return transformExtent([this.featureObject.lng, this.featureObject.lat,
+          this.featureObject.lng, this.featureObject.lat],
         'EPSG:4326',
         map.getView().getProjection());
       }
@@ -500,6 +559,7 @@ export default {
       },
     },
     dataLayerTime(timeObj) {
+      debugger;
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);

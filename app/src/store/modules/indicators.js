@@ -49,6 +49,7 @@ const actions = {
               code: link.code,
               description: link.description,
               indicatorName: link.title,
+              name: link.title,
               indicator: link.code,
               region: 'global',
               themes: link.themes,
