@@ -626,7 +626,9 @@ export default {
       let compare;
       const { selectedIndicator } = this.$store.state.indicators;
       const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator, this.featureObject))));
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(
+          selectedIndicator, this.featureObject,
+        ))));
       if (
         hasGrouping
         && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
@@ -642,7 +644,9 @@ export default {
           await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
         }));
         compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject, this.featureObject) === f));
+          .find((i) => this.getLocationCode(
+            i.properties.indicatorObject, this.featureObject,
+          ) === f));
       }
       this.multipleTabCompare = compare;
     },
