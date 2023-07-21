@@ -312,7 +312,7 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
   if (!inputData) {
     return null;
   }
-  const locationCode = getLocationCode(indicator);
+  const locationCode = getLocationCode(indicator, store.state.features.selectedFeature);
   if (indicatorRegistry[locationCode]) {
     return indicatorRegistry[locationCode];
   }

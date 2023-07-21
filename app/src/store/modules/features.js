@@ -192,6 +192,7 @@ const getters = {
 
 const mutations = {
   SET_SELECTED_FEATURE(state, feature) {
+    state.featureData = null;
     state.selectedFeature = feature;
   },
   FEATURE_LOAD_FINISHED(state, featureData) {

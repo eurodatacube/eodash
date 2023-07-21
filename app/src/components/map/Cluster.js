@@ -189,10 +189,7 @@ function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
  * @returns {boolean}
  */
 function isFeatureSelected(feature) {
-  const { indicatorObject } = feature.getProperties().properties;
-  const { selectedIndicator } = store.state.indicators;
-  return selectedIndicator && selectedIndicator.indicator === indicatorObject.indicator
-  && selectedIndicator.aoiID === indicatorObject.aoiID;
+  return feature === store.state.features.selectedFeature;
 }
 
 /**
@@ -341,14 +338,8 @@ class Cluster {
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
         const { city } = indicatorObject;
-        const indicator = store.state.config.baseConfig
-          .indicatorsDefinition[indicatorObject.indicator]
-          .indicatorOverwrite || indicatorObject.indicatorName || indicatorObject.description;
         if (city) {
-          headers.push(`${city}:`);
-        }
-        if (indicator) {
-          headers.push(indicator);
+          headers.push(`${city}`);
         }
         callback(headers, rows, coords);
       } else {

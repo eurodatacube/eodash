@@ -118,7 +118,8 @@ export default {
       || from.query.clusterOpen) {
         if (!to.query.poi && from.query.poi) {
           // clear poi
-          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+          this.$store.commit('features/SET_SELECTED_FEATURE', null);
+          // this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         }
         if (!to.query.indicator && from.query.indicator) {
           // clear indicator filter
@@ -183,8 +184,11 @@ export default {
               && indicatorObject.indicator === indicatorCode;
           });
         }
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
+        this.$store.commit(
+          'indicators/SET_SELECTED_INDICATOR',
+          selectedFeature ? selectedFeature.properties.indicatorObject : null,
+        );
+        this.$store.commit('features/SET_SELECTED_FEATURE', null);
         // validate query for country - need to be among available
         const selectedCountry = this.getCountryItems
           .map((item) => item.code).flat().find((f) => f === country);
@@ -243,22 +247,36 @@ export default {
         }
       }
       if (['features/SET_SELECTED_FEATURE'].includes(mutation.type)) {
-        this.loadFeatureData(mutation.payload);
+        if (mutation.payload) {
+          this.loadFeatureData(mutation.payload);
+          const locCode = this.getLocationCode(
+            this.$store.state.indicators.selectedIndicator, mutation.payload,
+          );
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: locCode }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('features', 'select_feature', locCode);
+        } else {
+          this.loadFeatureData(mutation.payload);
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.poi;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        }
       }
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         if (mutation.payload && !( // If dummy feature selected ignore
           Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
           && mutation.payload.dummyFeature)) {
+          this.$store.commit('features/SET_SELECTED_FEATURE', null);
           this.loadIndicatorData(mutation.payload);
           const urlSearchParams = new URLSearchParams(window.location.search);
           const params = Object.fromEntries(urlSearchParams.entries());
           this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicator }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', mutation.payload.indicator);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
+          delete query.indicator;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
@@ -287,10 +305,11 @@ export default {
     async loadFeatureData(payload) {
       // TODO: if using eoxchart we dont need to load feature data here
       //  implement use of eoxchart for these indicators
-      const featureData = await loadFeatureData(this.baseConfig, payload);
-      if (featureData) {
-        this.$store.commit('features/FEATURE_LOAD_FINISHED', featureData);
+      let featureData = null;
+      if (payload !== null) {
+        featureData = await loadFeatureData(this.baseConfig, payload);
       }
+      this.$store.commit('features/FEATURE_LOAD_FINISHED', featureData);
     },
     acceptCookies() {
       if (this.$matomo) {

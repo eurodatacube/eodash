@@ -189,7 +189,7 @@ import AdminBordersLayers from '@/components/map/AdminBordersLayers.vue';
 import Link from 'ol/interaction/Link';
 import {
   calculatePadding,
-  getIndicatorFilteredInputData,
+  // getIndicatorFilteredInputData,
 } from '@/utils';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -338,6 +338,9 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
       // return getIndicatorFilteredInputData(this.currentIndicator);
     },
+    featureObject() {
+      return this.$store.state.features.selectedFeature;
+    },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
       // in customAreaButtons as {area: 'object'} for convenience
@@ -430,7 +433,7 @@ export default {
       if (this.$route.name === 'demo') {
         // check if a demo item custom extent is set as override
         const demoItem = this.appConfig.demoMode[this.$route.query.event]
-          .find((item) => item.poi === getLocationCode(this.indicator));
+          .find((item) => item.poi === getLocationCode(this.indicator, this.featureObject));
         if (demoItem && demoItem.extent) {
           return demoItem.extent;
         }

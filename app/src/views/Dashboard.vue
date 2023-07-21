@@ -24,38 +24,24 @@
       class="data-panel"
     >
       <v-toolbar flat>
-        <v-toolbar-title v-if="$store.state.indicators.selectedIndicator"
-          :class="$store.state.indicators.selectedIndicator.description ===
-            $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
+        <v-toolbar-title v-if="indicatorObject"
+          :class="indicatorObject.description ===
+            indicatorObject.indicatorName && 'preventEllipsis'"
         >
-          {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
-          {{
-            queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
-            || queryIndicatorObject.properties.indicatorObject.description)
-          }}
-          <div v-if="
-            $store.state.indicators.selectedIndicator.description !==
-            $store.state.indicators.selectedIndicator.indicatorName
-            && $store.state.indicators.customAreaIndicator === null"
-            class="subheading" style="font-size: 0.8em">
-            {{ queryIndicatorObject
-              && queryIndicatorObject.properties.indicatorObject.description }}
+          {{ indicatorObject.indicatorName}}
+          <div
+            class="subheading" style="font-size: 0.8em" v-html="featureCity">
           </div>
-        </v-toolbar-title>
-        <v-toolbar-title
-          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
-        >
-          {{ firstIndicatorObject
-            .description }}
           <div v-if="
-            firstIndicatorObject.description !==
-            firstIndicatorObject.indicatorName"
+            indicatorObject.description !== indicatorObject.indicatorName
+            && indicatorObject.customAreaIndicator === null"
             class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
+            {{ indicatorObject
+              && indicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-tooltip
-          v-if="$store.state.indicators.selectedIndicator"
+          v-if="indicatorObject"
           left
         >
           <template v-slot:activator="{ on }">
@@ -76,7 +62,7 @@
       </v-toolbar>
 
       <data-panel
-        v-if="$store.state.indicators.selectedIndicator
+        v-if="indicatorObject
           || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
@@ -106,28 +92,16 @@
       class="retractable"
       :class="{
         'retracted': isDialogRetracted,
-        'hidden': !$store.state.indicators.selectedIndicator
+        'hidden': !indicatorObject
           && $store.state.features.featureFilters.indicators.length === 0,
       }"
       v-if="$vuetify.breakpoint.smAndDown"
     >
       <v-toolbar dark color="primary">
         <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
-          v-if="$store.state.indicators.selectedIndicator"
-        >{{ $store.state.indicators.selectedIndicator.city }},
-          {{ $store.state.indicators.selectedIndicator.description }}
-        </v-toolbar-title>
-        <v-toolbar-title
-          v-else-if="$store.state.features.featureFilters.indicators[0] && firstIndicatorObject"
-        >
-          {{ firstIndicatorObject
-            .description }}
-          <div v-if="
-            firstIndicatorObject.description !==
-            firstIndicatorObject.indicatorName"
-            class="subheading" style="font-size: 0.8em">
-            {{ firstIndicatorObject.indicatorName || firstIndicatorObject.description }}
-          </div>
+          v-if="indicatorObject"
+        >{{ indicatorObject.city }},
+          {{ indicatorObject.description }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
@@ -151,17 +125,16 @@
         <v-row>
           <v-col>
             <h4 v-if="
-                ($store.state.indicators.selectedIndicator && (
-                  $store.state.indicators.selectedIndicator.description !==
-                  $store.state.indicators.selectedIndicator.indicatorName))"
+                (indicatorObject && (
+                  indicatorObject.description !==
+                  indicatorObject.indicatorName))"
               class="py-2"
             >
-              {{ queryIndicatorObject
-                && (queryIndicatorObject.properties.indicatorObject.indicatorName
-                || queryIndicatorObject.properties.indicatorObject.description) }}
+              {{ indicatorObject
+                && (indicatorObject.indicatorName || indicatorObject.description) }}
             </h4>
             <data-panel
-              v-if="$store.state.indicators.selectedIndicator
+              v-if="indicatorObject
                 || $store.state.features.featureFilters.indicators.length > 0"
               :newsBanner="$refs.newsBanner"
               :expanded="dataPanelFullWidth"
@@ -292,30 +265,12 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
-    showMap() {
-      const indicatorObject = this.$store.state.indicators.selectedIndicator;
-      // if returns true, we are showing map, if false we show chart
-      return ['all'].includes(indicatorObject.country)
-        || this.appConfig.configuredMapPois.includes(`${indicatorObject.aoiID}-${indicatorObject.indicator}`)
-        || Array.isArray(indicatorObject.country);
-    },
     dataPanelWidth() {
       return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
     },
     indicatorSelected() {
-      return this.$store.state.indicators.selectedIndicator
+      return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
-    },
-    firstIndicatorObject() {
-      const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-        ? this.$store.state.features.featureFilters.indicators[0]
-        : this.$store.state.features.featureFilters.indicators;
-      const firstFeature = this.$store.state.features.allFeatures
-        .find((f) => f.properties.indicatorObject.indicator
-          === indicator);
-      return firstFeature
-        ? firstFeature.properties.indicatorObject
-        : undefined;
     },
     currentNews() {
       let currentNews;
@@ -336,12 +291,20 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? 'dark' : 'light';
     },
-    queryIndicatorObject() {
-      return this.$store.state.features.allFeatures.find(
-        (f) => this.getLocationCode(f && f.properties.indicatorObject) === this.$route.query.poi,
-      );
+    indicatorObject() {
+      return this.$store.state.indicators.selectedIndicator;
     },
-
+    selectedFeature() {
+      return this.$store.state.features.selectedFeature;
+    },
+    featureCity() {
+      // Using empty ascii to make sure subheading height is kept if no poi selection is active
+      let city = '&#8194';
+      if (this.selectedFeature) {
+        city = this.selectedFeature.getProperties().properties.indicatorObject.city;
+      }
+      return city;
+    },
     ...mapGetters({
       getCurrentTheme: 'themes/getCurrentTheme',
     }),

@@ -9,7 +9,7 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject" class="d-flex">
+      <v-row v-if="indicatorObject && dataObject" class="d-flex">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
@@ -86,7 +86,7 @@
               Regenerate
             </v-btn>
             <template
-              v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+              v-if="customAreaIndicator && !customAreaIndicator.isEmpty && dataObject"
             >
               <indicator-data
                 style="margin-top: 0px;"
@@ -420,12 +420,14 @@ export default {
       try {
         const demoItem = this.$route.name === 'demo'
           ? this.appConfig.demoMode[this.$route.query.event]
-            .find((item) => item.poi === this.getLocationCode(this.indicatorObject))
+            .find((item) => item.poi === this.getLocationCode(
+              this.indicatorObject, this.featureObject,
+            ))
           : false;
         markdown = require(`../../public${demoItem.story}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject)}.md`);
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject, this.featureObject)}.md`);
         } catch {
           try {
             markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
@@ -455,6 +457,9 @@ export default {
     },
     dataObject() {
       return this.$store.state.features.featureData;
+    },
+    featureObject() {
+      return this.$store.state.features.selectedFeature;
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
@@ -532,7 +537,13 @@ export default {
     showMap() {
       return false;
       // if returns true, we are showing map, if false we show chart
-      // return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
+      /*
+      return ['all'].includes(this.indicatorObject.country)
+        || this.appConfig.configuredMapPois.includes(
+          `${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`,
+        )
+        || Array.isArray(this.indicatorObject.country);
+      */
     },
     externalData() {
       const dataFromDefinition = this.baseConfig.indicatorsDefinition[
@@ -607,7 +618,7 @@ export default {
       this.selectedSensorTab = this.multipleTabCompare
         ? this.multipleTabCompare.features
           .indexOf(this.multipleTabCompare.features
-            .find((s) => this.getLocationCode(s.properties.indicatorObject)
+            .find((s) => this.getLocationCode(s.properties.indicatorObject, this.featureObject)
               === this.$route.query.poi))
         : 0;
     },
@@ -615,7 +626,7 @@ export default {
       let compare;
       const { selectedIndicator } = this.$store.state.indicators;
       const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator))));
+        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(selectedIndicator, this.featureObject))));
       if (
         hasGrouping
         && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
@@ -631,7 +642,7 @@ export default {
           await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
         }));
         compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === f));
+          .find((i) => this.getLocationCode(i.properties.indicatorObject, this.featureObject) === f));
       }
       this.multipleTabCompare = compare;
     },
@@ -654,8 +665,10 @@ export default {
   watch: {
     selectedSensorTab(index) {
       if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(this.multipleTabCompare.features[index]
-          .properties.indicatorObject);
+        const poi = this.getLocationCode(
+          this.multipleTabCompare.features[index].properties.indicatorObject,
+          this.featureObject,
+        );
         this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
         let currCountry = null;
         let currID = null;
