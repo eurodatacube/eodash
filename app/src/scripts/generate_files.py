@@ -833,6 +833,7 @@ generateData(
         ['E13b', ''],
         ['E13d', ''],
         ['Regional_Water_Quality_Europe_timeseries', ''],
+        ['Sea_Surface_Temperature_Timeseries', ''],
         ['N1', ''],
         ['E200', ''],
         ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
