@@ -1,7 +1,7 @@
 <template>
   <div class="text-center pa-5">
     <h1 v-if="$vuetify.breakpoint.smAndUp" class="display-2 font-weight-light primary--text mb-10">
-      How can we improve this dashboard?</h1>
+      How can we improve this site?</h1>
     <v-row class="text-left">
       <v-col
         v-if="!showIssueForm || issueData"
@@ -41,11 +41,11 @@
         >
           <v-card-title>
             <v-icon left color="primary">mdi-bug</v-icon>
-            The Dashboard does not work as expected
+            The site does not work as expected
           </v-card-title>
           <v-responsive :aspect-ratio="4/1">
             <v-card-text :class="$vuetify.breakpoint.xsOnly && 'py-0'">
-              <p>Something didn't work as expected while using the dashboard?<br />
+              <p>Something didn't work as expected while using the site?<br />
               Good catch! Please report the bug:</p>
             </v-card-text>
           </v-responsive>

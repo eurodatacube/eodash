@@ -135,30 +135,28 @@ export default {
   },
   props: {
     mapId: String,
-    hideCustomAreaControls: {
-      required: false,
-    },
-    mergedConfigsData: Object,
+    mergedConfigsData: Array[Object],
     drawnArea: {
       area: null,
     },
   },
   computed: {
     ...mapState('config', ['appConfig']),
+    hasSelectionEnabled() {
+      return this.mergedConfigsData.length
+        && this.mergedConfigsData.find((layer) => layer?.selection || layer?.features?.selection);
+    },
     drawToolsVisible() {
-      return !this.hideCustomAreaControls
+      return !this.hasSelectionEnabled
         // enables chart generation
-        && (this.mergedConfigsData?.customAreaIndicator
-        // enables fetching of custom features
-        || this.mergedConfigsData?.customAreaFeatures
-        );
+        && (this.drawnLayerVisible);
     },
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;
     },
     drawnLayerVisible() {
-      return this.mergedConfigsData?.customAreaIndicator
-        || this.mergedConfigsData?.customAreaFeatures;
+      return this.mergedConfigsData.length && (this.mergedConfigsData[0]?.customAreaIndicator
+        || this.mergedConfigsData[0]?.customAreaFeatures);
     },
   },
   mounted() {

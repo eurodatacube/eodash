@@ -188,29 +188,6 @@
                 @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
                 @ready="onMapReady(element.poi)"
               />
-              <!--<indicator-map
-                ref="indicatorMap"
-                style="top: 0px; position: absolute;"
-                v-else-if="(['all'].includes(element.indicatorObject.country) ||
-                appConfig.configuredMapPois.includes(
-                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
-                ) ||
-                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator"
-                class="pt-0 fill-height"
-                :hideCustomAreaControls="!enableEditing"
-                :currentIndicator="element.indicatorObject"
-                disableAutoFocus
-                :centerProp="localCenter[element.poi]"
-                :zoomProp="localZoom[element.poi]"
-                :dataLayerTimeProp="localDataLayerTime[element.poi]"
-                :compareLayerTimeProp="localCompareLayerTime[element.poi]"
-                @update:center="c => {localCenter[element.poi] = c}"
-                @update:zoom="z => {localZoom[element.poi] = z}"
-                @update:datalayertime="d => {localDataLayerTime[element.poi] = d}"
-                @update:comparelayertime="d => {localCompareLayerTime[element.poi] = d}"
-                @compareEnabled="tooltipTrigger = !tooltipTrigger"
-                @ready="onMapReady(element.poi)"
-              />-->
               <indicator-data
                 v-else
                 disableAutoFocus
@@ -368,6 +345,7 @@
           <v-dialog
             v-model="dialog"
             width="500"
+            :retain-focus="false"
           >
             <v-card>
               <v-card-title class="headline primary--text mb-5">

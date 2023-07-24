@@ -4,7 +4,33 @@
     style="max-width: 1400px;"
   >
     <h3 class="mb-10" :class="[headingClass]">News</h3>
-
+    <v-row>
+      <v-col>
+        <h3>
+          2023-07-14: Multiple new stories added to EO Dashboard related to Lakes!
+        </h3>
+        <ul>
+          <li><a href="story?id=lakes-intro">
+            Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters
+          </a></li>
+          <li><a href="story?id=lakes-climate">Changes  in temperature, precipitation patterns and
+             extremes impacting surface water hydrology
+          </a></li>
+          <li><a href="story?id=lakes-algae">Algal blooms in lake waters</a></li>
+          <li><a href="story?id=lakes-human-activity">Changing lakes due to human activity</a></li>
+        </ul>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
+          2023-05-23: Space for Climate Protection awarded to EO Dashboard!
+        </h3>
+        <p>
+          <a target="_blank" href="https://www.esa.int/Applications/Observing_the_Earth/ESA_receives_Space_for_Climate_Protection_Award">EO Dashboard receives the 'Space for Climate Protection' Special Award by the International Astronautical Federation during the 2023 Global Space Conference on Climate Change in Oslo, Norway</a>.
+        </p>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
         <h3>

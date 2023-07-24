@@ -1,10 +1,10 @@
 <template>
   <MapOverlay
-   :mapId="mapId"
-   :overlayId="mergedConfigs[0].name"
-   :overlayHeaders="overlayHeaders"
-   :overlayRows="overlayRows"
-   :overlayCoordinate="overlayCoordinate"
+    :mapId='mapId'
+    :overlayId='mergedConfigs[0].name'
+    :overlayHeaders='overlayHeaders'
+    :overlayRows='overlayRows'
+    :overlayCoordinate='overlayCoordinate'
   />
 </template>
 
@@ -56,6 +56,7 @@ export default {
       overlayRows: [],
       overlayCoordinate: null,
       pointerMoveHandlers: [],
+      singleClickHandlers: [],
     };
   },
   mounted() {
@@ -65,53 +66,162 @@ export default {
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
       layer.set('name', this.compare ? `${config.name}_compare` : config.name);
-      const featureLayer = layer.getLayers().getArray().find((l) => {
-        const found = l instanceof VectorLayer && l.get('name')?.includes('_features');
-        return found;
-      });
-      if (featureLayer) {
+      // find first feature layer
+      const featureLayer = layer.getLayers().getArray()
+        .find((l) => l instanceof VectorLayer && l.get('name')?.includes('_features'));
+      if (featureLayer || config.tooltip) {
+        // initiate hover over functionality optionally for both featureLayer
+        // and 'selection' config (main layer)
+        const candidateLayers = [];
+        if (config.tooltip) {
+          candidateLayers.push(layer.getLayers().getArray()[0]);
+        }
+        if (featureLayer) {
+          candidateLayers.push(featureLayer);
+        }
         const pointerMoveHandler = (e) => {
+          const visibleCandidateLayers = candidateLayers.filter((l) => l.getVisible());
           const features = map.getFeaturesAtPixel(e.pixel, {
-            layerFilter: ((candidate) => candidate === featureLayer),
+            layerFilter: (candidate) => visibleCandidateLayers.includes(candidate),
           });
           // when layer swiping is active, only check for features on this layers side
-          const isRightLayer = !config.name.includes('_compare');
-          // check if the layer
           const isCorrectSide = this.swipePixelX !== null
-            ? ((isRightLayer && this.swipePixelX < e.pixel[0])
-            || (!isRightLayer && this.swipePixelX > e.pixel[0]))
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
           // consider layergroup
-          if (isCorrectSide && features.length && config.features) {
+          if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
-            const coordinate = getCenter(feature.getGeometry().getExtent());
+            const geom = feature.getGeometry();
+            let coordinate = null;
+            if (geom.getType() === 'Polygon' && geom.getInteriorPoint) {
+              coordinate = geom.getInteriorPoint().getCoordinates();
+            } else {
+              coordinate = getCenter(geom.getExtent());
+            }
+            if (config.selection) {
+              this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
+            }
             this.overlayCoordinate = coordinate;
-            const rows = [];
-            const props = feature.getProperties();
-            // some indicators have "allowedParameters", which define the keys to display
-            const keys = config.features.allowedParameters
-            || Object.keys(props).filter((k) => k !== 'geometry');
-            keys.forEach((key) => {
-              if (props[key]) {
-                rows.push(`${key}: ${props[key]}`);
-              }
-            });
+            let rows = [];
+            if (config?.tooltip?.tooltipFormatFunction) {
+              // has to return a list of rows
+              rows = config?.tooltip?.tooltipFormatFunction(feature, config);
+            } else {
+              const props = feature.getProperties();
+              // some indicators have 'allowedParameters', which define the keys to display
+              const keys = config.features?.allowedParameters || config?.allowedParameters
+                || Object.keys(props).filter((k) => k !== 'geometry');
+              keys.forEach((key) => {
+                if (props[key]) {
+                  rows.push(`${key}: ${props[key]}`);
+                }
+              });
+            }
             this.overlayRows = rows;
           } else {
+            this.overlayHeaders = null;
             this.overlayCoordinate = null;
             this.overlayContent = null;
           }
         };
-        map.on('pointermove', pointerMoveHandler);
-        this.pointerMoveHandlers.push(pointerMoveHandler);
+        if (config?.tooltip?.trigger === 'singleclick') {
+          map.on('singleclick', pointerMoveHandler);
+          this.singleClickHandlers.push(pointerMoveHandler);
+        } else {
+          map.on('pointermove', pointerMoveHandler);
+          this.pointerMoveHandlers.push(pointerMoveHandler);
+        }
+      }
+      if (config.selection || config?.features?.selection) {
+        // initiate select interaction
+        const usedLayers = [];
+        if (config.selection) {
+          // this could have potential side effects, but currently works
+          usedLayers.push(layer.getLayers().getArray()[0]);
+        }
+        if (config?.features?.selection) {
+          usedLayers.push(featureLayer);
+        }
+        const multiple = config.selection?.mode === 'multiple'
+          || config.features?.selection?.mode === 'multiple';
+        const selectHandler = (e) => {
+          const isCorrectSide = this.swipePixelX !== null
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
+            : true;
+          // when layer swiping is active, only check for features on this layers side
+          if (isCorrectSide) {
+            const visibleCandidateLayers = usedLayers.filter((l) => l.getVisible());
+            const finalFeatures = map.getFeaturesAtPixel(e.pixel, {
+              layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
+            });
+            // crosscheck with store
+            let { selectedFeatures } = this.$store.state.features;
+            finalFeatures.every((f) => {
+              const foundIndex = selectedFeatures.findIndex(
+                (selectedFtr) => f.getId() === selectedFtr.getId(),
+              );
+              if (foundIndex !== -1) {
+                // was in selection, remove from selection
+                selectedFeatures = selectedFeatures.toSpliced(foundIndex, 1);
+              } else if (multiple) {
+                // add to selection
+                selectedFeatures = selectedFeatures.concat([f]);
+              } else {
+                // it is just single selection, take the first found and break the loop
+                selectedFeatures = [f];
+                return false;
+              }
+              return true;
+            });
+            // only set store if something was clicked (not by clicking empty space intentionally)
+            if (finalFeatures.length > 0) {
+              this.$store.commit('features/SET_SELECTED_FEATURES', selectedFeatures);
+            }
+          }
+        };
+        this.$store.subscribe((mutation) => {
+          if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+            // trigger change to refresh style on this layer
+            // (but does not propagate to "compare" layer)
+            usedLayers.forEach((l) => l.changed());
+          }
+        });
+        map.on('singleclick', selectHandler);
+        this.singleClickHandlers.push(selectHandler);
+      }
+      if (config.getTimeFromProperty) {
+        const usedLayers = [layer.getLayers().getArray()[0]];
+        const clickHandler = (e) => {
+          const isCorrectSide = this.swipePixelX !== null
+            ? (!this.compare && this.swipePixelX < e.pixel[0])
+            || (this.compare && this.swipePixelX > e.pixel[0])
+            : true;
+          // when layer swiping is active, only check for features on this layers side
+          if (isCorrectSide) {
+            const visibleCandidateLayers = usedLayers.filter((l) => l.getVisible());
+            const finalFeatures = map.getFeaturesAtPixel(e.pixel, {
+              layerFilter: ((candidate) => visibleCandidateLayers.includes(candidate)),
+            });
+            if (finalFeatures.length > 0) {
+              const time = finalFeatures[0].get(config.getTimeFromProperty);
+              this.$emit('setMapTime', time);
+            }
+          }
+        };
+        map.on('singleclick', clickHandler);
+        this.singleClickHandlers.push(clickHandler);
       }
       layer.set('displayInLayerSwitcher', false);
       map.addLayer(layer);
     });
     // update view if previous projection !== new projection
     const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
-    const projection = getProjectionOl(this.mergedConfigs[0]?.mapProjection || defaultProjection);
+    const projection = getProjectionOl(
+      this.mergedConfigs[0]?.mapProjection || defaultProjection,
+    );
     if (map.getView().getProjection().getCode() !== projection?.getCode()) {
       const view = getViewInstance(this.mapId, projection);
       view.on(['change:center', 'change:resolution'], (evt) => {
@@ -128,7 +238,7 @@ export default {
       const currentCenter = { lng: center[0], lat: center[1] };
       const zoom = view.getZoom();
       // these events are emitted to save changed made in the dashboard via the
-      // "save map configuration" button
+      // 'save map configuration' button
       this.$emit('updatecenter', currentCenter);
       this.$emit('updatezoom', zoom);
     },
@@ -136,14 +246,19 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     this.mergedConfigs.forEach((config) => {
-      const layer = map.getLayers().getArray().find((l) => l.get('name') === (this.compare ? `${config.name}_compare` : config.name));
+      const layer = map.getLayers().getArray().find(
+        (l) => l.get('name') === (this.compare ? `${config.name}_compare` : config.name),
+      );
       map.removeLayer(layer);
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);
     });
+    this.singleClickHandlers.forEach((h) => {
+      map.un('singleclick', h);
+    });
     if (this.resetProjectionOnDestroy) {
-      // reset to default map ection if different from it
+      // reset to default map projection if different from it
       const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
       const projection = getProjectionOl(defaultProjection);
       if (map.getView().getProjection().getCode() !== projection?.getCode()) {
@@ -155,5 +270,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 </style>

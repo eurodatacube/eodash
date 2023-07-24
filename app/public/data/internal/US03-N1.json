@@ -1413,9 +1413,53 @@
         "eo_sensor": "TROPOMI",
         "indicator_value": "/",
         "input_data": "Sentinel-5p Level-3 NO2",
-        "measurement_value": "40.417320000000004",
+        "measurement_value": "38.527966",
         "reference_time": "2023-04-17T00:00:00",
-        "reference_value": "[37.880516, 12.726518, 83.59007, 16.853493, 100.0]",
+        "reference_value": "[36.06173, 12.59618, 81.12045, 14.579911, 100.0]",
         "time": "2023-04-17T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "32.543296999999995",
+        "reference_time": "2023-05-01T00:00:00",
+        "reference_value": "[33.13553, 8.738988, 52.528126, 10.083956, 100.0]",
+        "time": "2023-05-01T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "39.124725",
+        "reference_time": "2023-05-15T00:00:00",
+        "reference_value": "[39.210606, 10.107888, 67.59192, 13.587539, 99.92378048780488]",
+        "time": "2023-05-15T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "38.167534",
+        "reference_time": "2023-05-29T00:00:00",
+        "reference_value": "[37.86491, 6.8659887, 55.06183, 23.784708, 100.0]",
+        "time": "2023-05-29T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "27.174742",
+        "reference_time": "2023-06-12T00:00:00",
+        "reference_value": "[27.29173, 8.158957, 47.79671, 7.781284, 100.0]",
+        "time": "2023-06-12T00:00:00"
     }
 ]

@@ -20,6 +20,16 @@ export function padLeft(str, pad, size) {
   return out;
 }
 
+export function simplifiedshTimeFunction(date) {
+  let tempDate = date;
+  if (!Array.isArray(tempDate)) {
+    tempDate = [tempDate];
+  }
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
+}
+
 export function shTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -78,6 +88,25 @@ export function template(templateRe, str, data) {
     return value;
   });
 }
+
+export async function loadIndicatorExternalData(time, mergedConfig) {
+  const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
+  const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
+  const timeKey = mergedConfig.timeKey || 'time';
+  const base = `${geodbUrl}${endpoint}${mergedConfig.id}`;
+  const timequery = `${timeKey}=eq.${time}`;
+  const url = `${base}?${timequery}&select=${mergedConfig.parameters}`;
+  const data = await fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+  // convert to object
+  const dataObject = {};
+  data.forEach((entry) => {
+    dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
+  });
+  return dataObject;
+}
+
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature.getProperties().properties;
@@ -154,7 +183,6 @@ export async function loadFeatureData(baseConfig, feature) {
 
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject = payload;
-
   if (payload.type === 'stac') {
     indicatorObject = payload;
     const response = await fetch(payload.link);
@@ -225,6 +253,137 @@ export async function loadIndicatorData(baseConfig, payload) {
     indicatorObject.time = times;
   }
   return indicatorObject;
+  /*
+  // Check if data was already loaded
+  if (Object.prototype.hasOwnProperty.call(payload, 'dataLoadFinished')
+    && payload.dataLoadFinished) {
+    indicatorObject = payload;
+  } else {
+    // Start loading of data from indicator
+    let { dataPath } = baseConfig;
+    const indDefs = baseConfig.indicatorsDefinition;
+    const currInd = payload.indicator;
+
+    if (currInd in indDefs && 'geoDBDataQuery' in indDefs[currInd]) {
+      // TODO: As we are considering migrating things to geodb, we should re-evaluate and
+      // re-implement this
+      const { geoDBDataQuery, geoDBParameters } = indDefs[currInd];
+      const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
+      const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
+      const base = `${geodbUrl}${endpoint}${geoDBDataQuery}`;
+      const url = `${base}&select=${geoDBParameters}`;
+      const data = await fetch(url)
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
+      // convert to indicator
+      const masurementData = [];
+      const referenceValue = [];
+      const times = [];
+      data.sort((a, b) => (
+        DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis()
+      ));
+      const otherParams = geoDBParameters.split(',').slice(2);
+      data.forEach((entry) => {
+        const measurement = entry[geoDBParameters.split(',')[1]];
+        const other = [];
+        otherParams.forEach((ref) => {
+          other.push(entry[ref]);
+        });
+        masurementData.push(measurement);
+        referenceValue.push(other);
+        times.push(DateTime.fromISO(entry.date));
+      });
+      indicatorObject = payload;
+      indicatorObject.measurement = masurementData;
+      indicatorObject.referenceValue = referenceValue;
+      indicatorObject.time = times;
+      indicatorObject.dataLoadFinished = true;
+    } else {
+      // Check if indicator uses another data path
+      if (currInd in indDefs && 'alternateDataPath' in indDefs[currInd]) {
+        dataPath = indDefs[currInd].alternateDataPath;
+      }
+      const url = `${dataPath}${[payload.aoiID, payload.indicator].join('-')}.json`;
+      // Fetch location data
+      const response = await axios.get(url, { credentials: 'same-origin' });
+      if (response) {
+        const { data } = response;
+        indicatorObject = payload;
+        // Set data to indicator object
+        // Convert data first
+        const mapping = {
+          colorCode: 'color_code',
+          dataProvider: 'data_provider',
+          eoSensor: 'eo_sensor',
+          indicatorValue: 'indicator_value',
+          inputData: 'input_data',
+          measurement: 'measurement_value',
+          referenceTime: 'reference_time',
+          referenceValue: 'reference_value',
+          time: 'time',
+          siteName: 'site_name_arr',
+        };
+        // Global indicator case where we do not want the siteName to be overwritten
+        if (payload.country === 'indicatorall') {
+          delete mapping.siteName;
+        }
+
+        const parsedData = {};
+        // Special handling for mobility, covid and other special data
+        if ('Values' in data) {
+          parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
+          parsedData.Values = data.Values;
+        } else {
+          for (let i = 0; i < data.length; i += 1) {
+            Object.entries(mapping).forEach(([key, value]) => {
+              let val = data[i][value];
+              if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+                // If key already there add element to array
+                if (['time', 'referenceTime'].includes(key)) {
+                  val = DateTime.fromISO(val);
+                } else if (['measurement'].includes(key)) {
+                  if (val.length > 0) {
+                    // We have a special array case here
+                    if (val[0] === '[') {
+                      val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                    } else {
+                      val = Number(val);
+                    }
+                  } else {
+                    val = Number.NaN;
+                  }
+                }
+                parsedData[key].push(val);
+              } else {
+                // If not then set element as array
+                if (['time', 'referenceTime'].includes(key)) {
+                  val = DateTime.fromISO(val);
+                } else if (['measurement'].includes(key)) {
+                  if (val.length > 0) {
+                    // We have a special array case here
+                    if (val[0] === '[') {
+                      val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                    } else {
+                      val = Number(val);
+                    }
+                  } else {
+                    val = Number.NaN;
+                  }
+                }
+                parsedData[key] = [val];
+              }
+            });
+          }
+        }
+        Object.entries(parsedData).forEach(([key, value]) => {
+          indicatorObject[key] = value;
+        });
+        indicatorObject.dataLoadFinished = true;
+      }
+    }
+  }
+  return indicatorObject;
+  */
 }
 
 export function isExternalUrl(urlString) {

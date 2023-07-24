@@ -15,7 +15,12 @@ ESA, JAXA, and NASA will continue to enhance this dashboard as new data becomes 
 
 ## Documentation
 
-The EO Dashboard relies mainly on the [Euro Data Cube (EDC)](https://eurodatacube.com/) services and infrastructure. 
+EO Dashboard is supported by the three agencies via several activities. Each agency contributes with:
+- EO Data and EO Science 
+- In-kind expertise (science, technology, and communication experts)
+- Infrastructure and technology: [NASA’s VEDA](https://www.earthdata.nasa.gov/dashboard/), ESA’s [Euro Data Cube](https://eurodatacube.com) and the [Network of Resources](https://nor-discover.org), [Jaxa’s Earth-graphy](https://earth.jaxa.jp/en/)
+
+More information is available on the EO Dashboard Github page: 
 
 [![Repo](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/eurodatacube/eodash) 
 

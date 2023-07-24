@@ -6,9 +6,6 @@
     <global-header
       ref="globalHeader"
     />
-    <ESABreadcrumbs
-      v-if="appConfig.enableESALayout"
-    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -31,13 +28,6 @@
           {{ indicatorObject.indicatorName}}
           <div
             class="subheading" style="font-size: 0.8em" v-html="featureCity">
-          </div>
-          <div v-if="
-            indicatorObject.description !== indicatorObject.indicatorName
-            && indicatorObject.customAreaIndicator === null"
-            class="subheading" style="font-size: 0.8em">
-            {{ indicatorObject
-              && indicatorObject.description }}
           </div>
         </v-toolbar-title>
         <v-tooltip
@@ -66,7 +56,7 @@
           || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
+        :expanded="dataPanelFullWidth" class="px-5 py-2" />
     </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
@@ -116,7 +106,7 @@
         class="data-panel scrollContainer"
         :style="{
           background: $vuetify.theme.themes[theme].background,
-          height: 'calc(var(--vh, 1vh) * 100)'
+          height: isDialogRetracted ? 'calc(33vh - 85px)' : 'calc(var(--vh, 1vh) * 100)',
         }"
       >
 
@@ -144,9 +134,11 @@
       </v-container>
     </div>
 
-    <v-content
+    <v-main
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%;${
+          appConfig.enableESALayout ? 'margin-top: 48px;' : ''
+        }`"
     >
       <v-container
         class="fill-height pa-0"
@@ -205,7 +197,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
     <global-footer
       :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
     />
@@ -219,8 +211,10 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
+// import IndicatorFilters from '@/components/IndicatorFilters.vue';
+// import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+// import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
@@ -244,8 +238,10 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFiltersPanel,
+    // IndicatorFilters,
+    // IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
-    ESABreadcrumbs,
+    // ESABreadcrumbs,
     UiPanel,
   },
   props: {
@@ -450,6 +446,7 @@ export default {
 
   &.retracted {
     transform: translateY(66vh);
+    padding-bottom: 66vh;
   }
 
   &.hidden {

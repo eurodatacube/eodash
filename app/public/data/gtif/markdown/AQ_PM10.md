@@ -1,4 +1,4 @@
-<div style="width:540px; text-aling:center;"><img style="width:230px; float:right;" src="data/gtif/images/legends/air_quality_pm.png"></img></div>
+<div style="width: 100%;"><img style="width:230px; float:right;" src="data/gtif/images/legends/air_quality_pm.png"></img></div>
 
 ## Particulate Matter 10µm
 

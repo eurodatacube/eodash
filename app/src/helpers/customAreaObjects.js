@@ -204,6 +204,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl'),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn'),
+  LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
 });
 
 // Define custom fetch function with configurable timeout

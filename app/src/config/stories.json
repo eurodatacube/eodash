@@ -125,6 +125,34 @@
       }
     },
     "oceans": {
+      "lakes-intro": {
+        "originalDashboardId": "fa8eb12853a73ec7",
+        "title": "Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters",
+        "subtitle": "Read more about how the climate crisis affects lakes and rivers",
+        "image": "./data/story-images/lakes_cover.jpg",
+        "imagePlaceholder": "./data/story-images/lakes_cover_small.jpeg"
+      },
+      "lakes-climate": {
+        "originalDashboardId": "d6764af9c646d2b7",
+        "title": "Changes  in temperature, precipitation patterns and extremes impacting surface water hydrology",
+        "subtitle": "Read more about monitoring these impacts with Earth Observations",
+        "image": "./data/story-images/Alakol_Lake.jpg",
+        "imagePlaceholder": "./data/story-images/Alakol_Lake_small.jpeg"
+      },
+      "lakes-algae": {
+        "originalDashboardId": "cc21f006274175d0",
+        "title": "Algal blooms in lake waters",
+        "subtitle": "Read more about observing the increases in algal blooms with ESA, NASA and JAXA satellites",
+        "image": "./data/story-images/Cambodian_rivers.jpg",
+        "imagePlaceholder": "./data/story-images/Cambodian_rivers_small.jpg"
+      },
+      "lakes-human-activity": {
+        "originalDashboardId": "893f906ba40d35b2",
+        "title": "Changing lakes due to human activity",
+        "subtitle": "Read more about how human activities impact inland waters around the world",
+        "image": "./data/story-images/Biwa.jpeg",
+        "imagePlaceholder": "./data/story-images/Biwa_small.jpeg"
+      },
       "ocean-plants": {
         "originalDashboardId": "6ea3293aade90541",
         "title": "Satellite images  reveal a view of the ocean that is as rich and complex as that of land",
@@ -156,61 +184,39 @@
     }
   },
   "gtif": {
-    "energy": {
-      "wind-solar-hydro": {
-        "originalDashboardId": "8886df64b15699e5",
-        "title": "Wind/Solar/Hydro potential & current utilisation",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv_wind.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv_wind.jpeg"
-      },
-      "photo-voltaic": {
-        "originalDashboardId": "643b655a6863208a",
-        "title": "Photovoltaic on rooftops in urban areas",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/pv.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/pv.jpeg"
+    "landing": {
+      "landing": {
+        "originalDashboardId": "6a0caf41464d6899"
       }
     },
-    "transport-emission": {
-      "emission-footprints": {
-        "originalDashboardId": "7c1644ec316b72d6",
-        "title": "NO2 NOX emission footprints",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/emissions.jpg",
-        "imagePlaceholder": "./data/story-images/gtif/emissions.jpg"
-      },
-      "travel-modality": {
-        "originalDashboardId": "9cfef467b514ec2e",
-        "title": "Travel modality and social mobility",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/public_transport.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/public_transport.jpeg"
+    "energy-transition": {
+      "energy-transition": {
+        "originalDashboardId": "7524445653e3669a"
       }
     },
-    "green-finance": {
-      "carbon-credits": {
-        "originalDashboardId": "867341f38c5dc1fe",
-        "title": "Carbon credits: forest biomass, secondary biomass",
-        "subtitle": "",
-        "image": "data/story-images/gtif/credits.jpg",
-        "imagePlaceholder": "data/story-images/gtif/credits.jpeg"
+    "mobility-transition": {
+      "mobility-transition": {
+        "originalDashboardId": "fb489fa7fde57de1"
       }
     },
-    "food-ecosystems-biodiversity": {
-      "crop-production": {
-        "originalDashboardId": "eaa8a5fd4c9d2cb9",
-        "title": "Energy Crop Production vs Food/Fodder",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/biodiversity.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/biodiversity.jpeg"
-      },
-      "agriculture-forestry": {
-        "originalDashboardId": "96ebe0730ed462eb",
-        "title": "Supporting EO adaptation services: Agriculture & Forestry",
-        "subtitle": "",
-        "image": "./data/story-images/gtif/agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/gtif/agriculture.jpeg"
+    "sustainable-cities": {
+      "sustainable-cities": {
+        "originalDashboardId": "c81ab30bc45a6583"
+      }
+    },
+    "carbon-accounting": {
+      "carbon-accounting": {
+        "originalDashboardId": "367b2a1c2a3b66f7"
+      }
+    },
+    "eo-adaptation-services": {
+      "eo-adaptation-services": {
+        "originalDashboardId": "5783c58e9e22fbcb"
+      }
+    },
+    "eo-adaptation-services-snow": {
+      "eo-adaptation-services-snow": {
+        "originalDashboardId": "210a3a84b9c01756"
       }
     }
   }

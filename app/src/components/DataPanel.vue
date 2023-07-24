@@ -55,15 +55,15 @@
         </data-mockup-view>
         <v-col
           v-if="!showMap
-            ||  multipleTabCompare
-            || (showMap && mergedConfigsData[0].customAreaIndicator)"
-          :cols="$vuetify.breakpoint.mdAndDown
-            || !expanded
-            || (expanded && $route.name === 'demo' && customAreaIndicator) ? 12 : 6"
+            || (showMap && mergedConfigsData[0].customAreaIndicator)
+            || appConfig.id === 'gtif'
+            || (expanded && $route.name === 'demo' && customAreaIndicator)"
+          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          class="pa-0"
           :style="`height: auto`"
         >
           <v-card
-            v-if="!showMap || (showMap && mergedConfigsData[0].customAreaIndicator)"
+            v-if="showCustomAreaCard"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
@@ -94,25 +94,31 @@
               />
             </template>
             <v-col
-              v-else-if="showMap && (mergedConfigsData[0].customAreaIndicator)"
+              v-else-if="showMap &&
+                (mergedConfigsData[0].customAreaIndicator &&
+                  !hasSelectionEnabled
+                )"
               class="d-flex flex-col align-center justify-center"
               style="flex-direction: column; height: 100%; position: absolute; top: 0;"
             >
+              <template>
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
-              <p style="max-width: 75%; text-align: center">
-                Draw an area on the map using the shape buttons to generate a custom chart!
-              </p>
-              <v-btn
-                class="mt-3"
-                color="secondary"
-                :loading="isLoadingCustomAreaIndicator"
-                :disabled="!selectedArea"
-                @click="generateChart"
-              >
-                Generate Chart
-              </v-btn>
+                <p style="max-width: 75%; text-align: center">
+                  Draw an area on the map using the shape buttons to generate a custom chart!
+                </p>
+                <v-btn
+                  class="mt-3"
+                  color="secondary"
+                  :loading="isLoadingCustomAreaIndicator"
+                  :disabled="!selectedArea"
+                  @click="generateChart"
+                >
+                  Generate Chart
+                </v-btn>
+              </template>
             </v-col>
-            <div v-else-if="showMap"></div>
+            <template v-else-if="hasSelectionEnabled">
+            </template>
             <indicator-data
               style="top: 0px; position: absolute;"
               v-else
@@ -141,24 +147,22 @@
                   :download="customAOIDownloadFilename"
                   target="_blank"
                   v-if="
-                    customAreaIndicator &&
-                    !this.baseConfig.indicatorsDefinition[
-                      indicatorObject.indicator
-                    ].countrySelection
+                    customAreaIndicator
                   "
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-if="customAreaIndicator"
+                  v-if="customAreaIndicator
+                    && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="customAreaIndicator">
                 </add-to-dashboard-button>
               </div>
             </v-col>
           </v-row>
           <v-row
-            v-else
+            v-else-if="showCustomAreaCard"
             :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
           >
             <v-col
@@ -203,9 +207,9 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
+                  :embedMap="false"
                   v-if="!customAreaIndicator || expanded"
                 />
-                <!--Custom CSV for tabbed map not expanded-->
                 <v-btn
                   color="primary"
                   text
@@ -216,19 +220,14 @@
                   target="_blank"
                   v-if="
                     customAreaIndicator &&
-                    !showMap &&
-                    !this.baseConfig.indicatorsDefinition[
-                      indicatorObject.indicator
-                    ].countrySelection
+                    !showMap
                   "
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
                 </v-btn>
                 <add-to-dashboard-button
-                  v-else-if="!this.baseConfig.indicatorsDefinition[
-                    indicatorObject.indicator
-                  ].countrySelection && !showMap"
+                  v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :zoom="zoom"
                   :center="center"
@@ -242,6 +241,61 @@
               </div>
             </v-col>
           </v-row>
+          <filter-controls v-if="indicatorObject.cogFilters"
+            :cogFilters="indicatorObject.cogFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :mergedConfigsData="mergedConfigsData[0]"
+          >
+          </filter-controls>
+          <template v-if="selectableLayerConfigs.length > 0">
+            <SelectionInfoBar class="pb-2"
+            :selectableLayerConfigs="selectableLayerConfigs"/>
+          </template>
+          <data-mockup-view v-if="appConfig.id === 'gtif'"
+            :indicatorObject="indicatorObject"
+            :selectedFeatures="$store.state.features.selectedFeatures"
+            :updateQueryParametersTrigger="updateQueryParametersTrigger"
+          >
+          </data-mockup-view>
+          <!--
+          TODO disabling this for now as it is not ready for public use
+          <v-col v-if="indicatorObject.cogFilters"
+            :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+            :style="`height: auto`"
+          >
+            <v-btn
+              text
+              color="primary"
+              class="mx-3"
+              @click="showScatterplot = !showScatterplot"
+            >
+              Expand controls
+              <v-icon right :style="`transform: rotate(${showScatterplot
+                ? 90
+                : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
+            </v-btn>
+            <scatter-plot v-if="indicatorObject.cogFilters
+              && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
+              :filters="indicatorObject.cogFilters.filters"
+            >
+            </scatter-plot>
+          </v-col>
+          -->
+          <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
+          <StyleControls v-if="indicatorObject.vectorStyles"
+            :vectorStyles="indicatorObject.vectorStyles"
+          >
+          </StyleControls>
+          <vector-tile-style-control v-if="indicatorObject.queryParameters"
+            :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
+          >
+          </vector-tile-style-control>
+          <wms-style-controls v-if="indicatorObject.wmsStyles"
+            :wmsStyles="indicatorObject.wmsStyles"
+          >
+          </wms-style-controls>
         </v-col>
         <v-col
           v-else-if="expanded"
@@ -251,8 +305,7 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight
-                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight + 'px') }`"
         />
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -262,8 +315,7 @@
                   : (expanded
                     ? wrapperHeight + 'px'
                     : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight
-                    - (multipleTabCompare ? 48 : 0) + 'px') }`"
+                    - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height pb-2"
@@ -340,10 +392,6 @@ Select a point of interest on the map to see the data for a specific location!
           </v-row>
         </v-col>
       </v-row>
-
-      <v-row v-if="indicatorObject">
-
-      </v-row>
     </div>
   </div>
 </template>
@@ -354,7 +402,6 @@ import {
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
-import { loadIndicatorData } from '@/utils';
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
@@ -363,8 +410,10 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-import ScatterPlot from '@/components/ScatterPlot.vue';
+// import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
+import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
+import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 
 export default {
   props: [
@@ -378,14 +427,14 @@ export default {
     FilterControls,
     StyleControls,
     WmsStyleControls,
-    ScatterPlot,
+    VectorTileStyleControl,
+    // ScatterPlot,
     DataMockupView,
+    SelectionInfoBar,
   },
   data: () => ({
     overlay: false,
     mounted: false,
-    selectedSensorTab: 0,
-    multipleTabCompare: null,
     zoom: null,
     center: null,
     direction: null,
@@ -398,6 +447,7 @@ export default {
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
     showScatterplot: null,
+    updateQueryParametersTrigger: null,
   }),
   computed: {
     ...mapGetters('features', [
@@ -446,14 +496,17 @@ export default {
       return this.$marked(markdown.default);
     },
     indicatorObject() {
-      let indicatorObject;
-      if (this.multipleTabCompare) {
-        const feature = this.multipleTabCompare.features[this.selectedSensorTab];
-        indicatorObject = feature && feature.properties.indicatorObject;
-      } else {
-        indicatorObject = this.$store.state.indicators.selectedIndicator;
+      return this.$store.state.indicators.selectedIndicator;
+    },
+    showCustomAreaCard() {
+      if (this.hasSelectionEnabled && !this.customAreaIndicator) {
+        return false;
       }
-      return indicatorObject;
+      return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
+    },
+    hasSelectionEnabled() {
+      return this.mergedConfigsData.length
+        && this.mergedConfigsData.find((layer) => layer?.selection || layer?.features?.selection);
     },
     dataObject() {
       return this.$store.state.features.featureData;
@@ -505,13 +558,15 @@ export default {
             const cKey = exportKeys[kk];
             let txtVal = '';
             if (cKey === 'aoi') {
-              if (i === 0 && this.$store.state.features.selectedArea !== null) {
-                txtVal = `"${wkt.read(JSON.stringify(this.$store.state.features.selectedArea)).write()}",`;
+              if (i === 0 && this.selectedArea !== null) {
+                txtVal = `"${wkt.read(JSON.stringify(this.selectedArea)).write()}",`;
               } else {
                 txtVal = ',';
               }
-            } else {
+            } else if (this.customAreaIndicator[cKey]) {
               txtVal = `"${this.customAreaIndicator[cKey][i]}",`;
+            } else {
+              txtVal = ',';
             }
             row += txtVal;
           }
@@ -525,14 +580,12 @@ export default {
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
-      return `${currInd.city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
+      const city = currInd.city || 'global';
+      return `${city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAOIDownloadFilename() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
-    },
-    layerNameMapping() {
-      return this.baseConfig.layerNameMapping;
     },
     showMap() {
       return false;
@@ -576,12 +629,6 @@ export default {
       }
       return 0;
     },
-    indicatorDataHeight() {
-      if (this.mounted && this.$refs.indicatorData != null) {
-        return this.$refs.indicatorData.$el.clientHeight;
-      }
-      return 0;
-    },
     bannerHeight() {
       if (this.newsBanner != null) {
         return this.newsBanner.$el.clientHeight;
@@ -598,13 +645,14 @@ export default {
         0,
       );
     },
+    selectableLayerConfigs() {
+      return this.mergedConfigsData.filter((l) => l?.selection || l?.features?.selection);
+    },
   },
   mounted() {
     this.$nextTick(() => {
       this.mounted = true;
     });
-    this.init();
-
     // TODO: Extract fetchData method into helper file since it needs to be used from outside.
     window.addEventListener(
       'set-custom-area-indicator-loading',
@@ -613,104 +661,16 @@ export default {
     );
   },
   methods: {
-    async init() {
-      await this.checkMultipleTabCompare();
-      this.selectedSensorTab = this.multipleTabCompare
-        ? this.multipleTabCompare.features
-          .indexOf(this.multipleTabCompare.features
-            .find((s) => this.getLocationCode(s.properties.indicatorObject, this.featureObject)
-              === this.$route.query.poi))
-        : 0;
-    },
-    async checkMultipleTabCompare() {
-      let compare;
-      const { selectedIndicator } = this.$store.state.indicators;
-      const hasGrouping = this.appConfig.featureGrouping && this.appConfig.featureGrouping
-        .find((g) => g.features.find((i) => i.includes(this.getLocationCode(
-          selectedIndicator, this.featureObject,
-        ))));
-      if (
-        hasGrouping
-        && !['global'].includes(selectedIndicator.properties.indicatorObject.siteName)
-        // only enable tabs for charts; global layers now use the sub-indicator feature
-      ) {
-        compare = {};
-        compare.label = hasGrouping.label;
-        compare.features = hasGrouping.features;
-        // Pre-load all indicators to populate tab items
-        await Promise.all(compare.features.map(async (f) => {
-          const feature = this.$store.state.features.allFeatures
-            .find((i) => this.getLocationCode(i.properties.indicatorObject) === f);
-          await loadIndicatorData(this.baseConfig, feature.properties.indicatorObject);
-        }));
-        compare.features = compare.features.map((f) => this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(
-            i.properties.indicatorObject, this.featureObject,
-          ) === f));
-      }
-      this.multipleTabCompare = compare;
-    },
-    scrollToCustomAreaIndicator() {
-      this.$vuetify.goTo(this.$refs.customAreaIndicator, { container: document.querySelector('.data-panel') });
-    },
-    clearSelection() {
-      const refMap = this.$refs.indicatorMap;
-      refMap.selectedCountry = null;
-      refMap.selecectedLayer = null;
-      this.$store.state.indicators.customAreaIndicator = null;
-      this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
-      refMap.onResize();
-    },
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
+    updateQueryParameters() {
+      // just passing a signal from one sibling to another, ideally would be done via store
+      this.updateQueryParametersTrigger = Math.random();
+    },
   },
   watch: {
-    selectedSensorTab(index) {
-      if (this.multipleTabCompare.features[index]) {
-        const poi = this.getLocationCode(
-          this.multipleTabCompare.features[index].properties.indicatorObject,
-          this.featureObject,
-        );
-        this.$router.replace({ query: { ...this.$route.query, poi } }).catch(() => {});
-        let currCountry = null;
-        let currID = null;
-        if (this.customAreaIndicator !== null) {
-          currCountry = this.customAreaIndicator.country;
-          currID = this.customAreaIndicator.indicator;
-        }
-        this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
-        if (this.$refs.indicatorMap
-          && this.$refs.indicatorMap.length > 0
-          && ['CV', 'OW'].includes(currID)) {
-          // For now we only refetch data when switching tabs for CV and OW data
-          // Check if a country is selected for the customAreaIndicator
-          const refMap = this.$refs.indicatorMap[index];
-          if (currCountry && currID) {
-            if (refMap) {
-              refMap.fetchMobilityData(
-                currCountry,
-                this.$refs.indicatorMap[index].indicator.aoiID,
-              );
-            } else {
-              // TODO: There should be a better way of doing this
-              setTimeout(() => {
-                this.$refs.indicatorMap[index].fetchMobilityData(
-                  currCountry, this.$refs.indicatorMap[index].indicator.aoiID,
-                );
-              }, 500);
-            }
-          }
-        }
-      }
-      if (this.$refs.indicatorMap
-        && this.$refs.indicatorMap.length > 0
-        && this.$refs.indicatorMap[index]) {
-        const refMap = this.$refs.indicatorMap[index];
-        refMap.onResize();
-      }
-    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },

@@ -1,7 +1,8 @@
 <template>
   <div
     :style="
-      `height: calc(var(--vh, 1vh) * 100); background: ${$vuetify.theme.currentTheme.background}`
+      `height: 100%; background: ${$vuetify.theme.currentTheme.background};
+       padding-bottom: ${$vuetify.application.footer +8}px;`
     "
     v-click-outside="onClickOutside"
   >
@@ -11,15 +12,24 @@
       permanent
       mini-variant
       :mini-variant-width="iconSize"
+      style="position: fixed; top: 112px;"
+      :style="{
+        'height': indicatorObject && $vuetify.breakpoint.smAndDown
+          ? `calc(100vh - 33vh - 120px)`
+          : `calc(100vh - 112px);`
+      }"
     >
-      <v-list class="py-0">
+      <v-list class="py-0" style="padding-bottom: 70px;">
         <v-list-item-group v-model="domainModel" :mandatory="domainModel !== undefined">
           <v-list-item
             v-for="theme in themes"
             :key="theme.slug"
             class="pa-2"
             :style="`width: ${iconSize}px; height: ${iconSize}px`"
-            @click="showLayerMenu = true"
+            @click="(evt) => {
+              setCurrentDomain(`gtif-${theme.slug}`);
+              showLayerMenu = true;
+            }"
           >
             <v-list-item-icon
               class="ma-0 d-flex flex-column align-center"
@@ -41,37 +51,48 @@
     >
       <div
         v-show="showLayerMenu"
-        class="fill-height"
-        style="width: 250px; pointer-events: all"
+        class="gtif-indicator-menu fill-height"
+        style="width: 250px; pointer-events: all;"
       >
-        <v-list v-if="themes[domainModel]" style="width: 100%">
+        <v-list v-if="themes[domainModel]" style="width: 100%;">
           <v-list-item-group style="width: 100%">
-            <v-list-item
+            <v-tooltip
               v-for="item in globalIndicators.filter(
                 gI => gI.theme === themes[domainModel].slug
               ).reverse()"
               :key="getLocationCode(item.properties.indicatorObject)"
-              class="mb-2"
-              style="width: 100%"
-              @click="() => {
-                setSelectedIndicator(item.properties.indicatorObject); showLayerMenu = false
-              }"
+              bottom
             >
-              <v-list-item-avatar>
-                <v-img
-                  :src="`./data/${appConfig.id}/globalDataLayerImages/`+
-                  `${getLocationCode(item.properties.indicatorObject)}.png`"
-                ></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.properties.indicatorObject.indicatorName }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ item.properties.indicatorObject.navigationDescription }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+              <template v-slot:activator="{ on, attrs }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="item.properties.indicatorObject.disabled ? on : null"
+                  class="mb-2"
+                  :class="{ 'v-list-item--disabled': item.properties.indicatorObject.disabled }"
+                  :style="`width: 100%; ${item.properties.indicatorObject.disabled
+                    ? 'pointer-events: all; cursor: default'
+                    : ''
+                  }`"
+                  @click="handleSelectionClick(item)"
+                >
+                  <v-list-item-avatar>
+                    <v-img
+                      :src="`./data/${appConfig.id}/globalDataLayerImages/`+
+                      `${getLocationCode(item.properties.indicatorObject)}.png`"
+                    ></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title
+                    v-html="item.properties.indicatorObject.indicatorName">
+                    </v-list-item-title>
+                    <v-list-item-subtitle
+                      v-html="item.properties.indicatorObject.navigationDescription">
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              <span>Coming soon.</span>
+            </v-tooltip>
           </v-list-item-group>
         </v-list>
       </div>
@@ -89,13 +110,19 @@
             v-for="item in indicatorObject.highlights"
             :key="item.name"
             class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
+            :class="{'v-btn--size-small': $vuetify.breakpoint.smAndDown}"
             style="width: 100%"
+            :style="{
+                'min-height': $vuetify.breakpoint.smAndDown ? '0' : '48px',
+              }"
             @click="moveToHighlight(item.location)"
           >
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ item.name }}
-              </v-list-item-title>
+            <v-list-item-content
+              :style="{
+                padding: $vuetify.breakpoint.smAndDown ? '6px 0' : '12px 0',
+              }"
+            >
+              <v-list-item-title v-html="item.name"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -109,6 +136,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
 import GeoJSON from 'ol/format/GeoJSON';
@@ -120,26 +148,51 @@ export default {
     domainModel: undefined,
     iconSize: 88,
     showLayerMenu: false,
+    disableAutoClose: undefined,
     customOrder: [
-      'Austria-REP4',
+      'Austria-REP5',
       'Austria-REP3',
+      'Austria-REP4',
       'Austria-REP2',
+      'Austria-REP6',
       'Austria-REP1',
       'AT-AQ',
       'Innsbruck-SOL3',
       'Innsbruck-SOL2',
       'Innsbruck-SOL1',
+      'Austria-MOBI1',
+      'AT-AQ4',
+      'W3-E12d',
+      'W2-E12c',
+      'AT-AQ2',
+      'AT1-AQ3',
+      'AT-AQ1',
+      'AT-AQ5',
+      'AT-AQC',
+      'AT-AQB',
+      'AT-AQA',
+      // carbon accounting
+      'Austria-VTT2',
+      'Austria-VTT3',
+      'Austria-VTT6',
+      'Austria-VTT5',
+      'Austria-VTT4',
+      'Austria-VTT1',
+      'Styria-FCM3',
+      'Austria-BM2',
+      'Austria-BM1',
     ],
   }),
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
     ...mapState('themes', ['themes']),
-    ...mapGetters('features', ['getGroupedFeatures']),
+    ...mapState('gtif', ['currentDomain']),
+    ...mapGetters('features', ['getFeatures']),
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
     globalIndicators() {
-      return this.getGroupedFeatures && this.getGroupedFeatures
+      return this.$store.state.features.allFeatures && this.$store.state.features.allFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
         .sort((a, b) => ((a.properties.indicatorObject.indicatorName
           > b.properties.indicatorObject.indicatorName)
@@ -157,10 +210,19 @@ export default {
         }));
     },
   },
+  mounted() {
+    if (this.currentDomain) {
+      this.programmaticallyOpenDomain(this.currentDomain);
+    }
+  },
   methods: {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    ...mapMutations('features', {
+      setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapActions('gtif', ['setCurrentDomain']),
     globalIndicatorsForTheme(theme) {
       if (!theme) {
         return;
@@ -172,7 +234,33 @@ export default {
       ));
     },
     onClickOutside() {
+      if (!this.showLayerMenu) {
+        return;
+      }
+      if (this.disableAutoClose) {
+        // If disableAutoClose is set, then the layerMenu has been activated programmatically.
+        // Skip the first time and only register the second time.
+        this.disableAutoClose = false;
+        return;
+      }
       this.showLayerMenu = false;
+    },
+    handleSelectionClick(item) {
+      if (!item.properties.indicatorObject.disabled) {
+        if (['REP4'].includes(item.properties.indicatorObject.indicator)) {
+          // special case with grouping
+          this.setSelectedIndicator(null);
+          this.setFeatureFilter({
+            indicators: ['REP4_1', 'REP4_2', 'REP4_4', 'REP4_5', 'REP4_6'],
+          });
+        } else {
+          this.setSelectedIndicator(item.properties.indicatorObject);
+          this.setFeatureFilter({
+            indicators: [],
+          });
+        }
+        this.showLayerMenu = false;
+      }
     },
     moveToHighlight(location) {
       const { map } = getMapInstance('centerMap');
@@ -186,8 +274,21 @@ export default {
         duration: 0, padding,
       });
     },
+    programmaticallyOpenDomain(domain) {
+      this.domainModel = this.themes.findIndex((t) => domain.includes(t.slug));
+      setTimeout(() => {
+        this.showLayerMenu = true;
+        this.disableAutoClose = true;
+      }, 0);
+    },
   },
   watch: {
+    currentDomain(domain) {
+      if (!domain) {
+        return;
+      }
+      this.programmaticallyOpenDomain(domain);
+    },
     globalIndicators() {
       if (this.$route.query.poi) {
         const foundPoi = this.globalIndicators
@@ -206,5 +307,9 @@ export default {
 ::v-deep .v-list-item__title,
 ::v-deep .v-list-item__subtitle {
   white-space: pre-wrap;
+}
+
+.gtif-indicator-menu {
+  overflow-y: auto;
 }
 </style>

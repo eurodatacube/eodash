@@ -5,7 +5,9 @@ import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction } from '@/utils';
+import {
+  simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
+} from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -28,7 +30,6 @@ export const dataEndpoints = [
     provider: './data/internal/pois_trilateral.json',
   },
 ];
-
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -99,6 +100,11 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  NLK: {
+    indicatorSummary: 'Lakes',
+    story: '/data/trilateral/NLK',
+    themes: ['oceans'],
+  },
   E13c: {
     indicatorSummary: 'Changes in Ships traffic within the Port',
     story: '/data/trilateral/E13c',
@@ -574,6 +580,51 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['agriculture'],
     story: '/data/trilateral/VITS',
   },
+  LWE: {
+    indicatorSummary: 'Lake Water Extent timeseries',
+    themes: ['oceans'],
+    story: '/data/trilateral/LWE',
+  },
+  LWL: {
+    indicatorSummary: 'Lake Water Level timeseries',
+    themes: ['oceans'],
+    story: '/data/trilateral/LWL',
+  },
+  Lakes_S2L2A: {
+    indicatorSummary: 'Sentinel 2 L2A for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_S2L2A',
+  },
+  Lakes_ALOS2: {
+    indicatorSummary: 'ALOS2 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_ALOS2',
+  },
+  Lakes_Sentinel1: {
+    indicatorSummary: 'Sentinel 1 for Lake areas',
+    themes: ['oceans'],
+    story: '/data/trilateral/Lakes_Sentinel1',
+  },
+  Lakes_WQ_TURB: {
+    indicatorSummary: 'Water Quality Turbidity mean Lakes',
+    story: '/data/trilateral/stories/Lakes_WQ_TURB',
+    themes: ['oceans'],
+  },
+  Lakes_WQ_TC: {
+    indicatorSummary: 'Water Quality True color Lakes',
+    story: '/data/trilateral/stories/Lakes_WQ_TC',
+    themes: ['oceans'],
+  },
+  Lakes_SWT: {
+    indicatorSummary: 'Surface Water Temperature Maps',
+    story: '/data/trilateral/stories/Lakes_SWT',
+    themes: ['oceans'],
+  },
+  Lakes_SWTT: { // still depends on table content
+    indicatorSummary: 'Surface Water Temperature Time Series',
+    story: '/data/trilateral/stories/Lakes_SWTT', // stays
+    themes: ['oceans'],
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -819,8 +870,6 @@ export const overlayLayersRightMap = [{
   visible: true,
   updateOpacityOnZoom: true,
 }];
-
-export const administrativeLayers = [];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -3317,7 +3366,7 @@ export const globalIndicators = [
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
-              color: '#696868',
+              strokeColor: '#696868',
               opacity: 0.5,
             },
           },
@@ -4623,6 +4672,907 @@ export const globalIndicators = [
               type: 'Feature',
               properties: {},
               geometry: wkt.read('POLYGON((-104.723 -73.176,-107.373 -75.653,-97.142-76.195,-96.01 -73.63231719321456,-104.723 -73.1758))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Tulare',
+        aoi: latLng([36.0508, -119.7830]),
+        country: ['US'],
+        city: 'Lake Tulare',
+        siteName: 'Lake Tulare',
+        description: 'Sentinel 2 L2A - Tulare Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2023-01-01', '2023-01-06', '2023-01-21', '2023-01-26', '2023-01-31', '2023-02-05', '2023-02-10', '2023-02-15', '2023-03-02', '2023-03-07', '2023-03-27', '2023-04-01', '2023-04-06', '2023-04-11', '2023-04-21', '2023-04-26', '2023-05-11', '2023-05-16', '2023-05-21', '2023-05-26'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-119.986955 36.176881, -119.488389 36.176881, -119.488389 35.706412,-119.986955 35.706412 ,-119.986955 36.176881))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Aral Lake',
+        siteName: 'Aral Lake',
+        description: 'Sentinel 2 L2A - Aral Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-04-07', '2017-08-05', '2017-08-20', '2017-08-25', '2017-09-14', '2018-04-02', '2018-04-12', '2018-04-27', '2018-05-17', '2018-06-16', '2018-07-01', '2018-07-26', '2018-08-30', '2018-09-14', '2018-09-24', '2018-10-04', '2018-10-09', '2019-06-06', '2019-07-16', '2019-07-22', '2019-08-20', '2019-08-25', '2019-09-19', '2019-10-04', '2019-10-19', '2019-10-22', '2019-11-08', '2020-05-26', '2020-06-15', '2020-06-20', '2020-07-15', '2020-07-20', '2020-09-03', '2020-09-28', '2020-10-18', '2020-10-28', '2020-11-22', '2021-04-11', '2021-04-16', '2021-05-16', '2021-06-20', '2021-06-25', '2021-07-20', '2021-07-25', '2021-08-09', '2021-08-19', '2021-08-24', '2021-09-03', '2021-09-23', '2021-10-13', '2021-10-18', '2021-10-28', '2021-11-07', '2022-04-01', '2022-05-16', '2022-06-25', '2022-06-30', '2022-07-20', '2022-08-19', '2022-08-24', '2022-08-29', '2022-09-13', '2022-09-23', '2022-10-03', '2022-10-08', '2022-10-13', '2022-10-18', '2023-03-17', '2023-03-22', '2023-03-27', '2023-04-01', '2023-04-21', '2023-06-05'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Aral Lake',
+        siteName: 'Aral Lake',
+        description: 'Landsat - Aral Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-aral-sea'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-aral-sea&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lakes aral sea (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((56.91258402 43.48369514, 56.91258402 47.12012485, 63.64131735 47.12012485, 63.64131735 43.48369514, 56.91258402 43.48369514))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Biwa',
+        aoi: latLng([35.284, 136.095]),
+        country: ['JP'],
+        city: 'Lake Biwa',
+        siteName: 'Lake Biwa',
+        description: 'Sentinel 2 L2A - Biwa Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-07-15', '2017-12-07', '2018-03-12', '2018-05-11', '2018-06-25', '2018-07-15', '2018-08-04', '2018-10-03', '2018-11-07', '2018-11-27', '2018-12-02', '2019-04-16', '2019-05-11', '2019-08-09', '2019-11-02', '2020-03-21', '2020-03-26', '2020-04-25', '2020-04-30', '2020-08-23', '2020-10-02', '2020-10-27', '2021-03-31', '2021-04-10', '2021-04-15', '2021-04-20', '2021-05-10', '2021-07-24', '2021-09-27', '2021-10-22', '2021-11-06', '2022-01-10', '2022-02-09', '2022-04-05', '2022-04-10', '2022-04-20', '2022-05-05', '2022-06-09', '2022-07-24', '2022-09-12', '2022-10-02', '2022-11-06', '2023-03-06', '2023-03-11', '2023-04-10', '2023-05-10'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Biwa',
+        aoi: latLng([35.284, 136.095]),
+        country: ['JP'],
+        city: 'Lake Biwa',
+        siteName: 'Lake Biwa',
+        description: 'Landsat- Biwa Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-lake-biwa'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-lake-biwa&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Biwa (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((135.13362826 33.53534479, 135.13362826 35.75089521, 138.17282533 35.75089521, 138.17282533 33.53534479, 135.13362826 33.53534479))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Colorado',
+        aoi: latLng([37.4, -110.7]),
+        country: ['US'],
+        city: 'Colorado River and Lake Powel',
+        siteName: 'Lake Powel',
+        description: 'Sentinel 2 L2A - Colorado River and Lake Powel cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-01-18', '2017-01-28', '2017-02-04', '2017-02-14', '2017-04-15', '2017-05-05', '2017-06-14', '2017-06-27', '2017-06-29', '2017-07-04', '2017-07-17', '2017-08-06', '2017-08-13', '2017-08-26', '2017-09-02', '2017-09-15', '2017-10-05', '2017-10-07', '2017-10-12', '2017-10-20', '2017-10-25', '2017-10-27', '2017-11-01', '2017-11-09', '2017-12-19', '2018-01-13', '2018-01-28', '2018-02-02', '2018-02-04', '2018-02-07', '2018-02-17', '2018-04-23', '2018-05-08', '2018-05-10', '2018-05-15', '2018-05-18', '2018-05-20', '2018-05-25', '2018-06-04', '2018-06-07', '2018-06-09', '2018-06-12', '2018-06-14', '2018-06-19', '2018-06-22', '2018-06-24', '2018-06-27', '2018-07-02', '2018-07-04', '2018-07-07', '2018-07-09', '2018-07-22', '2018-08-06', '2018-08-08', '2018-08-13', '2018-08-23', '2018-08-28', '2018-09-02', '2018-09-07', '2018-09-10', '2018-09-12', '2018-09-17', '2018-09-20', '2018-09-22', '2018-09-27', '2018-10-27', '2018-11-06', '2018-11-14', '2018-11-24', '2018-11-26', '2018-12-09', '2018-12-16', '2018-12-19', '2018-12-24', '2018-12-29', '2019-01-03', '2019-01-28', '2019-03-16', '2019-03-19', '2019-04-18', '2019-04-25', '2019-05-03', '2019-05-13', '2019-05-18', '2019-05-25', '2019-06-02', '2019-06-04', '2019-06-19', '2019-06-24', '2019-06-27', '2019-07-02', '2019-07-04', '2019-07-09', '2019-07-14', '2019-07-17', '2019-07-27', '2019-07-29', '2019-08-13', '2019-08-16', '2019-08-16', '2019-08-18', '2019-08-21', '2019-08-23', '2019-08-28', '2019-08-31', '2019-09-02', '2019-09-05', '2019-09-07', '2019-09-12', '2019-09-20', '2019-09-22', '2019-09-27', '2019-09-30', '2019-10-05', '2019-10-15', '2019-10-22', '2019-10-25', '2019-10-27', '2019-11-01', '2019-11-04', '2019-11-06', '2019-11-09', '2019-11-11', '2019-11-16', '2019-11-24', '2019-12-19', '2019-12-29', '2019-12-31', '2020-01-13', '2020-01-15', '2020-01-28', '2020-02-02', '2020-02-12', '2020-02-24', '2020-02-27', '2020-03-03', '2020-03-05', '2020-03-28', '2020-04-04', '2020-04-24', '2020-04-27', '2020-04-29', '2020-05-02', '2020-05-04', '2020-05-09', '2020-05-19', '2020-05-22', '2020-05-24', '2020-05-27', '2020-06-11', '2020-06-13', '2020-06-18', '2020-06-23', '2020-07-01', '2020-07-06', '2020-07-08', '2020-07-18', '2020-07-28', '2020-07-31', '2020-08-07', '2020-08-10', '2020-08-12', '2020-08-15', '2020-09-01', '2020-09-04', '2020-09-06', '2020-09-11', '2020-09-14', '2020-09-24', '2020-09-29', '2020-10-04', '2020-10-06', '2020-10-14', '2020-10-16', '2020-10-19', '2020-10-21', '2020-10-29', '2020-10-31', '2020-11-05', '2020-11-13', '2020-11-15', '2020-11-23', '2020-11-25', '2020-11-28', '2020-11-30', '2020-12-05', '2020-12-08', '2020-12-15', '2020-12-18', '2020-12-20', '2020-12-25', '2020-12-30', '2021-01-02', '2021-01-04', '2021-01-07', '2021-01-17', '2021-02-06', '2021-02-11', '2021-02-21', '2021-02-23', '2021-03-05', '2021-03-08', '2021-03-18', '2021-03-28', '2021-03-30', '2021-04-02', '2021-04-07', '2021-04-09', '2021-04-12', '2021-04-14', '2021-04-19', '2021-04-29', '2021-05-07', '2021-05-12', '2021-05-14', '2021-05-19', '2021-05-24', '2021-05-27', '2021-06-01', '2021-06-06', '2021-06-08', '2021-06-11', '2021-06-13', '2021-06-16', '2021-07-03', '2021-07-06', '2021-07-11', '2021-07-16', '2021-07-21', '2021-07-31', '2021-08-05', '2021-08-10', '2021-08-15', '2021-08-17', '2021-08-20', '2021-08-22', '2021-08-25', '2021-08-27', '2021-09-06', '2021-09-09', '2021-09-14', '2021-09-16', '2021-09-21', '2021-09-24', '2021-10-04', '2021-10-16', '2021-10-19', '2021-10-29', '2021-11-05', '2021-11-10', '2021-11-13', '2021-11-25', '2021-11-28', '2021-11-30', '2021-12-05', '2021-12-13', '2021-12-18', '2021-12-20', '2022-01-07', '2022-01-09', '2022-01-12', '2022-01-14', '2022-01-22', '2022-01-24', '2022-01-27', '2022-01-29', '2022-02-06', '2022-02-11', '2022-02-13', '2022-02-18', '2022-02-22', '2022-02-26', '2022-02-28', '2022-03-08', '2022-03-15', '2022-03-18', '2022-03-23', '2022-03-25', '2022-04-02', '2022-04-04', '2022-04-07', '2022-04-17', '2022-04-29', '2022-05-02', '2022-05-07', '2022-05-09', '2022-05-12', '2022-05-14', '2022-05-17', '2022-05-24', '2022-06-01', '2022-06-08', '2022-06-13', '2022-06-16', '2022-06-21', '2022-06-23', '2022-06-28', '2022-07-06', '2022-07-08', '2022-07-13', '2022-07-16', '2022-07-21', '2022-08-07', '2022-08-10', '2022-08-17', '2022-08-27', '2022-08-30', '2022-09-04', '2022-09-06', '2022-09-09', '2022-09-19', '2022-09-24', '2022-10-06', '2022-10-09', '2022-10-11', '2022-10-14', '2022-10-19', '2022-10-26', '2022-10-31', '2022-11-13', '2022-11-15', '2022-11-18', '2022-11-20', '2022-11-25', '2022-11-30', '2022-12-08', '2022-12-13', '2022-12-15', '2023-01-07', '2023-01-12', '2023-02-01', '2023-02-06', '2023-02-08', '2023-02-16', '2023-03-03', '2023-03-05', '2023-03-18', '2023-04-07', '2023-04-09', '2023-04-17', '2023-04-29', '2023-05-02', '2023-05-09', '2023-05-19', '2023-05-22', '2023-06-03', '2023-06-08'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-111.83 37.93,-110.32 37.93,-110.32 36.80,-111.83 36.80,-111.83 37.93))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 2 L2A - Tonlé Sap Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-01-15', '2017-01-24', '2017-02-13', '2017-05-04', '2017-09-01', '2017-10-21', '2017-12-30', '2018-02-08', '2018-02-13', '2018-02-28', '2018-03-10', '2018-04-14', '2018-04-24', '2018-05-09', '2018-09-06', '2018-09-26', '2018-10-31', '2018-11-05', '2018-12-20', '2018-12-25', '2019-01-09', '2019-01-19', '2019-01-24', '2019-01-29', '2019-02-03', '2019-02-13', '2019-02-28', '2019-03-05', '2019-04-09', '2019-04-19', '2019-04-29', '2019-05-04', '2019-05-19', '2019-11-05', '2019-11-15', '2019-12-10', '2019-12-15', '2019-12-25', '2019-12-30', '2020-01-09', '2020-01-14', '2020-01-19', '2020-02-08', '2020-02-13', '2020-02-18', '2020-02-23', '2020-03-09', '2020-04-08', '2020-04-28', '2020-08-26', '2020-11-09', '2020-11-14', '2020-11-24', '2021-01-13', '2021-02-02', '2021-02-07', '2021-02-12', '2021-02-22', '2021-02-27', '2021-03-29', '2021-08-16', '2021-08-27', '2022-01-08', '2022-01-28', '2022-03-19', '2022-04-13', '2022-04-28', '2022-12-14', '2022-12-19', '2023-01-03', '2023-01-23', '2023-02-17', '2023-02-27', '2023-03-24', '2023-04-03', '2023-04-18'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_HH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_HV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'ALOS2 Lakes',
+        indicator: 'Lakes_ALOS2',
+        indicatorName: 'ALOS2 HV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'JAXA_LAKES_ALOS2_HV',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VH',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VH - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2016-10-24', '2017-10-07', '2017-10-07', '2018-05-11', '2018-05-11', '2018-10-20', '2018-10-20', '2019-05-06', '2019-05-06', '2019-10-09', '2019-10-09', '2020-05-12', '2020-10-15', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-10', '2021-10-24', '2022-05-14', '2022-05-14', '2022-10-17', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VH',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap_VV',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Sentinel 1 Lakes',
+        indicator: 'Lakes_Sentinel1',
+        indicatorName: 'Sentinel 1 IW VV - Tonlé Sap',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2017-10-07', '2018-05-11', '2018-10-20', '2019-05-06', '2019-10-09', '2020-05-12', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-24', '2022-05-14', '2022-10-17'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL_1_IW_VV',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Landsat - Tonlé Sap Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-tonle-sap'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-tonle-sap&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Tonle Sap (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((101.93844223 11.94560442, 101.93844223 14.06740558, 106.37030883 14.06740558, 106.37030883 11.94560442, 101.93844223 11.94560442))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Vanern',
+        aoi: latLng([59.07, 13.535]),
+        country: ['SW'],
+        city: 'Vänern Lake',
+        siteName: 'Vänern Lake',
+        description: 'Sentinel 2 L2A - Vänern Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2017-03-11', '2017-07-19', '2018-04-10', '2018-04-20', '2018-05-05', '2018-05-10', '2018-05-15', '2018-05-20', '2018-05-30', '2018-06-29', '2018-07-04', '2018-07-14', '2018-07-24', '2018-08-13', '2018-09-02', '2018-10-07', '2018-10-22', '2019-01-20', '2019-03-31', '2019-04-15', '2019-04-20', '2020-02-24', '2020-05-29', '2020-06-18', '2020-06-23', '2020-08-12', '2020-09-11', '2020-11-20', '2021-02-28', '2021-03-05', '2021-04-04', '2021-04-19', '2021-05-29', '2021-07-23', '2021-08-22', '2021-10-11', '2022-01-14', '2022-02-08', '2022-02-18', '2022-03-15', '2022-03-20', '2022-05-09', '2022-06-18', '2022-08-12', '2023-02-18', '2023-03-15', '2023-04-19', '2023-05-24'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Vanern',
+        aoi: latLng([59.07, 13.535]),
+        country: ['SW'],
+        city: 'Vänern Lake',
+        siteName: 'Vänern Lake',
+        description: 'Landsat - Vänern Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-vanern'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-vanern&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Vanern (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((10.69941816 57.35328549, 10.69941816 59.83119443, 15.98482535 59.83119443, 15.98482535 57.35328549, 10.69941816 57.35328549))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Balaton',
+        aoi: latLng([45.89, 17.77]),
+        country: ['HU'],
+        city: 'Balaton Lake',
+        siteName: 'Balaton Lake',
+        description: 'Sentinel 2 L2A - Balaton Lake cloud free',
+        indicator: 'Lakes_S2L2A',
+        indicatorName: 'Sentinel-2 L2A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: ['2016-11-29', '2016-12-29', '2017-03-29', '2017-05-28', '2017-07-17', '2017-08-01', '2017-08-26', '2017-08-31', '2017-09-10', '2017-10-15', '2017-11-04', '2017-12-19', '2018-04-08', '2018-04-28', '2018-06-12', '2018-08-31', '2018-09-10', '2018-09-30', '2018-10-05', '2018-10-10', '2018-10-20', '2018-11-14', '2018-11-29', '2019-02-17', '2019-02-27', '2019-03-24', '2019-03-29', '2019-06-12', '2019-06-27', '2019-08-31', '2019-09-05', '2019-09-15', '2019-10-15', '2019-10-20', '2019-10-25', '2020-02-02', '2020-03-08', '2020-03-18', '2020-04-02', '2020-04-07', '2020-04-12', '2020-04-22', '2020-07-01', '2020-07-11', '2020-07-21', '2020-07-31', '2020-08-25', '2020-09-09', '2020-09-14', '2020-09-24', '2020-11-18', '2021-02-26', '2021-03-03', '2021-06-16', '2021-07-01', '2021-07-06', '2021-09-09', '2021-10-04', '2021-10-09', '2021-10-24', '2021-10-29', '2021-11-23', '2021-12-18', '2022-01-07', '2022-02-11', '2022-03-13', '2022-03-23', '2022-03-28', '2022-04-12', '2022-05-12', '2022-07-01', '2022-07-06', '2022-07-21', '2022-08-05', '2022-08-25', '2022-10-14', '2022-11-08', '2022-12-13', '2022-12-18', '2023-02-21', '2023-03-13', '2023-03-18', '2023-04-22', '2023-05-22', '2023-06-01'],
+        inputData: [''],
+        display: {
+          dateFormatFunction: shTimeFunction,
+          minZoom: 7,
+          maxZoom: 17,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Balaton',
+        aoi: latLng([45.89, 17.77]),
+        country: ['HU'],
+        city: 'Balaton Lake',
+        siteName: 'Balaton Lake',
+        description: 'Landsat - Balaton Lake cloud free',
+        indicator: 'NLK',
+        indicatorName: 'Landsat',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates['landsat-c2l2-sr-lakes-lake-balaton'],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?collection=landsat-c2l2-sr-lakes-lake-balaton&{time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          name: 'Lake Balaton (NASA)',
+          dateFormatFunction: (date) => `item=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((15.04798484 46.34951509, 15.04798484 48.51911491, 19.16156268 48.51911491, 19.16156268 46.34951509, 15.04798484 46.34951509))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Biwa',
+        aoi: latLng([35.284, 136.095]),
+        country: ['JP'],
+        city: 'Lake Biwa',
+        siteName: 'Lake Biwa',
+        description: 'Surface Water Temperature - Biwa Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Aral',
+        aoi: latLng([45.303, 58.581]),
+        country: ['UZ', 'KZ'],
+        city: 'Lake Aral',
+        siteName: 'Lake Aral',
+        description: 'Surface Water Temperature - Aral Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Aral,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'TonleSap',
+        aoi: latLng([12.7, 104.2]),
+        country: ['KH'],
+        city: 'Tonlé Sap Lake',
+        siteName: 'Tonlé Sap',
+        description: 'Surface Water Temperature - Tonlé Sap Lake',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Vanern',
+        aoi: latLng([59.07, 13.535]),
+        country: ['SW'],
+        city: 'Vänern Lake',
+        siteName: 'Vänern Lake',
+        description: 'Vänern Lake Surface Water Temperature',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        aoiID: 'Balaton',
+        aoi: latLng([45.89, 17.77]),
+        country: ['HU'],
+        city: 'Balaton Lake',
+        siteName: 'Balaton Lake',
+        description: 'Balaton Lake Surface Water Temperature',
+        indicator: 'Lakes_SWT',
+        indicatorName: 'Surface Water Temperature',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
+        inputData: [''],
+        yAxis: 'Lake Surface Temperature [K]',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
+            }],
+          },
+          baseLayers: cloudlessBaseLayerDefault,
+          dateFormatFunction: simplifiedshTimeFunction,
+          minZoom: 7,
+          maxZoom: 14,
+          layers: 'LAKES_SURFACE_WATER_TEMPERATURE',
+          legendUrl: 'legends/trilateral/LAKES_SURFACE_WATER_TEMPERATURE.png',
+          customAreaIndicator: true,
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions.LAKES_SURFACE_WATER_TEMPERATURE,
+              'byoc-9fdb8c27-9000-4912-b715-1465f840a1db',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Global Turbidity Layer Lakes CCI',
+        indicator: 'Lakes_WQ_TURB',
+        indicatorName: 'Lake Water Quality Turbidity',
+        eoSensor: 'Sentinel-3 OLCI',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: availableDates.LAKE_WATER_QUALITY_TURBIDITY_MEAN,
+        inputData: [''],
+        yAxis: 'Turbidity [NTU]',
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Lakes Water Quality Turbidity Mean CCI 300m',
+          layers: 'LAKE_WATER_QUALITY_TURBIDITY_MEAN',
+          legendUrl: 'legends/trilateral/LAKE_WATER_QUALITY_TURBIDITY_MEAN.png',
+          minZoom: 8,
+          maxZoom: 16,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Global Water Quality True Color Lakes CCI',
+        indicator: 'Lakes_WQ_TC',
+        indicatorName: 'Lake Water Quality True Color',
+        eoSensor: 'Sentinel-3 OLCI',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: availableDates.LAKE_WATER_QUALITY_TURBIDITY_MEAN,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Lakes Water Quality True Color CCI 300m',
+          layers: 'LAKE_WATE_QUALITY_TRUECOLOR',
+          minZoom: 8,
+          maxZoom: 16,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
             }],
           },
         },
