@@ -936,9 +936,13 @@ export default {
       return { labels, datasets };
     },
     indicatorObject() {
+      return this.$store.state.features.selectedFeature.getProperties().properties.indicatorObject;
+      // TODO: We probably will be able to remove the whole customAreaIndicator object
+      /*
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
         || this.$store.state.indicators.selectedIndicator;
+      */
     },
     dataObject() {
       return this.$store.state.features.featureData;
