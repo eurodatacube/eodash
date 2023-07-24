@@ -171,13 +171,6 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
         };
       }
     }
-    // only add default layer if a display configuration exists
-    /*
-    let defaultLayers = {};
-    if (indicatorObject.display) {
-      defaultLayers = baseConfig.defaultLayersDisplay;
-    }
-    */
     finalConfigs.push({
       ...baseConfig.defaultLayersDisplay,
       ...indDefinition,
@@ -238,7 +231,6 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
       name: label,
     });
   }
-  debugger;
   return selectionOptions;
 };
 

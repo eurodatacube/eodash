@@ -367,6 +367,9 @@ export default {
           ...this.featureObject,
           ...this.featureData,
         };
+        // Convert feature data time to strings
+        const time = this.featureData.time.map((t) => t.toISO({ suppressMilliseconds: true }));
+        mergedIndicator.time = time;
         // Add name from top level indicator to feature indicator
         mergedIndicator.name = this.indicator.name;
         return createConfigFromIndicator(
@@ -405,6 +408,9 @@ export default {
           ...this.featureObject,
           ...this.featureData,
         };
+        // Convert feature data time to strings
+        const time = this.featureData.time.map((t) => t.toISO({ suppressMilliseconds: true }));
+        mergedIndicator.time = time;
         // Add name from top level indicator to feature indicator
         mergedIndicator.name = this.indicator.name;
         return createConfigFromIndicator(
@@ -481,6 +487,18 @@ export default {
     },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
+      const { map } = getMapInstance(this.mapId);
+      // Check for possible selected poi
+      if (this.featureObject && 'aoi' in this.featureObject) {
+        const { aoi } = this.featureObject;
+        const buf = 0.05;
+        const extent = [aoi.lon - buf, aoi.lat - buf, aoi.lon + buf, aoi.lat + buf];
+        return transformExtent(
+          extent, 'EPSG:4326', map.getView().getProjection(),
+        );
+      }
+
+      // Handle extent configuration for overall indicator
       if ((this.centerProp && this.zoomProp)
           || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
         return null;
@@ -494,7 +512,6 @@ export default {
         }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
-      const { map } = getMapInstance(this.mapId);
       const readerOptions = {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
@@ -506,8 +523,6 @@ export default {
         );
         return presetViewGeom.getExtent();
       }
-      debugger;
-      // TODO: Consider how to fetch subaoi
       const { subAoi } = this.indicator;
       if (subAoi && subAoi.features.length) {
         if (subAoi.features[0].geometry.coordinates.length) {
@@ -517,14 +532,14 @@ export default {
         // geoJsonFormat
         return [];
       }
-      debugger;
-      // TOD: Make sure tthis works
+      /*
       if (this.featureObject.aoi) {
         return transformExtent([this.featureObject.lng, this.featureObject.lat,
           this.featureObject.lng, this.featureObject.lat],
         'EPSG:4326',
         map.getView().getProjection());
       }
+      */
       return undefined;
     },
   },
@@ -559,7 +574,6 @@ export default {
       },
     },
     dataLayerTime(timeObj) {
-      debugger;
       if (timeObj) {
         // redraw all time-dependant layers, if time is passed via WMS params
         const { map } = getMapInstance(this.mapId);
