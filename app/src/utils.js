@@ -356,3 +356,10 @@ export function getPOIs() {
   });
   console.log(arr.join(','));
 }
+
+export const findClosest = (data, target = DateTime.now()) =>
+  data.reduce((prev, curr) => {
+    const a = Math.abs(curr.ts - target.ts);
+    const b = Math.abs(prev.ts - target.ts);
+    return a - b < 0 ? curr : prev;
+  });

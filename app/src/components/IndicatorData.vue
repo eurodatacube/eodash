@@ -100,6 +100,7 @@ import ScatterChart from '@/components/ScatterChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
+import { getMapInstance } from '@/components/map/map';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -1221,6 +1222,27 @@ export default {
       let low = 0;
       let high = 0;
 
+      customSettings.onClick = (event, elements) => {
+        if (elements.length > 0) {
+          // clicked some chart
+          const chart = elements[0]._chart;
+          const element = chart.getElementAtEvent(event)[0];
+          const dataset = chart.data.datasets[element._datasetIndex];
+          const timeSelected = dataset.data[element._index].t;
+          if (timeSelected && !this.$store.state.indicators.customAreaIndicator) {
+            // reuse map event interface for scrolly
+            let command = "map:setTime";
+            if (event.ctrlKey || event.shiftKey) {
+              command = "map:setCompareTime";
+            }
+            window.postMessage({
+              command, time:timeSelected,
+            });
+            // highlight current item as a point
+          }
+        }
+      }
+
       // Default tooltips
       customSettings.tooltips = {
         callbacks: {
@@ -1361,28 +1383,6 @@ export default {
           };
         }
       }
-
-      /*
-      if (['AQ1'].includes(indicatorCode)) {
-        customSettings.tooltips = {
-          callbacks: {
-            label: (context, data) => {
-              debugger;
-              // const label = `${data.datasets[context.datasetIndex].label} measurement:
-              // ${Number(context.value)}`;
-              return label;
-            },
-            footer: (context) => {
-              debugger;
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const labelOutput = `Time: ${obj.referenceValue}`;
-              return labelOutput;
-            },
-          },
-        };
-      }
-      */
 
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [

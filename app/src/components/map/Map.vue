@@ -200,6 +200,8 @@ import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
+import { DateTime } from 'luxon';
+
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
@@ -207,6 +209,7 @@ import {
   loadIndicatorExternalData,
   calculatePadding,
   getIndicatorFilteredInputData,
+  findClosest,
 } from '@/utils';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -741,23 +744,31 @@ export default {
     this.$emit('ready', true);
 
     // Define a function to update the data layer
-    const updateTime = (time) => {
-      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
-
-      if (timeEntry === undefined) {
-        // Use most recent time since there is none defined in the map timeline
-        this.dataLayerTime = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+    const updateTime = (time, compare) => {
+      // direct match on name
+      let timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+      if (timeEntry === undefined && time.isLuxonDateTime) {
+        // search for closest time to datetime if provided as such
+        const searchTimes = this.availableTimeEntries.map((e) => e.value);
+        const closestTime = findClosest(searchTimes, time);
+        // get back the original unmapped object with value and name
+        timeEntry = this.availableTimeEntries.find((e) => e.value.ts === closestTime.ts);
       } else {
-        // Use the provided time
+        // Use most recent time since there is none defined in the map timeline
+        timeEntry = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+      }
+      if (compare) {
+        this.compareLayerTime = timeEntry;
+      } else {
         this.dataLayerTime = timeEntry;
       }
     };
 
     // Define a function to schedule the data layer update during the next animation frame
-    const scheduleUpdateTime = (time) => {
+    const scheduleUpdateTime = (time, compare) => {
       // Use requestAnimationFrame to schedule the update during the next animation frame
       requestAnimationFrame(() => {
-        updateTime(time);
+        updateTime(time, compare);
       });
     };
 
@@ -768,7 +779,11 @@ export default {
       }
 
       if (event.data.command === 'map:setTime' && event.data.time) {
-        scheduleUpdateTime(event.data.time);
+        scheduleUpdateTime(event.data.time, false);
+      }
+
+      if (event.data.command === 'map:setCompareTime' && event.data.time) {
+        scheduleUpdateTime(event.data.time, true);
       }
 
       if (event.data.command === 'map:setPoi' && event.data.poi) {
