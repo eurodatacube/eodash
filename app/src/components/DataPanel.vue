@@ -466,7 +466,12 @@ export default {
       'customAreaIndicator',
     ]),
     story() {
-      let markdown;
+      // If markdown is coming from stac collection show it direclty
+      if (this.indicatorObject && 'markdown' in this.indicatorObject) {
+        return this.$marked(this.indicatorObject.markdown);
+      }
+      // If not do previous checks to see if other option can be found
+      let markdown = '';
       try {
         const demoItem = this.$route.name === 'demo'
           ? this.appConfig.demoMode[this.$route.query.event]

@@ -225,6 +225,18 @@ export async function loadIndicatorData(baseConfig, payload) {
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
 
+    // Check for stac story asset
+    if ('assets' in jsonData) {
+      if ('story' in jsonData.assets) {
+        const mdUrl = `${
+          baseConfig.STACEndpoint.replace('collection.json', '')
+        }/${jsonData.assets.story.href}`;
+        indicatorObject.story = mdUrl;
+        // Now we fetch the markdown info direcly
+        indicatorObject.markdown = await fetch(mdUrl).then((md) => md.text());
+      }
+    }
+
     const features = [];
     if (payload.endpointType === 'GeoDB') {
       // We create all relevant features (pois) to be shown on map
