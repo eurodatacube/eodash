@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
-    "@eox/itemfilter": "^0.2.2",
+    "@eox/itemfilter": "^0.5.4",
     "@eox/layerswitcher": "^0.1.0",
     "@geoblocks/ol-maplibre-layer": "git+https://git@github.com/EOX-A/ol-maplibre-layer.git#37c00560e4140a13d3083a148dca46d490aac4bd",
     "@turf/difference": "^6.5.0",

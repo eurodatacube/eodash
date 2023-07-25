@@ -228,12 +228,8 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Check for stac story asset
     if ('assets' in jsonData) {
       if ('story' in jsonData.assets) {
-        const mdUrl = `${
-          baseConfig.STACEndpoint.replace('collection.json', '')
-        }/${jsonData.assets.story.href}`;
-        indicatorObject.story = mdUrl;
         // Now we fetch the markdown info direcly
-        indicatorObject.markdown = await fetch(mdUrl).then((md) => md.text());
+        indicatorObject.markdown = await fetch(jsonData.assets.story.href).then((md) => md.text());
       }
     }
 

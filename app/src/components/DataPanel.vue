@@ -198,9 +198,7 @@
                   target="_blank"
                   v-if="dataObject
                     && !showMap
-                    && !this.baseConfig.indicatorsDefinition[
-                      indicatorObject.indicator
-                    ].disableCSV"
+                    && !dataObject.disableCSV"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
@@ -604,10 +602,8 @@ export default {
       */
     },
     externalData() {
-      const dataFromDefinition = this.baseConfig.indicatorsDefinition[
-        this.indicatorObject.indicator
-      ].externalData;
-      const dataFromIndicator = this.indicatorObject.externalData;
+      const dataFromDefinition = this.indicatorObject.externalData;
+      const dataFromIndicator = this.dataObject.externalData;
       if (dataFromDefinition) {
         return dataFromDefinition;
       }

@@ -66,7 +66,12 @@ export default {
         const configs = {
           esa: {
             titleProperty: 'title',
-            filterProperties: ['themes', 'region', 'tags', 'satellite', 'sensor'],
+            filterProperties: [
+              // { key: 'themes', title: 'Theme' },
+              { key: 'tags', title: 'Tag' },
+              { key: 'satellite', title: 'Satellite' },
+              { key: 'sensor', title: 'Sensor' },
+            ],
             aggregateResults: 'themes',
             enableSearch: true,
             enableHighlighting: true,

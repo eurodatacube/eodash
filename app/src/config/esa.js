@@ -336,11 +336,13 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E4',
   },
+  /*
   E5: {
     indicatorSummary: 'Inventory levels of intermediate goods',
     themes: ['economy'],
     story: '/eodash-data/stories/E5',
   },
+  */
   E6: {
     indicatorSummary: 'Inventory levels of factory inputs',
     themes: ['economy'],
