@@ -200,7 +200,6 @@ import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
-import { DateTime } from 'luxon';
 
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
@@ -424,7 +423,7 @@ export default {
      */
     specialLayerOptions() {
       return {
-        time: this.dataLayerTimeProp || this.dataLayerTime.value,
+        time: this.dataLayerTime.value,
         indicator: this.indicator?.indicator,
         aoiID: this.indicator?.aoiID,
         drawnArea: this.drawnArea,
@@ -896,15 +895,11 @@ export default {
     setInitialTime() {
       if (this.mergedConfigsData?.length) {
         if (this.dataLayerTimeProp) {
-          this.dataLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.dataLayerTimeProp)),
-          };
+          this.dataLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.dataLayerTimeProp);
         } else if (this.mergedConfigsData[0].selectedTime) {
-          this.dataLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.mergedConfigsData[0].selectedTime)),
-          };
+          this.dataLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.mergedConfigsData[0].selectedTime);
         } else {
           this.dataLayerTime = {
             value: this.mergedConfigsData[0].usedTimes.time[
@@ -913,10 +908,8 @@ export default {
           };
         }
         if (this.compareLayerTimeProp) {
-          this.compareLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.compareLayerTimeProp)),
-          };
+          this.compareLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.compareLayerTimeProp);
         }
       }
     },

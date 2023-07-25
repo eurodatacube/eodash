@@ -100,7 +100,6 @@ import ScatterChart from '@/components/ScatterChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
-import { getMapInstance } from '@/components/map/map';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -1231,17 +1230,17 @@ export default {
           const timeSelected = dataset.data[element._index].t;
           if (timeSelected && !this.$store.state.indicators.customAreaIndicator) {
             // reuse map event interface for scrolly
-            let command = "map:setTime";
+            let command = 'map:setTime';
             if (event.ctrlKey || event.shiftKey) {
-              command = "map:setCompareTime";
+              command = 'map:setCompareTime';
             }
             window.postMessage({
-              command, time:timeSelected,
+              command, time: timeSelected,
             });
             // highlight current item as a point
           }
         }
-      }
+      };
 
       // Default tooltips
       customSettings.tooltips = {
