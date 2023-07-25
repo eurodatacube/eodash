@@ -4,6 +4,7 @@ import { generateUsedTimes } from '@/helpers/mapConfig';
 
 import axios from 'axios';
 import latLng from '@/latLng';
+import { Wkt } from 'wicket';
 import { Vector } from 'ol/layer';
 import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
@@ -11,6 +12,8 @@ import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
 import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
+
+const wkt = new Wkt();
 
 export function padLeft(str, pad, size) {
   let out = str;
@@ -131,6 +134,35 @@ export async function loadFeatureData(baseConfig, feature) {
       time: 'time',
       siteName: 'city',
     };
+    // Try to extract sub_aoi geometry information
+    if (data && data.length > 0 && 'sub_aoi' in data[0]) {
+      console.log(data[0].sub_aoi);
+      let features = null;
+      if (data[0].sub_aoi !== '/' && data[0].sub_aoi !== '') {
+        // try to generate sub_aoi from geodb
+        try {
+          features = wkt.read(data[0].sub_aoi).toJson();
+          console.log(features);
+        } catch (error) {
+          console.log('Error parsing wkt sub_aoi');
+        }
+      } else {
+        // if not possible use aoi with padding
+        // TODO
+        /*
+        features = {
+          type: 'Point',
+          coordinates: feature.getGeometry().getCoordinates(),
+        };
+        */
+      }
+      if (features) {
+        parsedData.subAoi = {
+          type: 'FeatureCollection',
+          features: [features],
+        };
+      }
+    }
     // Special handling for mobility, covid and other special data
     if ('Values' in data) {
       parsedData.time = data.Values.map((t) => DateTime.fromISO(t));

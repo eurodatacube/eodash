@@ -514,6 +514,25 @@ export default {
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
       const { map } = getMapInstance(this.mapId);
+
+      // Check for possible subaoi
+      const readerOptions = {
+        dataProjection: 'EPSG:4326',
+        featureProjection: map.getView().getProjection(),
+      };
+      if (this.featureData && 'subAoi' in this.featureData) {
+        const { subAoi } = this.featureData;
+        if (subAoi && subAoi.features && subAoi.features.length > 0) {
+          if (subAoi.features[0].coordinates.length) {
+            const subAoiGeom = geoJsonFormat.readGeometry(
+              subAoi.features[0], readerOptions,
+            );
+            return subAoiGeom.getExtent();
+          }
+        }
+      }
+
+      /*
       // Check for possible selected poi
       if (this.featureObject && 'aoi' in this.featureObject) {
         const { aoi } = this.featureObject;
@@ -523,6 +542,7 @@ export default {
           extent, 'EPSG:4326', map.getView().getProjection(),
         );
       }
+      */
 
       // Handle extent configuration for overall indicator
       if ((this.centerProp && this.zoomProp)
@@ -538,25 +558,12 @@ export default {
         }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
-      const readerOptions = {
-        dataProjection: 'EPSG:4326',
-        featureProjection: map.getView().getProjection(),
-      };
       if (presetView) {
         // pre-defined geojson view
         const presetViewGeom = geoJsonFormat.readGeometry(
           presetView.features[0].geometry, readerOptions,
         );
         return presetViewGeom.getExtent();
-      }
-      const { subAoi } = this.indicator;
-      if (subAoi && subAoi.features.length) {
-        if (subAoi.features[0].geometry.coordinates.length) {
-          const subAoiGeom = geoJsonFormat.readGeometry(subAoi.features[0].geometry, readerOptions);
-          return subAoiGeom.getExtent();
-        }
-        // geoJsonFormat
-        return [];
       }
       /*
       if (this.featureObject.aoi) {

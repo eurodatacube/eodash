@@ -38,22 +38,23 @@ export default {
   data: () => ({
     constrainingExtent: undefined,
     drag: false,
+    subAoiLayer: undefined,
   }),
   watch: {
     subAoi: {
       deep: true,
       immediate: true,
       handler(value) {
-        const { map } = getMapInstance(this.mapId);
-        const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
-        if (aoiLayer) {
-          const aoiSource = aoiLayer.getSource();
+        if (this.subAoiLayer) {
+          const aoiSource = this.subAoiLayer.getSource();
           aoiSource.clear();
           if (value) {
-            aoiSource.addFeature(geoJsonFormat.readFeature(value), {
+            const { map } = getMapInstance(this.mapId);
+            const feature = geoJsonFormat.readFeature(value, {
               dataProjection: 'EPSG:4326',
               featureProjection: map.getView().getProjection(),
             });
+            this.subAoiLayer.getSource().addFeature(feature);
           }
         }
       },
@@ -61,10 +62,13 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
+    featureData() {
+      return this.$store.state.features.featureData;
+    },
     subAoi() {
       // create an inverse of subaoi, using difference of whole world and subaoi
-      if (this.indicator?.subAoi?.features?.length) {
-        const subaoiInv = JSON.parse(JSON.stringify(this.indicator.subAoi.features[0]));
+      if (this.subAoiLayer && this.featureData?.subAoi?.features?.length) {
+        const subaoiInv = JSON.parse(JSON.stringify(this.featureData.subAoi.features[0]));
         // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
         if (subaoiInv) {
           if (this.isInverse) {
@@ -76,8 +80,7 @@ export default {
                 coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
               },
             };
-            const diff = turfDifference(globalBox, subaoiInv.geometry);
-            subaoiInv.geometry = diff.geometry;
+            return turfDifference(globalBox, subaoiInv);
           }
         }
         return subaoiInv;
@@ -89,7 +92,9 @@ export default {
     },
     isInverse() {
       return !!(this.indicator.country === 'all'
-        || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
+        || this.appConfig.configuredMapPois.includes(
+          `${this.indicator.aoiID}-${this.featureObject.aoiID}`,
+        )
         || ((Array.isArray(this.indicator.inputData)
         && this.indicatorHasMapData(this.indicator)
         )));
@@ -119,7 +124,7 @@ export default {
       }),
     });
 
-    const subAoiLayer = new VectorLayer({
+    this.subAoiLayer = new VectorLayer({
       name: 'subAoi',
       zIndex: 5,
       source: new VectorSource({}),
@@ -130,7 +135,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       });
-      subAoiLayer.getSource().addFeature(feature);
+      this.subAoiLayer.getSource().addFeature(feature);
     }
     if (this.isInverse && this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
@@ -145,8 +150,8 @@ export default {
       map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
-    subAoiLayer.set('displayInLayerSwitcher', false);
-    map.addLayer(subAoiLayer);
+    this.subAoiLayer.set('displayInLayerSwitcher', false);
+    map.addLayer(this.subAoiLayer);
   },
   methods: {
     /**
@@ -183,8 +188,7 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
-    map.removeLayer(layer);
+    map.removeLayer(this.subAoiLayer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('pointerdrag', this.pointerdragHandler);
     map.un('movestart', this.movestartHandler);
