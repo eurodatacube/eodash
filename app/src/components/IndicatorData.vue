@@ -1228,7 +1228,7 @@ export default {
           const element = chart.getElementAtEvent(event)[0];
           const dataset = chart.data.datasets[element._datasetIndex];
           const timeSelected = dataset.data[element._index].t;
-          if (timeSelected && !this.$store.state.indicators.customAreaIndicator) {
+          if (timeSelected) {
             // reuse map event interface for scrolly
             let command = 'map:setTime';
             if (event.ctrlKey || event.shiftKey) {
@@ -1237,7 +1237,6 @@ export default {
             window.postMessage({
               command, time: timeSelected,
             });
-            // highlight current item as a point
           }
         }
       };
@@ -1729,6 +1728,16 @@ export default {
           },
         };
       }
+      // add event listener for map up
+      window.addEventListener('message', (event) => {
+        if (event.data.command === 'chart:setTime' && event.data.time) {
+          console.log(event.data.time);
+        }
+
+        if (event.data.command === 'chart:setCompareTime' && event.data.time) {
+          console.log(event.data.time);
+        }
+      });
       return {
         ...customSettings,
         annotation: {

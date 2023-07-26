@@ -200,6 +200,7 @@ import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
+import { DateTime } from 'luxon';
 
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
@@ -587,6 +588,9 @@ export default {
               }
             });
           this.$emit('update:datalayertime', timeObj.name);
+          window.postMessage({
+            command: 'chart:setTime', time: timeObj.value,
+          });
         }
       },
     },
@@ -609,6 +613,11 @@ export default {
     },
     compareLayerTime(timeObj) {
       this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
+      if (timeObj) {
+        window.postMessage({
+          command: 'chart:setCompareTime', time: timeObj.value,
+        });
+      }
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -748,10 +757,20 @@ export default {
       let timeEntry = this.availableTimeEntries.find((e) => e.name === time);
       if (timeEntry === undefined && time.isLuxonDateTime) {
         // search for closest time to datetime if provided as such
-        const searchTimes = this.availableTimeEntries.map((e) => e.value);
+        const searchTimes = this.availableTimeEntries.map((e) => {
+          if (e.value.isLuxonDateTime) {
+            return e.value;
+          }
+          return DateTime.fromISO(e.value);
+        });
         const closestTime = findClosest(searchTimes, time);
         // get back the original unmapped object with value and name
-        timeEntry = this.availableTimeEntries.find((e) => e.value.ts === closestTime.ts);
+        timeEntry = this.availableTimeEntries.find((e) => {
+          if (e.value.isLuxonDateTime) {
+            return e.value.ts === closestTime.ts;
+          }
+          return DateTime.fromISO(e.value).ts === closestTime.ts;
+        });
       } else {
         // Use most recent time since there is none defined in the map timeline
         timeEntry = this.availableTimeEntries[this.availableTimeEntries.length - 1];
