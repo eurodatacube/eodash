@@ -117,6 +117,8 @@ export default {
   data() {
     return {
       dataLayerTime: null,
+      dataLayerTimeFromMap: null,
+      compareLayerTimeFromMap: null,
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
@@ -149,7 +151,6 @@ export default {
         'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
     };
   },
-
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     const formatted = d.toFormat('dd. MMM');
@@ -157,6 +158,8 @@ export default {
       value: formatted,
       name: formatted,
     };
+    // add event listener for map up
+    window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -476,6 +479,16 @@ export default {
             });
           });
         }
+
+        // datasets.push({
+        //   label: 'hide_',
+        //   data: [],
+        //   borderColor: 'rgba(0,0,0,0.1)',
+        //   backgroundColor: 'rgba(0,0,0,1)',
+        //   borderWidth: 1,
+        //   pointRadius: 3,
+        //   spanGaps: false,
+        // });
         // Add special points for N3
         if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
@@ -1163,6 +1176,15 @@ export default {
         this.$refs.regenerateButton.$el.style.display = 'none';
       }
     },
+    mapTimeUpdatedHandler(event) {
+      // set listener to highlight points for selected time on map via annotations
+      if (event.data.command === 'chart:setTime') {
+        this.dataLayerTimeFromMap = event.data.time;
+      }
+      if (event.data.command === 'chart:setCompareTime') {
+        this.compareLayerTimeFromMap = event.data.time;
+      }
+    },
     resetLCZoom() {
       this.extentChanged(false);
       this.$refs.lineChart._data._chart.resetZoom();
@@ -1218,6 +1240,7 @@ export default {
       const indicatorCode = this.indicatorObject.indicator;
       const reference = Number.parseFloat(this.indicatorObject.referenceValue);
       const annotations = [];
+
       let low = 0;
       let high = 0;
 
@@ -1728,16 +1751,37 @@ export default {
           },
         };
       }
-      // add event listener for map up
-      window.addEventListener('message', (event) => {
-        if (event.data.command === 'chart:setTime' && event.data.time) {
-          console.log(event.data.time);
-        }
+      const defaultTimeAnnotation = {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        borderColor: 'rgba(0, 0, 0, 0.5)',
+        borderDash: [4, 4],
+        borderWidth: 3,
+        label: {
+          enabled: true,
+          content: 'Map layer',
+          fontSize: 10,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+        },
+      };
 
-        if (event.data.command === 'chart:setCompareTime' && event.data.time) {
-          console.log(event.data.time);
-        }
-      });
+      if (this.dataLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.dataLayerTimeFromMap,
+        });
+      }
+      if (this.compareLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.compareLayerTimeFromMap,
+          label: {
+            ...defaultTimeAnnotation.label,
+            content: 'Compare layer',
+          },
+        });
+      }
       return {
         ...customSettings,
         annotation: {
@@ -1748,6 +1792,15 @@ export default {
         country: this.indicatorObject.country,
       };
     },
+  },
+  beforeDestroy() {
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(false, this.overlayCallback);
+      this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
+    }
+    window.removeEventListener('message', this.mapTimeUpdatedHandler);
   },
 };
 </script>
