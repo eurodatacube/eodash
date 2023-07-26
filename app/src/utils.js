@@ -265,6 +265,11 @@ export async function loadIndicatorData(baseConfig, payload) {
       }
     }
 
+    // add extent information
+    if ('extent' in jsonData) {
+      indicatorObject.extent = jsonData.extent;
+    }
+
     const features = [];
     if (payload.endpointType === 'GeoDB') {
       // We create all relevant features (pois) to be shown on map

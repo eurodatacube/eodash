@@ -530,6 +530,18 @@ export default {
             return subAoiGeom.getExtent();
           }
         }
+      } else if (this.indicator && this.indicator.extent) {
+        // Try to do some sanitizing
+        const extent = this.indicator.extent.spatial.bbox[0];
+        if (extent.length === 4) {
+          extent[0] = extent[0] > -180 ? extent[0] : -180;
+          extent[1] = extent[1] > -90 ? extent[1] : -90;
+          extent[2] = extent[2] < 180 ? extent[2] : 180;
+          extent[3] = extent[3] < 90 ? extent[3] : 90;
+        }
+        return transformExtent(
+          extent, 'EPSG:4326', map.getView().getProjection(),
+        );
       }
 
       /*
