@@ -10,6 +10,7 @@ import VectorSource from 'ol/source/Vector';
 import { Feature } from 'ol';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Stroke, Style } from 'ol/style';
+import { transformExtent } from 'ol/proj';
 import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
 
@@ -136,25 +137,34 @@ export async function loadFeatureData(baseConfig, feature) {
     };
     // Try to extract sub_aoi geometry information
     if (data && data.length > 0 && 'sub_aoi' in data[0]) {
-      console.log(data[0].sub_aoi);
       let features = null;
       if (data[0].sub_aoi !== '/' && data[0].sub_aoi !== '') {
         // try to generate sub_aoi from geodb
         try {
           features = wkt.read(data[0].sub_aoi).toJson();
-          console.log(features);
         } catch (error) {
           console.log('Error parsing wkt sub_aoi');
         }
       } else {
+        const { map } = getMapInstance('centerMap');
         // if not possible use aoi with padding
-        // TODO
-        /*
+        // TODO: should we add a subaoi if there is none in the database? this could create a false
+        // sense of information
+        const extent = transformExtent(
+          feature.getGeometry().getExtent(),
+          map.getView().getProjection(),
+          'EPSG:4326',
+        );
+        const padding = 0.1;
+        extent[0] -= padding;
+        extent[1] -= padding;
+        extent[2] += padding;
+        extent[3] += padding;
+        const coords = fromExtent(extent).getCoordinates();
         features = {
-          type: 'Point',
-          coordinates: feature.getGeometry().getCoordinates(),
+          type: 'MultiPolygon',
+          coordinates: [coords],
         };
-        */
       }
       if (features) {
         parsedData.subAoi = {
