@@ -200,6 +200,8 @@ import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
 import { toStringXY } from 'ol/coordinate';
+import { DateTime } from 'luxon';
+
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
@@ -207,6 +209,7 @@ import {
   loadIndicatorExternalData,
   calculatePadding,
   // getIndicatorFilteredInputData,
+  findClosest,
 } from '@/utils';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -467,7 +470,7 @@ export default {
      */
     specialLayerOptions() {
       return {
-        time: this.dataLayerTimeProp || this.dataLayerTime.value,
+        time: this.dataLayerTime.value,
         indicator: this.indicator?.indicator,
         aoiID: this.indicator?.aoiID,
         drawnArea: this.drawnArea,
@@ -649,7 +652,7 @@ export default {
     dataLayerTime: {
       immediate: true,
       handler(timeObj) {
-        if (timeObj) {
+        if (timeObj && typeof timeObj.value !== 'undefined') {
           const { map } = getMapInstance(this.mapId);
           if (this.indicator && 'queryParameters' in this.indicator) {
             // re-load indicator data for indicators where the rendering is based on external data
@@ -682,6 +685,17 @@ export default {
               }
             });
           this.$emit('update:datalayertime', timeObj.name);
+          window.postMessage({
+            command: 'chart:setTime',
+            time: timeObj.value.isLuxonDateTime
+              ? timeObj.value.toISODate()
+              : timeObj.value,
+          });
+        } else {
+          window.postMessage({
+            command: 'chart:setTime',
+            time: null,
+          });
         }
       },
     },
@@ -700,10 +714,36 @@ export default {
         });
       } else {
         this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        if (enabled) {
+          window.postMessage({
+            command: 'chart:setCompareTime',
+            time: this.compareLayerTime.value.isLuxonDateTime
+              ? this.compareLayerTime.value.toISODate()
+              : this.compareLayerTime.value,
+          });
+        } else {
+          window.postMessage({
+            command: 'chart:setCompareTime',
+            time: null,
+          });
+        }
       }
     },
     compareLayerTime(timeObj) {
       this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
+      if (timeObj && typeof timeObj.value !== 'undefined') {
+        window.postMessage({
+          command: 'chart:setCompareTime',
+          time: timeObj.value.isLuxonDateTime
+            ? timeObj.value.toISODate()
+            : timeObj.value,
+        });
+      } else {
+        window.postMessage({
+          command: 'chart:setCompareTime',
+          time: null,
+        });
+      }
     },
     displayTimeSelection(value) {
       if (!value) {
@@ -841,35 +881,80 @@ export default {
     }
     this.$emit('ready', true);
 
-    // Define a function to update the data layer
-    const updateTime = (time) => {
-      const timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+    window.addEventListener('message', this.handleExternalMapMessage);
 
-      if (timeEntry === undefined) {
-        // Use most recent time since there is none defined in the map timeline
-        this.dataLayerTime = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+    this.ro = new ResizeObserver(this.onResize);
+    this.ro.observe(this.$refs.mapContainer);
+    // Fetch data for custom chart if the event is fired.
+    window.addEventListener(
+      'fetch-custom-area-chart',
+      this.onFetchCustomAreaIndicator,
+    );
+    if (this.mapId === 'centerMap') {
+      this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
+      map.addInteraction(this.queryLink);
+    }
+  },
+  methods: {
+    handleSpecialLayerZoom(e) {
+      this.$emit('update:zoom', e);
+      this.currentZoom = e;
+    },
+    handleSpecialLayerCenter(e) {
+      this.$emit('update:center', e);
+      this.currentCenter = e;
+    },
+    updateTime(time, compare) {
+      // Define a function to update the data layer
+      // direct match on name
+      let timeEntry = this.availableTimeEntries.find((e) => e.name === time);
+      if (timeEntry === undefined && time.isLuxonDateTime) {
+        // search for closest time to datetime if provided as such
+        const searchTimes = this.availableTimeEntries.map((e) => {
+          if (e.value.isLuxonDateTime) {
+            return e.value;
+          }
+          return DateTime.fromISO(e.value);
+        });
+        const closestTime = findClosest(searchTimes, time);
+        // get back the original unmapped object with value and name
+        timeEntry = this.availableTimeEntries.find((e) => {
+          if (e.value.isLuxonDateTime) {
+            return e.value.ts === closestTime.ts;
+          }
+          return DateTime.fromISO(e.value).ts === closestTime.ts;
+        });
       } else {
-        // Use the provided time
+        // Use most recent time since there is none defined in the map timeline
+        timeEntry = this.availableTimeEntries[this.availableTimeEntries.length - 1];
+      }
+      if (compare) {
+        this.compareLayerTime = timeEntry;
+      } else {
         this.dataLayerTime = timeEntry;
       }
-    };
-
-    // Define a function to schedule the data layer update during the next animation frame
-    const scheduleUpdateTime = (time) => {
+    },
+    scheduleUpdateTime(time, compare) {
+      // Define a function to schedule the data layer update during the next animation frame
       // Use requestAnimationFrame to schedule the update during the next animation frame
       requestAnimationFrame(() => {
-        updateTime(time);
+        this.updateTime(time, compare);
       });
-    };
-
-    window.addEventListener('message', (event) => {
+    },
+    handleExternalMapMessage(event) {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
+        const { map } = getMapInstance(this.mapId);
+        const view = map.getView();
         view.setZoom(event.data.zoom);
       }
 
       if (event.data.command === 'map:setTime' && event.data.time) {
-        scheduleUpdateTime(event.data.time);
+        this.scheduleUpdateTime(event.data.time, false);
+      }
+
+      if (event.data.command === 'map:setCompareTime' && event.data.time) {
+        this.scheduleUpdateTime(event.data.time, true);
       }
 
       if (event.data.command === 'map:setPoi' && event.data.poi) {
@@ -889,6 +974,7 @@ export default {
       }
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
+        const { map } = getMapInstance(this.mapId);
         map.getLayers().forEach((layer) => {
           if (layer.get('name') === event.data.name) {
             layer.setVisible(true);
@@ -897,6 +983,7 @@ export default {
       }
 
       if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
+        const { map } = getMapInstance(this.mapId);
         map.getLayers().forEach((layer) => {
           if (layer.get('name') !== event.data.baseLayer) {
             layer.setVisible(false);
@@ -907,6 +994,7 @@ export default {
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {
+        const { map } = getMapInstance(this.mapId);
         map.getLayers().forEach((layer) => {
           if (layer.get('name') === event.data.name) {
             layer.setVisible(false);
@@ -916,6 +1004,8 @@ export default {
 
       if (event.data.command === 'map:setCenter' && event.data.center) {
         // Update the state of the application using the message data
+        const { map } = getMapInstance(this.mapId);
+        const view = map.getView();
         view.setCenter(
           fromLonLat(
             event.data.center,
@@ -925,6 +1015,8 @@ export default {
       }
 
       if (event.data.command === 'map:enableScrolly') {
+        const { map } = getMapInstance(this.mapId);
+        const view = map.getView();
         this.enableScrollyMode = true;
         this.onScrollyModeChange(true);
         view.setProperties({
@@ -937,30 +1029,6 @@ export default {
           }
         });
       }
-    });
-
-    this.ro = new ResizeObserver(this.onResize);
-    this.ro.observe(this.$refs.mapContainer);
-    // Fetch data for custom chart if the event is fired.
-    // TODO: Extract fetchData method into helper file since it needs to be used from outside.
-    window.addEventListener(
-      'fetch-custom-area-chart',
-      () => this.onFetchCustomAreaIndicator(),
-      false,
-    );
-    if (this.mapId === 'centerMap') {
-      this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
-      map.addInteraction(this.queryLink);
-    }
-  },
-  methods: {
-    handleSpecialLayerZoom(e) {
-      this.$emit('update:zoom', e);
-      this.currentZoom = e;
-    },
-    handleSpecialLayerCenter(e) {
-      this.$emit('update:center', e);
-      this.currentCenter = e;
     },
     handleSetTimeArray(entries) {
       this.externallySuppliedTimeEntries = entries.map((item) => {
@@ -982,15 +1050,11 @@ export default {
     setInitialTime() {
       if (this.mergedConfigsData?.length) {
         if (this.dataLayerTimeProp) {
-          this.dataLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.dataLayerTimeProp)),
-          };
+          this.dataLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.dataLayerTimeProp);
         } else if (this.mergedConfigsData[0].selectedTime) {
-          this.dataLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.mergedConfigsData[0].selectedTime)),
-          };
+          this.dataLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.mergedConfigsData[0].selectedTime);
         } else {
           this.dataLayerTime = {
             value: this.mergedConfigsData[0].usedTimes.time[
@@ -999,10 +1063,8 @@ export default {
           };
         }
         if (this.compareLayerTimeProp) {
-          this.compareLayerTime = {
-            value: this.mergedConfigsData[0].usedTimes.time
-              .find((t) => t.includes(this.compareLayerTimeProp)),
-          };
+          this.compareLayerTime = this.availableTimeEntries
+            .find((item) => item.name === this.compareLayerTimeProp);
         }
       }
     },
@@ -1092,6 +1154,11 @@ export default {
       this.ro.unobserve(this.$refs.mapContainer);
       getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
     }
+    window.removeEventListener(
+      'fetch-custom-area-chart',
+      this.onFetchCustomAreaIndicator,
+    );
+    window.removeEventListener('message', this.handleExternalMapMessage);
   },
 };
 </script>
