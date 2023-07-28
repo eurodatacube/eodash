@@ -617,24 +617,24 @@ export default {
         });
       } else {
         this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
-        if (enabled) {
-          window.postMessage({
-            command: 'chart:setCompareTime',
-            time: this.compareLayerTime.value.isLuxonDateTime
-              ? this.compareLayerTime.value.toISODate()
-              : this.compareLayerTime.value,
-          });
-        } else {
-          window.postMessage({
-            command: 'chart:setCompareTime',
-            time: null,
-          });
-        }
+      }
+      if (enabled) {
+        window.postMessage({
+          command: 'chart:setCompareTime',
+          time: this.compareLayerTime.value.isLuxonDateTime
+            ? this.compareLayerTime.value.toISODate()
+            : this.compareLayerTime.value,
+        });
+      } else {
+        window.postMessage({
+          command: 'chart:setCompareTime',
+          time: null,
+        });
       }
     },
     compareLayerTime(timeObj) {
       this.$emit('update:comparelayertime', this.enableCompare ? timeObj.name : null);
-      if (timeObj) {
+      if (timeObj && this.enableCompare) {
         window.postMessage({
           command: 'chart:setCompareTime',
           time: timeObj.value.isLuxonDateTime

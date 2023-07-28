@@ -1759,10 +1759,13 @@ export default {
         borderDash: [4, 4],
         borderWidth: 3,
         label: {
+          xPadding: 3,
+          yPadding: 3,
+          xAdjust: -28,
           enabled: true,
           content: 'Map layer',
           fontSize: 10,
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: 'rgba(0,0,0,0.4)',
         },
       };
 
@@ -1779,6 +1782,7 @@ export default {
           label: {
             ...defaultTimeAnnotation.label,
             content: 'Compare layer',
+            xAdjust: 38,
           },
         });
       }
