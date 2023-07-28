@@ -522,7 +522,7 @@ export default {
               }
               return {
                 t: featureData.time[i],
-                y: Number.isNaN(val) ? Number.NaN : (10 ** val),
+                y,
               };
             });
             datasets.push({
@@ -1163,7 +1163,12 @@ export default {
       */
     },
     dataObject() {
-      return this.$store.state.features.featureData;
+      let datObj = null;
+      // Only use the featureData if it has the times property (maps with locations dont have it)
+      if (this.$store.state.features.featureData.time) {
+        datObj = this.$store.state.features.featureData;
+      }
+      return datObj;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};

@@ -111,114 +111,181 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
   return dataObject;
 }
 
+function createWMSDisplay(config, name) {
+  const layers = config['wms:layers'].join(',');
+  const display = {
+    baseUrl: config.href,
+    name,
+    layers,
+    // legendUrl: 'legend.png',
+    minZoom: 1,
+    maxZoom: 13,
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+    // TODO: need to think how the stat api acces can be described in stac disabling for now
+    /*
+    customAreaIndicator: true,
+    areaIndicator: {
+      ...shFisAreaIndicatorStdConfig,
+      url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
+    },
+    */
+  };
+  return display;
+}
+
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature.getProperties().properties;
-  // Fetch data from geodb
-  const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
-  const url = `${geodbUrl}_${indicatorObject.indicator}?aoi_id=eq.${indicatorObject.aoiID}`;
-  // Fetch location data
-  const response = await axios.get(url, { credentials: 'same-origin' });
-  if (response) {
-    const { data } = response;
-    // Set data to indicator object
-    // Convert data first
-    const mapping = {
-      colorCode: 'color_code',
-      dataProvider: 'data_provider',
-      eoSensor: 'eo_sensor',
-      indicatorValue: 'indicator_value',
-      inputData: 'input_data',
-      measurement: 'measurement_value',
-      referenceTime: 'reference_time',
-      referenceValue: 'reference_value',
-      time: 'time',
-      siteName: 'city',
-    };
-    // Try to extract sub_aoi geometry information
-    if (data && data.length > 0 && 'sub_aoi' in data[0]) {
-      let features = null;
-      if (data[0].sub_aoi !== '/' && data[0].sub_aoi !== '') {
-        // try to generate sub_aoi from geodb
-        try {
-          features = wkt.read(data[0].sub_aoi).toJson();
-        } catch (error) {
-          console.log('Error parsing wkt sub_aoi');
-        }
-      } else {
-        const { map } = getMapInstance('centerMap');
-        // if not possible use aoi with padding
-        // TODO: should we add a subaoi if there is none in the database? this could create a false
-        // sense of information
-        const extent = transformExtent(
-          feature.getGeometry().getExtent(),
-          map.getView().getProjection(),
-          'EPSG:4326',
-        );
-        const padding = 0.1;
-        extent[0] -= padding;
-        extent[1] -= padding;
-        extent[2] += padding;
-        extent[3] += padding;
-        const coords = fromExtent(extent).getCoordinates();
-        features = {
-          type: 'MultiPolygon',
-          coordinates: [coords],
-        };
+  if (indicatorObject.locations) {
+    const response = await fetch(indicatorObject.link);
+    const jsonData = await response.json();
+    const times = [];
+    jsonData.links.forEach((link) => {
+      if (link.rel === 'item') {
+        times.push(link.datetime);
       }
-      if (features) {
-        parsedData.subAoi = {
-          type: 'FeatureCollection',
-          features: [features],
-        };
+    });
+    times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+    // We set the times and display configuration for the indicators
+    if (store.state.indicators.selectedIndicator) {
+      store.state.indicators.selectedIndicator.time = times;
+      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+      if (wmsEndpoint) {
+        store.state.indicators.selectedIndicator.display = createWMSDisplay(
+          wmsEndpoint, jsonData.name,
+        );
+      } else {
+        store.state.indicators.selectedIndicator.display = null;
       }
     }
-    // Special handling for mobility, covid and other special data
-    if ('Values' in data) {
-      parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
-      parsedData.Values = data.Values;
-    } else {
-      for (let i = 0; i < data.length; i += 1) {
-        Object.entries(mapping).forEach(([key, value]) => {
-          let val = data[i][value];
-          if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
-            // If key already there add element to array
-            if (['time', 'referenceTime'].includes(key)) {
-              val = DateTime.fromISO(val);
-            } else if (['measurement'].includes(key)) {
-              if (val.length > 0) {
-                // We have a special array case here
-                if (val[0] === '[') {
-                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
-                } else {
-                  val = Number(val);
-                }
-              } else {
-                val = Number.NaN;
-              }
-            }
-            parsedData[key].push(val);
-          } else {
-            // If not then set element as array
-            if (['time', 'referenceTime'].includes(key)) {
-              val = DateTime.fromISO(val);
-            } else if (['measurement'].includes(key)) {
-              if (val.length > 0) {
-                // We have a special array case here
-                if (val[0] === '[') {
-                  val = val.replace(/[[\]']+/g, '').split(',').map(Number);
-                } else {
-                  val = Number(val);
-                }
-              } else {
-                val = Number.NaN;
-              }
-            }
-            parsedData[key] = [val];
+    // Add collection extent as subaoi
+    const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
+    const features = {
+      type: 'MultiPolygon',
+      coordinates: [coords],
+    };
+    parsedData.subAoi = {
+      type: 'FeatureCollection',
+      features: [features],
+    };
+  } else {
+    // Fetch data from geodb
+    const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
+    const url = `${geodbUrl}_${indicatorObject.indicator}?aoi_id=eq.${indicatorObject.aoiID}`;
+    // Fetch location data
+    const response = await axios.get(url, { credentials: 'same-origin' });
+    if (response) {
+      const { data } = response;
+      // Set data to indicator object
+      // Convert data first
+      const mapping = {
+        colorCode: 'color_code',
+        dataProvider: 'data_provider',
+        eoSensor: 'eo_sensor',
+        indicatorValue: 'indicator_value',
+        inputData: 'input_data',
+        measurement: 'measurement_value',
+        referenceTime: 'reference_time',
+        referenceValue: 'reference_value',
+        time: 'time',
+        siteName: 'city',
+      };
+      // Try to extract sub_aoi geometry information
+      if (data && data.length > 0 && 'sub_aoi' in data[0]) {
+        let features = null;
+        if (data[0].sub_aoi !== '/' && data[0].sub_aoi !== '') {
+          // try to generate sub_aoi from geodb
+          try {
+            features = wkt.read(data[0].sub_aoi).toJson();
+          } catch (error) {
+            console.log('Error parsing wkt sub_aoi');
           }
+        } else {
+          const { map } = getMapInstance('centerMap');
+          // if not possible use aoi with padding
+          // TODO: should we add a subaoi if there is none in the database? this could create a
+          // false sense of information
+          const extent = transformExtent(
+            feature.getGeometry().getExtent(),
+            map.getView().getProjection(),
+            'EPSG:4326',
+          );
+          const padding = 0.1;
+          extent[0] -= padding;
+          extent[1] -= padding;
+          extent[2] += padding;
+          extent[3] += padding;
+          const coords = fromExtent(extent).getCoordinates();
+          features = {
+            type: 'MultiPolygon',
+            coordinates: [coords],
+          };
+        }
+        if (features) {
+          parsedData.subAoi = {
+            type: 'FeatureCollection',
+            features: [features],
+          };
+        }
+      }
+      // Special handling for mobility, covid and other special data
+      if ('Values' in data) {
+        parsedData.time = data.Values.map((t) => DateTime.fromISO(t));
+        parsedData.Values = data.Values;
+      } else {
+        for (let i = 0; i < data.length; i += 1) {
+          Object.entries(mapping).forEach(([key, value]) => {
+            let val = data[i][value];
+            if (Object.prototype.hasOwnProperty.call(parsedData, key)) {
+              // If key already there add element to array
+              if (['time', 'referenceTime'].includes(key)) {
+                val = DateTime.fromISO(val);
+              } else if (['measurement'].includes(key)) {
+                if (val.length > 0) {
+                  // We have a special array case here
+                  if (val[0] === '[') {
+                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                  } else {
+                    val = Number(val);
+                  }
+                } else {
+                  val = Number.NaN;
+                }
+              }
+              parsedData[key].push(val);
+            } else {
+              // If not then set element as array
+              if (['time', 'referenceTime'].includes(key)) {
+                val = DateTime.fromISO(val);
+              } else if (['measurement'].includes(key)) {
+                if (val.length > 0) {
+                  // We have a special array case here
+                  if (val[0] === '[') {
+                    val = val.replace(/[[\]']+/g, '').split(',').map(Number);
+                  } else {
+                    val = Number(val);
+                  }
+                } else {
+                  val = Number.NaN;
+                }
+              }
+              parsedData[key] = [val];
+            }
+          });
+        }
+      }
+    }
+    // Sort data based on time
+    Object.keys(parsedData).forEach((key) => {
+      if (key !== 'time' && key !== 'subAoi') {
+        parsedData[key].sort((a, b) => {
+          const indexA = parsedData[key].indexOf(a);
+          const indexB = parsedData[key].indexOf(b);
+          return parsedData.time[indexA] - parsedData.time[indexB];
         });
       }
-    }
+    });
+    parsedData.time.sort();
   }
   return parsedData;
 }
@@ -234,24 +301,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     if (wmsEndpoint) {
-      const layers = wmsEndpoint['wms:layers'].join(',');
-      indicatorObject.display = {
-        baseUrl: wmsEndpoint.href,
-        name: jsonData.name,
-        layers,
-        // legendUrl: 'legend.png',
-        minZoom: 1,
-        maxZoom: 13,
-        dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-        // TODO: need to think how the stat api acces can be described in stac disabling for now
-        /*
-        customAreaIndicator: true,
-        areaIndicator: {
-          ...shFisAreaIndicatorStdConfig,
-          url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-        },
-        */
-      };
+      indicatorObject.display = createWMSDisplay(wmsEndpoint, jsonData.name);
       timeBasedLayerFound = true;
     } else {
       indicatorObject.display = null;
@@ -281,20 +331,23 @@ export async function loadIndicatorData(baseConfig, payload) {
     }
 
     const features = [];
-    if (payload.endpointType === 'GeoDB') {
+    // if we have features or regional locations
+    if (payload.endpointType === 'GeoDB' || payload.locations) {
       // We create all relevant features (pois) to be shown on map
       jsonData.links.forEach((link) => {
-        if (link.rel === 'item') {
+        if (link.rel === 'item' || link.rel === 'child') {
           const featureObject = {};
           const coordinates = link.latlng.split(',').map(Number);
           featureObject.aoiID = link.id;
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
-          featureObject.indicator = jsonData.id;
+          featureObject.indicator = indicatorObject.indicator;
           featureObject.indicatorValue = [''];
-          featureObject.city = link.city;
+          featureObject.city = link.city ? link.city : link.name;
           featureObject.country = link.country;
           // featureObject.description = jsonData.description;
+          featureObject.locations = payload.locations;
+          featureObject.link = `${payload.link.replace('collection.json', '')}${link.href}`;
           features.push({
             id: link.id,
             properties: {

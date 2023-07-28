@@ -58,6 +58,7 @@ const actions = {
               satellite: link.satellite ? link.satellite.split(',') : [],
               sensor: link.sensor ? link.sensor.split(',') : [],
               endpointType: link.endpointtype,
+              locations: link.locations ? link.locations : false,
               // TODO: This is usually used in the client to define if it is a global indicator
               // it should be handled with a unique value
               country: 'all',

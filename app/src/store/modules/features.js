@@ -99,9 +99,10 @@ const getters = {
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
-  getFeatures(state, _, rootState) {
+  getFeatures(state/* , _, rootState */) {
     let features = state.allFeatures;
-
+    // TODO: with current approach we should not need any filtering for features here
+    /*
     if (state.featureFilters.countries.length > 0) {
       features = features
         .filter((f) => {
@@ -140,9 +141,14 @@ const getters = {
     }
 
     if (!state.featureFilters.includeArchived) {
-      features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
+      features = features.filter(
+        (f) => (
+          f.properties.indicatorObject.updateFrequency
+            ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true
+        )
+      );
     }
-
+    */
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));

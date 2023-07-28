@@ -196,7 +196,7 @@
                   :href="dataHrefCSV"
                   :download="downloadFileName"
                   target="_blank"
-                  v-if="dataObject
+                  v-if="dataObject && dataObject.time
                     && !showMap
                     && !dataObject.disableCSV"
                 >

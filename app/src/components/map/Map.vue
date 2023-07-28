@@ -390,7 +390,7 @@ export default {
       if (!this.indicator) {
         return [];
       }
-      if (this.featureObject && this.featureData) {
+      if (this.featureObject && this.featureData && this.featureData.time) {
         // merge information from both
         const mergedIndicator = {
           ...this.featureObject,
@@ -431,7 +431,7 @@ export default {
       if (!this.indicator) {
         return [];
       }
-      if (this.featureObject && this.featureData) {
+      if (this.featureObject && this.featureData && this.featureData.time) {
         // merge information from both
         const mergedIndicator = {
           ...this.featureObject,
@@ -477,7 +477,7 @@ export default {
       };
     },
     availableTimeEntries() {
-      if (this.featureObject && this.featureData) {
+      if (this.featureObject && this.featureData && this.featureData.time) {
         // merge information from both
         const mergedIndicator = {
           ...this.featureObject,
