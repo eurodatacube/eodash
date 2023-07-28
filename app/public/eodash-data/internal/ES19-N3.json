@@ -2550,5 +2550,16 @@
         "reference_time": "2023-07-01T00:00:00",
         "reference_value": "[-1.160 0.105]",
         "time": "2023-07-01T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.063",
+        "reference_time": "2023-07-08T00:00:00",
+        "reference_value": "[-1.120 0.156]",
+        "time": "2023-07-08T00:00:00"
     }
 ]
