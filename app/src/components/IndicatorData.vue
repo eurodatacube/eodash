@@ -192,8 +192,8 @@ export default {
       const { refColors } = this.appConfig;
       let labels = [];
       const datasets = [];
-      if (indicator) {
-        const { measurement } = indicator;
+      if (indicator && featureData) {
+        const { measurement } = featureData;
         const colors = [];
 
         // Definition of data structure type of indicator
