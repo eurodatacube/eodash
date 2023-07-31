@@ -208,7 +208,23 @@ function clusterMemberStyle(clusterMember) {
   } else {
     theme = indicator.themes;
   }
-  const image = indicatorClassesStyles[theme]?.[isSelected ? 'large' : 'small'];
+  let image = indicatorClassesStyles[theme]?.[isSelected ? 'large' : 'small'];
+  if (typeof image === 'undefined') {
+    // Falling back to a default style without icon
+    // TODO: add some configurable default
+    const fill = new Fill({
+      color: '#497fa9',
+    });
+    const stroke = new Stroke({
+      color: '#fff',
+      width: 2,
+    });
+    image = new CircleStyle({
+      fill,
+      stroke,
+      radius: isSelected ? 14 : 12,
+    });
+  }
   const iconStyle = new Style({
     image,
     geometry: clusterMember.getGeometry(),
@@ -477,22 +493,6 @@ class Cluster {
     });
     clusterSource.clear();
     clusterSource.addFeatures(features);
-    const router = this.vm.$router;
-    const { query } = router.currentRoute;
-    // if search box is empty, don't reset view to all features
-    if (features.length && query.search) {
-      setTimeout(() => {
-        const { selectedIndicator } = store.state.indicators;
-        if (!selectedIndicator) {
-          const padding = calculatePadding();
-          this.map.getView().fit(clusterSource.getExtent(), {
-            maxZoom: 8,
-            duration: 200,
-            padding,
-          }, 0);
-        }
-      });
-    }
   }
 
   /**
