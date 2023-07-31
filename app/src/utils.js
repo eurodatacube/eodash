@@ -171,7 +171,9 @@ export async function loadFeatureData(baseConfig, feature) {
   } else {
     // Fetch data from geodb
     const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
-    const url = `${geodbUrl}_${indicatorObject.indicator}?aoi_id=eq.${indicatorObject.aoiID}`;
+    const geodbIndicatorId = indicatorObject.geoDBID
+      ? indicatorObject.geoDBID : indicatorObject.indicator;
+    const url = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}`;
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
     if (response) {
@@ -275,17 +277,15 @@ export async function loadFeatureData(baseConfig, feature) {
         }
       }
     }
-    // Sort data based on time
+    // Sort all data based on time
+    // Create an array of indices for sorting
+    const indices = parsedData.time.map((_, index) => index);
+    indices.sort((a, b) => parsedData.time[a] - parsedData.time[b]);
     Object.keys(parsedData).forEach((key) => {
-      if (key !== 'time' && key !== 'subAoi') {
-        parsedData[key].sort((a, b) => {
-          const indexA = parsedData[key].indexOf(a);
-          const indexB = parsedData[key].indexOf(b);
-          return parsedData.time[indexA] - parsedData.time[indexB];
-        });
+      if (key !== 'subAoi') {
+        parsedData[key] = indices.map((index) => parsedData[key][index]);
       }
     });
-    parsedData.time.sort();
   }
   return parsedData;
 }
@@ -339,6 +339,8 @@ export async function loadIndicatorData(baseConfig, payload) {
           const featureObject = {};
           const coordinates = link.latlng.split(',').map(Number);
           featureObject.aoiID = link.id;
+          // Sometimes geodb id is different to eodash id
+          featureObject.geoDBID = jsonData.id;
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;
