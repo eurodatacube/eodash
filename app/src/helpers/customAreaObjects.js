@@ -406,7 +406,8 @@ export const fetchCustomAreaObjects = async (
           // We take here fulfilled datasets, rejected status is probably from timeout
           if (entry.status === 'fulfilled' && 'properties' in entry.value
               && 'statistics' in entry.value.properties) {
-            d = entry.value.properties.statistics['1'];
+            const stats = entry.value.properties.statistics;
+            d = entry.value.properties.statistics[Object.keys(stats)[0]];
             d.time = entry.value.time;
           }
           return d;

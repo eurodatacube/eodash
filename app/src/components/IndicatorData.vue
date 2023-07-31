@@ -118,7 +118,7 @@ export default {
     return {
       dataLayerTime: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
@@ -411,6 +411,13 @@ export default {
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
+        referenceDecompose.SST = referenceDecompose.N3;
+
+        referenceDecompose.SST.referenceData[0].key = 'Sea Surface Temperature';
+        referenceDecompose.SST.referenceData[0].calc = (meas, obj) => obj[0];
+        referenceDecompose.SST.referenceData[1].calc = (meas, obj) => obj[0] - obj[1];
+        referenceDecompose.SST.referenceData[2].calc = (meas, obj) => obj[0] + obj[1];
+
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -470,7 +477,7 @@ export default {
           });
         }
         // Add special points for N3
-        if (indicatorCode === 'N3') {
+        if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
           const indicatorValues = {};
           indicator.indicatorValue.map((val, i) => {
@@ -491,9 +498,13 @@ export default {
               if (indicator.indicatorValue[i] !== key.toUpperCase()) {
                 val = NaN;
               }
+              let y = Number.isNaN(val) ? Number.NaN : (10 ** val);
+              if (['SST'].includes(indicatorCode)) {
+                y = Number.isNaN(val) ? Number.NaN : val;
+              }
               return {
                 t: indicator.time[i],
-                y: Number.isNaN(val) ? Number.NaN : (10 ** val),
+                y,
               };
             });
             datasets.push({
@@ -1583,10 +1594,6 @@ export default {
             },
           },
         };
-        if (this.indicatorObject.aoiID === 'ES19') {
-          customSettings.yAxisOverwrite.min = 0.02;
-          customSettings.yAxisOverwrite.max = 1;
-        }
         customSettings.labelsExtend = {
           usePointStyle: true,
           boxWidth: 5,
@@ -1603,7 +1610,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
