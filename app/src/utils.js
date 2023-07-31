@@ -119,7 +119,7 @@ function createWMSDisplay(config, name) {
     layers,
     // legendUrl: 'legend.png',
     minZoom: 1,
-    maxZoom: 13,
+    maxZoom: 16,
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
     // TODO: need to think how the stat api acces can be described in stac disabling for now
     /*
