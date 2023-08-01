@@ -113,6 +113,7 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
 
 function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
+  const styles = config['wms:layers'] ? config['wms:layers'].join(',') : '';
   const display = {
     baseUrl: config.href,
     name,
@@ -120,7 +121,10 @@ function createWMSDisplay(config, name) {
     // legendUrl: 'legend.png',
     minZoom: 1,
     maxZoom: 16,
-    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+    styles,
+    dateFormatFunction: (date) => date,
+    // TODO: not sure if the crossOrigin null as default will create issues (needed for N1b)
+    crossOrigin: null,
     // TODO: need to think how the stat api acces can be described in stac disabling for now
     /*
     customAreaIndicator: true,
