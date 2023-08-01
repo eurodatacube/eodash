@@ -59,6 +59,10 @@ export default {
         ),
         */
       ];
+      // If already set we do not need to set it again
+      if (this.searchItems.length > 0) {
+        return;
+      }
       this.searchItems = itemArray;
 
       this.$nextTick(() => {
@@ -71,23 +75,19 @@ export default {
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Sensor' },
+              { key: 'countries', title: 'Country' },
+              { key: 'cities', title: 'City' },
             ],
             aggregateResults: 'themes',
             enableSearch: true,
             enableHighlighting: true,
             onSelect: (item) => {
-              this.setFeatureFilter({
-                indicators: item.code,
-              });
-              if (item.region === 'global') {
-                this.setSelectedIndicator(item);
-              } else {
-                this.setSelectedIndicator(null);
-              }
+              this.setSelectedIndicator(item);
             },
             fuseConfig: {
               keys: [
                 'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
+                'countries', 'cities',
               ],
             },
           },
@@ -95,16 +95,7 @@ export default {
             titleProperty: 'title',
             filterProperties: ['themes'],
             onSelect: (item) => {
-              this.setFeatureFilter({
-                indicators: item.code,
-              });
-              if (this.getGroupedFeatures[0].properties.indicatorObject.siteName === 'global') {
-                this.setSelectedIndicator(
-                  this.getGroupedFeatures[0].properties.indicatorObject,
-                );
-              } else {
-                this.setSelectedIndicator(null);
-              }
+              this.setSelectedIndicator(item);
             },
             exclusiveFilters: true,
             fuseConfig: {

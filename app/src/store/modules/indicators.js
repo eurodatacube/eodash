@@ -64,6 +64,8 @@ const actions = {
               country: 'all',
               city: 'World',
               siteName: 'global',
+              countries: link.countries ? link.countries : [],
+              cities: link.cities ? link.cities : [],
               // aoiID: 'CDS',
               // TODO: some default values we seem to need would be great if we can remove them
               subAoi: {
