@@ -306,6 +306,10 @@ export async function loadIndicatorData(baseConfig, payload) {
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     if (wmsEndpoint) {
       indicatorObject.display = createWMSDisplay(wmsEndpoint, jsonData.name);
+      // Handling of unique non standard functionality
+      if (indicatorObject.indicator === 'WSF') {
+        indicatorObject.display.specialEnvTime = true;
+      }
       timeBasedLayerFound = true;
     } else {
       indicatorObject.display = null;
