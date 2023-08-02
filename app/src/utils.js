@@ -155,9 +155,13 @@ export async function loadFeatureData(baseConfig, feature) {
       store.state.indicators.selectedIndicator.time = times;
       const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
       if (wmsEndpoint) {
-        store.state.indicators.selectedIndicator.display = createWMSDisplay(
+        const display = createWMSDisplay(
           wmsEndpoint, jsonData.name,
         );
+        if ('assets' in jsonData && 'legend' in jsonData.assets) {
+          display.legendUrl = jsonData.assets.legend.href;
+        }
+        store.state.indicators.selectedIndicator.display = display;
       } else {
         store.state.indicators.selectedIndicator.display = null;
       }
@@ -305,11 +309,17 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     if (wmsEndpoint) {
-      indicatorObject.display = createWMSDisplay(wmsEndpoint, jsonData.name);
+      const display = createWMSDisplay(
+        wmsEndpoint, jsonData.name,
+      );
+      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+        display.legendUrl = jsonData.assets.legend.href;
+      }
       // Handling of unique non standard functionality
       if (indicatorObject.indicator === 'WSF') {
-        indicatorObject.display.specialEnvTime = true;
+        display.specialEnvTime = true;
       }
+      indicatorObject.display = display;
       timeBasedLayerFound = true;
     } else {
       indicatorObject.display = null;
