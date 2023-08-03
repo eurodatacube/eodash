@@ -15,7 +15,7 @@
           style="position: absolute; right: 40px; top: 13px;display: none;"
           elevation="2"
           x-small
-          @click="resetBCZoom"
+          @click="resetZoom"
         >
           Reset Zoom
         </v-btn>
@@ -63,7 +63,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetSPZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -82,7 +82,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetLCZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -1185,17 +1185,22 @@ export default {
         this.compareLayerTimeFromMap = event.data.time;
       }
     },
-    resetLCZoom() {
-      this.extentChanged(false);
-      this.$refs.lineChart._data._chart.resetZoom();
+    getChartObject() {
+      if (this.$refs.lineChart) {
+        return this.$refs.lineChart._data._chart;
+      } 
+      if (this.$refs.barChart) {
+        return this.$refs.barChart._data._chart;
+      } 
+      if (this.$refs.scatterChart) {
+        return this.$refs.scatterChart._data._chart;
+      }
+      return null;
     },
-    resetBCZoom() {
+    resetZoom() {
       this.extentChanged(false);
-      this.$refs.barChart._data._chart.resetZoom();
-    },
-    resetSPZoom() {
-      this.extentChanged(false);
-      this.$refs.scatterChart._data._chart.resetZoom();
+      const chart = this.getChartObject();
+      chart.resetZoom();
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
@@ -1790,6 +1795,9 @@ export default {
         ...customSettings,
         annotation: {
           annotations,
+        },
+        animation: {
+          duration: 0,
         },
         yAxis: this.indicatorObject.yAxis,
         xAxis: this.indicatorObject.xAxis,
