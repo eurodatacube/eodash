@@ -411,7 +411,8 @@ export default {
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
-        referenceDecompose.SST = referenceDecompose.N3;
+
+        referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
 
         referenceDecompose.SST.referenceData[0].key = 'Sea Surface Temperature';
         referenceDecompose.SST.referenceData[0].calc = (meas, obj) => obj[0];
