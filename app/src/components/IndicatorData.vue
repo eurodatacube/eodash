@@ -1188,10 +1188,10 @@ export default {
     getChartObject() {
       if (this.$refs.lineChart) {
         return this.$refs.lineChart._data._chart;
-      } 
+      }
       if (this.$refs.barChart) {
         return this.$refs.barChart._data._chart;
-      } 
+      }
       if (this.$refs.scatterChart) {
         return this.$refs.scatterChart._data._chart;
       }
