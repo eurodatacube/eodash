@@ -373,7 +373,7 @@ export default {
       // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     featureObject() {
-      return this.$store.state.features.selectedFeature?.getProperties().properties.indicatorObject;
+      return this.$store.state.features.selectedFeature?.indicatorObject;
     },
     featureData() {
       return this.$store.state.features.featureData;

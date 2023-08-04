@@ -297,7 +297,7 @@ export default {
       // Using empty ascii to make sure subheading height is kept if no poi selection is active
       let city = '&#8194';
       if (this.selectedFeature) {
-        city = this.selectedFeature.getProperties().properties.indicatorObject.city;
+        city = this.selectedFeature.indicatorObject.city;
       }
       return city;
     },

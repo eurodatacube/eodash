@@ -189,7 +189,7 @@ function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
  * @returns {boolean}
  */
 function isFeatureSelected(feature) {
-  return feature === store.state.features.selectedFeature;
+  return feature.getProperties().indicatorObject === store.state.features.selectedFeature;
 }
 
 /**
@@ -550,7 +550,10 @@ class Cluster {
 
     const { indicatorObject } = feature.getProperties().properties;
     if (!indicatorObject.dummyFeature) {
-      store.commit('features/SET_SELECTED_FEATURE', feature);
+      store.commit('features/SET_SELECTED_FEATURE', {
+        indicatorObject,
+        geometry: feature.getGeometry(),
+      });
     }
   }
 }

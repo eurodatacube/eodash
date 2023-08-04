@@ -1154,7 +1154,7 @@ export default {
       return { labels, datasets };
     },
     indicatorObject() {
-      return this.$store.state.features.selectedFeature.getProperties().properties.indicatorObject;
+      return this.$store.state.features.selectedFeature.indicatorObject;
       // TODO: We probably will be able to remove the whole customAreaIndicator object
       /*
       return this.currentIndicator

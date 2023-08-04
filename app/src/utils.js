@@ -139,7 +139,7 @@ function createWMSDisplay(config, name) {
 
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
-  const { indicatorObject } = feature.getProperties().properties;
+  const { indicatorObject } = feature;
   if (indicatorObject.locations) {
     const response = await fetch(indicatorObject.link);
     const jsonData = await response.json();

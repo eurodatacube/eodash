@@ -1,6 +1,6 @@
 export default function getLocationCode(indicatorObject, featureObject) {
   const featureObjectProperties = featureObject
-    ? featureObject.getProperties().properties.indicatorObject : null;
+    ? featureObject.indicatorObject : null;
   return (featureObjectProperties?.aoiID && indicatorObject?.indicator)
     ? `${
       featureObjectProperties.aoiID

@@ -88,6 +88,7 @@ export default {
     showPrivacyDialog: false,
     comingSoon: null,
     countDownTime: null,
+    startupFeatureSelection: null,
   }),
   computed: {
     ...mapState('config', [
@@ -164,11 +165,41 @@ export default {
     }
   },
   mounted() {
-    // Listen for features added, and select if poi in query
+    // Listen for initial loading of indicators and set possible indicator from url
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/ADD_NEW_FEATURES') {
-        // Read route query and set selected poi
-        const { poi, country, indicator } = this.$route.query;
+      if (mutation.type === 'features/SET_FEATURES') {
+        if (mutation.payload && this.startupFeatureSelection !== null) {
+          const features = mutation.payload;
+          const selectedFeature = features.find((ft) => {
+            const indObj = ft.properties.indicatorObject;
+            return `${indObj.aoiID}-${indObj.indicator}` === this.startupFeatureSelection;
+          });
+          if (selectedFeature) {
+            this.startupFeatureSelection = null;
+            this.$store.commit(
+              'features/SET_SELECTED_FEATURE', {
+                indicatorObject: selectedFeature.properties.indicatorObject,
+                geometry: null,
+              },
+            );
+          }
+        }
+      }
+
+      if (mutation.type === 'indicators/SET_INDICATORS') {
+        // Read route query and set selected indicator, once indicator loaded set selected feature
+        if (mutation.payload) {
+          const { poi, indicator } = this.$route.query;
+          const indicators = mutation.payload;
+          const selectedIndicator = indicators.find((ind) => ind.code === indicator);
+          if (selectedIndicator) {
+            this.startupFeatureSelection = poi;
+            this.$store.commit(
+              'indicators/SET_SELECTED_INDICATOR', selectedIndicator,
+            );
+          }
+        }
+        /*
         const indicatorsFilter = (indicator && indicator.split(',')) || [];
         if (poi || indicatorsFilter.length > 0) {
           // poi or indicator was present on app init
@@ -206,6 +237,7 @@ export default {
           countries: selectedCountry,
           indicators: selectedIndicators,
         });
+        */
       }
       // Url query replacement
       if (mutation.type === 'features/SET_FEATURE_FILTER') {
@@ -250,10 +282,11 @@ export default {
       if (['features/SET_SELECTED_FEATURE'].includes(mutation.type)) {
         if (mutation.payload) {
           this.loadFeatureData(mutation.payload);
-          const locCode = this.getLocationCode(
-            this.$store.state.indicators.selectedIndicator, mutation.payload,
-          );
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: locCode }) }).catch(err => {}); // eslint-disable-line
+          const indObj = mutation.payload.indicatorObject;
+          const locCode = `${indObj.aoiID}-${indObj.indicator}`;
+          this.$router.replace({
+            query: Object.assign({}, this.$route.query, { poi: locCode }) // eslint-disable-line
+          }).catch(() => {});
           this.trackEvent('features', 'select_feature', locCode);
         } else {
           this.loadFeatureData(mutation.payload);
