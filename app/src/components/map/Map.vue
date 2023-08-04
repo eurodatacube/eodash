@@ -109,6 +109,11 @@
         :mapId="mapId"
         class="pointerEvents"
       />
+      <eox-layercontrol
+        v-if="loaded"
+        :for="'#' + mapId || ''"
+        layerIdentifier="id">
+      </eox-layercontrol>
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         :style="`z-index: 3;`"
@@ -740,6 +745,8 @@ export default {
       }
     });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+
+
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);
     attributions.setMap(map);
