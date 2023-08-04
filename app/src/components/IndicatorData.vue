@@ -15,7 +15,7 @@
           style="position: absolute; right: 40px; top: 13px;display: none;"
           elevation="2"
           x-small
-          @click="resetBCZoom"
+          @click="resetZoom"
         >
           Reset Zoom
         </v-btn>
@@ -64,7 +64,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetSPZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -83,7 +83,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetLCZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -419,7 +419,8 @@ export default {
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
-        referenceDecompose.SST = referenceDecompose.N3;
+
+        referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
 
         referenceDecompose.SST.referenceData[0].key = 'Sea Surface Temperature';
         referenceDecompose.SST.referenceData[0].calc = (meas, obj) => obj[0];
@@ -1202,17 +1203,22 @@ export default {
         this.compareLayerTimeFromMap = event.data.time;
       }
     },
-    resetLCZoom() {
-      this.extentChanged(false);
-      this.$refs.lineChart._data._chart.resetZoom();
+    getChartObject() {
+      if (this.$refs.lineChart) {
+        return this.$refs.lineChart._data._chart;
+      }
+      if (this.$refs.barChart) {
+        return this.$refs.barChart._data._chart;
+      }
+      if (this.$refs.scatterChart) {
+        return this.$refs.scatterChart._data._chart;
+      }
+      return null;
     },
-    resetBCZoom() {
+    resetZoom() {
       this.extentChanged(false);
-      this.$refs.barChart._data._chart.resetZoom();
-    },
-    resetSPZoom() {
-      this.extentChanged(false);
-      this.$refs.scatterChart._data._chart.resetZoom();
+      const chart = this.getChartObject();
+      chart.resetZoom();
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
@@ -1775,10 +1781,13 @@ export default {
         borderDash: [4, 4],
         borderWidth: 3,
         label: {
+          xPadding: 3,
+          yPadding: 3,
+          xAdjust: -28,
           enabled: true,
           content: 'Map layer',
           fontSize: 10,
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: 'rgba(0,0,0,0.4)',
         },
       };
 
@@ -1795,6 +1804,7 @@ export default {
           label: {
             ...defaultTimeAnnotation.label,
             content: 'Compare layer',
+            xAdjust: 38,
           },
         });
       }
@@ -1802,6 +1812,9 @@ export default {
         ...customSettings,
         annotation: {
           annotations,
+        },
+        animation: {
+          duration: 0,
         },
         yAxis: this.indicatorObject.yAxis,
         xAxis: this.indicatorObject.xAxis,
