@@ -300,7 +300,7 @@ export async function loadFeatureData(baseConfig, feature) {
 
 export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject = payload;
-  if (payload.type === 'stac') {
+  if (payload && payload.type && payload.type === 'stac') {
     indicatorObject = payload;
     const response = await fetch(payload.link);
     const jsonData = await response.json();
@@ -379,6 +379,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       store.commit('features/SET_FEATURES', features);
     }
     indicatorObject.time = times;
+    // We need the information on features directly once loaded for the custom dashboard loading
+    // TODO: probably there is a better way of managing this information
+    indicatorObject.features = features;
   }
   return indicatorObject;
   /*
@@ -599,7 +602,7 @@ export function getIndicatorFilteredInputData(selectedIndicator) {
   if (!inputData) {
     return null;
   }
-  const locationCode = getLocationCode(indicator, store.state.features.selectedFeature);
+  const locationCode = getLocationCode(indicator);
   if (indicatorRegistry[locationCode]) {
     return indicatorRegistry[locationCode];
   }

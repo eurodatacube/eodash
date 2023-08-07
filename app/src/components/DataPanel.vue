@@ -156,7 +156,9 @@
                 <add-to-dashboard-button
                   v-if="customAreaIndicator
                     && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
-                  :indicatorObject="customAreaIndicator">
+                  :indicatorObject="customAreaIndicator"
+                  :featureObject="featureObject"
+                  >
                 </add-to-dashboard-button>
               </div>
             </v-col>
@@ -227,6 +229,7 @@
                 <add-to-dashboard-button
                   v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
+                  :featureObject="featureObject"
                   :zoom="zoom"
                   :center="center"
                   :direction="direction"
@@ -470,17 +473,18 @@ export default {
       }
       // If not do previous checks to see if other option can be found
       let markdown = '';
+      let indObject = this.indicatorObject;
+      if (this.featureObject) {
+        indObject = this.featureObject;
+      }
       try {
         const demoItem = this.$route.name === 'demo'
           ? this.appConfig.demoMode[this.$route.query.event]
-            .find((item) => item.poi === this.getLocationCode(
-              this.indicatorObject, this.featureObject,
-            ))
-          : false;
+            .find((item) => item.poi === this.getLocationCode(indObject)) : false;
         markdown = require(`../../public${demoItem.story}.md`);
       } catch {
         try {
-          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(this.indicatorObject, this.featureObject)}.md`);
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
         } catch {
           try {
             markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);

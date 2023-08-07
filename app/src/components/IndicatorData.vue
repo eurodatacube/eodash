@@ -1155,7 +1155,8 @@ export default {
       return { labels, datasets };
     },
     indicatorObject() {
-      return this.$store.state.features.selectedFeature.indicatorObject;
+      // Return either the set prop (custom dashbaord) or the selected feature object
+      return this.currentIndicator || this.$store.state.features.selectedFeature.indicatorObject;
       // TODO: We probably will be able to remove the whole customAreaIndicator object
       /*
       return this.currentIndicator

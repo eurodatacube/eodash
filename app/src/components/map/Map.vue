@@ -156,6 +156,7 @@
             && indicatorHasMapData(indicator)
             && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
+          :featureObject="featureObject"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
           :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
@@ -369,7 +370,11 @@ export default {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
       // otherwise it will use the selected indicator from the store
-      return this.$store.state.indicators.selectedIndicator;
+      let indicator = this.$store.state.indicators.selectedIndicator;
+      if (this.currentIndicator) {
+        indicator = this.currentIndicator;
+      }
+      return indicator;
       // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     featureObject() {
@@ -566,8 +571,12 @@ export default {
       }
       if (this.$route.name === 'demo') {
         // check if a demo item custom extent is set as override
+        let indObject = this.indicatorObject;
+        if (this.featureObject) {
+          indObject = this.featureObject;
+        }
         const demoItem = this.appConfig.demoMode[this.$route.query.event]
-          .find((item) => item.poi === getLocationCode(this.indicator, this.featureObject));
+          .find((item) => item.poi === getLocationCode(indObject));
         if (demoItem && demoItem.extent) {
           return demoItem.extent;
         }
