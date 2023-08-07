@@ -519,7 +519,7 @@ export default {
       return this.$store.state.features.featureData;
     },
     featureObject() {
-      return this.$store.state.features.selectedFeature;
+      return this.$store.state.features.selectedFeature?.indicatorObject;
     },
     dataHrefCSV() {
       let dataHref = 'data:text/csv;charset=utf-8,';
