@@ -811,7 +811,7 @@ export default {
           this.$set(this.serverUp, f.poi, f.mapInfo.up);
           this.$set(this.serverDataLayerTime, f.poi, f.mapInfo.dataLayerTime);
 
-          if (f.mapInfo.dataLayerTime) {
+          if (f.mapInfo.compareLayerTime) {
             this.$set(this.localCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
             this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
           }

@@ -15,7 +15,7 @@
           style="position: absolute; right: 40px; top: 13px;display: none;"
           elevation="2"
           x-small
-          @click="resetBCZoom"
+          @click="resetZoom"
         >
           Reset Zoom
         </v-btn>
@@ -63,7 +63,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetSPZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -82,7 +82,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetLCZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -117,8 +117,10 @@ export default {
   data() {
     return {
       dataLayerTime: null,
+      dataLayerTimeFromMap: null,
+      compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
@@ -149,7 +151,6 @@ export default {
         'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
     };
   },
-
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     const formatted = d.toFormat('dd. MMM');
@@ -157,6 +158,8 @@ export default {
       value: formatted,
       name: formatted,
     };
+    // add event listener for map up
+    window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -411,6 +414,14 @@ export default {
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
+
+        referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
+
+        referenceDecompose.SST.referenceData[0].key = 'Sea Surface Temperature';
+        referenceDecompose.SST.referenceData[0].calc = (meas, obj) => obj[0];
+        referenceDecompose.SST.referenceData[1].calc = (meas, obj) => obj[0] - obj[1];
+        referenceDecompose.SST.referenceData[2].calc = (meas, obj) => obj[0] + obj[1];
+
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -469,8 +480,18 @@ export default {
             });
           });
         }
+
+        // datasets.push({
+        //   label: 'hide_',
+        //   data: [],
+        //   borderColor: 'rgba(0,0,0,0.1)',
+        //   backgroundColor: 'rgba(0,0,0,1)',
+        //   borderWidth: 1,
+        //   pointRadius: 3,
+        //   spanGaps: false,
+        // });
         // Add special points for N3
-        if (indicatorCode === 'N3') {
+        if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
           const indicatorValues = {};
           indicator.indicatorValue.map((val, i) => {
@@ -491,9 +512,13 @@ export default {
               if (indicator.indicatorValue[i] !== key.toUpperCase()) {
                 val = NaN;
               }
+              let y = Number.isNaN(val) ? Number.NaN : (10 ** val);
+              if (['SST'].includes(indicatorCode)) {
+                y = Number.isNaN(val) ? Number.NaN : val;
+              }
               return {
                 t: indicator.time[i],
-                y: Number.isNaN(val) ? Number.NaN : (10 ** val),
+                y,
               };
             });
             datasets.push({
@@ -1152,17 +1177,31 @@ export default {
         this.$refs.regenerateButton.$el.style.display = 'none';
       }
     },
-    resetLCZoom() {
-      this.extentChanged(false);
-      this.$refs.lineChart._data._chart.resetZoom();
+    mapTimeUpdatedHandler(event) {
+      // set listener to highlight points for selected time on map via annotations
+      if (event.data.command === 'chart:setTime') {
+        this.dataLayerTimeFromMap = event.data.time;
+      }
+      if (event.data.command === 'chart:setCompareTime') {
+        this.compareLayerTimeFromMap = event.data.time;
+      }
     },
-    resetBCZoom() {
-      this.extentChanged(false);
-      this.$refs.barChart._data._chart.resetZoom();
+    getChartObject() {
+      if (this.$refs.lineChart) {
+        return this.$refs.lineChart._data._chart;
+      }
+      if (this.$refs.barChart) {
+        return this.$refs.barChart._data._chart;
+      }
+      if (this.$refs.scatterChart) {
+        return this.$refs.scatterChart._data._chart;
+      }
+      return null;
     },
-    resetSPZoom() {
+    resetZoom() {
       this.extentChanged(false);
-      this.$refs.scatterChart._data._chart.resetZoom();
+      const chart = this.getChartObject();
+      chart.resetZoom();
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
@@ -1207,8 +1246,29 @@ export default {
       const indicatorCode = this.indicatorObject.indicator;
       const reference = Number.parseFloat(this.indicatorObject.referenceValue);
       const annotations = [];
+
       let low = 0;
       let high = 0;
+
+      customSettings.onClick = (event, elements) => {
+        if (elements.length > 0) {
+          // clicked some chart
+          const chart = elements[0]._chart;
+          const element = chart.getElementAtEvent(event)[0];
+          const dataset = chart.data.datasets[element._datasetIndex];
+          const timeSelected = dataset.data[element._index].t;
+          if (timeSelected) {
+            // reuse map event interface for scrolly
+            let command = 'map:setTime';
+            if (event.ctrlKey || event.shiftKey) {
+              command = 'map:setCompareTime';
+            }
+            window.postMessage({
+              command, time: timeSelected,
+            });
+          }
+        }
+      };
 
       // Default tooltips
       customSettings.tooltips = {
@@ -1350,28 +1410,6 @@ export default {
           };
         }
       }
-
-      /*
-      if (['AQ1'].includes(indicatorCode)) {
-        customSettings.tooltips = {
-          callbacks: {
-            label: (context, data) => {
-              debugger;
-              // const label = `${data.datasets[context.datasetIndex].label} measurement:
-              // ${Number(context.value)}`;
-              return label;
-            },
-            footer: (context) => {
-              debugger;
-              const { datasets } = this.datacollection;
-              const obj = datasets[context[0].datasetIndex].data[context[0].index];
-              const labelOutput = `Time: ${obj.referenceValue}`;
-              return labelOutput;
-            },
-          },
-        };
-      }
-      */
 
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
@@ -1583,10 +1621,6 @@ export default {
             },
           },
         };
-        if (this.indicatorObject.aoiID === 'ES19') {
-          customSettings.yAxisOverwrite.min = 0.02;
-          customSettings.yAxisOverwrite.max = 1;
-        }
         customSettings.labelsExtend = {
           usePointStyle: true,
           boxWidth: 5,
@@ -1603,7 +1637,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
@@ -1723,16 +1757,63 @@ export default {
           },
         };
       }
+      const defaultTimeAnnotation = {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        borderColor: 'rgba(0, 0, 0, 0.5)',
+        borderDash: [4, 4],
+        borderWidth: 3,
+        label: {
+          xPadding: 3,
+          yPadding: 3,
+          xAdjust: -28,
+          enabled: true,
+          content: 'Map layer',
+          fontSize: 10,
+          backgroundColor: 'rgba(0,0,0,0.4)',
+        },
+      };
+
+      if (this.dataLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.dataLayerTimeFromMap,
+        });
+      }
+      if (this.compareLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.compareLayerTimeFromMap,
+          label: {
+            ...defaultTimeAnnotation.label,
+            content: 'Compare layer',
+            xAdjust: 38,
+          },
+        });
+      }
       return {
         ...customSettings,
         annotation: {
           annotations,
+        },
+        animation: {
+          duration: 0,
         },
         yAxis: this.indicatorObject.yAxis,
         xAxis: this.indicatorObject.xAxis,
         country: this.indicatorObject.country,
       };
     },
+  },
+  beforeDestroy() {
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(false, this.overlayCallback);
+      this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
+    }
+    window.removeEventListener('message', this.mapTimeUpdatedHandler);
   },
 };
 </script>

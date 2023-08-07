@@ -600,15 +600,20 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   N3: {
-    indicatorSummary: 'CHL concentration',
+    indicatorSummary: 'Water Quality Time Series',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
   },
   N3a2: {
-    indicatorSummary: 'CHL concentration',
+    indicatorSummary: 'Water Quality and SST Maps',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
     customAreaIndicator: true,
+  },
+  SST: {
+    indicatorSummary: 'Sea Surface Temperature Time Series',
+    themes: ['water'],
+    story: '/eodash-data/stories/BarcelonaSST-N3a2',
   },
   N4a: {
     indicatorSummary: 'Changes in land fill sites',
