@@ -289,7 +289,7 @@
       ></v-divider>
       <custom-dashboard-grid
         ref="customDashboardGrid"
-        v-if="$store.state.features.allFeatures.length > 0"
+        v-if="$store.state.indicators.indicators && $store.state.indicators.indicators.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || !!newFeatureDialog"
         :storyMode="storyModeEnabled"

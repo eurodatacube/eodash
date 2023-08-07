@@ -177,6 +177,8 @@
                 element.mapInfo"
                 :mapId="element.poi"
                 :currentIndicator="element.indicatorObject"
+                :currentFeatureData="element.currentFeatureData"
+                :currentFeatureObject="element.currentFeatureObject"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
                 :centerProp="localCenter[element.poi]"
@@ -192,6 +194,7 @@
                 v-else
                 disableAutoFocus
                 :currentIndicator="element.indicatorObject"
+                :currentFeatureData="element.currentFeatureData"
                 class="pa-5 chart"
                 style="top: 0px; position: absolute;"
               />
@@ -450,7 +453,7 @@ import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
-import { loadIndicatorData } from '@/utils';
+import { loadIndicatorData, loadFeatureData } from '@/utils';
 import Map from '@/components/map/Map.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
@@ -699,7 +702,7 @@ export default {
       if (el.text) this.$emit('updateTextFeature', el);
     },
     redirectToPoi(indicatorObject) {
-      this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
+      this.$router.push(`/?indicator=${indicatorObject.indicator}&poi=${this.getLocationCode(indicatorObject)}`);
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
     },
     changeFeatureTitleFn(poi, newTitle) {
@@ -784,14 +787,28 @@ export default {
           const p = f.poi.split('@')[0];
           poiCode = p;
         }
-
-        const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
-
+        // Try to find indicator
+        const [poi, indicatorCode] = poiCode.split('-');
+        const indicatorConfig = this.$store.state.indicators.indicators.find(
+          (ind) => ind.indicator === indicatorCode,
+        );
+        // and load relevant data
         const indicatorObject = await loadIndicatorData(
           this.baseConfig,
-          feature.properties.indicatorObject,
+          indicatorConfig,
         );
+
+        const currentFeatureObject = indicatorObject.features.find(
+          (feat) => feat.id === poi,
+        );
+        let currentFeatureData;
+        if (currentFeatureObject) {
+          currentFeatureData = await loadFeatureData(
+            this.baseConfig, currentFeatureObject.properties,
+          );
+          // Set subaoi info in indicatorobject
+          indicatorObject.subAoi = currentFeatureData.subAoi;
+        }
         if (f.mapInfo
           && (firstCall || f.poi === this.savedPoi || !this.localCenter[f.poi])
         ) {
@@ -820,6 +837,8 @@ export default {
         return {
           ...f,
           indicatorObject,
+          currentFeatureData,
+          currentFeatureObject,
         };
       }));
     },

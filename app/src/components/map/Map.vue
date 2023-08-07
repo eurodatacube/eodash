@@ -243,6 +243,14 @@ export default {
       type: Object,
       default: undefined,
     },
+    currentFeatureData: {
+      type: Object,
+      default: undefined,
+    },
+    currentFeatureObject: {
+      type: Object,
+      default: undefined,
+    },
     // to do: still needed?
     disableAutoFocus: Boolean,
     // same as currentIndicator
@@ -378,10 +386,18 @@ export default {
       // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     featureObject() {
-      return this.$store.state.features.selectedFeature?.indicatorObject;
+      let featureObject = this.$store.state.features.selectedFeature?.indicatorObject;
+      if (this.currentFeatureObject) {
+        featureObject = this.currentFeatureObject;
+      }
+      return featureObject;
     },
     featureData() {
-      return this.$store.state.features.featureData;
+      let { featureData } = this.$store.state.features;
+      if (this.currentFeatureData) {
+        featureData = this.currentFeatureData;
+      }
+      return featureData;
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and

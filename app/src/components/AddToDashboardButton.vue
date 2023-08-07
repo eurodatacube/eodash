@@ -84,6 +84,7 @@ import {
 export default {
   props: {
     indicatorObject: Object,
+    featureObject: Object,
     zoom: Number,
     center: Object,
     direction: Array,
@@ -122,7 +123,11 @@ export default {
       'removeFeature',
     ]),
     async toggle() {
-      const poiValue = `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
+      let indObj = this.indicatorObject;
+      if (this.featureObject) {
+        indObj = this.featureObject;
+      }
+      const poiValue = `${this.getLocationCode(indObj)}@${Date.now()}`;
       this.addFeature(
         {
           poi: this.indicatorObject.poi

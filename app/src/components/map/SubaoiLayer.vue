@@ -67,8 +67,15 @@ export default {
     },
     subAoi() {
       // create an inverse of subaoi, using difference of whole world and subaoi
-      if (this.subAoiLayer && this.featureData?.subAoi?.features?.length) {
-        const subaoiInv = JSON.parse(JSON.stringify(this.featureData.subAoi.features[0]));
+      let subAoiObject;
+      if (this.indicator?.subAoi?.features?.length) {
+        subAoiObject = this.indicator.subAoi;
+      }
+      if (this.featureData?.subAoi?.features?.length) {
+        subAoiObject = this.featureData.subAoi;
+      }
+      if (this.subAoiLayer && subAoiObject) {
+        const subaoiInv = JSON.parse(JSON.stringify(subAoiObject.features[0]));
         // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
         if (subaoiInv) {
           if (this.isInverse) {
