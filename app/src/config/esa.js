@@ -219,6 +219,9 @@ const E1bConfigInputDataDes = [{
 }];
 
 export const indicatorsDefinition = Object.freeze({
+  E200: {
+    features: geodbFeatures,
+  },
 });
 
 export const layerNameMapping = Object.freeze({
