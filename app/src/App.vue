@@ -200,8 +200,14 @@ export default {
         // Read route query and set selected indicator, once indicator loaded set selected feature
         if (mutation.payload) {
           const { poi, indicator } = this.$route.query;
+          // For legacy support we need to consider indicator not being set, only poi,
+          // then we need to extract the information from the poi
+          let finalIndicator = indicator;
+          if (typeof finalIndicator === 'undefined' && poi) {
+            [, finalIndicator] = poi.split('-');
+          }
           const indicators = mutation.payload;
-          const selectedIndicator = indicators.find((ind) => ind.code === indicator);
+          const selectedIndicator = indicators.find((ind) => ind.code === finalIndicator);
           if (selectedIndicator) {
             this.startupFeatureSelection = poi;
             this.$store.commit(
