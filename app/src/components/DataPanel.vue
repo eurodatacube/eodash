@@ -345,7 +345,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else>
+      <v-row v-else-if="indicatorObject.features.length">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -361,7 +361,7 @@
               style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
-Select a point of interest on the map to see the data for a specific location!
+                Select a point of interest on the map to see the data for a specific location!
               </p>
             </v-col>
           </v-card>
