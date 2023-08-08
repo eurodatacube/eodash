@@ -178,7 +178,6 @@
                 :mapId="element.poi"
                 :currentIndicator="element.indicatorObject"
                 :currentFeatureData="element.currentFeatureData"
-                :currentFeatureObject="element.currentFeatureObject"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
                 :centerProp="localCenter[element.poi]"
@@ -793,7 +792,7 @@ export default {
           (ind) => ind.indicator === indicatorCode,
         );
         // and load relevant data
-        const indicatorObject = await loadIndicatorData(
+        let indicatorObject = await loadIndicatorData(
           this.baseConfig,
           indicatorConfig,
         );
@@ -803,6 +802,11 @@ export default {
         );
         let currentFeatureData;
         if (currentFeatureObject) {
+          // Merge info of feature object into indicator object as it overwrites some info
+          indicatorObject = {
+            ...indicatorObject,
+            ...currentFeatureObject.properties.indicatorObject,
+          };
           currentFeatureData = await loadFeatureData(
             this.baseConfig, currentFeatureObject.properties,
           );
@@ -833,12 +837,10 @@ export default {
             this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
           }
         }
-
         return {
           ...f,
           indicatorObject,
           currentFeatureData,
-          currentFeatureObject,
         };
       }));
     },
@@ -900,7 +902,6 @@ export default {
       this.numberOfRows = noOfRows;
     },
     swipe(poi) {
-      console.log(poi);
       this.$set(this.overlay, poi, true);
       setTimeout(() => {
         this.$set(this.overlay, poi, false);

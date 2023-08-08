@@ -125,40 +125,40 @@ export default {
     async toggle() {
       let indObj = this.indicatorObject;
       if (this.featureObject) {
-        indObj = this.featureObject;
+        // Merge with parent indicator object to have all necessary information
+        indObj = { ...indObj, ...this.featureObject };
       }
       const poiValue = `${this.getLocationCode(indObj)}@${Date.now()}`;
-      this.addFeature(
-        {
-          poi: this.indicatorObject.poi
-            // Encode location code and current datetime object to create unique
-            // dashboard entries
-            || poiValue,
-          width: 4,
-          includesIndicator: this.indicatorObject.includesIndicator,
-          ...(this.indicatorObject.includesIndicator
-            && { indicatorObject: this.indicatorObject }),
-          title: this.title,
-          ...(this.indicatorObject.showGlobe && {
-            mapInfo: {
-              direction: this.direction,
-              position: this.position,
-              right: this.right,
-              up: this.up,
-              dataLayerTime: this.datalayertime,
-              compareLayerTime: this.comparelayertime,
-            },
-          }),
-          ...(this.zoom && this.center && {
-            mapInfo: {
-              zoom: this.zoom,
-              center: this.center,
-              dataLayerTime: this.datalayertime,
-              compareLayerTime: this.comparelayertime,
-            },
-          }),
-        },
-      );
+      const feature = {
+        poi: this.indicatorObject.poi
+          // Encode location code and current datetime object to create unique
+          // dashboard entries
+          || poiValue,
+        width: 4,
+        includesIndicator: this.indicatorObject.includesIndicator,
+        ...(this.indicatorObject.includesIndicator
+          && { indicatorObject: this.indicatorObject }),
+        title: this.title,
+        ...(this.indicatorObject.showGlobe && {
+          mapInfo: {
+            direction: this.direction,
+            position: this.position,
+            right: this.right,
+            up: this.up,
+            dataLayerTime: this.datalayertime,
+            compareLayerTime: this.comparelayertime,
+          },
+        }),
+        ...(this.zoom && this.center && {
+          mapInfo: {
+            zoom: this.zoom,
+            center: this.center,
+            dataLayerTime: this.datalayertime,
+            compareLayerTime: this.comparelayertime,
+          },
+        }),
+      };
+      this.addFeature(feature);
       this.dialog = false;
     },
   },

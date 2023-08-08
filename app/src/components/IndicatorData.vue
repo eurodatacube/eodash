@@ -106,6 +106,7 @@ import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 export default {
   props: {
     currentIndicator: Object,
+    currentFeatureData: Object,
     disableAutoFocus: Boolean,
   },
   components: {
@@ -1166,8 +1167,10 @@ export default {
     },
     dataObject() {
       let datObj = null;
-      // Only use the featureData if it has the times property (maps with locations dont have it)
-      if (this.$store.state.features.featureData.time) {
+      if (this.currentFeatureData) {
+        datObj = this.currentFeatureData;
+      } else if (this.$store.state.features?.featureData?.time) {
+        // Only use the featureData if it has the times property (maps with locations dont have it)
         datObj = this.$store.state.features.featureData;
       }
       return datObj;

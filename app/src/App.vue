@@ -74,7 +74,7 @@ import { loadIndicatorData, loadFeatureData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
-import { getMapInstance } from '@/components/map/map';
+// import { getMapInstance } from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -108,6 +108,11 @@ export default {
   },
   watch: {
     $route(to, from) {
+      // If coming from custom dashboard back to map make sure no indicator/poi is active
+      if (from.path === '/dashboard' && (to.path === '/' || to.path === '/explore')) {
+        this.$store.commit('features/SET_SELECTED_FEATURE', null);
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      }
       // only show back button if one of these conditions are true
       // TODO: handle case when one of these was directly entered into url at app start
       this.$store.commit('changeBackButtonDisplay', (
@@ -120,16 +125,20 @@ export default {
         if (!to.query.poi && from.query.poi) {
           // clear poi
           this.$store.commit('features/SET_SELECTED_FEATURE', null);
-          // this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         }
         if (!to.query.indicator && from.query.indicator) {
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+          // TODO: Probably no longer needed?
           // clear indicator filter
+          /*
           this.$store.commit('features/SET_FEATURE_FILTER', {
             ...this.$store.state.features.featureFilters,
             indicators: [],
           });
+          */
         }
-
+        // TODO: When does this animation apply?
+        /*
         const currentQuery = to.query;
         const {
           x, y, z,
@@ -143,6 +152,7 @@ export default {
             });
           }, 0); // TO DO: without this, zooming to AOI causes problems
         }
+        */
       }
     },
   },
