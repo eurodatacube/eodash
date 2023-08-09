@@ -137,6 +137,26 @@ function createWMSDisplay(config, name) {
   return display;
 }
 
+function createXYZDisplay(config, name) {
+  const display = {
+    protocol: 'xyz',
+    minZoom: 1,
+    maxZoom: 6,
+    tileSize: 256,
+    url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
+    name,
+    dateFormatFunction: (date) => `url=${date[1]}`,
+    labelFormatFunction: (date) => date[0],
+    /*
+    customAreaIndicator: true,
+    areaIndicator: nasaStatisticsConfig(
+      (value) => value / 1e14,
+    ),
+    */
+  };
+  return display;
+}
+
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature;
@@ -305,9 +325,10 @@ export async function loadIndicatorData(baseConfig, payload) {
     const response = await fetch(payload.link);
     const jsonData = await response.json();
 
-    let timeBasedLayerFound = false;
+    const times = [];
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+    const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
     if (wmsEndpoint) {
       const display = createWMSDisplay(
         wmsEndpoint, jsonData.name,
@@ -320,21 +341,40 @@ export async function loadIndicatorData(baseConfig, payload) {
         display.specialEnvTime = true;
       }
       indicatorObject.display = display;
-      timeBasedLayerFound = true;
-    } else {
-      indicatorObject.display = null;
-    }
-
-    const times = [];
-    if (timeBasedLayerFound) {
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+    } else {
+      indicatorObject.display = null;
     }
-
+    if (xyzEndpoint) {
+      const display = createXYZDisplay(
+        xyzEndpoint, jsonData.name,
+      );
+      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+        display.legendUrl = jsonData.assets.legend.href;
+      }
+      indicatorObject.display = display;
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.cog_href,
+          ]);
+        }
+      });
+    } else {
+      indicatorObject.display = null;
+    }
     // Check for stac story asset
     if ('assets' in jsonData) {
       if ('story' in jsonData.assets) {
