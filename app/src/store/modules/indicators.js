@@ -47,7 +47,11 @@ const actions = {
               type: 'stac',
               link: `${url.replace('catalog.json', '')}${link.href}`,
               code: link.code,
-              description: link.description,
+              // markdown is expected to be in description, it is possible a generic description
+              // in markdown could exist, so we save this here, it will be overwritten if
+              // there is a story asset
+              markdown: link.description,
+              description: link.subtitle ? link.subtitle : '',
               indicatorName: link.title,
               name: link.title,
               indicator: link.code,
