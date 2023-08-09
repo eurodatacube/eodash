@@ -74,7 +74,12 @@ export default {
   background: #1E4B5F;
   width: 100%;
   height: 48px;
-  position: relative;
+  /* TODO: this is mostly a quick fix, for the breadcrumbs in the custom dashboard panel
+  there is most probably a better way of doing this */
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 64px;
   font-size: 18px;
   z-index: 4;
   color: #CDD7DA;
