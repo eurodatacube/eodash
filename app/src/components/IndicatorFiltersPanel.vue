@@ -91,6 +91,29 @@ export default {
               ],
             },
           },
+          trilateral: {
+            titleProperty: 'title',
+            filterProperties: [
+              // { key: 'themes', title: 'Theme' },
+              { key: 'tags', title: 'Tag' },
+              { key: 'satellite', title: 'Satellite' },
+              { key: 'sensor', title: 'Sensor' },
+              { key: 'countries', title: 'Country' },
+              { key: 'cities', title: 'City' },
+            ],
+            aggregateResults: 'themes',
+            enableSearch: true,
+            enableHighlighting: true,
+            onSelect: (item) => {
+              this.setSelectedIndicator(item);
+            },
+            fuseConfig: {
+              keys: [
+                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
+                'countries', 'cities',
+              ],
+            },
+          },
           gtif: {
             titleProperty: 'title',
             filterProperties: ['themes'],

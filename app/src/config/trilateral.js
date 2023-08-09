@@ -24,12 +24,8 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './data/internal/';
-export const dataEndpoints = [
-  {
-    type: 'eox',
-    provider: './data/internal/pois_trilateral.json',
-  },
-];
+export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
+
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
