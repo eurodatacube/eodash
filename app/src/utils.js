@@ -372,10 +372,12 @@ export async function loadIndicatorData(baseConfig, payload) {
     } else {
       indicatorObject.display = null;
     }
+    // Add markdown from description
+    indicatorObject.markdown = jsonData.description;
     // Check for stac story asset
     if ('assets' in jsonData) {
       if ('story' in jsonData.assets) {
-        // Now we fetch the markdown info direcly
+        // If story avaialble, overwrite markdown with it
         indicatorObject.markdown = await fetch(jsonData.assets.story.href).then((md) => md.text());
       }
     }
