@@ -271,6 +271,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
   ];
   // layers created by this config. These Layers will get combined into a single ol.layer.Group
   const layers = [];
+  let source;
   if (config.protocol === 'cog') {
     let updatedSources = config.sources;
     if (config.usedTimes?.time?.length) {
@@ -280,7 +281,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         return { url };
       });
     }
-    const source = new GeoTIFF({
+    source = new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
@@ -293,8 +294,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
     wgTileLayer.set('id', config.id);
     layers.push(wgTileLayer);
-  }
-  if (config.protocol === 'vectortile') {
+  } else if (config.protocol === 'vectortile') {
     const tilelayer = new VectorTileLayer();
     tilelayer.set('id', config.id);
     let layerSelector = '';
@@ -311,8 +311,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         }
       });
     layers.push(tilelayer);
-  }
-  if (config.protocol === 'WMTSCapabilities') {
+  } else if (config.protocol === 'WMTSCapabilities') {
     const WMTSLayer = new TileLayer({
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
@@ -321,8 +320,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
     layers.push(WMTSLayer);
     createWMTSSourceFromCapabilities(config, WMTSLayer);
-  }
-  if (config.protocol === 'geoserverTileLayer') {
+  } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
 
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
@@ -341,8 +339,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
     tilelayer.set('id', config.id);
     layers.push(tilelayer);
-  }
-  if (config.protocol === 'countries') {
+  } else if (config.protocol === 'countries') {
     const countriesSource = new VectorSource({
       features: geoJsonFormat.readFeatures(countries, {
         dataProjection: 'EPSG:4326',
@@ -364,8 +361,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         }),
       }),
     }));
-  }
-  if (config.protocol === 'GeoJSON') {
+  } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const vectorSourceOpts = config.url ? {
       url: config.url,
@@ -380,7 +376,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     };
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-    const source = new VectorSource(vectorSourceOpts);
+    source = new VectorSource(vectorSourceOpts);
     layers.push(new VectorLayer({
       name: config.name,
       zIndex: options.zIndex,
@@ -526,8 +522,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
-  }
-  if (config.protocol === 'WMS') {
+  } else if (config.protocol === 'WMS') {
     // to do: layers is  not defined for harvesting evolution over time (spain)
     const tileSize = config.combinedLayers?.length
       ? config.combinedLayers[0].tileSize : config.tileSize;
@@ -643,8 +638,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         source.updateParams(newParams);
       });
     }
-  }
-  if (config.protocol === 'maplibre') {
+  } else if (config.protocol === 'maplibre') {
     const layer = new MapLibreLayer({
       name: config.name,
       zIndex: options.zIndex,

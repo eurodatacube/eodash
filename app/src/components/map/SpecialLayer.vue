@@ -62,7 +62,7 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
-    options.zIndex = 3;
+    // options.zIndex = 3;
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
       layer.set('name', this.compare ? `${config.name}_compare` : config.name);

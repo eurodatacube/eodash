@@ -18,34 +18,14 @@
   </v-tooltip>
   <v-card
     v-else
-    class="layerControl pa-2"
+    class="layerControl"
     :class="{'scrollable': appConfig.id === 'gtif' && $vuetify.breakpoint.smAndDown}"
   >
-    <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
-      <v-radio v-for="(c, index) in baseLayerConfigs"
-        :key="index" :label="c.name" :value="index">
-        <template v-slot:label>
-        <span class="label">{{c.name}}</span>
-        </template>
-      </v-radio>
-    </v-radio-group>
-    <v-divider class="my-1" />
-    <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
-      v-model="n.visible" dense class="my-0 py-0" hide-details
-      @change="setVisible($event, n)">
-        <template v-slot:label>
-          <span class="label">{{n.name}}</span>
-        </template>
-    </v-checkbox>
-    <div v-if="dataLayerConfigLayerControls">
-      <v-checkbox v-for="n in dataLayerConfigLayerControls" :key="n.name" :label="n.name"
-      v-model="n.visible" dense class="my-0 py-0" hide-details
-      @change="setVisible($event, n)">
-        <template v-slot:label>
-          <span class="label">{{n.name}}</span>
-        </template>
-      </v-checkbox>
-    </div>
+    <eox-layercontrol
+      :for="'#' + mapId "
+      layerTitle="name"
+      class="pointerEvents">
+    </eox-layercontrol>
   </v-card>
 </template>
 
@@ -65,14 +45,13 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
-    dataLayerConfigLayerControls: [Array, null],
+    dataLayerConfigLayerControls: [Array, null], // TODO not used atm
     isGlobalIndicator: Boolean,
     enableScrollyMode: Boolean,
   },
   data() {
     return {
       show: false,
-      selectedBaseLayer: null,
       opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
@@ -84,17 +63,6 @@ export default {
           this.show = false;
         });
       }
-    },
-    selectedBaseLayer(selectedIndex) {
-      const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      this.baseLayerConfigs.forEach((l, i) => {
-        const layer = olLayers.find((olLayer) => olLayer.get('name') === l.name);
-        if (i === selectedIndex) {
-          layer.setVisible(true);
-        } else {
-          layer.setVisible(false);
-        }
-      });
     },
   },
   computed: {
@@ -122,10 +90,10 @@ export default {
     });
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
-    this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
   },
   methods: {
     setVisible(value, layerConfig) {
+      // TODO: LUBO, what to do with this?
       // toggle original layer and possibly also compare
       const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
       const layers = olLayers.filter((l) => {

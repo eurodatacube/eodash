@@ -167,7 +167,7 @@ export default {
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
       source: drawnAreaSource,
-      zIndex: 4,
+      // zIndex: 4,
       style: this.drawStyleFunction,
       declutter: false,
     });

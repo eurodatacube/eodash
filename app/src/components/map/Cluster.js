@@ -510,6 +510,7 @@ class Cluster {
       name: 'clusters',
       zIndex: 10,
       source: clusterSource,
+      layerControlHide: true,
       style: this.clusterStyle.bind(this),
     });
     if (onStylesLoaded) {
@@ -523,6 +524,7 @@ class Cluster {
       name: 'clusterCircles',
       zIndex: 11,
       source: clusterSource,
+      layerControlHide: true,
       style: clusterCircleStyle.bind(this),
     });
     if (onStylesLoaded) {

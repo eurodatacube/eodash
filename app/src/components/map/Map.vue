@@ -1,6 +1,6 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
-    z-index: 1" class="d-flex justify-center">
+    z-index: 1" class="d-flex justify-center" :id="mapId">
     <!-- a layer adding a (potential) dark overlay, z-index 4 -->
     <DarkOverlayLayer
       :mapId="mapId"
@@ -109,14 +109,8 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <eox-layercontrol
-        v-if="loaded"
-        :for="'#' + mapId || ''"
-        layerIdentifier="id">
-      </eox-layercontrol>
       <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
-        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
@@ -745,7 +739,8 @@ export default {
       }
     });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
-
+    // adding a necessary reference for eox-layercontrol plugin
+    this.$refs.mapContainer.map = map;
 
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);

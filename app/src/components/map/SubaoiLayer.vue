@@ -121,7 +121,8 @@ export default {
 
     const subAoiLayer = new VectorLayer({
       name: 'subAoi',
-      zIndex: 5,
+      // zIndex: 5,
+      layerControlHide: true,
       source: new VectorSource({}),
       style: () => (this.isInverse ? inverseStyle : subAoiStyle),
     });

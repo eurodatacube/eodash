@@ -32,7 +32,7 @@ export default {
     const darkOverlayLayerGroups = this.configs.map((l) => createLayerFromConfig(l,
       map,
       {
-        zIndex: 5,
+        // zIndex: 5,
       }));
     this.darkOverlayLayerGroups = darkOverlayLayerGroups;
     // setup listener on featuresloadend on first layer
@@ -54,9 +54,10 @@ export default {
     });
 
     const inverseDarkOverlayLayer = new VectorLayer({
-      name: 'inverseDarkOverlayLayer',
-      zIndex: 4,
+      name: 'Inverse Dark Overlay Layer',
+      // zIndex: 4,
       source: new VectorSource({}),
+      layerControlHide: true,
       style: inverseStyle,
     });
     this.inverseDarkOverlayLayer = inverseDarkOverlayLayer;
