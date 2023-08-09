@@ -347,10 +347,7 @@ export async function loadIndicatorData(baseConfig, payload) {
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
-    } else {
-      indicatorObject.display = null;
-    }
-    if (xyzEndpoint) {
+    } else if (xyzEndpoint) {
       const display = createXYZDisplay(
         xyzEndpoint, jsonData.name,
       );
