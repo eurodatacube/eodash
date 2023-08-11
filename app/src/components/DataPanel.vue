@@ -13,7 +13,7 @@
         <v-col
           v-if="!showMap
             || (showMap && mergedConfigsData[0].customAreaIndicator)
-            || appConfig.id === 'gtif'
+            || appConfig.id === 'esa'
             || (expanded && $route.name === 'demo' && customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           class="pa-0"
@@ -255,6 +255,10 @@
             :wmsStyles="indicatorObject.wmsStyles"
           >
           </wms-style-controls>
+          <custom-wms-variables v-if="indicatorObject.display.wmsVariables"
+            :wmsVariables="indicatorObject.display.wmsVariables"
+          >
+          </custom-wms-variables>
         </v-col>
         <v-col
           v-else-if="expanded"
@@ -371,6 +375,7 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 // import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
+import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 
@@ -387,6 +392,7 @@ export default {
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
+    CustomWmsVariables,
     // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,

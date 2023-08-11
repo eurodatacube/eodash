@@ -563,7 +563,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
         if (config.usedTimes?.time?.length) {
           params.time = c.dateFormatFunction(options.time);
           if (config.specialEnvTime) {
-            params.env = `year:${params.time}`;
+            const scenario = config.wmsVariables.variables.scenario.selected;
+            const height = config.wmsVariables.variables.height.selected;
+            params.map = `SSP${scenario}_${height}Y${params.time}.map`;
           }
         }
 
@@ -589,7 +591,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
             time: timeString,
           };
           if (configUpdate.specialEnvTime) {
-            newParams.env = `year:${updatedTime}`;
+            const scenario = config.wmsVariables.variables.scenario.selected;
+            const height = config.wmsVariables.variables.height.selected;
+            newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
           }
           singleSource.updateParams(newParams);
         });
@@ -614,7 +618,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
       if (config.usedTimes?.time?.length) {
         params.time = config.dateFormatFunction(options.time);
         if (config.specialEnvTime) {
-          params.env = `year:${params.time}`;
+          const scenario = config.wmsVariables.variables.scenario.selected;
+          const height = config.wmsVariables.variables.height.selected;
+          params.map = `SSP${scenario}_${height}Y${params.time}.map`;
         }
       }
       source = new TileWMS({
@@ -639,7 +645,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
           time: timeString,
         };
         if (configUpdate.specialEnvTime) {
-          newParams.env = `year:${updatedTime}`;
+          const scenario = configUpdate.wmsVariables.variables.scenario.selected;
+          const height = configUpdate.wmsVariables.variables.height.selected;
+          newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
         }
         source.updateParams(newParams);
       });

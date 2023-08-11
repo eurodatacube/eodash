@@ -24,7 +24,8 @@ const actions = {
     const b = appConfig.find((c) => c.match.includes(hostname));
     const brandConfig = (b !== undefined) ? b : appConfig[0];
     commit('SET_APP_CONFIG', brandConfig);
-    commit('SET_BASE_CONFIG', require(`../../config/${brandConfig.id}.js`));
+    // TODO: Temporary overwrite for ideas demostrator
+    commit('SET_BASE_CONFIG', require(`../../config/${'ideas'/* brandConfig.id */}.js`));
     if (brandConfig.customCSS) {
       require(`../../../public/css/${brandConfig.customCSS}.scss`);
     }
