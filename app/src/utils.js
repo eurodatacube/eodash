@@ -118,7 +118,6 @@ function createWMSDisplay(config, name) {
     baseUrl: config.href,
     name,
     layers,
-    // legendUrl: 'legend.png',
     minZoom: 1,
     maxZoom: 16,
     styles,
