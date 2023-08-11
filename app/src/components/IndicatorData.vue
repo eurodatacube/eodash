@@ -106,7 +106,7 @@ export default {
   props: {
     currentIndicator: Object,
     disableAutoFocus: Boolean,
-    enableMapTimeInteraction: Boolean
+    enableMapTimeInteraction: Boolean,
   },
   components: {
     BarChart,

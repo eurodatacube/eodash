@@ -2594,5 +2594,16 @@
         "reference_time": "2023-07-15T00:00:00",
         "reference_value": "[21.157 2.321]",
         "time": "2023-07-15T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "24.97",
+        "reference_time": "2023-07-22T00:00:00",
+        "reference_value": "[21.656 2.218]",
+        "time": "2023-07-22T00:00:00"
     }
 ]
