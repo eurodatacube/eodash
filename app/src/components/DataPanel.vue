@@ -9,7 +9,7 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject && dataObject" class="d-flex">
+      <v-row v-if="indicatorObject && dataObject && dataObject.time" class="d-flex">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
@@ -120,8 +120,8 @@
             <template v-else-if="hasSelectionEnabled">
             </template>
             <indicator-data
+              v-else-if="dataObject && dataObject.time"
               style="top: 0px; position: absolute;"
-              v-else
               class="pa-5 chart"
             />
           </v-card>
@@ -345,7 +345,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else-if="indicatorObject.features.length">
+      <v-row v-else-if="indicatorObject.features.length && !featureObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -392,6 +392,12 @@
             </v-col>
           </v-row>
         </v-col>
+      </v-row>
+      <v-row v-else>
+        <div
+          v-html="story"
+          class="md-body"
+        ></div>
       </v-row>
     </div>
   </div>
@@ -506,6 +512,14 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     showCustomAreaCard() {
+      // Check if features can be selected on map
+      if (this.indicatorObject.features?.length > 0) {
+        return true;
+      }
+      // If there are no features and the dataobject is empty do not show the card
+      if (!this.dataObject) {
+        return false;
+      }
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }
@@ -607,7 +621,7 @@ export default {
     },
     externalData() {
       const dataFromDefinition = this.indicatorObject.externalData;
-      const dataFromIndicator = this.dataObject.externalData;
+      const dataFromIndicator = this.dataObject ? this.dataObject.externalData : null;
       if (dataFromDefinition) {
         return dataFromDefinition;
       }
