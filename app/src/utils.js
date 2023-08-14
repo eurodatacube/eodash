@@ -140,7 +140,7 @@ function createXYZDisplay(config, name) {
   const display = {
     protocol: 'xyz',
     minZoom: 1,
-    maxZoom: 6,
+    maxZoom: 16,
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
     name,
@@ -368,6 +368,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           ]);
         }
       });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else {
       indicatorObject.display = null;
     }
