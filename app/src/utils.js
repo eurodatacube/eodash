@@ -319,7 +319,7 @@ export async function loadFeatureData(baseConfig, feature) {
           // TODO: should we add a subaoi if there is none in the database? this could create a
           // false sense of information
           const extent = transformExtent(
-            feature.getGeometry().getExtent(),
+            feature.geometry.getExtent(),
             map.getView().getProjection(),
             'EPSG:4326',
           );
