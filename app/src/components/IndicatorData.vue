@@ -123,6 +123,7 @@ export default {
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
+        'N1_NO2', // Separation of N1 indocators
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
@@ -420,6 +421,7 @@ export default {
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
+        referenceDecompose.N1_NO2 = referenceDecompose.N1;
 
         referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
 
@@ -1157,13 +1159,10 @@ export default {
     },
     indicatorObject() {
       // Return either the set prop (custom dashbaord) or the selected feature object
-      return this.currentIndicator || this.$store.state.features.selectedFeature.indicatorObject;
-      // TODO: We probably will be able to remove the whole customAreaIndicator object
-      /*
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
-        || this.$store.state.indicators.selectedIndicator;
-      */
+        || this.$store.state.features.selectedFeature.indicatorObject;
+      // TODO: In the future we probably will want to remove the customareaindicator concept
     },
     dataObject() {
       let datObj = null;
@@ -1172,6 +1171,8 @@ export default {
       } else if (this.$store.state.features?.featureData?.time) {
         // Only use the featureData if it has the times property (maps with locations dont have it)
         datObj = this.$store.state.features.featureData;
+      } else if (this.$store.state.indicators.customAreaIndicator) {
+        datObj = this.$store.state.indicators.customAreaIndicator;
       }
       return datObj;
     },
@@ -1657,7 +1658,10 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
+      if ([
+        'N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST',
+        'N1_SO2',
+      ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {

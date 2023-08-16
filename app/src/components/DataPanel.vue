@@ -9,7 +9,7 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject && dataObject && dataObject.time" class="d-flex">
+      <v-row v-if="indicatorObject" class="d-flex">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
@@ -55,7 +55,7 @@
         </data-mockup-view>
         <v-col
           v-if="!showMap
-            || (showMap && mergedConfigsData[0].customAreaIndicator)
+            || mergedConfigsData[0].customAreaIndicator
             || appConfig.id === 'gtif'
             || (expanded && $route.name === 'demo' && customAreaIndicator)"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
@@ -86,7 +86,7 @@
               Regenerate
             </v-btn>
             <template
-              v-if="customAreaIndicator && !customAreaIndicator.isEmpty && dataObject"
+              v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
             >
               <indicator-data
                 style="margin-top: 0px;"
@@ -94,7 +94,7 @@
               />
             </template>
             <v-col
-              v-else-if="showMap &&
+              v-else-if="
                 (mergedConfigsData[0].customAreaIndicator &&
                   !hasSelectionEnabled
                 )"
@@ -512,14 +512,6 @@ export default {
       return this.$store.state.indicators.selectedIndicator;
     },
     showCustomAreaCard() {
-      // Check if features can be selected on map
-      if (this.indicatorObject.features?.length > 0) {
-        return true;
-      }
-      // If there are no features and the dataobject is empty do not show the card
-      if (!this.dataObject) {
-        return false;
-      }
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }

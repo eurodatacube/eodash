@@ -24,6 +24,90 @@ export function padLeft(str, pad, size) {
   return out;
 }
 
+export const statisticalApiHeaders = {
+  url: 'https://services.sentinel-hub.com/api/v1/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+};
+
+export const statisticalApiBody = (evalscript, type, timeinterval) => ({
+  requestBody: {
+    input: {
+      bounds: {
+        geometry: {
+          type: 'Polygon',
+          coordinates: '{coordinates}',
+        },
+      },
+      data: [
+        {
+          dataFilter: {},
+          type,
+        },
+      ],
+    },
+    aggregation: {
+      timeRange: {
+        from: '1995-01-01T00:00:00Z',
+        to: '2030-12-01T00:00:00Z',
+      },
+      aggregationInterval: {
+        of: timeinterval || 'P1D',
+      },
+      width: 100,
+      height: 100,
+      evalscript,
+    },
+    calculations: {
+      default: {},
+    },
+  },
+});
+
+export const parseStatAPIResponse = (requestJson, indicator) => {
+  // We need to also accept partial responses as it seems some datasets
+  // have issues on sinergise side
+  if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
+      && requestJson.data.length > 0) {
+    const { data } = requestJson;
+    const newData = {
+      time: [],
+      measurement: [],
+      referenceValue: [],
+      colorCode: [],
+      sampleSize: [],
+      noDataCount: [],
+      sampleCount: [],
+    };
+    data.sort((a, b) => (
+      (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
+        ? 1
+        : -1));
+    data.forEach((row) => {
+      // Make sure to discard possible errors from sentinelhub
+      if (row && !Object.prototype.hasOwnProperty.call(row, 'error')) {
+        const { stats } = row.outputs.data.bands.B0;
+        newData.time.push(DateTime.fromISO(row.interval.from));
+        newData.colorCode.push('');
+        newData.measurement.push(stats.mean);
+        newData.referenceValue.push(
+          `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
+        );
+        newData.noDataCount.push(stats.noDataCount);
+        newData.sampleCount.push(stats.sampleCount);
+      }
+    });
+    const ind = {
+      ...indicator,
+      ...newData,
+    };
+    return ind;
+  }
+  return null;
+};
+
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -371,6 +455,29 @@ export async function loadIndicatorData(baseConfig, payload) {
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else {
       indicatorObject.display = null;
+    }
+
+    // Check for possible processing configuration in examples
+    const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
+    if (exampleEndpoint) {
+      if (exampleEndpoint.title === 'evalscript' && indicatorObject.display) {
+        const evalscript = await (await fetch(exampleEndpoint.href)).text();
+        indicatorObject.display = {
+          ...indicatorObject.display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: {
+              ...statisticalApiHeaders,
+              ...statisticalApiBody(
+                evalscript,
+                exampleEndpoint.dataId,
+              ),
+              callbackFunction: parseStatAPIResponse,
+              areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            },
+          },
+        };
+      }
     }
     // Add markdown from description
     indicatorObject.markdown = jsonData.description;
