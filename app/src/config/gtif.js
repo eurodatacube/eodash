@@ -7,6 +7,14 @@ import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
+
+// export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/GTIF/catalog.json';
+export const STACEndpoint = 'http://127.0.0.1:8000/GTIF/catalog.json';
+
+export const themeOverwrite = {
+  economy: 'mobility transition',
+};
+
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -856,122 +864,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Number of Trucks',
-        indicator: 'E12c',
-        lastIndicatorValue: 'Moving truck detections',
-        navigationDescription: 'Highways',
-        indicatorName: 'Moving truck detections',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: 'primary',
-        eoSensor: null,
-        aoiID: 'W2',
-        time: availableDates.E12c,
-        inputData: [''],
-        yAxis: 'Number of trucks detected',
-        display: [{
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Daily Sentinel 2 L2A',
-          minZoom: 7,
-          maxZoom: 18,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.8150 48.7647,17.48452 48.7647,17.48452 46.966583,13.8150 46.966583,13.8150 48.7647))').toJson(),
-            }],
-          },
-          areaIndicator: trucksAreaIndicator,
-          features: trucksFeatures,
-          style: {
-            color: '#00c3ff',
-          },
-          drawnAreaLimitExtent: true,
-        }, {
-          // get layer for this month
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
-            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
-            .toFormat('yyyy-MM-dd')}`,
-          name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          minZoom: 1,
-          maxZoom: 14,
-          opacity: 0.7,
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Number of Trucks',
-        indicator: 'E12d',
-        lastIndicatorValue: 'Regional Truck Traffic Primary',
-        indicatorName: 'Moving truck detections',
-        navigationDescription: 'Primary Roads',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: 'primary',
-        eoSensor: null,
-        aoiID: 'W3',
-        time: availableDates.E12c,
-        inputData: [''],
-        yAxis: 'Number of trucks detected',
-        display: [{
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Daily Sentinel 2 L2A',
-          minZoom: 7,
-          maxZoom: 18,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
-          areaIndicator: trucksAreaIndicator,
-          features: trucksFeatures,
-          style: {
-            color: '#00c3ff',
-          },
-          drawnAreaLimitExtent: true,
-        }, {
-          // get layer for this month
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
-            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
-            .toFormat('yyyy-MM-dd')}`,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-          name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_PRIMARY',
-          minZoom: 1,
-          maxZoom: 14,
-          opacity: 0.7,
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
         dataLoadFinished: false,
         id: 9987,
         aoi: null,
@@ -1125,9 +1017,6 @@ export const globalIndicators = [
                     if (['n_trajectories', 'motorized_count'].includes(currPar.id)) {
                       const normalized = (Math.log10(value) - Math.log10(min))
                       / (Math.log10(max) - Math.log10(min));
-                      if (id === 44451) {
-                        console.log(normalized);
-                      }
                       f = clamp(normalized, 0, 1);
                     }
                     color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];

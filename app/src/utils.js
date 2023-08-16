@@ -162,6 +162,102 @@ export const nasaStatisticsConfig = (
   ),
 });
 
+// Helper function to create colorscales for cog style rendering
+function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
+
+function getColormap(name, reverse) {
+  const colors = colormap({
+    colormap: name, nshades: 16, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  return colors;
+}
+
+function clamp(value, low, high) {
+  return Math.max(low, Math.min(value, high));
+}
+
+/*
+let stp = 1 / 6;
+
+const adoColor = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [215, 25, 28] },
+      { index: stp * 1, rgb: [253, 174, 97] },
+      { index: stp * 2, rgb: [255, 255, 191] },
+      { index: stp * 3, rgb: [255, 255, 255] },
+      { index: stp * 4, rgb: [245, 153, 246] },
+      { index: stp * 5, rgb: [180, 103, 221] },
+      { index: stp * 6, rgb: [69, 0, 153] },
+    ],
+    nshades: 32,
+  }),
+};
+
+stp = 1 / 7;
+
+const grywrd = {
+  steps: 128,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [0, 83, 30] },
+      { index: stp * 1, rgb: [195, 229, 86] },
+      { index: stp * 2, rgb: [255, 221, 86] },
+      { index: stp * 3, rgb: [246, 119, 88] },
+      { index: stp * 4, rgb: [255, 151, 63] },
+      { index: stp * 5, rgb: [255, 99, 49] },
+      { index: stp * 6, rgb: [213, 0, 31] },
+      { index: stp * 7, rgb: [99, 0, 13] },
+    ],
+    nshades: 128,
+  }),
+};
+
+const whitered = [
+  { index: 0, rgb: [255, 255, 255] },
+  { index: stp * 1, rgb: [255, 251, 247] },
+  { index: stp * 2, rgb: [254, 238, 223] },
+  { index: stp * 3, rgb: [254, 214, 183] },
+  { index: stp * 4, rgb: [250, 177, 129] },
+  { index: stp * 5, rgb: [233, 131, 77] },
+  { index: stp * 6, rgb: [184, 84, 38] },
+  { index: stp * 7, rgb: [127, 39, 4] },
+];
+
+const blgrrd = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [1, 152, 189] },
+      { index: 0.2, rgb: [73, 227, 206] },
+      { index: 0.4, rgb: [216, 254, 181] },
+      { index: 0.6, rgb: [254, 237, 177] },
+      { index: 0.8, rgb: [254, 173, 84] },
+      { index: 1, rgb: [209, 55, 78] },
+    ],
+    nshades: 32,
+  }),
+};
+*/
+
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -284,6 +380,47 @@ function createXYZDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
+  };
+  return display;
+}
+
+function createVectorTileDisplay(config, name) {
+  const display = {
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+    protocol: 'geoserverTileLayer',
+    style: {
+      strokeColor: 'rgba(0,0,0,0)',
+      getColor: (feature, store, options) => {
+        let color = '#00000000';
+        const dataSource = options.dataProp ? options.dataProp : 'mapData';
+        if (store.state.indicators.selectedIndicator
+            && store.state.indicators.selectedIndicator[dataSource]) {
+          const id = feature.id_;
+          const ind = store.state.indicators.selectedIndicator;
+          const currPar = ind.queryParameters.items
+            .find((item) => item.id === ind.queryParameters.selected);
+          if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+            const value = ind[dataSource][id][currPar.id];
+            const { min, max, colormapUsed } = currPar;
+            const f = clamp((value - min) / (max - min), 0, 1);
+            color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+          }
+        }
+        return color;
+      },
+
+    },
+    id: 'air_quality_new_id',
+    name: 'Health Risk Index (ARI)',
+    adminZoneKey: 'id_3',
+    parameters: 'pm10,pm25,ihr,id_3',
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    labelFormatFunction: (date) => date,
+    selection: {
+      mode: 'single',
+    },
+    tooltip: true,
+    allowedParameters: ['name'],
   };
   return display;
 }
@@ -464,9 +601,6 @@ export async function loadIndicatorData(baseConfig, payload) {
       const display = createWMSDisplay(
         wmsEndpoint, jsonData.name,
       );
-      if ('assets' in jsonData && 'legend' in jsonData.assets) {
-        display.legendUrl = jsonData.assets.legend.href;
-      }
       // Handling of unique non standard functionality
       if (indicatorObject.indicator === 'WSF') {
         display.specialEnvTime = true;
@@ -479,32 +613,51 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
-      const display = createXYZDisplay(
-        xyzEndpoint, jsonData.name,
-      );
-      if ('assets' in jsonData && 'legend' in jsonData.assets) {
-        display.legendUrl = jsonData.assets.legend.href;
-      }
-      indicatorObject.display = display;
-      jsonData.links.forEach((link) => {
-        if (link.rel === 'item') {
-          let time;
-          if (link.datetime) {
-            time = link.datetime;
-          } else if (link.start_datetime) {
-            time = link.start_datetime;
+      if (xyzEndpoint.type === 'image/png') {
+        const display = createXYZDisplay(
+          xyzEndpoint, jsonData.name,
+        );
+        indicatorObject.display = display;
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
+            }
+            times.push([
+              time,
+              link.cog_href,
+            ]);
           }
-          times.push([
-            time,
-            link.cog_href,
-          ]);
-        }
-      });
-      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+      } else if (xyzEndpoint.type === 'application/json') {
+        const display = createVectorTileDisplay(
+          xyzEndpoint, jsonData.name,
+        );
+        indicatorObject.display = display;
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
+            }
+            times.push(time);
+          }
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+      }
     } else {
       indicatorObject.display = null;
     }
-
+    // If legend available add it to the display config
+    if (indicatorObject.display && 'assets' in jsonData && 'legend' in jsonData.assets) {
+      indicatorObject.display.legendUrl = jsonData.assets.legend.href;
+    }
     // Check for possible processing configuration in examples
     const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
     if (exampleEndpoint) {

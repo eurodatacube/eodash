@@ -116,13 +116,19 @@ export default {
           },
           gtif: {
             titleProperty: 'title',
-            filterProperties: ['themes'],
+            filterProperties: [
+              { key: 'themes', title: 'Theme' },
+            ],
             onSelect: (item) => {
               this.setSelectedIndicator(item);
             },
-            exclusiveFilters: true,
+            // exclusiveFilters: true,
+            aggregateResults: 'themes',
             fuseConfig: {
-              keys: ['title'],
+              keys: [
+                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
+                'countries', 'cities',
+              ],
             },
           },
         };
