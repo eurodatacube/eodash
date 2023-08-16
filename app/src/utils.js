@@ -108,6 +108,60 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   return null;
 };
 
+export const nasaStatisticsConfig = (
+  rescale = (value) => value / 1e14,
+  indicatorCode = 'NASACustomLineChart',
+) => ({
+  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    geojson: '{geojson}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson)) {
+      const data = responseJson;
+      const newData = {
+        time: [],
+        measurement: [],
+        colorCode: [],
+        referenceValue: [],
+      };
+      data.forEach((row) => {
+        if (!('error' in row)) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.colorCode.push('');
+          newData.measurement.push(rescale(row.mean));
+          newData.referenceValue.push(`[${rescale(row.median)}, ${rescale(row.std)}, ${rescale(row.max)}, ${rescale(row.min)}]`);
+        }
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
+      console.log(responseJson.detail[0].msg);
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      geojson: JSON.stringify({
+        type: 'Feature',
+        properties: {},
+        geometry: area,
+      }),
+    }
+  ),
+});
+
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -230,12 +284,6 @@ function createXYZDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
-    /*
-    customAreaIndicator: true,
-    areaIndicator: nasaStatisticsConfig(
-      (value) => value / 1e14,
-    ),
-    */
   };
   return display;
 }
@@ -475,6 +523,16 @@ export async function loadIndicatorData(baseConfig, payload) {
               callbackFunction: parseStatAPIResponse,
               areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
             },
+          },
+        };
+      } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display) {
+        indicatorObject.display = {
+          ...indicatorObject.display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: nasaStatisticsConfig(
+              (value) => value,
+            ),
           },
         };
       }
