@@ -9,7 +9,10 @@
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
       :style="expanded ? `width: 100%;` : ``
     ">
-      <v-row v-if="indicatorObject" class="d-flex">
+      <v-row v-if="
+        indicatorObject
+        && (!indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
+        " class="d-flex">
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
@@ -353,7 +356,7 @@
           <v-card
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-            ? (bannerHeight ? 65 : 70) : 45) : 25}vh;`"
+                      ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
             ref="mapPanel"
           >
             <v-col
@@ -361,7 +364,7 @@
               style="flex-direction: column; height: 100%">
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
               <p style="max-width: 75%; text-align: center">
-                Select a point of interest on the map to see the data for a specific location!
+                Select a point of interest on the map to see more information
               </p>
             </v-col>
           </v-card>
@@ -601,7 +604,11 @@ export default {
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
     showMap() {
-      return false;
+      // show map means that only information on the map is shown and no indicator data is expected
+      // currently this seems to be only the case for indicatorobjects with no features
+      // customarea seems to be handled differently
+      return !this.indicatorObject.features?.length;
+      // TODO: Do we need the special configure map poi overwrite?
       // if returns true, we are showing map, if false we show chart
       /*
       return ['all'].includes(this.indicatorObject.country)
