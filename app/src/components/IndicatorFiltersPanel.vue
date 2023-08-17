@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter>
+  <eox-itemfilter class="pa-2">
     <div slot="filterstitle">
       <h4>Filter</h4>
       <hr class="my-2" style="opacity: 0.4" />
@@ -21,6 +21,7 @@ import {
 export default {
   data: () => ({
     searchItems: [],
+    itemfilter: null,
   }),
   computed: {
     ...mapState('config', [
@@ -30,7 +31,7 @@ export default {
     ...mapGetters('features', [
       'getGroupedFeatures',
     ]),
-    ...mapState('indicators', ['indicators']),
+    ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapGetters('indicators', [
       'getIndicators',
     ]),
@@ -66,11 +67,17 @@ export default {
       this.searchItems = itemArray;
 
       this.$nextTick(() => {
-        const EOxItemFilter = document.querySelector('eox-itemfilter');
+        this.itemfilter = document.querySelector('eox-itemfilter');
         const configs = {
           esa: {
             titleProperty: 'title',
             filterProperties: [
+              {
+                keys: ['title', 'countries', 'cities'],
+                title: 'Search',
+                type: 'text',
+                expanded: true,
+              },
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
@@ -132,8 +139,8 @@ export default {
             },
           },
         };
-        EOxItemFilter.config = configs[this.appConfig.id];
-        EOxItemFilter.apply(this.searchItems);
+        this.itemfilter.config = configs[this.appConfig.id];
+        this.itemfilter.apply(this.searchItems);
       });
     },
   },
@@ -142,6 +149,11 @@ export default {
       if (!this.searchItem) {
         this.getSearchItems();
       }
+    },
+    selectedIndicator() {
+      // TODO: This is not working, maybe there is another approach, would only need to be set
+      // once loading page
+      // this.itemfilter.selectedResult = this.selectedIndicator;
     },
     allFeatures() {
       if (!this.searchItem) {
