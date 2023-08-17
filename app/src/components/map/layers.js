@@ -324,9 +324,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
   if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-
-    const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
-    const projString = '3857';
     const tilelayer = new VectorTileLayer({
       style: dynamicStyleFunction,
       opacity: config.opacity,
@@ -336,7 +333,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       source: new VectorTileSource({
         projection: 'EPSG:3857',
         format: new MVT(),
-        url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
+        url: config.url,
       }),
     });
     tilelayer.set('id', config.id);

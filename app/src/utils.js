@@ -162,6 +162,7 @@ export const nasaStatisticsConfig = (
   ),
 });
 
+/*
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -188,6 +189,7 @@ function getColormap(name, reverse) {
   }
   return colors;
 }
+*/
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
@@ -384,13 +386,13 @@ function createXYZDisplay(config, name) {
   return display;
 }
 
-function createVectorTileDisplay(config, name) {
+function createVectorTileDisplay(config) {
   const display = {
-    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+    url: config.href,
     protocol: 'geoserverTileLayer',
     style: {
       strokeColor: 'rgba(0,0,0,0)',
-      getColor: (feature, store, options) => {
+      getColor: (feature, options) => {
         let color = '#00000000';
         const dataSource = options.dataProp ? options.dataProp : 'mapData';
         if (store.state.indicators.selectedIndicator
@@ -408,12 +410,11 @@ function createVectorTileDisplay(config, name) {
         }
         return color;
       },
-
     },
-    id: 'air_quality_new_id',
-    name: 'Health Risk Index (ARI)',
-    adminZoneKey: 'id_3',
-    parameters: 'pm10,pm25,ihr,id_3',
+    id: config.source,
+    name: config.description,
+    adminZoneKey: config.matchKey,
+    parameters: config.parameters.join(','),
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
     labelFormatFunction: (date) => date,
     selection: {
@@ -633,9 +634,9 @@ export async function loadIndicatorData(baseConfig, payload) {
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
-      } else if (xyzEndpoint.type === 'application/json') {
+      } else if (xyzEndpoint.type === 'application/pbf') {
         const display = createVectorTileDisplay(
-          xyzEndpoint, jsonData.name,
+          xyzEndpoint,
         );
         indicatorObject.display = display;
         jsonData.links.forEach((link) => {
