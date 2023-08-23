@@ -123,6 +123,7 @@ export default {
             display: flex;
             align-items: center;
             position: relative;
+            text-indent: -9999px;
           }
           [data-filter=countries] .title:before {
             content: "";
@@ -130,12 +131,18 @@ export default {
             height: 15px;
             margin-right: 4px;
           }
+          [data-filter=countries] .title:after {
+            text-indent: 0px;
+          }
         `;
         // TODO currently hotlinking to assets on GitHub, replace
-        countries.features.map((c) => c.properties.alpha2).forEach((c) => {
+        countries.features.map((c) => c.properties).forEach((cP) => {
           flags += `
-          [data-filter=countries] input[type=checkbox]#${c}+.title:before {
-              background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${c?.toLowerCase()}.svg");
+            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:before {
+              background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${cP.alpha2?.toLowerCase()}.svg");
+            }
+            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:after {
+              content: "${cP.name}";
             }
           `;
         });
