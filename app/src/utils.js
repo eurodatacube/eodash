@@ -925,8 +925,8 @@ export function calculatePadding() {
   const dataPanelWidth = !dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
   const searchResultsClosed = store.state.features.featureFilters.indicators.length
     || store.state.features.featureFilters.countries.length;
-  const searchPanelWidth = (document.querySelector('#list') !== null)
-    ? (document.querySelector('#list').clientWidth + 40) : 0;
+  const searchPanelWidth = (document.querySelector('eox-itemfilter') !== null)
+    ? (document.querySelector('eox-itemfilter').clientWidth) : 0;
   const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
   const demoItemsWidth = (document.querySelector('#demoItemsList') !== null)
     ? (document.querySelector('#demoItemsList').clientWidth) : 0;
