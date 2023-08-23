@@ -1,5 +1,8 @@
 <template>
-  <eox-itemfilter class="pa-2"></eox-itemfilter>
+  <eox-itemfilter class="pa-2">
+    <h4 slot="filterstitle" style="margin-top: 8px">Filter</h4>
+    <h4 slot="resultstitle" style="margin-top: 8px">Indicators</h4>
+  </eox-itemfilter>
 </template>
 
 <script>
@@ -66,7 +69,7 @@ export default {
             titleProperty: 'title',
             filterProperties: [
               {
-                keys: ['title', 'countries', 'cities', 'themes'],
+                keys: ['title', 'description', 'themes', 'region'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
