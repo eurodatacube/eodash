@@ -1,14 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2">
-    <div slot="filterstitle">
-      <h4>Filter</h4>
-      <hr class="my-2" style="opacity: 0.4" />
-    </div>
-    <div slot="resultstitle">
-      <h4>Results</h4>
-      <hr class="my-2" style="opacity: 0.4" />
-    </div>
-    </eox-itemfilter>
+  <eox-itemfilter class="pa-2"></eox-itemfilter>
 </template>
 
 <script>
@@ -73,10 +64,11 @@ export default {
             titleProperty: 'title',
             filterProperties: [
               {
-                keys: ['title', 'countries', 'cities'],
+                keys: ['title', 'countries', 'cities', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
+                featured: true,
               },
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
@@ -86,16 +78,9 @@ export default {
               { key: 'cities', title: 'City' },
             ],
             aggregateResults: 'themes',
-            enableSearch: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.setSelectedIndicator(item);
-            },
-            fuseConfig: {
-              keys: [
-                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
-                'countries', 'cities',
-              ],
             },
           },
           trilateral: {
@@ -109,16 +94,9 @@ export default {
               { key: 'cities', title: 'City' },
             ],
             aggregateResults: 'themes',
-            enableSearch: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.setSelectedIndicator(item);
-            },
-            fuseConfig: {
-              keys: [
-                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
-                'countries', 'cities',
-              ],
             },
           },
           gtif: {
@@ -131,12 +109,6 @@ export default {
             },
             // exclusiveFilters: true,
             aggregateResults: 'themes',
-            fuseConfig: {
-              keys: [
-                'title', 'description', 'themes', 'region', 'tags', 'satellite', 'sensor',
-                'countries', 'cities',
-              ],
-            },
           },
         };
         this.itemfilter.config = configs[this.appConfig.id];
@@ -151,9 +123,7 @@ export default {
       }
     },
     selectedIndicator() {
-      // TODO: This is not working, maybe there is another approach, would only need to be set
-      // once loading page
-      // this.itemfilter.selectedResult = this.selectedIndicator;
+      this.itemfilter.selectedResult = this.selectedIndicator;
     },
     allFeatures() {
       if (!this.searchItem) {
