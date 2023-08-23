@@ -9,6 +9,8 @@ import {
   mapMutations,
 } from 'vuex';
 
+import countries from '@/assets/countries.json';
+
 export default {
   data: () => ({
     searchItems: [],
@@ -113,6 +115,28 @@ export default {
         };
         this.itemfilter.config = configs[this.appConfig.id];
         this.itemfilter.apply(this.searchItems);
+        let flags = `
+          [data-filter=countries] .title {
+            display: flex;
+            align-items: center;
+            position: relative;
+          }
+          [data-filter=countries] .title:before {
+            content: "";
+            width: 20px;
+            height: 15px;
+            margin-right: 4px;
+          }
+        `;
+        // TODO currently hotlinking to assets on GitHub, replace
+        countries.features.map((c) => c.properties.alpha2).forEach((c) => {
+          flags += `
+          [data-filter=countries] input[type=checkbox]#${c}+.title:before {
+              background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${c?.toLowerCase()}.svg");
+            }
+          `;
+        });
+        this.itemfilter.styleOverride = `${flags}`;
       });
     },
   },
