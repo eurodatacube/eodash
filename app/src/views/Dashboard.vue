@@ -182,17 +182,6 @@
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
-              <!-- <UiPanel
-                left
-                title="Map Layers"
-                :style="`grid-area: 4 / 1 / 6 / 2;`"
-              >
-                <eox-layerswitcher
-                layerIdentifier="name"
-                sortBy="zIndex"
-                layerTitle="name"
-                ></eox-layerswitcher>
-              </UiPanel> -->
             </div>
           </v-col>
         </v-row>

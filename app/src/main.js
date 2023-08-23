@@ -28,7 +28,6 @@ import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 import '@eox/itemfilter';
-import '@eox/layerswitcher';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -39,7 +38,6 @@ Vue.config.productionTip = false;
 
 Vue.config.ignoredElements = [
   'eox-itemfilter',
-  'eox-layerswitcher',
 ];
 
 Vue.use(VuePapaParse);
