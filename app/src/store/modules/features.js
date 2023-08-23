@@ -149,6 +149,27 @@ const getters = {
       );
     }
     */
+    // due to a mismatch in keys (e.g. 'countries' vs. 'country' etc.) between the STAC properties
+    // and the indicatorObject properties this cannot be 100% automated and a keymap is necessary
+    // TODO as soon as keys are harmonized, automate this
+    const keyMap = {
+      countries: 'country',
+      cities: 'city',
+    };
+    const indicatorsFilter = document.querySelector('eox-itemfilter');
+    if (indicatorsFilter) {
+      const { filters } = indicatorsFilter;
+      Object.keys(filters).forEach((filterName) => {
+        const whiteList = Object.entries(filters[filterName].state)
+          .filter(([, value]) => !!value)
+          .map(([key]) => key);
+        if (whiteList.length > 0) {
+          features = features.filter(
+            (f) => whiteList.includes(f.properties.indicatorObject[keyMap[filterName]]),
+          );
+        }
+      });
+    }
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
