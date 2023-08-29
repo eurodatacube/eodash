@@ -31,6 +31,7 @@ import { getMapInstance } from '@/components/map/map';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import LayerGroup from 'ol/layer/Group';
+import { loadIndicatorExternalData } from '@/utils';
 
 export default {
   name: 'MapLayerSwipe',
@@ -52,13 +53,12 @@ export default {
     swipeLayerObject: null,
     swipe: 0,
     swipePixelX: null,
-    clipLeft: 0,
-    clipRight: 0,
   }),
   computed: {
     specialLayerOptions() {
       const options = { ...this.specialLayerOptionProps };
       options.time = this.time;
+      options.dataProp = 'compareMapData'; // Used to modify which data source location to use
       return options;
     },
   },
@@ -81,6 +81,10 @@ export default {
                 l.on('prerender', this.onPrerender);
                 l.on('postrender', this.onPostrender);
               });
+              if (config.protocol === 'cog') {
+                // special case because otherwise last time is used on enabling compare
+                updateTimeLayer(swipeLayer, config, this.time, this.drawnArea);
+              }
             }
           });
         });
@@ -106,7 +110,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
+          });
+        } else if (swipeLayer) {
           swipeLayer.changed();
         }
       });
@@ -116,7 +127,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
+          });
+        } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, time, this.drawnArea);
         }
       });
@@ -126,7 +144,14 @@ export default {
       const { map } = getMapInstance(this.mapId);
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = map.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (swipeLayer) {
+        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+          loadIndicatorExternalData(
+            time, this.mergedConfigsData,
+          ).then((data) => {
+            this.$store.state.indicators.selectedIndicator.compareMapData = data;
+            swipeLayer.getLayersArray().forEach((l) => l.changed());
+          });
+        } else if (swipeLayer) {
           updateTimeLayer(swipeLayer, config, this.time, area, 'updateArea');
         }
       });
@@ -137,14 +162,18 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
+
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-          ? document.querySelector('.data-panel').className.includes('v-navigation-drawer--close')
+          ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
-            : document.querySelector('.data-panel').clientWidth
+            : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
-        this.swipePixelX = (ctx.canvas.width - sidePadding) * (this.swipe / 100);
+        // on retina displays, the actual part of canvas that data-panel occupies
+        // need to be multiplied by the devicePixelRatio
+        const actualWidth = ctx.canvas.width;
+        const actualHeight = ctx.canvas.height;
+        this.swipePixelX = (actualWidth - sidePadding) * (this.swipe / 100);
         this.$emit('updateSwipePosition', this.swipePixelX);
-        ctx.save();
         const { map } = getMapInstance(this.mapId);
         const usedConfig = this.mergedConfigsData.find((item) => evt.target.get('name').replace('_features', '') === item.name);
         if (usedConfig) {
@@ -156,30 +185,36 @@ export default {
             ? originalLayer.getLayers().getArray().includes(evt.target)
             : evt.target.get('name') === usedConfig.name;
           if (isRightLayer) {
-            ctx.beginPath();
-            ctx.rect(this.swipePixelX, 0, ctx.canvas.width - this.swipePixelX, ctx.canvas.height);
-            ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
+            if (ctx instanceof WebGLRenderingContext) {
+              ctx.enable(ctx.SCISSOR_TEST);
+              ctx.scissor(
+                this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight,
+              );
+            } else {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight);
+              ctx.clip();
             }
+          } else if (ctx instanceof WebGLRenderingContext) {
+            ctx.enable(ctx.SCISSOR_TEST);
+            ctx.scissor(0, 0, this.swipePixelX, actualHeight);
           } else {
+            ctx.save();
             ctx.beginPath();
-            ctx.rect(0, 0, this.swipePixelX, ctx.canvas.height);
+            ctx.rect(0, 0, this.swipePixelX, actualHeight);
             ctx.clip();
-            if (Object.keys(this.$refs).length > 0) {
-              const w = this.$refs.container.clientWidth * (this.swipe / 100);
-              this.clipLeft = 0 - w;
-              this.clipRight = w - this.$refs.container.clientWidth;
-            }
           }
         }
       }
     },
     onPostrender(evt) {
       const ctx = evt.context;
-      ctx.restore();
+      if (ctx instanceof WebGLRenderingContext) {
+        ctx.disable(ctx.SCISSOR_TEST);
+      } else {
+        ctx.restore();
+      }
     },
   },
 };

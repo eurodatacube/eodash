@@ -1,12 +1,28 @@
 
-## Green Transition Information Factory (GTIF)
+## GTIF - Release 1.0
 
-The Green Transition Information Factory concept is a key element of the ESA Space For Green Future
-Accelerator. It was decided to implement a first demonstration for the country of Austria (GTIF AT).
-The overall ambition is to take advantage of EO and geospatial data together with digital platform
-technologies to generate and provide actionable knowledge and decision support focussing on
-national Green Transition priorities in Austria. Information generated and provided by GTIF should
-support Austrian stakeholders and policy makers in their implementation of the Green Transition
-through monitoring, reporting and verification of implemented actions. In addition, GTIF AT will be
-developed as a pathfinder so that it can later be replicated for other member states using the same
-technology solution.
+Welcome to the V1.0 release of the Green Transition Information Factory – Demonstrator for Austria!
+
+**What’s new**:  
+
+- **Energy Transition:**
+  - Hydroelectric reservoir monitoring 
+  - ML-based wind turbine detection
+  - Energy planning: Seasonal solar irradiation, new constraining variables
+- **Sustainable cities:** 
+  - Full country green & solar roofs analyses
+- **Carbon accounting:** 
+  - 20m forest biomass products
+  - Country wide disturbance mapping & change attribution
+- **Mobility transition:** 
+  - Correlation explorer: Air quality & human mobility
+  - Sentinel-2-based truck detection indicator
+- **EO adaptation services:**
+  - Expanded heat explorer
+  - Snow depth & snow water equivalent products
+  - Alpine Drought Explorer elements
+- **New and Improved scrollytelling narratives**
+  - UI/UX enhancements: 
+  - Compare regions
+  - Export regions as geoJson
+  - Create report

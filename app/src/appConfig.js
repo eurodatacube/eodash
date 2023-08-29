@@ -6,7 +6,7 @@ module.exports = [
       staging: 2,
       production: 4,
     },
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost', 'race.eox.home'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
       shortName: 'RACE Dashboard',
@@ -55,6 +55,10 @@ module.exports = [
     // or it can be an array of strings the same size as features to set custom
     // tab titles for each of the tabbed groups
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     demoMode: {
       egu2023: [
         {
@@ -181,7 +185,7 @@ module.exports = [
       staging: 3,
       production: 5,
     },
-    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world', 'trilateral.localhost'],
+    match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world', 'trilateral.localhost', 'trilateral.eox.home'],
     branding: {
       appName: 'Earth Observing Dashboard',
       primaryColor: '#333333',
@@ -263,6 +267,10 @@ module.exports = [
       'EG01-SIF',
     ],
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
@@ -277,7 +285,7 @@ module.exports = [
       staging: 6,
       production: 7,
     },
-    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-demo.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world', 'gtif.localhost'],
+    match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-demo.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world', 'gtif.localhost', 'gtif.eox.home'],
     branding: {
       appName: 'Green Transition Information Factory',
       primaryColor: '#003247',
@@ -327,6 +335,10 @@ module.exports = [
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
     configuredMapPois: [],
     featureGrouping: [],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
     enableStories: false,
     enableESALayout: true,
     enableScrollyTelling: true,

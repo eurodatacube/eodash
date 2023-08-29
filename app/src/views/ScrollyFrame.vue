@@ -1,29 +1,29 @@
 <template>
   <div
     class="fill-height"
-    :style="`margin-top: ${$vuetify.application.top}px !important;`"
   >
     <div
       class="fill-height"
     >
       <global-header />
 
-      <ESABreadcrumbs
-        :are-breadcrumbs-enabled="areBreadcrumbsEnabled"
-      />
+      <v-container>
+        <iframe
+          id="resizableIframe"
+          @load="onLoaded"
+          width="100%"
+          style="
+            height: calc(100vh - 112px) !important;
+            position: fixed; left: 0; bottom: 0; top: 112px;
+          "
+          src="./scrollytelling/index.html"
+          frameborder="0"
+          scrolling="no"
+        >
+        </iframe>
 
-      <iframe
-        id="resizableIframe"
-        @load="onLoaded"
-        v-resize="onResize"
-        width="100%"
-        style="
-          height: calc((var(--vh, 1vh) * 100) - 112px) !important;
-          position: fixed; left: 0; bottom: 0; top: 112px;
-        "
-        src="./scrollytelling/scrolly.html"
-        frameborder="0"
-      ></iframe>
+        <feedback-button />
+      </v-container>
       <!--<global-footer />-->
     </div>
   </div>
@@ -32,17 +32,21 @@
 <script>
 import {
   mapState,
+  mapActions,
 } from 'vuex';
 
 import axios from 'axios';
-import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import GlobalHeader from '@/components/GlobalHeader.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import FeedbackButton from '@/components/FeedbackButton.vue';
+
+import dashboardToScrolly from '../helpers/dashboardToScrolly';
+import storiesConfig from '../config/stories.json';
+import customDashboardApiFactory from '../custom-dashboard';
 
 export default {
   components: {
     GlobalHeader,
-    ESABreadcrumbs,
+    FeedbackButton,
   },
   metaInfo() {
     const { appConfig } = this.$store.state.config;
@@ -52,122 +56,144 @@ export default {
   },
   data() {
     return {
-      areBreadcrumbsEnabled: false,
+      footer: null,
+      bottomNav: null,
+      header: null,
+      data: [],
     };
   },
   computed: {
     ...mapState('config', ['appConfig']),
   },
-  mounted() {
-    this.setBreadcrumbsEnabled();
-
+  async mounted() {
     window.onmessage = (e) => {
       // Check if we got a navigation request from the iframe.
       if (e.data.type === 'nav') {
         this.$router.push({ name: e.data.dest });
-        this.setBreadcrumbsEnabled();
+      }
+      if (e.data.type === 'explore') {
+        this.setCurrentDomain(e.data.domain);
+        this.$router.push({ name: 'explore' });
       }
     };
+
+    switch (this.$route.name) {
+      case 'gtif-energy-transition':
+      case 'gtif-mobility-transition':
+      case 'gtif-sustainable-cities':
+      case 'gtif-carbon-accounting':
+      case 'gtif-eo-adaptation-services':
+      case 'gtif-eo-adaptation-services-snow':
+      case 'landing':
+        this.setCurrentDomain(this.$route.name);
+        return '';
+
+      default:
+        return '';
+    }
   },
   methods: {
+    ...mapActions('gtif', [
+      'setCurrentDomain',
+    ]),
     async onLoaded() {
+      const css = await axios.get('./css/gtif-scrolly.css');
+
+      const footer = await axios.get('./data/gtif/components/footer.json');
+      const bottom = await axios.get('./data/gtif/components/bottom.json');
+      const header = await axios.get('./data/gtif/components/header.json');
+
+      this.footer = footer.data;
+      this.bottomNav = bottom.data;
+      this.header = header.data;
+
+      let items;
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const customDashboardApi = customDashboardApiFactory();
+
       try {
-        const id = this.getDashboardID();
-
-        const response = await axios
-          .get(`https://${process.env.NODE_ENV !== 'production'
-            ? 'dev-'
-            : ''}eodash-dashboard-api.f77a4d8a-acde-4ddd-b1cd-b2b6afe83d7a.hub.eox.at/get?id=${
-            id || '9dd9f2b6743c9746' // fallback default TODO remove
-            // /dashboard?id=9dd9f2b6743c9746&editKey=0017ee8a3e16f9b8
-          }`);
-        const { features } = response.data;
-
-        // Calculate the positions of the full-width blocks in the array
-        const indexes = [];
-        for (let i = 0; i < features.length; i++) {
-          if (features[i].width === 4) {
-            indexes.push(i);
-          }
-        }
-
-        // Slice and push the full-width blocks, and the blocks between them into separate arrays
-        // If there are no full-width blocks, just push the whole features array
-        let data = [];
-        let nextIndex = 0;
-        if (indexes.length) {
-          for (let i = 0; i < indexes.length; i++) {
-            data.push(features.slice(nextIndex, indexes[i] + 1));
-            data.push(features.slice(indexes[i] + 1, indexes[i + 1]));
-            nextIndex = indexes[i + 1];
-          }
-
-          // Remove possible empty arrays
-          data = data.filter((e) => e.length);
+        // If custom ID is present in the query string, use that instead of the cached ones.
+        if (id !== null) {
+          const res = await customDashboardApi.listen(id);
+          items = dashboardToScrolly(res.features);
         } else {
-          data.push(features);
+          const res = await axios
+            .get(`./data/dashboards/${this.getDashboardID()}.json`, {
+              headers: {
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0',
+              },
+            });
+
+          items = dashboardToScrolly(res.data.features);
         }
-
-        document.querySelector('iframe').contentWindow.postMessage(data);
-      } catch (error) {
-        console.error(`Error loading dashboard data: ${error}`);
+      } catch (e) {
+        console.error(`Something went wrong while loading the dashboard: ${JSON.stringify(e)}`);
       }
+
+      this.linkStyle(css.data);
+      this.setScrollyStory(items);
+
+      if (this.$route.name === 'landing') {
+        this.setComponentHook('beforeFooter', this.bottomNav, { routeName: this.$route.name });
+      }
+      this.setComponentHook('footer', this.footer);
+      this.setComponentHook('header', this.header, { routeName: this.$route.name });
     },
-    onResize() {
-      iFrameResize({
-        // log: true,
-        checkOrigin: false,
-        inPageLinks: false,
-        sizeHeight: false,
-        scrolling: false,
-        // minHeight: this.minHeight
-        //   || window.innerHeight
-        //       - 64
-        //       - 48,
-      }, '#resizableIframe');
+    /**
+     * Add the CSS styles from a given path to the iframe.
+     *
+     * @param {string} path - The path of the style to be applied.
+     */
+    linkStyle(css) {
+      /*
+        TODO: find a way to use SCSS for dedicated iframe styles
+        const gtifScss = require(`../../public/css/gtif.scss`);
+        console.log(gtifScss);
+      */
+      document.querySelector('#resizableIframe').contentWindow.postMessage(
+        {
+          type: 'css',
+          css,
+        },
+        '*',
+      );
     },
+    /**
+     * Send an `items` message to the iframe, which sets the content of the scrolly story.
+     *
+     * @param {string} items - The array of entries in scrollytelling format.
+     */
+    setScrollyStory(items) {
+      document.querySelector('#resizableIframe').contentWindow.postMessage(
+        {
+          type: 'items',
+          data: items,
+        },
+        '*',
+      );
+    },
+    /**
+     * Send a `hook:...` message, injecting a JSON component into a specific location.
+     *
+     * @param {string} path - The path of the style to be applied.
+     */
+    setComponentHook(hookName, jsonComponent, props) {
+      document.querySelector('#resizableIframe').contentWindow.postMessage({
+        type: `hook:${hookName}`,
+        data: jsonComponent,
+        props,
+      }, '*');
+    },
+
     getDashboardID() {
-      switch (this.$route.name) {
-        case 'landing':
-          return '7828358850802a35';
+      const brand = this.appConfig.id;
+      const name = this.$route.name.replace('gtif-', '');
 
-        case 'gtif-energy-transition':
-          return '0f2e9b3e9ac1bc35';
-
-        case 'gtif-mobility-transition':
-          return '784f3e1ba71aef26';
-
-        case 'gtif-social-mobility':
-          return 'ac7d1b288e92217a';
-
-        case 'gtif-sustainable-transition':
-          return '000c2eb018897d82';
-
-        case 'gtif-carbon-finance':
-          return 'a5a6e77d28a4f541';
-
-        case 'gtif-eo-adaptation':
-          return '844374958b90378b';
-
-        // Fallback value
-        default:
-          return '50826821d453dfd5';
-      }
-    },
-    setBreadcrumbsEnabled() {
-      switch (this.$route.name) {
-        case 'gtif-energy-transition':
-        case 'gtif-mobility-transition':
-        case 'gtif-sustainable-transition':
-        case 'gtif-carbon-finance':
-        case 'gtif-eo-adaptation':
-        case 'gtif-social-mobility':
-          this.areBreadcrumbsEnabled = true;
-          break;
-
-        default:
-          this.areBreadcrumbsEnabled = false;
-      }
+      return storiesConfig[brand][name][name]
+        .originalDashboardId;
     },
   },
 };
@@ -183,5 +209,11 @@ export default {
   min-width: 100%;
   height: 100%;
   border: none;
+}
+
+::v-deep .feedback-button {
+  position: fixed;
+  right: 32px;
+  bottom: 16px;
 }
 </style>

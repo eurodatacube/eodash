@@ -1,0 +1,56 @@
+{
+  "version": 8,
+  "name": "schnelllade",
+  "minZoom": 0,
+  "maxZoom": 14,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "schnellade_source": {
+      "type": "vector",
+      "tiles": [
+          "https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_dsr_schnelllade_10km@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf"
+      ],
+      "maxzoom": 16
+  }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "background-color": "#ff0000"
+      }
+    },
+    {
+      "id": "Gr50_10km",
+      "type": "fill",
+      "source": "schnellade_source",
+      "source-layer": "GTIF_dsr_schnelllade_10km",
+      "filter": [
+        "in",
+        ["string", "Gr50_10km"],
+        ["string", ["get", "poly_typ"]]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(62, 143, 77, 1)"
+      }
+    },
+    {
+      "id": "CLC2018",
+      "type": "fill",
+      "source": "schnellade_source",
+      "source-layer": "GTIF_dsr_schnelllade_10km",
+      "filter": [
+        "in",
+        ["string", "CLC2018"],
+        ["string", ["get", "poly_typ"]]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": "rgba(150, 150, 150, 1)"
+      }
+    }
+  ]
+}

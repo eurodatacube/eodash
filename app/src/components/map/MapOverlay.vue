@@ -72,7 +72,7 @@ export default {
   position: relative;
   font-size: 14px;
   box-shadow: none !important;
-  background: rgba(0, 0, 0, 0.6) !important;
+  background: rgba(0, 0, 0, 0.8) !important;
   color: #FFFFFF !important;
 }
 

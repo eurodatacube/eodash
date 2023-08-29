@@ -345,8 +345,105 @@
             "cm": [[3, [48,107,255]], [15,[72,142,255]], [30,[92,165,255]], [45,[111,180,255]], [60,[130,190,255]], [75,[148,199,255]], [90,[163,208,255]], [105,[178,216,255]], [120,[194,222,255]], [135,[206,229,255]], [150,[216,236,255]], [165,[225,242,255]], [180,[233,246,255]], [195,[242,251,255]], [210,[251,255,255]]],
             "label": "Ice melting [days]",
             "ticks": [3, 30, 60, 90, 120, 150, 180, 210]
+        },
+        "LAKES_SURFACE_WATER_TEMPERATURE": {
+            "range": [270, 310],
+            "cm":  [[270, [39,79,133]],[275,[86,141,186]], [280,[128,174,207]], [285,[197,219,233]],[290,[246,246,246]],[295,[243,211,192]],[300,[227,164,142]],[305,[183,83,74]],[310,[129,32,40]] ],
+            "label": "Lake Surface Temperature [K]",
+            "ticks": [270, 275, 280, 285, 290, 295, 300 , 305, 310]
+        },
+        "LAKE_WATER_QUALITY_TURBIDITY_MEAN": {
+            "range": [0,10],
+            "cm": [[0, [56, 56, 148]], [2,[82, 133, 140]], [4,[111, 213, 132]], [6,[136, 210, 111]], [8,[155, 116, 78]], [10,[175, 28, 47]]],
+            "label": "Turbidity [NTU]",
+            "ticks": [0, 2, 4, 6, 8, 10]
         }
     },
     "gtif": {
+        "AQ1_n_trajectories": {
+            "range": [1, 40000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trajectories count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 40000]
+        },
+        "AQ1_satellite_values": {
+            "range": [0, 500],
+            "cm": ["#00531E","#C3E556","#FFDD56","#F67758","#FF973F","#FF6331","#D5001F","#63000D"],
+            "label": "[µmol/m²]"
+        },
+        "AQ1_mean_value": {
+            "range": [0, 50],
+            "cm": ["#00531E","#C3E556","#FFDD56","#F67758","#FF973F","#FF6331","#D5001F","#63000D"],
+            "label": "Mean value [µg/m³]"
+        },
+        "AQ1_congestion_index": {
+            "range": [0, 50],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Congestion index [%]"
+        },
+        "AQ1_speed": {
+            "range": [0, 120],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip speed [km/h]"
+        },
+        "AQ1_motorized_count": {
+            "range": [1, 20000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 20000]
+        },
+        "AQ1_motorized_share": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized trip share index [%]"
+        },
+        "AQ4_congestion_index": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Congestion index [%]"
+        },
+        "AQ4_motorized_share": {
+            "range": [0, 100],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Motorized trip share index [%]"
+        },
+        "AQ4_duration": {
+            "range": [0, 240],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip duration (minutes)"
+        },
+        "AQ4_speed": {
+            "range": [0,140],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Traffic-free trip speed [km/h]"
+        },
+        "AQ4_distance": {
+            "range": [0,300],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trip distance [km]"
+        },
+        "AQ4_trajectories": {
+            "range": [1,4000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Trajectories count",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 4000]
+        },
+        "MOBI1_users_count": {
+            "range": [100,100000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population count",
+            "logarithmic": true,
+            "ticks": [100, 1000, 10000, 100000]
+        },
+        "MOBI1_users_density": {
+            "range": [1,10000],
+            "cm": ["#0198bd","#49e3ce","#d8feb5","#feedb1", "#fead54", "#d1374e"],
+            "label": "Population density [people/km2]",
+            "logarithmic": true,
+            "ticks": [1, 10, 100, 1000, 10000]
+        }
     }
 }

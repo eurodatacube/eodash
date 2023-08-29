@@ -204,6 +204,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl'),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn'),
+  LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
 });
 
 // Define custom fetch function with configurable timeout
@@ -405,7 +406,8 @@ export const fetchCustomAreaObjects = async (
           // We take here fulfilled datasets, rejected status is probably from timeout
           if (entry.status === 'fulfilled' && 'properties' in entry.value
               && 'statistics' in entry.value.properties) {
-            d = entry.value.properties.statistics['1'];
+            const stats = entry.value.properties.statistics;
+            d = entry.value.properties.statistics[Object.keys(stats)[0]];
             d.time = entry.value.time;
           }
           return d;

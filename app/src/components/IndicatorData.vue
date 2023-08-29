@@ -15,7 +15,7 @@
           style="position: absolute; right: 40px; top: 13px;display: none;"
           elevation="2"
           x-small
-          @click="resetBCZoom"
+          @click="resetZoom"
         >
           Reset Zoom
         </v-btn>
@@ -48,6 +48,26 @@
         />
       </div>
   </div>
+  <div style="width: 100%; height: 100%;"
+    v-else-if="scatterChartIndicators.includes(indicatorObject.indicator)">
+    <scatter-chart
+      id="chart" ref="scatterChart"
+      @extentChanged="extentChanged"
+      class="fill-height"
+      :width="null"
+      :height="null"
+      :chart-data='datacollection'
+      :options='chartOptions()'></scatter-chart>
+    <v-btn
+      ref="zoomResetButton"
+      style="position: absolute; right: 40px; top: 13px;display: none;"
+      elevation="2"
+      x-small
+      @click="resetZoom"
+    >
+      Reset Zoom
+    </v-btn>
+  </div>
   <div style="width: 100%; height: 100%;" v-else>
     <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
       id="chart" ref="lineChart"
@@ -62,7 +82,7 @@
       style="position: absolute; right: 40px; top: 13px;display: none;"
       elevation="2"
       x-small
-      @click="resetLCZoom"
+      @click="resetZoom"
     >
       Reset Zoom
     </v-btn>
@@ -76,6 +96,7 @@ import {
 } from 'vuex';
 import BarChart from '@/components/BarChart.vue';
 import LineChart from '@/components/LineChart.vue';
+import ScatterChart from '@/components/ScatterChart.vue';
 import MapChart from '@/components/MapChart.vue';
 import NUTS from '@/assets/NUTS_RG_03M_2016_4326_ESL2-DEL3.json';
 
@@ -85,25 +106,31 @@ export default {
   props: {
     currentIndicator: Object,
     disableAutoFocus: Boolean,
+    enableMapTimeInteraction: Boolean,
   },
   components: {
     BarChart,
     LineChart,
+    ScatterChart,
     MapChart,
     IndicatorTimeSelection,
   },
   data() {
     return {
       dataLayerTime: null,
+      dataLayerTimeFromMap: null,
+      compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1b', 'N1c', 'N1d', 'E12b', 'E8', 'N9',
+        'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d',
+        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
+        'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -112,15 +139,19 @@ export default {
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
+      scatterChartIndicators: [
+        'SOL1', 'SOL2', 'REP4_5', 'AQ1',
+      ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'E10a7',
+        'E10a2', 'E10a6', 'E10a7', 'REP4_2',
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
     };
   },
-
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
     const formatted = d.toFormat('dd. MMM');
@@ -128,6 +159,8 @@ export default {
       value: formatted,
       name: formatted,
     };
+    // add event listener for map up
+    window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
@@ -152,10 +185,7 @@ export default {
     datacollection() {
       const indicator = { ...this.indicatorObject };
       const indicatorCode = indicator.indicator;
-      const refColors = [
-        '#22aa99', '#a37', '#47a', '#a67', '#283', '#bbb',
-        '#6ce', '#994499', '#aaaa11', '#6633cc', '#e67300',
-      ];
+      const { refColors } = this.appConfig;
       let labels = [];
       const datasets = [];
       if (indicator) {
@@ -173,7 +203,6 @@ export default {
           OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
           // GSA: ['waiting_time'] // Currently not in use, left for reference
         };
-
         const referenceDecompose = {
           N1: {
             measurementConfig: {
@@ -369,6 +398,8 @@ export default {
         referenceDecompose.E8.referenceData[0].key = 'roll average';
         referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.LWL = referenceDecompose.E12c;
+        referenceDecompose.LWE = referenceDecompose.E12c;
 
         referenceDecompose.E13o = referenceDecompose.N1;
         referenceDecompose.E13p = referenceDecompose.N1;
@@ -380,9 +411,18 @@ export default {
         referenceDecompose.CDS3 = referenceDecompose.N1;
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
+        referenceDecompose.Lakes_SWT = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
+
+        referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
+
+        referenceDecompose.SST.referenceData[0].key = 'Sea Surface Temperature';
+        referenceDecompose.SST.referenceData[0].calc = (meas, obj) => obj[0];
+        referenceDecompose.SST.referenceData[1].calc = (meas, obj) => obj[0] - obj[1];
+        referenceDecompose.SST.referenceData[2].calc = (meas, obj) => obj[0] + obj[1];
+
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
@@ -441,8 +481,18 @@ export default {
             });
           });
         }
+
+        // datasets.push({
+        //   label: 'hide_',
+        //   data: [],
+        //   borderColor: 'rgba(0,0,0,0.1)',
+        //   backgroundColor: 'rgba(0,0,0,1)',
+        //   borderWidth: 1,
+        //   pointRadius: 3,
+        //   spanGaps: false,
+        // });
         // Add special points for N3
-        if (indicatorCode === 'N3') {
+        if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
           const indicatorValues = {};
           indicator.indicatorValue.map((val, i) => {
@@ -463,9 +513,13 @@ export default {
               if (indicator.indicatorValue[i] !== key.toUpperCase()) {
                 val = NaN;
               }
+              let y = Number.isNaN(val) ? Number.NaN : (10 ** val);
+              if (['SST'].includes(indicatorCode)) {
+                y = Number.isNaN(val) ? Number.NaN : val;
+              }
               return {
                 t: indicator.time[i],
-                y: Number.isNaN(val) ? Number.NaN : (10 ** val),
+                y,
               };
             });
             datasets.push({
@@ -521,7 +575,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2'].includes(indicatorCode)) {
+            && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = indicator.referenceValue.map(Number);
@@ -682,17 +736,20 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c'].includes(indicatorCode)) {
+        } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = indicator.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
               indicator.colorCode[i],
             ));
-            return {
+            const result = {
               t: date,
               y: measurement[i],
-              referenceValue: indicator.referenceValue[i].replace(/[[\]]/g, ''),
             };
+            if (indicator.referenceValue[i]) {
+              result.referenceValue = indicator.referenceValue[i].replace(/[[\]]/g, '');
+            }
+            return result;
           });
           const dataGroups = {};
           const colorGroups = {};
@@ -718,7 +775,7 @@ export default {
           uniqueYears.sort();
           const yLength = uniqueYears.length - 1;
           uniqueYears.forEach((key, i) => {
-            datasets.push({
+            const ds = {
               // fill with empty values
               indLabels: Array(dataGroups[key].length).join('.').split('.'),
               label: key,
@@ -727,7 +784,15 @@ export default {
               backgroundColor: refColors[yLength - i],
               borderColor: refColors[yLength - i],
               borderWidth: 2,
-            });
+            };
+            if (['REP4_2'].includes(indicatorCode) && key === '2010') {
+              ds.borderDash = [4, 2];
+              ds.borderWidth = 5;
+              ds.label = 'Monthly mean';
+              ds.pointStyle = 'triangle';
+              ds.pointRadius = 5;
+            }
+            datasets.push(ds);
           });
         } else if (['OX'].includes(indicatorCode)) {
           const data = [];
@@ -904,6 +969,164 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
+          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
+          // Rendering for fetched data
+          // TODO: there are quite some dependencies on the expected structure of the data, so
+          // it is not possible to show easily multiple parameters
+          /*
+          indicator.retrievedData.forEach((key, i) => {
+            datasets.push({
+              // fill with empty values
+              indLabels: Array(dataGroups[key].length).join('.').split('.'),
+              label: key,
+              fill: false,
+              data: indicator.retrievedData[key],
+              backgroundColor: refColors[yLength - i],
+              borderColor: refColors[yLength - i],
+              borderWidth: 2,
+            });
+          });
+          */
+          const data = indicator.time.map((date, i) => (
+            { t: date, y: indicator.measurement[i] }
+          ));
+          let label = indicator.yAxis;
+          if (['MOBI1'].includes(indicatorCode)) {
+            label = 'time series for selected area';
+          }
+          datasets.push({
+            label,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
+        } else if (['AQ1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: 'data for selected bins',
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
+        } else if (['SOL1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          Object.keys(indicator.fetchedData).forEach((gemId, ind) => {
+            // for each gemeinde group into a dataset
+            const x = [];
+            const y = [];
+            const zsps = [];
+            const clrs = [];
+            let counter = 0;
+            const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
+              '#9a08c7', '#e60532', '#d66d11'];
+            Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
+              x.push(indicator.fetchedData[gemId][zspId].measurement);
+              y.push(indicator.fetchedData[gemId][zspId].referenceValue);
+              zsps.push(zspId);
+              if (indicator.originalZsps.map((ftr) => ftr.getId())
+                .includes(parseInt(zspId, 10))) {
+                const ii = counter % availableSelectedColors.length;
+                clrs.push(`${availableSelectedColors[ii]}80`);
+                counter += 1;
+              } else {
+                const index = ind % refColors.length;
+                // adding 0.5 alpha to each color
+                clrs.push(`${refColors[index]}80`);
+              }
+            });
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j], zsp: zsps[j] }
+            ));
+            datasets.push({
+              label: indicator.gemIds[gemId].trim(),
+              fill: false,
+              data,
+              backgroundColor: clrs,
+              borderColor: clrs,
+              borderWidth: 1,
+              pointRadius: 2,
+            });
+          });
+        } else if (['SOL2'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            // pointStyle: 'line',
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone',
+          });
+        } else if (['REP4_5'].includes(indicatorCode)) {
+          // Rendering for reservoirs LAC curve
+          const data = indicator.referenceValue.map((x, i) => (
+            { x, y: indicator.measurement[i] }
+          ));
+          // This should be done somehow different, but xAxis is not in indicator mapping
+          // eslint-disable-next-line
+          this.indicatorObject.xAxis = 'Area [m²]';
+          datasets.push({
+            label: indicator.yAxis,
+            fill: false,
+            data,
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+            borderWidth: 1,
+            pointRadius: 4,
+          });
+        }
+        if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
+          // monthly average as extra dataset
+          const average = [];
+          let tempDate = indicator.time[0];
+          let tmpVal = 0;
+          let counter = 0;
+          indicator.measurement.forEach((item, i) => {
+            if (
+              tempDate.month === indicator.time[i].month
+              && tempDate.year === indicator.time[i].year
+            ) {
+              tmpVal += item;
+              counter += 1;
+            } else {
+              average.push({
+                t: DateTime.fromISO(tempDate.toISODate()).set({ day: 15 }),
+                y: tmpVal / counter,
+              });
+              tempDate = DateTime.fromISO(indicator.time[i].toISODate());
+              counter = 0;
+              tmpVal = 0;
+            }
+          });
+          datasets.push({
+            label: 'Monthly average',
+            data: average,
+            fill: false,
+            borderColor: 'black',
+            backgroundColor: 'black',
+            borderWidth: 2,
+            pointRadius: 0,
+            showLine: true,
+          });
         }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
@@ -955,13 +1178,34 @@ export default {
         this.$refs.regenerateButton.$el.style.display = 'none';
       }
     },
-    resetLCZoom() {
-      this.extentChanged(false);
-      this.$refs.lineChart._data._chart.resetZoom();
+    mapTimeUpdatedHandler(event) {
+      // enable chart map time sync only if not part of custom dashboard
+      if (this.enableMapTimeInteraction) {
+        // set listener to highlight points for selected time on map via annotations
+        if (event.data.command === 'chart:setTime') {
+          this.dataLayerTimeFromMap = event.data.time;
+        }
+        if (event.data.command === 'chart:setCompareTime') {
+          this.compareLayerTimeFromMap = event.data.time;
+        }
+      }
     },
-    resetBCZoom() {
+    getChartObject() {
+      if (this.$refs.lineChart) {
+        return this.$refs.lineChart._data._chart;
+      }
+      if (this.$refs.barChart) {
+        return this.$refs.barChart._data._chart;
+      }
+      if (this.$refs.scatterChart) {
+        return this.$refs.scatterChart._data._chart;
+      }
+      return null;
+    },
+    resetZoom() {
       this.extentChanged(false);
-      this.$refs.barChart._data._chart.resetZoom();
+      const chart = this.getChartObject();
+      chart.resetZoom();
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
@@ -1006,8 +1250,32 @@ export default {
       const indicatorCode = this.indicatorObject.indicator;
       const reference = Number.parseFloat(this.indicatorObject.referenceValue);
       const annotations = [];
+
       let low = 0;
       let high = 0;
+
+      customSettings.onClick = (event, elements) => {
+        // enable chart map time sync only if not part of custom dashboard
+        if (this.enableMapTimeInteraction) {
+          if (elements.length > 0) {
+            // clicked some chart
+            const chart = elements[0]._chart;
+            const element = chart.getElementAtEvent(event)[0];
+            const dataset = chart.data.datasets[element._datasetIndex];
+            const timeSelected = dataset.data[element._index].t;
+            if (timeSelected) {
+              // reuse map event interface for scrolly
+              let command = 'map:setTime';
+              if (event.ctrlKey || event.shiftKey) {
+                command = 'map:setCompareTime';
+              }
+              window.postMessage({
+                command, time: timeSelected,
+              });
+            }
+          }
+        }
+      };
 
       // Default tooltips
       customSettings.tooltips = {
@@ -1128,7 +1396,7 @@ export default {
           };
         }
         // Another special case to also show days in tooltip
-        if (indicatorCode === 'E10c') {
+        if (['E10c'].includes(indicatorCode)) {
           customSettings.timeConfig.tooltipFormat = 'dd. MMM';
         }
         if (['VITS', 'PRCTS', 'SMCTS'].includes(indicatorCode)) {
@@ -1149,6 +1417,7 @@ export default {
           };
         }
       }
+
       if (indicatorCode === 'E10a5') {
         customSettings.yAxisRange = [
           0,
@@ -1229,6 +1498,11 @@ export default {
 
       if (this.multiYearComparison.includes(indicatorCode)) {
         // Special time range for same year comparisons
+        customSettings.sameYearComparison = true;
+      }
+
+      if (this.disableMobilityLabels.includes(indicatorCode)) {
+        // TODO: we should maybe have a specific way of disabling those labels
         customSettings.sameYearComparison = true;
       }
 
@@ -1354,10 +1628,6 @@ export default {
             },
           },
         };
-        if (this.indicatorObject.aoiID === 'ES19') {
-          customSettings.yAxisOverwrite.min = 0.02;
-          customSettings.yAxisOverwrite.max = 1;
-        }
         customSettings.labelsExtend = {
           usePointStyle: true,
           boxWidth: 5,
@@ -1374,7 +1644,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
@@ -1458,15 +1728,99 @@ export default {
         customSettings.hideRestrictions = true;
       }
 
+      if (['SOL1'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              const obj = data.datasets[context.datasetIndex].data[context.index];
+              const label = `Gemeinde ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, existing: ${obj.x[0].toFixed(0)} m², potential: ${obj.y[0].toFixed(0)} m²`;
+              return label;
+            },
+          },
+        };
+        customSettings.hideRestrictions = true;
+        const { refColors } = this.appConfig;
+        customSettings.legend = {
+          labels: {
+            generateLabels: (chart) => {
+              const visibility = [];
+              for (let i = 0; i < chart.data.datasets.length; i++) {
+                if (chart.isDatasetVisible(i) === false) {
+                  visibility.push(true);
+                } else {
+                  visibility.push(false);
+                }
+              }
+              return chart.data.datasets.map(
+                (dataset, index) => ({
+                  text: dataset.label,
+                  fillStyle: refColors[index],
+                  strokeStyle: refColors[index],
+                  fontColor: refColors[index],
+                  hidden: visibility[index],
+                }),
+              );
+            },
+          },
+        };
+      }
+      const defaultTimeAnnotation = {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        borderColor: 'rgba(0, 0, 0, 0.5)',
+        borderDash: [4, 4],
+        borderWidth: 3,
+        label: {
+          xPadding: 3,
+          yPadding: 3,
+          xAdjust: -28,
+          enabled: true,
+          content: 'Map layer',
+          fontSize: 10,
+          backgroundColor: 'rgba(0,0,0,0.4)',
+        },
+      };
+
+      if (this.dataLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.dataLayerTimeFromMap,
+        });
+      }
+      if (this.compareLayerTimeFromMap) {
+        annotations.push({
+          ...defaultTimeAnnotation,
+          value: this.compareLayerTimeFromMap,
+          label: {
+            ...defaultTimeAnnotation.label,
+            content: 'Compare layer',
+            xAdjust: 38,
+          },
+        });
+      }
       return {
         ...customSettings,
         annotation: {
           annotations,
         },
+        animation: {
+          duration: 0,
+        },
         yAxis: this.indicatorObject.yAxis,
+        xAxis: this.indicatorObject.xAxis,
         country: this.indicatorObject.country,
       };
     },
+  },
+  beforeDestroy() {
+    if (this.mapId === 'centerMap') {
+      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
+      cluster.setActive(false, this.overlayCallback);
+      this.ro.unobserve(this.$refs.mapContainer);
+      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
+    }
+    window.removeEventListener('message', this.mapTimeUpdatedHandler);
   },
 };
 </script>

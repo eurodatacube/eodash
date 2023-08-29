@@ -6,6 +6,44 @@
       ? 'top: 10px'
       : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
   >
+    <v-col v-if="showTimeSlider" style="height:68px;">
+      <v-slider
+        v-model="originalTimeIndex"
+        :min="0"
+        :max="availableValues.length - 1"
+        :step="1"
+      >
+        <template v-slot:prepend>
+          <v-btn
+            dark
+            x-small
+            color="primary"
+            :disabled="originalTimeIndex === 0"
+            class="h-3"
+            @click="originalTimeIndex--"
+          >
+            <v-icon small>mdi-arrow-left</v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            dark
+            x-small
+            color="primary"
+            :disabled="originalTimeIndex === availableValues.length - 1"
+            class="h-3"
+            @click="originalTimeIndex++"
+          >
+            <v-icon small>mdi-arrow-right</v-icon>
+          </v-btn>
+        </template>
+      </v-slider>
+      <SliderTicks
+        style="transform: translateY(-30px)"
+        :times="availableValues"
+      />
+    </v-col>
     <v-col
       v-if="currentlyComparing"
       cols="6"
@@ -92,7 +130,12 @@
 <script>
 import { DateTime } from 'luxon';
 
+import SliderTicks from './map/SliderTicks.vue';
+
 export default {
+  components: {
+    SliderTicks,
+  },
   props: {
     autofocus: {
       type: Boolean,
@@ -127,6 +170,7 @@ export default {
   data: () => ({
     compareTimeModel: null,
     originalTimeModel: null,
+    originalTimeIndex: 0,
   }),
   computed: {
     currentlyComparing() {
@@ -135,6 +179,13 @@ export default {
         pass = !this.indicator.compareDisplay;
       }
       return this.compareActive && pass;
+    },
+    showTimeSlider() {
+      let show = false;
+      if (this.indicator) {
+        show = this.indicator.showTimeSlider;
+      }
+      return show;
     },
   },
   created() {
@@ -206,6 +257,25 @@ export default {
       deep: true,
       handler(timeObj) {
         this.$emit('update:originalTime', timeObj);
+        // Update the slider if the dropdown changes the value
+        // Find index base on value
+        let index = -1;
+        this.availableValues.forEach((item, idx) => {
+          if (item.value === timeObj.value) {
+            index = idx;
+          }
+        });
+        this.originalTimeIndex = index;
+      },
+    },
+    originalTimeIndex: {
+      deep: true,
+      handler(index) {
+        // Update the model when the slider index changes
+        if (index !== -1) {
+          this.$emit('update:originalTime', this.availableValues[index]);
+          this.originalTimeModel = this.availableValues[index];
+        }
       },
     },
   },

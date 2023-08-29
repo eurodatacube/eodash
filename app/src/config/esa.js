@@ -156,6 +156,9 @@ const trucksAreaIndicator = {
 };
 
 const trucksFeatures = {
+  style: {
+    strokeColor: '#00c3ff',
+  },
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',
   requestHeaders: {
@@ -211,6 +214,10 @@ const E1bConfigInputDataAsc = [{
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  features: {
+    ...geodbFeatures,
+    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  },
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -230,6 +237,10 @@ const E1bConfigInputDataDes = [{
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  features: {
+    ...geodbFeatures,
+    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  },
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -309,10 +320,6 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Vessel density',
     themes: ['economy'],
     story: '/eodash-data/stories/E1b',
-    features: {
-      ...geodbFeatures,
-      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
-    },
   },
   E2: {
     indicatorSummary: 'Volume of oil stockpiled (Archived)',
@@ -611,15 +618,20 @@ export const indicatorsDefinition = Object.freeze({
     largeTimeDuration: true,
   },
   N3: {
-    indicatorSummary: 'CHL concentration',
+    indicatorSummary: 'Water Quality Time Series',
     themes: ['water'],
     story: '/eodash-data/stories/N3',
   },
   N3a2: {
-    indicatorSummary: 'CHL concentration',
+    indicatorSummary: 'Water Quality and SST Maps',
     themes: ['water'],
     story: '/eodash-data/stories/N3a2',
     customAreaIndicator: true,
+  },
+  SST: {
+    indicatorSummary: 'Sea Surface Temperature Time Series',
+    themes: ['water'],
+    story: '/eodash-data/stories/BarcelonaSST-N3a2',
   },
   N4a: {
     indicatorSummary: 'Changes in land fill sites',
@@ -820,8 +832,6 @@ export const overlayLayersLeftMap = [{
 export const overlayLayersRightMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-
-export const administrativeLayers = [];
 
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
@@ -1970,9 +1980,6 @@ export const globalIndicators = [
           },
           areaIndicator: trucksAreaIndicator,
           features: trucksFeatures,
-          style: {
-            color: '#00c3ff',
-          },
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
@@ -2027,9 +2034,6 @@ export const globalIndicators = [
           },
           areaIndicator: trucksAreaIndicator,
           features: trucksFeatures,
-          style: {
-            color: '#00c3ff',
-          },
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month

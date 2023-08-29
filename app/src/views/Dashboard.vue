@@ -6,9 +6,6 @@
     <global-header
       ref="globalHeader"
     />
-    <ESABreadcrumbs
-      v-if="appConfig.enableESALayout"
-    />
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
@@ -28,11 +25,15 @@
           :class="$store.state.indicators.selectedIndicator.description ===
             $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'"
         >
+        <span v-if="queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city">
           {{ queryIndicatorObject && queryIndicatorObject.properties.indicatorObject.city }}:
+        </span>
+        <span>
           {{
             queryIndicatorObject && (queryIndicatorObject.properties.indicatorObject.indicatorName
             || queryIndicatorObject.properties.indicatorObject.description)
           }}
+        </span>
           <div v-if="
             $store.state.indicators.selectedIndicator.description !==
             $store.state.indicators.selectedIndicator.indicatorName
@@ -55,7 +56,7 @@
           </div>
         </v-toolbar-title>
         <v-tooltip
-          v-if="$store.state.indicators.selectedIndicator"
+          v-if="$store.state.indicators.selectedIndicator && appConfig.id !== 'gtif'"
           left
         >
           <template v-slot:activator="{ on }">
@@ -80,7 +81,7 @@
           || $store.state.features.featureFilters.indicators.length > 0"
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5" />
+        :expanded="dataPanelFullWidth" class="px-5 py-2" />
     </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
@@ -142,7 +143,7 @@
         class="data-panel scrollContainer"
         :style="{
           background: $vuetify.theme.themes[theme].background,
-          height: 'calc(var(--vh, 1vh) * 100)'
+          height: isDialogRetracted ? 'calc(33vh - 85px)' : 'calc(var(--vh, 1vh) * 100)',
         }"
       >
 
@@ -171,9 +172,11 @@
       </v-container>
     </div>
 
-    <v-content
+    <v-main
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
-        + $vuetify.application.footer}px); overflow:hidden; width: 100%`"
+        + $vuetify.application.footer}px); overflow:hidden; width: 100%;${
+          appConfig.enableESALayout ? 'margin-top: 48px;' : ''
+        }`"
     >
       <v-container
         class="fill-height pa-0"
@@ -187,7 +190,7 @@
             <center-panel ref="centerPanel" :panelActive="drawerRight" />
             <div
               class="d-flex justify-start"
-              style="position: absolute; top: 0; width: 100%; pointer-events: none"
+              style="position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none"
             >
               <IndicatorFiltersSidebar v-if="appConfig.enableIndicatorSidebar" />
               <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
@@ -197,7 +200,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
     <global-footer
       :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
     />
@@ -213,7 +216,6 @@ import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
-import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -237,7 +239,6 @@ export default {
     IndicatorFilters,
     IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
-    ESABreadcrumbs,
   },
   props: {
     source: String,
@@ -447,6 +448,7 @@ export default {
 
   &.retracted {
     transform: translateY(66vh);
+    padding-bottom: 66vh;
   }
 
   &.hidden {

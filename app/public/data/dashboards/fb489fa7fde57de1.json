@@ -1,0 +1,245 @@
+{
+  "marketingInfo": {
+    "interests": [
+      "Climate"
+    ]
+  },
+  "features": [
+    {
+      "width": 4,
+      "text": "# AIR QUALITY AND HUMAN MOBILITY OVER AUSTRIA",
+      "id": "title-1684837314555",
+      "title": "title",
+      "__generatedText__": "<h1>AIR QUALITY AND HUMAN MOBILITY OVER AUSTRIA</h1>\n"
+    },
+    {
+      "width": 2,
+      "text": "Globally, cities consume about 75% of global primary energy and cause more than 70% of energy-related carbon dioxide emissions\n\nIn Europe, the majority of citizens live in urban areas, and for their daily life, they require some kind of private or public mobility\n\nReorganizing urban mobility towards more sustainability is a common challenge to all major cities. \n\nEfficient and effective urban transport is crucial for the achievement of sustainability goals. However, the development of mobility is very dependent on policies implemented and policy objectives set for the future.",
+      "id": "Intro-1684836633134",
+      "title": "Intro",
+      "__generatedText__": "<p>Globally, cities consume about 75% of global primary energy and cause more than 70% of energy-related carbon dioxide emissions</p>\n<p>In Europe, the majority of citizens live in urban areas, and for their daily life, they require some kind of private or public mobility</p>\n<p>Reorganizing urban mobility towards more sustainability is a common challenge to all major cities. </p>\n<p>Efficient and effective urban transport is crucial for the achievement of sustainability goals. However, the development of mobility is very dependent on policies implemented and policy objectives set for the future.</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-113447.png<--IMG-->",
+      "id": "mobility modalities-1684837013459",
+      "title": "mobility modalities",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-113447.png\">https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-113447.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "The Aggregated Risk Index (ARI) provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants (nitrogen dioxide, particulate matter, sulphur dioxide and surfacer ozone)\n\nThe ARI is derived by aggregating pollutant concentrations weighted by health outcome-specific Relative Risk factors of increased mortality due to causes provided by the World Health Organization (WHO)\n\nTypical ARI data over Austria show high values close to densely populated areas such as Vienna, Graz and Linz",
+      "id": "PM10 and NO2-1684842433030",
+      "title": "PM10 and NO2",
+      "__generatedText__": "<p>The Aggregated Risk Index (ARI) provides a measure of the health outcome-specific risk due to short-term exposure to multiple air pollutants (nitrogen dioxide, particulate matter, sulphur dioxide and surfacer ozone)</p>\n<p>The ARI is derived by aggregating pollutant concentrations weighted by health outcome-specific Relative Risk factors of increased mortality due to causes provided by the World Health Organization (WHO)</p>\n<p>Typical ARI data over Austria show high values close to densely populated areas such as Vienna, Graz and Linz</p>\n"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "zoom": 7.31643,
+        "compareLayerTime": null,
+        "dataLayerTime": "2022-12-16",
+        "center": {
+          "lng": 13.775552987641408,
+          "lat": 47.57950397999596
+        }
+      },
+      "id": "AT-AQA@1685456582551",
+      "title": "Austria: Health Risk Index (ARI)5"
+    },
+    {
+      "width": 1,
+      "text": "</br>",
+      "id": "g-1685449519774",
+      "title": "g",
+      "__generatedText__": "</br>"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "zoom": 7.31643,
+        "compareLayerTime": null,
+        "dataLayerTime": "2022-12-16",
+        "center": {
+          "lng": 13.775552987641408,
+          "lat": 47.57950397999596
+        }
+      },
+      "id": "AT-AQA@1685456589616",
+      "title": "Austria: Health Risk Index (ARI)6"
+    },
+    {
+      "width": 4,
+      "text": "</br>\n</br>",
+      "id": "empty-1685461852093",
+      "title": "empty",
+      "__generatedText__": "</br>\n</br>"
+    },
+    {
+      "width": 4,
+      "text": "### These patterns are also confirmed by the Sentinel 5p Nitrogen Dioxide (NO2) observations and by model based particulate matter concentrations, which can be directly compared\n</br>\n</br>\n</br>",
+      "id": "compare-1685439692024",
+      "title": "compare",
+      "__generatedText__": "<h3>These patterns are also confirmed by the Sentinel 5p Nitrogen Dioxide (NO2) observations and by model based particulate matter concentrations, which can be directly compared</h3>\n</br>\n</br>\n</br>"
+    },
+    {
+      "width": 4,
+      "text": "<--COMPARE-->https://eo4society.esa.int/wp-content/uploads/2023/05/final1.png|https://eo4society.esa.int/wp-content/uploads/2023/05/final2.png<--COMPARE-->",
+      "id": "image comparison-1685439823029",
+      "title": "image comparison",
+      "__generatedText__": "<p>&lt;--COMPARE--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/final1.png%7Chttps://eo4society.esa.int/wp-content/uploads/2023/05/final2.png\">https://eo4society.esa.int/wp-content/uploads/2023/05/final1.png|https://eo4society.esa.int/wp-content/uploads/2023/05/final2.png</a>&lt;--COMPARE--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "</br>",
+      "id": "empty-1685463447244",
+      "title": "empty",
+      "__generatedText__": "</br>"
+    },
+    {
+      "width": 4,
+      "text": ".</br>",
+      "id": "blank-1685432511574",
+      "title": "blank",
+      "__generatedText__": "<p>.</br></p>\n"
+    },
+    {
+      "width": 2,
+      "text": "Population presence information have been aggregated using the districts classification provided by Statistik Austria\n\nPopulation presence patterns reflects the pollutants concentrations and differ from working days to weekends\n\nAssessing these changes allows monitoring and forecasting where and how pollution evolution dynamics",
+      "id": "High-Frequency Location-Based Data -1685432468019",
+      "title": "High-Frequency Location-Based Data ",
+      "__generatedText__": "<p>Population presence information have been aggregated using the districts classification provided by Statistik Austria</p>\n<p>Population presence patterns reflects the pollutants concentrations and differ from working days to weekends</p>\n<p>Assessing these changes allows monitoring and forecasting where and how pollution evolution dynamics</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--AUTOPLAY-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4<--AUTOPLAY-->",
+      "id": "video dynamic presence-1685432450594",
+      "title": "video dynamic presence",
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/videos/sistema/AUSTRIA_h_dens_quantiles_WD_vs_WE_2021_07_2.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "### Hot spot analysis: The Inn Valley ",
+      "id": "Inn Valley-1685462079793",
+      "title": "Inn Valley",
+      "__generatedText__": "<h3>Hot spot analysis: The Inn Valley</h3>\n"
+    },
+    {
+      "width": 2,
+      "text": "Inn Valley shows that NO2 has not decreased\u202fas projected until recently\n\nDue to a slower than expected decrease of NO2 levels and stricter air quality standards, regulatory\u202fthresholds of NO2\u202fare now\u202fviolated\u202fat\u202fmany stations, including most\u202froadside\u202fstations along the\u202fInn Valley",
+      "id": "Inn Valley-1685433009841",
+      "title": "Inn Valley",
+      "__generatedText__": "<p>Inn Valley shows that NO2 has not decreased\u202fas projected until recently</p>\n<p>Due to a slower than expected decrease of NO2 levels and stricter air quality standards, regulatory\u202fthresholds of NO2\u202fare now\u202fviolated\u202fat\u202fmany stations, including most\u202froadside\u202fstations along the\u202fInn Valley</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-175721.png<--IMG-->",
+      "id": "Innsbruk-1685433059652",
+      "title": "Innsbruk",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-175721.png\">https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-175721.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "The Innsbruck Atmospheric Observatory (IAO) allows studying urban exchange processes of momentum, energy, trace gases and aerosols in an Alpine environment \n\nVarious long-term continuous measurements are augmented by regularly focused research campaigns with state-of \u2013the art instrumentation, linking different classes of data (e.g. remote sensing vs in-situ data products), and addressing significant gaps in scientific data availability for urban environments (Karl et al., 2020)",
+      "id": "IAO-1685433138121",
+      "title": "IAO",
+      "__generatedText__": "<p>The Innsbruck Atmospheric Observatory (IAO) allows studying urban exchange processes of momentum, energy, trace gases and aerosols in an Alpine environment </p>\n<p>Various long-term continuous measurements are augmented by regularly focused research campaigns with state-of \u2013the art instrumentation, linking different classes of data (e.g. remote sensing vs in-situ data products), and addressing significant gaps in scientific data availability for urban environments (Karl et al., 2020)</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--AUTOPLAY-->https://eo4society.esa.int/wp-content/uploads/2023/05/GTIF_EC_2022-compressed-1.mp4<--AUTOPLAY-->",
+      "id": "IAO video-1685433158822",
+      "title": "IAO video",
+      "__generatedText__": "<p>&lt;--AUTOPLAY--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/GTIF_EC_2022-compressed-1.mp4\">https://eo4society.esa.int/wp-content/uploads/2023/05/GTIF_EC_2022-compressed-1.mp4</a>&lt;--AUTOPLAY--&gt;</p>\n"
+    },
+    {
+      "width": 1,
+      "text": "Particularly the synergy between these observations and human mobility patterns will be exploited to understand how local emissions influence NO2 surface concentrations\n\nMore than 90% of the emissions in the target area are associated with traffic and follow a distinct diurnal cycle peaking during the day\n\nSurface concentrations of NO2 and NOx are greatly modulated by the depth of the PBL and often decoupled from the actual emission peak\n\n",
+      "id": "human mobility-1685433935930",
+      "title": "human mobility",
+      "__generatedText__": "<p>Particularly the synergy between these observations and human mobility patterns will be exploited to understand how local emissions influence NO2 surface concentrations</p>\n<p>More than 90% of the emissions in the target area are associated with traffic and follow a distinct diurnal cycle peaking during the day</p>\n<p>Surface concentrations of NO2 and NOx are greatly modulated by the depth of the PBL and often decoupled from the actual emission peak</p>\n"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "zoom": 14.084793449788586,
+        "compareLayerTime": null,
+        "center": {
+          "lng": 11.405785780215659,
+          "lat": 47.26378955456508
+        }
+      },
+      "id": "AT-AQ4@1685437124068",
+      "title": "Austria, Human Mobility Patterns3"
+    },
+    {
+      "width": 1,
+      "text": "</br>",
+      "id": "f-1685437202549",
+      "title": ".",
+      "__generatedText__": "</br>"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "zoom": 16.305558690369075,
+        "center": {
+          "lng": 11.386303158987019,
+          "lat": 47.263646963914994
+        }
+      },
+      "id": "AT-AQ4@1685437148676",
+      "title": "Austria, Human Mobility Patterns4"
+    },
+    {
+      "width": 2,
+      "text": "</br>\nAlso clearly observable is the difference of NOx concentrations between weekend and weekday. The weekend to weekday variability ranges between a factor of 2 to 3\n</br>",
+      "id": "b-1685437719369",
+      "title": "b",
+      "__generatedText__": "</br>\nAlso clearly observable is the difference of NOx concentrations between weekend and weekday. The weekend to weekday variability ranges between a factor of 2 to 3\n</br>"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png<--IMG-->",
+      "id": "image-1685462442328",
+      "title": "image",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png\">https://eox-gtif-public.s3.eu-central-1.amazonaws.com/images/time_series_plot_a.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 4,
+      "text": "### The KARLOS instrument on Innsbruck\u2019s Nordkette Hafelekar: a game-changer for Innsbruck air quality monitoring\n",
+      "id": "minititle-1685435141880",
+      "title": "minititle",
+      "__generatedText__": "<h3>The KARLOS instrument on Innsbruck\u2019s Nordkette Hafelekar: a game-changer for Innsbruck air quality monitoring</h3>\n"
+    },
+    {
+      "width": 2,
+      "text": "\n\nKARLOS is a\u202f**2D imaging UV/VIS spectrometer\u202fsystem** (similar to what is deployed on e.g. Copernicus Sentinel-5p) that will be operated at a local mountaintop site (Hafelekar) to scan across the urban area in a downward viewing mode\n\nThe instruments can operate with two ground resolution setups:\u202f**10x10 m2**\u202fand\u202f**1x1 m2**\u202ffor the primary target species NO2. Other species are e.g. O3, and SO2, but also aerosols\n\nDepending on the target resolution and scan mode a full image of the city will be available below\u202f**5 min. temporal resolution**\n",
+      "id": "KARLOS-1685434470779",
+      "title": "KARLOS",
+      "__generatedText__": "<p>KARLOS is a\u202f<strong>2D imaging UV/VIS spectrometer\u202fsystem</strong> (similar to what is deployed on e.g. Copernicus Sentinel-5p) that will be operated at a local mountaintop site (Hafelekar) to scan across the urban area in a downward viewing mode</p>\n<p>The instruments can operate with two ground resolution setups:\u202f<strong>10x10 m2</strong>\u202fand\u202f<strong>1x1 m2</strong>\u202ffor the primary target species NO2. Other species are e.g. O3, and SO2, but also aerosols</p>\n<p>Depending on the target resolution and scan mode a full image of the city will be available below\u202f<strong>5 min. temporal resolution</strong></p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-111302.png<--IMG-->",
+      "id": "KARLOS-1685434501744",
+      "title": "KARLOS",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-111302.png\">https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-111302.png</a>&lt;--IMG--&gt;</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "The main goal for KARLOS is to acquire 2D NOx emission fields by the conversion of native NO2 column measurements\n\nThose fields will be validated using emissions calculated within the flux footprint around the Innsbruck Atmospheric Observatory (IAO) through in-situ measurements\n\nTo support data interpretation, horizontal NO2 concentration gradients retrieved from co-located ground-based Pandora spectrometer measurements are used. \n\nKARLOS is scheduled to be deployed on Hafelekar once safety is guaranteed related to the period of avalanche blasting (Spring 2023)\n\nAfter testing, KARLOS will then continuously operate, deliver NO2 column data, which will enter further analysis with ground-based data and models to allow\u202fyet unprecedented high temporal\u202fand\u202fspatial resolution NO2 plume reconstruction\n\nOnce the full measurement and analysis strategy is demonstrated, the capability can be deployed on sites with similar topography\n \n",
+      "id": "Karlos2-1685438359589",
+      "title": "Karlos2",
+      "__generatedText__": "<p>The main goal for KARLOS is to acquire 2D NOx emission fields by the conversion of native NO2 column measurements</p>\n<p>Those fields will be validated using emissions calculated within the flux footprint around the Innsbruck Atmospheric Observatory (IAO) through in-situ measurements</p>\n<p>To support data interpretation, horizontal NO2 concentration gradients retrieved from co-located ground-based Pandora spectrometer measurements are used. </p>\n<p>KARLOS is scheduled to be deployed on Hafelekar once safety is guaranteed related to the period of avalanche blasting (Spring 2023)</p>\n<p>After testing, KARLOS will then continuously operate, deliver NO2 column data, which will enter further analysis with ground-based data and models to allow\u202fyet unprecedented high temporal\u202fand\u202fspatial resolution NO2 plume reconstruction</p>\n<p>Once the full measurement and analysis strategy is demonstrated, the capability can be deployed on sites with similar topography</p>\n"
+    },
+    {
+      "width": 2,
+      "text": "<--IMG-->https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-112027.png<--IMG-->",
+      "id": "Karlos2-1685438339142",
+      "title": "Karlos2",
+      "__generatedText__": "<p>&lt;--IMG--&gt;<a href=\"https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-112027.png\">https://eo4society.esa.int/wp-content/uploads/2023/05/Screenshot-2023-05-30-112027.png</a>&lt;--IMG--&gt;</p>\n"
+    }
+  ],
+  "title": "Air Quality and Human Mobility over Austria"
+}
