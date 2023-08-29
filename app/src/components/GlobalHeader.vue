@@ -167,7 +167,7 @@
         exact
       >
         <span v-if="polartepTemp">
-          Polar Thematic Exploitation Platform Dashboard
+          Polar Dashboard
         </span>
         <span v-else>
           {{ appConfig && appConfig.branding.appName }}
