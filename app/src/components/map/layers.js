@@ -36,43 +36,6 @@ const wkb = new WKB({});
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
-function createVectorLayerStyle(config, options) {
-  const strokeColor = config?.style?.strokeColor || '#F7A400';
-  const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
-  const fill = new Fill({
-    color: fillColor,
-  });
-  const stroke = new Stroke({
-    width: config?.style?.width || 2,
-    color: strokeColor,
-  });
-  const style = new Style({
-    fill,
-    stroke,
-    image: new Circle({
-      fill,
-      stroke,
-      radius: 4,
-    }),
-  });
-
-  const dynamicStyleFunction = (feature) => {
-    let defaultC = strokeColor;
-    let defaultFillC = fillColor;
-    if (typeof config?.style?.getStrokeColor === 'function') {
-      defaultC = config.style.getStrokeColor(feature, store, options);
-    }
-    if (typeof config?.style?.getColor === 'function') {
-      defaultFillC = config.style.getColor(feature, store, options);
-    }
-    style.getStroke().setColor(defaultC);
-    style.getFill().setColor(defaultFillC);
-    return style;
-  };
-  return dynamicStyleFunction;
-}
-
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
 }) {

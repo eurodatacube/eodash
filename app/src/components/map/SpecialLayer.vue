@@ -66,13 +66,6 @@ export default {
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
       layer.set('name', this.compare ? `${config.name}_compare` : config.name);
-<<<<<<< HEAD
-      const featureLayer = layer.getLayers().getArray().find((l) => {
-        const found = l instanceof VectorLayer;
-        return found;
-      });
-      if (featureLayer) {
-=======
       // find first feature layer
       const featureLayer = layer.getLayers().getArray()
         .find((l) => l instanceof VectorLayer && l.get('name')?.includes('_features'));
@@ -86,7 +79,6 @@ export default {
         if (featureLayer) {
           candidateLayers.push(featureLayer);
         }
->>>>>>> staging
         const pointerMoveHandler = (e) => {
           const visibleCandidateLayers = candidateLayers.filter((l) => l.getVisible());
           const features = map.getFeaturesAtPixel(e.pixel, {
@@ -98,11 +90,7 @@ export default {
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
           // consider layergroup
-<<<<<<< HEAD
-          if (isCorrectSide && features.length) {
-=======
           if (isCorrectSide && features.length && (config.features || config.tooltip)) {
->>>>>>> staging
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
             const geom = feature.getGeometry();
@@ -116,18 +104,6 @@ export default {
               this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
             }
             this.overlayCoordinate = coordinate;
-<<<<<<< HEAD
-            const rows = [];
-            const props = feature.getProperties();
-            // some indicators have "allowedParameters", which define the keys to display
-            const keys = config?.allowedParameters || config?.features?.allowedParameters
-            || Object.keys(props).filter((k) => k !== 'geometry');
-            keys.forEach((key) => {
-              if (props[key]) {
-                rows.push(`${key}: ${props[key]}`);
-              }
-            });
-=======
             let rows = [];
             if (config?.tooltip?.tooltipFormatFunction) {
               // has to return a list of rows
@@ -143,7 +119,6 @@ export default {
                 }
               });
             }
->>>>>>> staging
             this.overlayRows = rows;
           } else {
             this.overlayHeaders = null;
