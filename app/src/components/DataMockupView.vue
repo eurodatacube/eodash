@@ -34,20 +34,16 @@
                   <td> {{ v.roofArea }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope &lt; 5 degree</td>
+                  <td> Potential Green Roof area with a slope &lt; 5 degree</td>
                   <td> {{ v.grpotare5 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope ≥ 5 and &lt; 20 degree</td>
+                  <td> Potential Green Roof area with a slope ≥ 5 and &lt; 20 degree</td>
                   <td> {{ v.grpotare20 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Existing Green Roof area with a slope ≥ 20 and &lt; 45 degree</td>
+                  <td> Potential Green Roof area with a slope ≥ 20 and &lt; 45 degree</td>
                   <td> {{ v.grpotare45 }} m² </td>
-                </tr>
-                <tr>
-                  <td>Unused Potential Area for Green Roof</td>
-                  <td> {{ v.unused }} % </td>
                 </tr>
               </tbody>
             </template>
@@ -234,14 +230,12 @@ export default {
                       // for statistics consider only originally clicked ZSPs
                       groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
                       const { lst30mme } = groupedBySelection[key];
-                      const unused = (1 - (grpotare5 + grpotare20 + grpotare45) / roofArea) * 100;
                       statistics[key] = {
                         lst30mme: lst30mme.toFixed(1),
                         roofArea: roofArea.toFixed(0),
                         grpotare5: grpotare5.toFixed(0),
                         grpotare20: grpotare20.toFixed(0),
                         grpotare45: grpotare45.toFixed(0),
-                        unused: unused.toFixed(2),
                       };
                     }
                     const gemId = Math.floor(parseInt(key, 10) / 1000);
