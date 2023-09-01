@@ -686,6 +686,16 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/OW-OW',
     disableCSV: true,
   },
+  Snowgrain_diameter: {
+    indicatorSummary: '',
+    themes: ['water'],
+    story: '/eodash-data/stories/Snowgrain_diameter',
+  },
+  Snow_specific_surface_area: {
+    indicatorSummary: '',
+    themes: ['water'],
+    story: '/eodash-data/stories/Snow_specific_surface_area',
+  },
   Polartep_S1: {
     indicatorSummary: 'Polartep demo',
     themes: ['water'],
@@ -950,14 +960,6 @@ export const globalIndicators = [
         description: 'Polartep Sentinel 1',
         indicator: 'Polartep_S1',
         indicatorName: 'Polartep',
-        presetView: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-12.14843 70.31497,7.18750 70.31497,7.18750 61.0953,-12.14843 61.0953,-12.14843 70.31497))').toJson(),
-          }],
-        },
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -973,6 +975,14 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: '',
         display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-12.14843 70.31497,7.18750 70.31497,7.18750 61.0953,-12.14843 61.0953,-12.14843 70.31497))').toJson(),
+            }],
+          },
           protocol: 'cog',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/{time}' },
@@ -980,6 +990,118 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => `${DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss')}-${date[2]}`,
           name: 'Polartep S1',
+          style: {
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['>', ['band', 1], 0],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 0, 400, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Snow Grain Diameter',
+        indicator: 'Snowgrain_diameter',
+        indicatorName: 'Snow Grain Diameter',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: ['2023-01-01'],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-25.713564913020228 67.13971582287593,-11.343447725520228 67.13971582287593,-11.343447725520228 62.45603204800537,-25.713564913020228 62.45603204800537,-25.713564913020228 67.13971582287593))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/snow_grain_diameter_COG_3857.tif' },
+          ],
+          name: 'Snow Grain Diameter',
+          style: {
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['>', ['band', 1], 0],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 0, 4, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          minZoom: 1,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Snow Specific Surface Area',
+        indicator: 'Snow_specific_surface_area',
+        indicatorName: 'Snow Specific Surface Area',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: ['2023-01-01'],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-25.713564913020228 67.13971582287593,-11.343447725520228 67.13971582287593,-11.343447725520228 62.45603204800537,-25.713564913020228 62.45603204800537,-25.713564913020228 67.13971582287593))').toJson(),
+            }],
+          },
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/snow_specific_surface_area_COG_3857.tif' },
+          ],
+          name: 'Snow Specific Surface Area',
           style: {
             color: [
               'case',

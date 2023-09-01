@@ -141,6 +141,12 @@ module.exports = [
       ],
       polartep: [
         {
+          poi: 'World-Snowgrain_diameter',
+        },
+        {
+          poi: 'World-Snow_specific_surface_area',
+        },
+        {
           poi: 'World-Polartep_S1',
         },
         {
