@@ -13,7 +13,6 @@ import {
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
-import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
@@ -22,8 +21,6 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
-// import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
-// import { bbox } from 'ol/loadingstrategy';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
@@ -84,17 +81,6 @@ export async function fetchData({
     console.error(err);
   }
 }
-
-// function fgbBoundingBox(extent, projection) {
-//   // minx, miny, maxx, maxy
-//   const transformedExtent = transformExtent(extent, projection, 'EPSG:4326');
-//   return {
-//     minX: transformedExtent[0],
-//     minY: transformedExtent[1],
-//     maxX: transformedExtent[2],
-//     maxY: transformedExtent[3],
-//   };
-// }
 
 function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)', applyDynamic = true) {
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
@@ -440,51 +426,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
         maxZoom: config.minZoom,
         opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
       }));
-    } // eslint-disable-next-line
-  } // else if (config.protocol === 'flatgeobuf') {
-  //   const vectorSourceOpts = {
-  //     format: new GeoJSON({
-  //       featureProjection: map.getView().getProjection(),
-  //     }),
-  //     strategy: bbox,
-  //   };
-  //   source = new VectorSource(vectorSourceOpts);
-  //   // eslint-disable-next-line no-inner-declarations
-  //   async function updateResults(extent, resolution, projection, success) {
-  //     const rect = fgbBoundingBox(extent, projection);
-  //     // Use flatgeobuf JavaScript API to iterate features as geojson.
-  //     // Because we specify a bounding box,
-  //     // flatgeobuf will only fetch the relevant subset of data,
-  //     // rather than the entire file.
-  //     if (rect.minX !== -Infinity) {
-  //       const ftrs = [];
-  //       const iter = flatgeobuf.deserialize(config.url, rect);
-  //       // eslint-disable-next-line no-restricted-syntax
-  //       for await (const feature of iter) {
-  //         const ftr = geoJsonFormat.readFeature(feature, {
-  //           featureProjection: map.getView().getProjection(),
-  //         });
-  //         ftrs.push(ftr);
-  //       }
-  //       source.clear();
-  //       source.addFeatures(ftrs);
-  //       success();
-  //     }
-  //   }
-  //   source.setLoader(updateResults);
-  //   const dynamicStyleFunction = createVectorLayerStyle(config, options);
-  //   layers.push(new VectorLayer({
-  //     name: config.name,
-  //     zIndex: options.zIndex,
-  //     updateOpacityOnZoom: false,
-  //     source,
-  //     style: dynamicStyleFunction,
-  //     maxZoom: config.maxZoom,
-  //     minZoom: config.minZoom,
-  //     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-  //   }));
-  // }
-  else if (config.protocol === 'xyz') {
+    }
+  } else if (config.protocol === 'xyz') {
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
@@ -638,18 +581,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
         source.updateParams(newParams);
       });
     }
-  } else if (config.protocol === 'maplibre') {
-    const layer = new MapLibreLayer({
-      name: config.name,
-      zIndex: options.zIndex,
-      attribution: config.attribution,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      maplibreOptions: {
-        style: config.maplibreStyles,
-      },
-    });
-    layers.push(layer);
   }
   let extent;
   if (config.extent) {

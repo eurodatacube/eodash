@@ -589,7 +589,7 @@ export default {
           this.$emit('update:datalayertime', timeObj.name);
           window.postMessage({
             command: 'chart:setTime',
-            time: timeObj.value.isLuxonDateTime
+            time: timeObj.value?.isLuxonDateTime
               ? timeObj.value.toISODate()
               : timeObj.value,
           });
@@ -620,7 +620,7 @@ export default {
       if (enabled) {
         window.postMessage({
           command: 'chart:setCompareTime',
-          time: this.compareLayerTime.value.isLuxonDateTime
+          time: this.compareLayerTime.value?.isLuxonDateTime
             ? this.compareLayerTime.value.toISODate()
             : this.compareLayerTime.value,
         });
@@ -636,7 +636,7 @@ export default {
       if (timeObj && this.enableCompare) {
         window.postMessage({
           command: 'chart:setCompareTime',
-          time: timeObj.value.isLuxonDateTime
+          time: timeObj.value?.isLuxonDateTime
             ? timeObj.value.toISODate()
             : timeObj.value,
         });
@@ -812,7 +812,7 @@ export default {
       if (timeEntry === undefined && time.isLuxonDateTime) {
         // search for closest time to datetime if provided as such
         const searchTimes = this.availableTimeEntries.map((e) => {
-          if (e.value.isLuxonDateTime) {
+          if (e.value?.isLuxonDateTime) {
             return e.value;
           }
           return DateTime.fromISO(e.value);
@@ -820,7 +820,7 @@ export default {
         const closestTime = findClosest(searchTimes, time);
         // get back the original unmapped object with value and name
         timeEntry = this.availableTimeEntries.find((e) => {
-          if (e.value.isLuxonDateTime) {
+          if (e.value?.isLuxonDateTime) {
             return e.value.ts === closestTime.ts;
           }
           return DateTime.fromISO(e.value).ts === closestTime.ts;

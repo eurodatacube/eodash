@@ -150,10 +150,10 @@ export const overlayLayers = Object.freeze({
   },
   powerOpenInfrastructure: {
     name: 'Power Open Infrastructure Map',
-    protocol: 'maplibre',
+    protocol: 'vectortile',
     visible: false,
     zIndex: 4,
-    maplibreStyles: {
+    styleFile: {
       version: 8,
       sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,
       glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
