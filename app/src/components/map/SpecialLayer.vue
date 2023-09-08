@@ -62,7 +62,6 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
-    // options.zIndex = 3;
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
       layer.set('name', this.compare ? `${config.name}_compare` : config.name);
@@ -215,7 +214,8 @@ export default {
         map.on('singleclick', clickHandler);
         this.singleClickHandlers.push(clickHandler);
       }
-      map.addLayer(layer);
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      dataGroup.getLayers().push(layer);
     });
     // update view if previous projection !== new projection
     const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
@@ -246,10 +246,11 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     this.mergedConfigs.forEach((config) => {
-      const layer = map.getLayers().getArray().find(
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layer = dataGroup.getLayers().getArray().find(
         (l) => l.get('name') === (this.compare ? `${config.name}_compare` : config.name),
       );
-      map.removeLayer(layer);
+      dataGroup.getLayers().remove(layer);
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);

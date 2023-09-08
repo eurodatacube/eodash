@@ -119,9 +119,8 @@ export default {
       }),
     });
 
-    const subAoiLayer = new VectorLayer({
+    const layer = new VectorLayer({
       name: 'subAoi',
-      // zIndex: 5,
       layerControlHide: true,
       source: new VectorSource({}),
       style: () => (this.isInverse ? inverseStyle : subAoiStyle),
@@ -131,7 +130,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       });
-      subAoiLayer.getSource().addFeature(feature);
+      layer.getSource().addFeature(feature);
     }
     if (this.isInverse && this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
@@ -146,7 +145,8 @@ export default {
       map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
-    map.addLayer(subAoiLayer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().push(layer);
   },
   methods: {
     /**
@@ -184,7 +184,8 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
-    map.removeLayer(layer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().remove(layer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('pointerdrag', this.pointerdragHandler);
     map.un('movestart', this.movestartHandler);

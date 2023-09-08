@@ -152,7 +152,6 @@ export const overlayLayers = Object.freeze({
     name: 'Power Open Infrastructure Map',
     protocol: 'vectortile',
     visible: false,
-    zIndex: 4,
     styleFile: {
       version: 8,
       sprite: `${window.location.protocol}//${window.location.hostname}${window.location.port === '' ? '' : `:${window.location.port}`}/data/gtif/data/openinframap/sprite`,

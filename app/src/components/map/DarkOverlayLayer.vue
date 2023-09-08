@@ -30,17 +30,15 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const darkOverlayLayerGroups = this.configs.map((l) => createLayerFromConfig(l,
-      map,
-      {
-        // zIndex: 5,
-      }));
+      map));
     this.darkOverlayLayerGroups = darkOverlayLayerGroups;
     // setup listener on featuresloadend on first layer
     const layer = this.getLayerFromGroup(
       this.darkOverlayLayerGroups[0], this.configs[0],
     );
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
     darkOverlayLayerGroups.forEach((l) => {
-      map.addLayer(l);
+      internalGroup.getLayers().push(l);
     });
 
     const inverseStyle = new Style({
@@ -55,13 +53,12 @@ export default {
 
     const inverseDarkOverlayLayer = new VectorLayer({
       name: 'Inverse Dark Overlay Layer',
-      // zIndex: 4,
       source: new VectorSource({}),
       layerControlHide: true,
       style: inverseStyle,
     });
     this.inverseDarkOverlayLayer = inverseDarkOverlayLayer;
-    map.addLayer(inverseDarkOverlayLayer);
+    internalGroup.getLayers().push(inverseDarkOverlayLayer);
     layer.getSource().once('featuresloadend', this.setInitialInverseArea);
   },
   methods: {
@@ -108,10 +105,11 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
     this.darkOverlayLayerGroups.forEach((layer) => {
-      map.removeLayer(layer);
+      internalGroup.getLayers().remove(layer);
     });
-    map.removeLayer(this.inverseDarkOverlayLayer);
+    internalGroup.getLayers().remove(this.inverseDarkOverlayLayer);
   },
   render: () => null,
 };

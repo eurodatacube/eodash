@@ -71,44 +71,35 @@ export default {
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l,
-      map,
-      {
-        zIndex: 0,
+      map, {
+        layerControlExclusive: true,
       }));
-    baseLayers.forEach((l) => {
-      map.addLayer(l);
+    baseLayers.forEach((layer) => {
+      const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
+      backgroundGroup.getLayers().push(layer);
     });
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
       map,
       {
-        // higher zIndex for labels
-        zIndex: l.name === 'Overlay labels' ? 4 : (l.zIndex || 2),
         updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
       }));
-    overlayLayers.forEach((l) => {
-      map.addLayer(l);
+    overlayLayers.forEach((layer) => {
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+      overlayGroup.getLayers().push(layer);
     });
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
   },
   methods: {
-    setVisible(value, layerConfig) {
-      // TODO: LUBO, what to do with this?
-      // toggle original layer and possibly also compare
-      const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      const layers = olLayers.filter((l) => {
-        const found = l.get('name') === layerConfig.name || l.get('name') === `${layerConfig.name}_compare`;
-        return found;
-      });
-      layers.forEach((l) => l.setVisible(value));
-    },
     updateOverlayOpacity(e) {
       const map = e.target;
       const view = map.getView();
       const zoom = Math.floor(view.getZoom());
-      const layers = map.getLayers().getArray();
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+
+      // TODO LUBO FIX ME
       this.overlayConfigs.forEach((c) => {
-        const layer = layers.find((l) => l.get('name') === c.name);
+        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
         if (layer.get('updateOpacityOnZoom')) {
           if (layer.get('name') === 'Country vectors') {
             layer.setOpacity(this.opacityCountries[zoom]);
@@ -123,13 +114,18 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layers = map.getLayers().getArray();
-    [
-      ...this.baseLayerConfigs, ...this.overlayConfigs,
-    ].forEach((config) => {
-      const layer = layers.find((l) => l.get('name') === config.name);
-      map.removeLayer(layer);
+    const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
+    this.baseLayerConfigs.forEach((config) => {
+      const layer = backgroundGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
+      backgroundGroup.getLayers().remove(layer);
     });
+
+    const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+    this.overlayConfigs.forEach((config) => {
+      const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
+      overlayGroup.getLayers().remove(layer);
+    });
+
     map.un('moveend', this.updateOverlayOpacity);
   },
 };

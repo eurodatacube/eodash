@@ -235,7 +235,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {number} config.style.weight stroke weight
  * @param {string} config.style.color stroke color
  * @param {Object} [opt_options={}] options
- * @param {number} [opt_options.zIndex=0] optional zIndex, defaults to 0
  * @param {boolean} [opt_options.updateOpacityOnZoom=false] sets the updateOpacityOnZoom-flag
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
@@ -250,7 +249,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
-  options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
   const paramsToPassThrough = [
     'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
@@ -301,7 +299,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const WMTSLayer = new TileLayer({
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     layers.push(WMTSLayer);
@@ -334,9 +331,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
     layers.push(new VectorLayer({
       name: 'Country vectors',
+      layerControlHide: true,
       source: countriesSource,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
       style: new Style({
         fill: new Fill({
           color: '#fff',
@@ -365,7 +362,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     source = new VectorSource(vectorSourceOpts);
     layers.push(new VectorLayer({
       name: config.name,
-      zIndex: options.zIndex,
       updateOpacityOnZoom: false,
       source,
       style: dynamicStyleFunction,
@@ -393,7 +389,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       const styleCache = {};
       layers.push(new VectorLayer({
         name: `${config.name}_clustered`,
-        zIndex: options.zIndex,
         updateOpacityOnZoom: false,
         source: clusterSource,
         style: (feature) => {
@@ -535,7 +530,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           maxZoom: c.maxZoom,
           minZoom: c.minZoom,
           updateOpacityOnZoom: options.updateOpacityOnZoom,
-          zIndex: options.zIndex,
           source: singleSource,
           opacity: typeof c.opacity !== 'undefined' ? c.opacity : 1,
           extent,
@@ -597,7 +591,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
       source,
       extent,
@@ -667,7 +660,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     name: config.name,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
-    zIndex: options.zIndex,
     layers,
     extent: drawnAreaExtent,
   });

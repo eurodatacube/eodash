@@ -278,15 +278,16 @@ class Cluster {
    * @param {Function} overlayCallback callback function for populating overlay
    */
   setActive(active, overlayCallback) {
+    const internalGroup = this.map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
     if (active) {
       [this.clusters, this.clusterCircles].forEach((l) => {
-        this.map.addLayer(l);
+        internalGroup.getLayers().push(l);
       });
       this.map.on('pointermove', this.pointermoveInteraction.bind(this, overlayCallback));
       this.map.on('click', this.clickInteraction);
     } else {
       [this.clusters, this.clusterCircles].forEach((l) => {
-        this.map.removeLayer(l);
+        internalGroup.getLayers().remove(l);
       });
       this.map.un('pointermove', this.pointermoveInteraction);
       this.map.un('click', this.clickInteraction);
@@ -508,7 +509,6 @@ class Cluster {
     // Layer displaying the clusters and individual features.
     this.clusters = new VectorLayer({
       name: 'clusters',
-      zIndex: 10,
       source: clusterSource,
       layerControlHide: true,
       style: this.clusterStyle.bind(this),
@@ -522,7 +522,6 @@ class Cluster {
     // Layer displaying the expanded view of overlapping cluster members.
     this.clusterCircles = new VectorLayer({
       name: 'clusterCircles',
-      zIndex: 11,
       source: clusterSource,
       layerControlHide: true,
       style: clusterCircleStyle.bind(this),

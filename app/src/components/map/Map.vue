@@ -32,7 +32,6 @@
       @setMapTime="(time) => dataLayerTime = {value: time}"
       @setTimeArray="handleSetTimeArray"
     />
-    <!-- compare layer has same zIndex as specialLayer -->
     <div
       class="d-flex justify-center fill-height"
       :style="`position: absolute; bottom: 0; left: 0;
@@ -109,7 +108,6 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
         v-if="loaded"
         class="pointerEvents"

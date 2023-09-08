@@ -481,8 +481,10 @@ export default {
       const layers = map.getLayers().getArray();
       // get layerGroup and recreate it, otherwise the webglcontext has visual glitches, if we
       // would just replace the source of a layer
+      // TODO FIX ONCE NOT A GROUP
       const layerGroup = layers.find((l) => l.get('name') === this.mergedConfigsData.name);
-      map.removeLayer(layerGroup);
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      dataGroup.getLayers().remove(layerGroup);
       // TODO hardcoded first item in array, we should match by ID or so
       const { sources, style } = this.mergedConfigsData;
       switch (evt.description) {
@@ -511,7 +513,7 @@ export default {
       wgTileLayer.updateStyleVariables(this.variables);
       layerGroup.setLayers(new Collection([wgTileLayer]));
       // forces fixing of webgl context, simply updating layers of layergroup does not work
-      map.addLayer(layerGroup);
+      dataGroup.getLayers().add(layerGroup);
     },
     resetMap() {
       const { map } = getMapInstance('centerMap');
