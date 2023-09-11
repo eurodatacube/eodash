@@ -809,10 +809,11 @@ export const defaultLayersDisplay = {
 };
 
 export const cmemsDisplay = {
-  tileSize: 256,
+  tileSize: 512,
   minZoom: 1,
   layers: 'CHL',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
+  attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
 };
 
 const getDailyDates = (start, end) => {
@@ -1929,27 +1930,21 @@ export const globalIndicators = [
           url: 'https://data.marine.copernicus.eu/products?q=Sea+ocean+colour&facets=mainVariables~Plankton',
         },
         display: [{
-          name: 'CHL L4 Product',
+          ...cmemsDisplay,
           legendUrl: 'legends/esa/N3c.png',
-          attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
-          combinedLayers: [
-            {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Atlantic coast CHL L4 Product',
-              extent: [-46, 19.5, 13, 66],
-            }, {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Mediterranean CHL L4 Product',
-              extent: [-6, 30, 37, 46],
-            }, {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Black sea CHL L4 Product',
-              extent: [26.5, 40, 42, 48],
-            },
-          ],
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Atlantic coast CHL L4 Product',
+          extent: [-46, 19.5, 13, 66],
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Mediterranean CHL L4 Product',
+          extent: [-6, 30, 37, 46],
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Black sea CHL L4 Product',
+          extent: [26.5, 40, 42, 48],
         }],
       },
     },

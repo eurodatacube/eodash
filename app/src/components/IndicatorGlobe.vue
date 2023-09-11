@@ -224,16 +224,9 @@ export default {
           const lIndex = this.viewer.imageryLayers.indexOf(layer);
           // Remove and recreate layer to make sure new time is loaded
           this.viewer.imageryLayers.remove(layer, true);
-          if ('combinedLayers' in this.mergedConfigsData[0]) {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
-              lIndex,
-            ));
-          } else {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
-            ));
-          }
+          newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+            this.createImageryProvider(this.mergedConfigsData[index]), lIndex,
+          ));
         });
         this.dataLayers = newDataLayers;
       }
@@ -285,6 +278,8 @@ export default {
                 transparent: 'true',
                 time: config.dateFormatFunction(this.dataLayerTime.value),
               },
+              tileWidth: config.tileSize,
+              tileHeight: config.tileSize,
             });
             break;
           default:
@@ -320,17 +315,11 @@ export default {
         },
       });
       this.dataLayers = [];
-      if ('combinedLayers' in this.mergedConfigsData[0]) {
-        this.mergedConfigsData[0].combinedLayers.forEach((l) => {
-          this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-            this.createImageryProvider(l),
-          ));
-        });
-      } else {
+      this.mergedConfigsData.forEach((layerDef) => {
         this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-          this.createImageryProvider(this.mergedConfigsData[0]),
+          this.createImageryProvider(layerDef),
         ));
-      }
+      })
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

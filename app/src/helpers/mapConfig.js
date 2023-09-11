@@ -162,15 +162,6 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
     const indDefinition = baseConfig.indicatorsDefinition[
       indicatorObject.indicator
     ];
-    if (Object.keys(item).indexOf('combinedLayers') !== -1) {
-      for (let i = 0; i < item.combinedLayers.length; i += 1) {
-        extendedItem.combinedLayers[i] = {
-          ...baseConfig.defaultLayersDisplay,
-          ...indDefinition,
-          ...item.combinedLayers[i],
-        };
-      }
-    }
     finalConfigs.push({
       ...baseConfig.defaultLayersDisplay,
       ...indDefinition,

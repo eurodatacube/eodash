@@ -461,9 +461,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     }
   } else if (config.protocol === 'WMS') {
-    // to do: layers is  not defined for harvesting evolution over time (spain)
-    const tileSize = config.combinedLayers?.length
-      ? config.combinedLayers[0].tileSize : config.tileSize;
+    const { tileSize } = config;
     const tileGrid = tileSize === 512 ? new TileGrid({
       extent: [-20037508.342789244, -20037508.342789244,
         20037508.342789244, 20037508.342789244],
@@ -473,108 +471,44 @@ export function createLayerFromConfig(config, map, _options = {}) {
       tileSize: 512,
     }) : undefined;
 
-    // combined wms layers, for instance CMEMS Water Quality (RACE)
-    // and Sea Ice Concentration (trilateral)
-    if (config.combinedLayers?.length) {
-      config.combinedLayers.forEach((c) => {
-        const params = {};
-        let extent;
-        if (c.extent) {
-          extent = transformExtent(
-            c.extent,
-            'EPSG:4326',
-            c.projection,
-          );
-        }
-
-        paramsToPassThrough.forEach((param) => {
-          if (typeof c[param] !== 'undefined') {
-            params[param] = c[param];
-          }
-        });
-        if (config.usedTimes?.time?.length) {
-          params.time = c.dateFormatFunction(options.time);
-          if (config.specialEnvTime) {
-            params.env = `year:${params.time}`;
-          }
-        }
-
-        const singleSource = new TileWMS({
-          attributions: config.attribution,
-          crossOrigin: typeof c.crossOrigin !== 'undefined' ? c.crossOrigin : 'anonymous',
-          transition: 0,
-          projection: getProjectionOl(c.projection),
-          params,
-          url: c.baseUrl,
-          tileGrid,
-        });
-        singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
-          const timeString = c.dateFormatFunction(updatedTime);
-          const paramsUpdate = {};
-          paramsToPassThrough.forEach((param) => {
-            if (typeof configUpdate[param] !== 'undefined') {
-              paramsUpdate[param] = configUpdate[param];
-            }
-          });
-          const newParams = {
-            ...paramsUpdate,
-            time: timeString,
-          };
-          if (configUpdate.specialEnvTime) {
-            newParams.env = `year:${updatedTime}`;
-          }
-          singleSource.updateParams(newParams);
-        });
-        layers.push(new TileLayer({
-          name: config.name,
-          maxZoom: c.maxZoom,
-          minZoom: c.minZoom,
-          updateOpacityOnZoom: options.updateOpacityOnZoom,
-          source: singleSource,
-          opacity: typeof c.opacity !== 'undefined' ? c.opacity : 1,
-          extent,
-        }));
-      });
-    } else {
-      const params = {};
-      paramsToPassThrough.forEach((param) => {
-        if (typeof config[param] !== 'undefined') {
-          params[param] = config[param];
-        }
-      });
-      if (config.usedTimes?.time?.length) {
-        params.time = config.dateFormatFunction(options.time);
-        if (config.specialEnvTime) {
-          params.env = `year:${params.time}`;
-        }
+    const params = {};
+    paramsToPassThrough.forEach((param) => {
+      if (typeof config[param] !== 'undefined') {
+        params[param] = config[param];
       }
-      source = new TileWMS({
-        attributions: config.attribution,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        params,
-        url: config.url || config.baseUrl,
-        tileGrid,
-      });
-      source.set('updateTime', (updatedTime, area, configUpdate) => {
-        const timeString = configUpdate.dateFormatFunction(updatedTime);
-        const paramsUpdate = {};
-        paramsToPassThrough.forEach((param) => {
-          if (typeof configUpdate[param] !== 'undefined') {
-            paramsUpdate[param] = configUpdate[param];
-          }
-        });
-        const newParams = {
-          ...paramsUpdate,
-          time: timeString,
-        };
-        if (configUpdate.specialEnvTime) {
-          newParams.env = `year:${updatedTime}`;
-        }
-        source.updateParams(newParams);
-      });
+    });
+    if (config.usedTimes?.time?.length) {
+      params.time = config.dateFormatFunction(options.time);
+      if (config.specialEnvTime) {
+        params.env = `year:${params.time}`;
+      }
     }
+    source = new TileWMS({
+      attributions: config.attribution,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      transition: 0,
+      projection: getProjectionOl(config.projection),
+      params,
+      url: config.url || config.baseUrl,
+      tileGrid,
+    });
+    source.set('updateTime', (updatedTime, area, configUpdate) => {
+      const timeString = configUpdate.dateFormatFunction(updatedTime);
+      const paramsUpdate = {};
+      paramsToPassThrough.forEach((param) => {
+        if (typeof configUpdate[param] !== 'undefined') {
+          paramsUpdate[param] = configUpdate[param];
+        }
+      });
+      const newParams = {
+        ...paramsUpdate,
+        time: timeString,
+      };
+      if (configUpdate.specialEnvTime) {
+        newParams.env = `year:${updatedTime}`;
+      }
+      source.updateParams(newParams);
+    });
   }
   let extent;
   if (config.extent) {
