@@ -259,6 +259,8 @@ export const defaultLayersDisplay = {
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
+  maxZoom: 18,
+  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -880,7 +882,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
             type: 'FeatureCollection',
@@ -903,7 +904,6 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -937,7 +937,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
@@ -962,7 +961,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -3053,11 +3051,9 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Sentinel 2 L2A',
           minZoom: 13,
-          maxZoom: 18,
           timeFromProperty: true,
         }, {
           minZoom: 13,
-          maxZoom: 18,
           protocol: 'GeoJSON',
           tooltip: true,
           getTimeFromProperty: 'detection_time',
@@ -3436,8 +3432,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow depth',
           layers: 'SNOW-DEPTH',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (
@@ -3483,8 +3477,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow water equivalent',
           layers: 'SWE',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (

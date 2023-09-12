@@ -98,7 +98,6 @@ export default {
       const zoom = Math.floor(view.getZoom());
       const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
 
-      // TODO LUBO FIX ME
       this.overlayConfigs.forEach((c) => {
         const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
         if (layer.get('updateOpacityOnZoom')) {

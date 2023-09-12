@@ -289,7 +289,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
     layer = new VectorLayer({
       source: featuresSource,
-      name: config.name,
       style: dynamicStyleFunction,
     });
   } else if (config.protocol === 'cog') {
@@ -309,14 +308,10 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new WebGLTileLayer({
       source: wgSource,
       style: config.style,
-      name: config.name,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
     layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
-    layer = new VectorTileLayer({
-      name: config.name,
-    });
+    layer = new VectorTileLayer({});
     layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
@@ -332,11 +327,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         }
       });
   } else if (config.protocol === 'WMTSCapabilities') {
-    layer = new TileLayer({
-      name: config.name,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    });
+    layer = new TileLayer({});
     createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
@@ -345,10 +336,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const projString = '3857';
     layer = new VectorTileLayer({
       style: dynamicStyleFunction,
-      opacity: config.opacity,
-      name: config.name,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
       source: new VectorTileSource({
         projection: 'EPSG:3857',
         format: new MVT(),
@@ -364,7 +351,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     });
     layer = new VectorLayer({
-      name: 'Country vectors',
       layerControlHide: true,
       source: countriesSource,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
@@ -485,6 +471,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
+    layer = new TileLayer({
+      source,
+    });
   } else if (config.protocol === 'WMS') {
     const { tileSize } = config;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -534,30 +523,21 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }
       source.updateParams(newParams);
     });
+    layer = new TileLayer({
+      source,
+    });
   }
-  let extent;
   if (config.extent) {
-    extent = transformExtent(
+    const extent = transformExtent(
       config.extent,
       'EPSG:4326',
       config.projection,
     );
+    layer.setExtent(extent);
   }
 
-  if (source) {
-    layer = new TileLayer({
-      name: config.name,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-      source,
-      extent,
-    });
-  }
-
-  let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
+    let drawnAreaExtent;
     if (options.drawnArea.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
@@ -572,9 +552,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
         config.projection,
       );
     }
+    layer.setExtent(drawnAreaExtent);
   }
-  layer.setExtent(drawnAreaExtent);
-  layer.set('visible', config.visible);
+  layer.setProperties({
+    opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
+    name: config.name,
+    maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
+    minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
+    visible: config.visible,
+    updateOpacityOnZoom: options.updateOpacityOnZoom,
+  });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
