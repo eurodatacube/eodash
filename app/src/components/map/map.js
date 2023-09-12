@@ -6,6 +6,7 @@ import './olControls.css';
 import { Collection } from 'ol';
 import LoadingIndicatorControl from '@/components/map/loadingIndicatorControl';
 import getProjectionOl from '@/helpers/projutils';
+import LayerGroup from 'ol/layer/Group';
 
 const mapRegistry = {};
 const viewRegistry = {};
@@ -30,8 +31,31 @@ export function getViewInstance(id, projection, options = {}) {
 
 class VueMap {
   constructor(id, options) {
+    const initialLayerGroups = [
+      new LayerGroup({
+        id: 'backgroundGroup',
+        name: 'Background Layers',
+        layerControlExpanded: true,
+      }),
+      new LayerGroup({
+        id: 'dataGroup',
+        name: 'Data Layers',
+        layerControlExpanded: true,
+      }),
+      new LayerGroup({
+        id: 'overlayGroup',
+        name: 'Overlay Layers',
+        layerControlExpanded: true,
+      }),
+      new LayerGroup({
+        id: 'internalGroup',
+        name: 'App Internal Layers',
+        layerControlHide: true,
+      }),
+    ];
     this.map = new Map({
       controls: new Collection([]),
+      layers: initialLayerGroups,
       view: getViewInstance(id, getProjectionOl('EPSG:3857'), options),
     });
     this.map.addControl(new LoadingIndicatorControl({ map: this.map }));

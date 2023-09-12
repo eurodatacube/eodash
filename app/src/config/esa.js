@@ -121,6 +121,8 @@ const trucksAreaIndicator = {
 };
 
 const trucksFeatures = {
+  drawnAreaLimitExtent: true,
+  name: 'Daily truck detections',
   style: {
     strokeColor: '#00c3ff',
   },
@@ -181,6 +183,7 @@ const E1bConfigInputDataAsc = [{
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
   features: {
     ...geodbFeatures,
+    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }, {
@@ -202,10 +205,6 @@ const E1bConfigInputDataDes = [{
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
-  features: {
-    ...geodbFeatures,
-    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
-  },
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -216,6 +215,11 @@ const E1bConfigInputDataDes = [{
   minZoom: 6,
   maxZoom: 14,
   opacity: 0.6,
+  features: {
+    ...geodbFeatures,
+    name: 'Ship detections',
+    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  },
 }];
 
 export const indicatorsDefinition = Object.freeze({

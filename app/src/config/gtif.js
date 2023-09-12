@@ -269,6 +269,8 @@ export const defaultLayersDisplay = {
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
+  maxZoom: 18,
+  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -865,6 +867,118 @@ export const indicatorsDefinition = Object.freeze({
 });
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks',
+        indicator: 'E12c',
+        lastIndicatorValue: 'Moving truck detections',
+        navigationDescription: 'Highways',
+        indicatorName: 'Moving truck detections',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: 'primary',
+        eoSensor: null,
+        aoiID: 'W2',
+        time: availableDates.E12c,
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((13.8150 48.7647,17.48452 48.7647,17.48452 46.966583,13.8150 46.966583,13.8150 48.7647))').toJson(),
+            }],
+          },
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'TRUCK_REPROCESSING_MOTORWAY',
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Europe',
+        siteName: 'global',
+        description: 'Number of Trucks',
+        indicator: 'E12d',
+        lastIndicatorValue: 'Regional Truck Traffic Primary',
+        indicatorName: 'Moving truck detections',
+        navigationDescription: 'Primary Roads',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: 'primary',
+        eoSensor: null,
+        aoiID: 'W3',
+        time: availableDates.E12c,
+        inputData: [''],
+        yAxis: 'Number of trucks detected',
+        display: [{
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+            }],
+          },
+          areaIndicator: trucksAreaIndicator,
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'TRUCK_REPROCESSING_PRIMARY',
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -2883,12 +2997,10 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Sentinel 2 L2A',
           minZoom: 13,
-          maxZoom: 18,
           timeFromProperty: true,
         }, {
           minZoom: 13,
           protocol: 'GeoJSON',
-          clusterLayer: true,
           tooltip: true,
           getTimeFromProperty: 'detection_time',
           visible: true,
@@ -2901,6 +3013,13 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+        }, {
+          maxZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          visible: true,
+          name: 'Wind turbine detections clusters',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
         }],
       },
     },
@@ -3259,8 +3378,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow depth',
           layers: 'SNOW-DEPTH',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (
@@ -3306,8 +3423,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow water equivalent',
           layers: 'SWE',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (

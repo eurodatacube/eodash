@@ -50,8 +50,9 @@ module.exports = {
   // publicPath: '/', // enabled for feature branch deployment
   transpileDependencies: [
     'vuetify',
+    'ol',
     '@eox/itemfilter',
-    '@eox/layerswitcher',
+    '@eox/layercontrol',
   ],
   configureWebpack: {
     devServer: {
