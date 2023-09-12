@@ -45,7 +45,6 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
-    dataLayerConfigLayerControls: [Array, null], // TODO not used atm
     isGlobalIndicator: Boolean,
     enableScrollyMode: Boolean,
   },
