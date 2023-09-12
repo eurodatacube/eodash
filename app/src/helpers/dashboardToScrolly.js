@@ -1,7 +1,11 @@
 function translateMedia(item) {
   const i = item;
   if (i.text && i.text.includes('<--IMG-->')) {
-    i.image = i.text.replaceAll('<--IMG-->', '');
+    // Remove the first image flag
+    const splittableText = i.text.replace('<--IMG-->', '');
+    const [url, title] = splittableText.split('<--IMG-->');
+    i.image = url;
+    i.title = title;
     i.text = undefined;
     i.type = 'image';
   } else if (i.text && i.text.includes('<--COMPARE-->')) {

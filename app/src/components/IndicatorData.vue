@@ -108,6 +108,7 @@ export default {
     currentIndicator: Object,
     currentFeatureData: Object,
     disableAutoFocus: Boolean,
+    enableMapTimeInteraction: Boolean,
   },
   components: {
     BarChart,
@@ -1200,12 +1201,15 @@ export default {
       }
     },
     mapTimeUpdatedHandler(event) {
-      // set listener to highlight points for selected time on map via annotations
-      if (event.data.command === 'chart:setTime') {
-        this.dataLayerTimeFromMap = event.data.time;
-      }
-      if (event.data.command === 'chart:setCompareTime') {
-        this.compareLayerTimeFromMap = event.data.time;
+      // enable chart map time sync only if not part of custom dashboard
+      if (this.enableMapTimeInteraction) {
+        // set listener to highlight points for selected time on map via annotations
+        if (event.data.command === 'chart:setTime') {
+          this.dataLayerTimeFromMap = event.data.time;
+        }
+        if (event.data.command === 'chart:setCompareTime') {
+          this.compareLayerTimeFromMap = event.data.time;
+        }
       }
     },
     getChartObject() {
@@ -1272,21 +1276,24 @@ export default {
       let high = 0;
 
       customSettings.onClick = (event, elements) => {
-        if (elements.length > 0) {
-          // clicked some chart
-          const chart = elements[0]._chart;
-          const element = chart.getElementAtEvent(event)[0];
-          const dataset = chart.data.datasets[element._datasetIndex];
-          const timeSelected = dataset.data[element._index].t;
-          if (timeSelected) {
-            // reuse map event interface for scrolly
-            let command = 'map:setTime';
-            if (event.ctrlKey || event.shiftKey) {
-              command = 'map:setCompareTime';
+        // enable chart map time sync only if not part of custom dashboard
+        if (this.enableMapTimeInteraction) {
+          if (elements.length > 0) {
+            // clicked some chart
+            const chart = elements[0]._chart;
+            const element = chart.getElementAtEvent(event)[0];
+            const dataset = chart.data.datasets[element._datasetIndex];
+            const timeSelected = dataset.data[element._index].t;
+            if (timeSelected) {
+              // reuse map event interface for scrolly
+              let command = 'map:setTime';
+              if (event.ctrlKey || event.shiftKey) {
+                command = 'map:setCompareTime';
+              }
+              window.postMessage({
+                command, time: timeSelected,
+              });
             }
-            window.postMessage({
-              command, time: timeSelected,
-            });
           }
         }
       };

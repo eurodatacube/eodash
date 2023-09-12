@@ -92,6 +92,7 @@
               v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
             >
               <indicator-data
+                :enableMapTimeInteraction="true"
                 style="margin-top: 0px;"
                 class="pa-2 chart"
               />
@@ -124,6 +125,7 @@
             </template>
             <indicator-data
               v-else-if="dataObject && dataObject.time"
+              :enableMapTimeInteraction="true"
               style="top: 0px; position: absolute;"
               class="pa-5 chart"
             />
@@ -440,7 +442,7 @@ export default {
     VectorTileStyleControl,
     // ScatterPlot,
     DataMockupView,
-    SelectionInfoBar,
+    SelectionInfoBar
   },
   data: () => ({
     overlay: false,

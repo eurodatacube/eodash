@@ -2572,5 +2572,49 @@
         "reference_time": "2023-07-15T00:00:00",
         "reference_value": "[-1.108 0.227]",
         "time": "2023-07-15T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.158",
+        "reference_time": "2023-07-22T00:00:00",
+        "reference_value": "[-1.169 0.163]",
+        "time": "2023-07-22T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.158",
+        "reference_time": "2023-07-29T00:00:00",
+        "reference_value": "[-1.240 0.136]",
+        "time": "2023-07-29T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.278",
+        "reference_time": "2023-08-05T00:00:00",
+        "reference_value": "[-1.325 0.113]",
+        "time": "2023-08-05T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.436",
+        "reference_time": "2023-08-12T00:00:00",
+        "reference_value": "[-1.312 0.166]",
+        "time": "2023-08-12T00:00:00"
     }
 ]
