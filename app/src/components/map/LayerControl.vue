@@ -70,10 +70,11 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l,
-      map, {
-        layerControlExclusive: true,
-      }));
+    const baseLayers = this.baseLayerConfigs.map((l) => {
+      const createdLayer = createLayerFromConfig(l, map);
+      createdLayer.set('layerControlExclusive', true);
+      return createdLayer;
+    });
     baseLayers.forEach((layer) => {
       const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
       backgroundGroup.getLayers().push(layer);

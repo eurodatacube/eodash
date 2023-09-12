@@ -554,6 +554,8 @@ export default {
       handler(timeObj) {
         if (timeObj) {
           const { map } = getMapInstance(this.mapId);
+          const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+          const layers = dataGroup.getLayers().getArray();
           if (this.indicator && 'queryParameters' in this.indicator) {
             // re-load indicator data for indicators where the rendering is based on external data
             // get only valid configs (which has 'id')
@@ -564,17 +566,15 @@ export default {
               ).then((data) => {
                 this.$store.state.indicators.selectedIndicator.mapData = data;
                 // finds first layer with ID
-                const currLayer = map.getAllLayers().find((l) => l.get('id') === item.id);
+                const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {
                   currLayer.changed();
                 }
               });
             });
           }
-          // TODO:
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
-          const layers = map.getLayers().getArray();
           this.mergedConfigsDataIndexAware.filter(
             (config) => config.timeFromProperty || config.usedTimes?.time?.length,
           )
@@ -874,30 +874,36 @@ export default {
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') === event.data.name) {
-            layer.setVisible(true);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') === event.data.name) {
+              layer.setVisible(true);
+            }
+          });
         });
       }
 
       if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') !== event.data.baseLayer) {
-            layer.setVisible(false);
-          } else {
-            layer.setVisible(true);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') !== event.data.baseLayer) {
+              layer.setVisible(false);
+            } else {
+              layer.setVisible(true);
+            }
+          });
         });
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') === event.data.name) {
-            layer.setVisible(false);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') === event.data.name) {
+              layer.setVisible(false);
+            }
+          });
         });
       }
 
@@ -969,7 +975,8 @@ export default {
     },
     updateSelectedAreaFeature() {
       const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
       this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)

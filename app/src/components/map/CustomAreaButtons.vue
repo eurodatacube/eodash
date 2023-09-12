@@ -166,6 +166,8 @@ export default {
     const drawnAreaSource = new VectorSource({ wrapX: false });
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
+      name: 'Draw Area Layer',
+      layerControlHide: true,
       source: drawnAreaSource,
       style: this.drawStyleFunction,
       declutter: false,

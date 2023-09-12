@@ -138,6 +138,8 @@ const trucksAreaIndicator = {
 };
 
 const trucksFeatures = {
+  drawnAreaLimitExtent: true,
+  name: 'Daily truck detections',
   style: {
     strokeColor: '#00c3ff',
   },
@@ -198,6 +200,7 @@ const E1bConfigInputDataAsc = [{
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
   features: {
     ...geodbFeatures,
+    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }, {
@@ -219,10 +222,6 @@ const E1bConfigInputDataDes = [{
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
-  features: {
-    ...geodbFeatures,
-    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
-  },
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -233,6 +232,11 @@ const E1bConfigInputDataDes = [{
   minZoom: 6,
   maxZoom: 14,
   opacity: 0.6,
+  features: {
+    ...geodbFeatures,
+    name: 'Ship detections',
+    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  },
 }];
 
 const cloudlessBaseLayerDefault = [{
@@ -267,6 +271,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      name: 'Ship detections',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
@@ -275,6 +280,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -284,6 +290,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
@@ -294,6 +301,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -308,6 +316,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
+      name: 'Detected features',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
@@ -318,6 +327,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
+      name: 'Detected features',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -464,6 +474,7 @@ export const indicatorsDefinition = Object.freeze({
     mapTimeLabelExtended: true,
     features: {
       ...geodbFeatures,
+      name: 'Plane detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
       dateFormatFunction: (date) => {
         // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
@@ -636,6 +647,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['land'],
     story: '/eodash-data/stories/N4c',
     features: {
+      name: 'Land fill sites',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -1976,6 +1988,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Oil silos volume change',
           features: {
+            name: 'Oil silo outlines',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2011,6 +2024,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Disneyland Paris',
           features: {
+            name: 'Car detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2046,6 +2060,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Warsaw parking lot',
           features: {
+            name: 'Car detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2081,6 +2096,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Weimouth ships',
           features: {
+            name: 'Ship detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },

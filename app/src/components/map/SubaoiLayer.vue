@@ -38,6 +38,7 @@ export default {
   data: () => ({
     constrainingExtent: undefined,
     drag: false,
+    layer: null,
   }),
   watch: {
     subAoi: {
@@ -45,7 +46,8 @@ export default {
       immediate: true,
       handler(value) {
         const { map } = getMapInstance(this.mapId);
-        const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
+        const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+        const aoiLayer = internalGroup.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
         if (aoiLayer) {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
@@ -125,6 +127,7 @@ export default {
       source: new VectorSource({}),
       style: () => (this.isInverse ? inverseStyle : subAoiStyle),
     });
+    this.layer = layer;
     if (this.subAoi) {
       const feature = geoJsonFormat.readFeature(this.subAoi, {
         dataProjection: 'EPSG:4326',
@@ -183,9 +186,8 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
     const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
-    internalGroup.getLayers().remove(layer);
+    internalGroup.getLayers().remove(this.layer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('pointerdrag', this.pointerdragHandler);
     map.un('movestart', this.movestartHandler);

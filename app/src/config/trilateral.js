@@ -111,6 +111,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     features: {
       ...geodbFeatures,
+      name: 'Ship detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     baseLayers: cloudlessBaseLayerDefault,
@@ -120,6 +121,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -130,6 +132,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -139,6 +142,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -149,6 +153,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -258,6 +263,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       // valid for default (geodb) features, NASA have 'input_data' 'airports' override
       ...geodbFeatures,
+      name: 'Plane detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13b_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     story: '/data/trilateral/E13b',
@@ -507,6 +513,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['cryosphere'],
     story: '/data/trilateral/ADD',
     features: {
+      name: 'Thaites glacier outline',
       url: './data/trilateral/thwaites.geojson',
     },
     mapProjection: {
@@ -777,6 +784,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
       allowedParameters: ['verified'],
@@ -809,6 +817,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Plane detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
       allowedParameters: ['Country', 'label', 'score'],
@@ -3358,6 +3367,7 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
           features: {
+            name: 'Administrative zones ADM0',
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
@@ -4392,6 +4402,7 @@ export const globalIndicators = [
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
+            name: 'Ship detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },

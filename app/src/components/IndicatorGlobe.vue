@@ -319,7 +319,7 @@ export default {
         this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
           this.createImageryProvider(layerDef),
         ));
-      })
+      });
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

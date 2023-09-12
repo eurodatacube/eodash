@@ -16,7 +16,6 @@ import WebGLTileLayer from 'ol/layer/WebGLTile';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
-import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
@@ -242,9 +241,8 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiID=undefined] optional aoiID.
  * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
- * @param {*} [opt_options.dataProp=undefined] optional dataProp string to set data to render.
  * if not set, time will be retrieved from the store
- * @returns {Group} returns ol layer
+ * @returns {BaseLayer} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, map, _options = {}) {
@@ -253,10 +251,48 @@ export function createLayerFromConfig(config, map, _options = {}) {
   const paramsToPassThrough = [
     'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
   ];
-  // layers created by this config. These Layers will get combined into a single ol.layer.Group
-  const layers = [];
-  let source;
-  if (config.protocol === 'cog') {
+  // layer created by this config, function always returns a single layer
+  let layer = null;
+  let source = null;
+  let featuresSource = null;
+  let featuresUpdateFn = null;
+  if (config.features) {
+    // some layers have a baselayer and GeoJSON features above them
+    // e.g. "Ports and Shipping"
+    featuresSource = new VectorSource({
+      features: [],
+    });
+    fetchData({
+      usedTime: options.time,
+      config,
+      drawnArea: options.drawnArea,
+      source: featuresSource,
+      map,
+    });
+    // this gives an option to update the source (most likely the time) without
+    // re-creating the entire layer
+    featuresUpdateFn = (time, drawnArea, configUpdate) => {
+      const updatedOptions = {
+        ...options,
+        ...configUpdate,
+      };
+      updatedOptions.time = time;
+      fetchData({
+        usedTime: time,
+        config: updatedOptions,
+        drawnArea,
+        source: featuresSource,
+        map,
+      });
+    };
+    featuresSource.set('updateTime', featuresUpdateFn);
+    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    layer = new VectorLayer({
+      source: featuresSource,
+      name: config.name,
+      style: dynamicStyleFunction,
+    });
+  } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
     if (config.usedTimes?.time?.length) {
       const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
@@ -265,50 +301,49 @@ export function createLayerFromConfig(config, map, _options = {}) {
         return { url };
       });
     }
-    source = new GeoTIFF({
+    const wgSource = new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
     });
-    const wgTileLayer = new WebGLTileLayer({
-      source,
+    layer = new WebGLTileLayer({
+      source: wgSource,
       style: config.style,
       name: config.name,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
-    wgTileLayer.set('id', config.id);
-    layers.push(wgTileLayer);
+    layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
-    const tilelayer = new VectorTileLayer();
-    tilelayer.set('id', config.id);
+    layer = new VectorTileLayer({
+      name: config.name,
+    });
+    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
     } else if (config.selectedStyleLayer) {
       layerSelector = [config.selectedStyleLayer];
     }
-    applyStyle(tilelayer, config.styleFile, layerSelector)
+    applyStyle(layer, config.styleFile, layerSelector)
       .then(() => {
         if (config.attribution) {
           // allow to override attribution from mapbox style referenced source
-          tilelayer.getSource().setAttributions(config.attribution);
+          layer.getSource().setAttributions(config.attribution);
         }
       });
-    layers.push(tilelayer);
   } else if (config.protocol === 'WMTSCapabilities') {
-    const WMTSLayer = new TileLayer({
+    layer = new TileLayer({
       name: config.name,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
-    layers.push(WMTSLayer);
-    createWMTSSourceFromCapabilities(config, WMTSLayer);
+    createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
 
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = '3857';
-    const tilelayer = new VectorTileLayer({
+    layer = new VectorTileLayer({
       style: dynamicStyleFunction,
       opacity: config.opacity,
       name: config.name,
@@ -320,8 +355,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    tilelayer.set('id', config.id);
-    layers.push(tilelayer);
+    layer.set('id', config.id);
   } else if (config.protocol === 'countries') {
     const countriesSource = new VectorSource({
       features: geoJsonFormat.readFeatures(countries, {
@@ -329,7 +363,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         featureProjection: map.getView().getProjection(),
       }),
     });
-    layers.push(new VectorLayer({
+    layer = new VectorLayer({
       name: 'Country vectors',
       layerControlHide: true,
       source: countriesSource,
@@ -343,7 +377,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           color: '#a2a2a2',
         }),
       }),
-    }));
+    });
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const vectorSourceOpts = config.url ? {
@@ -359,16 +393,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     };
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-    source = new VectorSource(vectorSourceOpts);
-    layers.push(new VectorLayer({
+    const vectorSource = new VectorSource(vectorSourceOpts);
+    layer = new VectorLayer({
       name: config.name,
       updateOpacityOnZoom: false,
-      source,
+      source: vectorSource,
       style: dynamicStyleFunction,
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    }));
+    });
     if (config.clusterLayer) {
       const clusterSource = new ClusterSource({
         ...vectorSourceOpts,
@@ -387,7 +421,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         },
       });
       const styleCache = {};
-      layers.push(new VectorLayer({
+      layer = VectorLayer({
         name: `${config.name}_clustered`,
         updateOpacityOnZoom: false,
         source: clusterSource,
@@ -420,7 +454,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         // intentionally setting minZoom as maxZoom to distinguish from normal layer
         maxZoom: config.minZoom,
         opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-      }));
+      });
     }
   } else if (config.protocol === 'xyz') {
     if (config.usedTimes?.time?.length) {
@@ -520,7 +554,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
   }
 
   if (source) {
-    layers.push(new TileLayer({
+    layer = new TileLayer({
       name: config.name,
       maxZoom: config.maxZoom,
       minZoom: config.minZoom,
@@ -528,53 +562,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
       opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
       source,
       extent,
-    }));
+    });
   }
 
-  if (config.features) {
-    // some layers have a baselayer and GeoJSON features above them
-    // e.g. "Ports and Shipping"
-    const featuresSource = new VectorSource({
-      features: [],
-    });
-    fetchData({
-      usedTime: options.time,
-      config,
-      drawnArea: options.drawnArea,
-      source: featuresSource,
-      map,
-    });
-    // this gives an option to update the source (most likely the time) without
-    // re-creating the entire layer
-    const featuresUpdate = (time, drawnArea, configUpdate) => {
-      const updatedOptions = {
-        ...options,
-        ...configUpdate,
-      };
-      updatedOptions.time = time;
-      fetchData({
-        usedTime: time,
-        config: updatedOptions,
-        drawnArea,
-        source: featuresSource,
-        map,
-      });
-    };
-    featuresSource.set('updateTime', featuresUpdate);
-    if (config.customAreaFeatures) {
-      featuresSource.set('updateArea', featuresUpdate);
-    }
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
-    const featuresLayer = new VectorLayer({
-      source: featuresSource,
-      name: `${config.name}_features`,
-      style: dynamicStyleFunction,
-    });
-
-    layers.push(featuresLayer);
-  }
   let drawnAreaExtent;
-  if (config.drawnAreaLimitExtent) {
+  if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     if (options.drawnArea.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
@@ -590,14 +582,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
       );
     }
   }
-  const g = new Group({
-    name: config.name,
-    visible: config.visible,
-    updateOpacityOnZoom: options.updateOpacityOnZoom,
-    layers,
-    extent: drawnAreaExtent,
-  });
-  if (config.drawnAreaLimitExtent) {
+  layer.setExtent(drawnAreaExtent);
+  layer.set('visible', config.visible);
+  if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
         drawnAreaExtent = transformExtent(
@@ -613,12 +600,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
         );
       }
       l.setExtent(drawnAreaExtent);
-    };
-    g.getLayers().forEach((la) => {
-      if (!la.get('name').includes('_features')) {
-        la.getSource().set('updateArea', areaUpdate);
+      if (config.customAreaFeatures && featuresSource) {
+        featuresUpdateFn(time, drawnArea, configUpdate);
       }
-    });
+    };
+    layer.getSource().set('updateArea', areaUpdate);
   }
-  return g;
+  return layer;
 }
