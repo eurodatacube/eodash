@@ -394,19 +394,10 @@ export function createLayerFromConfig(config, map, _options = {}) {
     };
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
     const vectorSource = new VectorSource(vectorSourceOpts);
-    layer = new VectorLayer({
-      name: config.name,
-      updateOpacityOnZoom: false,
-      source: vectorSource,
-      style: dynamicStyleFunction,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    });
     if (config.clusterLayer) {
       const clusterSource = new ClusterSource({
         ...vectorSourceOpts,
-        source,
+        source: vectorSource,
         distance: 50,
         geometryFunction: (feature) => {
           const geom = feature.getGeometry();
@@ -421,9 +412,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         },
       });
       const styleCache = {};
-      layer = VectorLayer({
-        name: `${config.name}_clustered`,
-        updateOpacityOnZoom: false,
+      layer = new VectorLayer({
         source: clusterSource,
         style: (feature) => {
           const size = feature.get('features').length;
@@ -451,9 +440,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
           }
           return style;
         },
-        // intentionally setting minZoom as maxZoom to distinguish from normal layer
-        maxZoom: config.minZoom,
-        opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
+      });
+    } else {
+      layer = new VectorLayer({
+        source: vectorSource,
+        style: dynamicStyleFunction,
       });
     }
   } else if (config.protocol === 'xyz') {

@@ -94,7 +94,7 @@ export default {
               coordinate = getCenter(geom.getExtent());
             }
             if (config.selection) {
-              this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
+              this.overlayHeaders = [layer.get('name')];
             }
             this.overlayCoordinate = coordinate;
             let rows = [];

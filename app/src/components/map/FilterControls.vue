@@ -505,11 +505,12 @@ export default {
           interpolate: false,
         }),
         style,
+        name: this.mergedConfigsData.name,
       });
       newLayer.set('id', this.cogFilters.sourceLayer);
       newLayer.updateStyleVariables(this.variables);
       // forces fixing of webgl context, simply updating layers of layergroup does not work
-      dataGroup.getLayers().add(newLayer);
+      dataGroup.getLayers().push(newLayer);
     },
     resetMap() {
       const { map } = getMapInstance('centerMap');

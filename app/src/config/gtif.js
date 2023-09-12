@@ -3057,8 +3057,8 @@ export const globalIndicators = [
           timeFromProperty: true,
         }, {
           minZoom: 13,
+          maxZoom: 18,
           protocol: 'GeoJSON',
-          clusterLayer: true,
           tooltip: true,
           getTimeFromProperty: 'detection_time',
           visible: true,
@@ -3071,6 +3071,13 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+        }, {
+          maxZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          visible: true,
+          name: 'Wind turbine detections clusters',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
         }],
       },
     },

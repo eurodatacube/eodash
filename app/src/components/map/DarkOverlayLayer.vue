@@ -8,7 +8,6 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import turfDifference from '@turf/difference';
 import { createLayerFromConfig } from '@/components/map/layers';
-import Group from 'ol/layer/Group';
 import {
   mapState,
 } from 'vuex';
@@ -29,15 +28,13 @@ export default {
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const darkOverlayLayerGroups = this.configs.map((l) => createLayerFromConfig(l,
+    const darkOverlayLayers = this.configs.map((l) => createLayerFromConfig(l,
       map));
-    this.darkOverlayLayerGroups = darkOverlayLayerGroups;
+    this.darkOverlayLayers = darkOverlayLayers;
     // setup listener on featuresloadend on first layer
-    const layer = this.getLayerFromGroup(
-      this.darkOverlayLayerGroups[0], this.configs[0],
-    );
+    const layer = this.darkOverlayLayers[0];
     const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
-    darkOverlayLayerGroups.forEach((l) => {
+    darkOverlayLayers.forEach((l) => {
       internalGroup.getLayers().push(l);
     });
 
@@ -62,19 +59,8 @@ export default {
     layer.getSource().once('featuresloadend', this.setInitialInverseArea);
   },
   methods: {
-    getLayerFromGroup(layer, config) {
-      let foundLayer = null;
-      if (layer instanceof Group) {
-        foundLayer = layer.getLayers().getArray().find((l) => l.get('name') === config.name);
-      } else {
-        foundLayer = layer;
-      }
-      return foundLayer;
-    },
     setInitialInverseArea() {
-      const layer = this.getLayerFromGroup(
-        this.darkOverlayLayerGroups[0], this.configs[0],
-      );
+      const layer = this.darkOverlayLayers[0];
       // get features and setup the inverse
       const feature = layer.getSource().getFeatures()[0];
       this.setupInverseFeatureLayer(feature);
@@ -106,7 +92,7 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
-    this.darkOverlayLayerGroups.forEach((layer) => {
+    this.darkOverlayLayers.forEach((layer) => {
       internalGroup.getLayers().remove(layer);
     });
     internalGroup.getLayers().remove(this.inverseDarkOverlayLayer);
