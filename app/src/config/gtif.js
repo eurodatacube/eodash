@@ -215,31 +215,27 @@ export const mapDefaults = Object.freeze({
   bounds: [10, 46, 20, 49.5],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-},
-baseLayers.cloudless,
-baseLayers.eoxosm,
-baseLayers.S2GLC,
-baseLayers.ESA_WORLD_COVER,
-baseLayers.CORINE_LAND_COVER,
-baseLayers.geolandbasemap,
-baseLayers.bmapgelaende,
-baseLayers.bmaporthofoto30cm,
+export const baseLayersMap = [
+  baseLayers.S2GLC,
+  baseLayers.ESA_WORLD_COVER,
+  baseLayers.CORINE_LAND_COVER,
+  baseLayers.geolandbasemap,
+  baseLayers.bmapgelaende,
+  baseLayers.bmaporthofoto30cm,
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
 ];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
 
-export const overlayLayersLeftMap = [
+export const overlayLayersMap = [
+  overlayLayers.powerOpenInfrastructure,
   {
     ...overlayLayers.eoxOverlay, visible: true,
   },
-  overlayLayers.powerOpenInfrastructure,
 ];
-export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
+
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
@@ -297,10 +293,10 @@ const getDailyDates = (start, end) => {
 
 const energyTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.bodenwertigkeitskarte_agri,
     baseLayers.bodenwertigkeitskarte_grassland,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
@@ -323,8 +319,8 @@ const eoadaptationDefaults = {
 
 const mobilityTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
 };
 /*

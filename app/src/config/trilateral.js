@@ -863,19 +863,14 @@ export const mapDefaults = Object.freeze({
   bounds: [-170, -70, 170, 70],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-
-export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay,
-  visible: true,
-  updateOpacityOnZoom: true,
-}];
-export const overlayLayersRightMap = [{
+export const baseLayersMap = [
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
+];
+export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
   updateOpacityOnZoom: true,

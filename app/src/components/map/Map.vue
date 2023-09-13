@@ -304,7 +304,7 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
-        || this.baseConfig.baseLayersLeftMap;
+        || this.baseConfig.baseLayersMap;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -327,7 +327,7 @@ export default {
     overlayConfigs() {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
-      ) || this.baseConfig.overlayLayersLeftMap)];
+      ) || this.baseConfig.overlayLayersMap)];
       const darkOverlay = (
         'darkOverlayLayers' in this.baseConfig
         && this.baseConfig.darkOverlayLayers.length > 0
