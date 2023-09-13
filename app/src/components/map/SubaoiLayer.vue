@@ -52,12 +52,11 @@ export default {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
           if (value) {
-            const { map } = getMapInstance(this.mapId);
             const feature = geoJsonFormat.readFeature(value, {
               dataProjection: 'EPSG:4326',
               featureProjection: map.getView().getProjection(),
             });
-            this.subAoiLayer.getSource().addFeature(feature);
+            aoiSource.addFeature(feature);
           }
         }
       },
@@ -77,7 +76,7 @@ export default {
       if (this.featureData?.subAoi?.features?.length) {
         subAoiObject = this.featureData.subAoi;
       }
-      if (this.subAoiLayer && subAoiObject) {
+      if (this.layer && subAoiObject) {
         const subaoiInv = JSON.parse(JSON.stringify(subAoiObject.features[0]));
         // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
         if (subaoiInv) {
