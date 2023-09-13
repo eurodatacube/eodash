@@ -138,10 +138,10 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       // expects an array of objects
-      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
+      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersMap;
     },
     attributions() {
       return [
