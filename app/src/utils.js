@@ -1,6 +1,12 @@
 import { DateTime } from 'luxon';
+import { Wkt } from 'wicket';
+import axios from 'axios';
+import latLng from '@/latLng';
+import { fromExtent } from 'ol/geom/Polygon';
+import { transformExtent } from 'ol/proj';
 import store from '@/store';
 import { generateUsedTimes } from '@/helpers/mapConfig';
+import { getMapInstance } from './components/map/map';
 import getLocationCode from './mixins/getLocationCode';
 
 const wkt = new Wkt();

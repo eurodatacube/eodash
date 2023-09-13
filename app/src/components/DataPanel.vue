@@ -442,7 +442,7 @@ export default {
     VectorTileStyleControl,
     // ScatterPlot,
     DataMockupView,
-    SelectionInfoBar
+    SelectionInfoBar,
   },
   data: () => ({
     overlay: false,
