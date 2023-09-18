@@ -533,8 +533,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.setExtent(extent);
   }
 
+  let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    let drawnAreaExtent;
     if (options.drawnArea.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
@@ -558,6 +558,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
+    layerControlOptional: config.layerControlOptional,
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
