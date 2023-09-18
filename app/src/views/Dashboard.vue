@@ -20,43 +20,44 @@
         height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
       class="data-panel"
     >
-      <v-toolbar flat>
-        <v-toolbar-title v-if="indicatorObject"
-          :class="indicatorObject.description ===
-            indicatorObject.indicatorName && 'preventEllipsis'"
-        >
-          {{ indicatorObject.indicatorName}}
-          <div
-            class="subheading" style="font-size: 0.8em" v-html="featureCity">
-          </div>
-        </v-toolbar-title>
-        <v-tooltip
-          v-if="indicatorObject"
-          left
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              icon
-              class="elevation-1 rounded-lg"
-              style="position: absolute; right: 30px; width: 36px; height: 36px;"
-              @click="dataPanelFullWidth
-                ? setDataPanelWidth(false)
-                : setDataPanelWidth(true)"
-            >
-              <v-icon>{{ dataPanelFullWidth ? 'mdi-close' : 'mdi-fullscreen' }}</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ dataPanelFullWidth ? 'Close' : 'Open' }} full screen</span>
-        </v-tooltip>
-      </v-toolbar>
-
-      <data-panel
+      <eox-stacinfo
         v-if="indicatorObject
           || $store.state.features.featureFilters.indicators.length > 0"
-        :key="panelKey"
-        :newsBanner="$refs.newsBanner"
-        :expanded="dataPanelFullWidth" class="px-5 py-2" />
+        ref="stacinfo"
+        :for="this.$store.state.indicators.selectedIndicator.link"
+        header='["title"]'
+        properties='["themes", "tags", "sensor", "satellite", "license"]'
+        featured='["links", "description"]'
+        footer='["agency"]'
+      >
+        <div slot="themes">
+          <ul>
+            <v-chip
+              v-for="theme in $refs.stacinfo?.stacProperties?.themes?.value.split(',')"
+              :key="theme"
+              :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
+              text-color="white"
+            >
+            <v-avatar left>
+              <v-icon>{{ $store.state.config.baseConfig.indicatorClassesIcons[theme] }}</v-icon>
+            </v-avatar>
+              {{ theme }}
+            </v-chip>
+          </ul>
+        </div>
+        <div slot="featured-links">
+          My custom link display:
+          <li
+            v-for="link in $refs.stacinfo?.stacProperties?.links.value.filter(
+              (l) => l.rel === 'example' || l.rel === 'license'
+            )"
+            :key="link.rel"
+          >
+            <v-btn color="primary" :href="link.href">{{ link.rel }}</v-btn>
+          </li>
+        </div>
+        <span slot="featured-links-summary">Data Access & Methods</span>
+      </eox-stacinfo>
     </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
@@ -456,5 +457,31 @@ export default {
 }
 .panel-expanded .move-with-panel {
   transform: translateX(calc(-1 * var(--data-panel-width)));
+}
+
+eox-stacinfo::part(header) {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+eox-stacinfo::part(footer) {
+  position: sticky;
+  bottom: 0;
+}
+[slot="themes"] {
+  width: 100%;
+}
+[slot="themes"] ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+[slot="themes"] ul li {
+  background: lightgrey;
+  border-radius: 15px;
+  min-width: 20px;
+  text-align: center;
+  padding: 2px 10px;
+  margin-right: 4px;
 }
 </style>
