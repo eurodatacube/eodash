@@ -17,6 +17,9 @@ import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';
 import { toLonLat } from 'ol/proj';
+import {
+  calculatePadding,
+} from '@/utils';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -143,6 +146,11 @@ export default {
             const source = l.getSource();
             const url = renderTemplateSelectedFeature(config.urlTemplateSelectedFeature);
             source.setUrl(url);
+            source.once('featuresloadend', () => {
+              const extent = source.getExtent();
+              const padding = calculatePadding();
+              map.getView().fit(extent, { padding });
+            });
             source.refresh();
           }
         });

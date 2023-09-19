@@ -8,8 +8,8 @@
 
 Close to 300 locations for potential run-of-river hydroelectricity
 generation plants were identified in Austria by utilizing geospatial techniques to analyze
-hydrological data from Terra Climate and terrain data from Copernicus DEM. The potential
-power generation capacity for the identified locations ranges from 13 kW to around 100 mW.
+hydrological data from Terra Climate and terrain data from Copernicus DEM.
+The potential power generation capacity for the identified locations ranges from around 5 kW to around 5 mW.
 
 In the first step, flow direction and flow accumulation are calculated from the DEM, which
 provides information on the direction of water flow and the amount of water that

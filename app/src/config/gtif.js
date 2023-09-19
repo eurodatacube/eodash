@@ -544,15 +544,15 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP5',
     baseLayers: [{
-      ...baseLayers.terrainLight, visible: true,
+      ...baseLayers.bmapgelaende, visible: true,
     },
-    baseLayers.bmapgelaende,
-    baseLayers.eoxosm,
     baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
     baseLayers.bmaporthofoto30cm,
+    baseLayers.eoxosm,
+    baseLayers.terrainLight,
     ],
     overlayLayers: [
       { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
@@ -3122,10 +3122,22 @@ export const globalIndicators = [
         display: [{
           minZoom: 5,
           protocol: 'GeoJSON',
-          tooltip: true,
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `ws_code: ${feature.get('ws_code')}`,
+              `Area: ${Number((feature.get('area_sqm'))/10e6).toFixed(2)} km²`,
+              `Flow Rate: ${Number(feature.get('flowrate')).toFixed(1)} m³/s`,
+              `Gravity: 9.82 m/s²`,
+              `Density: 1000 kg/m³`,
+              `Power rating: ${Number(feature.get('pr_mw')).toFixed(2)} MW`,
+              `Annual power: ${Number(feature.get('annp')).toFixed(0)} kWh`,
+              `Annual power potential: ${Number(feature.get('gwh_pot')).toFixed(2)} gWh`,
+              `Capacity: 50 %`,
+              `Annual power actual: ${(Number(feature.get('pr_mw'))/2).toFixed(2)} MW`,
+            ],
+          },
           visible: true,
           name: 'Micro Hydropower Potential',
-          allowedParameters: ['ws_code', 'area_sqm', 'flowrate', 'head', 'pr_mw', 'annp', 'gwh_pot', 'z_min', 'z_max', 'z_mean', 'slength', 'min_slope', 'max_slope', 'avg_slope', 'max_sl_nor', 'meanrunoff', 'meanannflo'],
           url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
           styleFunction: (feature) => {
             let radius = 0;
