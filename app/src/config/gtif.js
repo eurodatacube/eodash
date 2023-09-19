@@ -5,6 +5,9 @@ import { baseLayers, overlayLayers } from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 /*
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
@@ -546,11 +549,25 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmapgelaende],
   },
   REP5: {
-    ...energyTransitionDefaults,
-    indicator: 'Micro Hydropower',
-    class: 'air',
+    indicator: 'Potential Assessment',
+    class: 'water',
     themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP3',
+    story: '/data/gtif/markdown/REP5',
+    baseLayers: [{
+      ...baseLayers.bmapgelaende, visible: true,
+    },
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.eoxosm,
+    baseLayers.terrainLight,
+    ],
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP6: {
     indicator: 'Wind Turbines',
@@ -3027,6 +3044,101 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
+        description: 'Micro Hydropower Potential Assessment',
+        navigationDescription: 'Micro Hydropower',
+        indicator: 'REP5',
+        lastIndicatorValue: null,
+        indicatorName: 'Micro Hydropower',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        display: [{
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `ws_code: ${feature.get('ws_code')}`,
+              `Area: ${Number((feature.get('area_sqm')) / 10e6).toFixed(2)} km²`,
+              `Flow Rate: ${Number(feature.get('flowrate')).toFixed(1)} m³/s`,
+              'Gravity: 9.82 m/s²',
+              'Density: 1000 kg/m³',
+              `Power rating: ${Number(feature.get('pr_mw')).toFixed(2)} MW`,
+              `Annual power: ${Number(feature.get('annp')).toFixed(0)} kWh`,
+              `Annual power potential: ${Number(feature.get('gwh_pot')).toFixed(2)} gWh`,
+              'Capacity: 50 %',
+              `Annual power actual: ${(Number(feature.get('pr_mw')) / 2).toFixed(2)} MW`,
+            ],
+          },
+          visible: true,
+          name: 'Micro Hydropower Potential',
+          url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
+          styleFunction: (feature) => {
+            let radius = 0;
+            const powerGenerationValue = feature.get('gwh_pot');
+            if (powerGenerationValue > 0 && powerGenerationValue < 1) {
+              radius = 5;
+            } else if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
+              radius = 8;
+            } else if (powerGenerationValue > 10 && powerGenerationValue <= 50) {
+              radius = 12;
+            } else if (powerGenerationValue > 50 && powerGenerationValue <= 750) {
+              radius = 16;
+            } else {
+              radius = 20;
+            }
+            const fill = new Fill({
+              color: 'rgba(255, 255, 255, 0.3)',
+            });
+            const stroke = new Stroke({
+              width: 3,
+              color: '#003247',
+            });
+            const style = new Style({
+              image: new Circle({
+                fill,
+                stroke,
+                radius,
+              }),
+            });
+            return style;
+          },
+          selection: {
+            mode: 'single',
+          },
+        }, {
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          visible: true,
+          name: 'Micro Hydropower Watersheds',
+          urlTemplateSelectedFeature: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_watersheds&outputFormat=application/json&cql_filter=hydropowerpotential_ws_code={ws_code}',
+          style: {
+            strokeColor: '#003247',
+            width: 2,
+            fillColor: 'rgba(179, 240, 252, 0.5)',
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
         description: 'Site Suitability Assessment & Trade-off Explorer',
         navigationDescription: 'Site Suitability Assessment & Trade-off Explorer',
         indicator: 'REP2',
@@ -3253,34 +3365,6 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Potential Assessment',
-        navigationDescription: 'Potential Assessment',
-        indicator: 'REP5',
-        disabled: true,
-        lastIndicatorValue: null,
-        indicatorName: 'Micro Hydropower',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        display: {
-        },
       },
     },
   },
