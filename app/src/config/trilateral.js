@@ -693,7 +693,7 @@ export const layerNameMapping = Object.freeze({
   },
   'Sentinel-1': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'ALOS-2': {
     layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',

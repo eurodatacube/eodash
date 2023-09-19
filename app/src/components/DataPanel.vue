@@ -46,6 +46,7 @@
               v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
             >
               <indicator-data
+                :enableMapTimeInteraction="true"
                 style="margin-top: 0px;"
                 class="pa-2 chart"
               />
@@ -77,6 +78,7 @@
             <template v-else-if="hasSelectionEnabled">
             </template>
             <indicator-data
+              :enableMapTimeInteraction="true"
               style="top: 0px; position: absolute;"
               v-else
               class="pa-5 chart"

@@ -206,6 +206,7 @@ export default {
         this.singleClickHandlers.push(selectHandler);
       }
       if (config.getTimeFromProperty) {
+        // feature used to get time for layers from specific property
         const usedLayers = [layer.getLayers().getArray()[0]];
         const clickHandler = (e) => {
           const isCorrectSide = this.swipePixelX !== null
