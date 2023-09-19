@@ -11,12 +11,15 @@
 <script>
 import { getMapInstance, getViewInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
-import { createLayerFromConfig } from '@/components/map/layers';
+import { createLayerFromConfig, renderTemplateSelectedFeature } from '@/components/map/layers';
 import getProjectionOl from '@/helpers/projutils';
 import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';
 import { toLonLat } from 'ol/proj';
+import {
+  calculatePadding,
+} from '@/utils';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -133,6 +136,24 @@ export default {
           map.on('pointermove', pointerMoveHandler);
           this.pointerMoveHandlers.push(pointerMoveHandler);
         }
+      }
+      if (config.urlTemplateSelectedFeature) {
+        // bind to all SET_SELECTED_FEATURES events from other layers as well
+        this.$store.subscribe((mutation) => {
+          if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+            // trigger change to refresh style on this layer and replace URL
+            const l = layer.getLayers().getArray()[0];
+            const source = l.getSource();
+            const url = renderTemplateSelectedFeature(config.urlTemplateSelectedFeature);
+            source.setUrl(url);
+            source.once('featuresloadend', () => {
+              const extent = source.getExtent();
+              const padding = calculatePadding();
+              map.getView().fit(extent, { padding });
+            });
+            source.refresh();
+          }
+        });
       }
       if (config.selection || config?.features?.selection) {
         // initiate select interaction
