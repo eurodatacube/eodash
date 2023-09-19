@@ -135,8 +135,7 @@ export default {
         this.$store.subscribe((mutation) => {
           if (mutation.type === 'features/SET_SELECTED_FEATURES') {
             // trigger change to refresh style on this layer and replace URL
-            const l = layer.getLayers().getArray()[0];
-            const source = l.getSource();
+            const source = layer.getSource();
             const url = renderTemplateSelectedFeature(config.urlTemplateSelectedFeature);
             source.setUrl(url);
             source.once('featuresloadend', () => {
