@@ -73,7 +73,7 @@ export function template(templateRe, str, data) {
     let value = data[key];
 
     if (value === undefined) {
-      throw new Error(`No value provided for variable ${stri}`);
+      console.error(`No value provided for variable ${stri}`);
     } else if (typeof value === 'function') {
       value = value(data);
     }
