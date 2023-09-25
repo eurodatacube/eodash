@@ -549,12 +549,10 @@ class Cluster {
     }
 
     const { indicatorObject } = feature.getProperties().properties;
-    if (!indicatorObject.dummyFeature) {
-      store.commit('features/SET_SELECTED_FEATURE', {
-        indicatorObject,
-        geometry: feature.getGeometry(),
-      });
-    }
+    store.commit('features/SET_SELECTED_FEATURE', {
+      indicatorObject,
+      geometry: feature.getGeometry(),
+    });
   }
 }
 

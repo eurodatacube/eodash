@@ -633,10 +633,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/stories/Lakes_SWTT', // stays
     themes: ['oceans'],
   },
-  d: { // dummy for locations without Indicator code
-    indicatorSummary: 'Upcoming data',
-    themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
-  },
 });
 
 const cairoPresetView = Object.freeze({

@@ -661,7 +661,6 @@ export default {
       }
       return createConfigFromIndicator(
         this.indicatorObject,
-        'data',
         0,
       );
     },

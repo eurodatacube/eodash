@@ -421,7 +421,6 @@ export default {
         mergedIndicator.name = this.indicator.name;
         return createConfigFromIndicator(
           mergedIndicator,
-          'data',
           -1, // initial time is last in array - indexed via array.at(-1)
         );
       }
@@ -429,7 +428,6 @@ export default {
       // is not available after createConfigFromIndicator. it is overwritten by an indicator name
       return createConfigFromIndicator(
         this.indicator,
-        'data',
         -1, // initial time is last in array - indexed via array.at(-1)
       );
     },
@@ -440,7 +438,6 @@ export default {
       }
       return createConfigFromIndicator(
         this.indicator,
-        'compare',
         this.currentTimeIndexLayerSwipe,
       );
     },
@@ -462,13 +459,11 @@ export default {
         mergedIndicator.name = this.indicator.name;
         return createConfigFromIndicator(
           mergedIndicator,
-          'data',
           this.currentTimeIndex,
         );
       }
       return createConfigFromIndicator(
         this.indicator,
-        'data',
         this.currentTimeIndex,
       );
     },

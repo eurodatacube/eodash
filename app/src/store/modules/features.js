@@ -355,11 +355,6 @@ const actions = {
     // Then, add the hardcoded features
     allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
 
-    // Then, if applicable, add the dummy features
-    if (rootState.config.appConfig.displayDummyLocations) {
-      const dummyFeatures = await this.dispatch('features/loadDummyLocations');
-      allFeatures = allFeatures.concat(dummyFeatures);
-    }
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
@@ -549,45 +544,6 @@ const actions = {
         }
         return features;
       });
-  },
-
-  loadDummyLocations({ rootState }) {
-    return new Promise((resolve) => {
-      this._vm.$papa.parse(rootState.config.appConfig.displayDummyLocations, {
-        download: true,
-        quotes: true,
-        header: true,
-        skipEmptyLines: true,
-        delimiter: ',',
-        complete: (result) => {
-          const { data } = result;
-          const featureObjs = {};
-          for (let rr = 0; rr < data.length; rr += 1) {
-            const uniqueKey = `${data[rr].aoi}_d`;
-            featureObjs[uniqueKey] = data[rr];
-            featureObjs[uniqueKey].indicator = 'd';
-            featureObjs[uniqueKey].indicatorValue = [''];
-            featureObjs[uniqueKey].dummyFeature = true;
-          }
-          const features = [];
-          const keys = Object.keys(featureObjs);
-
-          for (let kk = 0; kk < keys.length; kk += 1) {
-            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
-            featureObjs[keys[kk]].aoi = latLng([coordinates[1], coordinates[0]]);
-            features.push({
-              id: globalIdCounter,
-              properties: {
-                indicatorObject: featureObjs[keys[kk]],
-              },
-            });
-            globalIdCounter += 1;
-          }
-          resolve(features);
-        },
-      });
-    });
   },
 };
 

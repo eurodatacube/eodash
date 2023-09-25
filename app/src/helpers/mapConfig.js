@@ -120,12 +120,9 @@ const configFromInputData = (usedTimes, index) => {
   return [];
 };
 
-const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObject) => {
+const mergedConfigs = (usedTimes, inputDataConfig, indicatorObject) => {
   // first check if special compare layer configured
-  let displayTmp = side === 'compare'
-    && indicatorObject.compareDisplay
-    ? indicatorObject.compareDisplay
-    : indicatorObject.display;
+  let displayTmp = indicatorObject.display;
   // following configuration merging is done:
   // defaultLayersDisplay (to avoid having to configure it before)
   // indDefinition - indicator code specific configuration
@@ -196,11 +193,11 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
   return finalConfigs;
 };
 
-const createConfigFromIndicator = (indicatorObject, side, index) => {
+const createConfigFromIndicator = (indicatorObject, index) => {
   baseConfig = store.state.config.baseConfig;
   const usedTimes = generateUsedTimes(indicatorObject);
   const inputDataConfig = configFromInputData(usedTimes, index);
-  return mergedConfigs(usedTimes, side, inputDataConfig, indicatorObject);
+  return mergedConfigs(usedTimes, inputDataConfig, indicatorObject);
 };
 
 const getTimeLabel = (time, config) => {

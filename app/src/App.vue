@@ -314,9 +314,7 @@ export default {
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
         // Set features to empty when changing indicator
         this.$store.commit('features/SET_FEATURES', []);
-        if (mutation.payload && !( // If dummy feature selected ignore
-          Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
-          && mutation.payload.dummyFeature)) {
+        if (mutation.payload) {
           this.$store.commit('features/SET_SELECTED_FEATURE', null);
           this.loadIndicatorData(mutation.payload);
           const urlSearchParams = new URLSearchParams(window.location.search);
