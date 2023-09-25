@@ -23,16 +23,25 @@ import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
+import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
+
+export function renderTemplateSelectedFeature(urlTemplate) {
+  const templateRe = /\{ *([\w_ -]+) *\}/g;
+  const ftrs = store.state.features.selectedFeatures;
+  const templateSubst = ftrs[0]?.getProperties() || {};
+  const url = template(templateRe, urlTemplate, templateSubst);
+  return url;
+}
+
 /**
  * manually fetches geojson features and replaces the features in the source
  * invalid `null`-ids will be transformed into `undefined`-IDs
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
 }) {
@@ -113,6 +122,10 @@ function dynamicWidth(feature, defaultWidth) {
 }
 
 function createVectorLayerStyle(config, options) {
+  if (typeof config?.styleFunction === 'function') {
+    // pass down the style function from config accepting a possible feature
+    return config.styleFunction;
+  }
   const strokeColor = config?.style?.strokeColor || '#F7A400';
   const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
   const strokeWidth = config?.style?.width || 2;
@@ -163,12 +176,12 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-function createFromTemplate(template, tileCoord) {
+function createFromTemplate(templateStr, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
   const yRegEx = /\{y\}/g;
   const dashYRegEx = /\{-y\}/g;
-  return template.replace(zRegEx, tileCoord[0].toString())
+  return templateStr.replace(zRegEx, tileCoord[0].toString())
     .replace(xRegEx, tileCoord[1].toString())
     .replace(yRegEx, tileCoord[2].toString())
     .replace(dashYRegEx, () => {
@@ -363,8 +376,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
     });
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
-    const vectorSourceOpts = config.url ? {
-      url: config.url,
+    const url = config.urlTemplateSelectedFeature
+      ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
+      : config.url;
+    const vectorSourceOpts = url ? {
+      url,
       format: new GeoJSON({
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
@@ -533,8 +549,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.setExtent(extent);
   }
 
+  let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    let drawnAreaExtent;
     if (options.drawnArea.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
@@ -558,6 +574,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
+    layerControlOptional: config.layerControlOptional,
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
