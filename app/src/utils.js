@@ -584,6 +584,9 @@ export async function loadIndicatorData(baseConfig, payload) {
   let indicatorObject = payload;
   if (payload && payload.type && payload.type === 'stac') {
     indicatorObject = payload;
+    if (!indicatorObject.display) {
+      indicatorObject.display = [];
+    }
     const response = await fetch(payload.link);
     const jsonData = await response.json();
 
@@ -599,11 +602,6 @@ export async function loadIndicatorData(baseConfig, payload) {
         );
         displays.push(singleDisplayConfig);
       });
-      // Handling of unique non standard functionality
-      if (indicatorObject.indicator === 'WSF') {
-        displays[0].specialEnvTime = true;
-      }
-      indicatorObject.display = displays;
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
@@ -657,16 +655,24 @@ export async function loadIndicatorData(baseConfig, payload) {
         }
         displays.push(singleDisplayConfig);
       });
-      indicatorObject.display = displays;
+    }
+    if (displays.length > 0) {
+      // merge with original display if defined in globalIndicators
+      displays.forEach((config, i) => {
+        indicatorObject.display[i] = {
+          ...(indicatorObject.display.at(i) || {}),
+          ...config,
+        };
+      });
     }
     // If legend available add it to the display config
-    if (indicatorObject.display && 'assets' in jsonData && 'legend' in jsonData.assets) {
+    if (indicatorObject.display.length > 0 && 'assets' in jsonData && 'legend' in jsonData.assets) {
       indicatorObject.display[0].legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples
     const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
     if (exampleEndpoint) {
-      if (exampleEndpoint.title === 'evalscript' && indicatorObject.display) {
+      if (exampleEndpoint.title === 'evalscript' && indicatorObject.display.length > 0) {
         const evalscript = await (await fetch(exampleEndpoint.href)).text();
         indicatorObject.display[0] = {
           ...indicatorObject.display[0],
@@ -683,7 +689,7 @@ export async function loadIndicatorData(baseConfig, payload) {
             },
           },
         };
-      } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display) {
+      } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display.length > 0) {
         indicatorObject.display[0] = {
           ...indicatorObject.display[0],
           ...{
