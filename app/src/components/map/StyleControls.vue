@@ -67,7 +67,7 @@ export default {
       if (vLayer) {
         applyStyle(
           vLayer,
-          this.$store.state.indicators.selectedIndicator.display.styleFile,
+          this.$store.state.indicators.selectedIndicator.display[0].styleFile,
           [evt.id],
         );
       }
