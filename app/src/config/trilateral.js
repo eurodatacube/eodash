@@ -1008,7 +1008,7 @@ export const globalIndicators = [
         time: availableDates['OMSO2PCA-COG'],
         inputData: [''],
         yAxis: 'SO2 Total Column [DU]',
-        display: {
+        display: [{
           // mosaicIndicator: true,
           // collection: 'OMSO2PCA-COG',
           protocol: 'xyz',
@@ -1024,7 +1024,7 @@ export const globalIndicators = [
           areaIndicator: nasaStatisticsConfig(
             (value) => value,
           ),
-        },
+        }],
       },
     },
   },
@@ -1047,7 +1047,7 @@ export const globalIndicators = [
         inputData: [],
         yAxis: 'Sea Ice Thickness (Envisat)',
         showGlobe: true,
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Envisat)',
           layers: 'ESA-CCI-V2-ENVISAT',
@@ -1070,7 +1070,7 @@ export const globalIndicators = [
             }],
           },
           projection: 'EPSG:3413',
-        },
+        }],
       },
     },
   },
@@ -1078,26 +1078,17 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'W9',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Sea Ice Thickness (Cryosat)',
         indicator: 'SIC',
-        indicatorName: 'Sea Ice Thickness (Cryosat)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates['ESA-CCI-V2-CRYOSAT'],
-        inputData: [],
-        yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Ice Thickness (Cryosat)',
-          layers: 'ESA-CCI-V2-CRYOSAT',
-          legendUrl: 'legends/trilateral/SITI-W10.png',
+        display: [{
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+            }],
+          },
           minZoom: 2,
           maxZoom: 13,
           projection: 'EPSG:3413',
@@ -1108,15 +1099,7 @@ export const globalIndicators = [
             def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
             extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
           },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-        },
+        }],
       },
     },
   },
@@ -1138,7 +1121,7 @@ export const globalIndicators = [
         time: availableDates.AWS_VIS_SO2_DAILY_DATA,
         inputData: [],
         yAxis: 'SO2',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'SO2',
           layers: 'AWS_VIS_SO2_DAILY_DATA',
@@ -1156,7 +1139,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1177,7 +1160,7 @@ export const globalIndicators = [
         aoiID: 'W6',
         time: ['2020-05-14T00:00:00Z'],
         inputData: [''],
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Population',
           layers: 'AWS_POPULATION_DENSITY',
@@ -1186,7 +1169,7 @@ export const globalIndicators = [
           maxZoom: 7,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
           disableCompare: true,
-        },
+        }],
       },
     },
   },
@@ -1247,7 +1230,7 @@ export const globalIndicators = [
         aoiID: 'Arctic',
         time: getDailyDates('1978-11-01', '2023-01-30'),
         inputData: [''],
-        display: {
+        display: [{
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -1268,7 +1251,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -1324,7 +1307,7 @@ export const globalIndicators = [
         aoiID: 'Antarctic',
         time: getDailyDates('1978-11-01', '2023-01-30'),
         inputData: [''],
-        display: {
+        display: [{
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -1345,7 +1328,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-107 -64,125 -64,125.3125 -84,-107 -84,-107 -64))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -1542,7 +1525,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
@@ -1559,7 +1542,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1595,14 +1578,14 @@ export const globalIndicators = [
           ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'],
           ['2022-01-19'], ['2022-01-26'], ['2022-02-02'], ['2022-02-09'], ['2022-02-16'], ['2022-02-23'], ['2022-03-02'], ['2022-03-09'], ['2022-03-16']],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: 'legends/trilateral/N3a2_NASA.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -1630,7 +1613,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_CHLA_NorthAdriatic_JAXA,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_CHLA',
@@ -1647,7 +1630,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1673,14 +1656,14 @@ export const globalIndicators = [
         },
         time: [['2020-03-02'], ['2020-04-03'], ['2020-04-19'], ['2020-05-04'], ['2020-05-05'], ['2020-05-19'], ['2020-05-21'], ['2020-05-24'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-18'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-26'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-07-06'], ['2020-07-08'], ['2020-07-13'], ['2020-08-09'], ['2020-08-27'], ['2020-09-06'], ['2020-10-03'], ['2020-10-12'], ['2020-10-19'], ['2020-10-21'], ['2020-10-26'], ['2020-10-28'], ['2020-11-29'], ['2020-12-06'], ['2020-12-15'], ['2020-12-22'], ['2020-12-31'], ['2021-01-07'], ['2021-01-09'], ['2021-01-14'], ['2021-01-16'], ['2021-01-19'], ['2021-01-23'], ['2021-01-29'], ['2021-02-01'], ['2021-02-03'], ['2021-02-08'], ['2021-02-17'], ['2021-02-23'], ['2021-02-24'], ['2021-02-28'], ['2021-03-05'], ['2021-03-12'], ['2021-03-21'], ['2021-03-25'], ['2021-04-06'], ['2021-04-09'], ['2021-04-14'], ['2021-04-24']],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Regional Maps',
           legendUrl: 'legends/trilateral/N3a2_NASA.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -1706,14 +1689,14 @@ export const globalIndicators = [
         },
         time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: 'legends/trilateral/N3a2_NASA.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -1740,7 +1723,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_CHLA_JP01,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_CHLA',
@@ -1757,7 +1740,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1784,7 +1767,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
@@ -1801,7 +1784,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1828,7 +1811,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_CHLA_JP04,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_CHLA',
@@ -1845,7 +1828,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1872,7 +1855,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_CHLA_JP02,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_CHLA',
@@ -1889,7 +1872,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1917,7 +1900,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
@@ -1934,7 +1917,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -1962,7 +1945,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
@@ -1979,7 +1962,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2007,7 +1990,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
@@ -2024,7 +2007,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2051,7 +2034,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
@@ -2068,7 +2051,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2096,7 +2079,7 @@ export const globalIndicators = [
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
@@ -2113,7 +2096,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2141,7 +2124,7 @@ export const globalIndicators = [
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
@@ -2158,7 +2141,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2186,7 +2169,7 @@ export const globalIndicators = [
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
@@ -2203,7 +2186,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2230,7 +2213,7 @@ export const globalIndicators = [
         yAxis: '%',
         time: availableDates.AWS_VIS_SST_MAPS,
         inputData: [''],
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Surface Temperature Anomaly [%]',
           layers: 'AWS_VIS_SST_MAPS',
@@ -2247,7 +2230,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2273,7 +2256,7 @@ export const globalIndicators = [
         },
         time: [['2020_03_02'], ['2020_04_03'], ['2020_04_19'], ['2020_05_04'], ['2020_05_05'], ['2020_05_21'], ['2020_05_24'], ['2020_05_28'], ['2020-06-01'], ['2020-06-03'], ['2020-06-06'], ['2020-06-13'], ['2020-06-21'], ['2020-06-22'], ['2020-06-23'], ['2020-06-25'], ['2020-06-28'], ['2020-07-01'], ['2020-07-03'], ['2020-08-09'], ['2020-08-27'], ['2020-09-16'], ['2020-09-17'], ['2020-09-21'], ['2020-09-26'], ['2020-10-01'], ['2020-10-03'], ['2020-10-12'], ['2020-10-19'], ['2020-10-21'], ['2020-10-26'], ['2020-10-28'], ['2020-11-29'], ['2020-12-06'], ['2020-12-22'], ['2020-12-31'], ['2021-01-07'], ['2021-01-09'], ['2021-01-14'], ['2021-01-16'], ['2021-01-19'], ['2021-01-23'], ['2021-01-29'], ['2021-02-01'], ['2021-02-03'], ['2021-02-08'], ['2021-02-17'], ['2021-02-23'], ['2021-02-24'], ['2021-02-28'], ['2021-03-05'], ['2021-03-12'], ['2021-03-21'], ['2021-03-25'], ['2021-04-06'], ['2021-04-09'], ['2021-04-14'], ['2021-04-24']],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           maxZoom: 18,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
@@ -2281,7 +2264,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N3a2_NASA_TSMNN.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -2309,7 +2292,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_TSM_NorthAdriaticTSM_JAXA,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_TSM',
@@ -2326,7 +2309,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2353,7 +2336,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_TSM_JP01TSM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_TSM',
@@ -2370,7 +2353,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2397,7 +2380,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_TSM_JP04TSM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_TSM',
@@ -2414,7 +2397,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2441,7 +2424,7 @@ export const globalIndicators = [
         time: availableDates.AWS_JAXA_TSM_JP02TSM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_JAXA_TSM',
@@ -2458,7 +2441,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -2492,14 +2475,14 @@ export const globalIndicators = [
           ['2021-10-20'], ['2021-10-27'], ['2021-11-03'], ['2021-11-10'], ['2021-11-17'], ['2021-11-24'], ['2021-12-01'], ['2021-12-08'], ['2021-12-15'], ['2021-12-22'], ['2021-12-29'], ['2022-01-05'], ['2022-01-12'], ['2022-01-19'],
           ['2022-01-26'], ['2022-02-02'], ['2022-02-09'], ['2022-02-16'], ['2022-02-23'], ['2022-03-02'], ['2022-03-09'], ['2022-03-16']],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: 'legends/trilateral/N3a2_NASA_TSMNN.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -2525,14 +2508,14 @@ export const globalIndicators = [
         },
         time: getWeeklyDates('2020-01-01', '2022-03-16').filter((item) => !['2020-08-19', '2020-08-26'].includes(item)),
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
           name: 'Water Quality Index',
           legendUrl: 'legends/trilateral/N3a2_NASA_TSMNN.png',
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
+        }],
       },
     },
   },
@@ -2553,7 +2536,7 @@ export const globalIndicators = [
         aoiID: 'W6',
         time: availableDates.geoglam,
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           maxZoom: 6,
           minZoom: 1,
@@ -2572,7 +2555,7 @@ export const globalIndicators = [
               opacity: 0.5,
             },
           },
-        },
+        }],
       },
     },
   },
@@ -2598,7 +2581,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 6,
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/Togo/togo_cropland_v7-1_cog_v2.tif&resampling_method=bilinear&bidx=1&rescale=0,1&color_map=magma',
@@ -2606,7 +2589,7 @@ export const globalIndicators = [
           legendUrl: './legends/trilateral/TG01-E10d.png',
           tileSize: 256,
           disableCompare: true,
-        },
+        }],
       },
     },
   },
@@ -2635,7 +2618,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-be.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2643,7 +2626,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2672,7 +2655,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dc.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2680,7 +2663,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2709,7 +2692,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-du.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2717,7 +2700,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2746,7 +2729,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-gh.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2754,7 +2737,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2783,7 +2766,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-tk.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2791,7 +2774,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2820,7 +2803,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-togo.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2828,7 +2811,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2857,7 +2840,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-la.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2865,7 +2848,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2894,7 +2877,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-dar.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2902,7 +2885,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2931,7 +2914,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-ny.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2939,7 +2922,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -2968,7 +2951,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sf.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -2976,7 +2959,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -3005,7 +2988,7 @@ export const globalIndicators = [
         },
         time: ['TBD'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/rpm/rpm-sacramento.cog.tif&resampling_method=bilinear&bidx=1%2C2%2C3%24',
           name: 'Recovery Proxy Maps',
@@ -3013,7 +2996,7 @@ export const globalIndicators = [
           legendUrl: 'legends/trilateral/N8.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   },
@@ -3503,7 +3486,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM_TSMNN,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL_TSMNN',
@@ -3520,7 +3503,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -3547,7 +3530,7 @@ export const globalIndicators = [
         time: availableDates.AWS_N3_CUSTOM,
         inputData: [''],
         yAxis: '%',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Water Quality Index',
           layers: 'AWS_N3_CUSTOM_TRILATERAL',
@@ -3564,7 +3547,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -3593,7 +3576,7 @@ export const globalIndicators = [
         },
         time: ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05', '2020-01-06', '2020-01-07', '2020-01-08', '2020-01-09', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-15', '2020-01-17', '2020-01-18', '2020-01-19', '2020-01-21', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-25', '2020-01-26', '2020-01-27', '2020-01-28', '2020-01-29', '2020-01-30', '2020-01-31', '2020-02-02', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-04-21', '2020-04-23', '2020-04-24', '2020-05-01', '2020-05-02', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-08', '2020-05-09', '2020-05-10', '2020-05-11', '2020-05-12', '2020-05-13', '2020-05-14', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21', '2020-08-06', '2020-08-07', '2020-08-08', '2020-08-09', '2020-08-10'],
         inputData: [''],
-        display: {
+        display: [{
           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site=sc',
           protocol: 'xyz',
           tileSize: 256,
@@ -3603,7 +3586,7 @@ export const globalIndicators = [
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },
-        },
+        }],
       },
     },
   },
@@ -3644,7 +3627,7 @@ export const globalIndicators = [
         },
         time: getWeeklyDates('2017-05-18', '2022-01-15'),
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shWeeklyTimeFunction,
           minZoom: 5,
           maxZoom: 18,
@@ -3657,7 +3640,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-103 -74,-102 -74,-102 -75,-103 -75,-103 -75))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3678,7 +3661,7 @@ export const globalIndicators = [
         },
         time: getDailyDates('2007-01-02', '2021-12-31'),
         inputData: [''],
-        display: {
+        display: [{
           legendUrl: 'legends/trilateral/VIS_ANTARTICA_MELTMAP.png',
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Antarctica Meltmap',
@@ -3692,7 +3675,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3713,7 +3696,7 @@ export const globalIndicators = [
         },
         time: getYearlyDates('2007-01-01', '2021-02-01'),
         inputData: [''],
-        display: {
+        display: [{
           legendUrl: 'legends/trilateral/VIS_ANTARTICA_DAYS.png',
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Antarctica Melt Duration',
@@ -3727,7 +3710,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3748,7 +3731,7 @@ export const globalIndicators = [
         },
         time: getYearlyDates('2007-01-02', '2021-12-31'),
         inputData: [''],
-        display: {
+        display: [{
           legendUrl: 'legends/trilateral/VIS_ANTARTICA_END.png',
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Antarctic Melt Season End',
@@ -3762,7 +3745,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3783,7 +3766,7 @@ export const globalIndicators = [
         },
         time: getYearlyDates('2007-01-02', '2021-12-31'),
         inputData: [''],
-        display: {
+        display: [{
           legendUrl: 'legends/trilateral/VIS_ANTARTICA_ONSET.png',
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Antarctica Melt Onset',
@@ -3797,7 +3780,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3818,7 +3801,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-antarctic-glaciers-thwaites'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
@@ -3837,7 +3820,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-110.26 -73.60,-112.57 -75.18,-106.35 -75.73,-104.61 -74.098,-110.27 -73.60))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3858,7 +3841,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-antarctic-glaciers-pine-island'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           maxZoom: 18,
           minZoom: 7,
@@ -3877,7 +3860,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-104.723 -73.176,-107.373 -75.653,-97.142-76.195,-96.01 -73.63231719321456,-104.723 -73.1758))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3899,7 +3882,7 @@ export const globalIndicators = [
         },
         time: ['2023-01-01', '2023-01-06', '2023-01-21', '2023-01-26', '2023-01-31', '2023-02-05', '2023-02-10', '2023-02-15', '2023-03-02', '2023-03-07', '2023-03-27', '2023-04-01', '2023-04-06', '2023-04-11', '2023-04-21', '2023-04-26', '2023-05-11', '2023-05-16', '2023-05-21', '2023-05-26'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -3912,7 +3895,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-119.986955 36.176881, -119.488389 36.176881, -119.488389 35.706412,-119.986955 35.706412 ,-119.986955 36.176881))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3934,7 +3917,7 @@ export const globalIndicators = [
         },
         time: ['2017-04-07', '2017-08-05', '2017-08-20', '2017-08-25', '2017-09-14', '2018-04-02', '2018-04-12', '2018-04-27', '2018-05-17', '2018-06-16', '2018-07-01', '2018-07-26', '2018-08-30', '2018-09-14', '2018-09-24', '2018-10-04', '2018-10-09', '2019-06-06', '2019-07-16', '2019-07-22', '2019-08-20', '2019-08-25', '2019-09-19', '2019-10-04', '2019-10-19', '2019-10-22', '2019-11-08', '2020-05-26', '2020-06-15', '2020-06-20', '2020-07-15', '2020-07-20', '2020-09-03', '2020-09-28', '2020-10-18', '2020-10-28', '2020-11-22', '2021-04-11', '2021-04-16', '2021-05-16', '2021-06-20', '2021-06-25', '2021-07-20', '2021-07-25', '2021-08-09', '2021-08-19', '2021-08-24', '2021-09-03', '2021-09-23', '2021-10-13', '2021-10-18', '2021-10-28', '2021-11-07', '2022-04-01', '2022-05-16', '2022-06-25', '2022-06-30', '2022-07-20', '2022-08-19', '2022-08-24', '2022-08-29', '2022-09-13', '2022-09-23', '2022-10-03', '2022-10-08', '2022-10-13', '2022-10-18', '2023-03-17', '2023-03-22', '2023-03-27', '2023-04-01', '2023-04-21', '2023-06-05'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -3947,7 +3930,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((57 47.72,62.29 47.72,62.29 43.24,57 43.24,57 47.72))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -3969,7 +3952,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-lakes-aral-sea'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
@@ -3985,7 +3968,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((56.91258402 43.48369514, 56.91258402 47.12012485, 63.64131735 47.12012485, 63.64131735 43.48369514, 56.91258402 43.48369514))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4007,7 +3990,7 @@ export const globalIndicators = [
         },
         time: ['2017-07-15', '2017-12-07', '2018-03-12', '2018-05-11', '2018-06-25', '2018-07-15', '2018-08-04', '2018-10-03', '2018-11-07', '2018-11-27', '2018-12-02', '2019-04-16', '2019-05-11', '2019-08-09', '2019-11-02', '2020-03-21', '2020-03-26', '2020-04-25', '2020-04-30', '2020-08-23', '2020-10-02', '2020-10-27', '2021-03-31', '2021-04-10', '2021-04-15', '2021-04-20', '2021-05-10', '2021-07-24', '2021-09-27', '2021-10-22', '2021-11-06', '2022-01-10', '2022-02-09', '2022-04-05', '2022-04-10', '2022-04-20', '2022-05-05', '2022-06-09', '2022-07-24', '2022-09-12', '2022-10-02', '2022-11-06', '2023-03-06', '2023-03-11', '2023-04-10', '2023-05-10'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4020,7 +4003,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((135.81 35.54,136.36 35.54,136.36 34.94,135.81 34.94,135.81 35.54))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4042,7 +4025,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-lakes-lake-biwa'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
@@ -4058,7 +4041,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((135.13362826 33.53534479, 135.13362826 35.75089521, 138.17282533 35.75089521, 138.17282533 33.53534479, 135.13362826 33.53534479))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4080,7 +4063,7 @@ export const globalIndicators = [
         },
         time: ['2017-01-18', '2017-01-28', '2017-02-04', '2017-02-14', '2017-04-15', '2017-05-05', '2017-06-14', '2017-06-27', '2017-06-29', '2017-07-04', '2017-07-17', '2017-08-06', '2017-08-13', '2017-08-26', '2017-09-02', '2017-09-15', '2017-10-05', '2017-10-07', '2017-10-12', '2017-10-20', '2017-10-25', '2017-10-27', '2017-11-01', '2017-11-09', '2017-12-19', '2018-01-13', '2018-01-28', '2018-02-02', '2018-02-04', '2018-02-07', '2018-02-17', '2018-04-23', '2018-05-08', '2018-05-10', '2018-05-15', '2018-05-18', '2018-05-20', '2018-05-25', '2018-06-04', '2018-06-07', '2018-06-09', '2018-06-12', '2018-06-14', '2018-06-19', '2018-06-22', '2018-06-24', '2018-06-27', '2018-07-02', '2018-07-04', '2018-07-07', '2018-07-09', '2018-07-22', '2018-08-06', '2018-08-08', '2018-08-13', '2018-08-23', '2018-08-28', '2018-09-02', '2018-09-07', '2018-09-10', '2018-09-12', '2018-09-17', '2018-09-20', '2018-09-22', '2018-09-27', '2018-10-27', '2018-11-06', '2018-11-14', '2018-11-24', '2018-11-26', '2018-12-09', '2018-12-16', '2018-12-19', '2018-12-24', '2018-12-29', '2019-01-03', '2019-01-28', '2019-03-16', '2019-03-19', '2019-04-18', '2019-04-25', '2019-05-03', '2019-05-13', '2019-05-18', '2019-05-25', '2019-06-02', '2019-06-04', '2019-06-19', '2019-06-24', '2019-06-27', '2019-07-02', '2019-07-04', '2019-07-09', '2019-07-14', '2019-07-17', '2019-07-27', '2019-07-29', '2019-08-13', '2019-08-16', '2019-08-16', '2019-08-18', '2019-08-21', '2019-08-23', '2019-08-28', '2019-08-31', '2019-09-02', '2019-09-05', '2019-09-07', '2019-09-12', '2019-09-20', '2019-09-22', '2019-09-27', '2019-09-30', '2019-10-05', '2019-10-15', '2019-10-22', '2019-10-25', '2019-10-27', '2019-11-01', '2019-11-04', '2019-11-06', '2019-11-09', '2019-11-11', '2019-11-16', '2019-11-24', '2019-12-19', '2019-12-29', '2019-12-31', '2020-01-13', '2020-01-15', '2020-01-28', '2020-02-02', '2020-02-12', '2020-02-24', '2020-02-27', '2020-03-03', '2020-03-05', '2020-03-28', '2020-04-04', '2020-04-24', '2020-04-27', '2020-04-29', '2020-05-02', '2020-05-04', '2020-05-09', '2020-05-19', '2020-05-22', '2020-05-24', '2020-05-27', '2020-06-11', '2020-06-13', '2020-06-18', '2020-06-23', '2020-07-01', '2020-07-06', '2020-07-08', '2020-07-18', '2020-07-28', '2020-07-31', '2020-08-07', '2020-08-10', '2020-08-12', '2020-08-15', '2020-09-01', '2020-09-04', '2020-09-06', '2020-09-11', '2020-09-14', '2020-09-24', '2020-09-29', '2020-10-04', '2020-10-06', '2020-10-14', '2020-10-16', '2020-10-19', '2020-10-21', '2020-10-29', '2020-10-31', '2020-11-05', '2020-11-13', '2020-11-15', '2020-11-23', '2020-11-25', '2020-11-28', '2020-11-30', '2020-12-05', '2020-12-08', '2020-12-15', '2020-12-18', '2020-12-20', '2020-12-25', '2020-12-30', '2021-01-02', '2021-01-04', '2021-01-07', '2021-01-17', '2021-02-06', '2021-02-11', '2021-02-21', '2021-02-23', '2021-03-05', '2021-03-08', '2021-03-18', '2021-03-28', '2021-03-30', '2021-04-02', '2021-04-07', '2021-04-09', '2021-04-12', '2021-04-14', '2021-04-19', '2021-04-29', '2021-05-07', '2021-05-12', '2021-05-14', '2021-05-19', '2021-05-24', '2021-05-27', '2021-06-01', '2021-06-06', '2021-06-08', '2021-06-11', '2021-06-13', '2021-06-16', '2021-07-03', '2021-07-06', '2021-07-11', '2021-07-16', '2021-07-21', '2021-07-31', '2021-08-05', '2021-08-10', '2021-08-15', '2021-08-17', '2021-08-20', '2021-08-22', '2021-08-25', '2021-08-27', '2021-09-06', '2021-09-09', '2021-09-14', '2021-09-16', '2021-09-21', '2021-09-24', '2021-10-04', '2021-10-16', '2021-10-19', '2021-10-29', '2021-11-05', '2021-11-10', '2021-11-13', '2021-11-25', '2021-11-28', '2021-11-30', '2021-12-05', '2021-12-13', '2021-12-18', '2021-12-20', '2022-01-07', '2022-01-09', '2022-01-12', '2022-01-14', '2022-01-22', '2022-01-24', '2022-01-27', '2022-01-29', '2022-02-06', '2022-02-11', '2022-02-13', '2022-02-18', '2022-02-22', '2022-02-26', '2022-02-28', '2022-03-08', '2022-03-15', '2022-03-18', '2022-03-23', '2022-03-25', '2022-04-02', '2022-04-04', '2022-04-07', '2022-04-17', '2022-04-29', '2022-05-02', '2022-05-07', '2022-05-09', '2022-05-12', '2022-05-14', '2022-05-17', '2022-05-24', '2022-06-01', '2022-06-08', '2022-06-13', '2022-06-16', '2022-06-21', '2022-06-23', '2022-06-28', '2022-07-06', '2022-07-08', '2022-07-13', '2022-07-16', '2022-07-21', '2022-08-07', '2022-08-10', '2022-08-17', '2022-08-27', '2022-08-30', '2022-09-04', '2022-09-06', '2022-09-09', '2022-09-19', '2022-09-24', '2022-10-06', '2022-10-09', '2022-10-11', '2022-10-14', '2022-10-19', '2022-10-26', '2022-10-31', '2022-11-13', '2022-11-15', '2022-11-18', '2022-11-20', '2022-11-25', '2022-11-30', '2022-12-08', '2022-12-13', '2022-12-15', '2023-01-07', '2023-01-12', '2023-02-01', '2023-02-06', '2023-02-08', '2023-02-16', '2023-03-03', '2023-03-05', '2023-03-18', '2023-04-07', '2023-04-09', '2023-04-17', '2023-04-29', '2023-05-02', '2023-05-09', '2023-05-19', '2023-05-22', '2023-06-03', '2023-06-08'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4093,7 +4076,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((-111.83 37.93,-110.32 37.93,-110.32 36.80,-111.83 36.80,-111.83 37.93))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4115,7 +4098,7 @@ export const globalIndicators = [
         },
         time: ['2017-01-15', '2017-01-24', '2017-02-13', '2017-05-04', '2017-09-01', '2017-10-21', '2017-12-30', '2018-02-08', '2018-02-13', '2018-02-28', '2018-03-10', '2018-04-14', '2018-04-24', '2018-05-09', '2018-09-06', '2018-09-26', '2018-10-31', '2018-11-05', '2018-12-20', '2018-12-25', '2019-01-09', '2019-01-19', '2019-01-24', '2019-01-29', '2019-02-03', '2019-02-13', '2019-02-28', '2019-03-05', '2019-04-09', '2019-04-19', '2019-04-29', '2019-05-04', '2019-05-19', '2019-11-05', '2019-11-15', '2019-12-10', '2019-12-15', '2019-12-25', '2019-12-30', '2020-01-09', '2020-01-14', '2020-01-19', '2020-02-08', '2020-02-13', '2020-02-18', '2020-02-23', '2020-03-09', '2020-04-08', '2020-04-28', '2020-08-26', '2020-11-09', '2020-11-14', '2020-11-24', '2021-01-13', '2021-02-02', '2021-02-07', '2021-02-12', '2021-02-22', '2021-02-27', '2021-03-29', '2021-08-16', '2021-08-27', '2022-01-08', '2022-01-28', '2022-03-19', '2022-04-13', '2022-04-28', '2022-12-14', '2022-12-19', '2023-01-03', '2023-01-23', '2023-02-17', '2023-02-27', '2023-03-24', '2023-04-03', '2023-04-18'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4128,7 +4111,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4150,7 +4133,7 @@ export const globalIndicators = [
         },
         time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4163,7 +4146,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4185,7 +4168,7 @@ export const globalIndicators = [
         },
         time: ['2016-11-23T00:00:00', '2017-11-22T00:00:00', '2020-11-04T00:00:00', '2021-11-03T00:00:00', '2022-02-09T00:00:00', '2022-03-23T00:00:00', '2022-04-20T00:00:00', '2022-06-01T00:00:00', '2022-07-13T00:00:00', '2022-08-24T00:00:00', '2022-09-21T00:00:00', '2022-12-14T00:00:00'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4198,7 +4181,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4220,7 +4203,7 @@ export const globalIndicators = [
         },
         time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2016-10-24', '2017-10-07', '2017-10-07', '2018-05-11', '2018-05-11', '2018-10-20', '2018-10-20', '2019-05-06', '2019-05-06', '2019-10-09', '2019-10-09', '2020-05-12', '2020-10-15', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-10', '2021-10-24', '2022-05-14', '2022-05-14', '2022-10-17', '2022-10-17'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4233,7 +4216,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4255,7 +4238,7 @@ export const globalIndicators = [
         },
         time: ['2015-05-15', '2015-10-18', '2016-03-22', '2016-10-24', '2017-10-07', '2018-05-11', '2018-10-20', '2019-05-06', '2019-10-09', '2020-05-12', '2020-10-15', '2021-05-07', '2021-10-10', '2021-10-24', '2022-05-14', '2022-10-17'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4268,7 +4251,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((103.58 13.33,104.88 13.33,104.88 12.03,103.58 12.03,103.58 13.33))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4290,7 +4273,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-lakes-tonle-sap'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
@@ -4306,7 +4289,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((101.93844223 11.94560442, 101.93844223 14.06740558, 106.37030883 14.06740558, 106.37030883 11.94560442, 101.93844223 11.94560442))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4328,7 +4311,7 @@ export const globalIndicators = [
         },
         time: ['2017-03-11', '2017-07-19', '2018-04-10', '2018-04-20', '2018-05-05', '2018-05-10', '2018-05-15', '2018-05-20', '2018-05-30', '2018-06-29', '2018-07-04', '2018-07-14', '2018-07-24', '2018-08-13', '2018-09-02', '2018-10-07', '2018-10-22', '2019-01-20', '2019-03-31', '2019-04-15', '2019-04-20', '2020-02-24', '2020-05-29', '2020-06-18', '2020-06-23', '2020-08-12', '2020-09-11', '2020-11-20', '2021-02-28', '2021-03-05', '2021-04-04', '2021-04-19', '2021-05-29', '2021-07-23', '2021-08-22', '2021-10-11', '2022-01-14', '2022-02-08', '2022-02-18', '2022-03-15', '2022-03-20', '2022-05-09', '2022-06-18', '2022-08-12', '2023-02-18', '2023-03-15', '2023-04-19', '2023-05-24'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4341,7 +4324,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((12.05 59.5,14.4 59.5,14.4 58.2,12.05 58.2,12.05 59.5))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4363,7 +4346,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-lakes-vanern'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
@@ -4379,7 +4362,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((10.69941816 57.35328549, 10.69941816 59.83119443, 15.98482535 59.83119443, 15.98482535 57.35328549, 10.69941816 57.35328549))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4401,7 +4384,7 @@ export const globalIndicators = [
         },
         time: ['2016-11-29', '2016-12-29', '2017-03-29', '2017-05-28', '2017-07-17', '2017-08-01', '2017-08-26', '2017-08-31', '2017-09-10', '2017-10-15', '2017-11-04', '2017-12-19', '2018-04-08', '2018-04-28', '2018-06-12', '2018-08-31', '2018-09-10', '2018-09-30', '2018-10-05', '2018-10-10', '2018-10-20', '2018-11-14', '2018-11-29', '2019-02-17', '2019-02-27', '2019-03-24', '2019-03-29', '2019-06-12', '2019-06-27', '2019-08-31', '2019-09-05', '2019-09-15', '2019-10-15', '2019-10-20', '2019-10-25', '2020-02-02', '2020-03-08', '2020-03-18', '2020-04-02', '2020-04-07', '2020-04-12', '2020-04-22', '2020-07-01', '2020-07-11', '2020-07-21', '2020-07-31', '2020-08-25', '2020-09-09', '2020-09-14', '2020-09-24', '2020-11-18', '2021-02-26', '2021-03-03', '2021-06-16', '2021-07-01', '2021-07-06', '2021-09-09', '2021-10-04', '2021-10-09', '2021-10-24', '2021-10-29', '2021-11-23', '2021-12-18', '2022-01-07', '2022-02-11', '2022-03-13', '2022-03-23', '2022-03-28', '2022-04-12', '2022-05-12', '2022-07-01', '2022-07-06', '2022-07-21', '2022-08-05', '2022-08-25', '2022-10-14', '2022-11-08', '2022-12-13', '2022-12-18', '2023-02-21', '2023-03-13', '2023-03-18', '2023-04-22', '2023-05-22', '2023-06-01'],
         inputData: [''],
-        display: {
+        display: [{
           dateFormatFunction: shTimeFunction,
           minZoom: 7,
           maxZoom: 17,
@@ -4414,7 +4397,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((17.08 47.12,18.24 47.12,18.24 46.55,17.08 46.55,17.08 47.12))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4436,7 +4419,7 @@ export const globalIndicators = [
         },
         time: availableDates['landsat-c2l2-sr-lakes-lake-balaton'],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
@@ -4452,7 +4435,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((15.04798484 46.34951509, 15.04798484 48.51911491, 19.16156268 48.51911491, 19.16156268 46.34951509, 15.04798484 46.34951509))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4475,7 +4458,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Biwa,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
-        display: {
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -4500,7 +4483,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -4523,7 +4506,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Aral,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
-        display: {
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -4548,7 +4531,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -4571,7 +4554,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Tonlesap,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
-        display: {
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -4596,7 +4579,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -4619,7 +4602,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Vanern,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
-        display: {
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -4644,7 +4627,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -4667,7 +4650,7 @@ export const globalIndicators = [
         time: availableDates.LAKES_SURFACE_WATER_TEMPERATURE_Balaton,
         inputData: [''],
         yAxis: 'Lake Surface Temperature [K]',
-        display: {
+        display: [{
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -4692,7 +4675,7 @@ export const globalIndicators = [
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
           },
-        },
+        }],
       },
     },
   },
@@ -4719,7 +4702,7 @@ export const globalIndicators = [
         time: availableDates.LAKE_WATER_QUALITY_TURBIDITY_MEAN,
         inputData: [''],
         yAxis: 'Turbidity [NTU]',
-        display: {
+        display: [{
           baseLayers: cloudlessBaseLayerDefault,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Lakes Water Quality Turbidity Mean CCI 300m',
@@ -4736,7 +4719,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4763,7 +4746,7 @@ export const globalIndicators = [
         time: availableDates.LAKE_WATER_QUALITY_TURBIDITY_MEAN,
         inputData: [''],
         yAxis: '',
-        display: {
+        display: [{
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Lakes Water Quality True Color CCI 300m',
           layers: 'LAKE_WATE_QUALITY_TRUECOLOR',
@@ -4778,7 +4761,7 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
             }],
           },
-        },
+        }],
       },
     },
   },
@@ -4808,7 +4791,7 @@ const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSen
         },
         time,
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           url: `https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fslowdown_proxy_map%2F${cog}.tif&resampling_method=bilinear&bidx=1%2C2%2C3`,
           name: 'Movement slowdown',
@@ -4816,7 +4799,7 @@ const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSen
           legendUrl: 'legends/trilateral/N7.png',
           disableCompare: true,
           baseLayers: mapBoxHighResoSubst,
-        },
+        }],
       },
     },
   }
@@ -5022,7 +5005,7 @@ const createSTACCollectionIndicator = (collection, key, value, url,
         },
         time: availableDates[`${collection}-${value.id}`],
         inputData: [''],
-        display: {
+        display: [{
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 5,
@@ -5031,7 +5014,7 @@ const createSTACCollectionIndicator = (collection, key, value, url,
           dateFormatFunction: (date) => `url=${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           legendUrl,
-        },
+        }],
       },
     },
   };

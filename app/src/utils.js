@@ -351,8 +351,6 @@ function createWMSDisplay(config, name) {
     baseUrl: config.href,
     name,
     layers,
-    minZoom: 1,
-    maxZoom: 18,
     styles,
     dateFormatFunction: (date) => date,
     // TODO: not sure if the crossOrigin null as default will create issues (needed for N1b)
@@ -364,8 +362,6 @@ function createWMSDisplay(config, name) {
 function createXYZDisplay(config, name) {
   const display = {
     protocol: 'xyz',
-    minZoom: 1,
-    maxZoom: 18,
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
     name,
@@ -660,8 +656,8 @@ export async function loadIndicatorData(baseConfig, payload) {
       // merge with original display if defined in globalIndicators
       displays.forEach((config, i) => {
         indicatorObject.display[i] = {
-          ...(indicatorObject.display.at(i) || {}),
           ...config,
+          ...(indicatorObject.display.at(i) || {}),
         };
       });
     }
