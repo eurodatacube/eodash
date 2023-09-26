@@ -35,16 +35,16 @@ const actions = {
     // Allow overwrite of STAC endpoint url if catalog key is provided in url
     // only for testing and staging environments
     const currUrl = new URL(window.location.href);
-    const catalog = currUrl.searchParams.get('catalog');
+    const catalogBranch = currUrl.searchParams.get('catalog');
     const testenv = window.location.href.search('test|staging|localhost|eox.world');
-    if (catalog !== null && testenv !== -1) {
-      const bucket = 'https://eodash.eox.at/catalog/';
+    if (catalogBranch !== null && testenv !== -1) {
+      const bucket = 'https://eodashcatalog.eox.at/';
       const mapping = {
         esa: 'RACE',
         trilateral: 'trilateral',
         gtif: 'GTIF',
       };
-      url = `${bucket}${catalog}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
+      url = `${bucket}${catalogBranch}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
     }
     const indicators = await this.dispatch( // eslint-disable-line
       'indicators/loadSTACEndpoint', { url, rootState },
