@@ -106,7 +106,7 @@ const actions = {
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
               if (indicator.properties.indicatorObject.indicator === resultIndicator.code) {
-                resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
+                resultIndicator = { ...indicator.properties.indicatorObject, ...resultIndicator };
               }
             });
             indicators.push(resultIndicator);

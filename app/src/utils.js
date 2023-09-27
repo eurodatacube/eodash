@@ -431,19 +431,15 @@ export async function loadFeatureData(baseConfig, feature) {
     // We set the times and display configuration for the indicators
     if (store.state.indicators.selectedIndicator) {
       store.state.indicators.selectedIndicator.time = times;
-      const wmsEndpoints = jsonData.links.filter((item) => item.rel === 'wms');
-      const displays = [];
-      if (wmsEndpoints) {
-        wmsEndpoints.forEach((conf) => {
-          const singleDisplayConfig = createWMSDisplay(
-            conf, jsonData.title,
-          );
-          displays.push(singleDisplayConfig);
-        });
+      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+      if (wmsEndpoint) {
+        const display = createWMSDisplay(
+          wmsEndpoint, jsonData.name,
+        );
         if ('assets' in jsonData && 'legend' in jsonData.assets) {
-          displays[0].legendUrl = jsonData.assets.legend.href;
+          display.legendUrl = jsonData.assets.legend.href;
         }
-        store.state.indicators.selectedIndicator.display = displays;
+        store.state.indicators.selectedIndicator.display = display;
       } else {
         store.state.indicators.selectedIndicator.display = null;
       }
@@ -589,87 +585,76 @@ export async function loadIndicatorData(baseConfig, payload) {
 
     const times = [];
     // Configure display based on type
-    const wmsEndpoints = jsonData.links.filter((item) => item.rel === 'wms');
-    const xyzEndpoints = jsonData.links.filter((item) => item.rel === 'xyz');
-    const displays = [];
-    if (wmsEndpoints.length > 0) {
-      wmsEndpoints.forEach((wmsEndpoint) => {
-        const singleDisplayConfig = createWMSDisplay(
-          wmsEndpoint, jsonData.title,
-        );
-        displays.push(singleDisplayConfig);
-      });
+    const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+    const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    if (wmsEndpoint) {
+      const display = createWMSDisplay(
+        wmsEndpoint, jsonData.name,
+      );
       // Handling of unique non standard functionality
       if (indicatorObject.indicator === 'WSF') {
-        displays[0].specialEnvTime = true;
+        display.specialEnvTime = true;
       }
-      indicatorObject.display = displays;
+      indicatorObject.display = display;
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
-    }
-    if (xyzEndpoints.length > 0) {
-      xyzEndpoints.forEach((endpoint, i) => {
-        let singleDisplayConfig = null;
-        if (endpoint.type === 'image/png') {
-          singleDisplayConfig = createXYZDisplay(
-            endpoint, jsonData.title,
-          );
-          if (i === 0) {
-            jsonData.links.forEach((link) => {
-              if (link.rel === 'item') {
-                let time;
-                if (link.datetime) {
-                  time = link.datetime;
-                } else if (link.start_datetime) {
-                  time = link.start_datetime;
-                }
-                times.push([
-                  time,
-                  link.cog_href,
-                ]);
-              }
-            });
-            times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+    } else if (xyzEndpoint) {
+      if (xyzEndpoint.type === 'image/png') {
+        const display = createXYZDisplay(
+          xyzEndpoint, jsonData.name,
+        );
+        indicatorObject.display = display;
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
+            }
+            times.push([
+              time,
+              link.cog_href,
+            ]);
           }
-        }
-        if (endpoint.type === 'application/pbf') {
-          singleDisplayConfig = createVectorTileDisplay(
-            endpoint,
-          );
-          if (i === 0) {
-            jsonData.links.forEach((link) => {
-              if (link.rel === 'item') {
-                let time;
-                if (link.datetime) {
-                  time = link.datetime;
-                } else if (link.start_datetime) {
-                  time = link.start_datetime;
-                }
-                times.push(time);
-              }
-            });
-            times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+      } else if (xyzEndpoint.type === 'application/pbf') {
+        const display = createVectorTileDisplay(
+          xyzEndpoint,
+        );
+        indicatorObject.display = display;
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
+            }
+            times.push(time);
           }
-        }
-        displays.push(singleDisplayConfig);
-      });
-      indicatorObject.display = displays;
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+      }
+    } else {
+      indicatorObject.display = null;
     }
     // If legend available add it to the display config
     if (indicatorObject.display && 'assets' in jsonData && 'legend' in jsonData.assets) {
-      indicatorObject.display[0].legendUrl = jsonData.assets.legend.href;
+      indicatorObject.display.legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples
     const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
     if (exampleEndpoint) {
       if (exampleEndpoint.title === 'evalscript' && indicatorObject.display) {
         const evalscript = await (await fetch(exampleEndpoint.href)).text();
-        indicatorObject.display[0] = {
-          ...indicatorObject.display[0],
+        indicatorObject.display = {
+          ...indicatorObject.display,
           ...{
             customAreaIndicator: true,
             areaIndicator: {
@@ -684,8 +669,8 @@ export async function loadIndicatorData(baseConfig, payload) {
           },
         };
       } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display) {
-        indicatorObject.display[0] = {
-          ...indicatorObject.display[0],
+        indicatorObject.display = {
+          ...indicatorObject.display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
