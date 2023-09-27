@@ -546,7 +546,31 @@ export default {
             return subAoiGeom.getExtent();
           }
         }
+      } else if (this.indicator && this.indicator.extent) {
+        // Try to do some sanitizing
+        const extent = this.indicator.extent.spatial.bbox[0];
+        if (extent.length === 4) {
+          extent[0] = extent[0] > -180 ? extent[0] : -180;
+          extent[1] = extent[1] > -90 ? extent[1] : -90;
+          extent[2] = extent[2] < 180 ? extent[2] : 180;
+          extent[3] = extent[3] < 90 ? extent[3] : 90;
+        }
+        return transformExtent(
+          extent, 'EPSG:4326', map.getView().getProjection(),
+        );
       }
+
+      /*
+      // Check for possible selected poi
+      if (this.featureObject && 'aoi' in this.featureObject) {
+        const { aoi } = this.featureObject;
+        const buf = 0.05;
+        const extent = [aoi.lon - buf, aoi.lat - buf, aoi.lon + buf, aoi.lat + buf];
+        return transformExtent(
+          extent, 'EPSG:4326', map.getView().getProjection(),
+        );
+      }
+      */
 
       // Handle extent configuration for overall indicator
       if ((this.centerProp && this.zoomProp)
@@ -573,19 +597,14 @@ export default {
         );
         return presetViewGeom.getExtent();
       }
-      if (this.indicator && this.indicator.extent) {
-        // Try to do some sanitizing
-        const extent = this.indicator.extent.spatial.bbox[0];
-        if (extent.length === 4) {
-          extent[0] = extent[0] > -180 ? extent[0] : -180;
-          extent[1] = extent[1] > -90 ? extent[1] : -90;
-          extent[2] = extent[2] < 180 ? extent[2] : 180;
-          extent[3] = extent[3] < 90 ? extent[3] : 90;
-        }
-        return transformExtent(
-          extent, 'EPSG:4326', map.getView().getProjection(),
-        );
+      /*
+      if (this.featureObject.aoi) {
+        return transformExtent([this.featureObject.lng, this.featureObject.lat,
+          this.featureObject.lng, this.featureObject.lat],
+        'EPSG:4326',
+        map.getView().getProjection());
       }
+      */
       return undefined;
     },
     isInIframe() {
@@ -774,15 +793,6 @@ export default {
           && !(this.centerProp || this.zoomProp)
         ) {
           const { map } = getMapInstance(this.mapId);
-          // sanitize input to fit into current view projection extent
-          const extent = value;
-          const projectionExtent = map.getView().getProjection().getExtent();
-          if (extent.length === 4) {
-            extent[0] = Math.max(extent[0], projectionExtent[0]);
-            extent[1] = Math.max(extent[1], projectionExtent[1]);
-            extent[2] = Math.min(extent[2], projectionExtent[2]);
-            extent[3] = Math.min(extent[3], projectionExtent[3]);
-          }
           if (map.getTargetElement()) {
             const padding = calculatePadding();
             // clear race condition of original view and possibly new view with new projection
@@ -790,11 +800,11 @@ export default {
               clearTimeout(this.viewZoomExtentFitId);
             }
             this.viewZoomExtentFitId = setTimeout(() => {
-              map.getView().fit(extent, { duration: 500, padding });
+              map.getView().fit(value, { duration: 500, padding });
             }, 30);
           } else {
             map.once('change:target', () => {
-              map.getView().fit(extent);
+              map.getView().fit(value);
             });
           }
         }

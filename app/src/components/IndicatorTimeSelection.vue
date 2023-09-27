@@ -71,6 +71,8 @@
         item-text="name"
         return-object
         v-model="compareTimeModel"
+        @focus="() => $emit('focusSelect', true)"
+        @blur="() => $emit('focusSelect', false)"
         @click:prepend-inner="change('compareTimeModel', -1)"
         @click:append="change('compareTimeModel', +1)"
       ></v-select>
@@ -99,6 +101,8 @@
         item-text="name"
         return-object
         v-model="originalTimeModel"
+        @focus="() => $emit('focusSelect', true)"
+        @blur="() => $emit('focusSelect', false)"
         @click:prepend-inner="change('originalTimeModel', -1)"
         @click:append="change('originalTimeModel', +1)"
       >

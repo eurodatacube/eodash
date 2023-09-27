@@ -22,11 +22,8 @@
     >
       <v-toolbar flat>
         <v-toolbar-title v-if="indicatorObject"
-          :class="{
-            'preventEllipsis': indicatorObject.description ===
-            indicatorObject.indicatorName,
-            'pt-4': true,
-          }"
+          :class="indicatorObject.description ===
+            indicatorObject.indicatorName && 'preventEllipsis'"
         >
           {{ indicatorObject.indicatorName}}
           <div
