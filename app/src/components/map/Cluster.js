@@ -76,6 +76,7 @@ function loadImages() {
       const image = new Image();
       acc[key] = {
         small: null,
+        large: null,
       };
       image.addEventListener('load', () => {
         const canvas = document.createElement('canvas');
@@ -110,6 +111,12 @@ function loadImages() {
           small: new Icon({
             scale: 0.6,
             img: canvas,
+            imgSize: [50, 50],
+          }),
+          large: new Icon({
+            scale: 0.8,
+            img: canvas,
+            imgSize: [50, 250],
           }),
         };
         if (onStylesLoaded && Object.keys(acc).every((accKey) => acc[accKey].small)) {
@@ -194,13 +201,14 @@ function clusterMemberStyle(clusterMember) {
   const { indicatorObject } = clusterMember.getProperties().properties;
   const indicatorCode = indicatorObject.indicator;
   const indicator = store.getters['indicators/getIndicators'].find((i) => i.code === indicatorCode);
+  const isSelected = isFeatureSelected(clusterMember);
   let theme = null;
   if (Array.isArray(indicator.themes)) {
     [theme] = indicator.themes;
   } else {
     theme = indicator.themes;
   }
-  let image = indicatorClassesStyles[theme]?.small;
+  let image = indicatorClassesStyles[theme]?.[isSelected ? 'large' : 'small'];
   if (typeof image === 'undefined') {
     // Falling back to a default style without icon
     // TODO: add some configurable default
@@ -214,7 +222,7 @@ function clusterMemberStyle(clusterMember) {
     image = new CircleStyle({
       fill,
       stroke,
-      radius: 12,
+      radius: isSelected ? 14 : 12,
     });
   }
   const iconStyle = new Style({
