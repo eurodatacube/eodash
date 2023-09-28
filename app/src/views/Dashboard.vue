@@ -26,9 +26,10 @@
         ref="stacinfo"
         :for="this.$store.state.indicators.selectedIndicator.link"
         header='["title"]'
-        properties='["themes", "tags", "sensor", "satellite", "license"]'
-        featured='["links", "description"]'
-        footer='["agency"]'
+        subheader='["keywords"]'
+        properties='["themes", "satellite", "sensor", "agency"]'
+        featured='["description", "providers", "extent", "sci:publications"]'
+        footer='["sci:citation", "sci:doi"]'
       >
         <div slot="themes">
           <ul>
