@@ -316,7 +316,7 @@ export function template(templateRe, str, data) {
     let value = data[key];
 
     if (value === undefined) {
-      throw new Error(`No value provided for variable ${stri}`);
+      console.error(`No value provided for variable ${stri}`);
     } else if (typeof value === 'function') {
       value = value(data);
     }
@@ -346,23 +346,17 @@ function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
   const styles = config['wms:layers'] ? config['wms:layers'].join(',') : '';
   const display = {
+    protocol: 'WMS',
+    format: 'image/png',
     baseUrl: config.href,
     name,
     layers,
     minZoom: 1,
-    maxZoom: 16,
+    maxZoom: 18,
     styles,
     dateFormatFunction: (date) => date,
     // TODO: not sure if the crossOrigin null as default will create issues (needed for N1b)
     crossOrigin: null,
-    // TODO: need to think how the stat api acces can be described in stac disabling for now
-    /*
-    customAreaIndicator: true,
-    areaIndicator: {
-      ...shFisAreaIndicatorStdConfig,
-      url: `https://services.sentinel-hub.com/ogc/fis/${shConfig.shInstanceId}?LAYER=AWS_RAW_WIND_U_10M&CRS=CRS:84&TIME=1950-01-01/2050-01-01&RESOLUTION=2500m&GEOMETRY={area}`,
-    },
-    */
   };
   return display;
 }
@@ -371,7 +365,7 @@ function createXYZDisplay(config, name) {
   const display = {
     protocol: 'xyz',
     minZoom: 1,
-    maxZoom: 16,
+    maxZoom: 18,
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
     name,

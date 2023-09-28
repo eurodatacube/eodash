@@ -159,7 +159,6 @@ export default {
     mergedConfigsData() {
       return createConfigFromIndicator(
         this.indicator,
-        'data',
         this.getCurrentIndex('data'),
       );
     },

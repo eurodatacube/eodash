@@ -216,7 +216,6 @@ export default {
             name: countries.features.find((c) => c.properties.alpha2 === f).properties.name,
           })),
         ...this.getIndicators
-          .filter((i) => !i.dummyFeature)
           .filter(
             (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
           )

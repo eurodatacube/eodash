@@ -53,12 +53,6 @@ export default {
     getSearchItems() {
       const itemArray = [
         ...this.getIndicators,
-        /*
-        .filter((i) => !i.dummyFeature)
-        .filter(
-          (ind, index, self) => self.findIndex((t) => t.code === ind.code) === index,
-        ),
-        */
       ];
       // If already set we do not need to set it again
       if (this.searchItems.length > 0) {
