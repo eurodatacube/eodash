@@ -429,21 +429,48 @@ export async function loadFeatureData(baseConfig, feature) {
     });
     times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     // We set the times and display configuration for the indicators
+    // Items can have display configurations when the Locations config was used in the catalog
     if (store.state.indicators.selectedIndicator) {
       store.state.indicators.selectedIndicator.time = times;
       const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+      const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
       if (wmsEndpoint) {
         const display = createWMSDisplay(
-          wmsEndpoint, jsonData.name,
+          wmsEndpoint, jsonData.id,
         );
         if ('assets' in jsonData && 'legend' in jsonData.assets) {
           display.legendUrl = jsonData.assets.legend.href;
         }
         store.state.indicators.selectedIndicator.display = display;
+      } else if (xyzEndpoint) {
+        if (xyzEndpoint.type === 'image/png') {
+          const display = createXYZDisplay(
+            xyzEndpoint, jsonData.id,
+          );
+          store.state.indicators.selectedIndicator.display = display;
+          const cogTimes = [];
+          jsonData.links.forEach((link) => {
+            if (link.rel === 'item') {
+              let time;
+              if (link.datetime) {
+                time = link.datetime;
+              } else if (link.start_datetime) {
+                time = link.start_datetime;
+              }
+              cogTimes.push([
+                time,
+                link.cog_href,
+              ]);
+            }
+          });
+          cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+          store.state.indicators.selectedIndicator.time = cogTimes;
+        }
       } else {
         store.state.indicators.selectedIndicator.display = null;
       }
     }
+    console.log(store.state.indicators.selectedIndicator);
     // Add collection extent as subaoi
     const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
     const features = {
