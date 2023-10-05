@@ -182,6 +182,10 @@
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
+              <UiPanel left title="Layers" :style="`grid-area: 4 / 1 / 5 / 2;`">
+                <eox-layercontrol :for="'#centerMap'" layerTitle="name" class="pointerEvents">
+                </eox-layercontrol>
+              </UiPanel>
             </div>
           </v-col>
         </v-row>
