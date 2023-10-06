@@ -344,7 +344,7 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
 
 function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
-  const styles = config['wms:layers'] ? config['wms:layers'].join(',') : '';
+  const styles = config['wms:styles'] ? config['wms:styles'].join(',') : '';
   const display = {
     protocol: 'WMS',
     format: 'image/png',
