@@ -12,7 +12,6 @@ import {
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
 
-
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/GTIF/catalog.json';
 // export const STACEndpoint = 'http://127.0.0.1:8000/GTIF/catalog.json';
 
@@ -446,7 +445,6 @@ const trucksFeatures = {
   dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}T00:00:00`,
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
-
 
 export const indicatorsDefinition = Object.freeze({
   BM2: {

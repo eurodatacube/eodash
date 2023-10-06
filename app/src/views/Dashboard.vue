@@ -193,7 +193,6 @@
                  class="pointerEvents">
                </eox-layercontrol>
               </UiPanel>
-              
             </div>
           </v-col>
         </v-row>
