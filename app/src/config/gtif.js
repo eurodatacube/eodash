@@ -701,13 +701,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['carbon-accounting', 'eo-adaptation-services'],
     ...eoadaptationDefaults,
   },
-  FCM2_2: {
-    indicator: 'Forest disturbance type',
-    class: 'air',
-    story: '/data/gtif/markdown/FCM2',
-    themes: ['eo-adaptation-services'],
-    ...eoadaptationDefaults,
-  },
   FCM3: {
     indicator: 'Annual forest mask',
     class: 'air',
@@ -739,7 +732,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQB: {
     ...mobilityTransitionDefaults,
-    indicator: 'Fine particulate matter (PM2.5)',
+    indicator: 'Coarse particulate matter (PM10)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
@@ -748,7 +741,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQC: {
     ...mobilityTransitionDefaults,
-    indicator: 'Coarse particulate matter (PM10)',
+    indicator: 'Fine particulate matter (PM2.5)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
@@ -2329,72 +2322,6 @@ export const globalIndicators = [
         display: {
           protocol: 'cog',
           id: 'FCM2',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['==', ['band', 1], 1],
-              ['color', 255, 255, 0],
-              ['==', ['band', 1], 2],
-              ['color', 255, 85, 255],
-              ['==', ['band', 1], 3],
-              ['color', 255, 0, 0],
-              ['==', ['band', 1], 4],
-              ['color', 173, 173, 173],
-              ['==', ['band', 1], 5],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 6],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 7],
-              ['color', 67, 67, 67],
-              [
-                'case',
-                ['==', ['band', 2], 1],
-                ['color', 147, 220, 0],
-                ['==', ['band', 2], 2],
-                ['color', 0, 107, 0],
-                ['color', 0, 0, 0, 0],
-              ],
-            ],
-          },
-          name: 'Forest disturbance type',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Styria',
-        siteName: 'global',
-        description: 'Forest disturbance type',
-        navigationDescription: '',
-        indicator: 'FCM2_2',
-        lastIndicatorValue: null,
-        indicatorName: 'Forest disturbance type',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Styria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        highlights: [
-          {
-            name: 'Mariazell',
-            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
-          },
-        ],
-        display: {
-          protocol: 'cog',
-          id: 'FCM2_2',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
           ],
