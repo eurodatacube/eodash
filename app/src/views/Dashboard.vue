@@ -178,22 +178,10 @@
               <UiPanel
                 left
                 title="Filter"
-                :style="`grid-area: 1 / 1 / 4 / 2;`"
+                :style="`grid-area: 1 / 1 / 5 / 2;`"
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
-              <UiPanel
-                left
-                title="Filter"
-                :style="`grid-area: 4 / 1 / 6 / 2;`"
-              >
-              <eox-layercontrol
-                 for="#centerMap"
-                 layerTitle="name"
-                 class="pointerEvents">
-               </eox-layercontrol>
-              </UiPanel>
-              
             </div>
           </v-col>
         </v-row>
