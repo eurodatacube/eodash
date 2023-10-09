@@ -339,11 +339,25 @@ export const replaceMapTimes = {
 };
 
 export const globalIndicators = [
-  /* TODO:
-   * WSF Evolutioncombination with 2019 layer not implemented, need to consider how
-   * CMEMS not combined into 1 indicator, but served as 3, they have different times,
-   * so maybe best approach
-  */
+  {
+    // custom override of name + specialEnvTime
+    properties: {
+      indicatorObject: {
+        aoiID: 'WSF',
+        indicator: 'WSF',
+        display: [{
+          name: 'DLR WSF Evolution 1985-2015',
+          specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
+        },
+        // {
+        //   name: 'DLR WSF 2019 coverage',
+        //   attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        // }
+        ],
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
