@@ -158,44 +158,49 @@
               <IndicatorFiltersDemo
                 :expanded="dataPanelFullWidth" />
             </div>
-            <div
-              v-else
-              :style="`
-                position: absolute;
-                ${$vuetify.breakpoint.smAndUp ? 'top : 0' 
-                : `bottom :${$vuetify.application.footer}px`};
-                left: 0;
-                width: 100%;
-                height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
-                padding: 8px;
-                display: ${$vuetify.breakpoint.smAndUp ? 'grid' : 'flex'};
-                grid-template-columns: repeat(${$vuetify.breakpoint.lgAndUp ? 5 : 4}, 1fr);
-                grid-template-rows: repeat(5, 1fr);
-                grid-column-gap: 1rem;
-                grid-row-gap: 1rem;
-                pointer-events: none;
-              `"
+
+            <UiPanelLayout class="fill-height" :gtif="this.appConfig.id === 'gtif'"
+            v-else
             >
+              <template v-slot:left>
               <UiPanel
                 left
                 title="Filter"
-                :style=" `grid-area: 1 / 1 / ${this.appConfig.id === 'gtif' ? '3':'4'} / 2;` "
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
               <UiPanel
+                  :height-percentage="10"
+                  title="Layers"
+                >
+                <eox-layercontrol
+                   for="#centerMap"
+                   layerTitle="name"
+                   class="pointerEvents">
+                 </eox-layercontrol>
+                </UiPanel>
+              </template>
+              <template v-slot:right>
+
+                <UiPanel
+                  left
+                  title="Layers"
+                >
+                <eox-layercontrol
+                   for="#centerMap"
+                   layerTitle="name"
+                   class="pointerEvents">
+                 </eox-layercontrol>
+                </UiPanel>
+                <UiPanel
                 left
                 title="Filter"
-                :style="`grid-area: ${this.appConfig.id === 'gtif' ?
-                 '3':'4'} / 1 / ${this.appConfig.id === 'gtif' ? '5':'6'} / 2;`"
               >
-              <eox-layercontrol
-                 for="#centerMap"
-                 layerTitle="name"
-                 class="pointerEvents">
-               </eox-layercontrol>
+                <IndicatorFiltersPanel />
               </UiPanel>
-            </div>
+
+              </template>
+            </UiPanelLayout>
           </v-col>
         </v-row>
       </v-container>
@@ -217,6 +222,7 @@ import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 // import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 // import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import UiPanelLayout from '@/components/UiPanelLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
@@ -245,6 +251,7 @@ export default {
     IndicatorFiltersDemo,
     // ESABreadcrumbs,
     UiPanel,
+    UiPanelLayout,
   },
   props: {
     source: String,

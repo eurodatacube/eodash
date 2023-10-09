@@ -1,16 +1,24 @@
 <template>
   <div
     v-if="$vuetify.breakpoint.smAndUp"
-    class="elevation-1 rounded"
+    class="elevation-1 rounded ma-1"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
+      max-height:50%
     `"
   >
-    <slot></slot>
+      <v-expansion-panel>
+        <v-expansion-panel-header>
+          {{ title }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content >
+          <slot></slot>
+        </v-expansion-panel-content>
+    </v-expansion-panel>
   </div>
   <div v-else>
     <div
-      class="elevation-1 rounded pa-5 d-flex justify-center align-center"
+      class="elevation-1 rounded pa-5 ma-1 d-flex justify-center align-center"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
       `"
@@ -34,6 +42,10 @@
 export default {
   props: {
     title: String,
+    heightPercentage: {
+      type: Number,
+      default: 50,
+    },
   },
   data: () => ({
     showOverlay: false,
@@ -43,7 +55,6 @@ export default {
 
 <style scoped>
 div {
-  height: 100%;
   width: 100%;
   overflow: hidden;
   pointer-events: all;
