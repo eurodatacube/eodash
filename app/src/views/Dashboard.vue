@@ -162,7 +162,8 @@
               v-else
               :style="`
                 position: absolute;
-                ${$vuetify.breakpoint.smAndUp ? 'top' : 'bottom'}: 0;
+                ${$vuetify.breakpoint.smAndUp ? 'top : 0' 
+                : `bottom :${$vuetify.application.footer}px`};
                 left: 0;
                 width: 100%;
                 height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
@@ -178,14 +179,15 @@
               <UiPanel
                 left
                 title="Filter"
-                :style="`grid-area: 1 / 1 / 4 / 2;`"
+                :style=" `grid-area: 1 / 1 / ${this.appConfig.id === 'gtif' ? '3':'4'} / 2;` "
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
               <UiPanel
                 left
                 title="Filter"
-                :style="`grid-area: 4 / 1 / 6 / 2;`"
+                :style="`grid-area: ${this.appConfig.id === 'gtif' ?
+                 '3':'4'} / 1 / ${this.appConfig.id === 'gtif' ? '5':'6'} / 2;`"
               >
               <eox-layercontrol
                  for="#centerMap"
