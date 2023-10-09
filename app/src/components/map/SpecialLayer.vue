@@ -11,12 +11,14 @@
 <script>
 import { getMapInstance, getViewInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
-import { createLayerFromConfig } from '@/components/map/layers';
+import { createLayerFromConfig, renderTemplateSelectedFeature } from '@/components/map/layers';
 import getProjectionOl from '@/helpers/projutils';
-import VectorLayer from 'ol/layer/Vector';
 import { getCenter } from 'ol/extent';
 import store from '@/store';
 import { toLonLat } from 'ol/proj';
+import {
+  calculatePadding,
+} from '@/utils';
 
 /**
  * this component handles global indicators and will add and remove layers
@@ -57,28 +59,23 @@ export default {
       overlayCoordinate: null,
       pointerMoveHandlers: [],
       singleClickHandlers: [],
+      layers: [],
     };
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const options = { ...this.options };
-    options.zIndex = 3;
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
-      layer.set('name', this.compare ? `${config.name}_compare` : config.name);
+      this.layers.push(layer);
+      if (this.compare) {
+        layer.set('name', `${layer.get('name')}_compare`);
+      }
       // find first feature layer
-      const featureLayer = layer.getLayers().getArray()
-        .find((l) => l instanceof VectorLayer && l.get('name')?.includes('_features'));
-      if (featureLayer || config.tooltip) {
+      if (config.features || config.tooltip) {
         // initiate hover over functionality optionally for both featureLayer
         // and 'selection' config (main layer)
-        const candidateLayers = [];
-        if (config.tooltip) {
-          candidateLayers.push(layer.getLayers().getArray()[0]);
-        }
-        if (featureLayer) {
-          candidateLayers.push(featureLayer);
-        }
+        const candidateLayers = [layer];
         const pointerMoveHandler = (e) => {
           const visibleCandidateLayers = candidateLayers.filter((l) => l.getVisible());
           const features = map.getFeaturesAtPixel(e.pixel, {
@@ -89,7 +86,6 @@ export default {
             ? (!this.compare && this.swipePixelX < e.pixel[0])
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
-          // consider layergroup
           if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
@@ -101,7 +97,7 @@ export default {
               coordinate = getCenter(geom.getExtent());
             }
             if (config.selection) {
-              this.overlayHeaders = [layer.getLayers().getArray()[0].get('name')];
+              this.overlayHeaders = [layer.get('name')];
             }
             this.overlayCoordinate = coordinate;
             let rows = [];
@@ -134,16 +130,26 @@ export default {
           this.pointerMoveHandlers.push(pointerMoveHandler);
         }
       }
+      if (config.urlTemplateSelectedFeature) {
+        // bind to all SET_SELECTED_FEATURES events from other layers as well
+        this.$store.subscribe((mutation) => {
+          if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+            // trigger change to refresh style on this layer and replace URL
+            const source = layer.getSource();
+            const url = renderTemplateSelectedFeature(config.urlTemplateSelectedFeature);
+            source.setUrl(url);
+            source.once('featuresloadend', () => {
+              const extent = source.getExtent();
+              const padding = calculatePadding();
+              map.getView().fit(extent, { padding });
+            });
+            source.refresh();
+          }
+        });
+      }
       if (config.selection || config?.features?.selection) {
         // initiate select interaction
-        const usedLayers = [];
-        if (config.selection) {
-          // this could have potential side effects, but currently works
-          usedLayers.push(layer.getLayers().getArray()[0]);
-        }
-        if (config?.features?.selection) {
-          usedLayers.push(featureLayer);
-        }
+        const usedLayers = [layer];
         const multiple = config.selection?.mode === 'multiple'
           || config.features?.selection?.mode === 'multiple';
         const selectHandler = (e) => {
@@ -194,7 +200,7 @@ export default {
       }
       if (config.getTimeFromProperty) {
         // feature used to get time for layers from specific property
-        const usedLayers = [layer.getLayers().getArray()[0]];
+        const usedLayers = [layer];
         const clickHandler = (e) => {
           const isCorrectSide = this.swipePixelX !== null
             ? (!this.compare && this.swipePixelX < e.pixel[0])
@@ -215,7 +221,8 @@ export default {
         map.on('singleclick', clickHandler);
         this.singleClickHandlers.push(clickHandler);
       }
-      map.addLayer(layer);
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      dataGroup.getLayers().push(layer);
     });
     // update view if previous projection !== new projection
     const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
@@ -245,11 +252,9 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    this.mergedConfigs.forEach((config) => {
-      const layer = map.getLayers().getArray().find(
-        (l) => l.get('name') === (this.compare ? `${config.name}_compare` : config.name),
-      );
-      map.removeLayer(layer);
+    const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+    this.layers.forEach((layer) => {
+      dataGroup.getLayers().remove(layer);
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);

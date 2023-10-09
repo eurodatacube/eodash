@@ -138,6 +138,8 @@ const trucksAreaIndicator = {
 };
 
 const trucksFeatures = {
+  drawnAreaLimitExtent: true,
+  name: 'Daily truck detections',
   style: {
     strokeColor: '#00c3ff',
   },
@@ -198,6 +200,7 @@ const E1bConfigInputDataAsc = [{
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
   features: {
     ...geodbFeatures,
+    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }, {
@@ -219,10 +222,6 @@ const E1bConfigInputDataDes = [{
   minZoom: 7,
   maxZoom: 18,
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
-  features: {
-    ...geodbFeatures,
-    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
-  },
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -233,6 +232,11 @@ const E1bConfigInputDataDes = [{
   minZoom: 6,
   maxZoom: 14,
   opacity: 0.6,
+  features: {
+    ...geodbFeatures,
+    name: 'Ship detections',
+    url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+  },
 }];
 
 const cloudlessBaseLayerDefault = [{
@@ -267,6 +271,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+      name: 'Ship detections',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification', 'TIMESTAMP UTC', 'TYPE_NAME', 'LENGTH'],
     },
   },
@@ -275,6 +280,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -284,6 +290,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
@@ -294,6 +301,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E1a',
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -308,6 +316,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
+      name: 'Detected features',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['classification'],
@@ -318,6 +327,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '/eodash-data/stories/E2',
     features: {
+      name: 'Detected features',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -464,6 +474,7 @@ export const indicatorsDefinition = Object.freeze({
     mapTimeLabelExtended: true,
     features: {
       ...geodbFeatures,
+      name: 'Plane detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
       dateFormatFunction: (date) => {
         // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
@@ -636,6 +647,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['land'],
     story: '/eodash-data/stories/N4c',
     features: {
+      name: 'Land fill sites',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HH"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -779,17 +791,15 @@ export const mapDefaults = Object.freeze({
   bounds: [-10, 35, 33, 70],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+export const baseLayersMap = [
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
+];
 
-export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
-export const overlayLayersRightMap = [{
+export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
@@ -809,10 +819,11 @@ export const defaultLayersDisplay = {
 };
 
 export const cmemsDisplay = {
-  tileSize: 256,
+  tileSize: 512,
   minZoom: 1,
   layers: 'CHL',
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T00:00:00Z'"),
+  attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
 };
 
 const getDailyDates = (start, end) => {
@@ -1929,27 +1940,21 @@ export const globalIndicators = [
           url: 'https://data.marine.copernicus.eu/products?q=Sea+ocean+colour&facets=mainVariables~Plankton',
         },
         display: [{
-          name: 'CHL L4 Product',
+          ...cmemsDisplay,
           legendUrl: 'legends/esa/N3c.png',
-          attribution: '{ E.U. Copernicus Marine Service Information; <a href="https://doi.org/10.48670/moi-00303" target="_blank"> doi:10.48670/moi-00303</a>;  <a href="https://doi.org/10.48670/moi-00300" target="_blank"> doi:10.48670/moi-00300 </a>;  <a href="https://doi.org/10.48670/moi-00287" target="_blank"> doi:10.48670/moi-00287 </a>; }',
-          combinedLayers: [
-            {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Atlantic coast CHL L4 Product',
-              extent: [-46, 19.5, 13, 66],
-            }, {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Mediterranean CHL L4 Product',
-              extent: [-6, 30, 37, 46],
-            }, {
-              ...cmemsDisplay,
-              baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
-              name: 'Black sea CHL L4 Product',
-              extent: [26.5, 40, 42, 48],
-            },
-          ],
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_atl_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Atlantic coast CHL L4 Product',
+          extent: [-46, 19.5, 13, 66],
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_med_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Mediterranean CHL L4 Product',
+          extent: [-6, 30, 37, 46],
+        }, {
+          ...cmemsDisplay,
+          baseUrl: 'https://my.cmems-du.eu/thredds/wms/cmems_obs-oc_blk_bgc-plankton_my_l4-multi-1km_P1M?LOGSCALE=true&COLORSCALERANGE=0.03%2C30&STYLES=boxfill%2Frainbow',
+          name: 'Black sea CHL L4 Product',
+          extent: [26.5, 40, 42, 48],
         }],
       },
     },
@@ -1981,6 +1986,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Oil silos volume change',
           features: {
+            name: 'Oil silo outlines',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2016,6 +2022,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Disneyland Paris',
           features: {
+            name: 'Car detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2051,6 +2058,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Warsaw parking lot',
           features: {
+            name: 'Car detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
           },
@@ -2086,6 +2094,7 @@ export const globalIndicators = [
           minZoom: 5,
           name: 'Weimouth ships',
           features: {
+            name: 'Ship detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
             url: './eodash-data/features/E12b/E12b_{aoiID}_{featuresTime}.geojson',
           },

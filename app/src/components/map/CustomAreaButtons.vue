@@ -166,13 +166,15 @@ export default {
     const drawnAreaSource = new VectorSource({ wrapX: false });
     this.drawnAreaSource = drawnAreaSource;
     const drawnAreaLayer = new VectorLayer({
+      name: 'Draw Area Layer',
+      layerControlHide: true,
       source: drawnAreaSource,
-      zIndex: 4,
       style: this.drawStyleFunction,
       declutter: false,
     });
     this.drawnAreaLayer = drawnAreaLayer;
-    map.addLayer(drawnAreaLayer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().push(drawnAreaLayer);
 
     const boxFunc = createBox();
     this.drawControls = {
@@ -202,7 +204,8 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    map.removeLayer(this.drawnAreaLayer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().remove(this.drawnAreaLayer);
   },
   watch: {
     mergedConfigsData() {
