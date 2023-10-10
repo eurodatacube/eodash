@@ -1,5 +1,10 @@
 import { baseLayers, overlayLayers } from '@/config/layers';
+import GeoJSON from 'ol/format/GeoJSON';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 
+const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
   IND4_1: {
     indicatorSummary: 'Indicator 4',
@@ -12,15 +17,13 @@ export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [];
 
 export const defaultLayersDisplay = {
-  baseUrl: '`https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`',
   protocol: 'WMS',
-  // dateFormatFunction: shTimeFunction,
   format: 'image/png',
   transparent: true,
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
+  minZoom: 1,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -42,19 +45,52 @@ export const mapDefaults = Object.freeze({
   bounds: [-10, 35, 33, 70],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
+export const baseLayersMap = [
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
+];
 
-export const overlayLayersLeftMap = [{
+export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
+
+function overpassApiNodes(query) {
+  return {
+    drawnAreaLimitExtent: true,
+    areaFormatFunction: (area) => {
+      // overpass api expects lat,lon
+      const extent = geojsonFormat.readGeometry(area).getExtent();
+      return { area: [extent[1], extent[0], extent[3], extent[2]] };
+    },
+    url: `https://overpass-api.de/api/interpreter?data=${query}`,
+    requestMethod: 'GET',
+    callbackFunction: (responseJson) => {
+      const ftrs = [];
+      const data = responseJson.elements;
+      if (Array.isArray(data)) {
+        data.forEach((ftr) => {
+          const singleGeometry = {
+            type: 'Point',
+            coordinates: [ftr.lon, ftr.lat],
+          };
+          ftrs.push({
+            type: 'Feature',
+            properties: ftr.tags,
+            geometry: singleGeometry,
+          });
+        });
+      }
+      const ftrColl = {
+        type: 'FeatureCollection',
+        features: ftrs,
+      };
+      return ftrColl;
+    },
+  };
+}
 
 export const globalIndicators = [
   {
@@ -77,7 +113,7 @@ export const globalIndicators = [
         yAxis: 'flooding',
         display: {
           wmsVariables: {
-            sourceLayer: 'IND4_1',
+            sourceLayer: 'Indicator 4: Flood risk',
             variables: {
               scenario: {
                 description: 'Scenario',
@@ -141,15 +177,39 @@ export const globalIndicators = [
               },
             },
           },
-          specialEnvTime: true,
+          specialEnvScenario4: true,
           baseUrl: 'https://wcs-eo4sdcr.adamplatform.eu/cgi-bin/mapserv/',
           layers: 'INUNDATION',
-          minZoom: 1,
           crossOrigin: null,
-          // legendUrl: 'legends/esa/AWS_NO2-VISUALISATION.png',
-          dateFormatFunction: (date) => `SSP119_05Y${date}.map`,
+          dateFormatFunction: (date) => date,
           labelFormatFunction: (date) => date,
-          name: 'IND4_1',
+          name: 'Indicator 4: Flood risk',
+          customAreaFeatures: true,
+          features: {
+            name: 'OpenStreet Map hospitals, schools',
+            styleFunction: (feature) => {
+              const amenity = feature.get('amenity');
+              const radius = 4;
+              const fill = new Fill({
+                color: 'rgba(255, 255, 255, 0)',
+              });
+              const stroke = new Stroke({
+                width: 3,
+                color: amenity === 'hospital' ? '#003247' : '#7d0240',
+              });
+              const style = new Style({
+                image: new Circle({
+                  fill,
+                  stroke,
+                  radius,
+                }),
+              });
+              return style;
+            },
+            allowedParameters: ['name', 'amenity'],
+            ...overpassApiNodes(
+            '[out:json][timeout:30];(node["amenity"="school"]({area});node["amenity"="hospital"]({area}););out body;>;out skel qt;'),
+          },
         },
       },
     },
