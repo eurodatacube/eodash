@@ -50,6 +50,9 @@ module.exports = {
   // publicPath: '/', // enabled for feature branch deployment
   transpileDependencies: [
     'vuetify',
+    'ol',
+    'ol-ext',
+    'ol-games',
   ],
   configureWebpack: {
     devServer: {

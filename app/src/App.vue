@@ -75,6 +75,7 @@ import axios from 'axios';
 import { Wkt } from 'wicket';
 
 import { getMapInstance } from '@/components/map/map';
+import { createHexMap } from '@/plugins/hexMap';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -267,6 +268,11 @@ export default {
       }
     });
     this.setAreaFromQuery();
+    // TODO, WIP
+    const { map } = getMapInstance('centerMap');
+    map.on('loadend', () => {
+      createHexMap(map);
+    });
   },
   methods: {
     async checkComingSoon() {
