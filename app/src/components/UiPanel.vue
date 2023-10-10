@@ -12,7 +12,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content
         :style="`height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-        + $vuetify.application.footer +(48 * 4)}px )`" >
+        + $vuetify.application.footer +(48 * siblingsCount)}px )`" >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -52,7 +52,7 @@ export default {
     showOverlay: false,
     siblingsCount: 1,
   }),
-  created() {
+  mounted() {
     this.siblingsCount = this.$parent.$children.length;
   },
 };
