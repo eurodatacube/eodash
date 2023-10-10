@@ -11,8 +11,9 @@
           {{ title }}
         </v-expansion-panel-header>
         <v-expansion-panel-content
-        :style="`height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-        + $vuetify.application.footer +(48 * siblingsCount)}px )`" >
+        :style="`max-height: calc(((var(--vh, 1vh) * 100) - ${$vuetify.application.top
+        + $vuetify.application.footer + (gtif ? 48:0) +(48 * siblingsCount)}px )
+         * ${(heightPercentage/100)});`" >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -51,9 +52,15 @@ export default {
   data: () => ({
     showOverlay: false,
     siblingsCount: 1,
+    gtif: false,
   }),
   mounted() {
     this.siblingsCount = this.$parent.$children.length;
+    // first parent is vExpantionPanels, second parent is UiPanelsLayout
+    if (this.$parent.$parent.$props.gtif) {
+      this.gtif = true;
+      console.log(this.gtif);
+    }
   },
 };
 </script>
@@ -61,7 +68,7 @@ export default {
 <style scoped>
 div {
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   pointer-events: all;
 }
 .overlay {

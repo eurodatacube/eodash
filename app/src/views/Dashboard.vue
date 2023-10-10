@@ -159,34 +159,17 @@
                 :expanded="dataPanelFullWidth" />
             </div>
 
-            <UiPanelLayout class="fill-height" :gtif="this.appConfig.id === 'gtif'"
+            <UiPanelsLayout class="fill-height" :gtif="this.appConfig.id === 'gtif'"
             v-else
             >
               <template v-slot:left>
-              <UiPanel
-                left
+              <UiPanel :height-percentage="50"
                 title="Filter"
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
               <UiPanel
-                  :height-percentage="10"
-                  title="Layers"
-                >
-                <eox-layercontrol
-                   for="#centerMap"
-                   layerTitle="name"
-                   class="pointerEvents">
-                 </eox-layercontrol>
-                </UiPanel>
-                <UiPanel
-                left
-                title="Filter"
-              >
-                <IndicatorFiltersPanel />
-              </UiPanel>
-              <UiPanel
-                  left
+                  :height-percentage="50"
                   title="Layers"
                 >
                 <eox-layercontrol
@@ -199,7 +182,7 @@
               <template v-slot:right>
 
                 <UiPanel
-                  left
+                :height-percentage="33"
                   title="Layers"
                 >
                 <eox-layercontrol
@@ -209,13 +192,13 @@
                  </eox-layercontrol>
                 </UiPanel>
                 <UiPanel
-                left
+                :height-percentage="33"
                 title="Filter"
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
               <UiPanel
-                  left
+              :height-percentage="33"
                   title="Layers"
                 >
                 <eox-layercontrol
@@ -226,7 +209,7 @@
               </UiPanel>
 
               </template>
-            </UiPanelLayout>
+            </UiPanelsLayout>
           </v-col>
         </v-row>
       </v-container>
@@ -248,7 +231,7 @@ import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 // import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 // import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
-import UiPanelLayout from '@/components/UiPanelLayout.vue';
+import UiPanelsLayout from '@/components/UiPanelsLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
@@ -277,7 +260,7 @@ export default {
     IndicatorFiltersDemo,
     // ESABreadcrumbs,
     UiPanel,
-    UiPanelLayout,
+    UiPanelsLayout,
   },
   props: {
     source: String,

@@ -5,12 +5,12 @@
     <v-row class=" d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="left"></slot>
         </v-expansion-panels>
       </v-col>
       <v-col :cols="3" style="max-height: 100%" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="right"></slot>
         </v-expansion-panels>
       </v-col>
