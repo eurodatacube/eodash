@@ -163,13 +163,13 @@
             v-else
             >
               <template v-slot:left>
-              <UiPanel :height-percentage="50"
+              <UiPanel :height-percentage="60"
                 title="Filter"
               >
                 <IndicatorFiltersPanel />
               </UiPanel>
               <UiPanel
-                  :height-percentage="50"
+                  :height-percentage="40"
                   title="Layers"
                 >
                 <eox-layercontrol

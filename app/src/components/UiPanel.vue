@@ -10,10 +10,10 @@
         <v-expansion-panel-header>
           {{ title }}
         </v-expansion-panel-header>
-        <v-expansion-panel-content
+        <v-expansion-panel-content ref="expantionContent"
         :style="`max-height: calc(((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-        + $vuetify.application.footer + (gtif ? 48:0) +(48 * siblingsCount)}px )
-         * ${(heightPercentage/100)});`" >
+        + $vuetify.application.footer + (gtif ?
+         48:0) +(48 * siblingsCount)}px ) * ${(heightPercentage/100)});`" >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -59,7 +59,6 @@ export default {
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
     if (this.$parent.$parent.$props.gtif) {
       this.gtif = true;
-      console.log(this.gtif);
     }
   },
 };
@@ -70,6 +69,9 @@ div {
   width: 100%;
   overflow-y: scroll;
   pointer-events: all;
+  @media only screen and (max-width: 600px) {
+    overflow: hidden;
+  }
 }
 .overlay {
   position: fixed;
