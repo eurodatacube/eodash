@@ -179,6 +179,22 @@
                    class="pointerEvents">
                  </eox-layercontrol>
                 </UiPanel>
+                <UiPanel
+                left
+                title="Filter"
+              >
+                <IndicatorFiltersPanel />
+              </UiPanel>
+              <UiPanel
+                  left
+                  title="Layers"
+                >
+                <eox-layercontrol
+                   for="#centerMap"
+                   layerTitle="name"
+                   class="pointerEvents">
+                 </eox-layercontrol>
+                </UiPanel>
               </template>
               <template v-slot:right>
 
@@ -197,6 +213,16 @@
                 title="Filter"
               >
                 <IndicatorFiltersPanel />
+              </UiPanel>
+              <UiPanel
+                  left
+                  title="Layers"
+                >
+                <eox-layercontrol
+                   for="#centerMap"
+                   layerTitle="name"
+                   class="pointerEvents">
+                 </eox-layercontrol>
               </UiPanel>
 
               </template>

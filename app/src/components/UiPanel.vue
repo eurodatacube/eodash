@@ -4,14 +4,15 @@
     class="elevation-1 rounded ma-1"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
-      max-height:50%
     `"
   >
       <v-expansion-panel>
         <v-expansion-panel-header>
           {{ title }}
         </v-expansion-panel-header>
-        <v-expansion-panel-content >
+        <v-expansion-panel-content
+        :style="`height: calc((var(--vh, 1vh) * 100) - ${$vuetify.application.top
+        + $vuetify.application.footer +(48 * 4)}px )`" >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -49,14 +50,18 @@ export default {
   },
   data: () => ({
     showOverlay: false,
+    siblingsCount: 1,
   }),
+  created() {
+    this.siblingsCount = this.$parent.$children.length;
+  },
 };
 </script>
 
 <style scoped>
 div {
   width: 100%;
-  overflow: hidden;
+  overflow: scroll;
   pointer-events: all;
 }
 .overlay {
