@@ -3271,30 +3271,30 @@ export const globalIndicators = [
     },
   },
   */
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: false,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        indicator: 'REP4',
-        description: 'Dynamic Storage Capacity',
-        navigationDescription: 'Dynamic Storage Capacity',
-        lastIndicatorValue: null,
-        indicatorName: 'Hydro Power',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-      },
-    },
-  },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       dataLoadFinished: false,
+  //       country: 'all',
+  //       city: 'Austria',
+  //       siteName: 'global',
+  //       indicator: 'REP4',
+  //       description: 'Dynamic Storage Capacity',
+  //       navigationDescription: 'Dynamic Storage Capacity',
+  //       lastIndicatorValue: null,
+  //       indicatorName: 'Hydro Power',
+  //       subAoi: {
+  //         type: 'FeatureCollection',
+  //         features: [],
+  //       },
+  //       aoi: null,
+  //       aoiID: 'Austria',
+  //       time: [],
+  //       inputData: [''],
+  //       yAxis: '',
+  //     },
+  //   },
+  // },
   {
     properties: {
       indicatorObject: {
