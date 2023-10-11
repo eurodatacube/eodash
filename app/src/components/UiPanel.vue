@@ -24,12 +24,12 @@
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
       `"
-      @click="showOverlay = !showOverlay"
+      @click="$emit('panel-selected',id)"
     >
       {{ title }}
     </div>
     <div
-      v-show="showOverlay"
+      v-show="isSelected"
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
@@ -48,9 +48,18 @@ export default {
       type: Number,
       default: 50,
     },
+    id: Number,
+    activeID: {
+      type: Number,
+      default: null,
+    },
+  },
+  computed: {
+    isSelected() {
+      return this.id === this.activeID;
+    },
   },
   data: () => ({
-    showOverlay: false,
     siblingsCount: 1,
     gtif: false,
   }),

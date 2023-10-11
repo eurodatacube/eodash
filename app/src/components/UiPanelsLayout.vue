@@ -6,18 +6,22 @@
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%" >
         <v-expansion-panels multiple>
-          <slot name="left"></slot>
+          <slot name="left" :panels="panels.left" ></slot>
         </v-expansion-panels>
       </v-col>
       <v-col :cols="3" style="max-height: 100%" >
         <v-expansion-panels multiple>
-          <slot name="right"></slot>
+          <slot name="right" :panels="panels.right" ></slot>
         </v-expansion-panels>
       </v-col>
     </v-row>
     <div v-else class="d-flex align-end">
-      <slot name="left"></slot>
-      <slot name="right"></slot>
+      <slot name="left" :panels="panels.left"
+      :handleSelection="handleSelection"
+      :activePanel="activePanel"></slot>
+      <slot name="right" :panels="panels.right"
+      :handleSelection="handleSelection"
+      :activePanel="activePanel"></slot>
     </div>
   </div>
 </template>
@@ -31,8 +35,49 @@ export default {
     },
   },
   data: () => ({
+    activePanel: 0,
+    panels: {
+      left: [
+        {
+          id: 1,
+          title: 'Filters',
+          heightPercentage: 60,
+        },
+        {
+          id: 2,
+          title: 'Layers',
+          heightPercentage: 40,
+        },
+      ],
+      right: [
+        {
+          id: 3,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+        {
+          id: 4,
+          title: 'Filters',
+          heightPercentage: 33,
+        },
+        {
+          id: 5,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+      ],
 
+    },
   }),
+  methods: {
+    handleSelection(id) {
+      if (this.activePanel === id) {
+        this.activePanel = 0;
+      } else {
+        this.activePanel = id;
+      }
+    },
+  },
 };
 </script>
 

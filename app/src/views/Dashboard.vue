@@ -162,52 +162,35 @@
             <UiPanelsLayout class="fill-height" :gtif="this.appConfig.id === 'gtif'"
             v-else
             >
-              <template v-slot:left>
-              <UiPanel :height-percentage="60"
-                title="Filter"
-              >
-                <IndicatorFiltersPanel />
-              </UiPanel>
-              <UiPanel
-                  :height-percentage="40"
-                  title="Layers"
-                >
-                <eox-layercontrol
-                   for="#centerMap"
-                   layerTitle="name"
-                   class="pointerEvents">
-                 </eox-layercontrol>
-                </UiPanel>
+              <template #left="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <eox-layercontrol
+                   v-if="panel.title == 'Layers'"
+                      for="#centerMap"
+                      layerTitle="name"
+                      class="pointerEvents">
+                    </eox-layercontrol>
+                 </UiPanel>
               </template>
-              <template v-slot:right>
-
-                <UiPanel
-                :height-percentage="33"
-                  title="Layers"
-                >
-                <eox-layercontrol
-                   for="#centerMap"
-                   layerTitle="name"
-                   class="pointerEvents">
-                 </eox-layercontrol>
-                </UiPanel>
-                <UiPanel
-                :height-percentage="33"
-                title="Filter"
-              >
-                <IndicatorFiltersPanel />
-              </UiPanel>
-              <UiPanel
-              :height-percentage="33"
-                  title="Layers"
-                >
-                <eox-layercontrol
-                   for="#centerMap"
-                   layerTitle="name"
-                   class="pointerEvents">
-                 </eox-layercontrol>
-              </UiPanel>
-
+              <template #right="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <eox-layercontrol
+                   v-if="panel.title == 'Layers'"
+                      for="#centerMap"
+                      layerTitle="name"
+                      class="pointerEvents">
+                    </eox-layercontrol>
+                 </UiPanel>
               </template>
             </UiPanelsLayout>
           </v-col>
