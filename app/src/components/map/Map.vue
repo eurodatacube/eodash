@@ -424,7 +424,7 @@ export default {
      */
     specialLayerOptions() {
       return {
-        time: this.dataLayerTime.value,
+        time: this.dataLayerTime?.value,
         indicator: this.indicator?.indicator,
         aoiID: this.indicator?.aoiID,
         drawnArea: this.drawnArea,
@@ -590,9 +590,7 @@ export default {
           this.$emit('update:datalayertime', timeObj.name);
           window.postMessage({
             command: 'chart:setTime',
-            time: timeObj.value.isLuxonDateTime
-              ? timeObj.value.toISODate()
-              : timeObj.value,
+            time: this.convertDateForMsg(timeObj?.value),
           });
         } else {
           window.postMessage({
@@ -621,9 +619,7 @@ export default {
       if (enabled) {
         window.postMessage({
           command: 'chart:setCompareTime',
-          time: this.compareLayerTime.value.isLuxonDateTime
-            ? this.compareLayerTime.value.toISODate()
-            : this.compareLayerTime.value,
+          time: this.convertDateForMsg(this.compareLayerTime?.value),
         });
       } else {
         window.postMessage({
@@ -637,9 +633,7 @@ export default {
       if (timeObj && this.enableCompare) {
         window.postMessage({
           command: 'chart:setCompareTime',
-          time: timeObj.value.isLuxonDateTime
-            ? timeObj.value.toISODate()
-            : timeObj.value,
+          time: this.convertDateForMsg(timeObj?.value),
         });
       } else {
         window.postMessage({
@@ -795,6 +789,18 @@ export default {
     }
   },
   methods: {
+    convertDateForMsg(time) {
+      let timeConverted = null;
+      if (Array.isArray(time)) {
+        [timeConverted] = time;
+      } else {
+        timeConverted = time;
+      }
+      if (timeConverted?.isLuxonDateTime && typeof timeConverted.toISODate === 'function') {
+        timeConverted = timeConverted.toISODate();
+      }
+      return timeConverted;
+    },
     handleSpecialLayerZoom(e) {
       this.$emit('update:zoom', e);
       this.currentZoom = e;
@@ -1006,6 +1012,16 @@ export default {
         );
         // TODO: Extract fetchData method into helper file since it needs to be used from outside.
         window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+        window.postMessage({
+          command: 'chart:setTime',
+          time: this.convertDateForMsg(this.dataLayerTime?.value),
+        });
+        if (this.enableCompare) {
+          window.postMessage({
+            command: 'chart:setCompareTime',
+            time: this.convertDateForMsg(this.compareLayerTime?.value),
+          });
+        }
       } catch (err) {
         // TODO: Extract fetchData method into helper file since it needs to be used from outside.
         window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));

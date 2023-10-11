@@ -2638,5 +2638,60 @@
         "reference_time": "2023-08-12T00:00:00",
         "reference_value": "[25.686 1.177]",
         "time": "2023-08-12T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "27.891",
+        "reference_time": "2023-08-19T00:00:00",
+        "reference_value": "[25.961 0.912]",
+        "time": "2023-08-19T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "28.092",
+        "reference_time": "2023-08-26T00:00:00",
+        "reference_value": "[25.892 1.056]",
+        "time": "2023-08-26T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "NORMAL",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "25.464000000000002",
+        "reference_time": "2023-09-02T00:00:00",
+        "reference_value": "[25.355 0.963]",
+        "time": "2023-09-02T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "NORMAL",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "25.27",
+        "reference_time": "2023-09-09T00:00:00",
+        "reference_value": "[24.905 0.954]",
+        "time": "2023-09-09T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "25.676",
+        "reference_time": "2023-09-16T00:00:00",
+        "reference_value": "[24.419 0.982]",
+        "time": "2023-09-16T00:00:00"
     }
 ]
