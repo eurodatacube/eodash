@@ -58,7 +58,7 @@ export default {
   watch: {
   },
   methods: {
-    updateMap(evt) {
+    updateMap() {
       // Update selected values
       Object.keys(this.select).forEach((key) => {
         if (this.indicatorObject) {
@@ -69,11 +69,10 @@ export default {
       if (this.indicatorObject) {
         this.indicatorObject.display.wmsVariables = JSON.parse(JSON.stringify(this.wmsVariables));
       }
-      // this.wmsVariables = JSON.parse(JSON.stringify(this.wmsVariables));
       const { map } = getMapInstance('centerMap');
       const wmsLayer = map.getAllLayers().find((l) => l.get('name') === this.wmsVariables.sourceLayer);
-      wmsLayer.changed(true);
-      console.log(wmsLayer);
+      wmsLayer.changed();
+
     },
   },
 };

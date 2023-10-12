@@ -13,30 +13,35 @@ import {
 import TileWMS from 'ol/source/TileWMS';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
-import MapLibreLayer from '@geoblocks/ol-maplibre-layer';
 import store from '@/store';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import { createXYZ } from 'ol/tilegrid';
-import { Group } from 'ol/layer';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
-import * as flatgeobuf from 'flatgeobuf/dist/flatgeobuf-geojson.min';
-import { bbox } from 'ol/loadingstrategy';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
+import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
+
+export function renderTemplateSelectedFeature(urlTemplate) {
+  const templateRe = /\{ *([\w_ -]+) *\}/g;
+  const ftrs = store.state.features.selectedFeatures;
+  const templateSubst = ftrs[0]?.getProperties() || {};
+  const url = template(templateRe, urlTemplate, templateSubst);
+  return url;
+}
+
 /**
  * manually fetches geojson features and replaces the features in the source
  * invalid `null`-ids will be transformed into `undefined`-IDs
  * @param {*} source ol vector source (features of this source will be replaced)
  * @param {String} url geojson url
  */
-
 export async function fetchData({
   usedTime, config, drawnArea, source, map,
 }) {
@@ -85,17 +90,6 @@ export async function fetchData({
   }
 }
 
-function fgbBoundingBox(extent, projection) {
-  // minx, miny, maxx, maxy
-  const transformedExtent = transformExtent(extent, projection, 'EPSG:4326');
-  return {
-    minX: transformedExtent[0],
-    minY: transformedExtent[1],
-    maxX: transformedExtent[2],
-    maxY: transformedExtent[3],
-  };
-}
-
 function dynamicColorForSelection(feature, defaultColor = 'rgba(255, 255, 255, 0.0)', applyDynamic = true) {
   const idxInSelected = store.state.features.selectedFeatures.findIndex(
     (ftr) => {
@@ -128,6 +122,10 @@ function dynamicWidth(feature, defaultWidth) {
 }
 
 function createVectorLayerStyle(config, options) {
+  if (typeof config?.styleFunction === 'function') {
+    // pass down the style function from config accepting a possible feature
+    return config.styleFunction;
+  }
   const strokeColor = config?.style?.strokeColor || '#F7A400';
   const fillColor = config?.style?.fillColor || 'rgba(255, 255, 255, 0.1)';
   const strokeWidth = config?.style?.width || 2;
@@ -178,12 +176,12 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-function createFromTemplate(template, tileCoord) {
+function createFromTemplate(templateStr, tileCoord) {
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
   const yRegEx = /\{y\}/g;
   const dashYRegEx = /\{-y\}/g;
-  return template.replace(zRegEx, tileCoord[0].toString())
+  return templateStr.replace(zRegEx, tileCoord[0].toString())
     .replace(xRegEx, tileCoord[1].toString())
     .replace(yRegEx, tileCoord[2].toString())
     .replace(dashYRegEx, () => {
@@ -249,7 +247,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {number} config.style.weight stroke weight
  * @param {string} config.style.color stroke color
  * @param {Object} [opt_options={}] options
- * @param {number} [opt_options.zIndex=0] optional zIndex, defaults to 0
  * @param {boolean} [opt_options.updateOpacityOnZoom=false] sets the updateOpacityOnZoom-flag
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
@@ -257,21 +254,57 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {*} [opt_options.indicator=undefined] optional indicator. (e.g. "E13b")
  * @param {*} [opt_options.aoiID=undefined] optional aoiID.
  * @param {*} [opt_options.drawnArea=undefined] optional drawnArea object.
- * @param {*} [opt_options.dataProp=undefined] optional dataProp string to set data to render.
  * if not set, time will be retrieved from the store
- * @returns {Group} returns ol layer
+ * @returns {BaseLayer} returns ol layer
  */
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
-  options.zIndex = options.zIndex || 0;
   options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
   const paramsToPassThrough = [
     'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
   ];
-  // layers created by this config. These Layers will get combined into a single ol.layer.Group
-  const layers = [];
-  if (config.protocol === 'cog') {
+  // layer created by this config, function always returns a single layer
+  let layer = null;
+  let source = null;
+  let featuresSource = null;
+  let featuresUpdateFn = null;
+  if (config.features) {
+    // some layers have a baselayer and GeoJSON features above them
+    // e.g. "Ports and Shipping"
+    featuresSource = new VectorSource({
+      features: [],
+    });
+    fetchData({
+      usedTime: options.time,
+      config,
+      drawnArea: options.drawnArea,
+      source: featuresSource,
+      map,
+    });
+    // this gives an option to update the source (most likely the time) without
+    // re-creating the entire layer
+    featuresUpdateFn = (time, drawnArea, configUpdate) => {
+      const updatedOptions = {
+        ...options,
+        ...configUpdate,
+      };
+      updatedOptions.time = time;
+      fetchData({
+        usedTime: time,
+        config: updatedOptions,
+        drawnArea,
+        source: featuresSource,
+        map,
+      });
+    };
+    featuresSource.set('updateTime', featuresUpdateFn);
+    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    layer = new VectorLayer({
+      source: featuresSource,
+      style: dynamicStyleFunction,
+    });
+  } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
     if (config.usedTimes?.time?.length) {
       const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
@@ -280,80 +313,60 @@ export function createLayerFromConfig(config, map, _options = {}) {
         return { url };
       });
     }
-    const source = new GeoTIFF({
+    const wgSource = new GeoTIFF({
       sources: updatedSources,
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
     });
-    const wgTileLayer = new WebGLTileLayer({
-      source,
+    layer = new WebGLTileLayer({
+      source: wgSource,
       style: config.style,
-      name: config.name,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     });
-    wgTileLayer.set('id', config.id);
-    layers.push(wgTileLayer);
-  }
-  if (config.protocol === 'vectortile') {
-    const tilelayer = new VectorTileLayer();
-    tilelayer.set('id', config.id);
+    layer.set('id', config.id);
+  } else if (config.protocol === 'vectortile') {
+    layer = new VectorTileLayer({});
+    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
     } else if (config.selectedStyleLayer) {
       layerSelector = [config.selectedStyleLayer];
     }
-    applyStyle(tilelayer, config.styleFile, layerSelector)
+    applyStyle(layer, config.styleFile, layerSelector)
       .then(() => {
         if (config.attribution) {
           // allow to override attribution from mapbox style referenced source
-          tilelayer.getSource().setAttributions(config.attribution);
+          layer.getSource().setAttributions(config.attribution);
         }
       });
-    layers.push(tilelayer);
-  }
-  if (config.protocol === 'WMTSCapabilities') {
-    const WMTSLayer = new TileLayer({
-      name: config.name,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    });
-    layers.push(WMTSLayer);
-    createWMTSSourceFromCapabilities(config, WMTSLayer);
-  }
-  if (config.protocol === 'geoserverTileLayer') {
+  } else if (config.protocol === 'WMTSCapabilities') {
+    layer = new TileLayer({});
+    createWMTSSourceFromCapabilities(config, layer);
+  } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
 
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = '3857';
-    const tilelayer = new VectorTileLayer({
+    layer = new VectorTileLayer({
       style: dynamicStyleFunction,
-      opacity: config.opacity,
-      name: config.name,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
       source: new VectorTileSource({
         projection: 'EPSG:3857',
         format: new MVT(),
         url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    tilelayer.set('id', config.id);
-    layers.push(tilelayer);
-  }
-  if (config.protocol === 'countries') {
+    layer.set('id', config.id);
+  } else if (config.protocol === 'countries') {
     const countriesSource = new VectorSource({
       features: geoJsonFormat.readFeatures(countries, {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       }),
     });
-    layers.push(new VectorLayer({
-      name: 'Country vectors',
+    layer = new VectorLayer({
+      layerControlHide: true,
       source: countriesSource,
       updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
       style: new Style({
         fill: new Fill({
           color: '#fff',
@@ -363,12 +376,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
           color: '#a2a2a2',
         }),
       }),
-    }));
-  }
-  if (config.protocol === 'GeoJSON') {
+    });
+  } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
-    const vectorSourceOpts = config.url ? {
-      url: config.url,
+    const url = config.urlTemplateSelectedFeature
+      ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
+      : config.url;
+    const vectorSourceOpts = url ? {
+      url,
       format: new GeoJSON({
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
@@ -380,21 +395,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     };
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-    const source = new VectorSource(vectorSourceOpts);
-    layers.push(new VectorLayer({
-      name: config.name,
-      zIndex: options.zIndex,
-      updateOpacityOnZoom: false,
-      source,
-      style: dynamicStyleFunction,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    }));
+    const vectorSource = new VectorSource(vectorSourceOpts);
     if (config.clusterLayer) {
       const clusterSource = new ClusterSource({
         ...vectorSourceOpts,
-        source,
+        source: vectorSource,
         distance: 50,
         geometryFunction: (feature) => {
           const geom = feature.getGeometry();
@@ -409,10 +414,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         },
       });
       const styleCache = {};
-      layers.push(new VectorLayer({
-        name: `${config.name}_clustered`,
-        zIndex: options.zIndex,
-        updateOpacityOnZoom: false,
+      layer = new VectorLayer({
         source: clusterSource,
         style: (feature) => {
           const size = feature.get('features').length;
@@ -440,56 +442,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
           }
           return style;
         },
-        // intentionally setting minZoom as maxZoom to distinguish from normal layer
-        maxZoom: config.minZoom,
-        opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-      }));
+      });
+    } else {
+      layer = new VectorLayer({
+        source: vectorSource,
+        style: dynamicStyleFunction,
+      });
     }
-  }
-  if (config.protocol === 'flatgeobuf') {
-    const vectorSourceOpts = {
-      format: new GeoJSON({
-        featureProjection: map.getView().getProjection(),
-      }),
-      strategy: bbox,
-    };
-    const source = new VectorSource(vectorSourceOpts);
-    // eslint-disable-next-line no-inner-declarations
-    async function updateResults(extent, resolution, projection, success) {
-      const rect = fgbBoundingBox(extent, projection);
-      // Use flatgeobuf JavaScript API to iterate features as geojson.
-      // Because we specify a bounding box, flatgeobuf will only fetch the relevant subset of data,
-      // rather than the entire file.
-      if (rect.minX !== -Infinity) {
-        const ftrs = [];
-        const iter = flatgeobuf.deserialize(config.url, rect);
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const feature of iter) {
-          const ftr = geoJsonFormat.readFeature(feature, {
-            featureProjection: map.getView().getProjection(),
-          });
-          ftrs.push(ftr);
-        }
-        source.clear();
-        source.addFeatures(ftrs);
-        success();
-      }
-    }
-    source.setLoader(updateResults);
-    const dynamicStyleFunction = createVectorLayerStyle(config, options);
-    layers.push(new VectorLayer({
-      name: config.name,
-      zIndex: options.zIndex,
-      updateOpacityOnZoom: false,
-      source,
-      style: dynamicStyleFunction,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-    }));
-  }
-  let source;
-  if (config.protocol === 'xyz') {
+  } else if (config.protocol === 'xyz') {
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
@@ -527,11 +487,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
         tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
-  }
-  if (config.protocol === 'WMS') {
-    // to do: layers is  not defined for harvesting evolution over time (spain)
-    const tileSize = config.combinedLayers?.length
-      ? config.combinedLayers[0].tileSize : config.tileSize;
+    layer = new TileLayer({
+      source,
+    });
+  } else if (config.protocol === 'WMS') {
+    const { tileSize } = config;
     const tileGrid = tileSize === 512 ? new TileGrid({
       extent: [-20037508.342789244, -20037508.342789244,
         20037508.342789244, 20037508.342789244],
@@ -540,198 +500,69 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }).getResolutions(),
       tileSize: 512,
     }) : undefined;
-
-    // combined wms layers, for instance CMEMS Water Quality (RACE)
-    // and Sea Ice Concentration (trilateral)
-    if (config.combinedLayers?.length) {
-      config.combinedLayers.forEach((c) => {
-        const params = {};
-        let extent;
-        if (c.extent) {
-          extent = transformExtent(
-            c.extent,
-            'EPSG:4326',
-            c.projection,
-          );
-        }
-
-        paramsToPassThrough.forEach((param) => {
-          if (typeof c[param] !== 'undefined') {
-            params[param] = c[param];
-          }
-        });
-        if (config.usedTimes?.time?.length) {
-          params.time = c.dateFormatFunction(options.time);
-          if (config.specialEnvTime) {
-            const scenario = config.wmsVariables.variables.scenario.selected;
-            const height = config.wmsVariables.variables.height.selected;
-            params.map = `SSP${scenario}_${height}Y${params.time}.map`;
-          }
-        }
-
-        const singleSource = new TileWMS({
-          attributions: config.attribution,
-          crossOrigin: typeof c.crossOrigin !== 'undefined' ? c.crossOrigin : 'anonymous',
-          transition: 0,
-          projection: getProjectionOl(c.projection),
-          params,
-          url: c.baseUrl,
-          tileGrid,
-        });
-        singleSource.set('updateTime', (updatedTime, area, configUpdate) => {
-          const timeString = c.dateFormatFunction(updatedTime);
-          const paramsUpdate = {};
-          paramsToPassThrough.forEach((param) => {
-            if (typeof configUpdate[param] !== 'undefined') {
-              paramsUpdate[param] = configUpdate[param];
-            }
-          });
-          const newParams = {
-            ...paramsUpdate,
-            time: timeString,
-          };
-          if (configUpdate.specialEnvTime) {
-            const scenario = config.wmsVariables.variables.scenario.selected;
-            const height = config.wmsVariables.variables.height.selected;
-            newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
-          }
-          singleSource.updateParams(newParams);
-        });
-        layers.push(new TileLayer({
-          name: config.name,
-          maxZoom: c.maxZoom,
-          minZoom: c.minZoom,
-          updateOpacityOnZoom: options.updateOpacityOnZoom,
-          zIndex: options.zIndex,
-          source: singleSource,
-          opacity: typeof c.opacity !== 'undefined' ? c.opacity : 1,
-          extent,
-        }));
-      });
-    } else {
-      const params = {};
-      paramsToPassThrough.forEach((param) => {
-        if (typeof config[param] !== 'undefined') {
-          params[param] = config[param];
-        }
-      });
-      if (config.usedTimes?.time?.length) {
-        params.time = config.dateFormatFunction(options.time);
-        if (config.specialEnvTime) {
-          const scenario = config.wmsVariables.variables.scenario.selected;
-          const height = config.wmsVariables.variables.height.selected;
-          params.map = `SSP${scenario}_${height}Y${params.time}.map`;
-        }
+    const params = {};
+    paramsToPassThrough.forEach((param) => {
+      if (typeof config[param] !== 'undefined') {
+        params[param] = config[param];
       }
-      source = new TileWMS({
-        attributions: config.attribution,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        params,
-        url: config.url || config.baseUrl,
-        tileGrid,
-      });
-      source.set('updateTime', (updatedTime, area, configUpdate) => {
-        const timeString = configUpdate.dateFormatFunction(updatedTime);
-        const paramsUpdate = {};
-        paramsToPassThrough.forEach((param) => {
-          if (typeof configUpdate[param] !== 'undefined') {
-            paramsUpdate[param] = configUpdate[param];
-          }
-        });
-        const newParams = {
-          ...paramsUpdate,
-          time: timeString,
-        };
-        if (configUpdate.specialEnvTime) {
-          const scenario = configUpdate.wmsVariables.variables.scenario.selected;
-          const height = configUpdate.wmsVariables.variables.height.selected;
-          newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
-        }
-        source.updateParams(newParams);
-      });
-    }
-  }
-  if (config.protocol === 'maplibre') {
-    const layer = new MapLibreLayer({
-      name: config.name,
-      zIndex: options.zIndex,
-      attribution: config.attribution,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      maplibreOptions: {
-        style: config.maplibreStyles,
-      },
     });
-    layers.push(layer);
+    if (config.usedTimes?.time?.length) {
+      params.time = config.dateFormatFunction(options.time);
+      if (config.specialEnvTime) {
+        params.env = `year:${params.time}`;
+      }
+      if (config.specialEnvScenario4) {
+        const scenario = config.wmsVariables.variables.scenario.selected;
+        const height = config.wmsVariables.variables.height.selected;
+        params.map = `SSP${scenario}_${height}Y${params.time}.map`;
+      }
+    }
+    source = new TileWMS({
+      attributions: config.attribution,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      transition: 0,
+      projection: getProjectionOl(config.projection),
+      params,
+      url: config.url || config.baseUrl,
+      tileGrid,
+    });
+    source.set('updateTime', (updatedTime, area, configUpdate) => {
+      const timeString = configUpdate.dateFormatFunction(updatedTime);
+      const paramsUpdate = {};
+      paramsToPassThrough.forEach((param) => {
+        if (typeof configUpdate[param] !== 'undefined') {
+          paramsUpdate[param] = configUpdate[param];
+        }
+      });
+      const newParams = {
+        ...paramsUpdate,
+        time: timeString,
+      };
+      if (configUpdate.specialEnvTime) {
+        newParams.env = `year:${updatedTime}`;
+      }
+      if (configUpdate.specialEnvScenario4) {
+        const scenario = configUpdate.wmsVariables.variables.scenario.selected;
+        const height = configUpdate.wmsVariables.variables.height.selected;
+        newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
+      }
+      source.updateParams(newParams);
+    });
+    layer = new TileLayer({
+      source,
+    });
   }
-  let extent;
   if (config.extent) {
-    extent = transformExtent(
+    const extent = transformExtent(
       config.extent,
       'EPSG:4326',
       config.projection,
     );
+    layer.setExtent(extent);
   }
 
-  if (source) {
-    layers.push(new TileLayer({
-      name: config.name,
-      maxZoom: config.maxZoom,
-      minZoom: config.minZoom,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      zIndex: options.zIndex,
-      opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
-      source,
-      extent,
-    }));
-  }
-
-  if (config.features) {
-    // some layers have a baselayer and GeoJSON features above them
-    // e.g. "Ports and Shipping"
-    const featuresSource = new VectorSource({
-      features: [],
-    });
-    fetchData({
-      usedTime: options.time,
-      config,
-      drawnArea: options.drawnArea,
-      source: featuresSource,
-      map,
-    });
-    // this gives an option to update the source (most likely the time) without
-    // re-creating the entire layer
-    const featuresUpdate = (time, drawnArea, configUpdate) => {
-      const updatedOptions = {
-        ...options,
-        ...configUpdate,
-      };
-      updatedOptions.time = time;
-      fetchData({
-        usedTime: time,
-        config: updatedOptions,
-        drawnArea,
-        source: featuresSource,
-        map,
-      });
-    };
-    featuresSource.set('updateTime', featuresUpdate);
-    if (config.customAreaFeatures) {
-      featuresSource.set('updateArea', featuresUpdate);
-    }
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
-    const featuresLayer = new VectorLayer({
-      source: featuresSource,
-      name: `${config.name}_features`,
-      style: dynamicStyleFunction,
-    });
-
-    layers.push(featuresLayer);
-  }
   let drawnAreaExtent;
-  if (config.drawnAreaLimitExtent) {
+  if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     if (options.drawnArea.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
@@ -746,16 +577,18 @@ export function createLayerFromConfig(config, map, _options = {}) {
         config.projection,
       );
     }
+    layer.setExtent(drawnAreaExtent);
   }
-  const g = new Group({
+  layer.setProperties({
+    opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
+    maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
+    minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
-    zIndex: options.zIndex,
-    layers,
-    extent: drawnAreaExtent,
+    layerControlOptional: config.layerControlOptional,
   });
-  if (config.drawnAreaLimitExtent) {
+  if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
         drawnAreaExtent = transformExtent(
@@ -771,12 +604,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
         );
       }
       l.setExtent(drawnAreaExtent);
-    };
-    g.getLayers().forEach((la) => {
-      if (!la.get('name').includes('_features')) {
-        la.getSource().set('updateArea', areaUpdate);
+      if (config.customAreaFeatures && featuresSource) {
+        featuresUpdateFn(time, drawnArea, configUpdate);
       }
-    });
+    };
+    layer.getSource().set('updateArea', areaUpdate);
   }
-  return g;
+  return layer;
 }

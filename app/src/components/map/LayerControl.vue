@@ -18,34 +18,14 @@
   </v-tooltip>
   <v-card
     v-else
-    class="layerControl pa-2"
+    class="layerControl"
     :class="{'scrollable': appConfig.id === 'gtif' && $vuetify.breakpoint.smAndDown}"
   >
-    <v-radio-group v-model="selectedBaseLayer" class="mt-0" hide-details mandatory>
-      <v-radio v-for="(c, index) in baseLayerConfigs"
-        :key="index" :label="c.name" :value="index">
-        <template v-slot:label>
-        <span class="label">{{c.name}}</span>
-        </template>
-      </v-radio>
-    </v-radio-group>
-    <v-divider class="my-1" />
-    <v-checkbox v-for="n in overlayConfigs" :key="n.name" :label="n.name"
-      v-model="n.visible" dense class="my-0 py-0" hide-details
-      @change="setVisible($event, n)">
-        <template v-slot:label>
-          <span class="label">{{n.name}}</span>
-        </template>
-    </v-checkbox>
-    <div v-if="dataLayerConfigLayerControls">
-      <v-checkbox v-for="n in dataLayerConfigLayerControls" :key="n.name" :label="n.name"
-      v-model="n.visible" dense class="my-0 py-0" hide-details
-      @change="setVisible($event, n)">
-        <template v-slot:label>
-          <span class="label">{{n.name}}</span>
-        </template>
-      </v-checkbox>
-    </div>
+    <eox-layercontrol
+      :for="'#' + mapId "
+      layerTitle="name"
+      class="pointerEvents">
+    </eox-layercontrol>
   </v-card>
 </template>
 
@@ -65,14 +45,12 @@ export default {
     mapId: String,
     baseLayerConfigs: Array,
     overlayConfigs: Array,
-    dataLayerConfigLayerControls: [Array, null],
     isGlobalIndicator: Boolean,
     enableScrollyMode: Boolean,
   },
   data() {
     return {
       show: false,
-      selectedBaseLayer: null,
       opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
@@ -85,62 +63,42 @@ export default {
         });
       }
     },
-    selectedBaseLayer(selectedIndex) {
-      const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      this.baseLayerConfigs.forEach((l, i) => {
-        const layer = olLayers.find((olLayer) => olLayer.get('name') === l.name);
-        if (i === selectedIndex) {
-          layer.setVisible(true);
-        } else {
-          layer.setVisible(false);
-        }
-      });
-    },
   },
   computed: {
     ...mapState('config', ['appConfig']),
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => createLayerFromConfig(l,
-      map,
-      {
-        zIndex: 0,
-      }));
-    baseLayers.forEach((l) => {
-      map.addLayer(l);
+    const baseLayers = this.baseLayerConfigs.map((l) => {
+      const createdLayer = createLayerFromConfig(l, map);
+      createdLayer.set('layerControlExclusive', true);
+      return createdLayer;
+    });
+    baseLayers.forEach((layer) => {
+      const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
+      backgroundGroup.getLayers().push(layer);
     });
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
       map,
       {
-        // higher zIndex for labels
-        zIndex: l.name === 'Overlay labels' ? 4 : (l.zIndex || 2),
         updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
       }));
-    overlayLayers.forEach((l) => {
-      map.addLayer(l);
+    overlayLayers.forEach((layer) => {
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+      overlayGroup.getLayers().push(layer);
     });
     map.on('moveend', this.updateOverlayOpacity);
     map.dispatchEvent({ type: 'moveend' });
-    this.selectedBaseLayer = this.baseLayerConfigs.findIndex((l) => l.visible === true) || 0;
   },
   methods: {
-    setVisible(value, layerConfig) {
-      // toggle original layer and possibly also compare
-      const olLayers = getMapInstance(this.mapId).map.getLayers().getArray();
-      const layers = olLayers.filter((l) => {
-        const found = l.get('name') === layerConfig.name || l.get('name') === `${layerConfig.name}_compare`;
-        return found;
-      });
-      layers.forEach((l) => l.setVisible(value));
-    },
     updateOverlayOpacity(e) {
       const map = e.target;
       const view = map.getView();
       const zoom = Math.floor(view.getZoom());
-      const layers = map.getLayers().getArray();
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+
       this.overlayConfigs.forEach((c) => {
-        const layer = layers.find((l) => l.get('name') === c.name);
+        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
         if (layer.get('updateOpacityOnZoom')) {
           if (layer.get('name') === 'Country vectors') {
             layer.setOpacity(this.opacityCountries[zoom]);
@@ -155,13 +113,18 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layers = map.getLayers().getArray();
-    [
-      ...this.baseLayerConfigs, ...this.overlayConfigs,
-    ].forEach((config) => {
-      const layer = layers.find((l) => l.get('name') === config.name);
-      map.removeLayer(layer);
+    const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
+    this.baseLayerConfigs.forEach((config) => {
+      const layer = backgroundGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
+      backgroundGroup.getLayers().remove(layer);
     });
+
+    const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+    this.overlayConfigs.forEach((config) => {
+      const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
+      overlayGroup.getLayers().remove(layer);
+    });
+
     map.un('moveend', this.updateOverlayOpacity);
   },
 };
