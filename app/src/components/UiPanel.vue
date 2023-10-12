@@ -76,7 +76,7 @@ export default {
 <style scoped>
 div {
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   pointer-events: all;
   @media only screen and (max-width: 600px) {
     overflow: hidden;
