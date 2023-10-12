@@ -2671,5 +2671,27 @@
         "reference_time": "2023-09-16T00:00:00",
         "reference_value": "[0.077 0.224]",
         "time": "2023-09-16T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "0.015",
+        "reference_time": "2023-09-23T00:00:00",
+        "reference_value": "[0.149 0.323]",
+        "time": "2023-09-23T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "0.015",
+        "reference_time": "2023-09-23T00:00:00",
+        "reference_value": "[0.149 0.323]",
+        "time": "2023-09-23T00:00:00"
     }
 ]
