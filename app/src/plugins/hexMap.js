@@ -11,6 +11,8 @@ const createHexMap = (map) => {
   const hex = new HexMap({ hexGrid: grid });
   map.addLayer(new Image({ source: hex }));
 
+  let board = new HexSweeperBoard();
+
   const text = false;
   hex.set('text', text);
   // grid.setLayout($('#layout').val());
@@ -59,12 +61,12 @@ const createHexMap = (map) => {
           f.setStyle(redStyle);
           vector.getSource().addFeature(f);
         }
-        popup.show(e.coordinate, `Move = ${l.length - 1} hexagon${l.length > 2 ? 's' : ''}`);
+        // popup.show(e.coordinate, `Move = ${l.length - 1} hexagon${l.length > 2 ? 's' : ''}`);
       }
       return;
     }
 
-    popup.hide();
+    // popup.hide();
 
     vector.getSource().clear();
     var ex = grid.getHexagon(h);
@@ -76,7 +78,7 @@ const createHexMap = (map) => {
     switch (text) {
       case 'cube':
         var c = grid.hex2cube(h);
-        popup.show(e.coordinate, `x: ${c[0]}, y: ${c[1]}, z: ${c[2]}`);
+        // popup.show(e.coordinate, `x: ${c[0]}, y: ${c[1]}, z: ${c[2]}`);
         for (var x = -size; x <= size; x++) {
           if (x) {
             ex = grid.getHexagon(grid.cube2hex([c[0] + x, c[1] - x, c[2]]));
@@ -95,7 +97,7 @@ const createHexMap = (map) => {
         }
         break;
       case 'axial':
-        popup.show(e.coordinate, `x: ${h[0]}, y: ${h[1]}`);
+        // popup.show(e.coordinate, `x: ${h[0]}, y: ${h[1]}`);
         for (var x = -size; x <= size; x++) {
           if (x) {
             ex = grid.getHexagon([h[0] + x, h[1]]);
@@ -111,7 +113,7 @@ const createHexMap = (map) => {
         break;
       case 'offset':
         var o = grid.hex2offset(h);
-        popup.show(e.coordinate, `x: ${o[0]}, y: ${o[1]}`);
+        // popup.show(e.coordinate, `x: ${o[0]}, y: ${o[1]}`);
         for (var x = -size; x <= size; x++) {
           if (x) {
             ex = grid.getHexagon(grid.offset2hex([o[0] + x, o[1]]));
@@ -150,6 +152,71 @@ const createHexMap = (map) => {
   //   }
   // });
 };
+
+class HexSweeperBoard {
+  constructor(width, height, difficulty) {
+    this.width = width;
+    this.height = height;
+    this.difficulty = difficulty;
+    this.board = [];
+    this.initializeBoard();
+  }
+
+  initializeBoard() {
+    for (let y = 0; y < this.height; y++) {
+      const row = [];
+      for (let x = 0; x < this.width; x++) {
+        row.push({
+          isMine: Math.random() < this.difficulty,
+          adjacentMines: 0,
+          revealed: false,
+          flagged: false,
+          element: null,
+        });
+      }
+      this.board.push(row);
+    }
+
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        this.board[y][x].adjacentMines = this.calculateAdjacentMines(x, y);
+      }
+    }
+  }
+
+  calculateAdjacentMines(x, y) {
+    let count = 0;
+
+    const neighbors = y % 2 === 0
+      ? [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]]
+      : [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
+
+    for (let [dx, dy] of neighbors) {
+      let nx = x + dx;
+      let ny = y + dy;
+
+      if (
+        nx >= 0 &&
+        nx < this.width &&
+        ny >= 0 &&
+        ny < this.height &&
+        this.board[ny] &&
+        this.board[ny][nx].isMine
+      ) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  revealTile(x, y) {
+    const tile = this.board[y][x];
+    if (tile.revealed || tile.flagged) return;
+    tile.revealed = true;
+    return tile;
+  }
+}
 
 export {
   createHexMap,
