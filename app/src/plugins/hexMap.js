@@ -7,153 +7,130 @@ import HexGrid from 'ol-ext/render/HexGrid';
 import HexMap from 'ol-games/source/HexMap';
 
 const createHexMap = (map) => {
-  const grid = new HexGrid({ size: 4000, origin: map.getView().getCenter() });
+  const size = 4000;
+  const boardCenter = [16.363449, 48.210033];  // Vienna
+
+  const grid = new HexGrid({
+    size,
+    origin: map.getView().getCenter(),
+  });
   const hex = new HexMap({ hexGrid: grid });
   map.addLayer(new Image({ source: hex }));
 
-  let board = new HexSweeperBoard();
+  // Initialize our HexSweeper game
+  let game = new HexSweeperGame(20, 10, 0.2);
+  game.initializeBoard();
 
-  const text = false;
-  hex.set('text', text);
-  // grid.setLayout($('#layout').val());
-  grid.setLayout('flat');
-  // grid.setSize($('#size').val());
-  grid.setSize('6000');
+  const vectorSource = new VectorSource();
 
+  map.on('click', (e) => {
+    const clickedFeatures = map.getFeaturesAtPixel(e.pixel);
+
+    if (clickedFeatures.length) {
+      const clickedHexagonCoords = clickedFeatures[0].getGeometry().getCoordinates()[0][0];  // Obtain the first coordinate from the polygon definition.
+      const hx = clickedHexagonCoords[0];
+      const hy = clickedHexagonCoords[1];
+
+      // Now, find this hexagon in the hx and hy arrays:
+      const clickedHexIndex = hx.findIndex((coord, index) => {
+        return coord[0] === clickedHexagonCoords[0] && hy[index][1] === clickedHexagonCoords[1];
+      });
+
+      if (clickedHexIndex !== -1) {
+        // Convert hex index to board position (x, y)
+        const boardY = Math.floor(clickedHexIndex / game.width);
+        const boardX = clickedHexIndex % game.width;
+
+        if (boardY >= 0 && boardY < game.height && boardX >= 0 && boardX < game.width) {
+          const tile = game.board[boardY][boardX];
+
+          console.log(`Clicked at: (${boardX}, ${boardY})`);
+
+          if (tile.isMine) {
+            clickedFeatures[0].setStyle(redStyle);
+          } else {
+            const textStyle = new Text({
+              text: tile.adjacentMines.toString(),
+              font: '20px Calibri,sans-serif',
+              fill: new Fill({ color: '#000' }),
+              stroke: new Stroke({ color: '#fff', width: 3 })
+            });
+
+            clickedFeatures[0].setStyle(new Style({
+              fill: new Fill({ color: '#eee' }),
+              text: textStyle
+            }));
+          }
+        } else {
+          console.error(`Clicked outside the board boundaries. Board indices: (${boardX}, ${boardY}), Actual coordinates: (${clickedHexagonCoords[0]}, ${clickedHexagonCoords[1]})`);
+        }
+      } else {
+        console.error('Hexagon not found');
+      }
+    }
+  });
+
+
+
+  // Create OpenLayers features for each hexagon
+  for (let y = 0; y < game.height; y++) {
+      for (let x = 0; x < game.width; x++) {
+          const tile = game.board[y][x];
+          const hexCoords = grid.getHexagon([x, y]);
+          console.log(`Hex coords for board (${x}, ${y}):`, hexCoords);
+          const feature = new Feature(new Polygon([hexCoords]));
+
+          // Assign style based on the tile state
+          let style;
+          if (tile.isMine) {
+              style = new Style({
+                  fill: new Fill({ color: 'red' }),
+                  text: new Text({
+                      text: '💣',
+                      font: '20px Calibri,sans-serif',
+                      fill: new Fill({ color: '#fff' }),
+                      stroke: new Stroke({ color: '#000', width: 3 })
+                  })
+              });
+          } else {
+            style = new Style({
+              fill: new Fill({ color: '#00f' }), // This will make the hexagons blue
+              text: tile.adjacentMines > 0 ? new Text({
+                  text: tile.adjacentMines.toString(),
+                  font: '20px Calibri,sans-serif',
+                  fill: new Fill({ color: '#000' }),
+                  stroke: new Stroke({ color: '#fff', width: 3 })
+              }) : null
+            });
+          }
+          feature.setStyle(style);
+          vectorSource.addFeature(feature);
+      }
+  }
+
+  // Create a vector layer to contain the hexagons
   const vector = new VectorLayer({
     source: new VectorSource(),
-    style: new Style({ fill: new Fill({ color: 'red' }) }),
-  });
-  map.addLayer(vector);
-
-  // Styles
-  const greenStyle = new Style({
-    fill: new Fill({ color: 'rgba(0,255,0,0.2)' }),
-    stroke: new Stroke({ color: 'green', width: 1.25 }),
-  });
-  const blueStyle = new Style({
-    fill: new Fill({ color: 'rgba(0,0,255,0.2)' }),
-    stroke: new Stroke({ color: 'blue', width: 1.25 }),
-  });
-  const redStyle = new Style({
-    fill: new Fill({ color: 'rgba(255,0,0,0.2)' }),
-    stroke: new Stroke({ color: 'red', width: 1.25 }),
-  });
-
-  // Pointer move
-  let current = [];
-  let start = false;
-  map.on(['pointermove', 'click'], (e) => {	// Coords
-    const h = grid.coord2hex(e.coordinate);
-    if (e.type != 'click' && h[0] == current[0] && h[1] == current[1]) return;
-    current = h;
-
-    // Move
-    if (!text) {
-      vector.getSource().clear();
-      var c = grid.hex2cube(grid.coord2hex(e.coordinate));
-      if (e.type == 'click') start = c;
-      if (start) {
-        const l = grid.cube_line(start, c);
-        for (let i = 0; i < l.length; i++) {
-          var ex = grid.getHexagon(grid.cube2hex(l[i]));
-          var f = new Feature(new Polygon([ex]));
-          f.setStyle(redStyle);
-          vector.getSource().addFeature(f);
-        }
-        // popup.show(e.coordinate, `Move = ${l.length - 1} hexagon${l.length > 2 ? 's' : ''}`);
+    style: function (feature) {
+      const style = feature.getStyle();
+      if (style.getText() && typeof style.getText().getText === 'function') {
+          return style;
+      } else {
+          // This is a failsafe. It clones the style and removes the text component if it's not valid.
+          const newStyle = style.clone();
+          newStyle.setText(null);
+          return newStyle;
       }
-      return;
-    }
-
-    // popup.hide();
-
-    vector.getSource().clear();
-    var ex = grid.getHexagon(h);
-    var f = new Feature(new Polygon([ex]));
-    vector.getSource().addFeature(f);
-
-    let size = map.getSize();
-    size = Math.round(Math.max(size[0], size[1]) / grid.getSize() * map.getView().getResolution() / Math.sqrt(3));
-    switch (text) {
-      case 'cube':
-        var c = grid.hex2cube(h);
-        // popup.show(e.coordinate, `x: ${c[0]}, y: ${c[1]}, z: ${c[2]}`);
-        for (var x = -size; x <= size; x++) {
-          if (x) {
-            ex = grid.getHexagon(grid.cube2hex([c[0] + x, c[1] - x, c[2]]));
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(greenStyle);
-            vector.getSource().addFeature(f);
-            ex = grid.getHexagon(grid.cube2hex([c[0] + x, c[1], c[2] - x]));
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(blueStyle);
-            vector.getSource().addFeature(f);
-            ex = grid.getHexagon(grid.cube2hex([c[0], c[1] + x, c[2] - x]));
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(redStyle);
-            vector.getSource().addFeature(f);
-          }
-        }
-        break;
-      case 'axial':
-        // popup.show(e.coordinate, `x: ${h[0]}, y: ${h[1]}`);
-        for (var x = -size; x <= size; x++) {
-          if (x) {
-            ex = grid.getHexagon([h[0] + x, h[1]]);
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(greenStyle);
-            vector.getSource().addFeature(f);
-            ex = grid.getHexagon([h[0], h[1] + x]);
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(blueStyle);
-            vector.getSource().addFeature(f);
-          }
-        }
-        break;
-      case 'offset':
-        var o = grid.hex2offset(h);
-        // popup.show(e.coordinate, `x: ${o[0]}, y: ${o[1]}`);
-        for (var x = -size; x <= size; x++) {
-          if (x) {
-            ex = grid.getHexagon(grid.offset2hex([o[0] + x, o[1]]));
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(greenStyle);
-            vector.getSource().addFeature(f);
-            ex = grid.getHexagon(grid.offset2hex([o[0], o[1] + x]));
-            f = new Feature(new Polygon([ex]));
-            f.setStyle(blueStyle);
-            vector.getSource().addFeature(f);
-          }
-        }
-        break;
-      default: break;
     }
   });
 
-  // // Handle menu
-  // $('label').click(function () { $(this).prev().click(); });
-  // $('input[name=action]').on('change', () => {
-  //   const v = $('input[name=action]:checked').val();
-  //   vector.getSource().clear();
-  //   popup.hide();
-  //   start = false;
-  //   switch (v) {
-  //     case 'axial':
-  //     case 'offset':
-  //     case 'cube':
-  //       text = v;
-  //       hex.showCoordiantes(v);
-  //       break;
-  //     default:
-  //       text = false;
-  //       hex.showCoordiantes(false);
-  //       break;
-  //   }
-  // });
+
+  map.addLayer(vector);
 };
 
-class HexSweeperBoard {
+
+
+class HexSweeperGame {
   constructor(width, height, difficulty) {
     this.width = width;
     this.height = height;
