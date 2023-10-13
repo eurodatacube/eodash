@@ -6,129 +6,133 @@ import { Style, Fill, Stroke } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
 import HexMap from 'ol-games/source/HexMap';
 
-const createHexMap = (map) => {
+/**
+ * Sets up the game grid using HexGrid and HexMap.
+ *
+ * @param {Object} map - The OpenLayers map instance.
+ * @returns {Object} The created hex grid.
+ */
+const setupGrid = (map) => {
   const size = 4000;
-  const boardCenter = [16.363449, 48.210033];  // Vienna
+  const boardCenter = [16.363449, 48.210033]; // Vienna
 
   const grid = new HexGrid({
     size,
-    origin: map.getView().getCenter(),
+    origin: boardCenter,
   });
+
   const hex = new HexMap({ hexGrid: grid });
   map.addLayer(new Image({ source: hex }));
 
-  // Initialize our HexSweeper game
-  let game = new HexSweeperGame(20, 10, 0.2);
-  game.initializeBoard();
-
-  const vectorSource = new VectorSource();
-
-  map.on('click', (e) => {
-    const clickedFeatures = map.getFeaturesAtPixel(e.pixel);
-
-    if (clickedFeatures.length) {
-      const clickedHexagonCoords = clickedFeatures[0].getGeometry().getCoordinates()[0][0];  // Obtain the first coordinate from the polygon definition.
-      const hx = clickedHexagonCoords[0];
-      const hy = clickedHexagonCoords[1];
-
-      // Now, find this hexagon in the hx and hy arrays:
-      const clickedHexIndex = hx.findIndex((coord, index) => {
-        return coord[0] === clickedHexagonCoords[0] && hy[index][1] === clickedHexagonCoords[1];
-      });
-
-      if (clickedHexIndex !== -1) {
-        // Convert hex index to board position (x, y)
-        const boardY = Math.floor(clickedHexIndex / game.width);
-        const boardX = clickedHexIndex % game.width;
-
-        if (boardY >= 0 && boardY < game.height && boardX >= 0 && boardX < game.width) {
-          const tile = game.board[boardY][boardX];
-
-          console.log(`Clicked at: (${boardX}, ${boardY})`);
-
-          if (tile.isMine) {
-            clickedFeatures[0].setStyle(redStyle);
-          } else {
-            const textStyle = new Text({
-              text: tile.adjacentMines.toString(),
-              font: '20px Calibri,sans-serif',
-              fill: new Fill({ color: '#000' }),
-              stroke: new Stroke({ color: '#fff', width: 3 })
-            });
-
-            clickedFeatures[0].setStyle(new Style({
-              fill: new Fill({ color: '#eee' }),
-              text: textStyle
-            }));
-          }
-        } else {
-          console.error(`Clicked outside the board boundaries. Board indices: (${boardX}, ${boardY}), Actual coordinates: (${clickedHexagonCoords[0]}, ${clickedHexagonCoords[1]})`);
-        }
-      } else {
-        console.error('Hexagon not found');
-      }
-    }
-  });
-
-
-
-  // Create OpenLayers features for each hexagon
-  for (let y = 0; y < game.height; y++) {
-      for (let x = 0; x < game.width; x++) {
-          const tile = game.board[y][x];
-          const hexCoords = grid.getHexagon([x, y]);
-          console.log(`Hex coords for board (${x}, ${y}):`, hexCoords);
-          const feature = new Feature(new Polygon([hexCoords]));
-
-          // Assign style based on the tile state
-          let style;
-          if (tile.isMine) {
-              style = new Style({
-                  fill: new Fill({ color: 'red' }),
-                  text: new Text({
-                      text: '💣',
-                      font: '20px Calibri,sans-serif',
-                      fill: new Fill({ color: '#fff' }),
-                      stroke: new Stroke({ color: '#000', width: 3 })
-                  })
-              });
-          } else {
-            style = new Style({
-              fill: new Fill({ color: '#00f' }), // This will make the hexagons blue
-              text: tile.adjacentMines > 0 ? new Text({
-                  text: tile.adjacentMines.toString(),
-                  font: '20px Calibri,sans-serif',
-                  fill: new Fill({ color: '#000' }),
-                  stroke: new Stroke({ color: '#fff', width: 3 })
-              }) : null
-            });
-          }
-          feature.setStyle(style);
-          vectorSource.addFeature(feature);
-      }
-  }
-
-  // Create a vector layer to contain the hexagons
-  const vector = new VectorLayer({
-    source: new VectorSource(),
-    style: function (feature) {
-      const style = feature.getStyle();
-      if (style.getText() && typeof style.getText().getText === 'function') {
-          return style;
-      } else {
-          // This is a failsafe. It clones the style and removes the text component if it's not valid.
-          const newStyle = style.clone();
-          newStyle.setText(null);
-          return newStyle;
-      }
-    }
-  });
-
-
-  map.addLayer(vector);
+  return grid;
 };
 
+/**
+* Handles a map click event.
+*
+* @param {Event} e - The click event.
+* @param {Object} map - The OpenLayers map instance.
+* @param {HexSweeperGame} game - The game instance.
+* @param {Object} grid - The hex grid.
+*/
+const handleMapClick = (e, map, game) => {
+  const clickedFeatures = map.getFeaturesAtPixel(e.pixel);
 
+  if (clickedFeatures.length) {
+    const clickedHexagonCoords = clickedFeatures[0].getGeometry().getCoordinates()[0][0];
+    const hx = clickedHexagonCoords[0];
+    const hy = clickedHexagonCoords[1];
+
+    const clickedHexIndex = hx
+      .findIndex((coord, index) => coord[0] === clickedHexagonCoords[0]
+        && hy[index][1] === clickedHexagonCoords[1]);
+
+    if (clickedHexIndex !== -1) {
+      const boardY = Math.floor(clickedHexIndex / game.width);
+      const boardX = clickedHexIndex % game.width;
+      const tile = game.board[boardY][boardX];
+
+      if (tile.isMine) {
+        clickedFeatures[0].setStyle(new Style({
+          fill: new Fill({ color: 'red' }),
+        }));
+      } else {
+        const textStyle = new Text({
+          text: tile.adjacentMines.toString(),
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#000' }),
+          stroke: new Stroke({ color: '#fff', width: 3 }),
+        });
+
+        clickedFeatures[0].setStyle(new Style({
+          fill: new Fill({ color: '#eee' }),
+          text: textStyle,
+        }));
+      }
+    }
+  }
+};
+
+/**
+* Adds a click event handler to the map.
+*
+* @param {Object} map - The OpenLayers map instance.
+* @param {HexSweeperGame} game - The game instance.
+* @param {Object} grid - The hex grid.
+*/
+const setupClickHandler = (map, game, grid) => {
+  map.on('click', (e) => handleMapClick(e, map, game, grid));
+};
+
+/**
+* Draws the game board by creating hexagon features and adding them to the map.
+*
+* @param {HexSweeperGame} game - The game instance.
+* @param {Object} grid - The hex grid.
+* @param {Object} map - The OpenLayers map instance.
+*/
+const drawGameBoard = (game, grid, map) => {
+  const vectorSource = new VectorSource();
+
+  for (let y = 0; y < game.height; y++) {
+    for (let x = 0; x < game.width; x++) {
+      const tile = game.board[y][x];
+      const hexCoords = grid.getHexagon([x, y]);
+      const feature = new Feature(new Polygon([hexCoords]));
+
+      let style;
+      if (tile.isMine) {
+        style = new Style({
+          fill: new Fill({ color: 'red' }),
+          text: new Text({
+            text: '💣',
+            font: '20px Calibri,sans-serif',
+            fill: new Fill({ color: '#fff' }),
+            stroke: new Stroke({ color: '#000', width: 3 }),
+          }),
+        });
+      } else {
+        style = new Style({
+          fill: new Fill({ color: '#00f' }),
+          text: tile.adjacentMines > 0 ? new Text({
+            text: tile.adjacentMines.toString(),
+            font: '20px Calibri,sans-serif',
+            fill: new Fill({ color: '#000' }),
+            stroke: new Stroke({ color: '#fff', width: 3 }),
+          }) : null,
+        });
+      }
+      feature.setStyle(style);
+      vectorSource.addFeature(feature);
+    }
+  }
+
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
+
+  map.addLayer(vectorLayer);
+};
 
 class HexSweeperGame {
   constructor(width, height, difficulty) {
@@ -168,21 +172,21 @@ class HexSweeperGame {
       ? [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]]
       : [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
 
-    for (let [dx, dy] of neighbors) {
-      let nx = x + dx;
-      let ny = y + dy;
+    neighbors.forEach(([dx, dy]) => {
+      const nx = x + dx;
+      const ny = y + dy;
 
       if (
-        nx >= 0 &&
-        nx < this.width &&
-        ny >= 0 &&
-        ny < this.height &&
-        this.board[ny] &&
-        this.board[ny][nx].isMine
+        nx >= 0
+          && nx < this.width
+          && ny >= 0
+          && ny < this.height
+          && this.board[ny]
+          && this.board[ny][nx].isMine
       ) {
         count++;
       }
-    }
+    });
 
     return count;
   }
@@ -191,10 +195,25 @@ class HexSweeperGame {
     const tile = this.board[y][x];
     if (tile.revealed || tile.flagged) return;
     tile.revealed = true;
-    return tile;
+    // return tile;
   }
 }
 
-export {
+/**
+* Initializes and sets up the hex map game.
+*
+* @param {Object} map - The OpenLayers map instance.
+*/
+export const createHexMap = (map) => {
+  const grid = setupGrid(map);
+
+  const game = new HexSweeperGame(20, 10, 0.2);
+  game.initializeBoard();
+
+  setupClickHandler(map, game, grid);
+  drawGameBoard(game, grid, map);
+};
+
+export default {
   createHexMap,
 };
