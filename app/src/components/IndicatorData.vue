@@ -1400,10 +1400,7 @@ export default {
           displayFormats: { month: 'MMM' },
           tooltipFormat: 'MMM',
         };
-        customSettings.yAxisRange = [
-          0,
-          7,
-        ];
+        customSettings.yAxisRange = [0, 8];
       }
 
       if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
