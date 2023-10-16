@@ -157,6 +157,12 @@ export default {
           ...extendedSettings.yAxisOverwrite,
         };
       }
+      if ('yAxisRange' in extendedSettings) {
+        extendedSettings.scales.yAxes[0].ticks = {
+          suggestedMin: extendedSettings.yAxisRange[0],
+          suggestedMax: extendedSettings.yAxisRange[1],
+        };
+      }
       const [min, max] = this.minMaxDate();
       extendedSettings.scales.xAxes[0].ticks.min = min;
       extendedSettings.scales.xAxes[0].ticks.max = max;

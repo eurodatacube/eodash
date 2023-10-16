@@ -131,23 +131,20 @@ export default {
                 height: 36px;
                 margin: 0;
               }
-              #filters input[type=radio][id="energy transition"]:after {
+              #filters input[type=radio][id="energy-transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
               }
-              #filters input[type=radio][id="mobility transition"]:after {
+              #filters input[type=radio][id="mobility-transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
               }
-              #filters input[type=radio][id="sustainable cities"]:after {
+              #filters input[type=radio][id="sustainable-cities"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
               }
-              #filters input[type=radio][id="carbon accounting"]:after {
+              #filters input[type=radio][id="carbon-accounting"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
               }
-              #filters input[type=radio][id="eo adaptation services"]:after {
+              #filters input[type=radio][id="eo-adaptation-services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
-              }
-              #results input[type=radio]#item-0:after {
-                background-image: url("https://gtif.esa.int/data/gtif/globalDataLayerImages/AT-AQA.png");
               }
             `,
           },
