@@ -16,10 +16,6 @@ import WKB from 'ol/format/WKB';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/GTIF/catalog.json';
 // export const STACEndpoint = 'http://127.0.0.1:8000/GTIF/catalog.json';
 
-export const themeOverwrite = {
-  economy: 'mobility transition',
-};
-
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -1890,7 +1886,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Austria',
-        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z', 60),
+        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z'),
         inputData: [''],
         yAxis: '',
         /*
