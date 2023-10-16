@@ -175,6 +175,7 @@
                       layerTitle="name"
                       class="pointerEvents">
                     </eox-layercontrol>
+                    <Narratives v-if="panel.title == 'Narratives'"/>
                  </UiPanel>
               </template>
               <template #right="{panels,handleSelection, activePanel}">
@@ -220,6 +221,7 @@ import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
+import Narratives from '../components/Narratives.vue';
 
 export default {
   metaInfo() {
@@ -244,6 +246,7 @@ export default {
     // ESABreadcrumbs,
     UiPanel,
     UiPanelsLayout,
+    Narratives
   },
   props: {
     source: String,

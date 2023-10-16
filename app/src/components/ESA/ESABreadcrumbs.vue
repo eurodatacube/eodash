@@ -1,8 +1,10 @@
 <template>
   <div
-    class="gtif-breadcrumbs"
-  >
-    <div class="fill-width fill-height d-flex justify-between align-center pl-6">
+class="gtif-breadcrumbs"
+>
+<div class="fill-width fill-height d-flex justify-between align-center pl-6">
+ <v-row class="d-flex align-center">
+  <v-col cols="10" class="align-center">
       <router-link :to="{name: 'landing'}">
         <span class="bold">GTIF</span>
         <template v-if="$vuetify.breakpoint.mdAndUp">
@@ -20,6 +22,27 @@
         <span class="px-2 green-crumb">&gt;</span>
         <span class="green-crumb">{{ secondBreadcrumb }}</span>
       </span>
+    </v-col>
+    <v-col cols="2" class="flex-column align-center justify-center">
+         <v-btn-toggle
+          group background-color="#CDD7DA"
+          borderless v-model="toggle_exclusive">
+           <v-btn >
+            <img
+              src="../../../public/img/gtif/icons/menu-narrative.svg"
+              class="mr-2" height="26"
+            />
+             <!-- <v-icon>mdi-format-align-left</v-icon> -->
+           </v-btn>
+           <v-btn>
+            <img
+            src="../../../public/img/gtif/icons/menu-explore.svg"
+            class="mr-2" height="26"
+            />
+          </v-btn>
+         </v-btn-toggle>
+       </v-col>
+     </v-row>
     </div>
   </div>
 </template>

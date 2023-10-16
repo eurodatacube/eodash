@@ -41,27 +41,32 @@ export default {
         {
           id: 1,
           title: 'Filters',
-          heightPercentage: 60,
+          heightPercentage: 33,
         },
         {
           id: 2,
           title: 'Layers',
-          heightPercentage: 40,
+          heightPercentage: 33,
+        },
+        {
+          id: 3,
+          title: 'Narratives',
+          heightPercentage: 33,
         },
       ],
       right: [
         {
-          id: 3,
+          id: 4,
           title: 'Layers',
           heightPercentage: 33,
         },
         {
-          id: 4,
+          id: 5,
           title: 'Filters',
           heightPercentage: 33,
         },
         {
-          id: 5,
+          id: 6,
           title: 'Layers',
           heightPercentage: 33,
         },
