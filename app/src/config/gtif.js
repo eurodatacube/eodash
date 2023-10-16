@@ -449,6 +449,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    customAreaIndicator: true,
   },
   REP2: {
     ...energyTransitionDefaults,
@@ -2858,6 +2859,10 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        queryParameters: {
+          sourceLayer: 'wind_average_zsp',
+          selected: '1,2,3,4,5,6,7,8,9,10,11,12',
+        },
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {

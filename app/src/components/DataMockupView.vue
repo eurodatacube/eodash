@@ -333,6 +333,40 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
+        if (['REP1'].includes(this.indicatorObject.indicator)) {
+          const { selected, sourceLayer } = this.indicatorObject.queryParameters;
+          const adminZoneKey = 'zsp_id';
+          const adminIds = [];
+          features.forEach((ftr) => {
+            const id = ftr.getId();
+            adminIds.push(id);
+          });
+
+          const expUrl = `${geodbEndpoint}${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=${selected}`;
+          window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              const newData = {
+                time: [],
+                measurement: [],
+              };
+              Object.keys(json[0]).forEach((month) => {
+                newData.time.push(DateTime.utc(2000, parseInt(month, 10)));
+                newData.measurement.push(parseFloat(json[0][month]).toFixed(2));
+              });
+              const ind = {
+                ...this.indicatorObject,
+                time: newData.time,
+                measurement: newData.measurement,
+                yAxis: 'Wind speed m/s',
+              };
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+            })
+            .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
+        }
       }
     },
   },
