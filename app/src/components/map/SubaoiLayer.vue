@@ -38,6 +38,7 @@ export default {
   data: () => ({
     constrainingExtent: undefined,
     drag: false,
+    layer: null,
   }),
   watch: {
     subAoi: {
@@ -45,7 +46,8 @@ export default {
       immediate: true,
       handler(value) {
         const { map } = getMapInstance(this.mapId);
-        const aoiLayer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
+        const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+        const aoiLayer = internalGroup.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
         if (aoiLayer) {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
@@ -119,18 +121,19 @@ export default {
       }),
     });
 
-    const subAoiLayer = new VectorLayer({
+    const layer = new VectorLayer({
       name: 'subAoi',
-      zIndex: 5,
+      layerControlHide: true,
       source: new VectorSource({}),
       style: () => (this.isInverse ? inverseStyle : subAoiStyle),
     });
+    this.layer = layer;
     if (this.subAoi) {
       const feature = geoJsonFormat.readFeature(this.subAoi, {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       });
-      subAoiLayer.getSource().addFeature(feature);
+      layer.getSource().addFeature(feature);
     }
     if (this.isInverse && this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
@@ -145,7 +148,8 @@ export default {
       map.on('movestart', this.movestartHandler);
       map.on('moveend', this.moveendHandler);
     }
-    map.addLayer(subAoiLayer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().push(layer);
   },
   methods: {
     /**
@@ -182,8 +186,8 @@ export default {
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
-    const layer = map.getLayers().getArray().find((l) => l.get('name') === 'subAoi');
-    map.removeLayer(layer);
+    const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
+    internalGroup.getLayers().remove(this.layer);
     map.getView().padding = [0, 0, 0, 0]; // TO DO: handle padding somewhere else?
     map.un('pointerdrag', this.pointerdragHandler);
     map.un('movestart', this.movestartHandler);

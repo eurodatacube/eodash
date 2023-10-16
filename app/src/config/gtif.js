@@ -208,31 +208,27 @@ export const mapDefaults = Object.freeze({
   bounds: [10, 46, 20, 49.5],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-},
-baseLayers.cloudless,
-baseLayers.eoxosm,
-baseLayers.S2GLC,
-baseLayers.ESA_WORLD_COVER,
-baseLayers.CORINE_LAND_COVER,
-baseLayers.geolandbasemap,
-baseLayers.bmapgelaende,
-baseLayers.bmaporthofoto30cm,
+export const baseLayersMap = [
+  baseLayers.S2GLC,
+  baseLayers.ESA_WORLD_COVER,
+  baseLayers.CORINE_LAND_COVER,
+  baseLayers.geolandbasemap,
+  baseLayers.bmapgelaende,
+  baseLayers.bmaporthofoto30cm,
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
 ];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
 
-export const overlayLayersLeftMap = [
+export const overlayLayersMap = [
+  overlayLayers.powerOpenInfrastructure,
   {
     ...overlayLayers.eoxOverlay, visible: true,
   },
-  overlayLayers.powerOpenInfrastructure,
 ];
-export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
+
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
@@ -262,6 +258,8 @@ export const defaultLayersDisplay = {
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
+  maxZoom: 18,
+  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -288,10 +286,10 @@ const getDailyDates = (start, end) => {
 
 const energyTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.bodenwertigkeitskarte_agri,
     baseLayers.bodenwertigkeitskarte_grassland,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
@@ -314,8 +312,8 @@ const eoadaptationDefaults = {
 
 const mobilityTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
 };
 
@@ -897,7 +895,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
             type: 'FeatureCollection',
@@ -920,7 +917,6 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -954,7 +950,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
@@ -979,7 +974,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1361,7 +1355,7 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
+        display: [{
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1396,7 +1390,18 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
-        },
+        }, {
+          // TESTING layerControlOptional behavior
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'TRUCK_REPROCESSING_MOTORWAY',
+          maxZoom: 14,
+          opacity: 0.7,
+          layerControlOptional: true,
+          visible: false,
+        }],
       },
     },
   },
@@ -3070,12 +3075,10 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Sentinel 2 L2A',
           minZoom: 13,
-          maxZoom: 18,
           timeFromProperty: true,
         }, {
           minZoom: 13,
           protocol: 'GeoJSON',
-          clusterLayer: true,
           tooltip: true,
           getTimeFromProperty: 'detection_time',
           visible: true,
@@ -3088,6 +3091,13 @@ export const globalIndicators = [
           selection: {
             mode: 'single',
           },
+        }, {
+          maxZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          visible: true,
+          name: 'Wind turbine detections clusters',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
         }],
       },
     },
@@ -3513,8 +3523,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow depth',
           layers: 'SNOW-DEPTH',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (
@@ -3560,8 +3568,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow water equivalent',
           layers: 'SWE',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (

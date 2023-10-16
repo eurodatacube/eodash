@@ -317,7 +317,6 @@ import { getMapInstance } from '@/components/map/map';
 import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
-import Collection from 'ol/Collection';
 import { saveAs } from 'file-saver';
 
 export default {
@@ -478,11 +477,11 @@ export default {
       // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
       // approaches for getting selected indicator and setting the sources should be considered
       const { map } = getMapInstance('centerMap');
-      const layers = map.getLayers().getArray();
-      // get layerGroup and recreate it, otherwise the webglcontext has visual glitches, if we
+      // get layer and recreate it, otherwise the webglcontext has visual glitches, if we
       // would just replace the source of a layer
-      const layerGroup = layers.find((l) => l.get('name') === this.mergedConfigsData.name);
-      map.removeLayer(layerGroup);
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
+      dataGroup.getLayers().remove(layer);
       // TODO hardcoded first item in array, we should match by ID or so
       const { sources, style } = this.mergedConfigsData;
       switch (evt.description) {
@@ -499,19 +498,19 @@ export default {
           break;
       }
       sources[0].url = evt.url;
-      const wgTileLayer = new WebGLTileLayer({
+      const newLayer = new WebGLTileLayer({
         source: new GeoTIFF({
           sources,
           normalize: false,
           interpolate: false,
         }),
         style,
+        name: this.mergedConfigsData.name,
       });
-      wgTileLayer.set('id', this.cogFilters.sourceLayer);
-      wgTileLayer.updateStyleVariables(this.variables);
-      layerGroup.setLayers(new Collection([wgTileLayer]));
+      newLayer.set('id', this.cogFilters.sourceLayer);
+      newLayer.updateStyleVariables(this.variables);
       // forces fixing of webgl context, simply updating layers of layergroup does not work
-      map.addLayer(layerGroup);
+      dataGroup.getLayers().push(newLayer);
     },
     resetMap() {
       const { map } = getMapInstance('centerMap');
