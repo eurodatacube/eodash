@@ -133,7 +133,7 @@ export default {
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -152,18 +152,19 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1'],
     };
   },
   mounted() {
     /*
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    const formatted = d.toFormat('dd. MMM');
-    this.dataLayerTime = {
-      value: formatted,
-      name: formatted,
-    };
-    */
+    if (d.toFormat) {
+      const formatted = d.toFormat('dd. MMM');
+      this.dataLayerTime = {
+        value: formatted,
+        name: formatted,
+      };
+    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -1136,6 +1137,24 @@ export default {
             showLine: true,
           });
         }
+        if (['REP1'].includes(indicatorCode)) {
+          const data = [];
+          indicator.measurement.forEach((item, i) => {
+            data.push({
+              t: indicator.time[i],
+              y: item,
+            });
+          });
+          datasets.push({
+            label: 'Monthly average wind speed for selected ZSP',
+            data,
+            fill: false,
+            borderColor: '#003247',
+            backgroundColor: '#003247',
+            borderWidth: 1,
+            pointRadius: 4,
+          });
+        }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
           const data = featureData.time.map((date, i) => {
@@ -1393,6 +1412,15 @@ export default {
           displayFormats: { month: 'MMM yyyy' },
           tooltipFormat: 'MMM yyyy',
         };
+      }
+
+      if (['REP1'].includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM' },
+          tooltipFormat: 'MMM',
+        };
+        customSettings.yAxisRange = [0, 8];
       }
 
       if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
