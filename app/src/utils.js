@@ -351,8 +351,6 @@ function createWMSDisplay(config, name) {
     baseUrl: config.href,
     name,
     layers,
-    minZoom: 1,
-    maxZoom: 18,
     styles,
     dateFormatFunction: (date) => date,
     // TODO: not sure if the crossOrigin null as default will create issues (needed for N1b)
@@ -364,8 +362,6 @@ function createWMSDisplay(config, name) {
 function createXYZDisplay(config, name) {
   const display = {
     protocol: 'xyz',
-    minZoom: 1,
-    maxZoom: 18,
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
     name,
@@ -614,15 +610,11 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    let display = {};
     if (wmsEndpoint) {
-      const display = createWMSDisplay(
+      display = createWMSDisplay(
         wmsEndpoint, jsonData.name,
       );
-      // Handling of unique non standard functionality
-      if (indicatorObject.indicator === 'WSF') {
-        display.specialEnvTime = true;
-      }
-      indicatorObject.display = display;
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
@@ -631,10 +623,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
       if (xyzEndpoint.type === 'image/png') {
-        const display = createXYZDisplay(
+        display = createXYZDisplay(
           xyzEndpoint, jsonData.name,
         );
-        indicatorObject.display = display;
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
             let time;
@@ -651,10 +642,9 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
       } else if (xyzEndpoint.type === 'application/pbf') {
-        const display = createVectorTileDisplay(
+        display = createVectorTileDisplay(
           xyzEndpoint,
         );
-        indicatorObject.display = display;
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
             let time;
@@ -668,20 +658,18 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
-    } else {
-      indicatorObject.display = null;
     }
     // If legend available add it to the display config
-    if (indicatorObject.display && 'assets' in jsonData && 'legend' in jsonData.assets) {
-      indicatorObject.display.legendUrl = jsonData.assets.legend.href;
+    if ('assets' in jsonData && 'legend' in jsonData.assets) {
+      display.legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples
     const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
     if (exampleEndpoint) {
-      if (exampleEndpoint.title === 'evalscript' && indicatorObject.display) {
+      if (exampleEndpoint.title === 'evalscript') {
         const evalscript = await (await fetch(exampleEndpoint.href)).text();
-        indicatorObject.display = {
-          ...indicatorObject.display,
+        display = {
+          ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: {
@@ -695,9 +683,9 @@ export async function loadIndicatorData(baseConfig, payload) {
             },
           },
         };
-      } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display) {
-        indicatorObject.display = {
-          ...indicatorObject.display,
+      } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        display = {
+          ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
@@ -756,6 +744,19 @@ export async function loadIndicatorData(baseConfig, payload) {
     // We need the information on features directly once loaded for the custom dashboard loading
     // TODO: probably there is a better way of managing this information
     indicatorObject.features = features;
+    if (Array.isArray(indicatorObject.display)) {
+      // merge display with first entry of original array of displays
+      indicatorObject.display[0] = {
+        ...display,
+        ...indicatorObject.display[0],
+      };
+    } else {
+      // merge object properties
+      indicatorObject.display = {
+        ...display,
+        ...indicatorObject.display,
+      };
+    }
   }
   return indicatorObject;
   /*
