@@ -124,9 +124,17 @@ const setupClickHandler = (map, game, grid, vectorSource) => {
 */
 const drawGameBoard = (map, game, grid, vectorSource) => {
   for (let y = 0; y < game.height; y++) {
+    // Make our edges straight again so the cell calculation works out
+    let xOffset = ((y % 2 !== 0) * 1) - y / 2;
+    if (y % 2 === 0) {
+      xOffset += 1.0;
+    } else {
+      xOffset += 0.5;
+    }
+
     for (let x = 0; x < game.width; x++) {
       const tile = game.board[y][x];
-      const hexCoords = grid.getHexagon([x, y]);
+      const hexCoords = grid.getHexagon([x + xOffset, y]);
       const feature = new Feature(new Polygon([hexCoords]));
 
       let style;
