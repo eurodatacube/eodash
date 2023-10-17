@@ -8,7 +8,7 @@
           <p class="pa-1">
             <div class="dot"></div>
             {{ narrative.name }}
-          </p>
+         </p>
         </li>
       </ul>
       <p v-else>Choose a domain</p>
@@ -17,19 +17,15 @@
 </template>
 
 <script>
-import {
-  mapState,
-  mapGetters,
-} from 'vuex';
 export default {
   computed: {
     getDomainSlug() {
-      return this.$store.state.gtif.currentDomain
+      return this.$store.state.gtif.currentDomain;
     },
     getCurrentNarratives() {
-      return this.$store.state.gtif.domains.find(domain=>domain.slug === this.getDomainSlug)
-    }
-  }
+      return this.$store.state.gtif.domains.find((domain) => domain.slug === this.getDomainSlug);
+    },
+  },
 };
 </script>
 <style scoped>

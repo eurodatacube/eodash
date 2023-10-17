@@ -24,9 +24,9 @@ class="gtif-breadcrumbs"
       </span>
     </v-col>
     <v-col cols="2" class="flex-column align-center justify-center">
-         <v-btn-toggle
+         <v-btn-toggle mandatory
           group background-color="#CDD7DA"
-          borderless v-model="toggle_exclusive">
+          borderless v-model="$store.state.gtif.toolsToggle">
            <v-btn >
             <img
               src="../../../public/img/gtif/icons/menu-narrative.svg"
@@ -55,14 +55,15 @@ import {
 
 export default {
   name: 'ESABreadcrumbs',
+  data() {
+    return {
+      domains: this.$store.state.gtif.domains,
+    };
+  },
   props: {
     areBreadcrumbsEnabled: {
       type: Boolean,
       default: true,
-    },
-    domains: {
-      type: Array,
-      required: true,
     },
   },
   computed: {
