@@ -1391,17 +1391,6 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
-        }, {
-          // TESTING layerControlOptional behavior
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
-            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
-            .toFormat('yyyy-MM-dd')}`,
-          name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          maxZoom: 14,
-          opacity: 0.7,
-          layerControlOptional: true,
-          visible: false,
         }],
       },
     },

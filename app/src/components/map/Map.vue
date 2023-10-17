@@ -564,7 +564,9 @@ export default {
               loadIndicatorExternalData(
                 timeObj.value, item,
               ).then((data) => {
-                this.$store.state.indicators.selectedIndicator.mapData = data;
+                if (this.$store.state.indicators.selectedIndicator) {
+                  this.$store.state.indicators.selectedIndicator.mapData = data;
+                }
                 // finds first layer with ID
                 const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {
