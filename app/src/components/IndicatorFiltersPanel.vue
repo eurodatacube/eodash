@@ -14,6 +14,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
@@ -46,6 +47,9 @@ export default {
   methods: {
     ...mapMutations('features', {
       setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapActions('gtif',{
+      setDomain:'setDomainFromFilter'
     }),
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
@@ -111,6 +115,9 @@ export default {
             ],
             onSelect: (item) => {
               this.setSelectedIndicator(item);
+            },
+            onFilter:(items)=>{
+              this.setDomain(items)
             },
             // exclusiveFilters: true,
             aggregateResults: 'themes',
