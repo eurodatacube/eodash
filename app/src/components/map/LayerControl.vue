@@ -23,7 +23,7 @@
   >
     <eox-layercontrol
       :for="'#' + mapId "
-      layerTitle="name"
+      :titleProperty.prop="'name'"
       class="pointerEvents">
     </eox-layercontrol>
   </v-card>
