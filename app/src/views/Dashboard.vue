@@ -460,6 +460,15 @@ export default {
   transform: translateX(calc(-1 * var(--data-panel-width)));
 }
 
+eox-stacinfo::part(header) {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+eox-stacinfo::part(footer) {
+  position: sticky;
+  bottom: 0;
+}
 [slot="themes"] {
   width: 100%;
 }
