@@ -13,16 +13,16 @@
         indicatorObject
         && (!indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
         " class="d-flex">
+          <!--
         <filter-controls v-if="indicatorObject.cogFilters"
           :cogFilters="indicatorObject.cogFilters"
         >
         </filter-controls>
-
-        <!-- TODO: remove GTIF brand check -->
         <v-col v-if="appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
+        
           <v-btn
             text
             color="primary"
@@ -34,14 +34,15 @@
               ? 90
               : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
           </v-btn>
+          
           <scatter-plot v-if="indicatorObject.cogFilters
             && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
             :filters="indicatorObject.cogFilters.filters"
           >
           </scatter-plot>
         </v-col>
-
-        <style-controls v-if="indicatorObject.vectorStyles"
+          -->
+          <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>

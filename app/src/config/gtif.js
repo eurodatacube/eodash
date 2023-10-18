@@ -1294,6 +1294,69 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'AQA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Health Risk Index (ARI)',
+        lastIndicatorValue: null,
+        indicatorName: 'Health Risk Index (ARI)',
+        navigationDescription: 'Daily aggregated maps of ARI',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        time: availableDates.air_quality.sort((a, b) => {
+          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
+          return val;
+        }),
+        inputData: [''],
+        yAxis: 'Health Risk Index',
+        display: {
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+              return color;
+            },
+          },
+          id: 'air_quality_new_id',
+          name: 'ARI',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
+          allowedParameters: ['name'],
+        },
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'ihr',

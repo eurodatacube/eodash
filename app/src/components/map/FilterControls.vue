@@ -342,7 +342,7 @@ export default {
   },
   computed: {
     processEnabled() {
-      return this.mergedConfigsData.processingEnabled;
+      return this.mergedConfigsData?.processingEnabled;
     },
     adminSelected() {
       let selection = null;

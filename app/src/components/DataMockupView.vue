@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     show() {
-      return this.selectedFeatures.length && this.indicatorObject
+      return this.selectedFeatures?.length && this.indicatorObject
       && ['SOL1',
         // 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
       ].includes(this.indicatorObject.indicator);
