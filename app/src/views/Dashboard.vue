@@ -29,12 +29,12 @@
         subheader='["keywords"]'
         properties='["themes", "satellite", "sensor", "agency"]'
         featured='["description", "providers", "extent", "sci:publications"]'
-        footer='["sci:citation", "sci:doi"]'
+        footer='["sci:citation"]'
       >
         <div slot="themes">
           <ul>
             <v-chip
-              v-for="theme in $refs.stacinfo?.stacProperties?.themes?.value.split(',')"
+              v-for="theme in $refs.stacinfo?.stacProperties?.themes?.value"
               :key="theme"
               :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
               text-color="white"
@@ -460,15 +460,6 @@ export default {
   transform: translateX(calc(-1 * var(--data-panel-width)));
 }
 
-eox-stacinfo::part(header) {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-eox-stacinfo::part(footer) {
-  position: sticky;
-  bottom: 0;
-}
 [slot="themes"] {
   width: 100%;
 }

@@ -57,7 +57,7 @@ const actions = {
         const indicators = [];
         data.links.forEach((link) => {
           if (link.rel === 'child') {
-            let themes = link.themes.split(',');
+            let { themes } = link;
             if (themes && rootState.config.baseConfig.themeOverwrite) {
               const overwrite = rootState.config.baseConfig.themeOverwrite;
               const updated = [];
@@ -68,7 +68,7 @@ const actions = {
                   updated.push(t);
                 }
               });
-              themes = updated.join(',');
+              themes = updated;
             }
             let resultIndicator = {
               type: 'stac',
