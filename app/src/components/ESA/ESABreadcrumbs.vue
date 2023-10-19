@@ -23,27 +23,11 @@ class="gtif-breadcrumbs"
         <span class="green-crumb">{{ secondBreadcrumb }}</span>
       </span>
     </v-col>
-    <v-col cols="2" class="flex-column align-center justify-center">
-         <v-btn-toggle mandatory
-          group background-color="#CDD7DA"
-          borderless v-model="$store.state.gtif.toolsToggle">
-           <v-btn >
-            <img
-              src="../../../public/img/gtif/icons/menu-narrative.svg"
-              class="mr-2" height="26"
-            />
-             <!-- <v-icon>mdi-format-align-left</v-icon> -->
-           </v-btn>
-           <v-btn>
-            <img
-            src="../../../public/img/gtif/icons/menu-explore.svg"
-            class="mr-2" height="26"
-            />
-          </v-btn>
-         </v-btn-toggle>
-       </v-col>
-     </v-row>
-    </div>
+    <v-col cols="2" class="d-flex flex-column align-center text-center">
+        <NarrativeToolsToggle/>
+      </v-col>
+    </v-row>
+   </div>
   </div>
 </template>
 
@@ -52,6 +36,7 @@ class="gtif-breadcrumbs"
 import {
   mapState,
 } from 'vuex';
+import NarrativeToolsToggle from './NarrativeToolsToggle.vue';
 
 export default {
   name: 'ESABreadcrumbs',
@@ -90,6 +75,7 @@ export default {
       return foundRoute ? foundRoute.name : '';
     },
   },
+  components: { NarrativeToolsToggle },
 };
 </script>
 
