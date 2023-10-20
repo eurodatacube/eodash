@@ -47,17 +47,6 @@ function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
 
-// We statically define some colormaps to not instanciate them for every call
-/*
-const blackbody64 = {
-  steps: 128,
-  colors: colormap({
-    colormap: 'blackbody',
-    nshades: 128,
-  }),
-};
-*/
-
 let stp = 1 / 6;
 
 const adoColor = {
@@ -120,40 +109,6 @@ const blgrrd = {
     nshades: 32,
   }),
 };
-
-// const drrglb = {
-//   steps: 32,
-//   colors: colormap({
-//     colormap: [
-//       { index: 0, rgb: [209, 55, 78] },
-//       { index: 0.2, rgb: [254, 173, 84] },
-//       { index: 0.4, rgb: [254, 237, 177] },
-//       { index: 0.6, rgb: [216, 254, 181] },
-//       { index: 0.8, rgb: [73, 227, 206] },
-//       { index: 1, rgb: [1, 152, 189] },
-//     ],
-//     nshades: 32,
-//   }),
-// };
-
-/*
-const ihrCS = {
-  steps: 10,
-  colors: [
-    '#4a834a',
-    '#4ac14a',
-    '#8ae049',
-    '#ccec49',
-    '#fae94c',
-    '#febf4c',
-    '#fe934c',
-    '#f23a00',
-    '#c40025',
-    '#a2001f',
-    '#600030',
-  ],
-};
-*/
 
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
@@ -1036,8 +991,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Aggregated data',
         queryParameters: {
-          // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
-          // motorized_share, motorized_count, satellite_values, mean_value
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: 'n_trajectories',
           items: [
@@ -1258,23 +1211,6 @@ export const globalIndicators = [
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-                  /*
-                  if (value < -2) {
-                    color = 'rgba(215, 25, 28, 0.7)';
-                  } else if (value < -1.5) {
-                    color = 'rgba(253, 174, 97, 0.7);';
-                  } else if (value < -1) {
-                    color = 'rgba(255, 255, 191, 0.7);';
-                  } else if (value < 1) {
-                    color = 'rgba(255, 255, 255, 0.7)';
-                  } else if (value < 1.5) {
-                    color = 'rgba(245, 153, 246, 0.7)';
-                  } else if (value < 2) {
-                    color = 'rgba(180, 103, 221, 0.7)';
-                  } else if (value >= 2) {
-                    color = 'rgba(69, 0, 153, 0.7)';
-                  }
-                  */
                 }
               }
               return color;
@@ -2721,14 +2657,6 @@ export const globalIndicators = [
               ['==', ['band', 1], 1],
               ['color', 255, 0, 0, 1],
               ['color', 0, 0, 0, 0],
-              // [
-              //   'case',
-              //   ['==', ['band', 2], 1],
-              //   ['color', 147, 220, 0],
-              //   ['==', ['band', 2], 2],
-              //   ['color', 0, 107, 0],
-              //   ['color', 0, 0, 0, 0],
-              // ],
             ],
           },
           name: 'Forest change detections',
@@ -3303,62 +3231,6 @@ export const globalIndicators = [
       },
     },
   },
-  /*
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        indicator: 'REP3',
-        disabled: true,
-        description: 'NRT Energy Production Forecast',
-        navigationDescription: 'NRT Energy Production Forecast',
-        lastIndicatorValue: null,
-        indicatorName: 'Nowcasting',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-        },
-        display: {
-        },
-      },
-    },
-  },
-  */
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       dataLoadFinished: false,
-  //       country: 'all',
-  //       city: 'Austria',
-  //       siteName: 'global',
-  //       indicator: 'REP4',
-  //       description: 'Dynamic Storage Capacity',
-  //       navigationDescription: 'Dynamic Storage Capacity',
-  //       lastIndicatorValue: null,
-  //       indicatorName: 'Hydro Power',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [],
-  //       },
-  //       aoi: null,
-  //       aoiID: 'Austria',
-  //       time: [],
-  //       inputData: [''],
-  //       yAxis: '',
-  //     },
-  //   },
-  // },
   {
     properties: {
       indicatorObject: {

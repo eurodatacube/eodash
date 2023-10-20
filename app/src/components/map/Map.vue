@@ -547,12 +547,6 @@ export default {
           }
         }
       }
-
-      // Handle extent configuration for overall indicator
-      if ((this.centerProp && this.zoomProp)
-          || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
-        return null;
-      }
       if (this.$route.name === 'demo') {
         // check if a demo item custom extent is set as override
         let indObject = this.indicatorObject;
@@ -586,7 +580,6 @@ export default {
           extent, 'EPSG:4326', map.getView().getProjection(),
         );
       }
-
       return undefined;
     },
     isInIframe() {
