@@ -3,7 +3,8 @@
     <Narratives v-if="gtif && !inToolsMode"/>
     <eox-layercontrol
      v-else
-     for="#centerMap" layerTitle="name"
+     for="#centerMap"
+     :titleProperty.prop="'name'"
      class="pointerEvents">
     </eox-layercontrol>
   </div>

@@ -186,7 +186,7 @@
                    <eox-layercontrol
                    v-if="panel.title == 'Layers'"
                       for="#centerMap"
-                      layerTitle="name"
+                      :titleProperty.prop="'name'"
                       class="pointerEvents">
                     </eox-layercontrol>
                  </UiPanel>

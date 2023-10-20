@@ -207,19 +207,12 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-  protocol: 'WMS',
-  dateFormatFunction: shTimeFunction,
-  format: 'image/png',
   transparent: true,
-  tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
-  maxZoom: 18,
-  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -846,6 +839,11 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
@@ -901,6 +899,11 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
