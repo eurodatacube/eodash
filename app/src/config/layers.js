@@ -137,6 +137,22 @@ export const baseLayers = Object.freeze({
     ],
     normalize: true,
   },
+  s1EodcBackscattervv: {
+    name: 'EODC Sentinel 1 VV Polarisation',
+    url: '//s1map.eodc.eu/vv/{z}/{x}/{y}.png',
+    attribution: `Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth's Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91`,
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  s1EodcBackscattervh: {
+    name: 'EODC Sentinel 1 VH Polarisation',
+    url: '//s1map.eodc.eu/vh/{z}/{x}/{y}.png',
+    attribution: `Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth's Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91`,
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
 });
 
 export const overlayLayers = Object.freeze({
