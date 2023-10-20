@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2">
+  <eox-itemfilter class="pa-2" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -14,6 +14,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
@@ -46,6 +47,9 @@ export default {
   methods: {
     ...mapMutations('features', {
       setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapActions('gtif', {
+      setDomain: 'setDomainFromFilter',
     }),
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
@@ -112,18 +116,27 @@ export default {
             onSelect: (item) => {
               this.setSelectedIndicator(item);
             },
+            onFilter: (items) => {
+              this.setDomain(items);
+            },
             // exclusiveFilters: true,
             aggregateResults: 'themes',
             styleOverride: `
+            #filters input[type=radio],
+            #results input[type=radio]{
+              width:36px;
+              height:36px;
+              margin: 6px;
+            }
               #filters input[type=radio]:after,
               #results input[type=radio]:after {
                 content: "";
                 background-size: cover;
                 background-position: center center;
                 border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                margin: 6px;
+                width: 36px;
+                height: 36px;
+                margin: 0;
               }
               #filters input[type=radio][id="energy-transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");

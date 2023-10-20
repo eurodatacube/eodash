@@ -1,8 +1,10 @@
 <template>
   <div
-    class="gtif-breadcrumbs"
-  >
-    <div class="fill-width fill-height d-flex justify-between align-center pl-6">
+class="gtif-breadcrumbs"
+>
+<div class="fill-width fill-height d-flex justify-between align-center pl-6">
+ <v-row class="d-flex align-center">
+  <v-col cols="10" class="align-center">
       <router-link :to="{name: 'landing'}">
         <span class="bold">GTIF</span>
         <template v-if="$vuetify.breakpoint.mdAndUp">
@@ -20,7 +22,12 @@
         <span class="px-2 green-crumb">&gt;</span>
         <span class="green-crumb">{{ secondBreadcrumb }}</span>
       </span>
-    </div>
+    </v-col>
+    <v-col cols="2" class="d-flex flex-column align-center text-center">
+        <NarrativeToolsToggle/>
+      </v-col>
+    </v-row>
+   </div>
   </div>
 </template>
 
@@ -29,17 +36,19 @@
 import {
   mapState,
 } from 'vuex';
+import NarrativeToolsToggle from './NarrativeToolsToggle.vue';
 
 export default {
   name: 'ESABreadcrumbs',
+  data() {
+    return {
+      domains: this.$store.state.gtif.domains,
+    };
+  },
   props: {
     areBreadcrumbsEnabled: {
       type: Boolean,
       default: true,
-    },
-    domains: {
-      type: Array,
-      required: true,
     },
   },
   computed: {
@@ -66,6 +75,7 @@ export default {
       return foundRoute ? foundRoute.name : '';
     },
   },
+  components: { NarrativeToolsToggle },
 };
 </script>
 

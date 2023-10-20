@@ -161,31 +161,37 @@
               <IndicatorFiltersDemo
                 :expanded="dataPanelFullWidth" />
             </div>
-            <div
-              v-else
-              :style="`
-                position: absolute;
-                ${$vuetify.breakpoint.smAndUp ? 'top' : 'bottom'}: 0;
-                left: 0;
-                width: 100%;
-                height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
-                padding: 8px;
-                display: ${$vuetify.breakpoint.smAndUp ? 'grid' : 'flex'};
-                grid-template-columns: repeat(${$vuetify.breakpoint.lgAndUp ? 5 : 4}, 1fr);
-                grid-template-rows: repeat(5, 1fr);
-                grid-column-gap: 1rem;
-                grid-row-gap: 1rem;
-                pointer-events: none;
-              `"
+
+            <UiPanelsLayout class="fill-height" :gtif="appConfig.id === 'gtif'"
+            v-else
             >
-              <UiPanel
-                left
-                title="Filter"
-                :style="`grid-area: 1 / 1 / 5 / 2;`"
-              >
-                <IndicatorFiltersPanel />
-              </UiPanel>
-            </div>
+              <template #left="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <NarrativesToolsPanel :gtif="appConfig.id === 'gtif'"
+                   v-if="['Layers','Narratives'].includes(panel.title)"/>
+                 </UiPanel>
+              </template>
+              <template #right="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <eox-layercontrol
+                   v-if="panel.title == 'Layers'"
+                      for="#centerMap"
+                      layerTitle="name"
+                      class="pointerEvents">
+                    </eox-layercontrol>
+                 </UiPanel>
+              </template>
+            </UiPanelsLayout>
           </v-col>
         </v-row>
       </v-container>
@@ -207,11 +213,13 @@ import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 // import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 // import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import UiPanelsLayout from '@/components/UiPanelsLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
+import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
 
 export default {
   metaInfo() {
@@ -235,6 +243,8 @@ export default {
     IndicatorFiltersDemo,
     // ESABreadcrumbs,
     UiPanel,
+    UiPanelsLayout,
+    NarrativesToolsPanel,
   },
   props: {
     source: String,
