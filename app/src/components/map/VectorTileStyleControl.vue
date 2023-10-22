@@ -61,7 +61,7 @@ export default {
   }),
   mounted() {
     const selected = this.queryParameters?.selected;
-    if (this.queryParameters?.selected && this.queryParameters?.items.length > 1) {
+    if (this.queryParameters?.selected && this.queryParameters?.items?.length > 1) {
       this.select = this.queryParameters?.items.find((item) => item.id === selected);
     } else {
       [this.select] = this.queryParameters?.items;

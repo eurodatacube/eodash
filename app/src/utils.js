@@ -336,9 +336,11 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
     .catch((error) => console.log(error));
   // convert to object
   const dataObject = {};
-  data.forEach((entry) => {
-    dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
-  });
+  if (Array.isArray(data)) {
+    data.forEach((entry) => {
+      dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
+    });
+  }
   return dataObject;
 }
 
@@ -658,6 +660,14 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else {
+      // try extracting dates from items for "collection-only placeholder collections"
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          times.push(link.datetime);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
     // If legend available add it to the display config
     if ('assets' in jsonData && 'legend' in jsonData.assets) {
@@ -740,7 +750,10 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       store.commit('features/SET_FEATURES', features);
     }
-    indicatorObject.time = times;
+    indicatorObject.time = [
+      ...times,
+      ...(indicatorObject.time || []),
+    ];
     // We need the information on features directly once loaded for the custom dashboard loading
     // TODO: probably there is a better way of managing this information
     indicatorObject.features = features;

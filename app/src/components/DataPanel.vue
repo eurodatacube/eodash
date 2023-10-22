@@ -11,7 +11,7 @@
     ">
       <v-row v-if="
         indicatorObject
-        && (!indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
+        && (appConfig.id === 'gtif' || !indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
         " class="d-flex">
           <!--
         <filter-controls v-if="indicatorObject.cogFilters"
@@ -351,7 +351,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else-if="indicatorObject.features.length && !featureObject">
+      <v-row v-if="indicatorObject.features.length && !featureObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -399,7 +399,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else>
+      <v-row>
         <div
           v-html="story"
           class="md-body"

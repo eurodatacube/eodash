@@ -207,6 +207,7 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
+  dateFormatFunction: shTimeFunction,
   transparent: true,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
@@ -418,12 +419,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-  },
-  REP4: {
-    indicator: 'Hydro Power SWE unified',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
   },
   REP4_1: {
     indicator: 'Hydro Power SWE daily',
@@ -865,6 +860,11 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
@@ -908,7 +908,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
             type: 'FeatureCollection',
@@ -926,12 +925,17 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
+          minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -988,7 +992,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.aggregated_data,
         inputData: [''],
         yAxis: 'Aggregated data',
         queryParameters: {
@@ -1071,8 +1074,6 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
-          // getTimeFromProperty: 'timestamp',
-          // timeFromProperty: true,
           style: {
             strokeColor: 'rgba(0,0,0,0)',
             getColor: (feature, store, options) => {
@@ -1252,10 +1253,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.air_quality.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
         inputData: [''],
         yAxis: 'Health Risk Index',
         display: {
@@ -1355,10 +1352,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.air_quality.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
         inputData: [''],
         yAxis: 'PM10 [µg/m³]',
         queryParameters: {
@@ -1458,10 +1451,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.air_quality.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
         inputData: [''],
         yAxis: 'PM2.5 [µg/m³]',
         queryParameters: {
@@ -2712,6 +2701,7 @@ export const globalIndicators = [
         queryParameters: {
           sourceLayer: 'wind_average_zsp',
           selected: '1,2,3,4,5,6,7,8,9,10,11,12',
+          items: [],
         },
         cogFilters: {
           sourceLayer: 'REP1',
