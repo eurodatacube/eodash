@@ -6,7 +6,7 @@
     <global-header
       ref="globalHeader"
     />
-    <v-navigation-drawer
+    <!--<v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       v-model="drawerRight"
       right
@@ -135,7 +135,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </div>
+    </div>-->
 
     <v-main
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
@@ -182,13 +182,11 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                   <StoryDisplay v-if="panel.title == 'Story'" />
-                   <eox-layercontrol
-                   v-if="panel.title == 'Layers'"
-                      for="#centerMap"
-                      :titleProperty.prop="'name'"
-                      class="pointerEvents">
-                    </eox-layercontrol>
+                   <StoryDisplay v-if="panel.title == 'Information'" />
+                   <data-panel
+                    v-if="panel.title === 'Analysis' && indicatorObject
+                    || $store.state.features.featureFilters.indicators.length > 0"
+                    :key="panelKey" />
                  </UiPanel>
               </template>
             </UiPanelsLayout>
