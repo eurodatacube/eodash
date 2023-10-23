@@ -13,7 +13,7 @@
         <v-expansion-panel-content ref="expantionContent"
         :style="`max-height: calc(((var(--vh, 1vh) * 100) - ${$vuetify.application.top
         + $vuetify.application.footer + (gtif ?
-         48:0) +(48 * siblingsCount)}px ) * ${(heightPercentage/100)});`" >
+         48:0) +(48 * siblingsCount)}px) * ${(heightPercentage/100)});`" >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>

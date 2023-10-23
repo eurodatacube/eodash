@@ -53,17 +53,12 @@ export default {
         {
           id: 4,
           title: 'Layers',
-          heightPercentage: 33,
+          heightPercentage: 50,
         },
         {
-          id: 5,
-          title: 'Filters',
-          heightPercentage: 33,
-        },
-        {
-          id: 6,
-          title: 'Layers',
-          heightPercentage: 33,
+          id: 4,
+          title: 'Story',
+          heightPercentage: 50,
         },
       ],
 

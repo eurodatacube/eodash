@@ -512,6 +512,7 @@ export default {
           }
         }
       }
+      this.$store.commit('story/SET_STORY', markdown.default);
       return this.$marked(markdown.default);
     },
     indicatorObject() {

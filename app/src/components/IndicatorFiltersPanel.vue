@@ -153,6 +153,9 @@ export default {
               #filters input[type=radio][id="eo-adaptation-services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
               }
+              #filter-reset {
+                display: none;
+              }
             `,
           },
         };

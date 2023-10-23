@@ -182,7 +182,7 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <StoryDisplay v-if="panel.title == 'Story'" />
                    <eox-layercontrol
                    v-if="panel.title == 'Layers'"
                       for="#centerMap"
@@ -219,6 +219,7 @@ import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
+import StoryDisplay from '../components/StoryDisplay.vue';
 import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
 
 export default {
@@ -244,6 +245,7 @@ export default {
     // ESABreadcrumbs,
     UiPanel,
     UiPanelsLayout,
+    StoryDisplay,
     NarrativesToolsPanel,
   },
   props: {
