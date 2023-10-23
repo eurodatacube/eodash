@@ -1,5 +1,5 @@
 const state = {
-  markdown: require('../../../public/data/gtif/markdown/ADO.md').default,
+  markdown: '',
 };
 const getters = {};
 const actions = {};
