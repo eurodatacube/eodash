@@ -73,8 +73,26 @@ export default {
     inToolMode() {
       if (this.gtif && !this.inToolMode) {
         this.panels.left[1].title = 'Narratives';
+        this.panels.right = []
       } else {
         this.panels.left[1].title = 'Layers';
+        this.panels.right = [
+        {
+          id: 4,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+        {
+          id: 5,
+          title: 'Filters',
+          heightPercentage: 33,
+        },
+        {
+          id: 6,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+      ]
       }
     },
   },
