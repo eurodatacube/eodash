@@ -65,12 +65,12 @@ export default {
     },
   }),
   watch: {
-    inToolMode:{
-      immediate:true,
+    inToolMode: {
+      immediate: true,
       handler(newVal) {
         if (this.gtif && !newVal) {
           this.panels.left[1].title = 'Narratives';
-          this.panels.right = []
+          this.panels.right = [];
         } else {
           this.panels.left[1].title = 'Layers';
           this.panels.right = [
@@ -89,19 +89,19 @@ export default {
               title: 'Layers',
               heightPercentage: 33,
             },
-      ]
-    }
-  }
+          ];
+        }
+      },
+    },
   },
-},
-computed: {
-  inToolMode() {
-    return this.$store.state.gtif.toolsToggle;
+  computed: {
+    inToolMode() {
+      return this.$store.state.gtif.toolsToggle;
+    },
   },
-},
-methods: {
-  handleSelection(id) {
-    if (this.activePanel === id) {
+  methods: {
+    handleSelection(id) {
+      if (this.activePanel === id) {
         this.activePanel = 0;
       } else {
         this.activePanel = id;

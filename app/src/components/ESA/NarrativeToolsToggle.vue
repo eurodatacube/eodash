@@ -33,7 +33,6 @@
 
 <script>
 
-
 export default {
   name: 'NarrativesToolsToggle',
   data() {
@@ -41,12 +40,12 @@ export default {
 
     };
   },
-  methods:{
-    navToExplore(){
+  methods: {
+    navToExplore() {
       if (!this.$route.path.includes('explore')) {
-        this.$router.push('/explore')
+        this.$router.push('/explore');
       }
-    }
-}
+    },
+  },
 };
 </script>
