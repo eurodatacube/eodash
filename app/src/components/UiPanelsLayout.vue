@@ -41,18 +41,18 @@ export default {
         {
           id: 1,
           title: 'Filters',
-          heightPercentage: 50,
+          heightPercentage: 80,
         },
         {
           id: 2,
           title: 'Layers',
-          heightPercentage: 50,
+          heightPercentage: 20,
         },
       ],
       right: [
         {
           id: 4,
-          title: 'Layers',
+          title: 'Info',
           heightPercentage: 50,
         },
         {
@@ -65,12 +65,23 @@ export default {
     },
   }),
   watch: {
-    inToolMode:{
-      immediate:true,
+    inToolMode: {
+      immediate: true,
       handler(newVal) {
         if (this.gtif && !newVal) {
           this.panels.left[1].title = 'Narratives';
-          this.panels.right = []
+          this.panels.right = [
+            {
+              id: 4,
+              title: 'Information',
+              heightPercentage: 50,
+            },
+            {
+              id: 5,
+              title: 'Analysis',
+              heightPercentage: 50,
+            },
+          ];
         } else {
           this.panels.left[1].title = 'Layers';
           this.panels.right = [
@@ -89,19 +100,19 @@ export default {
               title: 'Layers',
               heightPercentage: 33,
             },
-      ]
-    }
-  }
+          ];
+        }
+      },
+    },
   },
-},
-computed: {
-  inToolMode() {
-    return this.$store.state.gtif.toolsToggle;
+  computed: {
+    inToolMode() {
+      return this.$store.state.gtif.toolsToggle;
+    },
   },
-},
-methods: {
-  handleSelection(id) {
-    if (this.activePanel === id) {
+  methods: {
+    handleSelection(id) {
+      if (this.activePanel === id) {
         this.activePanel = 0;
       } else {
         this.activePanel = id;

@@ -90,4 +90,8 @@ div {
   height: calc(100% - 200px);
   z-index: 4;
 }
+
+::v-deep .v-expansion-panel-content__wrap {
+  padding: 0;
+}
 </style>

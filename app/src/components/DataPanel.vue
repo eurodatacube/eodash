@@ -22,7 +22,7 @@
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
-        
+
           <v-btn
             text
             color="primary"
@@ -34,7 +34,7 @@
               ? 90
               : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
           </v-btn>
-          
+
           <scatter-plot v-if="indicatorObject.cogFilters
             && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
             :filters="indicatorObject.cogFilters.filters"
@@ -331,10 +331,10 @@
               cols="12"
               class="pb-0"
             >
-              <div
+              <!-- <div
                 v-html="story"
                 class="md-body"
-              ></div>
+              ></div> -->
 
               <v-btn
                 v-if="indicatorObject && externalData"
@@ -372,7 +372,7 @@
             </v-col>
           </v-card>
         </v-col>
-        <v-col
+        <!-- <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
@@ -397,14 +397,14 @@
               ></div>
             </v-col>
           </v-row>
-        </v-col>
+        </v-col> -->
       </v-row>
-      <v-row>
+      <!--<v-row>
         <div
           v-html="story"
           class="md-body"
         ></div>
-      </v-row>
+      </v-row>-->
     </div>
   </div>
 </template>
@@ -478,43 +478,6 @@ export default {
     ...mapState('indicators', [
       'customAreaIndicator',
     ]),
-    story() {
-      // If markdown is coming from stac collection show it direclty
-      if (this.indicatorObject && 'markdown' in this.indicatorObject) {
-        return this.$marked(this.indicatorObject.markdown);
-      }
-      // If not do previous checks to see if other option can be found
-      let markdown = '';
-      let indObject = this.indicatorObject;
-      if (this.featureObject) {
-        indObject = this.featureObject;
-      }
-      try {
-        const demoItem = this.$route.name === 'demo'
-          ? this.appConfig.demoMode[this.$route.query.event]
-            .find((item) => item.poi === this.getLocationCode(indObject)) : false;
-        markdown = require(`../../public${demoItem.story}.md`);
-      } catch {
-        try {
-          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
-        } catch {
-          try {
-            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
-          } catch {
-            try {
-              const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-                ? this.$store.state.features.featureFilters.indicators[0]
-                : this.$store.state.features.featureFilters.indicators;
-              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
-            } catch {
-              markdown = { default: '' };
-            }
-          }
-        }
-      }
-      this.$store.commit('story/SET_STORY', markdown.default);
-      return this.$marked(markdown.default);
-    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -692,6 +655,42 @@ export default {
     },
   },
   watch: {
+    indicatorObject() {
+      // If markdown is coming from stac collection show it direclty
+      if (this.indicatorObject && 'markdown' in this.indicatorObject) {
+        return this.$marked(this.indicatorObject.markdown);
+      }
+      // If not do previous checks to see if other option can be found
+      let markdown = '';
+      let indObject = this.indicatorObject;
+      if (this.featureObject) {
+        indObject = this.featureObject;
+      }
+      try {
+        const demoItem = this.$route.name === 'demo'
+          ? this.appConfig.demoMode[this.$route.query.event]
+            .find((item) => item.poi === this.getLocationCode(indObject)) : false;
+        markdown = require(`../../public${demoItem.story}.md`);
+      } catch {
+        try {
+          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
+        } catch {
+          try {
+            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
+          } catch {
+            try {
+              const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+                ? this.$store.state.features.featureFilters.indicators[0]
+                : this.$store.state.features.featureFilters.indicators;
+              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+            } catch {
+              markdown = { default: '' };
+            }
+          }
+        }
+      }
+      this.$store.commit('story/SET_STORY', markdown.default);
+    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
