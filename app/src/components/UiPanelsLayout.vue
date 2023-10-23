@@ -107,13 +107,27 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+<style scoped lang="scss">
 .layout-container {
   position: absolute;
   left: 0;
-  width: 100%;
+  width: 97.2%;
   padding: 8px;
   pointer-events: none;
+  @media only screen and (min-width: 2040px) {
+   width: 98.2%;
+  }
+
+  @media only screen and (max-width: 1380px) {
+   width: 95.7%;
+  }
+
+  @media only screen and (max-width: 900px) {
+   width: 93.7%;
+  }
+
+  @media only screen and (max-width: 600px) {
+   width: 100%;
+  }
 }
 </style>
