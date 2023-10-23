@@ -93,7 +93,7 @@ const renderVue = async () => {
       options: {
         customProperties: true,
       },
-      dark: mq.matches,
+      dark: false,
       themes: {
         light: {
           primary: store.state.config.appConfig

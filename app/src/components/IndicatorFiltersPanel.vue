@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" >
+  <eox-itemfilter class="pa-2" style="height: 650px;" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
