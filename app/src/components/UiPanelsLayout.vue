@@ -70,37 +70,19 @@ export default {
       handler(newVal) {
         if (this.gtif && !newVal) {
           this.panels.left[1].title = 'Narratives';
-          this.panels.right = [
-            {
-              id: 4,
-              title: 'Information',
-              heightPercentage: 50,
-            },
-            {
-              id: 5,
-              title: 'Analysis',
-              heightPercentage: 50,
-            },
-          ];
+          this.panels.right = [];
         } else {
           this.panels.left[1].title = 'Layers';
-          this.panels.right = [
-            {
-              id: 4,
-              title: 'Layers',
-              heightPercentage: 33,
-            },
-            {
-              id: 5,
-              title: 'Filters',
-              heightPercentage: 33,
-            },
-            {
-              id: 6,
-              title: 'Layers',
-              heightPercentage: 33,
-            },
-          ];
+          this.panels.right = [{
+            id: 4,
+            title: 'Information',
+            heightPercentage: 50,
+          },
+          {
+            id: 5,
+            title: 'Analysis',
+            heightPercentage: 50,
+          }];
         }
       },
     },
