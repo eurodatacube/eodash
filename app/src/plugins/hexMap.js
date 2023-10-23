@@ -2,11 +2,14 @@ import { Feature } from 'ol';
 import { Polygon } from 'ol/geom';
 import { Image, Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
+import GeoTIFF from 'ol/source/GeoTIFF';
+import { get as getProjection } from 'ol/proj';
 import {
   Text, Style, Fill, Stroke,
 } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
 import HexMap from 'ol-games/source/HexMap';
+import { fromUrl } from 'geotiff';
 
 /**
  * Convert axial coordinates to staggered Cartesian coordinates.
@@ -56,8 +59,9 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   const { coordinate } = e;
 
   // Get the axial coordinates of the clicked hexagon and convert to Cartesian
-  const [q, r] = grid.coord2hex(coordinate);
-  const [x, y] = axialToStaggeredCartesian(q, r, 4000);
+  let [q, r] = grid.coord2hex(coordinate);
+
+  let xOffset = ((r % 2 !== 0) * 1) - r / 2;
 
   // Convert the hexagonal coordinate to the polygon vertices
   const hexagonVertices = grid.getHexagon([q, r]);
@@ -67,9 +71,9 @@ const handleMapClick = (e, game, grid, vectorSource) => {
 
   let style;
 
-  console.log(`Clicked on hexagon [${q}, ${r}] at [${x}, ${y}]`);
+  console.log(`Clicked on hexagon [${q}, ${r}]`);
 
-  if (game.isMine(q, r)) {
+  if (game.isMine(q + xOffset, r)) {
     // If it's a mine
     style = new Style({
       fill: new Fill({ color: 'red' }),
@@ -81,7 +85,7 @@ const handleMapClick = (e, game, grid, vectorSource) => {
     });
   } else {
     // If it's not a mine, show the number of adjacent mines
-    const mineCount = game.get(q, r).adjacentMines;
+    const mineCount = game.get(q + xOffset, r).adjacentMines;
     style = new Style({
       fill: new Fill({ color: 'rgba(0,0,255,0.2)' }),
       text: new Text({
@@ -190,6 +194,26 @@ class HexSweeperGame {
     this.initializeBoard();
   }
 
+  async initializeBoardFromGeoTIFF(url) {
+    try {
+      const tiff = await fromUrl(url);
+      const image = await tiff.getImage();
+      const data = await image.readRasters();
+
+      // Assuming the data is a single band and the size matches the game board
+      for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+          const value = data[0][y * this.width + x];
+          const isMine = value > 500; // Adjust based on your data
+          this.board[y][x].isMine = isMine;
+          this.board[y][x].adjacentMines = this.calculateAdjacentMines(x, y);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading GeoTIFF data:', error);
+    }
+  }
+
   initializeBoard() {
     for (let y = 0; y < this.height; y++) {
       const row = [];
@@ -273,12 +297,13 @@ class HexSweeperGame {
 *
 * @param {Object} map - The OpenLayers map instance.
 */
-export const createHexMap = (map) => {
+export const createHexMap = async (map) => {
   const grid = setupGrid(map);
   const vectorSource = new VectorSource();
   const game = new HexSweeperGame(20, 10, 0.2);
 
-  game.initializeBoard();
+  // game.initializeBoard();
+  await game.initializeBoardFromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
   setupClickHandler(map, game, grid, vectorSource);
   drawGameBoard(map, game, grid, vectorSource);
 };
