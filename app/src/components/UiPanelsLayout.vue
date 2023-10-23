@@ -70,40 +70,43 @@ export default {
     },
   }),
   watch: {
-    inToolMode() {
-      if (this.gtif && !this.inToolMode) {
-        this.panels.left[1].title = 'Narratives';
-        this.panels.right = []
-      } else {
-        this.panels.left[1].title = 'Layers';
-        this.panels.right = [
-        {
-          id: 4,
-          title: 'Layers',
-          heightPercentage: 33,
-        },
-        {
-          id: 5,
-          title: 'Filters',
-          heightPercentage: 33,
-        },
-        {
-          id: 6,
-          title: 'Layers',
-          heightPercentage: 33,
-        },
+    inToolMode:{
+      immediate:true,
+      handler(newVal) {
+        if (this.gtif && !newVal) {
+          this.panels.left[1].title = 'Narratives';
+          this.panels.right = []
+        } else {
+          this.panels.left[1].title = 'Layers';
+          this.panels.right = [
+            {
+              id: 4,
+              title: 'Layers',
+              heightPercentage: 33,
+            },
+            {
+              id: 5,
+              title: 'Filters',
+              heightPercentage: 33,
+            },
+            {
+              id: 6,
+              title: 'Layers',
+              heightPercentage: 33,
+            },
       ]
-      }
-    },
+    }
+  }
   },
-  computed: {
-    inToolMode() {
-      return this.$store.state.gtif.toolsToggle;
-    },
+},
+computed: {
+  inToolMode() {
+    return this.$store.state.gtif.toolsToggle;
   },
-  methods: {
-    handleSelection(id) {
-      if (this.activePanel === id) {
+},
+methods: {
+  handleSelection(id) {
+    if (this.activePanel === id) {
         this.activePanel = 0;
       } else {
         this.activePanel = id;
