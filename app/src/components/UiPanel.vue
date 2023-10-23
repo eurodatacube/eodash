@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="$vuetify.breakpoint.smAndUp"
-    class="elevation-1 rounded ma-1"
+    class="ui-panel elevation-1 rounded ma-1"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
     `"

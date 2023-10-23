@@ -926,12 +926,8 @@ export function calculatePadding() {
   // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
   const dataPanelOpen = (document.querySelector('.data-panel') !== null)
     && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
-  const dataPanelWidth = !dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
-  const searchResultsClosed = store.state.features.featureFilters.indicators.length
-    || store.state.features.featureFilters.countries.length;
-  const searchPanelWidth = (document.querySelector('eox-itemfilter') !== null)
-    ? (document.querySelector('eox-itemfilter').clientWidth) : 0;
-  const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
+  const dataPanelWidth = document.querySelector('.ui-panel').clientWidth;
+  const searchPanelWidth = document.querySelector('.ui-panel').clientWidth;
   const demoItemsWidth = (document.querySelector('#demoItemsList') !== null)
     ? (document.querySelector('#demoItemsList').clientWidth) : 0;
   const percentageBasedOffsetWidth = Math.floor(window.innerWidth * 0.12);
@@ -939,7 +935,7 @@ export function calculatePadding() {
     70,
     percentageBasedOffsetWidth + dataPanelWidth,
     150,
-    percentageBasedOffsetWidth + searchResultWidth + demoItemsWidth,
+    percentageBasedOffsetWidth + searchPanelWidth + demoItemsWidth,
   ];
   return padding;
 }

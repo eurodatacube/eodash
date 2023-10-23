@@ -263,9 +263,9 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
-    dataPanelWidth() {
-      return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
-    },
+    // dataPanelWidth() {
+    //   return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
+    // },
     indicatorSelected() {
       return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
@@ -311,7 +311,7 @@ export default {
     this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
   },
   mounted() {
-    document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
+    // document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
     // only show when nothing is selected
     const { poi, indicator, search } = this.$route.query;
     if (!poi && !indicator && !search && !this.$route.name === 'demo') {
@@ -330,16 +330,16 @@ export default {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
   },
   methods: {
-    setDataPanelWidth(enable) {
-      if (enable) {
-        this.dataPanelTemporary = true;
-        this.dataPanelFullWidth = true;
-      } else {
-        this.dataPanelFullWidth = false;
-        // TO-DO find more reliable way of checking
-        setTimeout(() => { this.dataPanelTemporary = false; }, 500);
-      }
-    },
+    // setDataPanelWidth(enable) {
+    //   if (enable) {
+    //     this.dataPanelTemporary = true;
+    //     this.dataPanelFullWidth = true;
+    //   } else {
+    //     this.dataPanelFullWidth = false;
+    //     // TO-DO find more reliable way of checking
+    //     setTimeout(() => { this.dataPanelTemporary = false; }, 500);
+    //   }
+    // },
     clickMobileClose() {
       this.isDialogRetracted = true;
       this.drawerRight = false;
@@ -350,14 +350,14 @@ export default {
         this.$refs.indicatorFilters.comboboxClear();
       }
     },
-    close() {
-      this.setDataPanelWidth(false);
-    },
+    // close() {
+    //   this.setDataPanelWidth(false);
+    // },
   },
   watch: {
-    dataPanelWidth(val) {
-      document.documentElement.style.setProperty('--data-panel-width', `${val}px`);
-    },
+    // dataPanelWidth(val) {
+    //   document.documentElement.style.setProperty('--data-panel-width', `${val}px`);
+    // },
     indicatorSelected(selected) {
       if (selected) {
         this.drawerRight = true;
