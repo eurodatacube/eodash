@@ -35,7 +35,7 @@ class VueMap {
       new LayerGroup({
         id: 'backgroundGroup',
         name: 'Background Layers',
-        layerControlExpand: true,
+        layerControlExpand: false,
       }),
       new LayerGroup({
         id: 'dataGroup',
@@ -45,7 +45,7 @@ class VueMap {
       new LayerGroup({
         id: 'overlayGroup',
         name: 'Overlay Layers',
-        layerControlExpand: true,
+        layerControlExpand: false,
       }),
       new LayerGroup({
         id: 'internalGroup',

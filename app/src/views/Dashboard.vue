@@ -22,8 +22,11 @@
     >
       <v-toolbar flat>
         <v-toolbar-title v-if="indicatorObject"
-          :class="indicatorObject.description ===
-            indicatorObject.indicatorName && 'preventEllipsis'"
+          :class="{
+            'preventEllipsis': indicatorObject.description ===
+            indicatorObject.indicatorName,
+            'pt-4': true,
+          }"
         >
           {{ indicatorObject.indicatorName}}
           <div
@@ -183,7 +186,7 @@
                    <eox-layercontrol
                    v-if="panel.title == 'Layers'"
                       for="#centerMap"
-                      layerTitle="name"
+                      :titleProperty.prop="'name'"
                       class="pointerEvents">
                     </eox-layercontrol>
                  </UiPanel>
