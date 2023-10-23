@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pa-2 ma-1" style="overflow: hidden;">
     <Narratives v-if="gtif && !inToolsMode"/>
     <eox-layercontrol
      v-else
