@@ -270,8 +270,8 @@ export default {
     this.setAreaFromQuery();
     // TODO, WIP
     const { map } = getMapInstance('centerMap');
-    const loadendHandler = () => {
-      createHexMap(map);
+    const loadendHandler = async () => {
+      await createHexMap(map);
       map.un('loadend', loadendHandler); // Unregister the event handler after it's called once
     };
 
