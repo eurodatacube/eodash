@@ -2,7 +2,7 @@
          <v-btn-toggle  mandatory style="border-radius: 0px; height:32px"
            background-color="#1E4B5F" color="primary"
           borderless v-model="$store.state.gtif.toolsToggle">
-          <v-btn :value="true" style="height:32px" :color=" $store.state.gtif.toolsToggle ? 'secondary' : 'background' ">
+          <v-btn :value="true" @click="navToExplore()" style="height:32px" :color=" $store.state.gtif.toolsToggle ? 'secondary' : 'background' ">
             <div style="width: 30px; height: 30px;" >
               <svg width="100%" height="100%" viewBox="0 0 143 107" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
                 <g transform="matrix(1.04646,0,0,1.04646,-3.3241,-2.47853)">
@@ -40,6 +40,13 @@ export default {
     return {
 
     };
-  }
+  },
+  methods:{
+    navToExplore(){
+      if (!this.$route.path.includes('explore')) {
+        this.$router.push('/explore')
+      }
+    }
+}
 };
 </script>
