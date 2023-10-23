@@ -108,16 +108,7 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <LayerControl
-        v-if="loaded"
-        class="pointerEvents"
-        :key="layerControlKey"
-        :mapId="mapId"
-        :baseLayerConfigs="baseLayerConfigs"
-        :overlayConfigs="overlayConfigs"
-        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
-        :isGlobalIndicator="isGlobalIndicator"
-      />
+
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded && mapId === 'centerMap'"
