@@ -183,7 +183,7 @@
                  :activeID="activePanel" :title="panel.title"
                  >
                    <StoryDisplay v-if="panel.title == 'Information'" />
-                   <data-panel
+                   <DataPanel
                     v-if="panel.title === 'Analysis' && indicatorObject
                     || $store.state.features.featureFilters.indicators.length > 0"
                     :key="panelKey" />

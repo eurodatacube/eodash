@@ -7,10 +7,10 @@
     `"
   >
       <v-expansion-panel>
-        <v-expansion-panel-header>
+        <v-expansion-panel-header ref="header">
           {{ title }}
         </v-expansion-panel-header>
-        <v-expansion-panel-content ref="expantionContent"
+        <v-expansion-panel-content ref="expantionContent" eager
         :style="`max-height: calc(((var(--vh, 1vh) * 100) - ${$vuetify.application.top
         + $vuetify.application.footer + (gtif ?
          48:0) +(48 * siblingsCount)}px) * ${(heightPercentage/100)});`" >

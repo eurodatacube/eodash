@@ -19,6 +19,9 @@ export default {
       return this.$marked(this.$store.state.story.markdown);
     },
   },
+  mounted(){
+    this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+  }
 };
 </script>
 

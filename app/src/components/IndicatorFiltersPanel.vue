@@ -211,5 +211,8 @@ export default {
       }
     },
   },
+  mounted(){
+    this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+  }
 };
 </script>
