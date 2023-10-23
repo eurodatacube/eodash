@@ -171,7 +171,7 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                   <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
+                   <IndicatorFiltersPanel v-if="['Domains & Tools','Filters'].includes(panel.title)" />
                    <NarrativesToolsPanel :gtif="appConfig.id === 'gtif'"
                    v-if="['Layers','Narratives'].includes(panel.title)"/>
                  </UiPanel>
