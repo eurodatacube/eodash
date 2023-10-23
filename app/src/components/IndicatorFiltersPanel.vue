@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" >
+  <eox-itemfilter class="pa-2" style="height: 650px;" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -14,6 +14,7 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
 import countries from '@/assets/countries.json';
@@ -46,6 +47,9 @@ export default {
   methods: {
     ...mapMutations('features', {
       setFeatureFilter: 'SET_FEATURE_FILTER',
+    }),
+    ...mapActions('gtif', {
+      setDomain: 'setDomainFromFilter',
     }),
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
@@ -112,6 +116,9 @@ export default {
             onSelect: (item) => {
               this.setSelectedIndicator(item);
             },
+            onFilter: (items) => {
+              this.setDomain(items);
+            },
             // exclusiveFilters: true,
             aggregateResults: 'themes',
             styleOverride: `
@@ -131,23 +138,23 @@ export default {
                 height: 36px;
                 margin: 0;
               }
-              #filters input[type=radio][id="energy transition"]:after {
+              #filters input[type=radio][id="energy-transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
               }
-              #filters input[type=radio][id="mobility transition"]:after {
+              #filters input[type=radio][id="mobility-transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
               }
-              #filters input[type=radio][id="sustainable cities"]:after {
+              #filters input[type=radio][id="sustainable-cities"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
               }
-              #filters input[type=radio][id="carbon accounting"]:after {
+              #filters input[type=radio][id="carbon-accounting"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
               }
-              #filters input[type=radio][id="eo adaptation services"]:after {
+              #filters input[type=radio][id="eo-adaptation-services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
               }
-              #results input[type=radio]#item-0:after {
-                background-image: url("https://gtif.esa.int/data/gtif/globalDataLayerImages/AT-AQA.png");
+              #filter-reset {
+                display: none;
               }
             `,
           },

@@ -171,12 +171,6 @@ export default {
       'AT-AQB',
       'AT-AQA',
       // carbon accounting
-      'Austria-VTT2',
-      'Austria-VTT3',
-      'Austria-VTT6',
-      'Austria-VTT5',
-      'Austria-VTT4',
-      'Austria-VTT1',
       'Styria-FCM3',
       'Austria-BM2',
       'Austria-BM1',

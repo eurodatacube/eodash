@@ -15,10 +15,6 @@ import WKB from 'ol/format/WKB';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/GTIF/catalog.json';
 // export const STACEndpoint = 'http://127.0.0.1:8000/GTIF/catalog.json';
 
-export const themeOverwrite = {
-  economy: 'mobility transition',
-};
-
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -49,17 +45,6 @@ function getColormap(name, reverse) {
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
-
-// We statically define some colormaps to not instanciate them for every call
-/*
-const blackbody64 = {
-  steps: 128,
-  colors: colormap({
-    colormap: 'blackbody',
-    nshades: 128,
-  }),
-};
-*/
 
 let stp = 1 / 6;
 
@@ -123,40 +108,6 @@ const blgrrd = {
     nshades: 32,
   }),
 };
-
-// const drrglb = {
-//   steps: 32,
-//   colors: colormap({
-//     colormap: [
-//       { index: 0, rgb: [209, 55, 78] },
-//       { index: 0.2, rgb: [254, 173, 84] },
-//       { index: 0.4, rgb: [254, 237, 177] },
-//       { index: 0.6, rgb: [216, 254, 181] },
-//       { index: 0.8, rgb: [73, 227, 206] },
-//       { index: 1, rgb: [1, 152, 189] },
-//     ],
-//     nshades: 32,
-//   }),
-// };
-
-/*
-const ihrCS = {
-  steps: 10,
-  colors: [
-    '#4a834a',
-    '#4ac14a',
-    '#8ae049',
-    '#ccec49',
-    '#fae94c',
-    '#febf4c',
-    '#fe934c',
-    '#f23a00',
-    '#c40025',
-    '#a2001f',
-    '#600030',
-  ],
-};
-*/
 
 function normalize(value, varMin, varMax) {
   return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
@@ -256,19 +207,13 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-  protocol: 'WMS',
   dateFormatFunction: shTimeFunction,
-  format: 'image/png',
   transparent: true,
-  tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
-  maxZoom: 18,
-  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -459,6 +404,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    customAreaIndicator: true,
   },
   REP2: {
     ...energyTransitionDefaults,
@@ -473,12 +419,6 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP3',
-  },
-  REP4: {
-    indicator: 'Hydro Power SWE unified',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
   },
   REP4_1: {
     indicator: 'Hydro Power SWE daily',
@@ -699,13 +639,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['carbon-accounting', 'eo-adaptation-services'],
     ...eoadaptationDefaults,
   },
-  FCM2_2: {
-    indicator: 'Forest disturbance type',
-    class: 'air',
-    story: '/data/gtif/markdown/FCM2',
-    themes: ['eo-adaptation-services'],
-    ...eoadaptationDefaults,
-  },
   FCM3: {
     indicator: 'Annual forest mask',
     class: 'air',
@@ -737,7 +670,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQB: {
     ...mobilityTransitionDefaults,
-    indicator: 'Fine particulate matter (PM2.5)',
+    indicator: 'Coarse particulate matter (PM10)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
@@ -746,7 +679,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQC: {
     ...mobilityTransitionDefaults,
-    indicator: 'Coarse particulate matter (PM10)',
+    indicator: 'Fine particulate matter (PM2.5)',
     class: 'air',
     themes: ['mobility-transition'],
     story: '/data/gtif/markdown/AQ',
@@ -901,6 +834,11 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
@@ -922,6 +860,11 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
@@ -956,11 +899,15 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
             type: 'FeatureCollection',
@@ -978,12 +925,17 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
+          protocol: 'WMS',
+          format: 'image/png',
+          transparent: true,
+          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
+          minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1040,12 +992,9 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.aggregated_data,
         inputData: [''],
         yAxis: 'Aggregated data',
         queryParameters: {
-          // timestamp, id_passage, satellite_id, n_trajectories, speed, congestion_index,
-          // motorized_share, motorized_count, satellite_values, mean_value
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: 'n_trajectories',
           items: [
@@ -1125,8 +1074,6 @@ export const globalIndicators = [
           },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
-          // getTimeFromProperty: 'timestamp',
-          // timeFromProperty: true,
           style: {
             strokeColor: 'rgba(0,0,0,0)',
             getColor: (feature, store, options) => {
@@ -1266,23 +1213,6 @@ export const globalIndicators = [
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-                  /*
-                  if (value < -2) {
-                    color = 'rgba(215, 25, 28, 0.7)';
-                  } else if (value < -1.5) {
-                    color = 'rgba(253, 174, 97, 0.7);';
-                  } else if (value < -1) {
-                    color = 'rgba(255, 255, 191, 0.7);';
-                  } else if (value < 1) {
-                    color = 'rgba(255, 255, 255, 0.7)';
-                  } else if (value < 1.5) {
-                    color = 'rgba(245, 153, 246, 0.7)';
-                  } else if (value < 2) {
-                    color = 'rgba(180, 103, 221, 0.7)';
-                  } else if (value >= 2) {
-                    color = 'rgba(69, 0, 153, 0.7)';
-                  }
-                  */
                 }
               }
               return color;
@@ -1302,6 +1232,65 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'AQA',
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Health Risk Index (ARI)',
+        lastIndicatorValue: null,
+        indicatorName: 'Health Risk Index (ARI)',
+        navigationDescription: 'Daily aggregated maps of ARI',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'AT',
+        inputData: [''],
+        yAxis: 'Health Risk Index',
+        display: {
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+              return color;
+            },
+          },
+          id: 'air_quality_new_id',
+          name: 'ARI',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
+          allowedParameters: ['name'],
+        },
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'ihr',
@@ -1363,10 +1352,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.air_quality.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
         inputData: [''],
         yAxis: 'PM10 [µg/m³]',
         queryParameters: {
@@ -1466,10 +1451,6 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'AT',
-        time: availableDates.air_quality.sort((a, b) => {
-          const val = DateTime.fromISO(a).toMillis() - DateTime.fromISO(b).toMillis();
-          return val;
-        }),
         inputData: [''],
         yAxis: 'PM2.5 [µg/m³]',
         queryParameters: {
@@ -1895,7 +1876,7 @@ export const globalIndicators = [
         lastColorCode: null,
         aoi: null,
         aoiID: 'Austria',
-        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z', 60),
+        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z'),
         inputData: [''],
         yAxis: '',
         /*
@@ -2369,72 +2350,6 @@ export const globalIndicators = [
         country: 'all',
         city: 'Styria',
         siteName: 'global',
-        description: 'Forest disturbance type',
-        navigationDescription: '',
-        indicator: 'FCM2_2',
-        lastIndicatorValue: null,
-        indicatorName: 'Forest disturbance type',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Styria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        highlights: [
-          {
-            name: 'Mariazell',
-            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
-          },
-        ],
-        display: {
-          protocol: 'cog',
-          id: 'FCM2_2',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['==', ['band', 1], 1],
-              ['color', 255, 255, 0],
-              ['==', ['band', 1], 2],
-              ['color', 255, 85, 255],
-              ['==', ['band', 1], 3],
-              ['color', 255, 0, 0],
-              ['==', ['band', 1], 4],
-              ['color', 173, 173, 173],
-              ['==', ['band', 1], 5],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 6],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 7],
-              ['color', 67, 67, 67],
-              [
-                'case',
-                ['==', ['band', 2], 1],
-                ['color', 147, 220, 0],
-                ['==', ['band', 2], 2],
-                ['color', 0, 107, 0],
-                ['color', 0, 0, 0, 0],
-              ],
-            ],
-          },
-          name: 'Forest disturbance type',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Styria',
-        siteName: 'global',
         description: 'Annual forest mask',
         navigationDescription: '2022',
         indicator: 'FCM3',
@@ -2732,14 +2647,6 @@ export const globalIndicators = [
               ['==', ['band', 1], 1],
               ['color', 255, 0, 0, 1],
               ['color', 0, 0, 0, 0],
-              // [
-              //   'case',
-              //   ['==', ['band', 2], 1],
-              //   ['color', 147, 220, 0],
-              //   ['==', ['band', 2], 2],
-              //   ['color', 0, 107, 0],
-              //   ['color', 0, 0, 0, 0],
-              // ],
             ],
           },
           name: 'Forest change detections',
@@ -2791,6 +2698,11 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        queryParameters: {
+          sourceLayer: 'wind_average_zsp',
+          selected: '1,2,3,4,5,6,7,8,9,10,11,12',
+          items: [],
+        },
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
@@ -3307,62 +3219,6 @@ export const globalIndicators = [
           },
           name: 'Solar Energy',
         },
-      },
-    },
-  },
-  /*
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        indicator: 'REP3',
-        disabled: true,
-        description: 'NRT Energy Production Forecast',
-        navigationDescription: 'NRT Energy Production Forecast',
-        lastIndicatorValue: null,
-        indicatorName: 'Nowcasting',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-        },
-        display: {
-        },
-      },
-    },
-  },
-  */
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: false,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        indicator: 'REP4',
-        description: 'Dynamic Storage Capacity',
-        navigationDescription: 'Dynamic Storage Capacity',
-        lastIndicatorValue: null,
-        indicatorName: 'Hydro Power',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
       },
     },
   },

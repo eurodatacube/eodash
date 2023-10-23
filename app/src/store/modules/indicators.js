@@ -57,19 +57,6 @@ const actions = {
         const indicators = [];
         data.links.forEach((link) => {
           if (link.rel === 'child') {
-            let themes = link.themes.split(',');
-            if (themes && rootState.config.baseConfig.themeOverwrite) {
-              const overwrite = rootState.config.baseConfig.themeOverwrite;
-              const updated = [];
-              themes.forEach((t) => {
-                if (overwrite[t]) {
-                  updated.push(overwrite[t]);
-                } else {
-                  updated.push(t);
-                }
-              });
-              themes = updated.join(',');
-            }
             let resultIndicator = {
               type: 'stac',
               link: `${url.replace('catalog.json', '')}${link.href}`,
@@ -79,7 +66,7 @@ const actions = {
               name: link.title,
               indicator: link.code,
               region: 'global',
-              themes,
+              themes: link.themes,
               tags: link.tags ? link.tags.split(',') : [],
               title: link.title,
               satellite: link.satellite ? link.satellite.split(',') : [],
@@ -106,7 +93,7 @@ const actions = {
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
               if (indicator.properties.indicatorObject.indicator === resultIndicator.code) {
-                resultIndicator = { ...indicator.properties.indicatorObject, ...resultIndicator };
+                resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
               }
             });
             indicators.push(resultIndicator);

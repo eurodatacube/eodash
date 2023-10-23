@@ -2,7 +2,7 @@
   <div class="layout-container" :style="`height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
                          ${$vuetify.breakpoint.smAndUp ? 'top : 0'
       : `bottom :${gtif ? $vuetify.application.footer : '0'}px`};`">
-    <v-row class=" d-flex justify-space-between fill-height"
+    <v-row class="d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%" >
         <v-expansion-panels multiple>
@@ -41,17 +41,17 @@ export default {
         {
           id: 1,
           title: 'Filters',
-          heightPercentage: 60,
+          heightPercentage: 50,
         },
         {
           id: 2,
           title: 'Layers',
-          heightPercentage: 40,
+          heightPercentage: 50,
         },
       ],
       right: [
         {
-          id: 3,
+          id: 4,
           title: 'Layers',
           heightPercentage: 50,
         },
@@ -64,6 +64,38 @@ export default {
 
     },
   }),
+  watch: {
+    inToolMode() {
+      if (this.gtif && !this.inToolMode) {
+        this.panels.left[1].title = 'Narratives';
+        this.panels.right = []
+      } else {
+        this.panels.left[1].title = 'Layers';
+        this.panels.right = [
+        {
+          id: 4,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+        {
+          id: 5,
+          title: 'Filters',
+          heightPercentage: 33,
+        },
+        {
+          id: 6,
+          title: 'Layers',
+          heightPercentage: 33,
+        },
+      ]
+      }
+    },
+  },
+  computed: {
+    inToolMode() {
+      return this.$store.state.gtif.toolsToggle;
+    },
+  },
   methods: {
     handleSelection(id) {
       if (this.activePanel === id) {

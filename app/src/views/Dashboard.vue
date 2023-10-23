@@ -22,8 +22,11 @@
     >
       <v-toolbar flat>
         <v-toolbar-title v-if="indicatorObject"
-          :class="indicatorObject.description ===
-            indicatorObject.indicatorName && 'preventEllipsis'"
+          :class="{
+            'preventEllipsis': indicatorObject.description ===
+            indicatorObject.indicatorName,
+            'pt-4': true,
+          }"
         >
           {{ indicatorObject.indicatorName}}
           <div
@@ -159,7 +162,7 @@
                 :expanded="dataPanelFullWidth" />
             </div>
 
-            <UiPanelsLayout class="fill-height" :gtif="this.appConfig.id === 'gtif'"
+            <UiPanelsLayout class="fill-height" :gtif="appConfig.id === 'gtif'"
             v-else
             >
               <template #left="{panels,handleSelection, activePanel}">
@@ -169,12 +172,8 @@
                  :activeID="activePanel" :title="panel.title"
                  >
                    <IndicatorFiltersPanel v-if="panel.title == 'Filters'" />
-                   <eox-layercontrol
-                   v-if="panel.title == 'Layers'"
-                      for="#centerMap"
-                      layerTitle="name"
-                      class="pointerEvents">
-                    </eox-layercontrol>
+                   <NarrativesToolsPanel :gtif="appConfig.id === 'gtif'"
+                   v-if="['Layers','Narratives'].includes(panel.title)"/>
                  </UiPanel>
               </template>
               <template #right="{panels,handleSelection, activePanel}">
@@ -187,7 +186,7 @@
                    <eox-layercontrol
                    v-if="panel.title == 'Layers'"
                       for="#centerMap"
-                      layerTitle="name"
+                      :titleProperty.prop="'name'"
                       class="pointerEvents">
                     </eox-layercontrol>
                  </UiPanel>
@@ -221,6 +220,7 @@ import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
 import StoryDisplay from '../components/StoryDisplay.vue';
+import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
 
 export default {
   metaInfo() {
@@ -246,6 +246,7 @@ export default {
     UiPanel,
     UiPanelsLayout,
     StoryDisplay,
+    NarrativesToolsPanel,
   },
   props: {
     source: String,
