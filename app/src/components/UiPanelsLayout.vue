@@ -73,7 +73,8 @@ export default {
           this.panels.right = [];
         } else {
           this.panels.left[1].title = 'Layers';
-          this.panels.right = [{
+          this.panels.right = [
+            {
             id: 4,
             title: 'Information',
             heightPercentage: 50,
@@ -82,7 +83,8 @@ export default {
             id: 5,
             title: 'Analysis',
             heightPercentage: 50,
-          }];
+          }
+        ];
         }
       },
     },

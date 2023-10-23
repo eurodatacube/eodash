@@ -11,9 +11,7 @@
           {{ title }}
         </v-expansion-panel-header>
         <v-expansion-panel-content ref="expantionContent" eager
-        :style="`max-height: calc(((var(--vh, 1vh) * 100) - ${$vuetify.application.top
-        + $vuetify.application.footer + (gtif ?
-         48:0) +(48 * siblingsCount)}px) * ${(heightPercentage/100)});`" >
+        :style="`max-height:${getMaxHeight}`">
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -58,6 +56,9 @@ export default {
     isSelected() {
       return this.id === this.activeID;
     },
+    getMaxHeight(){
+      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top + this.$vuetify.application.footer + (this.gtif ? 8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
+    }
   },
   data: () => ({
     siblingsCount: 1,
