@@ -34,7 +34,8 @@
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
-        height: calc(100% - ${ gtif ? 184.5 : 177}px);
+        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184.5 : 160.5) : 177}px);
+        overflow-y:${['Domains & Tools','Filters'].includes(title) ? 'hidden':'auto'};
       `"
     >
       <!-- close btn -->
@@ -90,9 +91,7 @@ div {
   width: 100%;
   overflow-y: auto;
   pointer-events: all;
-  @media only screen and (max-width: 600px) {
-    overflow: hidden;
-  }
+  overflow-x: hidden;
 }
 .overlay {
   position: fixed;
@@ -102,7 +101,6 @@ div {
   z-index: 4;
   display: flex;
   flex-direction: column;
-
 }
 .close-btn{
   align-self: end;
