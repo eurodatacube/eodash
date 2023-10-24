@@ -16,23 +16,30 @@
         </v-expansion-panel-content>
     </v-expansion-panel>
   </div>
-  <div v-else>
-    <div
-      class="elevation-1 rounded pa-5 ma-1 d-flex justify-center align-center"
+  <div v-else class="flex-column align-strech">
+    <span
+      class="elevation-1 pa-2 d-flex justify-center
+       align-center fill-height"
       :style="`
-        background: ${$vuetify.theme.currentTheme.background};
+        background: ${isSelected ? $vuetify.theme.currentTheme.primary
+          : $vuetify.theme.currentTheme.background};
+          color:${isSelected ? 'white': 'black'}
       `"
       @click="$emit('panel-selected',id)"
     >
       {{ title }}
-    </div>
+  </span>
     <div
       v-show="isSelected"
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
+        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184.5 : 160.5) : 177}px);
+        overflow-y:${['Domains & Tools','Filters'].includes(title) ? 'hidden':'auto'};
       `"
     >
+      <!-- close btn -->
+      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
       <slot></slot>
     </div>
   </div>
@@ -57,7 +64,9 @@ export default {
       return this.id === this.activeID;
     },
     getMaxHeight(){
-      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top + this.$vuetify.application.footer + (this.gtif ? 8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
+      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
+         + this.$vuetify.application.footer + (this.gtif ?
+         8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
     }
   },
   data: () => ({
@@ -67,29 +76,34 @@ export default {
   mounted() {
     this.siblingsCount = this.$parent.$children.length;
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
-    if (this.$parent.$parent.$props.gtif) {
-      this.gtif = true;
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.gtif = this.$parent.$parent.$props.gtif;
+    }else{
+      //first parent is the UiPanelsLayout
+      this.gtif = this.$parent.$props.gtif;
     }
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div {
   width: 100%;
   overflow-y: auto;
   pointer-events: all;
-  @media only screen and (max-width: 600px) {
-    overflow: hidden;
-  }
+  overflow-x: hidden;
 }
 .overlay {
   position: fixed;
   top: 60px;
   left: 0;
   width: 100%;
-  height: calc(100% - 200px);
   z-index: 4;
+  display: flex;
+  flex-direction: column;
+}
+.close-btn{
+  align-self: end;
 }
 
 ::v-deep .v-expansion-panel-content__wrap {

@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" style="height: 650px;" >
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -36,6 +36,9 @@ export default {
     ...mapGetters('indicators', [
       'getIndicators',
     ]),
+    ...mapState('gtif',[
+      'toolsToggle'
+    ])
   },
   created() {
     if (this.indicators) {
@@ -103,7 +106,9 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
+              if (this.$store.state.gtif.toolsToggle) {
+                this.setSelectedIndicator(item);
+              }
             },
           },
           gtif: {
@@ -122,8 +127,7 @@ export default {
             // exclusiveFilters: true,
             aggregateResults: 'themes',
             styleOverride: `
-            #filters input[type=radio],
-            #results input[type=radio]{
+            #filters input[type=radio]{
               width:36px;
               height:36px;
               margin: 6px;
@@ -193,6 +197,24 @@ export default {
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
         `;
+          this.$nextTick(()=>{
+            if (this.appConfig.id === 'gtif') {
+              this.$watch('toolsToggle',
+              function(inToolsMode,_){
+                const titleEl = this.$refs.itemFilterEl.shadowRoot.querySelector('slot[name=resultstitle]')
+                const resultsEl = this.$refs.itemFilterEl.shadowRoot.getElementById('results')
+                if (inToolsMode) {
+                  titleEl.style.display = ''
+                  resultsEl.style.display = ''
+                }else{
+                  titleEl.style.display = 'none'
+                  resultsEl.style.display = 'none'
+                }
+              },{
+                immediate:true
+              })
+            }
+        })
       });
     },
   },
@@ -212,7 +234,9 @@ export default {
     },
   },
   mounted(){
-    this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+    }
   }
 };
 </script>

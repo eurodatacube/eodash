@@ -69,7 +69,7 @@ export default {
       } catch {
         markdown = { default: '' };
       }
-      this.$store.commit('story/SET_STORY', markdown.default);
+      // this.$store.commit('story/SET_STORY', markdown.default);
     },
   },
   methods: {

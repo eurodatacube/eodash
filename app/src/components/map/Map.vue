@@ -108,16 +108,7 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <LayerControl
-        v-if="loaded"
-        class="pointerEvents"
-        :key="layerControlKey"
-        :mapId="mapId"
-        :baseLayerConfigs="baseLayerConfigs"
-        :overlayConfigs="overlayConfigs"
-        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
-        :isGlobalIndicator="isGlobalIndicator"
-      />
+
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded && mapId === 'centerMap'"
@@ -164,7 +155,11 @@
       <div v-else class="mt-auto">
         <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
-      <div ref="mousePositionContainer"/>
+      <div :style="`${$vuetify.breakpoint.smAndUp ? `position:relative; ${
+        appConfig.id == 'gtif' ?'bottom:'+$vuetify.application.footer+'px':''
+      }`:`position:absolute; bottom:${appConfig.id === 'gtif' ?
+       $vuetify.application.footer + 50: '60'}px`}`"
+       ref="mousePositionContainer"/>
     </div>
   </div>
 </template>

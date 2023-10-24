@@ -1,7 +1,7 @@
 <template>
   <div class="layout-container" :style="`height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
                          ${$vuetify.breakpoint.smAndUp ? 'top : 0'
-      : `bottom :${gtif ? $vuetify.application.footer : '0'}px`};`">
+      : `bottom :${gtif ? $vuetify.application.footer-12 : '-8'}px`};`">
     <v-row class="d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%" >
@@ -15,7 +15,7 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <div v-else class="d-flex align-end">
+    <div v-else class="d-flex justify-center align-strech">
       <slot name="left" :panels="panels.left"
       :handleSelection="handleSelection"
       :activePanel="activePanel"></slot>
@@ -107,13 +107,30 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+<style scoped lang="scss">
 .layout-container {
   position: absolute;
   left: 0;
-  width: 100%;
+  width: 97.2%;
   padding: 8px;
   pointer-events: none;
+  @media only screen and (min-width: 2040px) {
+   width: 98.2%;
+  }
+
+  @media only screen and (max-width: 1380px) {
+   width: 95.7%;
+  }
+
+  @media only screen and (max-width: 900px) {
+   width: 93.7%;
+  }
+
+  @media only screen and (max-width: 600px) {
+   width: 100%;
+   padding: 0%;
+   margin: 0%;
+   z-index: 10;
+  }
 }
 </style>
