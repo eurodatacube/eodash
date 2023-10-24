@@ -127,6 +127,10 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
+      <DatePickerControl
+        class="pointerEvents"
+        :mapId="mapId"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -180,6 +184,7 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
+import DatePickerControl from '@/components/map/DatePickerControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -222,6 +227,7 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
+    DatePickerControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
