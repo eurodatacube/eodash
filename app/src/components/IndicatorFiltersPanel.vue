@@ -211,7 +211,9 @@ export default {
     },
   },
   mounted(){
-    this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+    }
   }
 };
 </script>

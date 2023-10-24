@@ -34,8 +34,11 @@
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
+        height: calc(100% - ${gtif ? 190 : 185}px);
       `"
     >
+      <!-- close btn -->
+      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
       <slot></slot>
     </div>
   </div>
@@ -93,9 +96,13 @@ div {
   top: 60px;
   left: 0;
   width: 100%;
-  height: calc(100% - 200px);
   z-index: 4;
+  display: flex;
+  flex-direction: column;
 
+}
+.close-btn{
+  align-self: end;
 }
 
 ::v-deep .v-expansion-panel-content__wrap {
