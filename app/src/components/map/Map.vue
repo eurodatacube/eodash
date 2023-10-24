@@ -300,7 +300,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures', 'getFeaturesGtifMap']),
+    ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
@@ -600,19 +600,7 @@ export default {
   },
   watch: {
     getFeatures(features) {
-      if (this.appConfig.id === 'gtif') {
-        return;
-      }
       if (this.mapId === 'centerMap' && features) {
-        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-        cluster.setFeatures(features);
-      }
-    },
-    getFeaturesGtifMap(features) {
-      if (this.appConfig.id !== 'gtif') {
-        return;
-      }
-      if (this.mapId === 'centerMap') {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
@@ -800,11 +788,7 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
-      if (this.appConfig.id === 'gtif') {
-        cluster.setFeatures(this.getFeaturesGtifMap);
-      } else {
-        cluster.setFeatures(this.getFeatures);
-      }
+      cluster.setFeatures(this.getFeatures);
       const { x, y, z } = this.$route.query;
       if (!x && !y && !z) {
         setTimeout(() => {
@@ -827,11 +811,6 @@ export default {
           }
           // TODO: do we need to handle the clusters differentlyas we use new features approach?
           cluster.clusters.setVisible(true);
-          /*
-          if (this.appConfig.id !== 'gtif') {
-            cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
-          }
-          */
         }
       }
     });

@@ -26,10 +26,6 @@ const geojsonFormat = new GeoJSON();
 export const dataPath = './data/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
 // export const STACEndpoint = 'http://127.0.0.1:8000/trilateral/catalog.json';
-// If the catalog has collections with a theme we would like to adapt
-export const themeOverwrite = {
-  air: 'atmosphere',
-};
 
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -853,6 +849,10 @@ export const indicatorClassesIcons = Object.freeze({
   biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
+});
+
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash`,
 });
 
 export const mapDefaults = Object.freeze({

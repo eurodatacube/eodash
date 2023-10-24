@@ -460,7 +460,6 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
-      'getLatestUpdate',
     ]),
     ...mapState('config', [
       'appConfig',
