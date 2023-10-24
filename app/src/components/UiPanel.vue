@@ -34,7 +34,7 @@
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
-        height: calc(100% - ${gtif ? 190 : 185}px);
+        height: calc(100% - ${ gtif ? 184.5 : 177}px);
       `"
     >
       <!-- close btn -->
@@ -75,8 +75,11 @@ export default {
   mounted() {
     this.siblingsCount = this.$parent.$children.length;
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
-    if (this.$parent.$parent.$props.gtif) {
-      this.gtif = true;
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.gtif = this.$parent.$parent.$props.gtif;
+    }else{
+      //first parent is the UiPanelsLayout
+      this.gtif = this.$parent.$props.gtif;
     }
   },
 };
