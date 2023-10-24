@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" >
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -36,6 +36,9 @@ export default {
     ...mapGetters('indicators', [
       'getIndicators',
     ]),
+    ...mapState('gtif',[
+      'toolsToggle'
+    ])
   },
   created() {
     if (this.indicators) {
@@ -103,7 +106,9 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
+              if (this.$store.state.gtif.toolsToggle) {
+                this.setSelectedIndicator(item);
+              }
             },
           },
           gtif: {
@@ -192,6 +197,24 @@ export default {
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
         `;
+          this.$nextTick(()=>{
+            if (this.appConfig.id === 'gtif') {
+              this.$watch('toolsToggle',
+              function(inToolsMode,_){
+                const titleEl = this.$refs.itemFilterEl.shadowRoot.querySelector('slot[name=resultstitle]')
+                const resultsEl = this.$refs.itemFilterEl.shadowRoot.getElementById('results')
+                if (inToolsMode) {
+                  titleEl.style.display = ''
+                  resultsEl.style.display = ''
+                }else{
+                  titleEl.style.display = 'none'
+                  resultsEl.style.display = 'none'
+                }
+              },{
+                immediate:true
+              })
+            }
+        })
       });
     },
   },
