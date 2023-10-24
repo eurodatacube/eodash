@@ -16,16 +16,19 @@
         </v-expansion-panel-content>
     </v-expansion-panel>
   </div>
-  <div v-else>
-    <div
-      class="elevation-1 rounded pa-5 ma-1 d-flex justify-center align-center"
+  <div v-else class="flex-column align-strech">
+    <span
+      class="elevation-1 pa-2 d-flex justify-center
+       align-center fill-height"
       :style="`
-        background: ${$vuetify.theme.currentTheme.background};
+        background: ${isSelected ? $vuetify.theme.currentTheme.primary
+          : $vuetify.theme.currentTheme.background};
+          color:${isSelected ? 'white': 'black'}
       `"
       @click="$emit('panel-selected',id)"
     >
       {{ title }}
-    </div>
+  </span>
     <div
       v-show="isSelected"
       class="overlay"
@@ -57,7 +60,9 @@ export default {
       return this.id === this.activeID;
     },
     getMaxHeight(){
-      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top + this.$vuetify.application.footer + (this.gtif ? 8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
+      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
+         + this.$vuetify.application.footer + (this.gtif ?
+         8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
     }
   },
   data: () => ({
@@ -74,7 +79,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div {
   width: 100%;
   overflow-y: auto;
@@ -90,6 +95,7 @@ div {
   width: 100%;
   height: calc(100% - 200px);
   z-index: 4;
+
 }
 
 ::v-deep .v-expansion-panel-content__wrap {
