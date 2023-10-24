@@ -922,7 +922,6 @@ export default {
       layersToAdd.forEach((addedLayer) => {
         const layer = newLayers.find((l) => l.get('name') === addedLayer.get('name'));
         if (!layer) { return; }
-        console.log(`adding ${layer.get('name')}`);
         layerCollection.push(layer);
       });
 
