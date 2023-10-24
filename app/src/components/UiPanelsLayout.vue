@@ -69,24 +69,24 @@ export default {
       immediate: true,
       handler(newVal) {
         if (this.gtif && !newVal) {
-          this.panels.left[0].title = 'Filters'
+          this.panels.left[0].title = 'Filters';
           this.panels.left[1].title = 'Narratives';
           this.panels.right = [];
         } else {
-          this.panels.left[0].title = 'Domains & Tools'
+          this.panels.left[0].title = 'Domains & Tools';
           this.panels.left[1].title = 'Layers';
           this.panels.right = [
             {
-            id: 4,
-            title: 'Information',
-            heightPercentage: 50,
-          },
-          {
-            id: 5,
-            title: 'Analysis',
-            heightPercentage: 50,
-          }
-        ];
+              id: 4,
+              title: 'Information',
+              heightPercentage: 50,
+            },
+            {
+              id: 5,
+              title: 'Analysis',
+              heightPercentage: 50,
+            },
+          ];
         }
       },
     },

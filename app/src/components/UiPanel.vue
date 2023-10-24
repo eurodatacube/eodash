@@ -63,11 +63,11 @@ export default {
     isSelected() {
       return this.id === this.activeID;
     },
-    getMaxHeight(){
+    getMaxHeight() {
       return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
-         + this.$vuetify.application.footer + (this.gtif ?
-         8:-40) +(48 * this.siblingsCount))}px) * ${(this.heightPercentage/100)});`
-    }
+         + this.$vuetify.application.footer + (this.gtif
+        ? 8 : -40) + (48 * this.siblingsCount))}px) * ${(this.heightPercentage / 100)});`;
+    },
   },
   data: () => ({
     siblingsCount: 1,
@@ -78,8 +78,8 @@ export default {
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
     if (this.$vuetify.breakpoint.smAndUp) {
       this.gtif = this.$parent.$parent.$props.gtif;
-    }else{
-      //first parent is the UiPanelsLayout
+    } else {
+      // first parent is the UiPanelsLayout
       this.gtif = this.$parent.$props.gtif;
     }
   },
