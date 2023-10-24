@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" style="height: 650px;" >
+  <eox-itemfilter class="pa-2" >
     <h4 slot="filterstitle" style="margin-top: 8px">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -122,8 +122,7 @@ export default {
             // exclusiveFilters: true,
             aggregateResults: 'themes',
             styleOverride: `
-            #filters input[type=radio],
-            #results input[type=radio]{
+            #filters input[type=radio]{
               width:36px;
               height:36px;
               margin: 6px;
