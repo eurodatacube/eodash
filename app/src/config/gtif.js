@@ -164,6 +164,10 @@ export const indicatorClassesIcons = Object.freeze({
   'eo-adaptation-services': 'mdi-set-center',
 });
 
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF`,
+});
+
 export const mapDefaults = Object.freeze({
   bounds: [10, 46, 20, 49.5],
 });
@@ -207,6 +211,10 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+  protocol: 'WMS',
+  format: 'image/png',
+  tileSize: 512,
   dateFormatFunction: shTimeFunction,
   transparent: true,
   opacity: 1,
@@ -345,6 +353,7 @@ const trucksAreaIndicator = {
 const trucksFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',
+  name: 'Truck detection features',
   requestHeaders: {
     'Content-Type': 'application/json',
   },
@@ -834,11 +843,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-          protocol: 'WMS',
-          format: 'image/png',
-          transparent: true,
-          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
@@ -860,11 +864,6 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-          protocol: 'WMS',
-          format: 'image/png',
-          transparent: true,
-          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
@@ -899,11 +898,6 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-          protocol: 'WMS',
-          format: 'image/png',
-          transparent: true,
-          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
@@ -925,14 +919,9 @@ export const globalIndicators = [
           drawnAreaLimitExtent: true,
         }, {
           // get layer for this month
-          protocol: 'WMS',
-          format: 'image/png',
-          transparent: true,
-          tileSize: 512,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
           minZoom: 7,

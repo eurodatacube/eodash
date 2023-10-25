@@ -300,6 +300,10 @@ export const indicatorClassesIcons = Object.freeze({
   economy: 'mdi-currency-eur',
 });
 
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash`,
+});
+
 export const mapDefaults = Object.freeze({
   bounds: [-10, 35, 33, 70],
 });

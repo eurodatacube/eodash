@@ -34,11 +34,9 @@
     />
     <div
       class="d-flex justify-center fill-height"
-      :style="`position: absolute; bottom: 0; left: 0;
+      style="position: absolute; bottom: 0; left: 0;
       transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: ${panelActive && $vuetify.breakpoint.smAndUp
-        ? 'calc(100% - var(--data-panel-width))'
-        : '100%'}`"
+      width: 100%"
     >
       <LayerSwipe
         v-if="compareLayerTime"
@@ -53,7 +51,7 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="displayTimeSelection && !enableScrollyMode"
+        v-if="$vuetify.breakpoint.mdAndUp && displayTimeSelection && !enableScrollyMode"
         :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
@@ -77,7 +75,6 @@
     />
     <div
       v-if="$vuetify.breakpoint.smAndUp"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
       :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
@@ -92,7 +89,7 @@
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
+      :class="{'hidden': enableScrollyMode}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
@@ -169,7 +166,6 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-import LayerControl from '@/components/map/LayerControl.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
@@ -177,6 +173,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import { getMapInstance } from '@/components/map/map';
+import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -211,7 +208,6 @@ const geoJsonFormat = new GeoJSON({
 
 export default {
   components: {
-    LayerControl,
     FullScreenControl,
     ZoomControl,
     SpecialLayer,
@@ -266,7 +262,6 @@ export default {
       type: Number,
       default: undefined,
     },
-    panelActive: Boolean,
     onScrollyModeChange: {
       type: Function,
       default: () => {},
@@ -292,10 +287,12 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures', 'getFeaturesGtifMap']),
+    ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
@@ -588,26 +585,20 @@ export default {
       }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
-        position = 'bottom: 80px';
+        position = 'bottom: 72px';
       }
       return position;
     },
   },
   watch: {
-    getFeatures(features) {
-      if (this.appConfig.id === 'gtif') {
-        return;
-      }
-      if (this.mapId === 'centerMap' && features) {
-        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-        cluster.setFeatures(features);
-      }
+    baseLayerConfigs() {
+      this.updateBaseLayers();
     },
-    getFeaturesGtifMap(features) {
-      if (this.appConfig.id !== 'gtif') {
-        return;
-      }
-      if (this.mapId === 'centerMap') {
+    overlayConfigs() {
+      this.updateOverlayLayers();
+    },
+    getFeatures(features) {
+      if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
@@ -795,11 +786,7 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
-      if (this.appConfig.id === 'gtif') {
-        cluster.setFeatures(this.getFeaturesGtifMap);
-      } else {
-        cluster.setFeatures(this.getFeatures);
-      }
+      cluster.setFeatures(this.getFeatures);
       const { x, y, z } = this.$route.query;
       if (!x && !y && !z) {
         setTimeout(() => {
@@ -812,6 +799,12 @@ export default {
       }
     }
     this.loaded = true;
+
+    this.updateBaseLayers();
+    this.updateOverlayLayers();
+    map.on('moveend', this.updateOverlayOpacity);
+    map.dispatchEvent({ type: 'moveend' });
+
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (this.mapId === 'centerMap') {
@@ -822,11 +815,6 @@ export default {
           }
           // TODO: do we need to handle the clusters differentlyas we use new features approach?
           cluster.clusters.setVisible(true);
-          /*
-          if (this.appConfig.id !== 'gtif') {
-            cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
-          }
-          */
         }
       }
     });
@@ -889,6 +877,90 @@ export default {
     }
   },
   methods: {
+    updateLayers(layerCollection, newLayers) {
+      const layersToRemove = layerCollection.getArray()
+        .filter((l) => !newLayers.find((nL) => nL.get('name') === l.get('name')));
+      const layersToAdd = newLayers
+        .filter((nL) => !layerCollection.getArray().find((l) => l.get('name') === nL.get('name')));
+
+      let selectFallbackExclusiveLayer = false;
+
+      // remove old layers not needed in new collection
+      layersToRemove.forEach((removedLayer) => {
+        const layer = layerCollection.getArray()
+          .find((l) => l.get('name') === removedLayer.get('name'));
+        if (!layer) { return; }
+        if (layer.get('layerControlExclusive') && layer.getVisible()) {
+          selectFallbackExclusiveLayer = true;
+        }
+        layerCollection.remove(layer);
+      });
+
+      // add missing layers to collection
+      layersToAdd.forEach((addedLayer) => {
+        const layer = newLayers.find((l) => l.get('name') === addedLayer.get('name'));
+        if (!layer) { return; }
+        layerCollection.push(layer);
+      });
+
+      // if a currently visible exclusive layer was removed,
+      // make the first of the new ones visible instead
+      if (selectFallbackExclusiveLayer) {
+        layerCollection.getArray()[layerCollection.getArray().length - 1].setVisible(true);
+      }
+    },
+    updateBaseLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const backgroundGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'backgroundGroup').getLayers();
+
+      const baseLayers = this.baseLayerConfigs.map((l) => {
+        if (!l) { return; }
+        const createdLayer = createLayerFromConfig(l, map);
+        createdLayer.set('layerControlExclusive', true);
+        return createdLayer;
+      });
+
+      this.updateLayers(backgroundGroupCollection, baseLayers);
+    },
+    updateOverlayLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const overlayGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'overlayGroup').getLayers();
+
+      const overlayLayers = this.overlayConfigs.map((l) => {
+        if (!l) { return; }
+        const createdLayer = createLayerFromConfig(l,
+          map,
+          {
+            updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
+          });
+        return createdLayer;
+      });
+
+      this.updateLayers(overlayGroupCollection, overlayLayers);
+    },
+    updateOverlayOpacity(e) {
+      const map = e.target;
+      const view = map.getView();
+      const zoom = Math.floor(view.getZoom());
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+
+      this.overlayConfigs.forEach((c) => {
+        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
+        if (layer.get('updateOpacityOnZoom')) {
+          if (layer.get('name') === 'Country vectors') {
+            layer.setOpacity(this.opacityCountries[zoom]);
+          } else {
+            // show overlays on low zoom levels for global indicators
+            const opacity = this.isGlobalIndicator ? 1 : this.opacityOverlay[zoom] || 0;
+            layer.setOpacity(opacity);
+          }
+        }
+      });
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1181,6 +1253,8 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
+    const { map } = getMapInstance(this.mapId);
+    map.un('moveend', this.updateOverlayOpacity);
   },
 };
 </script>

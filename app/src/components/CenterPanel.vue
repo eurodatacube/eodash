@@ -4,7 +4,6 @@
     ref="map"
     class="fill-height"
     :disableAutoFocus="false"
-    :panelActive="panelActive"
   />
 </template>
 
@@ -19,9 +18,6 @@ import Map from '@/components/map/Map.vue';
 export default {
   components: {
     Map,
-  },
-  props: {
-    panelActive: Boolean,
   },
   computed: {
     ...mapGetters('features', [

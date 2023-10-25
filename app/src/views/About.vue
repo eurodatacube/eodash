@@ -84,7 +84,6 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
-      'getLatestUpdate',
     ]),
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
