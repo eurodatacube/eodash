@@ -19,6 +19,7 @@ const state = {
   },
   selectedArea: null,
   selectedDate: null,
+  selectedRange: null,
   selectedFeatures: [],
 };
 
@@ -283,6 +284,9 @@ const mutations = {
   },
   SET_SELECTED_DATE(state, date) {
     state.selectedDate = date;
+  },
+  SET_SELECTED_RANGE(state, range) {
+    state.selectedRange = range;
   },
   SET_ADMIN_BORDER_FEATURE_SELECTED(state, feature) {
     state.adminBorderFeatureSelected = feature;

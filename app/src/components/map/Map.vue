@@ -131,6 +131,12 @@
         class="pointerEvents"
         :mapId="mapId"
       />
+      <RangeSliderControl
+        class="pointerEvents"
+        :mapId="mapId"
+        :minVal="0"
+        :maxVal="100"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -185,6 +191,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import DatePickerControl from '@/components/map/DatePickerControl.vue';
+import RangeSliderControl from '@/components/map/RangeSliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -228,6 +235,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     DatePickerControl,
+    RangeSliderControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
