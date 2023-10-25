@@ -81,7 +81,7 @@ export default {
           this.panels.left = [
         {
           id: 1,
-          title: 'Filters',
+          title: 'Domains & Tools',
           heightPercentage: 80,
         },
         {

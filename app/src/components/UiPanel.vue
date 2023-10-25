@@ -35,7 +35,7 @@
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
-        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184.5 : 160.5) : 177}px);
+        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
         overflow-y:${['Domains & Tools','Filters'].includes(title) ? 'hidden':'auto'};
       `"
     >
