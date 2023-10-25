@@ -206,7 +206,6 @@ import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
   calculatePadding,
-  // getIndicatorFilteredInputData,
   findClosest,
 } from '@/utils';
 import getLocationCode from '../../mixins/getLocationCode';
@@ -368,10 +367,6 @@ export default {
     isGlobalIndicator() {
       return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
     },
-    layerControlKey() {
-      // re-create all base layers when config changes
-      return [...this.baseLayerConfigs, ...this.overlayConfigs].map((c) => c.name).join('');
-    },
     indicator() {
       // the current indicator definition object.
       // will use the "currentIndicator"-Prop if defined (dashboard)
@@ -381,7 +376,6 @@ export default {
         indicator = this.currentIndicator;
       }
       return indicator;
-      // return getIndicatorFilteredInputData(this.currentIndicator);
     },
     featureObject() {
       let featureObject = this.$store.state.features.selectedFeature?.indicatorObject;

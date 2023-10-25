@@ -940,40 +940,6 @@ export function calculatePadding() {
   return padding;
 }
 
-/**
- * registry of "clean" indicators (input data filtered)
- */
-const indicatorRegistry = {};
-
-export function getIndicatorFilteredInputData(selectedIndicator) {
-  if (!selectedIndicator && !store.state.indicators.selectedIndicator) {
-    return null;
-  }
-  const indicator = selectedIndicator || { ...store.state.indicators.selectedIndicator };
-  // use possible overrides from baseConfig
-  const { inputData } = generateUsedTimes(indicator);
-  if (!inputData) {
-    return null;
-  }
-  const locationCode = getLocationCode(indicator);
-  if (indicatorRegistry[locationCode]) {
-    return indicatorRegistry[locationCode];
-  }
-
-  // filter out rows which have empty "Input Data"
-  const mask = inputData.map((item) => item !== '' && item !== '/');
-  // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
-  if (mask.length > 1) {
-    for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
-      if (Array.isArray(value) && value.length > 1) {
-        indicator[key] = value.filter((item, i) => mask[i]);
-      }
-    }
-  }
-  indicatorRegistry[locationCode] = indicator;
-  return indicator;
-}
-
 export function getPOIs() {
   const ftrs = store.state.features.allFeatures;
   ftrs.sort(
