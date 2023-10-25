@@ -2,9 +2,9 @@
   <v-sheet
     class="row justify-center align-center rounded"
     :class="$vuetify.breakpoint.xsOnly && autofocus ? 'menu-top' : 'menu-bottom'"
-    :style="`position: absolute; ${$vuetify.breakpoint.xsOnly && autofocus
-      ? 'top: 10px'
-      : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
+    :style="`position: absolute; z-index: 5; width: auto; max-width: ${
+      $vuetify.breakpoint.xsOnly
+    ? '100%' : '600px'}; height: 130px;`"
   >
     <v-col v-if="showTimeSlider" style="height:68px;">
       <v-slider
