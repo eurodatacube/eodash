@@ -1,7 +1,7 @@
 <template>
   <div
     class="customDrawTools elevation-2
-    d-flex flex-column mb-2">
+    d-flex flex-column mb-2 mr-1">
     <v-tooltip
       v-if="drawToolsVisible"
       left
