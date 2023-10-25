@@ -921,12 +921,13 @@ export default {
       const backgroundGroupCollection = map.getLayers().getArray()
         .find((l) => l.get('id') === 'backgroundGroup').getLayers();
 
-      const baseLayers = this.baseLayerConfigs.map((l) => {
-        if (!l) { return; }
-        const createdLayer = createLayerFromConfig(l, map);
-        createdLayer.set('layerControlExclusive', true);
-        return createdLayer;
-      });
+      const baseLayers = this.baseLayerConfigs
+        .filter(Boolean)
+        .map((l) => {
+          const createdLayer = createLayerFromConfig(l, map);
+          createdLayer.set('layerControlExclusive', true);
+          return createdLayer;
+        });
 
       this.updateLayers(backgroundGroupCollection, baseLayers);
     },
@@ -936,15 +937,16 @@ export default {
       const overlayGroupCollection = map.getLayers().getArray()
         .find((l) => l.get('id') === 'overlayGroup').getLayers();
 
-      const overlayLayers = this.overlayConfigs.map((l) => {
-        if (!l) { return; }
-        const createdLayer = createLayerFromConfig(l,
-          map,
-          {
-            updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
-          });
-        return createdLayer;
-      });
+      const overlayLayers = this.overlayConfigs
+        .filter(Boolean)
+        .map((l) => {
+          const createdLayer = createLayerFromConfig(l,
+            map,
+            {
+              updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
+            });
+          return createdLayer;
+        });
 
       this.updateLayers(overlayGroupCollection, overlayLayers);
     },

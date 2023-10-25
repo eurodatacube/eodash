@@ -5,9 +5,7 @@ import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
 import store from '@/store';
-import { generateUsedTimes } from '@/helpers/mapConfig';
 import { getMapInstance } from './components/map/map';
-import getLocationCode from './mixins/getLocationCode';
 
 const wkt = new Wkt();
 
@@ -924,8 +922,8 @@ export function isExternalUrl(urlString) {
 export function calculatePadding() {
   // we can further refine the padding to use based on which panels are open
   // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
-  const dataPanelOpen = (document.querySelector('.data-panel') !== null)
-    && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
+  // const dataPanelOpen = (document.querySelector('.data-panel') !== null)
+  //   && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
   const dataPanelWidth = document.querySelector('.ui-panel').clientWidth;
   const searchPanelWidth = document.querySelector('.ui-panel').clientWidth;
   const demoItemsWidth = (document.querySelector('#demoItemsList') !== null)
