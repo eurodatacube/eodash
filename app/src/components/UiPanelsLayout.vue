@@ -69,7 +69,6 @@ export default {
       immediate: true,
       handler(newVal) {
         if (this.gtif && !newVal) {
-          this.panels.left[0].title = 'Filters';
           this.panels.left = [
             {
              id: 1,
