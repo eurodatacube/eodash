@@ -14,7 +14,7 @@
       </template>
       <span>Choose date</span>
     </v-tooltip>
-    <v-date-picker v-else elevation="2" v-model="selectedDate" />
+    <v-date-picker v-else elevation="2" width="230" v-model="selectedDate" />
   </div>
 </template>
 
