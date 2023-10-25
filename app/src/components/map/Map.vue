@@ -51,7 +51,8 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="$vuetify.breakpoint.mdAndUp && displayTimeSelection && !enableScrollyMode"
+        v-if="displayTimeSelection && !enableScrollyMode
+          && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
         :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
@@ -90,11 +91,9 @@
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
       :class="{'hidden': enableScrollyMode}"
-      :style="$vuetify.breakpoint.xsOnly
-        ? `padding-bottom: ${indicator
-          ? '36vh'
-          : `${$vuetify.application.footer + 10}px`} !important`
-        : ''"
+      :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
+        ? $vuetify.application.footer + 85
+        : $vuetify.application.footer + 10}px !important`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -115,6 +114,15 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
+      <v-btn
+        v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
+        :color="$vuetify.theme.currentTheme.background"
+        class="pointerEvents"
+        style="min-width: 36px; width: 36px; height: 36px;"
+        @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
+      >
+        <v-icon>mdi-map-clock-outline</v-icon>
+      </v-btn>
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -287,6 +295,7 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      mobileTimeselectionToggle: false,
       opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
@@ -579,6 +588,9 @@ export default {
     },
     calculatePosition() {
       let position = 'bottom: 155px';
+      if (this.$vuetify.breakpoint.xsOnly) {
+        position = `bottom: ${this.$vuetify.application.footer + 70}px`;
+      }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.$route.name !== 'demo') {
         position = 'bottom: 155px';
