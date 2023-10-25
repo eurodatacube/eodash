@@ -13,7 +13,6 @@ import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
 
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/GTIF/catalog.json';
-// export const STACEndpoint = 'http://127.0.0.1:8000/GTIF/catalog.json';
 
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
@@ -165,7 +164,7 @@ export const indicatorClassesIcons = Object.freeze({
 });
 
 export const geoDBFeatureParameters = Object.freeze({
-  url: `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF`,
+  url: 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF',
 });
 
 export const mapDefaults = Object.freeze({
@@ -222,17 +221,6 @@ export const defaultLayersDisplay = {
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
-};
-
-const getMinuteIntervals = (start, end, minutes) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
-    currentDate = DateTime.fromISO(currentDate).plus({ minutes });
-  }
-  return dateArray;
 };
 
 const getDailyDates = (start, end) => {
@@ -401,39 +389,15 @@ const trucksFeatures = {
 };
 
 export const indicatorsDefinition = Object.freeze({
-  BM2: {
-    indicator: 'Above Ground Biomass',
-    class: 'air',
-    themes: ['carbon-accounting'],
-    story: '/data/gtif/markdown/BM2',
-  },
   REP1: {
-    ...energyTransitionDefaults,
-    indicator: 'Wind Energy',
-    class: 'air',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP1',
     customAreaIndicator: true,
+    ...energyTransitionDefaults,
   },
   REP2: {
     ...energyTransitionDefaults,
-    indicator: 'Solar Energy',
-    class: 'air',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP2',
-  },
-  REP3: {
-    ...energyTransitionDefaults,
-    indicator: 'Nowcasting',
-    class: 'air',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP3',
   },
   REP4_1: {
-    indicator: 'Hydro Power SWE daily',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
+    showTimeSlider: true,
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
@@ -448,40 +412,14 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm],
   },
   REP4_2: {
-    indicator: 'Hydro Power SWE monthly',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
     maxDecimals: 5,
-    baseLayers: [{
-      ...baseLayers.bmapgelaende, visible: true,
-    },
-    baseLayers.terrainLight,
-    baseLayers.cloudless,
-    baseLayers.eoxosm,
-    baseLayers.S2GLC,
-    baseLayers.ESA_WORLD_COVER,
-    baseLayers.CORINE_LAND_COVER,
-    baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
   },
   REP4_4: {
-    indicator: 'Hydro Power WSE monthly',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
   },
   REP4_5: {
-    indicator: 'Hydro Power LAC monthly',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
   },
   REP4_6: {
-    indicator: 'Hydro Power inferred volume daily',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP4',
+    showTimeSlider: true,
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm, visible: true,
@@ -496,10 +434,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmapgelaende],
   },
   REP5: {
-    indicator: 'Potential Assessment',
-    class: 'water',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP5',
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
@@ -517,10 +451,6 @@ export const indicatorsDefinition = Object.freeze({
     ],
   },
   REP6: {
-    indicator: 'Wind Turbines',
-    class: 'air',
-    themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP6',
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
@@ -539,16 +469,10 @@ export const indicatorsDefinition = Object.freeze({
   },
   MOBI1: {
     ...mobilityTransitionDefaults,
-    indicator: 'mobility',
-    class: 'mobi1',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/MOBI',
     customAreaIndicator: true,
+    showTimeSlider: true,
   },
   SOL1: {
-    indicator: 'sus cities',
-    class: 'air',
-    themes: ['sustainable-cities'],
     baseLayers: [{
       ...baseLayers.bmapgelaende,
       visible: true,
@@ -556,115 +480,25 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
   },
   SOL2: {
-    indicator: 'sus cities',
-    class: 'air',
-    themes: ['sustainable-cities'],
     baseLayers: [{
       ...baseLayers.bmapgelaende,
       visible: true,
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
   },
-  SOL3: {
-    indicator: 'urban trees',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
-  },
-  SOL4: {
-    indicator: 'green roof',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
-  },
-  SOL5: {
-    indicator: 'solar',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
-  },
-  SOL6: {
-    indicator: 'green',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
-  },
-  SOL7: {
-    indicator: 'solar',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.terrainLight],
-  },
-  SOL8: {
-    indicator: 'green',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.terrainLight],
-  },
-  SOL9: {
-    indicator: 'solar',
-    class: 'air',
-    themes: ['sustainable-cities'],
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.terrainLight],
-  },
   LST: {
-    indicator: 'Heat Explorer',
-    class: 'air',
-    story: '/data/gtif/markdown/LST',
-    themes: ['eo-adaptation-services'],
   },
   FCM1: {
-    indicator: 'Forest change detections',
-    class: 'air',
-    story: '/data/gtif/markdown/FCM',
-    themes: ['carbon-accounting'],
     ...eoadaptationDefaults,
   },
   FCM2: {
-    indicator: 'Forest disturbance type',
-    class: 'air',
-    story: '/data/gtif/markdown/FCM2',
-    themes: ['carbon-accounting', 'eo-adaptation-services'],
     ...eoadaptationDefaults,
   },
   FCM3: {
-    indicator: 'Annual forest mask',
-    class: 'air',
-    story: '/data/gtif/markdown/FCM3',
-    themes: ['carbon-accounting'],
   },
   VTT: {
-    indicator: 'Forest analysis',
-    class: 'air',
-    story: '/data/gtif/markdown/VTT',
-    themes: ['eo-adaptation-services'],
   },
   ADO: {
-    indicator: 'Alpine Drought Observatory',
-    class: 'air',
-    themes: ['eo-adaptation-services'],
-    story: '/data/gtif/markdown/ADO',
     customAreaIndicator: true,
     showTimeSlider: true,
   },
@@ -684,19 +518,11 @@ export const indicatorsDefinition = Object.freeze({
     showTimeSlider: true,
   },
   AQ1: {
-    indicator: 'Aggregated mobility data',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ1',
     customAreaIndicator: true,
     showTimeSlider: true,
   },
   AQ2: {
     ...mobilityTransitionDefaults,
-    indicator: 'Innsbruck hot-spot',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AT_AQ2',
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm,
       visible: true,
@@ -704,105 +530,42 @@ export const indicatorsDefinition = Object.freeze({
     overlayLayers: [],
     showTimeSlider: true,
   },
-  AQ3: {
-    ...mobilityTransitionDefaults,
-    indicator: 'Innsbruck hot-spot',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/eodash-data/stories/AQF',
-    // TODO: This is a quick fix, we should consider impleemnting nice loading of data from geodb
-    geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
-    geoDBParameters: 'date,no2_ec_station_ppbv',
-    disableCSV: true,
-    overlayLayers: [],
-    baseLayers: [{
-      ...baseLayers.bmaporthofoto30cm,
-      visible: true,
-    }],
-  },
+  // AQ3: {
+  //   ...mobilityTransitionDefaults,
+  //   // TODO: This is a quick fix, we should consider impleemnting nice loading of data from geodb
+  //   geoDBDataQuery: 'no2_data?date=gt.2022-09-01',
+  //   geoDBParameters: 'date,no2_ec_station_ppbv',
+  //   disableCSV: true,
+  //   overlayLayers: [],
+  //   baseLayers: [{
+  //     ...baseLayers.bmaporthofoto30cm,
+  //     visible: true,
+  //   }],
+  // },
   AQ4: {
+    showTimeSlider: true,
     ...mobilityTransitionDefaults,
-    indicator: 'Human Mobility Patterns',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ4',
   },
   AQ5: {
     ...mobilityTransitionDefaults,
-    indicator: 'Nitrogen Dioxide (NO2)',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ5',
     showTimeSlider: true,
   },
   WSF: {
-    indicator: 'World Settlement Footprint',
-    class: 'economic',
-    story: '/eodash-data/stories/WSF-WSF',
-    themes: ['atmosphere'],
-  },
-  N1: {
-    indicator: 'Air quality',
-    class: 'air',
-    story: '/eodash-data/stories/N1',
-    externalData: {
-      label: 'Sentinel-5p Mapping Service',
-      url: 'https://maps.s5p-pal.com',
-    },
-    largeTimeDuration: true,
-    themes: ['atmosphere'],
-  },
-  N9: {
-    indicator: 'Air quality',
-    class: 'air',
-    hideInFilters: true,
-    story: '/eodash-data/stories/N9',
-    themes: ['atmosphere'],
-  },
-  N10: {
-    indicator: 'Air quality',
-    class: 'air',
-    hideInFilters: true,
-    story: '/eodash-data/stories/N10',
-    themes: ['atmosphere'],
-  },
-  GG: {
-    indicator: 'Mobility',
-    class: 'economic',
-    disableTimeSelection: true,
-    story: '/eodash-data/stories/GG-GG',
-    themes: ['economy', 'atmosphere'],
-    disableCSV: true,
-    alternateDataPath: './eodash-data/internal/',
   },
   E12c: {
-    indicatorSummary: 'Number of Trucks - highways',
-    themes: ['mobility-transition'],
     customAreaIndicator: true,
     customAreaFeatures: true,
-    story: '/data/gtif/markdown/E12c',
     showTimeSlider: true,
   },
   E12d: {
-    indicatorSummary: 'Number of Trucks, main roads',
-    themes: ['mobility-transition'],
     customAreaIndicator: true,
     customAreaFeatures: true,
-    story: '/data/gtif/markdown/E12c',
     showTimeSlider: true,
   },
   EO4A: {
-    indicator: 'Snow depth',
-    class: 'air',
-    themes: ['eo-adaptation-services'],
-    story: '/data/gtif/markdown/EO4A',
     showTimeSlider: true,
   },
   EO4A2: {
-    indicator: 'Snow water equivalent',
-    class: 'air',
-    themes: ['eo-adaptation-services'],
-    story: '/data/gtif/markdown/EO4A',
     showTimeSlider: true,
   },
 });
@@ -811,25 +574,9 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Number of Trucks',
         indicator: 'E12c',
-        lastIndicatorValue: 'Moving truck detections',
-        navigationDescription: 'Highways',
-        indicatorName: 'Moving truck detections',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: 'primary',
-        eoSensor: null,
-        aoiID: 'W2',
-        time: availableDates.E12c,
-        inputData: [''],
         yAxis: 'Number of trucks detected',
+        time: availableDates.E12c,
         display: [{
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
@@ -866,24 +613,8 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Number of Trucks',
         indicator: 'E12d',
-        lastIndicatorValue: 'Regional Truck Traffic Primary',
-        indicatorName: 'Moving truck detections',
-        navigationDescription: 'Primary Roads',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: 'primary',
-        eoSensor: null,
-        aoiID: 'W3',
         time: availableDates.E12c,
-        inputData: [''],
         yAxis: 'Number of trucks detected',
         display: [{
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
@@ -919,58 +650,26 @@ export const globalIndicators = [
       },
     },
   },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       indicator: 'AQ3',
+  //       yAxis: 'Surface NO2 concentrations [ppbv]',
+  //       subAoi: {
+  //         type: 'FeatureCollection',
+  //         features: [{
+  //           type: 'Feature',
+  //           properties: {}, // 11.385 47.265, 11.386 47.264
+  //           geometry: wkt.read('POLYGON((11.385 47.265, 11.385 47.264, 11.386 47.264, 11.386 47.265, 11.385 47.265))').toJson(),
+  //         }],
+  //       },
+  //     },
+  //   },
+  // },
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: false,
-        id: 9987,
-        aoi: null,
-        aoiID: 'AT1',
-        country: 'indicatorall',
-        city: 'AT',
-        siteName: 'global',
-        description: 'Innsbruck hot-spot',
-        indicator: 'AQ3',
-        yAxis: 'Surface NO2 concentrations [ppbv]',
-        lastIndicatorValue: null,
-        indicatorName: 'Innsbruck hot-spot',
-        navigationDescription: 'Surface NO2 concentrations measured at Innsbruck Atmospheric Observatory (IAO)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {}, // 11.385 47.265, 11.386 47.264
-            geometry: wkt.read('POLYGON((11.385 47.265, 11.385 47.264, 11.386 47.264, 11.386 47.265, 11.385 47.265))').toJson(),
-          }],
-        },
-        time: [],
-        inputData: [''],
-        // display: {
-        // },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Aggregated mobility data',
         indicator: 'AQ1',
-        lastIndicatorValue: null,
-        indicatorName: 'Correlation explorer',
-        navigationDescription: 'AQ-mobility',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        inputData: [''],
-        yAxis: 'Aggregated data',
         queryParameters: {
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: 'n_trajectories',
@@ -1097,25 +796,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Alpine Drought Observatory',
         indicator: 'ADO',
-        lastIndicatorValue: null,
-        indicatorName: 'Alpine Drought Observatory',
-        // navigationDescription: '',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        time: getDailyDates('2015-01-01', '2023-05-18'),
-        inputData: [''],
-        yAxis: 'ADO',
         queryParameters: {
           sourceLayer: 'ado_data',
           selected: 'spi-1',
@@ -1243,7 +924,7 @@ export const globalIndicators = [
           id: 'air_quality_new_id',
           name: 'ARI',
           adminZoneKey: 'id_3',
-          parameters: 'pm10,pm25,ihr,id_3',
+          parameters: 'ihr,id_3',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -1403,25 +1084,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Innsbruck',
-        siteName: 'global',
-        description: 'Innsbruck hot-spot',
         indicator: 'AQ2',
-        navigationDescription: 'Surface NO2 emissions measured at Innsbruck Atmospheric Observatory (IAO)',
-        lastIndicatorValue: null,
-        indicatorName: 'Innsbruck hot-spot',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        time: getMinuteIntervals('2021-01-01T01:00:00Z', '2022-12-01T00:30:00Z', 30),
-        inputData: [''],
-        yAxis: '',
         cogFilters: {
           sourceLayer: 'AQ2',
           filters: {
@@ -1519,27 +1182,9 @@ export const globalIndicators = [
     },
   },
   {
-    //  is collection with data and AT_Network_edges_3857
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Human Mobility Patterns',
         indicator: 'AQ4',
-        lastIndicatorValue: null,
-        indicatorName: 'Human Mobility Patterns',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        time: getDailyDates('2019-07-01T00:00Z', '2022-12-31T22:00:00Z'),
-        inputData: [''],
-        yAxis: '',
         highlights: [
           {
             name: 'Graz',
@@ -1656,31 +1301,8 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Nitrogen Dioxide (NO2)',
-        navigationDescription: 'NO2 maps obtained from the Copernicus Sentinel5-p satellite',
         indicator: 'AQ5',
-        lastIndicatorValue: null,
-        indicatorName: 'Nitrogen Dioxide (NO2)',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
         time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
-        inputData: [''],
-        yAxis: '',
         cogFilters: {
           sourceLayer: 'AQ5',
           filters: {
@@ -1729,37 +1351,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Dynamic human presence',
         indicator: 'MOBI1',
-        lastIndicatorValue: null,
-        indicatorName: 'Dynamic human presence',
-        navigationDescription: '',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: getDailyDates('2019-07-01T00:00:00Z', '2022-12-31T23:00:00Z'),
-        inputData: [''],
-        yAxis: '',
-        /*
-        "adminzoneid", "time",  "users_count_min", "users_count_p25", "users_count_p50",
-        "users_count_p75",  "users_count_max", "users_count_mean",  "users_density_min",
-        "users_density_p25", "users_density_p50", "users_density_p75",  "users_density_max",
-        "users_density_mean",
-        */
         queryParameters: {
           sourceLayer: 'mobility_daily',
           selected: 'users_count_max',
@@ -1828,25 +1420,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Green Roofs',
         indicator: 'SOL1',
-        lastIndicatorValue: null,
-        indicatorName: 'Green Roofs',
-        navigationDescription: 'Green Roof Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         highlights: [
           {
             name: 'Graz',
@@ -1929,25 +1503,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Solar Roofs',
         indicator: 'SOL2',
-        lastIndicatorValue: null,
-        indicatorName: 'Solar Roofs',
-        navigationDescription: 'Electrical Power Production potential',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         highlights: [
           {
             name: 'Graz',
@@ -2021,80 +1577,10 @@ export const globalIndicators = [
       },
     },
   },
-  /*
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Urban Trees',
-        indicator: 'SOL3',
-        disabled: true,
-        lastIndicatorValue: null,
-        indicatorName: 'Urban Trees',
-        navigationDescription: 'Urban Tree Impact',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            thumbnail: '',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            thumbnail: 'green_roof_vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
-
-        display: {
-
-        },
-      },
-    },
-  },
-  */
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Above Ground Biomass',
-        navigationDescription: '',
         indicator: 'BM2',
-        lastIndicatorValue: null,
-        indicatorName: 'Above Ground Biomass',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         cogFilters: {
           sourceLayer: 'BM2',
           filters: {
@@ -2151,25 +1637,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Styria',
-        siteName: 'global',
-        description: 'Forest disturbance type',
-        navigationDescription: '',
         indicator: 'FCM2',
-        lastIndicatorValue: null,
-        indicatorName: 'Forest disturbance type',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Styria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         highlights: [
           {
             name: 'Styria overview',
@@ -2221,31 +1689,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Styria',
-        siteName: 'global',
-        description: 'Annual forest mask',
-        navigationDescription: '2022',
         indicator: 'FCM3',
-        lastIndicatorValue: null,
-        indicatorName: 'Annual forest mask',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Styria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         display: {
           protocol: 'cog',
           id: 'FCM3',
@@ -2259,15 +1703,6 @@ export const globalIndicators = [
               ['color', 147, 220, 0],
               ['==', ['band', 1], 2],
               ['color', 0, 107, 0],
-              /*
-              ['!=', ['band', 1], 0],
-              [
-                'color',
-                ['*', normalizeByValue(['band', 12], 123, 689), 255],
-                ['*', normalizeByValue(['band', 13], 230, 937), 255],
-                ['*', normalizeByValue(['band', 14], 140, 912), 255],
-              ],
-              */
               ['color', 0, 0, 0, 0],
             ],
           },
@@ -2279,25 +1714,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Styria',
-        siteName: 'global',
-        description: 'Forest explorer',
-        navigationDescription: 'Assessment tool',
         indicator: 'VTT',
-        lastIndicatorValue: null,
-        indicatorName: 'Forest explorer',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Styria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         highlights: [
           {
             name: 'Styria overview',
@@ -2464,22 +1881,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Forest change detections',
-        navigationDescription: '',
         indicator: 'FCM1',
-        lastIndicatorValue: null,
-        indicatorName: 'Forest change detections',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
         highlights: [
           {
             name: 'Styria overview',
@@ -2506,8 +1908,6 @@ export const globalIndicators = [
           ['2022-07', 'NRT_FCM_Changes-2022-07_epsg3857.tif'],
           ['2022-08', 'NRT_FCM_Changes-2022-08_epsg3857.tif'],
         ],
-        inputData: [''],
-        yAxis: '',
         display: [{
           protocol: 'cog',
           id: 'FCM1',
@@ -2548,31 +1948,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Site Suitability Assessment & Trade-off Explorer',
-        navigationDescription: 'Site Suitability Assessment & Trade-off Explorer',
         indicator: 'REP1',
-        lastIndicatorValue: null,
-        indicatorName: 'Wind Energy',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         queryParameters: {
           sourceLayer: 'wind_average_zsp',
           selected: '1,2,3,4,5,6,7,8,9,10,11,12',
@@ -2766,30 +2142,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Wind Turbine Detections',
-        navigationDescription: 'Wind Turbine Detections',
         indicator: 'REP6',
-        lastIndicatorValue: null,
-        indicatorName: 'Wind Turbines',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
         display: [{
           dateFormatFunction: (date) => `${DateTime.fromFormat(date, 'yyyyMMdd').toFormat('yyyy-MM-dd')}/${DateTime.fromFormat(date, 'yyyyMMdd').plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
@@ -2825,30 +2178,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Micro Hydropower Potential Assessment',
-        navigationDescription: 'Micro Hydropower',
         indicator: 'REP5',
-        lastIndicatorValue: null,
-        indicatorName: 'Micro Hydropower',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
         display: [{
           minZoom: 5,
           protocol: 'GeoJSON',
@@ -2920,31 +2250,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Site Suitability Assessment & Trade-off Explorer',
-        navigationDescription: 'Site Suitability Assessment & Trade-off Explorer',
         indicator: 'REP2',
-        lastIndicatorValue: null,
-        indicatorName: 'Solar Energy',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
         cogFilters: {
           sourceLayer: 'REP2',
           filters: {
@@ -3100,31 +2406,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Heat Explorer',
         indicator: 'LST',
-        lastIndicatorValue: null,
-        indicatorName: 'Heat Explorer',
-        eoSensor: '',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'LST',
-        time: [''],
-        inputData: [''],
-        yAxis: '',
         display: [{
           protocol: 'xyz',
           tileSize: 256,
@@ -3155,25 +2437,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Snowdepth',
         indicator: 'EO4A',
-        lastIndicatorValue: null,
-        indicatorName: 'Snow depth',
-        // navigationDescription: 'EO4Alps',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: getDailyDates('2020-10-01', '2022-06-30'),
-        inputData: [''],
-        yAxis: '',
         display: {
           selectedTime: '2022-01-30',
           presetView: {
@@ -3200,25 +2464,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Snow water equivalent',
         indicator: 'EO4A2',
-        lastIndicatorValue: null,
-        indicatorName: 'Snow water equivalent',
-        // navigationDescription: 'EO4Alps',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: getDailyDates('2020-10-01', '2022-06-30'),
-        inputData: [''],
-        yAxis: '',
         display: {
           selectedTime: '2022-01-30',
           presetView: {
