@@ -156,13 +156,15 @@ export default {
     };
   },
   mounted() {
-    const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    if (d.toFormat) {
-      const formatted = d.toFormat('dd. MMM');
-      this.dataLayerTime = {
-        value: formatted,
-        name: formatted,
-      };
+    if (Array.isArray(this.indicatorObject.time)) {
+      const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
+      if (d.toFormat) {
+        const formatted = d.toFormat('dd. MMM');
+        this.dataLayerTime = {
+          value: formatted,
+          name: formatted,
+        };
+      }
     }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
