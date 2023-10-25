@@ -65,6 +65,7 @@
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
         :style="calculatePosition"
+        style="display: none"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -169,7 +170,6 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-import LayerControl from '@/components/map/LayerControl.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
@@ -177,6 +177,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import { getMapInstance } from '@/components/map/map';
+import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -211,7 +212,6 @@ const geoJsonFormat = new GeoJSON({
 
 export default {
   components: {
-    LayerControl,
     FullScreenControl,
     ZoomControl,
     SpecialLayer,
@@ -292,6 +292,8 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
   computed: {
@@ -594,6 +596,12 @@ export default {
     },
   },
   watch: {
+    baseLayerConfigs() {
+      this.updateBaseLayers();
+    },
+    overlayConfigs() {
+      this.updateOverlayLayers();
+    },
     getFeatures(features) {
       if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
@@ -796,6 +804,8 @@ export default {
       }
     }
     this.loaded = true;
+    this.updateBaseLayers();
+    this.updateOverlayLayers();
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (this.mapId === 'centerMap') {
@@ -868,6 +878,93 @@ export default {
     }
   },
   methods: {
+    updateLayers(layerCollection, newLayers) {
+      const layersToRemove = layerCollection.getArray()
+        .filter((l) => !newLayers.find((nL) => nL.get('name') === l.get('name')));
+      const layersToAdd = newLayers
+        .filter((nL) => !layerCollection.getArray().find((l) => l.get('name') === nL.get('name')));
+
+      let selectFallbackExclusiveLayer = false;
+
+      // remove old layers not needed in new collection
+      layersToRemove.forEach((removedLayer) => {
+        const layer = layerCollection.getArray()
+          .find((l) => l.get('name') === removedLayer.get('name'));
+        if (!layer) { return; }
+        if (layer.get('layerControlExclusive') && layer.getVisible()) {
+          selectFallbackExclusiveLayer = true;
+        }
+        layerCollection.remove(layer);
+      });
+
+      // add missing layers to collection
+      layersToAdd.forEach((addedLayer) => {
+        const layer = newLayers.find((l) => l.get('name') === addedLayer.get('name'));
+        if (!layer) { return; }
+        layerCollection.push(layer);
+      });
+
+      // if a currently visible exclusive layer was removed,
+      // make the first of the new ones visible instead
+      if (selectFallbackExclusiveLayer) {
+        layerCollection.getArray()[layerCollection.getArray().length - 1].setVisible(true);
+      }
+    },
+    updateBaseLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const backgroundGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'backgroundGroup').getLayers();
+
+      const baseLayers = this.baseLayerConfigs.map((l) => {
+        if (!l) { return; }
+        const createdLayer = createLayerFromConfig(l, map);
+        createdLayer.set('layerControlExclusive', true);
+        return createdLayer;
+      });
+
+      this.updateLayers(backgroundGroupCollection, baseLayers);
+    },
+    updateOverlayLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const overlayGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'overlayGroup').getLayers();
+
+      const overlayLayers = this.overlayConfigs.map((l) => {
+        if (!l) { return; }
+        const createdLayer = createLayerFromConfig(l,
+          map,
+          {
+            updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
+          });
+        return createdLayer;
+      });
+
+      this.updateLayers(overlayGroupCollection, overlayLayers);
+
+      // map.on('moveend', this.updateOverlayOpacity);
+      // map.dispatchEvent({ type: 'moveend' });
+    },
+    updateOverlayOpacity(e) {
+      const map = e.target;
+      const view = map.getView();
+      const zoom = Math.floor(view.getZoom());
+      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
+
+      this.overlayConfigs.forEach((c) => {
+        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
+        if (layer.get('updateOpacityOnZoom')) {
+          if (layer.get('name') === 'Country vectors') {
+            layer.setOpacity(this.opacityCountries[zoom]);
+          } else {
+            // show overlays on low zoom levels for global indicators
+            const opacity = this.isGlobalIndicator ? 1 : this.opacityOverlay[zoom] || 0;
+            layer.setOpacity(opacity);
+          }
+        }
+      });
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1160,6 +1257,8 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
+    const { map } = getMapInstance(this.mapId);
+    map.un('moveend', this.updateOverlayOpacity);
   },
 };
 </script>

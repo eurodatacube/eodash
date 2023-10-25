@@ -36,9 +36,9 @@ export default {
     ...mapGetters('indicators', [
       'getIndicators',
     ]),
-    ...mapState('gtif',[
-      'toolsToggle'
-    ])
+    ...mapState('gtif', [
+      'toolsToggle',
+    ]),
   },
   created() {
     if (this.indicators) {
@@ -197,24 +197,24 @@ export default {
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
         `;
-          this.$nextTick(()=>{
-            if (this.appConfig.id === 'gtif') {
-              this.$watch('toolsToggle',
-              function(inToolsMode,_){
-                const titleEl = this.$refs.itemFilterEl.shadowRoot.querySelector('slot[name=resultstitle]')
-                const resultsEl = this.$refs.itemFilterEl.shadowRoot.getElementById('results')
+        this.$nextTick(() => {
+          if (this.appConfig.id === 'gtif') {
+            this.$watch('toolsToggle',
+              function (inToolsMode, _) {
+                const titleEl = this.$refs.itemFilterEl.shadowRoot.querySelector('slot[name=resultstitle]');
+                const resultsEl = this.$refs.itemFilterEl.shadowRoot.getElementById('results');
                 if (inToolsMode) {
-                  titleEl.style.display = ''
-                  resultsEl.style.display = ''
-                }else{
-                  titleEl.style.display = 'none'
-                  resultsEl.style.display = 'none'
+                  titleEl.style.display = '';
+                  resultsEl.style.display = '';
+                } else {
+                  titleEl.style.display = 'none';
+                  resultsEl.style.display = 'none';
                 }
-              },{
-                immediate:true
-              })
-            }
-        })
+              }, {
+                immediate: true,
+              });
+          }
+        });
       });
     },
   },
@@ -233,10 +233,10 @@ export default {
       }
     },
   },
-  mounted(){
+  mounted() {
     if (this.$vuetify.breakpoint.smAndUp) {
-      this.$parent.$parent.$parent.$refs.header.$emit('click',{detail:''})
+      this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
     }
-  }
+  },
 };
 </script>

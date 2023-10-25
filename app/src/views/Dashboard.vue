@@ -182,15 +182,7 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                  <eox-stacinfo
-                    v-if="panel.title == 'Information' && indicatorSelected"
-                    :for="$store.state.indicators.selectedIndicator.link"
-                    header='[]'
-                    subheader='[]'
-                    properties='["description"]'
-                    featured='[]'
-                    footer='[]'
-                  ></eox-stacinfo>
+                 <StoryDisplay  v-if="panel.title == 'Information' && indicatorSelected"/>
                    <DataPanel
                     v-if="panel.title === 'Analysis' && indicatorObject
                     || $store.state.features.featureFilters.indicators.length > 0"
@@ -226,6 +218,7 @@ import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
 import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
+import StoryDisplay from '../components/StoryDisplay.vue';
 
 export default {
   metaInfo() {
@@ -251,7 +244,8 @@ export default {
     UiPanel,
     UiPanelsLayout,
     NarrativesToolsPanel,
-  },
+    StoryDisplay
+},
   props: {
     source: String,
   },
