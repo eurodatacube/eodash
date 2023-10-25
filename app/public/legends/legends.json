@@ -124,6 +124,13 @@
             "label": "Sea Surface Temperature Anomaly [%]",
             "ticks": [1,2,3,4,5],
             "tickLabels": [-70,-38,0,33,70]
+        },
+        "GHS-BUILT-S_GLOBE_R2023A": {
+            "range": [1, 5],
+            "cm": [[1, [0,0,0,0]], [2, [124, 8, 169,255]], [3, [203, 71, 120,255]],[4, [246, 154, 67,255]],[5, [251, 250, 144]]],
+            "label": "GHS built-up surface",
+            "ticks": [1,2,3,4,5],
+            "tickLabels": [0,2500,5000,7500,10000]
         }
     },
     "trilateral": {

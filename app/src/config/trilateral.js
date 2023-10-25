@@ -100,6 +100,10 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   NLK: {
     indicatorSummary: 'Lakes',
     story: '/data/trilateral/NLK',
@@ -993,6 +997,45 @@ const getWeeklyDates = (start, end) => {
 };
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GHS built-up surface dataset GHS-BUILT-S_GLOBE_R2023A',
+        indicator: 'GHSBUILT',
+        indicatorName: 'GHS-BUILT-S-R2023A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: availableDates['GHS_BUILT_S'],
+        inputData: [''],
+        yAxis: '',
+        display: {
+          customAreaIndicator: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'GHS-BUILT-S_GLOBE_R2023A',
+          layers: 'GHS_BUILT_S',
+          minZoom: 1,
+          legendUrl: 'legends/esa/GHS-BUILT-S_GLOBE_R2023A.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['GHS-BUILT-S_GLOBE_R2023A'],
+              'byoc-0c7aa265-50f9-4947-9980-2ee5ae204803',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
