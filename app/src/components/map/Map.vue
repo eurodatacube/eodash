@@ -65,7 +65,6 @@
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
         :style="calculatePosition"
-        style="display: none"
       />
     </div>
     <!-- an overlay for showing information when hovering over clusters -->
@@ -820,8 +819,12 @@ export default {
       }
     }
     this.loaded = true;
+
     this.updateBaseLayers();
     this.updateOverlayLayers();
+    map.on('moveend', this.updateOverlayOpacity);
+    map.dispatchEvent({ type: 'moveend' });
+
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (this.mapId === 'centerMap') {
@@ -963,9 +966,6 @@ export default {
       });
 
       this.updateLayers(overlayGroupCollection, overlayLayers);
-
-      // map.on('moveend', this.updateOverlayOpacity);
-      // map.dispatchEvent({ type: 'moveend' });
     },
     updateOverlayOpacity(e) {
       const map = e.target;
