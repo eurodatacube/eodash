@@ -128,10 +128,12 @@
         :drawnArea.sync="drawnArea"
       />
       <DatePickerControl
+        v-if="mergedConfigsData.length && mergedConfigsData[0].showDatePicker"
         class="pointerEvents"
         :mapId="mapId"
       />
       <RangeSliderControl
+        v-if="mergedConfigsData.length && mergedConfigsData[0].showRangeSlider"
         class="pointerEvents"
         :mapId="mapId"
         :minVal="0"
