@@ -1792,7 +1792,7 @@ export const globalIndicators = [
         },
         lastColorCode: 'primary',
         eoSensor: null,
-        aoiID: 'W2',
+        aoiID: 'W2_test',
         time: getDailyDates('2020-01-01', '2021-12-31'),
         inputData: [''],
         yAxis: 'Number of trucks detected',

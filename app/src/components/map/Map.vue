@@ -128,12 +128,12 @@
         :drawnArea.sync="drawnArea"
       />
       <DatePickerControl
-        v-if="loaded /*&& mergedConfigsData.length && mergedConfigsData[0].showDatePicker*/"
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].showDatePicker"
         class="pointerEvents"
         :mapId="mapId"
       />
       <SliderControl
-        v-if="loaded /*&& mergedConfigsData.length && mergedConfigsData[0].showSlider*/"
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].showSlider"
         class="pointerEvents"
         :mapId="mapId"
         :maxVal="100"
