@@ -76,7 +76,7 @@
     />
     <div
       v-if="$vuetify.breakpoint.smAndUp"
-      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 30%`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
@@ -1272,6 +1272,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .map-legend {
+    position: relative;
     max-width: 15vw;
     transition: max-width 0.5s ease-in-out;
     cursor: pointer;
