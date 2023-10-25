@@ -75,7 +75,6 @@
     />
     <div
       v-if="$vuetify.breakpoint.smAndUp"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
       :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
@@ -90,7 +89,7 @@
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
+      :class="{'hidden': enableScrollyMode}"
       :style="$vuetify.breakpoint.xsOnly
         ? `padding-bottom: ${indicator
           ? '36vh'
@@ -263,7 +262,6 @@ export default {
       type: Number,
       default: undefined,
     },
-    panelActive: Boolean,
     onScrollyModeChange: {
       type: Function,
       default: () => {},
@@ -587,7 +585,7 @@ export default {
       }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
-        position = 'bottom: 80px';
+        position = 'bottom: 72px';
       }
       return position;
     },
