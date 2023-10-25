@@ -118,7 +118,7 @@
         v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
         :color="$vuetify.theme.currentTheme.background"
         class="pointerEvents"
-        style="min-width: 36px; width: 36px; height: 36px;"
+        style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
         @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
       >
         <v-icon>mdi-map-clock-outline</v-icon>
