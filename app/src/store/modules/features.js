@@ -176,17 +176,6 @@ const getters = {
 
     return features;
   },
-  getFeaturesGtifMap(state) {
-    let features = state.allFeatures;
-    // explicitly include only those features from current indicators filters
-    if (state.featureFilters.indicators.length > 0) {
-      features = features
-        .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject.indicator));
-      return features;
-    }
-    return [];
-  },
   getGroupedFeatures(state, getters, rootState) {
     let allFeatures = [];
     if (state.allFeatures.length > 0) {
@@ -211,19 +200,6 @@ const getters = {
       allFeatures = groupedFeatures.concat(restFeatures);
     }
     return allFeatures;
-  },
-  getLatestUpdate(state) {
-    const times = state.allFeatures.map((f) => {
-      let time = f.properties.indicatorObject.Time;
-      let latest;
-      if (time && time.length > 0) {
-        time = time.sort((a, b) => ((a > b) ? 1 : -1));
-        latest = time[time.length - 1];
-      }
-      return latest;
-    });
-    const filtered = times.filter((t) => !!t).sort((a, b) => ((a > b) ? 1 : -1));
-    return filtered[filtered.length - 1];
   },
 };
 

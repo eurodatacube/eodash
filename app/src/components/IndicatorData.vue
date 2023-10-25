@@ -754,8 +754,8 @@ export default {
               t: date,
               y: measurement[i],
             };
-            if (indicator.referenceValue[i]) {
-              result.referenceValue = indicator.referenceValue[i].replace(/[[\]]/g, '');
+            if (featureData.referenceValue[i]) {
+              result.referenceValue = featureData.referenceValue[i].replace(/[[\]]/g, '');
             }
             return result;
           });
@@ -980,24 +980,8 @@ export default {
         } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
           'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
           // Rendering for fetched data
-          // TODO: there are quite some dependencies on the expected structure of the data, so
-          // it is not possible to show easily multiple parameters
-          /*
-          indicator.retrievedData.forEach((key, i) => {
-            datasets.push({
-              // fill with empty values
-              indLabels: Array(dataGroups[key].length).join('.').split('.'),
-              label: key,
-              fill: false,
-              data: indicator.retrievedData[key],
-              backgroundColor: refColors[yLength - i],
-              borderColor: refColors[yLength - i],
-              borderWidth: 2,
-            });
-          });
-          */
-          const data = indicator.time.map((date, i) => (
-            { t: date, y: indicator.measurement[i] }
+          const data = featureData.time.map((date, i) => (
+            { t: date, y: featureData.measurement[i] }
           ));
           let label = indicator.yAxis;
           if (['MOBI1'].includes(indicatorCode)) {
@@ -1016,8 +1000,8 @@ export default {
           });
         } else if (['AQ1'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           datasets.push({
             label: 'data for selected bins',
@@ -1031,7 +1015,7 @@ export default {
           });
         } else if (['SOL1'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          Object.keys(indicator.fetchedData).forEach((gemId, ind) => {
+          Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
             const x = [];
             const y = [];
@@ -1040,11 +1024,11 @@ export default {
             let counter = 0;
             const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
               '#9a08c7', '#e60532', '#d66d11'];
-            Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
-              x.push(indicator.fetchedData[gemId][zspId].measurement);
-              y.push(indicator.fetchedData[gemId][zspId].referenceValue);
+            Object.keys(featureData.fetchedData[gemId]).forEach((zspId) => {
+              x.push(featureData.fetchedData[gemId][zspId].measurement);
+              y.push(featureData.fetchedData[gemId][zspId].referenceValue);
               zsps.push(zspId);
-              if (indicator.originalZsps.map((ftr) => ftr.getId())
+              if (featureData.originalZsps.map((ftr) => ftr.getId())
                 .includes(parseInt(zspId, 10))) {
                 const ii = counter % availableSelectedColors.length;
                 clrs.push(`${availableSelectedColors[ii]}80`);
@@ -1059,7 +1043,7 @@ export default {
               { x: mm, y: y[j], zsp: zsps[j] }
             ));
             datasets.push({
-              label: indicator.gemIds[gemId].trim(),
+              label: featureData.gemIds[gemId].trim(),
               fill: false,
               data,
               backgroundColor: clrs,
@@ -1070,8 +1054,8 @@ export default {
           });
         } else if (['SOL2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           datasets.push({
             label: indicator.yAxis,
@@ -1086,8 +1070,8 @@ export default {
           });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           // This should be done somehow different, but xAxis is not in indicator mapping
           // eslint-disable-next-line
@@ -1105,13 +1089,13 @@ export default {
         if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
           // monthly average as extra dataset
           const average = [];
-          let tempDate = indicator.time[0];
+          let tempDate = featureData.time[0];
           let tmpVal = 0;
           let counter = 0;
-          indicator.measurement.forEach((item, i) => {
+          featureData.measurement.forEach((item, i) => {
             if (
-              tempDate.month === indicator.time[i].month
-              && tempDate.year === indicator.time[i].year
+              tempDate.month === featureData.time[i].month
+              && tempDate.year === featureData.time[i].year
             ) {
               tmpVal += item;
               counter += 1;
@@ -1120,7 +1104,7 @@ export default {
                 t: DateTime.fromISO(tempDate.toISODate()).set({ day: 15 }),
                 y: tmpVal / counter,
               });
-              tempDate = DateTime.fromISO(indicator.time[i].toISODate());
+              tempDate = DateTime.fromISO(featureData.time[i].toISODate());
               counter = 0;
               tmpVal = 0;
             }
@@ -1138,9 +1122,9 @@ export default {
         }
         if (['REP1'].includes(indicatorCode)) {
           const data = [];
-          indicator.measurement.forEach((item, i) => {
+          featureData.measurement.forEach((item, i) => {
             data.push({
-              t: indicator.time[i],
+              t: featureData.time[i],
               y: item,
             });
           });

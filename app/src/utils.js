@@ -468,7 +468,6 @@ export async function loadFeatureData(baseConfig, feature) {
         store.state.indicators.selectedIndicator.display = null;
       }
     }
-    console.log(store.state.indicators.selectedIndicator);
     // Add collection extent as subaoi
     const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
     const features = {
@@ -481,7 +480,7 @@ export async function loadFeatureData(baseConfig, feature) {
     };
   } else {
     // Fetch data from geodb
-    const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
+    const geodbUrl = baseConfig.geoDBFeatureParameters.url;
     const geodbIndicatorId = indicatorObject.geoDBID
       ? indicatorObject.geoDBID : indicatorObject.indicator;
     const url = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}`;

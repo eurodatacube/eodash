@@ -80,14 +80,13 @@ const actions = {
               siteName: 'global',
               countries: link.countries ? link.countries : [],
               cities: link.cities ? link.cities : [],
-              // aoiID: 'CDS',
               // TODO: some default values we seem to need would be great if we can remove them
               subAoi: {
                 type: 'FeatureCollection',
                 features: [],
               },
               inputData: [],
-              // yAxis: 'wind',
+              yAxis: link.yAxis,
             };
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
