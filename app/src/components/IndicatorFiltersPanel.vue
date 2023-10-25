@@ -106,9 +106,7 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              if (this.$store.state.gtif.toolsToggle) {
                 this.setSelectedIndicator(item);
-              }
             },
           },
           gtif: {
@@ -119,10 +117,11 @@ export default {
               },
             ],
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
-            },
-            onFilter: (items) => {
-              this.setDomain(items);
+              if (this.toolsToggle) {
+                this.setSelectedIndicator(item);
+              }else{
+                this.$router.push({name:item.id})
+              }
             },
             // exclusiveFilters: true,
             aggregateResults: 'themes',
@@ -164,7 +163,29 @@ export default {
           },
         };
         this.itemfilter.config = configs[this.appConfig.id];
+          if (this.appConfig.id === 'gtif') {
+            this.$watch('toolsToggle',
+              function (inToolsMode, _) {
+                if (inToolsMode) {
+                   this.itemfilter.apply(this.searchItems);
+                 }else{
+                   this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
+                     curr.narratives.forEach((narrative) => {
+                       acc.push({
+                         title: narrative.name,
+                         id: narrative.routeName,
+                         themes: [curr.name.replaceAll(' ','-').toLowerCase()],
+                       });
+                     });
+                     return acc;
+                   }, []));
+                 }
+              },{
+                immediate:true
+              });
+          }else{
         this.itemfilter.apply(this.searchItems);
+          }
         let flags = `
           [data-filter=countries] .title {
             display: flex;
@@ -197,24 +218,6 @@ export default {
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
         `;
-        this.$nextTick(() => {
-          if (this.appConfig.id === 'gtif') {
-            this.$watch('toolsToggle',
-              function (inToolsMode, _) {
-                const titleEl = this.$refs.itemFilterEl.shadowRoot.querySelector('slot[name=resultstitle]');
-                const resultsEl = this.$refs.itemFilterEl.shadowRoot.getElementById('results');
-                if (inToolsMode) {
-                  titleEl.style.display = '';
-                  resultsEl.style.display = '';
-                } else {
-                  titleEl.style.display = 'none';
-                  resultsEl.style.display = 'none';
-                }
-              }, {
-                immediate: true,
-              });
-          }
-        });
       });
     },
   },

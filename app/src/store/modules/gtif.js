@@ -71,34 +71,9 @@ const mutations = {
 };
 
 const actions = {
-  async setCurrentDomain({ commit }, slug) {
+   setCurrentDomain({ commit }, slug) {
     commit('SET_CURRENT_DOMAIN', slug);
-  },
-  setDomainFromFilter({ commit, state }, items) {
-    const themesCount = {};
-    let max = 0;
-    let currentTheme = '';
-    items.forEach((item) => {
-      item.themes.forEach((theme) => {
-        if (theme in themesCount) {
-          themesCount[theme]++;
-        } else {
-          themesCount[theme] = 1;
-        }
-      });
-    });
-
-    Object.keys(themesCount).forEach((theme) => {
-      max = Math.max(max, themesCount[theme]);
-      if (max === themesCount[theme]) {
-        currentTheme = theme;
-      }
-    });
-    const currentDomainName = currentTheme.split('-').join(' ').toLowerCase();
-    const currentDomain = state.domains
-      .find((domain) => domain.name.toLowerCase() === currentDomainName);
-    commit('SET_CURRENT_DOMAIN', currentDomain.slug);
-  },
+  }
 };
 
 export default {

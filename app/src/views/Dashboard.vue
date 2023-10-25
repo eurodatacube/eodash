@@ -172,8 +172,13 @@
                  :activeID="activePanel" :title="panel.title"
                  >
                    <IndicatorFiltersPanel v-if="['Domains & Tools','Filters'].includes(panel.title)" />
-                   <NarrativesToolsPanel :gtif="appConfig.id === 'gtif'"
-                   v-if="['Layers','Narratives'].includes(panel.title)"/>
+                   <eox-layercontrol
+                    v-if="panel.title == 'Layers'"
+                    for="#centerMap"
+                    :titleProperty.prop="'name'"
+                    class="pointerEvents">
+                   </eox-layercontrol>
+
                  </UiPanel>
               </template>
               <template #right="{panels,handleSelection, activePanel}">
@@ -217,7 +222,6 @@ import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
-import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
 import StacInfo from '../components/StacInfo.vue';
 
 export default {
@@ -243,7 +247,6 @@ export default {
     // ESABreadcrumbs,
     UiPanel,
     UiPanelsLayout,
-    NarrativesToolsPanel,
     StacInfo
 },
   props: {
