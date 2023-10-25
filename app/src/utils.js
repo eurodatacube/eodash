@@ -733,6 +733,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;
+          featureObject.yAxis = indicatorObject.yAxis;
           featureObject.indicatorValue = [''];
           featureObject.city = link.city ? link.city : link.name;
           featureObject.country = link.country;
