@@ -1804,6 +1804,7 @@ export const globalIndicators = [
           maxZoom: 18,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           datePickerShown: true,
+          rangeSliderShown: true,
           presetView: {
             type: 'FeatureCollection',
             features: [{
