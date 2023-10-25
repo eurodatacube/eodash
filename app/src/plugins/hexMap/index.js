@@ -2,14 +2,11 @@ import { Feature } from 'ol';
 import { Polygon } from 'ol/geom';
 import { Image, Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import GeoTIFF from 'ol/source/GeoTIFF';
-import { get as getProjection } from 'ol/proj';
 import {
   Text, Style, Fill, Stroke,
 } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
 import HexMap from 'ol-games/source/HexMap';
-import { fromUrl } from 'geotiff';
 
 import HexSweeperGame from './board';
 
@@ -61,9 +58,9 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   const { coordinate } = e;
 
   // Get the axial coordinates of the clicked hexagon and convert to Cartesian
-  let [q, r] = grid.coord2hex(coordinate);
+  const [q, r] = grid.coord2hex(coordinate);
 
-  let xOffset = ((r % 2 !== 0) * 1) - r / 2;
+  const xOffset = ((r % 2 !== 0) * 1) - r / 2;
 
   // Convert the hexagonal coordinate to the polygon vertices
   const hexagonVertices = grid.getHexagon([q, r]);
