@@ -50,12 +50,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .datePickerControls {
   .datePickerBtn {
     width: 36px;
     height: 36px !important;
     pointer-events: initial;
+  }
+  .v-date-picker-title {
+    flex-direction: row;
+
+    .v-date-picker-title__date {
+      font-size: 1rem;
+    }
   }
 }
 </style>
