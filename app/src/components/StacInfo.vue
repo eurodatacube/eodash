@@ -3,6 +3,7 @@
     <v-row class="align-center">
       <v-col>
         <eox-stacinfo ref="stacInfoEl"
+          @loaded="onStacInfoLoad"
           :for="getLink"
           header="[]"
           subheader="[]"
@@ -26,27 +27,19 @@ export default {
     if (this.$vuetify.breakpoint.smAndUp) {
       this.$parent.$parent.$parent.$refs.header.$emit("click", { detail: "" });
     }
-
   },
-  watch:{
-    getLink:{
-      immediate:true,
-      handler(){
-        if (this.$vuetify.breakpoint.smAndUp) {
-          this.$nextTick(()=>{
-            setTimeout(()=>{
-              if(this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1){
-                //first parent is VExpantionPanelContent, second is VExpantionPanel
-                this.$parent.$parent.$el.style.display = 'none'
-              }else{
-                this.$parent.$parent.$el.style.display = ''
-              }
-            },1500)
-          })
-        }
-      }
-    }
-  }
+  methods:{
+    onStacInfoLoad(e){
+    this.$nextTick(()=>{
+       if(this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1){
+         //first parent is VExpantionPanelContent, second is VExpantionPanel
+         this.$parent.$parent.$el.style.display = 'none'
+       }else{
+         this.$parent.$parent.$el.style.display = ''
+       }
+     })
+   }
+  },
 };
 </script>
 

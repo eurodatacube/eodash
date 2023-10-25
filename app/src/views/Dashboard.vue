@@ -182,7 +182,7 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                 <StoryDisplay  v-if="panel.title == 'Information' && indicatorSelected"/>
+                 <StacInfo  v-if="panel.title == 'Information' && indicatorSelected"/>
                    <DataPanel
                     v-if="panel.title === 'Analysis' && indicatorObject
                     || $store.state.features.featureFilters.indicators.length > 0"
@@ -218,7 +218,7 @@ import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
 import NarrativesToolsPanel from '../components/NarrativesToolsPanel.vue';
-import StoryDisplay from '../components/StoryDisplay.vue';
+import StacInfo from '../components/StacInfo.vue';
 
 export default {
   metaInfo() {
@@ -244,7 +244,7 @@ export default {
     UiPanel,
     UiPanelsLayout,
     NarrativesToolsPanel,
-    StoryDisplay
+    StacInfo
 },
   props: {
     source: String,
