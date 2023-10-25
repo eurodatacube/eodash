@@ -670,28 +670,16 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQA: {
     ...mobilityTransitionDefaults,
-    indicator: 'Health Risk Index (ARI)',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
     showTimeSlider: true,
   },
   AQB: {
     ...mobilityTransitionDefaults,
-    indicator: 'Coarse particulate matter (PM10)',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
     showTimeSlider: true,
   },
   AQC: {
     ...mobilityTransitionDefaults,
-    indicator: 'Fine particulate matter (PM2.5)',
-    class: 'air',
-    themes: ['mobility-transition'],
-    story: '/data/gtif/markdown/AQ',
     customAreaIndicator: true,
     showTimeSlider: true,
   },
@@ -1221,28 +1209,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'AQA',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Health Risk Index (ARI)',
-        lastIndicatorValue: null,
-        indicatorName: 'Health Risk Index (ARI)',
-        navigationDescription: 'Daily aggregated maps of ARI',
         highlights: [
           {
             name: 'Austria overview',
             location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
           },
         ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        inputData: [''],
         yAxis: 'Health Risk Index',
         display: {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
@@ -1293,24 +1265,6 @@ export const globalIndicators = [
               colormapUsed: grywrd,
               markdown: 'AQ_IHR',
             },
-            {
-              id: 'pm10',
-              description: 'Particulate Matter < 10µm',
-              dataInfo: 'PM10',
-              min: 0,
-              max: 50,
-              colormapUsed: grywrd,
-              markdown: 'AQ_PM10',
-            },
-            {
-              id: 'pm25',
-              description: 'Particulate Matter < 2.5µm',
-              dataInfo: 'PM25',
-              min: 0,
-              max: 50,
-              colormapUsed: grywrd,
-              markdown: 'AQ_PM25',
-            },
           ],
         },
       },
@@ -1319,43 +1273,18 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Coarse particulate matter (PM10)',
         indicator: 'AQB',
-        lastIndicatorValue: null,
-        indicatorName: 'Coarse particulate matter (PM10)',
-        navigationDescription: 'Daily aggregated maps of PM10 concentration',
         highlights: [
           {
             name: 'Austria overview',
             location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
           },
         ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        inputData: [''],
         yAxis: 'PM10 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm10',
           items: [
-            {
-              id: 'ihr',
-              description: 'Aggregate Risk Index',
-              dataInfo: 'ARI',
-              min: 0,
-              max: 10,
-              colormapUsed: grywrd,
-              markdown: 'AQ_IHR',
-            },
             {
               id: 'pm10',
               description: 'Particulate Matter < 10µm',
@@ -1364,15 +1293,6 @@ export const globalIndicators = [
               max: 50,
               colormapUsed: grywrd,
               markdown: 'AQ_PM10',
-            },
-            {
-              id: 'pm25',
-              description: 'Particulate Matter < 2.5µm',
-              dataInfo: 'PM25',
-              min: 0,
-              max: 50,
-              colormapUsed: grywrd,
-              markdown: 'AQ_PM25',
             },
           ],
         },
@@ -1403,7 +1323,7 @@ export const globalIndicators = [
           id: 'air_quality_new_id',
           name: 'PM10',
           adminZoneKey: 'id_3',
-          parameters: 'pm10,pm25,ihr,id_3',
+          parameters: 'pm10,id_3',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -1418,52 +1338,18 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'Fine particulate matter (PM2.5)',
         indicator: 'AQC',
-        lastIndicatorValue: null,
-        indicatorName: 'Fine particulate matter (PM2.5)',
-        navigationDescription: 'Daily aggregated maps of PM2.5 concentration',
         highlights: [
           {
             name: 'Austria overview',
             location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
           },
         ],
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'AT',
-        inputData: [''],
         yAxis: 'PM2.5 [µg/m³]',
         queryParameters: {
           sourceLayer: 'air_quality_new_id',
           selected: 'pm25',
           items: [
-            {
-              id: 'ihr',
-              description: 'Aggregate Risk Index',
-              dataInfo: 'ARI',
-              min: 0,
-              max: 10,
-              colormapUsed: grywrd,
-              markdown: 'AQ_IHR',
-            },
-            {
-              id: 'pm10',
-              description: 'Particulate Matter < 10µm',
-              dataInfo: 'PM10',
-              min: 0,
-              max: 50,
-              colormapUsed: grywrd,
-              markdown: 'AQ_PM10',
-            },
             {
               id: 'pm25',
               description: 'Particulate Matter < 2.5µm',
@@ -1502,7 +1388,7 @@ export const globalIndicators = [
           id: 'air_quality_new_id',
           name: 'Fine particulate matter (PM2.5)',
           adminZoneKey: 'id_3',
-          parameters: 'pm10,pm25,ihr,id_3',
+          parameters: 'pm25,id_3',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
