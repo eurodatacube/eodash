@@ -1,5 +1,5 @@
 <template>
-  <div class="datePickerControls">
+  <div class="datePickerControls mb-2">
     <v-tooltip v-if="!show" left>
       <template v-slot:activator="{ on }">
         <v-btn
