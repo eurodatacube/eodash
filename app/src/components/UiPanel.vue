@@ -6,7 +6,7 @@
       background: ${$vuetify.theme.currentTheme.background};
     `"
   >
-      <v-expansion-panel>
+      <v-expansion-panel v-show="hasPanel">
         <v-expansion-panel-header ref="header">
           {{ title }}
         </v-expansion-panel-header>
@@ -18,6 +18,7 @@
   </div>
   <div v-else class="flex-column align-strech">
     <span
+      v-show="hasPanel"
       class="elevation-1 pa-2 d-flex justify-center
        align-center fill-height"
       :style="`
@@ -72,7 +73,11 @@ export default {
   data: () => ({
     siblingsCount: 1,
     gtif: false,
+    hasPanel:true
   }),
+  beforeUpdate(){
+    this.hasPanel = this.$slots.default?.length > 0 ?? false
+  },
   mounted() {
     this.siblingsCount = this.$parent.$children.length;
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
