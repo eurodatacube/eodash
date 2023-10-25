@@ -12,39 +12,38 @@
           <v-icon>mdi-dots-horizontal</v-icon>
         </v-btn>
       </template>
-      <span>Choose range</span>
+      <span>Choose value</span>
     </v-tooltip>
     <v-card v-else class="sliderContainer">
       <v-card-text>
-        <v-range-slider
-          v-model="selectedRange"
-          :min="minVal"
+        <v-slider
+          v-model="sliderValue"
           :max="maxVal"
           :step="1"
           thumb-label="always"
-        ></v-range-slider>
+          track-color="grey"
+        ></v-slider>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import { VRangeSlider } from 'vuetify/lib';
+import { VSlider } from 'vuetify/lib';
 import { getMapInstance } from '@/components/map/map';
 
 export default {
   props: {
     mapId: String,
-    minVal: Number,
     maxVal: Number,
   },
   components: {
-    VRangeSlider,
+    VSlider,
   },
   data() {
     return {
       show: false,
-      selectedRange: [this.minVal, this.maxVal],
+      sliderValue: null,
     };
   },
   watch: {
@@ -55,7 +54,7 @@ export default {
         });
       }
     },
-    selectedRange(range) {
+    sliderValue(val) {
       const store = this.$store;
 
       // Check, if at least 1500ms have passed since the last change, otherwise we commit
@@ -64,7 +63,7 @@ export default {
       setTimeout(() => {
         const currentTime = Date.now();
         if (currentTime - this.lastChangeTimestamp >= 1500) {
-          store.commit('features/SET_SELECTED_RANGE', range);
+          store.commit('features/SET_SLIDER_VALUE', val);
         }
       }, 1500);
     },

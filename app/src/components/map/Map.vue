@@ -128,15 +128,14 @@
         :drawnArea.sync="drawnArea"
       />
       <DatePickerControl
-        v-if="mergedConfigsData.length && mergedConfigsData[0].showDatePicker"
+        v-if="loaded /*&& mergedConfigsData.length && mergedConfigsData[0].showDatePicker*/"
         class="pointerEvents"
         :mapId="mapId"
       />
-      <RangeSliderControl
-        v-if="mergedConfigsData.length && mergedConfigsData[0].showRangeSlider"
+      <SliderControl
+        v-if="loaded /*&& mergedConfigsData.length && mergedConfigsData[0].showSlider*/"
         class="pointerEvents"
         :mapId="mapId"
-        :minVal="0"
         :maxVal="100"
       />
       <div
@@ -193,7 +192,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import DatePickerControl from '@/components/map/DatePickerControl.vue';
-import RangeSliderControl from '@/components/map/RangeSliderControl.vue';
+import SliderControl from '@/components/map/SliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -237,7 +236,7 @@ export default {
     LayerSwipe,
     CustomAreaButtons,
     DatePickerControl,
-    RangeSliderControl,
+    SliderControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
