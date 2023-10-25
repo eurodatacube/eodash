@@ -11,21 +11,6 @@ import HexMap from 'ol-games/source/HexMap';
 import HexSweeperGame from './board';
 
 /**
- * Convert axial coordinates to staggered Cartesian coordinates.
- *
- * @param {number} q - The axial column coordinate.
- * @param {number} r - The axial row coordinate.
- * @param {number} hexSize - Radial size of the hexagon.
- *
- * @returns {[number, number]} An array containing the Cartesian x and y coordinates.
- */
-function axialToStaggeredCartesian(q, r, hexSize) {
-  const x = hexSize * Math.sqrt(3) * (q + 0.5 * (r & 1)); // eslint-disable-line no-bitwise
-  const y = hexSize * 1.5 * r;
-  return [x, y];
-}
-
-/**
  * Set up the game grid using HexGrid and HexMap.
  *
  * @param {Object} map - The OpenLayers map instance.
@@ -56,53 +41,32 @@ const setupGrid = (map) => {
 */
 const handleMapClick = (e, game, grid, vectorSource) => {
   const { coordinate } = e;
-
-  // Get the axial coordinates of the clicked hexagon and convert to Cartesian
+  
+  // Get the axial coordinates of the clicked hexagon
   const [q, r] = grid.coord2hex(coordinate);
+  
+  const gameCoords = game.convertAxialToGameCoords(q, r);
 
-  const xOffset = ((r % 2 !== 0) * 1) - r / 2;
+  // Check if the clicked hexagon is a mine
+  const isMine = game.isMine(gameCoords.x, gameCoords.y);
+  const mineCount = game.getAdjacentMineCount(gameCoords.x, gameCoords.y);
 
-  // Convert the hexagonal coordinate to the polygon vertices
+  // Create a new feature using the hexagon vertices
   const hexagonVertices = grid.getHexagon([q, r]);
-
-  // Create a new feature using the vertices
   const feature = new Feature(new Polygon([hexagonVertices]));
 
-  let style;
+  const style = new Style({
+    fill: new Fill({ color: isMine ? 'rgba(255,130,130,0.2)' : 'rgba(130,130,255,0.2)' }),
+    text: new Text({
+      text: isMine ? '💣' : mineCount.toString(),
+      fill: new Fill({ color: 'white' }),
+      font: '20px sans-serif',
+    }),
+    stroke: new Stroke({ color: 'blue', width: 1.25 }),
+  });
 
-  console.log(`Clicked on hexagon [${q}, ${r}]`);
-
-  if (game.isMine(q + xOffset, r)) {
-    // If it's a mine
-    style = new Style({
-      fill: new Fill({ color: 'red' }),
-      text: new Text({
-        text: '💣',
-        fill: new Fill({ color: 'black' }),
-        font: '20px sans-serif',
-      }),
-    });
-  } else {
-    // If it's not a mine, show the number of adjacent mines
-    const mineCount = game.get(q + xOffset, r).adjacentMines;
-    style = new Style({
-      fill: new Fill({ color: 'rgba(0,0,255,0.2)' }),
-      text: new Text({
-        text: mineCount.toString() ?? 'x',
-        fill: new Fill({ color: 'white' }),
-        font: '20px sans-serif',
-      }),
-      stroke: new Stroke({ color: 'blue', width: 1.25 }),
-    });
-  }
-
-  // Set the style to the feature
   feature.setStyle(style);
-
-  // Clear any existing features from the vector source
   vectorSource.clear();
-
-  // Add the new feature to the vector source
   vectorSource.addFeature(feature);
 };
 
@@ -155,7 +119,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
         style = new Style({
           fill: new Fill({ color: '#00f' }),
           text: new Text({
-            text: tile.adjacentMines.toString(),
+            text: tile.adjacentMines ? tile.adjacentMines.toString() : 'x',
             font: '20px Calibri,sans-serif',
             fill: new Fill({ color: '#000' }),
             stroke: new Stroke({ color: '#fff', width: 3 }),
@@ -185,7 +149,7 @@ export const createHexMap = async (map) => {
   const game = new HexSweeperGame(40, 40, 0.2);
 
   // game.initializeBoard();
-  await game.initializeBoardFromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
+  await game.fromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
   setupClickHandler(map, game, grid, vectorSource);
   drawGameBoard(map, game, grid, vectorSource);
 };

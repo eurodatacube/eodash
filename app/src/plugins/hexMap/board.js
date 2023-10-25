@@ -1,5 +1,8 @@
 import { fromUrl } from 'geotiff';
 
+const EVEN_NEIGHBOR_OFFSETS = [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]];
+const ODD_NEIGHBOR_OFFSETS  = [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
+
 /**
  * Represents the game board and its possible states and calculations.
  */
@@ -16,28 +19,43 @@ export default class HexSweeperGame {
     this.height = height;
     this.difficulty = difficulty;
     this.board = [];
-    this.initializeBoard();
   }
 
-  async initializeBoardFromGeoTIFF(url) {
+  async fromGeoTIFF(url) {
     try {
       const tiff = await fromUrl(url);
       const image = await tiff.getImage();
-      const data = await image.readRasters({
+      const data = (await image.readRasters({
         width: this.width,
         height: this.height,
         resampleMethod: 'bilinear',
-      });
+      }))[0];
 
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
+        const row = [];
         for (let x = 0; x < this.width; x++) {
-          const value = data[0][y * this.width + x];
-          const isMine = value > 500; // Adjust based on your data
-          this.board[y][x].isMine = isMine;
+          const value = data[y * this.width + x];
+
+          row.push({
+            isMine: value > 500,
+            adjacentMines: 0,
+            revealed: false,
+            flagged: false,
+            element: null,
+          });
+        }
+
+        this.board.push(row);
+      }
+
+      for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
           this.board[y][x].adjacentMines = this.calculateAdjacentMines(x, y);
         }
       }
+
+      console.log(this.board);
     } catch (error) {
       console.error('Error loading GeoTIFF data:', error);
     }
@@ -65,6 +83,55 @@ export default class HexSweeperGame {
     }
   }
 
+  getNeighborCoordinates(x, y) {
+    const offsets = (x % 2 === 0)
+      ? EVEN_NEIGHBOR_OFFSETS
+      : ODD_NEIGHBOR_OFFSETS;
+    return offsets.map(([dx, dy]) => [x + dx, y + dy]);
+  }
+
+  /**
+   * Convert axial coordinates to game board coordinates.
+   * 
+   * @param {number} q - The axial column coordinate.
+   * @param {number} r - The axial row coordinate.
+   * @returns {{ x: number, y: number }} Game board coordinates.
+   */
+  convertAxialToGameCoords(q, r) {
+    const x = q + Math.floor(r / 2);
+    const y = r;
+    return { x, y };
+  }
+
+  /**
+   * Convert game board coordinates to axial coordinates.
+   * 
+   * @param {number} x - The game board x coordinate.
+   * @param {number} y - The game board y coordinate.
+   * @returns {[number, number]} Axial coordinates [q, r].
+   */
+  convertGameCoordsToAxial(x, y) {
+    const q = x - Math.floor(y / 2);
+    const r = y;
+    return [q, r];
+  }
+
+  /**
+   * Gets the count of adjacent mines for a given tile on the game board.
+   * 
+   * @param {number} x - The game board x coordinate.
+   * @param {number} y - The game board y coordinate.
+   * @returns {number} The count of adjacent mines.
+   */
+  getAdjacentMineCount(x, y) {
+    if (this.isOutOfBounds(x, y)) {
+      throw new Error('Coordinates are out of bounds');
+    }
+    const tile = this.get(x, y);
+    console.log(`Coordinates: (${x}, ${y}), Tile: ${JSON.stringify(tile)}, Adjacent Mines: ${tile.adjacentMines}`);
+    return tile.adjacentMines;
+  }
+
   /**
      * Calculate the number of adjacent mines to a given cell.
      *
@@ -74,31 +141,20 @@ export default class HexSweeperGame {
      * @returns {number} - The number of mines adjacent to the cell.
      */
   calculateAdjacentMines(x, y) {
-    let count = 0;
-
-    // This structure is used to account for the staggered nature of the board
-    const neighbors = y % 2 === 0
-      ? [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]]
-      : [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
-
-    // Accumulate the number of mines in the adjacent cells
-    neighbors.forEach(([dx, dy]) => {
-      const nx = x + dx;
-      const ny = y + dy;
-
-      if (
-        nx >= 0
-            && nx < this.width
-            && ny >= 0
-            && ny < this.height
-            && this.board[ny]
-            && this.board[ny][nx].isMine
-      ) {
+    if (this.isMine(x, y)) return;
+    
+    const neighbors = this.getNeighborCoordinates(x, y);
+    return neighbors.reduce((count, [nx, ny]) => {
+      if (this.isValidCoordinate(nx, ny) && this.board[nx][ny].isMine) {
         count++;
       }
-    });
+      console.log(count);
+      return count;
+    }, 0);
+  }
 
-    return count;
+  isValidCoordinate(x, y) {
+    return !!(this.board[y] && this.board[y][x]);
   }
 
   isMine(x, y) {
