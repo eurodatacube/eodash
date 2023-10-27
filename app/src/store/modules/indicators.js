@@ -5,6 +5,7 @@ const state = {
   selectedIndicator: null,
   selectedTime: null,
   customAreaIndicator: null,
+  frozenIndicator: null,
 };
 
 const getters = {
@@ -16,6 +17,9 @@ const getters = {
 const mutations = {
   SET_INDICATORS(state, indicators) {
     state.indicators = indicators;
+  },
+  SET_FROZEN_INDICATOR(state, indicator) {
+    state.frozenIndicator = JSON.parse(JSON.stringify(indicator));
   },
   SET_SELECTED_INDICATOR() {
   },
@@ -30,6 +34,10 @@ const mutations = {
 };
 
 const actions = {
+  freezeCurrentIndicator({ commit }) {
+    console.log(this);
+    commit('SET_FROZEN_INDICATOR', this.state.indicators.selectedIndicator);
+  },
   async loadSTACIndicators({ commit, rootState }) {
     let url = rootState.config.baseConfig.STACEndpoint;
     // Allow overwrite of STAC endpoint url if catalog key is provided in url

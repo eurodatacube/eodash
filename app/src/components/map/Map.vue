@@ -32,6 +32,16 @@
       @setMapTime="(time) => dataLayerTime = {value: time}"
       @setTimeArray="handleSetTimeArray"
     />
+    <!-- additional special layer showing frozen indicator-->
+    <SpecialLayer
+      v-if="showFrozenLayer"
+      :mapId="mapId"
+      :mergedConfigs="mergedConfigsFrozenData"
+      :options="specialLayerOptions"
+      :key="dataLayerKey  + '_frozenLayer'"
+      :swipePixelX="swipePixelX"
+      :resetProjectionOnDestroy='true'
+    />
     <div
       class="d-flex justify-center fill-height"
       style="position: absolute; bottom: 0; left: 0;
@@ -309,6 +319,10 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
+    showFrozenLayer() {
+      return this.frozenIndicator && this.mergedConfigsFrozenData
+      && this.mergedConfigsFrozenData.length && this.indicatorHasMapData(this.frozenIndicator);
+    },
     showSpecialLayer() {
       return this.mergedConfigsData.length && this.dataLayerName
       && this.indicatorHasMapData(this.indicator);
@@ -376,6 +390,9 @@ export default {
         indicator = this.currentIndicator;
       }
       return indicator;
+    },
+    frozenIndicator() {
+      return this.$store.state.indicators.frozenIndicator;
     },
     featureObject() {
       let featureObject = this.$store.state.features.selectedFeature?.indicatorObject;
@@ -461,6 +478,16 @@ export default {
         this.indicator,
         this.currentTimeIndex,
       );
+    },
+    mergedConfigsFrozenData() {
+      const config = createConfigFromIndicator(
+        this.frozenIndicator,
+        -1,
+      );
+      // use only first "layer" entry
+      config[0].name = `${config[0].name} (Frozen copy)`;
+      config[0].id = `${config[0].id}_frozen`;
+      return [config[0]];
     },
     currentTimeIndex() {
       return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
