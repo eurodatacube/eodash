@@ -46,25 +46,6 @@
                 </v-btn>
                 </span>
               </v-col>
-              <v-col
-                v-if="filters[key].changeablaDataset"
-                cols="4"
-                dense
-                x-small
-                >
-                <v-select
-                  v-model="select"
-                  style="margin-top:-5px;"
-                  :items="filters[key].changeablaDataset.items"
-                  item-text="description"
-                  item-value="url"
-                  dense
-                  persistent-hint
-                  return-object
-                  single-line
-                  @change="changeSources"
-                ></v-select>
-              </v-col>
             </v-row>
           </span>
           <v-col class='d-flex justify-center'
@@ -314,9 +295,7 @@
 <script>
 import throttle from 'lodash.throttle';
 import { getMapInstance } from '@/components/map/map';
-import GeoTIFF from 'ol/source/GeoTIFF';
 import InfoDialog from '@/components/InfoDialog.vue';
-import WebGLTileLayer from 'ol/layer/WebGLTile';
 import { saveAs } from 'file-saver';
 
 export default {
@@ -329,6 +308,7 @@ export default {
     mergedConfigsData: Object,
     adminLayer: Object,
     adminFeature: Object,
+    indicatorCode: String,
   },
   data() {
     return {
@@ -384,13 +364,6 @@ export default {
     }, 150);
   },
   mounted() {
-    Object.keys(this.filters).forEach((key) => {
-      if ('changeablaDataset' in this.filters[key]) {
-        // [this.dataSourceSelect[key]] = this.filters[key].changeablaDataset.items;
-        // TODO: select only working if one is configured, currently no additional are planned
-        [this.select] = this.filters[key].changeablaDataset.items;
-      }
-    });
   },
   beforeUnmount() {
     this.throttledUpdate.cancel();
@@ -443,11 +416,12 @@ export default {
         }
         return p;
       });
-
-      if (Object.keys(this.filters.powerDensity).includes('height')) {
-        pars.push(`height=${this.filters.powerDensity.height}`);
-      } else {
+      if (this.indicatorCode == 'REP1') {
         pars.push('height=200');
+      } else if (this.indicatorCode == 'REP1_1') {
+        pars.push('height=100');
+      } else if (this.indicatorCode == 'REP1_2') {
+        pars.push('height=50');
       }
       const id = this.$store.state.features.selectedFeatures[0].id_;
       const aoi = `aoi=${id}&`;
@@ -472,45 +446,6 @@ export default {
     resetFilters() {
       this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
       this.resetMap();
-    },
-    changeSources(evt) {
-      // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
-      // approaches for getting selected indicator and setting the sources should be considered
-      const { map } = getMapInstance('centerMap');
-      // get layer and recreate it, otherwise the webglcontext has visual glitches, if we
-      // would just replace the source of a layer
-      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-      dataGroup.getLayers().remove(layer);
-      // TODO hardcoded first item in array, we should match by ID or so
-      const { sources, style } = this.mergedConfigsData;
-      switch (evt.description) {
-        case '200m height':
-          this.filters.powerDensity.height = 200;
-          break;
-        case '100m height':
-          this.filters.powerDensity.height = 100;
-          break;
-        case '50m height':
-          this.filters.powerDensity.height = 50;
-          break;
-        default:
-          break;
-      }
-      sources[0].url = evt.url;
-      const newLayer = new WebGLTileLayer({
-        source: new GeoTIFF({
-          sources,
-          normalize: false,
-          interpolate: false,
-        }),
-        style,
-        name: this.mergedConfigsData.name,
-      });
-      newLayer.set('id', this.cogFilters.sourceLayer);
-      newLayer.updateStyleVariables(this.variables);
-      // forces fixing of webgl context, simply updating layers of layergroup does not work
-      dataGroup.getLayers().push(newLayer);
     },
     resetMap() {
       const { map } = getMapInstance('centerMap');

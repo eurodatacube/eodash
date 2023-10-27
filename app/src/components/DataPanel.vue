@@ -13,11 +13,7 @@
         indicatorObject
         && (appConfig.id === 'gtif' || !indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
         " class="d-flex">
-          <!--
-        <filter-controls v-if="indicatorObject.cogFilters"
-          :cogFilters="indicatorObject.cogFilters"
-        >
-        </filter-controls>
+        <!--
         <v-col v-if="appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -253,6 +249,7 @@
             :adminLayer="$store.state.features.adminBorderLayerSelected"
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
+            :indicatorCode="indicatorObject.indicator"
           >
           </filter-controls>
           <template v-if="selectableLayerConfigs.length > 0">

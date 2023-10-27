@@ -5,6 +5,10 @@
         <v-subheader>
           Data properties
           <info-dialog
+            v-if="select && select.dataInfo && wmsStyles.items.length === 1"
+            :infoSource="select.dataInfo"
+          />
+          <info-dialog
             v-if="wmsStyles.dataInfo"
             :infoSource="wmsStyles.dataInfo"
           />
@@ -13,6 +17,7 @@
 
       <v-col cols="6">
         <v-select
+          v-if="wmsStyles.items.length > 1"
           v-model="select"
           :items="wmsStyles.items"
           item-text="description"
