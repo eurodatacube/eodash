@@ -1,1 +1,0 @@
-<img style="float:right; margin-top:-60px;" alt="Sentinel5-p NO2" src="legends/gtif/AQ1_satellite_values.png" width="45%" style="vertical-align: middle;"/>
