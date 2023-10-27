@@ -4,7 +4,7 @@
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
     <h4 slot="resultstitle" style="margin-top: 8px">
-      {{this.appConfig.id === "gtif" ? "Tools" : "Indicators"}}
+      {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
   </eox-itemfilter>
 </template>
