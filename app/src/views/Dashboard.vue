@@ -63,6 +63,8 @@
                  </UiPanel>
               </template>
             </UiPanelsLayout>
+            <HighlightLocation v-if="indicatorObject"
+            :indicator-object="indicatorObject"/>
           </v-col>
         </v-row>
       </v-container>
@@ -91,6 +93,7 @@ import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
 import StacInfo from '../components/StacInfo.vue';
+import HighlightLocation from '../components/HighlightLocation.vue';
 
 export default {
   metaInfo() {
@@ -116,6 +119,7 @@ export default {
     UiPanel,
     UiPanelsLayout,
     StacInfo,
+    HighlightLocation,
   },
   props: {
     source: String,
