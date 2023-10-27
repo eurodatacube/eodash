@@ -45,6 +45,18 @@
                   <td> Potential Green Roof area with a slope ≥ 20 and &lt; 45 degree</td>
                   <td> {{ v.grpotare45 }} m² </td>
                 </tr>
+                <tr>
+                  <td> Green Roof CO2 reduction with a slope &lt; 5 degree</td>
+                  <td> {{ v.co2red_05 }} </td>
+                </tr>
+                <tr>
+                  <td> Green Roof CO2 reduction with a slope ≥ 5 and &lt; 20 degree</td>
+                  <td> {{ v.co2red_20 }} </td>
+                </tr>
+                <tr>
+                  <td> Green Roof CO2 reduction with a slope ≥ 20 and &lt; 45 degree</td>
+                  <td> {{ v.co2red_45 }} </td>
+                </tr>
               </tbody>
             </template>
         </v-simple-table>
@@ -194,7 +206,7 @@ export default {
               });
             })
             .then(() => {
-              const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,${adminZoneKey}`;
+              const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,${adminZoneKey}`;
               fetch(expUrl)
                 .then((resp) => resp.json())
                 .then((json) => {
@@ -208,6 +220,9 @@ export default {
                         grpotare5: 0,
                         grpotare20: 0,
                         grpotare45: 0,
+                        co2red_05: 0,
+                        co2red_20: 0,
+                        co2red_45: 0,
                         lst30mme: 0,
                         count: 0,
                       };
@@ -218,12 +233,15 @@ export default {
                     groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
                     groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
                     groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
+                    groupedBySelection[entry[adminZoneKey]].co2red_05 += entry.co2red_05;
+                    groupedBySelection[entry[adminZoneKey]].co2red_20 += entry.co2red_20;
+                    groupedBySelection[entry[adminZoneKey]].co2red_45 += entry.co2red_45;
                     groupedBySelection[entry[adminZoneKey]].count += 1;
                   });
                   const statistics = {};
                   Object.keys(groupedBySelection).forEach((key) => {
                     const {
-                      grpotare5, grpotare20, grpotare45, roofArea,
+                      grpotare5, grpotare20, grpotare45, co2red_05, co2red_20, co2red_45, roofArea,
                     } = groupedBySelection[key];
                     if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
                       // for statistics consider only originally clicked ZSPs
@@ -235,6 +253,9 @@ export default {
                         grpotare5: grpotare5.toFixed(0),
                         grpotare20: grpotare20.toFixed(0),
                         grpotare45: grpotare45.toFixed(0),
+                        co2red_05: co2red_05.toFixed(0),
+                        co2red_20: co2red_20.toFixed(0),
+                        co2red_45: co2red_45.toFixed(0),
                       };
                     }
                     const gemId = Math.floor(parseInt(key, 10) / 1000);

@@ -37,31 +37,8 @@ export default {
   data: () => ({
     activePanel: 0,
     panels: {
-      left: [
-        {
-          id: 1,
-          title: 'Filters',
-          heightPercentage: 80,
-        },
-        {
-          id: 2,
-          title: 'Layers',
-          heightPercentage: 20,
-        },
-      ],
-      right: [
-        {
-          id: 4,
-          title: 'Info',
-          heightPercentage: 50,
-        },
-        {
-          id: 4,
-          title: 'Story',
-          heightPercentage: 50,
-        },
-      ],
-
+      left: [],
+      right: [],
     },
   }),
   watch: {
@@ -71,33 +48,33 @@ export default {
         if (this.gtif && !newVal) {
           this.panels.left = [
             {
-             id: 1,
-             title: 'Filters',
-             heightPercentage: 100,
-            }
-          ]
+              id: 1,
+              title: 'Filters',
+              heightPercentage: 100,
+            },
+          ];
           this.panels.right = [];
         } else {
           this.panels.left = [
-        {
-          id: 1,
-          title: 'Domains & Tools',
-          heightPercentage: 80,
-        },
-        {
-          id: 2,
-          title: 'Layers',
-          heightPercentage: 20,
-        },
-      ]
+            {
+              id: 1,
+              title: 'Domains & Tools',
+              heightPercentage: 80,
+            },
+            {
+              id: 2,
+              title: 'Layers',
+              heightPercentage: 20,
+            },
+          ];
           this.panels.right = [
             {
-              id: 4,
+              id: 3,
               title: 'Information',
               heightPercentage: 50,
             },
             {
-              id: 5,
+              id: 4,
               title: 'Analysis',
               heightPercentage: 50,
             },

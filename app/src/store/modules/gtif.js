@@ -71,9 +71,9 @@ const mutations = {
 };
 
 const actions = {
-   setCurrentDomain({ commit }, slug) {
+  setCurrentDomain({ commit }, slug) {
     commit('SET_CURRENT_DOMAIN', slug);
-  }
+  },
 };
 
 export default {

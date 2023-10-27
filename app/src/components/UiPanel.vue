@@ -6,7 +6,7 @@
       background: ${$vuetify.theme.currentTheme.background};
     `"
   >
-      <v-expansion-panel v-show="hasPanel">
+      <v-expansion-panel v-if="hasPanel">
         <v-expansion-panel-header ref="header">
           {{ title }}
         </v-expansion-panel-header>
@@ -18,7 +18,7 @@
   </div>
   <div v-else class="flex-column align-strech">
     <span
-      v-show="hasPanel"
+      v-if="hasPanel"
       class="elevation-1 pa-2 d-flex justify-center
        align-center fill-height"
       :style="`
@@ -37,8 +37,7 @@
         background: ${$vuetify.theme.currentTheme.background};
         height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
         overflow-y:${['Domains & Tools','Filters'].includes(title) ? 'hidden':'auto'};
-      `"
-    >
+      `">
       <!-- close btn -->
       <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
       <slot></slot>
@@ -73,13 +72,13 @@ export default {
   data: () => ({
     siblingsCount: 1,
     gtif: false,
-    hasPanel:true
+    hasPanel: true,
   }),
-  beforeUpdate(){
-    this.hasPanel = this.$slots.default?.length > 0 ?? false
+  beforeUpdate() {
+    this.hasPanel = this.$slots.default?.length > 0 ?? false;
+    this.siblingsCount = this.$parent.$children.length;
   },
   mounted() {
-    this.siblingsCount = this.$parent.$children.length;
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
     if (this.$vuetify.breakpoint.smAndUp) {
       this.gtif = this.$parent.$parent.$props.gtif;

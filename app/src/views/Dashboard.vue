@@ -115,8 +115,8 @@ export default {
     // ESABreadcrumbs,
     UiPanel,
     UiPanelsLayout,
-    StacInfo
-},
+    StacInfo,
+  },
   props: {
     source: String,
   },
