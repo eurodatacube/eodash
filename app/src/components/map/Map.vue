@@ -160,7 +160,8 @@
       <div v-else class="mt-auto">
         <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
-      <div :style="mousePosConStyle"
+      <div class="mouse-container"
+      :style="mousePosConStyle"
        ref="mousePositionContainer"/>
     </div>
   </div>
@@ -1308,5 +1309,17 @@ export default {
 
   .pointerEvents {
     pointer-events: initial;
+  }
+
+  .mouse-container{
+    display: none;
+  }
+  @-moz-document url-prefix() {
+    .mouse-container{
+    display: inline;
+  }
+}
+  .mouse-container:has(span){
+    display: inline;
   }
 </style>
