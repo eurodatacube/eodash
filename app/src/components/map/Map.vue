@@ -37,7 +37,7 @@
       v-if="showFrozenLayer"
       :mapId="mapId"
       :mergedConfigs="mergedConfigsFrozenData"
-      :options="specialLayerOptions"
+      :options="frozenLayerOptions"
       :key="dataLayerKey  + '_frozenLayer'"
       :swipePixelX="swipePixelX"
       :resetProjectionOnDestroy='true'
@@ -484,10 +484,20 @@ export default {
         this.frozenIndicator,
         -1,
       );
+      let resultConfig = null;
       // use only first "layer" entry
-      config[0].name = `${config[0].name} (Frozen copy)`;
-      config[0].id = `${config[0].id}_frozen`;
-      return [config[0]];
+      if (config.length > 0) {
+        [resultConfig] = config;
+        resultConfig.name = `${resultConfig.name} (Frozen copy)`;
+        resultConfig.id = `${resultConfig.id}_frozen`;
+        // bake in selected time by only passing one time to the frozen indicator
+        if ('usedTimes' in resultConfig && this.dataLayerTime) {
+          resultConfig.usedTimes.time = [
+            this.dataLayerTime.value,
+          ];
+        }
+      }
+      return [resultConfig];
     },
     currentTimeIndex() {
       return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
@@ -509,6 +519,11 @@ export default {
         indicator: this.indicator?.indicator,
         aoiID: this.indicator?.aoiID,
         drawnArea: this.drawnArea,
+      };
+    },
+    frozenLayerOptions() {
+      return {
+        dataProp: 'frozenMapData',
       };
     },
     availableTimeEntries() {

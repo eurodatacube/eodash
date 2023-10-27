@@ -755,14 +755,21 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = Number(feature.get('object_id'));
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
                   if (value != null && value !== 0) {
                     const { min, max, colormapUsed } = currPar;
                     let f = clamp((value - min) / (max - min), 0, 1);
@@ -860,13 +867,20 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.get('nuts_id').replace(/\s/g, ''); // need to remove white spaces
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                if (currPar && id in data) {
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
@@ -905,13 +919,20 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                if (currPar && id in data) {
                   const value = ind[dataSource][id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
@@ -985,14 +1006,21 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1050,14 +1078,21 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1266,14 +1301,21 @@ export const globalIndicators = [
             getStrokeColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.get('fid');
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
                   if (['n_trajectories_max'].includes(currPar.id)) {
@@ -1382,14 +1424,21 @@ export const globalIndicators = [
             getColor: (feature, store, options) => {
               let color = '#00000000';
               const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
                 const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   // apply logarithmic scale specially for population
                   const f = clamp((Math.log10(value) - Math.log10(min))

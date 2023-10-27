@@ -19,7 +19,12 @@ const mutations = {
     state.indicators = indicators;
   },
   SET_FROZEN_INDICATOR(state, indicator) {
+    // We make a deep copy but we need to make sure possible functions for date manipulation are
+    // passed correctly
     state.frozenIndicator = JSON.parse(JSON.stringify(indicator));
+    state.frozenIndicator.display.dateFormatFunction = indicator.display?.dateFormatFunction;
+    state.frozenIndicator.display.labelFormatFunction = indicator.display?.labelFormatFunction;
+    state.frozenIndicator.display.style.getColor = indicator.display?.style?.getColor;
   },
   SET_SELECTED_INDICATOR() {
   },
@@ -35,7 +40,6 @@ const mutations = {
 
 const actions = {
   freezeCurrentIndicator({ commit }) {
-    console.log(this);
     commit('SET_FROZEN_INDICATOR', this.state.indicators.selectedIndicator);
   },
   async loadSTACIndicators({ commit, rootState }) {
