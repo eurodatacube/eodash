@@ -515,7 +515,56 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
   },
+  SOL1_1: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL1_2: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL1_3: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL1_4: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
   SOL2: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL2_1: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL2_2: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL2_3: {
     baseLayers: [{
       ...baseLayers.bmapgelaende,
       visible: true,
@@ -1245,6 +1294,135 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
   return config;
 }
 
+function createSOL1Config(indicatorCode, selectedVariable) {
+  const config = {
+    properties: {
+      indicatorObject: {
+        indicator: indicatorCode,
+        highlights: [
+          {
+            name: 'Graz',
+            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+          },
+          {
+            name: 'Innsbruck',
+            thumbnail: '',
+            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+          },
+          {
+            name: 'St. Pölten',
+            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
+          },
+          {
+            name: 'Vienna',
+            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+          },
+        ],
+        wmsStyles: {
+          dataInfo: 'GreenRoofs',
+          sourceLayer: 'Green Roofs',
+          items: [
+            {
+              id: selectedVariable,
+            },
+          ],
+        },
+        display: [{
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'Green Roofs',
+          STYLES: selectedVariable,
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v1.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: selectedVariable,
+          adminZoneKey: 'zsp_id',
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13,
+          selection: {
+            mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
+          },
+          tooltip: true,
+          dynamicSelectionStroke: false,
+          allowedParameters: ['name'],
+        }],
+      },
+    },
+  };
+  return config;
+}
+
+function createSOL2Config(indicatorCode, selectedVariable) {
+  const config = {
+    properties: {
+      indicatorObject: {
+        indicator: indicatorCode,
+        highlights: [
+          {
+            name: 'Graz',
+            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
+          },
+          {
+            name: 'Innsbruck',
+            thumbnail: '',
+            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
+          },
+          {
+            name: 'St. Pölten',
+            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
+          },
+          {
+            name: 'Vienna',
+            thumbnail: 'green_roof_vienna',
+            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
+          },
+        ],
+        wmsStyles: {
+          dataInfo: 'SolarRoofs',
+          sourceLayer: 'Solar Roofs',
+          items: [
+            {
+              id: selectedVariable,
+            },
+          ],
+        },
+        display: [{
+          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+          name: 'Solar Roofs',
+          STYLES: selectedVariable,
+          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
+          attribution: '{}',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops_v1.sld',
+          protocol: 'WMS',
+          exceptions: 'application/vnd.ogc.se_inimage',
+          selectedStyle: selectedVariable,
+          adminZoneKey: 'zsp_id',
+        }, {
+          ...nutsStyle,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
+          protocol: 'geoserverTileLayer',
+          name: 'Census Track (Zählsprengel)',
+          visible: true,
+          minZoom: 13,
+          selection: {
+            mode: 'multiple',
+          },
+          tooltip: true,
+          allowedParameters: ['name'],
+        }],
+      },
+    },
+  };
+  return config;
+}
+
 export const globalIndicators = [
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
@@ -1257,94 +1435,84 @@ export const globalIndicators = [
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
-    markdown: 'MOBI1_users_count',
   }),
   createMOBI1Config('MOBI1_1', 'users_density_max', {
     min: 1,
     max: 100000,
-    markdown: 'MOBI1_users_density',
   }),
   createAQ4Config('AQ4', 'congestion_index_max', {
     min: 0,
     max: 100,
-    markdown: 'AQ4_congestion_index',
   }),
   createAQ4Config('AQ4_1', 'duration_max', {
     min: 0,
     max: 240,
-    markdown: 'AQ4_duration',
   }),
   createAQ4Config('AQ4_2', 'speed_max', {
     min: 0,
     max: 140,
-    markdown: 'AQ4_speed',
   }),
   createAQ4Config('AQ4_3', 'distance_max', {
     min: 0,
     max: 300,
-    markdown: 'AQ4_distance',
   }),
   createAQ4Config('AQ4_4', 'n_trajectories_max', {
     min: 1,
     max: 4000,
-    markdown: 'AQ4_trajectories',
   }),
   createAQ4Config('AQ4_5', 'motorized_share_max', {
     min: 0,
     max: 100,
-    markdown: 'AQ4_motorized_share',
   }),
   createADOConfig('ADO', 'spi-1', {
     dataInfo: 'SPI1',
-    markdown: 'SPI',
   }),
   createADOConfig('ADO_1', 'spi-12', {
     dataInfo: 'SPI12',
-    markdown: 'SPI',
   }),
   createADOConfig('ADO_2', 'spei-1', {
     dataInfo: 'SPEI1',
-    markdown: 'SPEI',
   }),
   createADOConfig('ADO_3', 'spei-12', {
     dataInfo: 'SPEI12',
-    markdown: 'SPEI',
   }),
   createAQ1Config('AQ1', 'n_trajectories', {
     min: 1,
     max: 40000,
-    markdown: 'AQ1_trajectories',
   }),
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-    markdown: 'AQ1_satellite_values',
   }),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,
-    markdown: 'AQ1_mean_value',
   }),
   createAQ1Config('AQ1_3', 'congestion_index', {
     min: 0,
     max: 50,
-    markdown: 'AQ1_congestion_index',
   }),
   createAQ1Config('AQ1_4', 'speed', {
     min: 0,
     max: 120,
-    markdown: 'AQ1_speed',
   }),
   createAQ1Config('AQ1_5', 'motorized_count', {
     min: 1,
     max: 20000,
-    markdown: 'AQ1_motorized_count',
   }),
   createAQ1Config('AQ1_6', 'motorized_share', {
     min: 0,
     max: 100,
-    markdown: 'AQ1_motorized_share',
   }),
+  createSOL1Config('SOL1', 'grimpactscore_filtered'),
+  createSOL1Config('SOL1_1', 'lst30mme'),
+  createSOL1Config('SOL1_2', 'grexisting'),
+  createSOL1Config('SOL1_3', 'grpotential'),
+  createSOL1Config('SOL1_4', 'grpotare20'),
+  createSOL2Config('SOL2', 'PVEPPMwhHP'),
+  createSOL2Config('SOL2_1', 'PVExisting'),
+  createSOL2Config('SOL2_2', 'PVEPPMwhRP'),
+  createSOL2Config('SOL2_3', 'PVEPPMwhLP'),
   {
     properties: {
       indicatorObject: {
@@ -1765,166 +1933,6 @@ export const globalIndicators = [
           },
           name: 'Averaged NO2',
         },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'SOL1',
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            thumbnail: '',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
-        wmsStyles: {
-          dataInfo: 'GreenRoofs',
-          sourceLayer: 'Green Roofs',
-          items: [
-            {
-              id: 'grimpactscore_filtered',
-              description: 'Green Roof Impact Score',
-              markdown: 'SOL1_GRImpact',
-            },
-            {
-              id: 'lst30mme',
-              description: 'Max Land Surface Temperature',
-              markdown: 'SOL_temp',
-            },
-            {
-              id: 'grexisting',
-              description: 'Existing green rooftops',
-              markdown: 'SOL1_GRExisting',
-            },
-            {
-              id: 'grpotential',
-              description: 'Roofs Suitable for Greening',
-              markdown: '',
-            },
-            {
-              id: 'grpotare20',
-              description: 'Percentage GR-Potential Area in relation to Total Roof Area',
-              markdown: '',
-            },
-          ],
-        },
-        display: [{
-          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Green Roofs',
-          STYLES: 'grimpactscore_filtered',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
-          attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v1.sld',
-          protocol: 'WMS',
-          exceptions: 'application/vnd.ogc.se_inimage',
-          selectedStyle: 'grimpactscore_filtered',
-          adminZoneKey: 'zsp_id',
-        }, {
-          ...nutsStyle,
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
-          protocol: 'geoserverTileLayer',
-          name: 'Census Track (Zählsprengel)',
-          visible: true,
-          minZoom: 13,
-          selection: {
-            mode: 'multiple',
-            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
-          },
-          tooltip: true,
-          dynamicSelectionStroke: false,
-          allowedParameters: ['name'],
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'SOL2',
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            thumbnail: '',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            thumbnail: 'green_roof_vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
-        wmsStyles: {
-          dataInfo: 'SolarRoofs',
-          sourceLayer: 'Solar Roofs',
-          items: [
-            {
-              id: 'PVEPPMwhHP',
-              description: 'Total electric power production potential - High Performance ',
-              markdown: 'SOL1_TEP_HP',
-            },
-            {
-              id: 'PVExisting',
-              description: 'Existing photovoltaic panels',
-              markdown: 'SOL1_PVExisting',
-            },
-            {
-              id: 'PVEPPMwhRP',
-              description: 'Total electric power production potential - Regular performance',
-              markdown: 'SOL1_TEP_RP',
-            },
-            {
-              id: 'PVEPPMwhLP',
-              description: 'Total electric power production potential - Low performance',
-              markdown: 'SOL1_TEP_LP',
-            },
-          ],
-        },
-        display: [{
-          baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Solar Roofs',
-          STYLES: 'PVEPPMwhHP',
-          layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
-          attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/solar_rooftops_v1.sld',
-          protocol: 'WMS',
-          exceptions: 'application/vnd.ogc.se_inimage',
-          selectedStyle: 'PVEPPMwhHP',
-          adminZoneKey: 'zsp_id',
-        }, {
-          ...nutsStyle,
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
-          protocol: 'geoserverTileLayer',
-          name: 'Census Track (Zählsprengel)',
-          visible: true,
-          minZoom: 13,
-          selection: {
-            mode: 'multiple',
-          },
-          tooltip: true,
-          allowedParameters: ['name'],
-        }],
       },
     },
   },
