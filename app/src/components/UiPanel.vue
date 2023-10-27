@@ -73,10 +73,10 @@ export default {
   data: () => ({
     siblingsCount: 1,
     gtif: false,
-    hasPanel:true
+    hasPanel: true,
   }),
-  beforeUpdate(){
-    this.hasPanel = this.$slots.default?.length > 0 ?? false
+  beforeUpdate() {
+    this.hasPanel = this.$slots.default?.length > 0 ?? false;
   },
   mounted() {
     this.siblingsCount = this.$parent.$children.length;

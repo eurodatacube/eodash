@@ -106,7 +106,7 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-                this.setSelectedIndicator(item);
+              this.setSelectedIndicator(item);
             },
           },
           gtif: {
@@ -119,8 +119,8 @@ export default {
             onSelect: (item) => {
               if (this.toolsToggle) {
                 this.setSelectedIndicator(item);
-              }else{
-                this.$router.push({name:item.id})
+              } else {
+                this.$router.push({ name: item.id });
               }
             },
             // exclusiveFilters: true,
@@ -163,29 +163,29 @@ export default {
           },
         };
         this.itemfilter.config = configs[this.appConfig.id];
-          if (this.appConfig.id === 'gtif') {
-            this.$watch('toolsToggle',
-              function (inToolsMode, _) {
-                if (inToolsMode) {
-                   this.itemfilter.apply(this.searchItems);
-                 }else{
-                   this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
-                     curr.narratives.forEach((narrative) => {
-                       acc.push({
-                         title: narrative.name,
-                         id: narrative.routeName,
-                         themes: [curr.name.replaceAll(' ','-').toLowerCase()],
-                       });
-                     });
-                     return acc;
-                   }, []));
-                 }
-              },{
-                immediate:true
-              });
-          }else{
-        this.itemfilter.apply(this.searchItems);
-          }
+        if (this.appConfig.id === 'gtif') {
+          this.$watch('toolsToggle',
+            function (inToolsMode, _) {
+              if (inToolsMode) {
+                this.itemfilter.apply(this.searchItems);
+              } else {
+                this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
+                  curr.narratives.forEach((narrative) => {
+                    acc.push({
+                      title: narrative.name,
+                      id: narrative.routeName,
+                      themes: [curr.name.replaceAll(' ', '-').toLowerCase()],
+                    });
+                  });
+                  return acc;
+                }, []));
+              }
+            }, {
+              immediate: true,
+            });
+        } else {
+          this.itemfilter.apply(this.searchItems);
+        }
         let flags = `
           [data-filter=countries] .title {
             display: flex;
