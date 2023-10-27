@@ -1,9 +1,9 @@
 <template>
   <eox-itemfilter class="pa-2" ref="itemFilterEl" >
-    <h4 slot="filterstitle" style="margin-top: 8px">
+    <h4 slot="filterstitle">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
-    <h4 slot="resultstitle" style="margin-top: 8px">
+    <h4 slot="resultstitle">
       {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
   </eox-itemfilter>
