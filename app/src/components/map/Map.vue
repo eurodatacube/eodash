@@ -160,10 +160,7 @@
       <div v-else class="mt-auto">
         <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
-      <div :style="`${$vuetify.breakpoint.smAndUp ? `position:relative; ${
-        appConfig.id == 'gtif' ?'bottom:'+$vuetify.application.footer+'px':''
-      }`:`position:absolute; bottom:${appConfig.id === 'gtif' ?
-       $vuetify.application.footer + 50: '60'}px`}`"
+      <div :style="mousePosConStyle"
        ref="mousePositionContainer"/>
     </div>
   </div>
@@ -595,6 +592,23 @@ export default {
       }
       return position;
     },
+    mousePosConStyle(){
+      let style = 'position:absolute;'
+      if (this.$vuetify.breakpoint.smAndUp) {
+        if (this.appConfig.id === 'gtif') {
+          style =`position:relative; bottom:${this.$vuetify.application.footer}px;`
+        }else{
+          style+='bottom:0px;'
+        }
+      } else {
+        if (this.appConfig.id === 'gtif') {
+          style+=`bottom:${this.$vuetify.application.footer + 50}px;`
+        }else{
+          style+='bottom:60px;'
+        }
+      }
+      return style
+    }
   },
   watch: {
     baseLayerConfigs() {
