@@ -215,6 +215,8 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersMap = [
+  baseLayers.s1EodcBackscattervv,
+  baseLayers.s1EodcBackscattervh,
   baseLayers.S2GLC,
   baseLayers.ESA_WORLD_COVER,
   baseLayers.CORINE_LAND_COVER,
@@ -495,7 +497,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_2: {
     indicator: 'Hydro Power SWE monthly',
@@ -513,7 +517,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
@@ -543,7 +549,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmapgelaende,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP5: {
     indicator: 'Potential Assessment',
@@ -553,6 +561,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
@@ -574,6 +584,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.terrainLight,
     baseLayers.eoxosm,
     baseLayers.S2GLC,
@@ -1327,6 +1339,42 @@ export const globalIndicators = [
             },
           ],
         },
+        display: [{
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          style: {
+            strokeColor: 'rgba(0,0,0,0)',
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              if (store.state.indicators.selectedIndicator
+                  && store.state.indicators.selectedIndicator[dataSource]) {
+                const id = feature.id_;
+                const ind = store.state.indicators.selectedIndicator;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+                  const value = ind[dataSource][id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+              return color;
+            },
+          },
+          id: 'air_quality_new_id',
+          name: 'Health Risk Index (ARI)',
+          adminZoneKey: 'id_3',
+          parameters: 'pm10,pm25,ihr,id_3',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
+          allowedParameters: ['name'],
+        }],
       },
     },
   },
