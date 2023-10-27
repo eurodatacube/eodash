@@ -593,23 +593,21 @@ export default {
       }
       return position;
     },
-    mousePosConStyle(){
-      let style = 'position:absolute;'
+    mousePosConStyle() {
+      let style = 'position:absolute;';
       if (this.$vuetify.breakpoint.smAndUp) {
         if (this.appConfig.id === 'gtif') {
-          style =`position:relative; bottom:${this.$vuetify.application.footer}px;`
-        }else{
-          style+='bottom:0px;'
+          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+        } else {
+          style += 'bottom:0px;';
         }
+      } else if (this.appConfig.id === 'gtif') {
+        style += `bottom:${this.$vuetify.application.footer + 50}px;`;
       } else {
-        if (this.appConfig.id === 'gtif') {
-          style+=`bottom:${this.$vuetify.application.footer + 50}px;`
-        }else{
-          style+='bottom:60px;'
-        }
+        style += 'bottom:60px;';
       }
-      return style
-    }
+      return style;
+    },
   },
   watch: {
     baseLayerConfigs() {
