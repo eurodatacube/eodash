@@ -46,16 +46,16 @@
                   <td> {{ v.grpotare45 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope &lt; 5 degree</td>
-                  <td> {{ v.co2red_05 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope &lt; 5 degree</td>
+                  <td> {{ v.co2red_05 }} tons/year</td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope ≥ 5 and &lt; 20 degree</td>
-                  <td> {{ v.co2red_20 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope ≥ 5 and &lt; 20 degree</td>
+                  <td> {{ v.co2red_20 }} tons/year</td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope ≥ 20 and &lt; 45 degree</td>
-                  <td> {{ v.co2red_45 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope ≥ 20 and &lt; 45 degree</td>
+                  <td> {{ v.co2red_45 }} tons/year</td>
                 </tr>
               </tbody>
             </template>
@@ -94,8 +94,7 @@ export default {
   computed: {
     show() {
       return this.selectedFeatures?.length && this.indicatorObject
-      && ['SOL1',
-        // 'SOL2', 'SOL3', 'SOL4', 'SOL5', 'SOL6', 'SOL7',
+      && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
@@ -115,12 +114,12 @@ export default {
       this.SRStatistics = null;
       const geodbEndpoint = 'https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
       if (features.length > 0) {
-        if (['AQA', 'AQB', 'AQC', 'MOBI1', 'ADO'].includes(this.indicatorObject.indicator)) {
+        if (['AQA', 'AQB', 'AQC', 'MOBI1', 'MOBI1_1', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3'].includes(this.indicatorObject.indicator)) {
           const { adminZoneKey } = this.indicatorObject.display;
           const adminIds = [];
           features.forEach((ftr) => {
             let id = ftr.getId();
-            if (this.indicatorObject.indicator === 'ADO') {
+            if (['ADO', 'ADO_1', 'ADO_2', 'ADO_3'].includes(this.indicatorObject.indicator)) {
               id = ftr.get(adminZoneKey);
             }
             adminIds.push(id);
@@ -132,7 +131,7 @@ export default {
           }
 
           let additionalQuery = '';
-          if (this.indicatorObject.indicator === 'ADO') {
+          if (['ADO', 'ADO_1', 'ADO_2', 'ADO_3'].includes(this.indicatorObject.indicator)) {
             additionalQuery = '&time=gt.2018-06-01';
           }
 
@@ -170,7 +169,7 @@ export default {
             })
             .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
         }
-        if (['SOL1'].includes(this.indicatorObject.indicator)) {
+        if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(this.indicatorObject.indicator)) {
           const zspStrings = [];
           const originalZsps = [];
           const gemIds = [];
@@ -279,7 +278,7 @@ export default {
                 });
             });
         }
-        if (['SOL2'].includes(this.indicatorObject.indicator)) {
+        if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(this.indicatorObject.indicator)) {
           const description = 'PV Power potential [MWh]';
           const adminIds = [];
           features.forEach((ftr) => {
@@ -317,7 +316,7 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
-        if (['AQ1'].includes(this.indicatorObject.indicator)) {
+        if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(Number(ftr.get('object_id')));
@@ -354,7 +353,7 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
-        if (['REP1'].includes(this.indicatorObject.indicator)) {
+        if (['REP1','REP1_1','REP1_2'].includes(this.indicatorObject.indicator)) {
           const { selected, sourceLayer } = this.indicatorObject.queryParameters;
           const adminZoneKey = 'zsp_id';
           const adminIds = [];
