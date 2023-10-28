@@ -18,5 +18,6 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'no-undef': 'off',
     'no-plusplus': 'off',
+    "max-len": ["error", {"code": 120}],
   },
 };

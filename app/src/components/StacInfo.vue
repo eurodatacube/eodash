@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    onStacInfoLoad(e) {
+    onStacInfoLoad() {
       this.$nextTick(() => {
         if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1) {
           // first parent is VExpantionPanelContent, second is VExpantionPanel

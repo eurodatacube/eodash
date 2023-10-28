@@ -11,7 +11,8 @@
     ">
       <v-row v-if="
         indicatorObject
-        && (appConfig.id === 'gtif' || !indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
+        && (appConfig.id === 'gtif' || !indicatorObject.features
+        || dataObject || mergedConfigsData[0].customAreaIndicator)
         " class="d-flex">
         <!--
         <v-col v-if="appConfig.id === 'gtif'"
@@ -401,6 +402,7 @@
 </template>
 
 <script>
+/* eslint-disable max-len */
 import {
   mapGetters,
   mapState,
@@ -648,49 +650,49 @@ export default {
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
-    indicatorObject: {
-      immediate: true,
-      deep: true,
-      handler(indicatorObj) {
-        console.log('indicatorObject watcher triggered');
-        // If markdown is coming from stac collection show it direclty
-        // console.log('changed');
-        if (indicatorObj && 'markdown' in indicatorObj) {
-          // this.$store.commit('story/SET_STORY', indicatorObj.markdown);
-        // return this.$marked(indicatorObj.markdown);
-        }
-        // If not do previous checks to see if other option can be found
-        let markdown = '';
-        let indObject = indicatorObj;
-        if (this.featureObject) {
-          indObject = this.featureObject;
-        }
-        try {
-          const demoItem = this.$route.name === 'demo'
-            ? this.appConfig.demoMode[this.$route.query.event]
-              .find((item) => item.poi === this.getLocationCode(indObject)) : false;
-          markdown = require(`../../public${demoItem.story}.md`);
-        } catch {
-          try {
-            markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
-          } catch {
-            try {
-              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicatorObj.indicator].story}.md`);
-            } catch {
-              try {
-                const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-                  ? this.$store.state.features.featureFilters.indicators[0]
-                  : this.$store.state.features.featureFilters.indicators;
-                markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
-              } catch {
-                markdown = { default: '' };
-              }
-            }
-          }
-        }
-      // this.$store.commit('story/SET_STORY', markdown.default);
-      },
-    },
+    // TODO: Readd support for DEMO specific story...
+    // indicatorObject: {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(indicatorObj) {
+    //     console.log('indicatorObject watcher triggered');
+    //     // If markdown is coming from stac collection show it direclty
+    //     // console.log('changed');
+    //     if (indicatorObj && 'markdown' in indicatorObj) {
+    //       // this.$store.commit('story/SET_STORY', indicatorObj.markdown);
+    //     // return this.$marked(indicatorObj.markdown);
+    //     }
+    //     // If not do previous checks to see if other option can be found
+    //     let indObject = indicatorObj;
+    //     if (this.featureObject) {
+    //       indObject = this.featureObject;
+    //     }
+    //     try {
+    //       const demoItem = this.$route.name === 'demo'
+    //         ? this.appConfig.demoMode[this.$route.query.event]
+    //           .find((item) => item.poi === this.getLocationCode(indObject)) : false;
+    //       markdown = require(`../../public${demoItem.story}.md`);
+    //     } catch {
+    //       try {
+    //         markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
+    //       } catch {
+    //         try {
+    //           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicatorObj.indicator].story}.md`);
+    //         } catch {
+    //           try {
+    //             const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+    //               ? this.$store.state.features.featureFilters.indicators[0]
+    //               : this.$store.state.features.featureFilters.indicators;
+    //             markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+    //           } catch {
+    //             markdown = { default: '' };
+    //           }
+    //         }
+    //       }
+    //     }
+    //   // this.$store.commit('story/SET_STORY', markdown.default);
+    //   },
+    // },
   },
 };
 </script>

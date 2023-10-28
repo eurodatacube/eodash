@@ -164,25 +164,24 @@ export default {
         };
         this.itemfilter.config = configs[this.appConfig.id];
         if (this.appConfig.id === 'gtif') {
-          this.$watch('toolsToggle',
-            function (inToolsMode, _) {
-              if (inToolsMode) {
-                this.itemfilter.apply(this.searchItems);
-              } else {
-                this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
-                  curr.narratives.forEach((narrative) => {
-                    acc.push({
-                      title: narrative.name,
-                      id: narrative.routeName,
-                      themes: [curr.name.replaceAll(' ', '-').toLowerCase()],
-                    });
+          this.$watch('toolsToggle', (inToolsMode) => {
+            if (inToolsMode) {
+              this.itemfilter.apply(this.searchItems);
+            } else {
+              this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
+                curr.narratives.forEach((narrative) => {
+                  acc.push({
+                    title: narrative.name,
+                    id: narrative.routeName,
+                    themes: [curr.name.replaceAll(' ', '-').toLowerCase()],
                   });
-                  return acc;
-                }, []));
-              }
-            }, {
-              immediate: true,
-            });
+                });
+                return acc;
+              }, []));
+            }
+          }, {
+            immediate: true,
+          });
         } else {
           this.itemfilter.apply(this.searchItems);
         }

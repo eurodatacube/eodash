@@ -12,7 +12,8 @@
           <v-list-item
             v-for="item in indicatorObject.highlights"
             :key="item.name"
-            class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light v-btn--size-small"
+            class="mb-2 dashboard-button v-btn v-btn--is-elevated
+            v-btn--has-bg theme--light v-btn--size-small"
             style="width: 100%;min-height: 0px;"
             @click="moveToHighlight(item.location)"
           >

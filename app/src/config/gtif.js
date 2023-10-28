@@ -1074,7 +1074,7 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
 }
 
 function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
-  const config =   {
+  const config = {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
@@ -1086,7 +1086,7 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
             {
               id: selectedVariable,
               colormapUsed: blgrrd,
-              ...itemConfig
+              ...itemConfig,
             },
           ],
         },
@@ -1134,7 +1134,7 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
 }
 
 function createADOConfig(indicatorCode, selectedVariable, itemConfig) {
-  const config =  {
+  const config = {
     properties: {
       indicatorObject: {
         time: getDailyDates('2015-01-01', '2023-05-18'),
@@ -1148,7 +1148,7 @@ function createADOConfig(indicatorCode, selectedVariable, itemConfig) {
               min: -2,
               max: 2,
               colormapUsed: adoColor,
-              ...itemConfig
+              ...itemConfig,
             },
           ],
         },
@@ -1211,11 +1211,11 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
           sourceLayer: 'mobility_daily',
           selected: 'users_count_max',
           dataInfo: 'MOBI1',
-           items: [
+          items: [
             {
               id: selectedVariable,
               colormapUsed: blgrrd,
-              ...itemConfig
+              ...itemConfig,
             },
           ],
         },
@@ -1261,7 +1261,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
       },
     },
   };
-  return config
+  return config;
 }
 
 function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
@@ -1277,7 +1277,7 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
             {
               id: selectedVariable,
               colormapUsed: blgrrd,
-              ...itemConfig
+              ...itemConfig,
             },
           ],
         },
@@ -1711,42 +1711,6 @@ export const globalIndicators = [
             },
           ],
         },
-        display: [{
-          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
-          protocol: 'geoserverTileLayer',
-          style: {
-            strokeColor: 'rgba(0,0,0,0)',
-            getColor: (feature, store, options) => {
-              let color = '#00000000';
-              const dataSource = options.dataProp ? options.dataProp : 'mapData';
-              if (store.state.indicators.selectedIndicator
-                  && store.state.indicators.selectedIndicator[dataSource]) {
-                const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
-                const currPar = ind.queryParameters.items
-                  .find((item) => item.id === ind.queryParameters.selected);
-                if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
-                  const { min, max, colormapUsed } = currPar;
-                  const f = clamp((value - min) / (max - min), 0, 1);
-                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
-                }
-              }
-              return color;
-            },
-          },
-          id: 'air_quality_new_id',
-          name: 'Health Risk Index (ARI)',
-          adminZoneKey: 'id_3',
-          parameters: 'pm10,pm25,ihr,id_3',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-          labelFormatFunction: (date) => date,
-          selection: {
-            mode: 'single',
-          },
-          tooltip: true,
-          allowedParameters: ['name'],
-        }],
       },
     },
   },
