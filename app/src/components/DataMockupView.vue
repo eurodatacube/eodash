@@ -46,16 +46,16 @@
                   <td> {{ v.grpotare45 }} m² </td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope &lt; 5 degree</td>
-                  <td> {{ v.co2red_05 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope &lt; 5 degree</td>
+                  <td> {{ v.co2red_05 }} tons/year</td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope ≥ 5 and &lt; 20 degree</td>
-                  <td> {{ v.co2red_20 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope ≥ 5 and &lt; 20 degree</td>
+                  <td> {{ v.co2red_20 }} tons/year</td>
                 </tr>
                 <tr>
-                  <td> Green Roof CO2 reduction with a slope ≥ 20 and &lt; 45 degree</td>
-                  <td> {{ v.co2red_45 }} </td>
+                  <td> Potential CO2 reduction due to saved energy from green roof installation with a slope ≥ 20 and &lt; 45 degree</td>
+                  <td> {{ v.co2red_45 }} tons/year</td>
                 </tr>
               </tbody>
             </template>
@@ -94,7 +94,7 @@ export default {
   computed: {
     show() {
       return this.selectedFeatures?.length && this.indicatorObject
-      && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4',
+      && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
@@ -169,7 +169,7 @@ export default {
             })
             .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
         }
-        if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4'].includes(this.indicatorObject.indicator)) {
+        if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(this.indicatorObject.indicator)) {
           const zspStrings = [];
           const originalZsps = [];
           const gemIds = [];

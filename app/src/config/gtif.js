@@ -566,6 +566,27 @@ export const indicatorsDefinition = Object.freeze({
     }, baseLayers.bmaporthofoto30cm],
     customAreaIndicator: true,
   },
+  SOL1_5: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL1_6: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
+  SOL1_7: {
+    baseLayers: [{
+      ...baseLayers.bmapgelaende,
+      visible: true,
+    }, baseLayers.bmaporthofoto30cm],
+    customAreaIndicator: true,
+  },
   SOL2: {
     baseLayers: [{
       ...baseLayers.bmapgelaende,
@@ -1356,7 +1377,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v1.sld',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v2.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: selectedVariable,
@@ -1532,6 +1553,9 @@ export const globalIndicators = [
   createSOL1Config('SOL1_2', 'grexisting'),
   createSOL1Config('SOL1_3', 'grpotential'),
   createSOL1Config('SOL1_4', 'grpotare20'),
+  createSOL1Config('SOL1_5', 'co2red_05'),
+  createSOL1Config('SOL1_6', 'co2red_20'),
+  createSOL1Config('SOL1_7', 'co2red_45'),
   createSOL2Config('SOL2', 'PVEPPMwhHP'),
   createSOL2Config('SOL2_1', 'PVExisting'),
   createSOL2Config('SOL2_2', 'PVEPPMwhRP'),
