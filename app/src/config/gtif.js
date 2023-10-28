@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
 import { baseLayers, overlayLayers } from '@/config/layers';

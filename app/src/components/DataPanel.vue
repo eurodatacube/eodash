@@ -402,7 +402,6 @@
 </template>
 
 <script>
-/* eslint-disable max-len */
 import {
   mapGetters,
   mapState,
