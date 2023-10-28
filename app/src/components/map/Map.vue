@@ -6,7 +6,6 @@
       :mapId="mapId"
       :configs="darkOverlayLayers"
       v-if="darkOverlayLayers.length > 0"
-      :key="dataLayerName + '_darkoverlay'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer

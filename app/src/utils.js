@@ -100,6 +100,48 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   }
   return null;
 };
+export const xcubeAnalyticsConfig = (
+    exampleEndpoint,
+    indicatorCode = 'XCubeCustomLineChart',
+  ) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.time));
+        newData.measurement.push(row.median);
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
+    }
+  ),
+});
 
 export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
@@ -371,6 +413,19 @@ function createXYZDisplay(config, name) {
   return display;
 }
 
+function createXYZTilesXcubeDisplay(config, name) {
+  const display = {
+    xcubeDataset: true,
+    protocol: 'xyz',
+    tileSize: 256,
+    url: config.href,
+    name,
+    dateFormatFunction: (date) => `${date}`,
+    labelFormatFunction: (date) => date,
+  };
+  return display;
+}
+
 function createVectorTileDisplay(config) {
   const display = {
     url: config.href,
@@ -621,7 +676,7 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
-      if (xyzEndpoint.type === 'image/png') {
+      if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZDisplay(
           xyzEndpoint, jsonData.name,
         );
@@ -640,6 +695,16 @@ export async function loadIndicatorData(baseConfig, payload) {
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+      } else if (xyzEndpoint.type === 'image/png' && xyzEndpoint.title.includes('xcube tiles')) {
+        display = createXYZTilesXcubeDisplay(
+          xyzEndpoint, jsonData.name,
+        );
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            times.push(link.datetime);
+          }
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       } else if (xyzEndpoint.type === 'application/pbf') {
         display = createVectorTileDisplay(
           xyzEndpoint,
@@ -698,6 +763,14 @@ export async function loadIndicatorData(baseConfig, payload) {
             areaIndicator: nasaStatisticsConfig(
               (value) => value,
             ),
+          },
+        };
+      } else if (exampleEndpoint.title === 'xcube analytics') {
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: xcubeAnalyticsConfig(exampleEndpoint),
           },
         };
       }
