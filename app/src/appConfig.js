@@ -52,10 +52,6 @@ module.exports = [
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
     configuredMapPois: [],
-    // The label parameter can be used as string to select the parameter identifier
-    // or it can be an array of strings the same size as features to set custom
-    // tab titles for each of the tabbed groups
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -215,35 +211,11 @@ module.exports = [
         src: './data/trilateral/s-1-antarctica.png',
       },
     ],
-    customCountryList: [
-      { code: 'US', region: 'NORTH AMERICA' },
-      { code: 'PR', region: 'NORTH AMERICA' },
-      { code: 'BE', region: 'EUROPE' },
-      { code: 'HR', region: 'EUROPE' },
-      { code: 'FR', region: 'EUROPE' },
-      { code: 'GB', region: 'EUROPE' },
-      { code: 'DE', region: 'EUROPE' },
-      { code: 'IT', region: 'EUROPE' },
-      { code: 'SI', region: 'EUROPE' },
-      { code: 'ES', region: 'EUROPE' },
-      { code: 'JP', region: 'ASIA' },
-      { code: 'CN', region: 'ASIA' },
-      { code: 'SG', region: 'ASIA' },
-      { code: 'BD', region: 'ASIA' },
-      { code: 'IN', region: 'ASIA' },
-      { code: 'BR', region: 'SOUTH AMERICA' },
-      { code: 'CL', region: 'SOUTH AMERICA' },
-      { code: 'PE', region: 'SOUTH AMERICA' },
-      { code: 'TG', region: 'AFRICA' },
-      { code: 'TZ', region: 'AFRICA' },
-      { code: 'EG', region: 'AFRICA' },
-    ],
     configuredMapPois: [
       'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
       'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
       'EG01-SIF',
     ],
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -311,7 +283,6 @@ module.exports = [
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
     configuredMapPois: [],
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',

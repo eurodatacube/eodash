@@ -101,9 +101,9 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   return null;
 };
 export const xcubeAnalyticsConfig = (
-    exampleEndpoint,
-    indicatorCode = 'XCubeCustomLineChart',
-  ) => ({
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
   url: exampleEndpoint.href,
   requestMethod: 'POST',
   requestHeaders: {
@@ -418,6 +418,7 @@ function createXYZTilesXcubeDisplay(config, name) {
     xcubeDataset: true,
     protocol: 'xyz',
     tileSize: 256,
+    minZoom: 1,
     url: config.href,
     name,
     dateFormatFunction: (date) => `${date}`,
@@ -667,7 +668,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     let display = {};
     if (wmsEndpoint) {
       display = createWMSDisplay(
-        wmsEndpoint, jsonData.name,
+        wmsEndpoint, jsonData.id,
       );
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
@@ -678,7 +679,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     } else if (xyzEndpoint) {
       if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZDisplay(
-          xyzEndpoint, jsonData.name,
+          xyzEndpoint, jsonData.id,
         );
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
@@ -697,7 +698,7 @@ export async function loadIndicatorData(baseConfig, payload) {
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
       } else if (xyzEndpoint.type === 'image/png' && xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZTilesXcubeDisplay(
-          xyzEndpoint, jsonData.name,
+          xyzEndpoint, jsonData.id,
         );
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {

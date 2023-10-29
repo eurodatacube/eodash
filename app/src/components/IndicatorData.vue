@@ -1000,7 +1000,7 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',].includes(indicatorCode)) {
+        } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = featureData.referenceValue.map((x, i) => (
             { x, y: featureData.measurement[i] }

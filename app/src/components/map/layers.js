@@ -199,12 +199,11 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiID);
-  if (config.xcubeDataset) {
-    url = url.replace(/{vmin}/gi, options.vmin);
-    url = url.replace(/{vmax}/gi, options.vmax);
-    url = url.replace(/{cbar}/gi, options.cbar);
-    url = url.replace(/{crs}/gi, options.crs);
-  }
+  // if (config.xcubeDataset) {
+  //   url = url.replace(/{vmin}/gi, options.vmin);
+  //   url = url.replace(/{vmax}/gi, options.vmax);
+  //   url = url.replace(/{cbar}/gi, options.cbar);
+  // }
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
@@ -455,20 +454,22 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     }
   } else if (config.protocol === 'xyz') {
+    const sourceOptions = {
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoom || config.minZoom,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      projection: getProjectionOl(config.projection),
+      transition: 0,
+      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+    };
+    source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        tileUrlFunction: (tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, options);
-          return createFromTemplate(url, tileCoord);
-        },
+      source.setTileUrlFunction((tileCoord) => {
+        const url = replaceUrlPlaceholders(config.url, config, options);
+        return createFromTemplate(url, tileCoord);
       });
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
@@ -480,16 +481,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
-      });
-    } else {
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        projection: getProjectionOl(config.projection),
-        transition: 0,
-        tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
     layer = new TileLayer({
