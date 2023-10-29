@@ -1,10 +1,12 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
+import { shTimeFunction } from '@/utils';
 
 const state = {
   indicators: null,
   selectedIndicator: null,
   selectedTime: null,
   customAreaIndicator: null,
+  frozenIndicator: null,
 };
 
 const getters = {
@@ -16,6 +18,23 @@ const getters = {
 const mutations = {
   SET_INDICATORS(state, indicators) {
     state.indicators = indicators;
+  },
+  SET_FROZEN_INDICATOR(state, indicator) {
+    // We make a deep copy but we need to make sure possible functions for date manipulation are
+    // passed correctly
+    state.frozenIndicator = JSON.parse(JSON.stringify(indicator));
+    let displayObject = {};
+    if (Array.isArray(indicator.display) && indicator.display.length > 0) {
+      displayObject = indicator.display[0];
+    } else if (indicator.display) {
+      displayObject = indicator.display;
+    }
+    const display = JSON.parse(JSON.stringify(displayObject));
+    state.frozenIndicator.display = display;
+    state.frozenIndicator.display.dateFormatFunction = displayObject.dateFormatFunction || shTimeFunction;
+    if (state.frozenIndicator.display?.style?.getColor) {
+      state.frozenIndicator.display.style.getColor = displayObject?.style?.getColor;
+    }
   },
   SET_SELECTED_INDICATOR() {
   },
@@ -30,6 +49,9 @@ const mutations = {
 };
 
 const actions = {
+  freezeCurrentIndicator({ commit }) {
+    commit('SET_FROZEN_INDICATOR', this.state.indicators.selectedIndicator);
+  },
   async loadSTACIndicators({ commit, rootState }) {
     let url = rootState.config.baseConfig.STACEndpoint;
     // Allow overwrite of STAC endpoint url if catalog key is provided in url

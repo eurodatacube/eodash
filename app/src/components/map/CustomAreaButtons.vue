@@ -69,6 +69,22 @@
       </template>
       <span>Cancel drawing</span>
     </v-tooltip>
+    <v-tooltip
+      v-if="freezeLayerButtonVisible"
+      left
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          :color="$vuetify.theme.currentTheme.background"
+          class="pa-0 elevation-0"
+          v-on="on"
+          @click="freezeLayer()"
+        >
+          <v-icon>mdi-content-duplicate</v-icon>
+        </v-btn>
+      </template>
+      <span>Freeze layer for comparison</span>
+    </v-tooltip>
   </div>
 </template>
 
@@ -151,6 +167,9 @@ export default {
         // enables chart generation
         && (this.drawnLayerVisible);
     },
+    freezeLayerButtonVisible() {
+      return this.mergedConfigsData.length;
+    },
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;
     },
@@ -214,6 +233,9 @@ export default {
     },
   },
   methods: {
+    freezeLayer() {
+      this.$store.dispatch('indicators/freezeCurrentIndicator');
+    },
     drawEnable(tool) {
       const { map } = getMapInstance(this.mapId);
       this.disableInteractions();

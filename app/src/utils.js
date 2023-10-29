@@ -334,13 +334,19 @@ function createVectorTileDisplay(config) {
       getColor: (feature, options) => {
         let color = '#00000000';
         const dataSource = options.dataProp ? options.dataProp : 'mapData';
-        if (store.state.indicators.selectedIndicator
-            && store.state.indicators.selectedIndicator[dataSource]) {
+        let data = null;
+        if (dataSource === 'frozenMapData') {
+          data = store.state.indicators.frozenIndicator.mapData;
+        } else if (store.state.indicators.selectedIndicator
+          && store.state.indicators.selectedIndicator[dataSource]) {
+          data = store.state.indicators.selectedIndicator[dataSource];
+        }
+        if (data) {
           const id = feature.id_;
           const ind = store.state.indicators.selectedIndicator;
           const currPar = ind.queryParameters.items
             .find((item) => item.id === ind.queryParameters.selected);
-          if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+          if (currPar && id in data) {
             const value = ind[dataSource][id][currPar.id];
             const { min, max, colormapUsed } = currPar;
             const f = clamp((value - min) / (max - min), 0, 1);

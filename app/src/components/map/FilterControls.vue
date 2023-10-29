@@ -79,7 +79,7 @@
             dense
             :min="filters[key].min"
             :max="filters[key].max"
-            :step="(filters[key].max-filters[key].min)/100"
+            :step="filters[key].step || (filters[key].max-filters[key].min)/100"
             @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
@@ -215,7 +215,7 @@
             dense
             :min="filters[key].min"
             :max="filters[key].max"
-            :step="(filters[key].max-filters[key].min)/100"
+            :step="filters[key].step || (filters[key].max-filters[key].min)/100"
             @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
@@ -416,6 +416,13 @@ export default {
         }
         return p;
       });
+      if (this.indicatorCode === 'REP1') {
+        pars.push('height=200');
+      } else if (this.indicatorCode === 'REP1_1') {
+        pars.push('height=100');
+      } else if (this.indicatorCode === 'REP1_2') {
+        pars.push('height=50');
+      }
       const id = this.$store.state.features.selectedFeatures[0].id_;
       const aoi = `aoi=${id}&`;
       const request = baseUrl + aoi + pars.join('&');

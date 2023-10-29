@@ -31,6 +31,13 @@
       @setMapTime="(time) => dataLayerTime = {value: time}"
       @setTimeArray="handleSetTimeArray"
     />
+    <!-- additional special layer showing frozen indicator-->
+    <SpecialLayer
+      v-if="showFrozenLayer"
+      :mapId="mapId"
+      :mergedConfigs="mergedConfigsFrozenData"
+      :options="frozenLayerOptions"
+    />
     <div
       class="d-flex justify-center fill-height"
       style="position: absolute; bottom: 0; left: 0;
@@ -306,6 +313,10 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
+    showFrozenLayer() {
+      return this.frozenIndicator && this.mergedConfigsFrozenData
+      && this.mergedConfigsFrozenData.length;
+    },
     showSpecialLayer() {
       return this.mergedConfigsData.length && this.dataLayerName
       && this.indicatorHasMapData(this.indicator);
@@ -373,6 +384,9 @@ export default {
         indicator = this.currentIndicator;
       }
       return indicator;
+    },
+    frozenIndicator() {
+      return this.$store.state.indicators.frozenIndicator;
     },
     featureObject() {
       let featureObject = this.$store.state.features.selectedFeature?.indicatorObject;
@@ -459,6 +473,26 @@ export default {
         this.currentTimeIndex,
       );
     },
+    mergedConfigsFrozenData() {
+      const config = createConfigFromIndicator(
+        this.frozenIndicator,
+        -1,
+      );
+      let resultConfig = null;
+      // use only first "layer" entry
+      if (config.length > 0) {
+        [resultConfig] = config;
+        resultConfig.name = `${resultConfig.name} (Frozen copy)`;
+        resultConfig.id = `${resultConfig.id}_frozen`;
+        // bake in selected time by only passing one time to the frozen indicator
+        if ('usedTimes' in resultConfig && this.dataLayerTime) {
+          resultConfig.usedTimes.time = [
+            this.dataLayerTime.value,
+          ];
+        }
+      }
+      return [resultConfig];
+    },
     currentTimeIndex() {
       return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
     },
@@ -479,6 +513,12 @@ export default {
         indicator: this.indicator?.indicator,
         aoiID: this.indicator?.aoiID,
         drawnArea: this.drawnArea,
+      };
+    },
+    frozenLayerOptions() {
+      return {
+        dataProp: 'frozenMapData',
+        frozenLayer: true,
       };
     },
     availableTimeEntries() {
