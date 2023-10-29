@@ -59,7 +59,7 @@ module.exports = [
     demoMode: {
       egu2023: [
         {
-          poi: 'WSF-WSF',
+          poi: 'None-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
           highlights: [
             {
@@ -93,7 +93,7 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
         },
         {
-          poi: 'W2-E12c',
+          poi: 'None-E12c',
           story: '/eodash-data/stories/demo-mode/egu2023/moving_truck',
         },
         {
@@ -112,42 +112,28 @@ module.exports = [
           title: 'Sea Surface Temperature Anomaly Maps',
         },
         {
-          poi: 'CDS-CDS1',
+          poi: 'None-CDS1_temperature',
           story: '/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m',
         },
         {
-          poi: 'CDS-CDS2',
+          poi: 'None-CDS2_relative_humidity',
           story: '/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S',
         },
         {
-          poi: 'World-N1',
+          poi: 'None-N1_NO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI',
         },
         {
-          poi: 'WorldCO-N1',
+          poi: 'None-N1_CO',
           story: '/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI',
         },
         {
-          poi: 'SO2-N1',
+          poi: 'None-N1_SO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI',
         },
         {
           poi: 'AT4-E13d',
           story: '/eodash-data/stories/demo-mode/egu2023/Flying_Planes',
-        },
-      ],
-      test: [
-        {
-          poi: 'NO3-E1b',
-        },
-        {
-          poi: 'CDS-CDS2',
-        },
-        {
-          poi: 'CDS-CDS3',
-        },
-        {
-          poi: 'World-N1',
         },
       ],
     },
@@ -220,6 +206,13 @@ module.exports = [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
+    demoMode: {
+      cop28: [
+        {
+          poi: 'None-RECCAP_2_1',
+        },
+      ],
+    },
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],

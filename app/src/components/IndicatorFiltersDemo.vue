@@ -5,7 +5,6 @@
     id="demoItemsList"
     style="height: calc(var(--vh, 1vh) * 100); z-index: 11; pointer-events: all"
   >
-    <!-- <v-btn>Reset</v-btn> -->
     <v-btn
       color="primary"
       @click="scroll('up')"

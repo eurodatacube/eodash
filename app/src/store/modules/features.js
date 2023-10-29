@@ -184,9 +184,6 @@ const mutations = {
     // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
-  // SET_ALL_DUMMY_LOCATIONS(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(features);
-  // },
   INIT_FEATURE_FILTER(state, { countries, indicators }) {
     if (countries) {
       state.featureFilters.countries = countries;
