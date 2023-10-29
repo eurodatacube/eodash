@@ -416,6 +416,13 @@ export default {
         }
         return p;
       });
+      if (this.indicatorCode === 'REP1') {
+        pars.push('height=200');
+      } else if (this.indicatorCode === 'REP1_1') {
+        pars.push('height=100');
+      } else if (this.indicatorCode === 'REP1_2') {
+        pars.push('height=50');
+      }
       const id = this.$store.state.features.selectedFeatures[0].id_;
       const aoi = `aoi=${id}&`;
       const request = baseUrl + aoi + pars.join('&');

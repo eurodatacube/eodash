@@ -985,6 +985,8 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
               min: 0,
               max: 25000,
               value: 25000,
+              step: 20,
+              inverted: true,
             },
             elevation: {
               display: false,
