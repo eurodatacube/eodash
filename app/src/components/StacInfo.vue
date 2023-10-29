@@ -19,26 +19,26 @@
 <script>
 export default {
   computed: {
-    getLink(){
-      return this.$store.state.indicators.selectedIndicator.link
-    }
+    getLink() {
+      return this.$store.state.indicators.selectedIndicator.link;
+    },
   },
   mounted() {
     if (this.$vuetify.breakpoint.smAndUp) {
-      this.$parent.$parent.$parent.$refs.header.$emit("click", { detail: "" });
+      this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
     }
   },
-  methods:{
-    onStacInfoLoad(e){
-    this.$nextTick(()=>{
-       if(this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1){
-         //first parent is VExpantionPanelContent, second is VExpantionPanel
-         this.$parent.$parent.$el.style.display = 'none'
-       }else{
-         this.$parent.$parent.$el.style.display = ''
-       }
-     })
-   }
+  methods: {
+    onStacInfoLoad() {
+      this.$nextTick(() => {
+        if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1) {
+          // first parent is VExpantionPanelContent, second is VExpantionPanel
+          this.$parent.$parent.$el.style.display = 'none';
+        } else {
+          this.$parent.$parent.$el.style.display = '';
+        }
+      });
+    },
   },
 };
 </script>

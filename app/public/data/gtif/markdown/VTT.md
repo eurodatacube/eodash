@@ -1,3 +1,0 @@
-### Disclaimer
-
-The forest parameter values are outputs of a data assimilation process combining EO-based estimates and a process based growth model initiated with EO based forest structure estimates and meteorological data. These prototype products have been created with limited input datasets and have not been validated. They should be considered merely as examples of the types of products that can be created.

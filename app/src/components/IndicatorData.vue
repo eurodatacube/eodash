@@ -123,17 +123,17 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
         'N1_NO2', // Separation of N1 indocators
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
+        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -143,7 +143,7 @@ export default {
         'E10a1', 'E10a5', 'N2',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL2', 'REP4_5', 'AQ1',
+        'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -151,8 +151,8 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'AQ3', 'MOBI1', 'MOBI1_1',
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'Lakes_SWT', 'REP1', 'REP1_1', 'REP1_2'],
     };
   },
   mounted() {
@@ -979,14 +979,14 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'MOBI1_1', 'AQ3', 'REP4_1',
+          'REP4_4', 'REP4_6', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'XCubeCustomLineChart'].includes(indicatorCode)) {
           // Rendering for fetched data
           const data = featureData.time.map((date, i) => (
             { t: date, y: featureData.measurement[i] }
           ));
           let label = indicator.yAxis;
-          if (['MOBI1'].includes(indicatorCode)) {
+          if (['MOBI1', 'MOBI1_1'].includes(indicatorCode)) {
             label = 'time series for selected area';
           }
           datasets.push({
@@ -1000,7 +1000,7 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['AQ1'].includes(indicatorCode)) {
+        } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = featureData.referenceValue.map((x, i) => (
             { x, y: featureData.measurement[i] }
@@ -1015,7 +1015,7 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['SOL1'].includes(indicatorCode)) {
+        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
@@ -1054,7 +1054,7 @@ export default {
               pointRadius: 2,
             });
           });
-        } else if (['SOL2'].includes(indicatorCode)) {
+        } else if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           const data = featureData.referenceValue.map((x, i) => (
             { x, y: featureData.measurement[i] }
@@ -1122,7 +1122,7 @@ export default {
             showLine: true,
           });
         }
-        if (['REP1'].includes(indicatorCode)) {
+        if (['REP1', 'REP1_1', 'REP1_2'].includes(indicatorCode)) {
           const data = [];
           featureData.measurement.forEach((item, i) => {
             data.push({
@@ -1399,7 +1399,7 @@ export default {
         };
       }
 
-      if (['REP1'].includes(indicatorCode)) {
+      if (['REP1', 'REP1_1', 'REP1_2'].includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
           displayFormats: { month: 'MMM' },
@@ -1765,7 +1765,7 @@ export default {
         customSettings.hideRestrictions = true;
       }
 
-      if (['SOL1'].includes(indicatorCode)) {
+      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
             label: (context, data) => {

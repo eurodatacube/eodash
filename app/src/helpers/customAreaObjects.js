@@ -261,7 +261,7 @@ export const fetchCustomAreaObjects = async (
         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
       }
       // Convert geojsons back to an object
-      if (params[i] === 'geojson') {
+      if (['geojson', 'coordinates'].includes(params[i])) {
         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
       }
     }

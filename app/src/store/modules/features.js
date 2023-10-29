@@ -131,31 +131,6 @@ const getters = {
 
     return features;
   },
-  getGroupedFeatures(state, getters, rootState) {
-    let allFeatures = [];
-    if (state.allFeatures.length > 0) {
-      const groupedFeatures = [];
-      if (rootState.config.appConfig.featureGrouping) {
-        rootState.config.appConfig.featureGrouping.forEach((fG) => {
-          const firstFeature = getters.getFeatures
-            .find((f) => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
-          if (firstFeature) {
-            groupedFeatures.push(firstFeature);
-          }
-        });
-      }
-      const restFeatures = rootState.config.appConfig.featureGrouping
-        ? getters.getFeatures
-          .filter((f) => {
-            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
-            return !rootState.config.appConfig.featureGrouping
-              .find((fG) => fG.features.includes(locationCode));
-          })
-        : getters.getFeatures;
-      allFeatures = groupedFeatures.concat(restFeatures);
-    }
-    return allFeatures;
-  },
 };
 
 const mutations = {
@@ -209,9 +184,6 @@ const mutations = {
     // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
-  // SET_ALL_DUMMY_LOCATIONS(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(features);
-  // },
   INIT_FEATURE_FILTER(state, { countries, indicators }) {
     if (countries) {
       state.featureFilters.countries = countries;

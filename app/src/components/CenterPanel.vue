@@ -20,9 +20,6 @@ export default {
     Map,
   },
   computed: {
-    ...mapGetters('features', [
-      'getGroupedFeatures',
-    ]),
     ...mapState('config', ['baseConfig']),
     mapDataReady() {
       return !!(this.baseConfig);

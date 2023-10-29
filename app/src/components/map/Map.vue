@@ -6,7 +6,6 @@
       :mapId="mapId"
       :configs="darkOverlayLayers"
       v-if="darkOverlayLayers.length > 0"
-      :key="dataLayerName + '_darkoverlay'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
@@ -170,10 +169,8 @@
       <div v-else class="mt-auto">
         <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
-      <div :style="`${$vuetify.breakpoint.smAndUp ? `position:relative; ${
-        appConfig.id == 'gtif' ?'bottom:'+$vuetify.application.footer+'px':''
-      }`:`position:absolute; bottom:${appConfig.id === 'gtif' ?
-       $vuetify.application.footer + 50: '60'}px`}`"
+      <div class="mouse-container"
+      :style="mousePosConStyle"
        ref="mousePositionContainer"/>
     </div>
   </div>
@@ -590,10 +587,12 @@ export default {
         if (this.featureObject) {
           indObject = this.featureObject;
         }
-        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+        if (indObject) {
+          const demoItem = this.appConfig.demoMode[this.$route.query.event]
           .find((item) => item.poi === getLocationCode(indObject));
-        if (demoItem && demoItem.extent) {
-          return demoItem.extent;
+          if (demoItem && demoItem.extent) {
+            return demoItem.extent;
+          }
         }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
@@ -636,6 +635,21 @@ export default {
         position = 'bottom: 72px';
       }
       return position;
+    },
+    mousePosConStyle() {
+      let style = 'position:absolute;';
+      if (this.$vuetify.breakpoint.smAndUp) {
+        if (this.appConfig.id === 'gtif') {
+          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+        } else {
+          style += 'bottom:0px;';
+        }
+      } else if (this.appConfig.id === 'gtif') {
+        style += `bottom:${this.$vuetify.application.footer + 50}px;`;
+      } else {
+        style += 'bottom:60px;';
+      }
+      return style;
     },
   },
   watch: {
@@ -690,7 +704,9 @@ export default {
               loadIndicatorExternalData(
                 timeObj.value, item,
               ).then((data) => {
-                this.$store.state.indicators.selectedIndicator.mapData = data;
+                if (this.$store.state.indicators.selectedIndicator) {
+                  this.$store.state.indicators.selectedIndicator.mapData = data;
+                }
                 // finds first layer with ID
                 const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {
@@ -1336,5 +1352,17 @@ export default {
 
   .pointerEvents {
     pointer-events: initial;
+  }
+
+  .mouse-container{
+    display: none;
+  }
+  @-moz-document url-prefix() {
+    .mouse-container{
+    display: inline;
+  }
+}
+  .mouse-container:has(span){
+    display: inline;
   }
 </style>
