@@ -123,7 +123,7 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
         'N1_NO2', // Separation of N1 indocators
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
@@ -980,7 +980,7 @@ export default {
             clipMap: 'items',
           });
         } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'MOBI1_1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3'].includes(indicatorCode)) {
+          'REP4_4', 'REP4_6', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'XCubeCustomLineChart'].includes(indicatorCode)) {
           // Rendering for fetched data
           const data = featureData.time.map((date, i) => (
             { t: date, y: featureData.measurement[i] }

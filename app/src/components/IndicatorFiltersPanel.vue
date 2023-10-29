@@ -30,7 +30,7 @@ export default {
     ]),
     ...mapState('features', ['allFeatures']),
     ...mapGetters('features', [
-      'getGroupedFeatures',
+      'getFeatures',
     ]),
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapGetters('indicators', [

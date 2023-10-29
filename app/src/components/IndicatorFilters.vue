@@ -135,11 +135,10 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getFeatures',
-      'getGroupedFeatures',
       'getIndicators',
     ]),
     globalIndicators() {
-      return this.getGroupedFeatures && this.getGroupedFeatures
+      return this.getFeatures && this.getFeatures
         .filter((f) => ['global'].includes(f.properties.indicatorObject.siteName))
         .sort((a, b) => ((a.properties.indicatorObject.indicatorName
           > b.properties.indicatorObject.indicatorName)

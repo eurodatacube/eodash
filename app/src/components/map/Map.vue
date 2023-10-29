@@ -6,7 +6,6 @@
       :mapId="mapId"
       :configs="darkOverlayLayers"
       v-if="darkOverlayLayers.length > 0"
-      :key="dataLayerName + '_darkoverlay'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
@@ -546,10 +545,12 @@ export default {
         if (this.featureObject) {
           indObject = this.featureObject;
         }
-        const demoItem = this.appConfig.demoMode[this.$route.query.event]
+        if (indObject) {
+          const demoItem = this.appConfig.demoMode[this.$route.query.event]
           .find((item) => item.poi === getLocationCode(indObject));
-        if (demoItem && demoItem.extent) {
-          return demoItem.extent;
+          if (demoItem && demoItem.extent) {
+            return demoItem.extent;
+          }
         }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;

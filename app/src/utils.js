@@ -9,14 +9,6 @@ import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
 
-export function padLeft(str, pad, size) {
-  let out = str;
-  while (out.length < size) {
-    out = pad + str;
-  }
-  return out;
-}
-
 export const statisticalApiHeaders = {
   url: 'https://services.sentinel-hub.com/api/v1/statistics',
   requestMethod: 'POST',
@@ -100,6 +92,48 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   }
   return null;
 };
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.time));
+        newData.measurement.push(row.median);
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
+    }
+  ),
+});
 
 export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
@@ -155,103 +189,9 @@ export const nasaStatisticsConfig = (
   ),
 });
 
-/*
-// Helper function to create colorscales for cog style rendering
-function getColorStops(name, min, max, steps, reverse) {
-  const delta = (max - min) / (steps - 1);
-  const stops = new Array(steps * 2);
-  const colors = colormap({
-    colormap: name, nshades: steps, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  for (let i = 0; i < steps; i++) {
-    stops[i * 2] = min + i * delta;
-    stops[i * 2 + 1] = colors[i];
-  }
-  return stops;
-}
-
-function getColormap(name, reverse) {
-  const colors = colormap({
-    colormap: name, nshades: 16, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  return colors;
-}
-*/
-
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
-
-/*
-let stp = 1 / 6;
-
-const adoColor = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [215, 25, 28] },
-      { index: stp * 1, rgb: [253, 174, 97] },
-      { index: stp * 2, rgb: [255, 255, 191] },
-      { index: stp * 3, rgb: [255, 255, 255] },
-      { index: stp * 4, rgb: [245, 153, 246] },
-      { index: stp * 5, rgb: [180, 103, 221] },
-      { index: stp * 6, rgb: [69, 0, 153] },
-    ],
-    nshades: 32,
-  }),
-};
-
-stp = 1 / 7;
-
-const grywrd = {
-  steps: 128,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [0, 83, 30] },
-      { index: stp * 1, rgb: [195, 229, 86] },
-      { index: stp * 2, rgb: [255, 221, 86] },
-      { index: stp * 3, rgb: [246, 119, 88] },
-      { index: stp * 4, rgb: [255, 151, 63] },
-      { index: stp * 5, rgb: [255, 99, 49] },
-      { index: stp * 6, rgb: [213, 0, 31] },
-      { index: stp * 7, rgb: [99, 0, 13] },
-    ],
-    nshades: 128,
-  }),
-};
-
-const whitered = [
-  { index: 0, rgb: [255, 255, 255] },
-  { index: stp * 1, rgb: [255, 251, 247] },
-  { index: stp * 2, rgb: [254, 238, 223] },
-  { index: stp * 3, rgb: [254, 214, 183] },
-  { index: stp * 4, rgb: [250, 177, 129] },
-  { index: stp * 5, rgb: [233, 131, 77] },
-  { index: stp * 6, rgb: [184, 84, 38] },
-  { index: stp * 7, rgb: [127, 39, 4] },
-];
-
-const blgrrd = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [1, 152, 189] },
-      { index: 0.2, rgb: [73, 227, 206] },
-      { index: 0.4, rgb: [216, 254, 181] },
-      { index: 0.6, rgb: [254, 237, 177] },
-      { index: 0.8, rgb: [254, 173, 84] },
-      { index: 1, rgb: [209, 55, 78] },
-    ],
-    nshades: 32,
-  }),
-};
-*/
 
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
@@ -367,6 +307,20 @@ function createXYZDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
+  };
+  return display;
+}
+
+function createXYZTilesXcubeDisplay(config, name) {
+  const display = {
+    xcubeDataset: true,
+    protocol: 'xyz',
+    tileSize: 256,
+    minZoom: 1,
+    url: config.href,
+    name,
+    dateFormatFunction: (date) => `${date}`,
+    labelFormatFunction: (date) => date,
   };
   return display;
 }
@@ -612,7 +566,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     let display = {};
     if (wmsEndpoint) {
       display = createWMSDisplay(
-        wmsEndpoint, jsonData.name,
+        wmsEndpoint, jsonData.id,
       );
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
@@ -621,9 +575,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
-      if (xyzEndpoint.type === 'image/png') {
+      if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZDisplay(
-          xyzEndpoint, jsonData.name,
+          xyzEndpoint, jsonData.id,
         );
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
@@ -640,6 +594,16 @@ export async function loadIndicatorData(baseConfig, payload) {
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+      } else if (xyzEndpoint.type === 'image/png' && xyzEndpoint.title.includes('xcube tiles')) {
+        display = createXYZTilesXcubeDisplay(
+          xyzEndpoint, jsonData.id,
+        );
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            times.push(link.datetime);
+          }
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       } else if (xyzEndpoint.type === 'application/pbf') {
         display = createVectorTileDisplay(
           xyzEndpoint,
@@ -698,6 +662,14 @@ export async function loadIndicatorData(baseConfig, payload) {
             areaIndicator: nasaStatisticsConfig(
               (value) => value,
             ),
+          },
+        };
+      } else if (exampleEndpoint.title === 'xcube analytics') {
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: xcubeAnalyticsConfig(exampleEndpoint),
           },
         };
       }
@@ -936,20 +908,6 @@ export function calculatePadding() {
     percentageBasedOffsetWidth + searchPanelWidth + demoItemsWidth,
   ];
   return padding;
-}
-
-export function getPOIs() {
-  const ftrs = store.state.features.allFeatures;
-  ftrs.sort(
-    (a, b) => a.properties.indicatorObject.indicator - b.properties.indicatorObject.indicator,
-  );
-  const arr = [];
-  ftrs.forEach((item) => {
-    const { aoiID, indicator } = item.properties.indicatorObject;
-    const output = `${aoiID}-${indicator}`;
-    arr.push(output);
-  });
-  console.log(arr.join(','));
 }
 
 export const findClosest = (data, target = DateTime.now()) => data.reduce((prev, curr) => {

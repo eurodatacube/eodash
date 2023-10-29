@@ -881,7 +881,7 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
+  minZoom: 1,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -989,7 +989,31 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
+const createRECCAP2Config = (indicatorCode) => ({
+  properties: {
+    indicatorObject: {
+      indicator: indicatorCode,
+      display: {
+        minNativeZoom: 3,
+        maxNativeZoom: 5,
+      },
+    },
+  },
+});
+
 export const globalIndicators = [
+  createRECCAP2Config('RECCAP_2_1'),
+  createRECCAP2Config('RECCAP_2_2'),
+  createRECCAP2Config('RECCAP_2_3'),
+  createRECCAP2Config('RECCAP_2_4'),
+  createRECCAP2Config('RECCAP_2_5'),
+  createRECCAP2Config('RECCAP_2_6'),
+  createRECCAP2Config('RECCAP_2_7'),
+  createRECCAP2Config('RECCAP_2_8'),
+  createRECCAP2Config('RECCAP_2_9'),
+  createRECCAP2Config('RECCAP_2_10'),
+  createRECCAP2Config('RECCAP_2_11'),
+  createRECCAP2Config('RECCAP_2_12'),
   {
     properties: {
       indicatorObject: {
