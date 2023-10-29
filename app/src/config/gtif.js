@@ -765,7 +765,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           items: [],
         },
         cogFilters: {
-          sourceLayer: indicatorCode,
+          sourceLayer: 'REP1',
           filters: {
             powerDensity: {
               display: true,
@@ -807,6 +807,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               min: 0,
               max: 5000,
               value: 0,
+              step: 10,
             },
             cadasterDistance: {
               display: false,
@@ -817,6 +818,8 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               min: 0,
               max: 5000,
               value: 0,
+              step: 10,
+              inverted: false,
             },
             energyGridDistance: {
               display: false,
@@ -828,6 +831,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               min: 0,
               max: 25000,
               value: 25000,
+              step: 10,
             },
             ruggedness: {
               display: false,
@@ -942,7 +946,7 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
       indicatorObject: {
         indicator: indicatorCode,
         cogFilters: {
-          sourceLayer: indicatorCode,
+          sourceLayer: 'REP2',
           filters: {
             solar: {
               display: true,
@@ -1080,7 +1084,6 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
         queryParameters: {
           sourceLayer: 'trajectories_on_edges_austria_daily',
           selected: selectedVariable,
-          dataInfo: 'AQ4',
           items: [
             {
               id: selectedVariable,
@@ -1108,11 +1111,10 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
               }
               if (data) {
                 const id = feature.get('fid');
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   let f = clamp((value - min) / (max - min), 0, 1);
                   if (['n_trajectories_max'].includes(currPar.id)) {
@@ -1140,7 +1142,7 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
   return config;
 }
 
-function createADOConfig(indicatorCode, selectedVariable, itemConfig) {
+function createADOConfig(indicatorCode, selectedVariable) {
   const config = {
     properties: {
       indicatorObject: {
@@ -1155,7 +1157,6 @@ function createADOConfig(indicatorCode, selectedVariable, itemConfig) {
               min: -2,
               max: 2,
               colormapUsed: adoColor,
-              ...itemConfig,
             },
           ],
         },
@@ -1191,11 +1192,10 @@ function createADOConfig(indicatorCode, selectedVariable, itemConfig) {
               }
               if (data) {
                 const id = feature.get('nuts_id').replace(/\s/g, ''); // need to remove white spaces
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1225,7 +1225,6 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
         queryParameters: {
           sourceLayer: 'mobility_daily',
           selected: 'users_count_max',
-          dataInfo: 'MOBI1',
           items: [
             {
               id: selectedVariable,
@@ -1252,11 +1251,10 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
               }
               if (data) {
                 const id = feature.id_;
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   // apply logarithmic scale specially for population
                   const f = clamp((Math.log10(value) - Math.log10(min))
@@ -1331,11 +1329,10 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
               }
               if (data) {
                 const id = Number(feature.get('object_id'));
-                const ind = store.state.indicators.selectedIndicator;
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
-                  const value = ind[dataSource][id][currPar.id];
+                  const value = data[id][currPar.id];
                   if (value != null && value !== 0) {
                     const { min, max, colormapUsed } = currPar;
                     let f = clamp((value - min) / (max - min), 0, 1);
@@ -1381,7 +1378,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           },
           {
             name: 'Innsbruck',
-            thumbnail: '',
             location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
           },
           {
@@ -1394,7 +1390,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           },
         ],
         wmsStyles: {
-          dataInfo: 'GreenRoofs',
           sourceLayer: 'Green Roofs',
           items: [
             {
@@ -1446,7 +1441,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           },
           {
             name: 'Innsbruck',
-            thumbnail: '',
             location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
           },
           {
@@ -1455,12 +1449,10 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           },
           {
             name: 'Vienna',
-            thumbnail: 'green_roof_vienna',
             location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
           },
         ],
         wmsStyles: {
-          dataInfo: 'SolarRoofs',
           sourceLayer: 'Solar Roofs',
           items: [
             {
@@ -1539,18 +1531,10 @@ export const globalIndicators = [
     min: 0,
     max: 100,
   }),
-  createADOConfig('ADO', 'spi-1', {
-    dataInfo: 'SPI1',
-  }),
-  createADOConfig('ADO_1', 'spi-12', {
-    dataInfo: 'SPI12',
-  }),
-  createADOConfig('ADO_2', 'spei-1', {
-    dataInfo: 'SPEI1',
-  }),
-  createADOConfig('ADO_3', 'spei-12', {
-    dataInfo: 'SPEI12',
-  }),
+  createADOConfig('ADO', 'spi-1'),
+  createADOConfig('ADO_1', 'spi-12'),
+  createADOConfig('ADO_2', 'spei-1'),
+  createADOConfig('ADO_3', 'spei-12'),
   createAQ1Config('AQ1', 'n_trajectories', {
     min: 1,
     max: 40000,
@@ -1714,7 +1698,7 @@ export const globalIndicators = [
                 const currPar = ind.queryParameters.items
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in data) {
-                  const value = ind[dataSource][id][currPar.id];
+                  const value = data[id][currPar.id];
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1741,7 +1725,6 @@ export const globalIndicators = [
           items: [
             {
               id: 'ihr',
-              dataInfo: 'ARI',
               min: 0,
               max: 10,
               colormapUsed: grywrd,
@@ -1764,7 +1747,6 @@ export const globalIndicators = [
           items: [
             {
               id: 'pm10',
-              dataInfo: 'PM10',
               min: 0,
               max: 50,
               colormapUsed: grywrd,
@@ -1830,7 +1812,6 @@ export const globalIndicators = [
           items: [
             {
               id: 'pm25',
-              dataInfo: 'PM25',
               min: 0,
               max: 50,
               colormapUsed: grywrd,
@@ -2187,13 +2168,12 @@ export const globalIndicators = [
               header: true,
               label: 'Displayed dataset colormap',
               id: 'selectedBand',
-              dataInfo: null,
               type: 'select',
               entries: [
                 { text: 'Basal area', value: 1, range: [0, 65] },
                 { text: 'Broadleaf proportion', value: 2, range: [0, 100] },
-                { text: 'Conifer proportion', value: 4, range: [0, 100] },
                 { text: 'Tree diameter', value: 3, range: [0, 50] },
+                { text: 'Conifer proportion', value: 4, range: [0, 100] },
                 { text: 'Tree height', value: 5, range: [0, 350] },
                 { text: 'Growing stock volume', value: 6, range: [0, 800] },
               ],
@@ -2351,7 +2331,6 @@ export const globalIndicators = [
           },
           {
             name: 'Bruck an der Mur',
-            thumbnail: '',
             location: wkt.read('POLYGON((15.158 47.440, 15.312 47.440, 15.312 47.368, 15.158 47.368, 15.158 47.440))').toJson(),
           },
         ],

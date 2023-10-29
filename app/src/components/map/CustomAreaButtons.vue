@@ -168,7 +168,7 @@ export default {
         && (this.drawnLayerVisible);
     },
     freezeLayerButtonVisible() {
-      return true;
+      return this.mergedConfigsData.length;
     },
     deleteButtonVisible() {
       return this.drawnArea.area && this.drawToolsVisible;

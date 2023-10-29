@@ -10,7 +10,6 @@
 <script>
 // Utilities
 import {
-  mapGetters,
   mapState,
 } from 'vuex';
 import Map from '@/components/map/Map.vue';

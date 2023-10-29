@@ -13,7 +13,7 @@
         indicatorObject
         && (appConfig.id === 'gtif' || !indicatorObject.features
         || dataObject || mergedConfigsData[0].customAreaIndicator)
-        " class="d-flex">
+        " class="d-flex ma-0">
         <!--
         <v-col v-if="appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"

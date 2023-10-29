@@ -1,4 +1,5 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
+import { shTimeFunction } from '@/utils';
 
 const state = {
   indicators: null,
@@ -22,9 +23,18 @@ const mutations = {
     // We make a deep copy but we need to make sure possible functions for date manipulation are
     // passed correctly
     state.frozenIndicator = JSON.parse(JSON.stringify(indicator));
-    state.frozenIndicator.display.dateFormatFunction = indicator.display?.dateFormatFunction;
-    state.frozenIndicator.display.labelFormatFunction = indicator.display?.labelFormatFunction;
-    state.frozenIndicator.display.style.getColor = indicator.display?.style?.getColor;
+    let displayObject = {};
+    if (Array.isArray(indicator.display) && indicator.display.length > 0) {
+      displayObject = indicator.display[0];
+    } else if (indicator.display) {
+      displayObject = indicator.display;
+    }
+    const display = JSON.parse(JSON.stringify(displayObject));
+    state.frozenIndicator.display = display;
+    state.frozenIndicator.display.dateFormatFunction = displayObject.dateFormatFunction || shTimeFunction;
+    if (state.frozenIndicator.display?.style?.getColor) {
+      state.frozenIndicator.display.style.getColor = displayObject?.style?.getColor;
+    }
   },
   SET_SELECTED_INDICATOR() {
   },

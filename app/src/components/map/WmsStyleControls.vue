@@ -1,23 +1,9 @@
 <template>
   <v-container fluid>
-    <v-row align="center">
-      <v-col cols="6">
-        <v-subheader>
-          Data properties
-          <info-dialog
-            v-if="select && select.dataInfo && wmsStyles.items.length === 1"
-            :infoSource="select.dataInfo"
-          />
-          <info-dialog
-            v-if="wmsStyles.dataInfo"
-            :infoSource="wmsStyles.dataInfo"
-          />
-        </v-subheader>
-      </v-col>
-
+    <v-row align="center"
+      v-if="wmsStyles.items.length > 1">
       <v-col cols="6">
         <v-select
-          v-if="wmsStyles.items.length > 1"
           v-model="select"
           :items="wmsStyles.items"
           item-text="description"
@@ -27,7 +13,11 @@
           return-object
           single-line
           @change="updateMap"
-        ></v-select>
+        >
+          <template #append-outer v-if="select && select.dataInfo">
+            <info-dialog :infoSource="select.dataInfo"/>
+          </template>
+        </v-select>
       </v-col>
     </v-row>
   </v-container>

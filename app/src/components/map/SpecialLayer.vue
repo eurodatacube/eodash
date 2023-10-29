@@ -71,6 +71,12 @@ export default {
       if (this.compare) {
         layer.set('name', `${layer.get('name')}_compare`);
       }
+      if (options.frozenLayer) {
+        // exit early and do not bind any handlers
+        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+        dataGroup.getLayers().push(layer);
+        return;
+      }
       // find first feature layer
       if (config.features || config.tooltip) {
         // initiate hover over functionality optionally for both featureLayer

@@ -37,9 +37,6 @@
       :mapId="mapId"
       :mergedConfigs="mergedConfigsFrozenData"
       :options="frozenLayerOptions"
-      :key="dataLayerKey  + '_frozenLayer'"
-      :swipePixelX="swipePixelX"
-      :resetProjectionOnDestroy='true'
     />
     <div
       class="d-flex justify-center fill-height"
@@ -318,7 +315,7 @@ export default {
     },
     showFrozenLayer() {
       return this.frozenIndicator && this.mergedConfigsFrozenData
-      && this.mergedConfigsFrozenData.length && this.indicatorHasMapData(this.frozenIndicator);
+      && this.mergedConfigsFrozenData.length;
     },
     showSpecialLayer() {
       return this.mergedConfigsData.length && this.dataLayerName
@@ -521,6 +518,7 @@ export default {
     frozenLayerOptions() {
       return {
         dataProp: 'frozenMapData',
+        frozenLayer: true,
       };
     },
     availableTimeEntries() {
