@@ -124,7 +124,7 @@ export default {
               }
             },
             // exclusiveFilters: true,
-            aggregateResults: 'themes',
+            aggregateResults: 'tags',
             styleOverride: `
             #filters input[type=radio]{
               width:36px;
