@@ -1188,7 +1188,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
         indicator: indicatorCode,
         queryParameters: {
           sourceLayer: 'mobility_daily',
-          selected: 'users_count_max',
+          selected: selectedVariable,
           items: [
             {
               id: selectedVariable,
@@ -1253,7 +1253,7 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
   const config = {
     properties: {
       indicatorObject: {
-        times: availableDates.aggregated_data,
+        time: availableDates.aggregated_data,
         indicator: indicatorCode,
         queryParameters: {
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
