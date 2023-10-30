@@ -1133,14 +1133,6 @@ function createADOConfig(indicatorCode, selectedVariable) {
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           opacity: 0.7,
           selection: {
             mode: 'single',
@@ -1275,14 +1267,6 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
           ],
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1559,14 +1543,6 @@ export const globalIndicators = [
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.8150 48.7647,17.48452 48.7647,17.48452 46.966583,13.8150 46.966583,13.8150 48.7647))').toJson(),
-            }],
-          },
           areaIndicator: trucksAreaIndicator,
           features: trucksFeatures,
           style: {
@@ -1598,14 +1574,6 @@ export const globalIndicators = [
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           areaIndicator: trucksAreaIndicator,
           features: trucksFeatures,
           style: {
@@ -2224,14 +2192,6 @@ export const globalIndicators = [
           },
         },
         display: {
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-            }],
-          },
           protocol: 'cog',
           id: 'VTT',
           sources: [
@@ -2307,15 +2267,15 @@ export const globalIndicators = [
           },
         ],
         time: [
-          ['2021-09', 'NRT_FCM_Changes-2021-09_epsg3857.tif'],
-          ['2021-10', 'NRT_FCM_Changes-2021-10_epsg3857.tif'],
-          ['2021-11', 'NRT_FCM_Changes-2021-11_epsg3857.tif'],
-          ['2022-03', 'NRT_FCM_Changes-2022-03_epsg3857.tif'],
-          ['2022-04', 'NRT_FCM_Changes-2022-04_epsg3857.tif'],
-          ['2022-05', 'NRT_FCM_Changes-2022-05_epsg3857.tif'],
-          ['2022-06', 'NRT_FCM_Changes-2022-06_epsg3857.tif'],
-          ['2022-07', 'NRT_FCM_Changes-2022-07_epsg3857.tif'],
-          ['2022-08', 'NRT_FCM_Changes-2022-08_epsg3857.tif'],
+          ['2021-09-01', 'NRT_FCM_Changes-2021-09_epsg3857.tif'],
+          ['2021-10-01', 'NRT_FCM_Changes-2021-10_epsg3857.tif'],
+          ['2021-11-01', 'NRT_FCM_Changes-2021-11_epsg3857.tif'],
+          ['2022-03-01', 'NRT_FCM_Changes-2022-03_epsg3857.tif'],
+          ['2022-04-01', 'NRT_FCM_Changes-2022-04_epsg3857.tif'],
+          ['2022-05-01', 'NRT_FCM_Changes-2022-05_epsg3857.tif'],
+          ['2022-06-01', 'NRT_FCM_Changes-2022-06_epsg3857.tif'],
+          ['2022-07-01', 'NRT_FCM_Changes-2022-07_epsg3857.tif'],
+          ['2022-08-01', 'NRT_FCM_Changes-2022-08_epsg3857.tif'],
         ],
         display: [{
           protocol: 'cog',
@@ -2499,14 +2459,6 @@ export const globalIndicators = [
         indicator: 'EO4A',
         display: {
           selectedTime: '2022-01-30',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow depth',
           layers: 'SNOW-DEPTH',
@@ -2526,14 +2478,6 @@ export const globalIndicators = [
         indicator: 'EO4A2',
         display: {
           selectedTime: '2022-01-30',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-            }],
-          },
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow water equivalent',
           layers: 'SWE',

@@ -82,7 +82,7 @@
     />
     <div
       v-if="$vuetify.breakpoint.smAndUp"
-      :style="`position: absolute; z-index: 3; top: 10px; right: 30%`"
+      :style="`position: absolute; z-index: 3; top: 10px; right: 27%`"
     >
       <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
       :src="mergedConfigsData[0].legendUrl" alt=""
