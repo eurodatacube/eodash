@@ -429,7 +429,6 @@ export const indicatorsDefinition = Object.freeze({
     ...energyTransitionDefaults,
   },
   REP4_1: {
-    showTimeSlider: true,
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
@@ -466,7 +465,6 @@ export const indicatorsDefinition = Object.freeze({
   REP4_5: {
   },
   REP4_6: {
-    showTimeSlider: true,
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm, visible: true,
@@ -523,12 +521,10 @@ export const indicatorsDefinition = Object.freeze({
   MOBI1: {
     ...mobilityTransitionDefaults,
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   MOBI1_1: {
     ...mobilityTransitionDefaults,
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   SOL1: {
     baseLayers: [{
@@ -628,62 +624,48 @@ export const indicatorsDefinition = Object.freeze({
   },
   ADO: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   ADO_1: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   ADO_2: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   ADO_3: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQA: {
     ...mobilityTransitionDefaults,
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQB: {
     ...mobilityTransitionDefaults,
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQC: {
     ...mobilityTransitionDefaults,
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_1: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_2: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_3: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_4: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_5: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ1_6: {
     customAreaIndicator: true,
-    showTimeSlider: true,
   },
   AQ2: {
     ...mobilityTransitionDefaults,
@@ -692,7 +674,6 @@ export const indicatorsDefinition = Object.freeze({
       visible: true,
     }, baseLayers.geolandbasemap],
     overlayLayers: [],
-    showTimeSlider: true,
   },
   // AQ3: {
   //   ...mobilityTransitionDefaults,
@@ -707,50 +688,39 @@ export const indicatorsDefinition = Object.freeze({
   //   }],
   // },
   AQ4: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ4_1: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ4_2: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ4_3: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ4_4: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ4_5: {
-    showTimeSlider: true,
     ...mobilityTransitionDefaults,
   },
   AQ5: {
     ...mobilityTransitionDefaults,
-    showTimeSlider: true,
   },
   WSF: {
   },
   E12c: {
     customAreaIndicator: true,
     customAreaFeatures: true,
-    showTimeSlider: true,
   },
   E12d: {
     customAreaIndicator: true,
     customAreaFeatures: true,
-    showTimeSlider: true,
   },
   EO4A: {
-    showTimeSlider: true,
   },
   EO4A2: {
-    showTimeSlider: true,
   },
 });
 

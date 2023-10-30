@@ -128,6 +128,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import { DateTime } from 'luxon';
 
 import SliderTicks from './map/SliderTicks.vue';
@@ -173,6 +177,9 @@ export default {
     originalTimeIndex: 0,
   }),
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
     currentlyComparing() {
       let pass = true;
       if (this.indicator) {
@@ -181,11 +188,7 @@ export default {
       return this.compareActive && pass;
     },
     showTimeSlider() {
-      let show = false;
-      if (this.indicator) {
-        show = this.indicator.showTimeSlider;
-      }
-      return show;
+      return this.appConfig.id === 'gtif';
     },
   },
   created() {
