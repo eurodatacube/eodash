@@ -31,6 +31,77 @@ const setupGrid = (map) => {
   return grid;
 };
 
+const updateTileVisuals = (x, y, grid, vectorSource, game) => {
+  const [q, r] = game.convertGameCoordsToAxial(x, y);
+  const hexagonVertices = grid.getHexagon([q, r]);
+  const feature = new Feature(new Polygon([hexagonVertices]));
+  const tile = game.get(x, y);
+
+  // Assign a unique identifier to the feature
+  const featureId = `tile-${x}-${y}`;
+  feature.setId(featureId);
+
+  // Remove the existing feature if it already exists
+  const existingFeature = vectorSource.getFeatureById(featureId);
+  if (existingFeature) {
+    vectorSource.removeFeature(existingFeature);
+  }
+
+  let style;
+  if (tile.revealed) {
+    if (tile.isMine) {
+      style = new Style({
+        fill: new Fill({ color: 'red' }),
+        text: new Text({
+          text: '💣',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#fff' }),
+          stroke: new Stroke({ color: '#000', width: 3 }),
+        }),
+      });
+    } else {
+      style = new Style({
+        fill: new Fill({ color: '#00f' }),
+        text: new Text({
+          text: tile.adjacentMines ? tile.adjacentMines.toString() : '',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#000' }),
+          stroke: new Stroke({ color: '#fff', width: 3 }),
+        }),
+      });
+    }
+  } else if (tile.flagged) {
+    style = new Style({
+      fill: new Fill({ color: 'blue' }),
+      text: new Text({
+        text: '⚑',
+        font: '20px Calibri,sans-serif',
+        fill: new Fill({ color: '#fff' }),
+        stroke: new Stroke({ color: '#000', width: 3 }),
+      }),
+    });
+  } else {
+    style = new Style({
+      fill: new Fill({ color: 'transparent' }), // Unrevealed tile color
+      text: new Text({
+        text: '',
+        font: '20px Calibri,sans-serif',
+      }),
+    });
+  }
+
+  feature.setStyle(style);
+  vectorSource.addFeature(feature);
+};
+
+const updateAllTileVisuals = (game, grid, vectorSource) => {
+  for (let y = 0; y < game.height; y++) {
+    for (let x = 0; x < game.width; x++) {
+      updateTileVisuals(x, y, grid, vectorSource, game);
+    }
+  }
+};
+
 /**
 * Handle a map click event.
 *
@@ -41,45 +112,12 @@ const setupGrid = (map) => {
 */
 const handleMapClick = (e, game, grid, vectorSource) => {
   const { coordinate } = e;
-  
   // Get the axial coordinates of the clicked hexagon
   const [q, r] = grid.coord2hex(coordinate);
-  
   const gameCoords = game.convertAxialToGameCoords(q, r);
 
-  // Check if the clicked hexagon is a mine
-  const isMine = game.isMine(gameCoords.x, gameCoords.y);
-  const mineCount = game.getAdjacentMineCount(gameCoords.x, gameCoords.y);
-
-  // Create a new feature using the hexagon vertices
-  const hexagonVertices = grid.getHexagon([q, r]);
-  const feature = new Feature(new Polygon([hexagonVertices]));
-
-  const style = new Style({
-    fill: new Fill({ color: isMine ? 'rgba(255,130,130,0.2)' : 'rgba(130,130,255,0.2)' }),
-    text: new Text({
-      text: isMine ? '💣' : mineCount.toString(),
-      fill: new Fill({ color: 'white' }),
-      font: '20px sans-serif',
-    }),
-    stroke: new Stroke({ color: 'blue', width: 1.25 }),
-  });
-
-  feature.setStyle(style);
-  vectorSource.clear();
-  vectorSource.addFeature(feature);
-};
-
-/**
- * Add a click event handler to the map.
- *
- * @param {Object} map - The OpenLayers map instance.
- * @param {HexSweeperGame} game - The game instance.
- * @param {Object} grid - The hex grid.
- * @param {Object} vectorSource - The vector source used for adding features to the map.
- */
-const setupClickHandler = (map, game, grid, vectorSource) => {
-  map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
+  game.revealTile(gameCoords.x, gameCoords.y);
+  updateTileVisuals(gameCoords.x, gameCoords.y, grid, vectorSource, game);
 };
 
 /**
@@ -119,7 +157,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
         style = new Style({
           fill: new Fill({ color: '#00f' }),
           text: new Text({
-            text: tile.adjacentMines ? tile.adjacentMines.toString() : 'x',
+            text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
             font: '20px Calibri,sans-serif',
             fill: new Fill({ color: '#000' }),
             stroke: new Stroke({ color: '#fff', width: 3 }),
@@ -150,8 +188,9 @@ export const createHexMap = async (map) => {
 
   // game.initializeBoard();
   await game.fromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
-  setupClickHandler(map, game, grid, vectorSource);
+  map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
   drawGameBoard(map, game, grid, vectorSource);
+  updateAllTileVisuals(game, grid, vectorSource);
 };
 
 export default {
