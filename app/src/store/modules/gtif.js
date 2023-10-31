@@ -1,7 +1,7 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentDomain: '',
-  toolsToggle: false,
+  toolsToggle: true,
   domains: [
     {
       name: 'Energy Transition',

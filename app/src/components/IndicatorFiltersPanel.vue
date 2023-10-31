@@ -37,6 +37,7 @@ export default {
       'getIndicators',
     ]),
     ...mapState('gtif', [
+      'currentDomain',
       'toolsToggle',
     ]),
   },
@@ -113,7 +114,17 @@ export default {
             titleProperty: 'title',
             filterProperties: [
               {
-                key: 'themes', title: 'Theme', featured: true, type: 'select',
+                key: 'themes',
+                title: 'Theme',
+                featured: true,
+                type: 'select',
+                ...(this.currentDomain && this.currentDomain !== 'landing' ? {
+                  state: {
+                    [this.currentDomain.replace('gtif-', '')
+                      .replaceAll('-', ' ')
+                      .replaceAll(/\beo\b/g, 'EO')]: true,
+                  },
+                } : {}),
               },
             ],
             onFilter: (items, filters) => {
@@ -180,6 +191,7 @@ export default {
             `,
           },
         };
+        console.log(`gtif-${this.currentDomain.replaceAll(' ', '-').toLowerCase()}`);
         this.itemfilter.config = configs[this.appConfig.id];
         if (this.appConfig.id === 'gtif') {
           this.$watch('toolsToggle', (inToolsMode) => {
