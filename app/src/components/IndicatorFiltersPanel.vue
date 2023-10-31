@@ -141,19 +141,19 @@ export default {
                 height: 36px;
                 margin: 0;
               }
-              #filters input[type=radio][id="Energy Transition"]:after {
+              #filters input[type=radio][id="energy transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
               }
-              #filters input[type=radio][id="Mobility Transition"]:after {
+              #filters input[type=radio][id="mobility transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
               }
-              #filters input[type=radio][id="Sustainable Cities"]:after {
+              #filters input[type=radio][id="sustainable cities"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
               }
-              #filters input[type=radio][id="Carbon Accounting"]:after {
+              #filters input[type=radio][id="carbon accounting"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
               }
-              #filters input[type=radio][id="EO Adaptation Services"]:after {
+              #filters input[type=radio][id="EO adaptation services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
               }
               #filter-reset {
@@ -166,14 +166,19 @@ export default {
         if (this.appConfig.id === 'gtif') {
           this.$watch('toolsToggle', (inToolsMode) => {
             if (inToolsMode) {
-              this.itemfilter.apply(this.searchItems);
+              this.itemfilter.apply(this.searchItems.map((item) => ({
+                ...item,
+                // Temporary hack to properly display titles, ideally should be looked up
+                themes: item.themes.map((theme) => theme.replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')),
+              })));
             } else {
               this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
                 curr.narratives.forEach((narrative) => {
                   acc.push({
                     title: narrative.name,
                     id: narrative.routeName,
-                    themes: [curr.name],
+                    // Temporary hack to properly display titles, ideally should be looked up
+                    themes: [curr.name.toLowerCase().replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')],
                   });
                 });
                 return acc;
