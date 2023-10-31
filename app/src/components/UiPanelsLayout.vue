@@ -49,7 +49,7 @@ export default {
           this.panels.left = [
             {
               id: 1,
-              title: 'Filters',
+              title: 'Domains',
               heightPercentage: 100,
             },
           ];

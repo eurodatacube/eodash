@@ -51,9 +51,9 @@ export default {
     ...mapMutations('features', {
       setFeatureFilter: 'SET_FEATURE_FILTER',
     }),
-    ...mapActions('gtif', {
-      setDomain: 'setDomainFromFilter',
-    }),
+    ...mapActions('gtif', [
+      'setCurrentDomain',
+    ]),
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
@@ -116,6 +116,14 @@ export default {
                 key: 'themes', title: 'Theme', featured: true, type: 'select',
               },
             ],
+            onFilter: (items, filters) => {
+              const domains = Object.keys(filters.themes.state)
+                .filter((k) => filters.themes.state[k])
+                .map((k) => k.replaceAll(' ', '-').toLowerCase());
+              if (domains.length > 0) {
+                this.setCurrentDomain(`gtif-${domains[0]}`);
+              }
+            },
             onSelect: (item) => {
               if (this.toolsToggle) {
                 this.setSelectedIndicator(item);

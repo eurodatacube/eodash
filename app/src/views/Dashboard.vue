@@ -39,7 +39,7 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                   <IndicatorFiltersPanel v-if="['Domains & Tools','Filters'].includes(panel.title)" />
+                   <IndicatorFiltersPanel v-if="['Domains & Tools','Domains'].includes(panel.title)" />
                    <eox-layercontrol
                     v-if="panel.title == 'Layers'"
                     for="#centerMap"
