@@ -140,7 +140,7 @@ export const baseLayers = Object.freeze({
   s1EodcBackscattervv: {
     name: 'EODC Sentinel 1 VV Polarisation',
     url: '//s1map.eodc.eu/vv/{z}/{x}/{-y}.png',
-    attribution: `Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth's Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91`,
+    attribution: 'Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91',
     visible: false,
     maxZoom: 13,
     protocol: 'xyz',
@@ -148,7 +148,7 @@ export const baseLayers = Object.freeze({
   s1EodcBackscattervh: {
     name: 'EODC Sentinel 1 VH Polarisation',
     url: '//s1map.eodc.eu/vh/{z}/{x}/{-y}.png',
-    attribution: `Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth's Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91`,
+    attribution: 'Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91',
     visible: false,
     maxZoom: 13,
     protocol: 'xyz',

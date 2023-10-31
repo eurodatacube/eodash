@@ -1012,7 +1012,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: availableDates['GHS_BUILT_S'],
+        time: availableDates.GHS_BUILT_S,
         inputData: [''],
         yAxis: '',
         display: {
