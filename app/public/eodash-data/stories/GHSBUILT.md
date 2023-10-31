@@ -6,16 +6,18 @@ from Sentinel-2 composite and Landsat, multi-temporal (1975-2030)
 **Dataset Documentation:** 
 https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf?t=1683540422 
 
+The datasets in the dashboard range from 0 (that is transparent) to 10 000 m2 - the square meters of built areas.
+
 **Short description:** The spatial raster dataset depicts the distribution of built-up surfaces, expressed as number of square metres. The data report about the total built-up surface and the built-up surface allocated to dominant non-residential (NRES) uses.
 Data are spatial-temporal interpolated or extrapolated from 1975 to 2030 in 5 years intervals.
 For the temporal anchor point of 2018 the data is published at 10m as observed from the S2 image data.
 
 **Access dataset:**
 - from EC JRC Data Catalogue: https://ghsl.jrc.ec.europa.eu/download.php?ds=bu
-- on Euro Data Cube:
+- [Euro Data Cube GHS Built-up Surface collection](https://collections.eurodatacube.com/GHS_Built-up_Surface/)
 
 **Use this dataset:**
-- Execute Jupyter Notebook on Euro Data Cube
+- [Execute Jupyter Notebook Fire impact analysis on Euro Data Cube](https://bids2023-nbviewer.hub.eox.at/localfile/bids2023/notebooks/Fire_impact_analysis.ipynb)
 
 **Cite as:** 
 - Pesaresi M., Politis P. (2023): GHS-BUILT-S R2023A - GHS built-up surface grid, derived from Sentinel2 composite and Landsat, multitemporal (1975-2030)European Commission, Joint Research Centre (JRC)
