@@ -10,6 +10,7 @@
           properties='["description"]'
           featured="[]"
           footer="[]"
+          style="margin-left: -30px; margin-right: -30px;"
         ></eox-stacinfo>
       </v-col>
     </v-row>
