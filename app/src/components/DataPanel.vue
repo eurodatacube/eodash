@@ -314,13 +314,8 @@
         />
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          class="py-0"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
-          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
-                  ? 'auto'
-                  : (expanded
-                    ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height pb-2"
@@ -402,7 +397,7 @@
           <v-btn
             color="primary"
             block
-            @click="freezeCurrentIndicator()"
+            @click="freezeLayer()"
           >
             <v-icon left>mdi-content-duplicate</v-icon>
             Add as custom layer
@@ -417,7 +412,6 @@
 import {
   mapGetters,
   mapState,
-  mapActions,
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
@@ -649,6 +643,9 @@ export default {
     );
   },
   methods: {
+    freezeLayer() {
+      this.$store.dispatch('indicators/freezeCurrentIndicator');
+    },
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
