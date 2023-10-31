@@ -576,7 +576,7 @@ export default {
         }
         if (indObject) {
           const demoItem = this.appConfig.demoMode[this.$route.query.event]
-          .find((item) => item.poi === getLocationCode(indObject));
+            .find((item) => item.poi === getLocationCode(indObject));
           if (demoItem && demoItem.extent) {
             return demoItem.extent;
           }
