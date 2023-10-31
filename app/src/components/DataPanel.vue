@@ -397,6 +397,18 @@
           </v-row>
         </v-col> -->
       </v-row>
+      <v-row class="mx-0">
+        <v-col>
+          <v-btn
+            color="primary"
+            block
+            @click="freezeCurrentIndicator()"
+          >
+            <v-icon left>mdi-content-duplicate</v-icon>
+            Add as custom layer
+          </v-btn>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -405,6 +417,7 @@
 import {
   mapGetters,
   mapState,
+  mapActions,
 } from 'vuex';
 import { Wkt } from 'wicket';
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
