@@ -141,19 +141,19 @@ export default {
                 height: 36px;
                 margin: 0;
               }
-              #filters input[type=radio][id="energy-transition"]:after {
+              #filters input[type=radio][id="Energy Transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
               }
-              #filters input[type=radio][id="mobility-transition"]:after {
+              #filters input[type=radio][id="Mobility Transition"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
               }
-              #filters input[type=radio][id="sustainable-cities"]:after {
+              #filters input[type=radio][id="Sustainable Cities"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
               }
-              #filters input[type=radio][id="carbon-accounting"]:after {
+              #filters input[type=radio][id="Carbon Accounting"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
               }
-              #filters input[type=radio][id="eo-adaptation-services"]:after {
+              #filters input[type=radio][id="EO Adaptation Services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
               }
               #filter-reset {
@@ -173,7 +173,7 @@ export default {
                   acc.push({
                     title: narrative.name,
                     id: narrative.routeName,
-                    themes: [curr.name.replaceAll(' ', '-').toLowerCase()],
+                    themes: [curr.name],
                   });
                 });
                 return acc;
