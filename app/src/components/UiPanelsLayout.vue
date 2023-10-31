@@ -5,12 +5,12 @@
     <v-row class="d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%" >
-        <v-expansion-panels multiple>
+        <v-expansion-panels>
           <slot name="left" :panels="panels.left" ></slot>
         </v-expansion-panels>
       </v-col>
       <v-col :cols="3" style="max-height: 100%" >
-        <v-expansion-panels multiple>
+        <v-expansion-panels>
           <slot name="right" :panels="panels.right" ></slot>
         </v-expansion-panels>
       </v-col>
@@ -59,24 +59,24 @@ export default {
             {
               id: 1,
               title: 'Domains & Tools',
-              heightPercentage: 80,
+              heightPercentage: 100,
             },
             {
               id: 2,
               title: 'Layers',
-              heightPercentage: 20,
+              heightPercentage: 100,
             },
           ];
           this.panels.right = [
             {
               id: 3,
               title: 'Information',
-              heightPercentage: 50,
+              heightPercentage: 100,
             },
             {
               id: 4,
               title: 'Analysis',
-              heightPercentage: 50,
+              heightPercentage: 100,
             },
           ];
         }
