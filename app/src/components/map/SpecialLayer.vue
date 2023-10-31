@@ -70,6 +70,9 @@ export default {
       if (this.compare) {
         layer.set('name', `${layer.get('name')}_compare`);
       }
+      if (!options.frozenLayer) {
+        layer.set('layerControlToolsExpand', true);
+      }
       this.layers.push(layer);
       if (options.frozenLayer) {
         // exit early and do not bind any handlers
