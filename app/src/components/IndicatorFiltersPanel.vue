@@ -133,14 +133,14 @@ export default {
             },
             // exclusiveFilters: true,
             aggregateResults: 'tags',
+            expandResults: false,
             styleOverride: `
             #filters input[type=radio]{
               width:36px;
               height:36px;
               margin: 6px;
             }
-              #filters input[type=radio]:after,
-              #results input[type=radio]:after {
+              #filters input[type=radio]:after {
                 content: "";
                 background-size: cover;
                 background-position: center center;
@@ -164,6 +164,16 @@ export default {
               #filters input[type=radio][id="EO adaptation services"]:after {
                 background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
               }
+              #results input[type=radio][id="gtif-carbon-accounting"]:after,
+              #results input[type=radio][id="gtif-energy-transition"]:after,
+              #results input[type=radio][id="gtif-eo-adaptation-services"]:after,
+              #results input[type=radio][id="gtif-eo-adaptation-services-snow"]:after,
+              #results input[type=radio][id="gtif-mobility-transition"]:after,
+              #results input[type=radio][id="gtif-sustainable-cities"]:after {
+                content: "";
+                background-repeat: no-repeat;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23004170' viewBox='0 0 24 24'%3E%3Ctitle%3Epage-next-outline%3C/title%3E%3Cpath d='M22,3H5A2,2 0 0,0 3,5V9H5V5H22V19H5V15H3V19A2,2 0 0,0 5,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M7,15V13H0V11H7V9L11,12L7,15M20,13H13V11H20V13M20,9H13V7H20V9M17,17H13V15H17V17Z' /%3E%3C/svg%3E");
+              }
               #filter-reset {
                 display: none;
               }
@@ -174,12 +184,16 @@ export default {
         if (this.appConfig.id === 'gtif') {
           this.$watch('toolsToggle', (inToolsMode) => {
             if (inToolsMode) {
+              this.itemfilter.classList.remove('narratives');
+              this.itemfilter.config.aggregateResults = configs[this.appConfig.id].aggregateResults;
               this.itemfilter.apply(this.searchItems.map((item) => ({
                 ...item,
                 // Temporary hack to properly display titles, ideally should be looked up
                 themes: item.themes.map((theme) => theme.replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')),
               })));
             } else {
+              this.itemfilter.classList.add('narratives');
+              this.itemfilter.config.aggregateResults = false;
               this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
                 curr.narratives.forEach((narrative) => {
                   acc.push({
