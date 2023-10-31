@@ -3,7 +3,6 @@ import View from 'ol/View';
 
 import 'ol/ol.css';
 import './olControls.css';
-import store from '@/store';
 import { Collection } from 'ol';
 import LoadingIndicatorControl from '@/components/map/loadingIndicatorControl';
 import getProjectionOl from '@/helpers/projutils';
@@ -11,8 +10,6 @@ import LayerGroup from 'ol/layer/Group';
 
 const mapRegistry = {};
 const viewRegistry = {};
-
-const backGroundLayerName = store.state.config.appConfig?.id === 'gtif' ? 'Auxiliary Layers' : 'Background Layers';
 
 export function getViewInstance(id, projection, options = {}) {
   const lookup = `${id}_${projection?.getCode()}`;
@@ -38,7 +35,7 @@ class VueMap {
     const initialLayerGroups = [
       new LayerGroup({
         id: 'backgroundGroup',
-        name: backGroundLayerName,
+        name: 'Background Visualisation Layers',
         layerControlExpand: false,
       }),
       new LayerGroup({
@@ -48,7 +45,7 @@ class VueMap {
       }),
       new LayerGroup({
         id: 'overlayGroup',
-        name: 'Overlay Layers',
+        name: 'Overlay Visualisation Layers',
         layerControlExpand: false,
       }),
       new LayerGroup({

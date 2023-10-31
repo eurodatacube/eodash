@@ -37,6 +37,7 @@
       :mapId="mapId"
       :mergedConfigs="mergedConfigsFrozenData"
       :options="frozenLayerOptions"
+      :key="frozenLayerName + '_specialLayer'"
     />
     <div
       class="d-flex justify-center fill-height"
@@ -290,6 +291,7 @@ export default {
       mobileTimeselectionToggle: false,
       opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
       opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      frozenLayerKey: null,
     };
   },
   computed: {
@@ -535,12 +537,22 @@ export default {
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
     },
+    frozenLayerName() {
+      let dataLayerName;
+      if (this.mergedConfigsFrozenData?.length) {
+        dataLayerName = this.mergedConfigsFrozenData[0].name;
+      }
+      return dataLayerName || '';
+    },
     dataLayerName() {
       let dataLayerName;
       if (this.mergedConfigsData?.length) {
         dataLayerName = this.mergedConfigsData[0].name;
       }
       return dataLayerName || '';
+    },
+    specialLayerKey() {
+      return this.dataLayerName;
     },
     dataLayerKey() {
       return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
@@ -576,7 +588,7 @@ export default {
         }
         if (indObject) {
           const demoItem = this.appConfig.demoMode[this.$route.query.event]
-          .find((item) => item.poi === getLocationCode(indObject));
+            .find((item) => item.poi === getLocationCode(indObject));
           if (demoItem && demoItem.extent) {
             return demoItem.extent;
           }

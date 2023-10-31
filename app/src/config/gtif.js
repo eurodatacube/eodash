@@ -256,6 +256,16 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
+    {
+      protocol: 'GeoJSON',
+      visible: true,
+      name: 'Wind turbine detections',
+      url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
+      style: {
+        strokeColor: '#ff0000',
+        width: 4,
+      },
+    },
   ],
 };
 
@@ -894,15 +904,6 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           },
           tooltip: true,
           allowedParameters: ['name'],
-        }, {
-          protocol: 'GeoJSON',
-          visible: true,
-          name: 'Wind turbine detections',
-          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
-          style: {
-            strokeColor: '#ff0000',
-            width: 4,
-          },
         }],
       },
     },

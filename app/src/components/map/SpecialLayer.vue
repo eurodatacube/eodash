@@ -67,14 +67,13 @@ export default {
     const options = { ...this.options };
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
-      this.layers.push(layer);
       if (this.compare) {
         layer.set('name', `${layer.get('name')}_compare`);
       }
+      this.layers.push(layer);
       if (options.frozenLayer) {
         // exit early and do not bind any handlers
-        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-        dataGroup.getLayers().push(layer);
+        map.getLayers().push(layer);
         return;
       }
       // find first feature layer
@@ -276,6 +275,11 @@ export default {
         const view = getViewInstance(this.mapId, projection);
         map.setView(view);
       }
+    }
+    if (this.options.frozenLayer) {
+      this.layers.forEach((layer) => {
+        map.getLayers().remove(layer);
+      });
     }
   },
 };
