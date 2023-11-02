@@ -363,7 +363,7 @@ const trucksAreaIndicator = {
 const trucksFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',
-  name: 'Truck detection features',
+  name: 'Truck detections',
   requestHeaders: {
     'Content-Type': 'application/json',
   },
@@ -1105,7 +1105,6 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
           id: 'trajectories_on_edges_austria_daily',
           adminZoneKey: 'unique_id',
           parameters: `unique_id,${selectedVariable}`,
-          name: 'Human Mobility Patterns',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
         },
@@ -1171,7 +1170,6 @@ function createADOConfig(indicatorCode, selectedVariable) {
           },
           id: 'ado_data',
           allowedParameters: ['nuts_name', 'nuts_id'],
-          name: 'Alpine Drought Exploratory',
           adminZoneKey: 'nuts_id',
           parameters: `${selectedVariable},nuts_id`,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -1235,7 +1233,6 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
           id: 'mobility_daily',
           adminZoneKey: 'adminzoneid',
           parameters: `adminzoneid,${selectedVariable}`,
-          name: 'Mobility Data',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
@@ -1311,7 +1308,6 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
           tooltip: false,
           id: 'aggregated_trajs_model_satellite_v1',
           timeKey: 'timestamp',
-          name: 'Aggregated data',
           adminZoneKey: 'satellite_id',
           parameters: `satellite_id,${selectedVariable}`,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -1356,7 +1352,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Green Roofs',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
@@ -1419,7 +1414,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
         },
         display: [{
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
-          name: 'Solar Roofs',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
@@ -1649,7 +1643,7 @@ export const globalIndicators = [
             },
           },
           id: 'air_quality_new_id',
-          name: 'ARI',
+          name: 'Health Risk Index',
           adminZoneKey: 'id_3',
           parameters: 'ihr,id_3',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -1727,7 +1721,7 @@ export const globalIndicators = [
             },
           },
           id: 'air_quality_new_id',
-          name: 'PM10',
+          name: 'Coarse particulate matter (PM10) ',
           adminZoneKey: 'id_3',
           parameters: 'pm10,id_3',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -2130,7 +2124,7 @@ export const globalIndicators = [
             },
             basalarea: {
               display: true,
-              label: 'Filter for Basal area',
+              label: 'Filter Basal area',
               id: 'basalarea',
               dataInfo: 'basal',
               min: 0,
@@ -2139,7 +2133,7 @@ export const globalIndicators = [
             },
             broadleaf: {
               display: true,
-              label: 'Filter for broadleaf proportion [%]',
+              label: 'Filter broadleaf proportion [%]',
               id: 'broadleaf',
               // dataInfo: 'broadleaf',
               min: 0,
@@ -2148,7 +2142,7 @@ export const globalIndicators = [
             },
             conifer: {
               display: true,
-              label: 'Filter for conifer proportion [%]',
+              label: 'Filter conifer proportion [%]',
               id: 'conifer',
               // dataInfo: 'conifer',
               min: 0,
@@ -2157,7 +2151,7 @@ export const globalIndicators = [
             },
             diameter: {
               display: true,
-              label: 'Filter for tree diameter',
+              label: 'Filter tree diameter',
               id: 'diameter',
               dataInfo: 'diameter',
               min: 0,
@@ -2166,7 +2160,7 @@ export const globalIndicators = [
             },
             height: {
               display: true,
-              label: 'Filter for tree height [dm]',
+              label: 'Filter tree height [dm]',
               id: 'height',
               // dataInfo: 'height',
               min: 0,
@@ -2175,7 +2169,7 @@ export const globalIndicators = [
             },
             volume: {
               display: true,
-              label: 'Filter for growing stock volume [m3/ha]',
+              label: 'Filter growing stock volume [m3/ha]',
               id: 'volume',
               dataInfo: 'stockvolume',
               min: 0,

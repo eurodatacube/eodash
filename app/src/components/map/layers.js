@@ -550,7 +550,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
   let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    if (options.drawnArea.area) {
+    if (options?.drawnArea?.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
         'EPSG:4326',

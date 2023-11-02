@@ -32,7 +32,7 @@ const mutations = {
     const display = JSON.parse(JSON.stringify(displayObject));
     state.frozenIndicator.display = display;
     state.frozenIndicator.display.dateFormatFunction = displayObject.dateFormatFunction || shTimeFunction;
-    if (state.frozenIndicator.display?.style?.getColor) {
+    if (displayObject?.style?.getColor) {
       state.frozenIndicator.display.style.getColor = displayObject?.style?.getColor;
     }
   },
