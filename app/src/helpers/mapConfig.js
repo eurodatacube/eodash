@@ -155,31 +155,43 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
   usedConfigForMerge.forEach((item) => {
     // merge configs for each layer
     name = item.name || name;
-    // Check to see if we have grouped layers, if we do we need to add
-    // the default to them too
-    const extendedItem = item;
 
     const indDefinition = baseConfig.indicatorsDefinition[
       indicatorObject.indicator
     ];
-    if (Object.keys(item).indexOf('combinedLayers') !== -1) {
-      for (let i = 0; i < item.combinedLayers.length; i += 1) {
-        extendedItem.combinedLayers[i] = {
-          ...baseConfig.defaultLayersDisplay,
-          ...indDefinition,
-          ...item.combinedLayers[i],
-        };
-      }
+    if (Object.keys(item).indexOf('features') !== -1) {
+      // destructure the features property as a new layer config to keep
+      // backwards compatibility but remove need for layer groups on bottom-most level
+      const { features: _, ...itemWithoutFeatureConfig } = item;
+      finalConfigs.push({
+        ...baseConfig.defaultLayersDisplay,
+        ...indDefinition,
+        ...itemWithoutFeatureConfig,
+        indicator: indicatorObject.indicator,
+        aoiID: indicatorObject.aoiID,
+        name,
+        usedTimes,
+      });
+      finalConfigs.push({
+        ...baseConfig.defaultLayersDisplay,
+        ...indDefinition,
+        ...item,
+        indicator: indicatorObject.indicator,
+        aoiID: indicatorObject.aoiID,
+        name: item.features.name,
+        usedTimes,
+      });
+    } else {
+      finalConfigs.push({
+        ...baseConfig.defaultLayersDisplay,
+        ...indDefinition,
+        ...item,
+        indicator: indicatorObject.indicator,
+        aoiID: indicatorObject.aoiID,
+        name,
+        usedTimes,
+      });
     }
-    finalConfigs.push({
-      ...baseConfig.defaultLayersDisplay,
-      ...indDefinition,
-      ...extendedItem,
-      indicator: indicatorObject.indicator,
-      aoiID: indicatorObject.aoiID,
-      name,
-      usedTimes,
-    });
   });
   return finalConfigs;
 };

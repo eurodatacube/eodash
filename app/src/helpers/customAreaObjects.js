@@ -159,7 +159,7 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   return null;
 };
 
-function defaultEvalScriptDef(bandname) {
+function defaultEvalScriptDef(bandname, maxOutlierFilterOut = 1e20) {
   return `//VERSION=3
 function setup() {
   return {
@@ -184,7 +184,7 @@ function setup() {
 }
 function evaluatePixel(samples) {
   let validValue = 1
-  if (samples.${bandname} >= 1e20 ){
+  if (samples.${bandname} >= ${maxOutlierFilterOut}){
       validValue = 0
   }
   let index = samples.${bandname};
@@ -202,9 +202,10 @@ export const evalScriptsDefinitions = Object.freeze({
   BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
   AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
-  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl'),
-  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn'),
+  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
+  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
+  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
 });
 
 // Define custom fetch function with configurable timeout
