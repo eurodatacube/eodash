@@ -51,7 +51,6 @@ module.exports = [
     termsText: '/eodash-data/general/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
-    configuredMapPois: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -197,11 +196,6 @@ module.exports = [
         src: './data/trilateral/s-1-antarctica.png',
       },
     ],
-    configuredMapPois: [
-      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
-      'EG01-SIF',
-    ],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -275,7 +269,6 @@ module.exports = [
     termsText: '/data/gtif/markdown/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
-    configuredMapPois: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',

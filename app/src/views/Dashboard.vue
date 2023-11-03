@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import Banner from '@/components/Banner.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
@@ -106,7 +105,6 @@ export default {
     };
   },
   components: {
-    Banner,
     CenterPanel,
     DataPanel,
     GlobalHeader,

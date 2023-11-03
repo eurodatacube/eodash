@@ -1960,7 +1960,6 @@ export const globalIndicators = [
           filters: {
             biomass: {
               display: true,
-              dataInfo: 'BM2',
               label: 'Biomass [t/ha]',
               id: 'biomass',
               min: 0,

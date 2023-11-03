@@ -326,6 +326,7 @@ function createXYZTilesXcubeDisplay(config, name) {
 }
 
 function createVectorTileDisplay(config) {
+  // TODO, not finished and used yet
   const display = {
     url: config.href,
     protocol: 'geoserverTileLayer',
@@ -611,6 +612,7 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       } else if (xyzEndpoint.type === 'application/pbf') {
+        // TODO not used yet
         display = createVectorTileDisplay(
           xyzEndpoint,
         );
@@ -631,7 +633,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
-          times.push(link.datetime);
+          if (link.datetime) {
+            times.push(link.datetime);
+          }
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
@@ -726,10 +730,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       store.commit('features/SET_FEATURES', features);
     }
-    indicatorObject.time = [
-      ...times,
-      ...(indicatorObject.time || []),
-    ];
+    if (!(Array.isArray(indicatorObject.time) && indicatorObject.time.length > 0)) {
+      indicatorObject.time = times;
+    }
     // We need the information on features directly once loaded for the custom dashboard loading
     // TODO: probably there is a better way of managing this information
     indicatorObject.features = features;

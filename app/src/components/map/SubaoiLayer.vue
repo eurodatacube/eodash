@@ -101,9 +101,6 @@ export default {
     },
     isInverse() {
       return !!(this.indicator.country === 'all'
-        || this.appConfig.configuredMapPois.includes(
-          `${this.indicator.aoiID}-${this.featureObject.aoiID}`,
-        )
         || ((Array.isArray(this.indicator.inputData)
         && this.indicatorHasMapData(this.indicator)
         )));

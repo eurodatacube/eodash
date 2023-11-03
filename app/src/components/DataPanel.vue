@@ -210,7 +210,6 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
-                  :embedMap="false"
                   v-if="!customAreaIndicator || expanded"
                 />
                 <v-btn
@@ -573,15 +572,6 @@ export default {
       // currently this seems to be only the case for indicatorobjects with no features
       // customarea seems to be handled differently
       return !this.indicatorObject.features?.length;
-      // TODO: Do we need the special configure map poi overwrite?
-      // if returns true, we are showing map, if false we show chart
-      /*
-      return ['all'].includes(this.indicatorObject.country)
-        || this.appConfig.configuredMapPois.includes(
-          `${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`,
-        )
-        || Array.isArray(this.indicatorObject.country);
-      */
     },
     externalData() {
       const dataFromDefinition = this.indicatorObject.externalData;
