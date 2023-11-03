@@ -333,135 +333,135 @@ def retrieve_location_stac_entries(url, offset, location, collection):
         print (message)
     return res
 
-# print("Getting replace map times for E13d")
-# df = pd.read_csv("/public/eodash-data/data/E13d_detections.csv")
-# # create a JSON object with each poi-indicator being a key
-# aoi_ids = df['AOI_ID'].unique().tolist()
-# results = {}
-# for key in aoi_ids:
-#     matching = df.query(f"AOI_ID == '{key}'")
-#     time_entries = [try_parsing_date(item, "") for item in matching["Time"].tolist()]
-#     time_entries.sort()
-#     # fix duplicates 1 minute from each other
-#     time_entries_unique = [time_entries[0]]
-#     for i in range(1, len(time_entries)):
-#         if time_entries[i] - time_entries_unique[-1] >= timedelta(minutes=10):
-#             time_entries_unique.append(time_entries[i])
-#     time_entries_unique = [item.strftime('%Y-%m-%dT%H:%M:%S') for item in time_entries_unique]
-#     results[f"{key}-E13d"] = {
-#         "time": time_entries_unique,
-#         "eoSensor": ["Sentinel 2"],
-#         "inputData": ["Sentinel 2 L2A"],
-#     }
-# with open("/config/data_dates_e13d.json", 'w') as wfh:
-#     json.dump(results, wfh, indent=2)
+print("Getting replace map times for E13d")
+df = pd.read_csv("/public/eodash-data/data/E13d_detections.csv")
+# create a JSON object with each poi-indicator being a key
+aoi_ids = df['AOI_ID'].unique().tolist()
+results = {}
+for key in aoi_ids:
+    matching = df.query(f"AOI_ID == '{key}'")
+    time_entries = [try_parsing_date(item, "") for item in matching["Time"].tolist()]
+    time_entries.sort()
+    # fix duplicates 1 minute from each other
+    time_entries_unique = [time_entries[0]]
+    for i in range(1, len(time_entries)):
+        if time_entries[i] - time_entries_unique[-1] >= timedelta(minutes=10):
+            time_entries_unique.append(time_entries[i])
+    time_entries_unique = [item.strftime('%Y-%m-%dT%H:%M:%S') for item in time_entries_unique]
+    results[f"{key}-E13d"] = {
+        "time": time_entries_unique,
+        "eoSensor": ["Sentinel 2"],
+        "inputData": ["Sentinel 2 L2A"],
+    }
+with open("/config/data_dates_e13d.json", 'w') as wfh:
+    json.dump(results, wfh, indent=2)
 
-# print("Fetching information for STAC endpoints with time information")
-# try:
-#     with open("/config/locations.json") as locations_file:
-#         locations = json.load(locations_file)
-#         for collection, stac_url in STAC_COLLECTIONS.items():
-#             print("\t %s"%collection)
-#             # Pagination does not seem to work on this api, so we request 5000 items
-#             if collection in locations:
-#                 results = retrieve_location_stac_entries(
-#                     "%s/%s/items?limit=5000"%(stac_url, collection),
-#                     0, locations[collection]["entries"],
-#                     collection,
-#                 )
-#                 # First we reverse all results
-#                 for item in results.values():
-#                     item.reverse()
-#                 results_dict = {**results_dict, **results}
-#             else:
-#                 results = retrieve_stac_entries(
-#                     "%s/%s/items?limit=5000"%(stac_url, collection), 0,
-#                 )
-#                 results.reverse()
-#                 results_dict[collection] = results
+print("Fetching information for STAC endpoints with time information")
+try:
+    with open("/config/locations.json") as locations_file:
+        locations = json.load(locations_file)
+        for collection, stac_url in STAC_COLLECTIONS.items():
+            print("\t %s"%collection)
+            # Pagination does not seem to work on this api, so we request 5000 items
+            if collection in locations:
+                results = retrieve_location_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection),
+                    0, locations[collection]["entries"],
+                    collection,
+                )
+                # First we reverse all results
+                for item in results.values():
+                    item.reverse()
+                results_dict = {**results_dict, **results}
+            else:
+                results = retrieve_stac_entries(
+                    "%s/%s/items?limit=5000"%(stac_url, collection), 0,
+                )
+                results.reverse()
+                results_dict[collection] = results
 
-# except Exception as e:
-#     print("Issue STAC data from NASA endpoint")
-#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#     message = template.format(type(e).__name__, e.args)
-#     print (message)
+except Exception as e:
+    print("Issue STAC data from NASA endpoint")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
-# print("Fetching information for WMS endpoints with time information")
-# def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[datetime]:
-#     while start <= stop:
-#         yield start
-#         start += delta
-#     yield stop
+print("Fetching information for WMS endpoints with time information")
+def interval(start: datetime, stop: datetime, delta: timedelta) -> Iterator[datetime]:
+    while start <= stop:
+        yield start
+        start += delta
+    yield stop
 
-# try:
-#     for layer, capabilties_url in WMSCOLLECTIONS.items():
-#         wms = WebMapService(capabilties_url, version='1.1.1')
-#         if layer in list(wms.contents):
-#             times = []
-#             for tp in wms[layer].timepositions:
-#                 tp_def = tp.split("/")
-#                 if len(tp_def)>1:
-#                     dates = interval(
-#                         parser.parse(tp_def[0]),
-#                         parser.parse(tp_def[1]),
-#                         parse_duration(tp_def[2])
-#                     )
-#                     times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
-#                 else:
-#                     times.append(tp)
-#             times = [time.replace('\n','').strip() for time in times]
-#             # get unique times
-#             times_f = reduce(lambda re, x: re+[x] if x not in re else re, times, [])
-#             results_dict[layer] = times_f
-# except Exception as e:
-#     print("Issue extracting information from WMS capabilties")
-#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#     message = template.format(type(e).__name__, e.args)
-#     print (message)
+try:
+    for layer, capabilties_url in WMSCOLLECTIONS.items():
+        wms = WebMapService(capabilties_url, version='1.1.1')
+        if layer in list(wms.contents):
+            times = []
+            for tp in wms[layer].timepositions:
+                tp_def = tp.split("/")
+                if len(tp_def)>1:
+                    dates = interval(
+                        parser.parse(tp_def[0]),
+                        parser.parse(tp_def[1]),
+                        parse_duration(tp_def[2])
+                    )
+                    times += [x.strftime('%Y-%m-%dT%H:%M:%S.000Z') for x in dates]
+                else:
+                    times.append(tp)
+            times = [time.replace('\n','').strip() for time in times]
+            # get unique times
+            times_f = reduce(lambda re, x: re+[x] if x not in re else re, times, [])
+            results_dict[layer] = times_f
+except Exception as e:
+    print("Issue extracting information from WMS capabilties")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
-# print("Fetching information of available dates for BYOD")
-# try:
-#     for key in BYOD_COLLECTIONS:
-#         print("\t %s"%key)
-#         # fetch identifier from environment
-#         if key in envs:
-#             coll_id = envs[key]
-#             layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
-#             if key in ZARRCOLLECTIONS:
-#                 layer_name = "&TYPENAMES=zarr-%s"%(coll_id)
-#             if key in BBOX:
-#                 # There are multiple locations for this dataset so we do
-#                 # requests for each location
-#                 for (val, subr_key) in BBOX[key]:
-#                     bbox = "&BBOX=%s"%val
-#                     request = "%s%s%s%s%s"%(
-#                         MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-#                         layer_name, bbox
-#                     )
-#                     results = retrieve_entries(request, 0)
-#                     results.sort()
-#                     results_dict[("%s_%s"%(key, subr_key))] = results
-#             else:
-#                 bbox = "&BBOX=-180,90,180,-90"
-#                 request = "%s%s%s%s%s"%(
-#                     MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
-#                     layer_name, bbox
-#                 )
-#                 results = retrieve_entries(request, 0)
-#                 results = list(set(results))
-#                 results.sort()
-#                 results_dict[key] = results
-#         else:
-#             print("Key for %s not found in environment variables"%key)
-# except Exception as e:
-#     print("Issue retrieving BYOD information from new server")
-#     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#     message = template.format(type(e).__name__, e.args)
-#     print (message)
+print("Fetching information of available dates for BYOD")
+try:
+    for key in BYOD_COLLECTIONS:
+        print("\t %s"%key)
+        # fetch identifier from environment
+        if key in envs:
+            coll_id = envs[key]
+            layer_name = "&TYPENAMES=DSS10-%s"%(coll_id)
+            if key in ZARRCOLLECTIONS:
+                layer_name = "&TYPENAMES=zarr-%s"%(coll_id)
+            if key in BBOX:
+                # There are multiple locations for this dataset so we do
+                # requests for each location
+                for (val, subr_key) in BBOX[key]:
+                    bbox = "&BBOX=%s"%val
+                    request = "%s%s%s%s%s"%(
+                        MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                        layer_name, bbox
+                    )
+                    results = retrieve_entries(request, 0)
+                    results.sort()
+                    results_dict[("%s_%s"%(key, subr_key))] = results
+            else:
+                bbox = "&BBOX=-180,90,180,-90"
+                request = "%s%s%s%s%s"%(
+                    MIGRATEDENDPOINT, envs["SH_INSTANCE_ID"], REQUESTOPTIONS,
+                    layer_name, bbox
+                )
+                results = retrieve_entries(request, 0)
+                results = list(set(results))
+                results.sort()
+                results_dict[key] = results
+        else:
+            print("Key for %s not found in environment variables"%key)
+except Exception as e:
+    print("Issue retrieving BYOD information from new server")
+    template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+    message = template.format(type(e).__name__, e.args)
+    print (message)
 
-# print("Writing results to %s"%date_data_file)
-# with open(date_data_file, "w") as fp:
-#     json.dump(results_dict, fp, indent=4, sort_keys=True)
+print("Writing results to %s"%date_data_file)
+with open(date_data_file, "w") as fp:
+    json.dump(results_dict, fp, indent=4, sort_keys=True)
 
 ###############################################################################
 
@@ -562,6 +562,7 @@ def generateData(
         indicator_id = indicator[0]
         indicator_query = indicator[1]
         try:
+            print("working on collection %s" % indicator_id)
             indicator_data = geodb.get_collection(indicator_id, database='eodash', query=indicator_query)
             for index, line in indicator_data.iterrows():
                 # Aggregate data for unique pois and write unique data to poi_dict
@@ -773,6 +774,7 @@ generateData(
         ['E10a6', ''],
         ['E10a8', ''],
         ['E10c_tri', ''],
+        ['N2_tri', ''],
         ['E9_tri', ''],
         ['Regional_Water_quality_timeseries', ''], # contains N3b indicator
         ['N1_tri', ''],
