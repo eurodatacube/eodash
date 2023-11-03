@@ -170,9 +170,6 @@
               />
               <Map
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
-                appConfig.configuredMapPois.includes(
-                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
-                ) ||
                 Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
                 element.mapInfo"
                 :mapId="element.poi"

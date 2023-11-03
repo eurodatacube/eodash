@@ -191,7 +191,6 @@ export default {
             `,
           },
         };
-        console.log(`gtif-${this.currentDomain.replaceAll(' ', '-').toLowerCase()}`);
         this.itemfilter.config = configs[this.appConfig.id];
         if (this.appConfig.id === 'gtif') {
           this.$watch('toolsToggle', (inToolsMode) => {

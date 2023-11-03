@@ -129,7 +129,6 @@
             && indicatorHasMapData(indicator)
             && appConfig.id !== 'gtif'"
           :indicatorObject="indicator"
-          :embedMap="true"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
           mapControl

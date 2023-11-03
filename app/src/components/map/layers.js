@@ -574,7 +574,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     layerControlOptional: config.layerControlOptional,
-    ...(config.legendUrl && { description: `<img src="${config.legendUrl}" style="width: 100%" />` }),
+    ...(config.legendUrl && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
