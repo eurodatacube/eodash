@@ -188,12 +188,6 @@ export default {
               #filter-reset {
                 display: none;
               }
-              #container-results{
-                overflow:hidden;
-              }
-              form#itemfilter{
-                overflow: auto;
-              }
             `,
           },
         };
@@ -260,6 +254,12 @@ export default {
         this.itemfilter.styleOverride = `
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
+          #container-results{
+             overflow:hidden;
+           }
+           form#itemfilter{
+             overflow: auto;
+           }
         `;
       });
     },
