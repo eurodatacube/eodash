@@ -44,6 +44,9 @@
                     v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
+                    :styleOverride="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {
+    content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;
+}` :''"
                     class="pointerEvents">
                    </eox-layercontrol>
 
