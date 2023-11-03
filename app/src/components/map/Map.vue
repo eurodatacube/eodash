@@ -1,6 +1,6 @@
 <template>
   <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
-    z-index: 1" class="d-flex justify-center">
+    z-index: 1" class="d-flex justify-center" :id="mapId">
     <!-- a layer adding a (potential) dark overlay, z-index 4 -->
     <DarkOverlayLayer
       :mapId="mapId"
@@ -32,7 +32,6 @@
       @setMapTime="(time) => dataLayerTime = {value: time}"
       @setTimeArray="handleSetTimeArray"
     />
-    <!-- compare layer has same zIndex as specialLayer -->
     <div
       class="d-flex justify-center fill-height"
       :style="`position: absolute; bottom: 0; left: 0;
@@ -109,9 +108,7 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <!-- overlay-layers have zIndex 2 and 4, base layers have 0 -->
       <LayerControl
-        :style="`z-index: 3;`"
         v-if="loaded"
         class="pointerEvents"
         :key="layerControlKey"
@@ -298,7 +295,7 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
-        || this.baseConfig.baseLayersLeftMap;
+        || this.baseConfig.baseLayersMap;
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
@@ -321,7 +318,7 @@ export default {
     overlayConfigs() {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
-      ) || this.baseConfig.overlayLayersLeftMap)];
+      ) || this.baseConfig.overlayLayersMap)];
       const darkOverlay = (
         'darkOverlayLayers' in this.baseConfig
         && this.baseConfig.darkOverlayLayers.length > 0
@@ -557,6 +554,8 @@ export default {
       handler(timeObj) {
         if (timeObj) {
           const { map } = getMapInstance(this.mapId);
+          const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+          const layers = dataGroup.getLayers().getArray();
           if (this.indicator && 'queryParameters' in this.indicator) {
             // re-load indicator data for indicators where the rendering is based on external data
             // get only valid configs (which has 'id')
@@ -565,19 +564,19 @@ export default {
               loadIndicatorExternalData(
                 timeObj.value, item,
               ).then((data) => {
-                this.$store.state.indicators.selectedIndicator.mapData = data;
+                if (this.$store.state.indicators.selectedIndicator) {
+                  this.$store.state.indicators.selectedIndicator.mapData = data;
+                }
                 // finds first layer with ID
-                const currLayer = map.getAllLayers().find((l) => l.get('id') === item.id);
+                const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {
                   currLayer.changed();
                 }
               });
             });
           }
-          // TODO:
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
-          const layers = map.getLayers().getArray();
           this.mergedConfigsDataIndexAware.filter(
             (config) => config.timeFromProperty || config.usedTimes?.time?.length,
           )
@@ -734,6 +733,9 @@ export default {
       }
     });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
+    // adding a necessary reference for eox-layercontrol plugin
+    this.$refs.mapContainer.map = map;
+
     const attributions = new Attribution();
     attributions.setTarget(this.$refs.controlsContainer);
     attributions.setMap(map);
@@ -816,7 +818,7 @@ export default {
       if (timeEntry === undefined && time.isLuxonDateTime) {
         // search for closest time to datetime if provided as such
         const searchTimes = this.availableTimeEntries.map((e) => {
-          if (e.value.isLuxonDateTime) {
+          if (e.value?.isLuxonDateTime) {
             return e.value;
           }
           return DateTime.fromISO(e.value);
@@ -824,7 +826,7 @@ export default {
         const closestTime = findClosest(searchTimes, time);
         // get back the original unmapped object with value and name
         timeEntry = this.availableTimeEntries.find((e) => {
-          if (e.value.isLuxonDateTime) {
+          if (e.value?.isLuxonDateTime) {
             return e.value.ts === closestTime.ts;
           }
           return DateTime.fromISO(e.value).ts === closestTime.ts;
@@ -880,30 +882,36 @@ export default {
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') === event.data.name) {
-            layer.setVisible(true);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') === event.data.name) {
+              layer.setVisible(true);
+            }
+          });
         });
       }
 
       if (event.data.command === 'map:disableAllLayers' && event.data.baseLayer) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') !== event.data.baseLayer) {
-            layer.setVisible(false);
-          } else {
-            layer.setVisible(true);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') !== event.data.baseLayer) {
+              layer.setVisible(false);
+            } else {
+              layer.setVisible(true);
+            }
+          });
         });
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {
         const { map } = getMapInstance(this.mapId);
-        map.getLayers().forEach((layer) => {
-          if (layer.get('name') === event.data.name) {
-            layer.setVisible(false);
-          }
+        map.getLayers().getArray().forEach((layerGroup) => {
+          layerGroup.getLayers().getArray().forEach((layer) => {
+            if (layer.get('name') === event.data.name) {
+              layer.setVisible(false);
+            }
+          });
         });
       }
 
@@ -975,7 +983,8 @@ export default {
     },
     updateSelectedAreaFeature() {
       const { map } = getMapInstance(this.mapId);
-      const layers = map.getLayers().getArray();
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
       this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)

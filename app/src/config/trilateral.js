@@ -100,6 +100,10 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   NLK: {
     indicatorSummary: 'Lakes',
     story: '/data/trilateral/NLK',
@@ -111,6 +115,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     features: {
       ...geodbFeatures,
+      name: 'Ship detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     baseLayers: cloudlessBaseLayerDefault,
@@ -120,6 +125,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -130,6 +136,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -139,6 +146,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -149,6 +157,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -258,6 +267,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       // valid for default (geodb) features, NASA have 'input_data' 'airports' override
       ...geodbFeatures,
+      name: 'Plane detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13b_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     story: '/data/trilateral/E13b',
@@ -507,6 +517,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['cryosphere'],
     story: '/data/trilateral/ADD',
     features: {
+      name: 'Thaites glacier outline',
       url: './data/trilateral/thwaites.geojson',
     },
     mapProjection: {
@@ -777,6 +788,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
       allowedParameters: ['verified'],
@@ -809,6 +821,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Plane detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
       allowedParameters: ['Country', 'label', 'score'],
@@ -853,19 +866,14 @@ export const mapDefaults = Object.freeze({
   bounds: [-170, -70, 170, 70],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-
-export const overlayLayersLeftMap = [{
-  ...overlayLayers.eoxOverlay,
-  visible: true,
-  updateOpacityOnZoom: true,
-}];
-export const overlayLayersRightMap = [{
+export const baseLayersMap = [
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
+];
+export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
   updateOpacityOnZoom: true,
@@ -989,6 +997,45 @@ const getWeeklyDates = (start, end) => {
 };
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GHS built-up surface dataset GHS-BUILT-S_GLOBE_R2023A',
+        indicator: 'GHSBUILT',
+        indicatorName: 'GHS-BUILT-S-R2023A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: availableDates.GHS_BUILT_S,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          customAreaIndicator: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'GHS-BUILT-S_GLOBE_R2023A',
+          layers: 'GHS_BUILT_S',
+          minZoom: 1,
+          legendUrl: 'legends/esa/GHS-BUILT-S_GLOBE_R2023A.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['GHS-BUILT-S_GLOBE_R2023A'],
+              'byoc-0c7aa265-50f9-4947-9980-2ee5ae204803',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -2085,23 +2132,18 @@ export const globalIndicators = [
         inputData: [''],
         showGlobe: true,
         display: [{
-          name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
-          combinedLayers: [
-            {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_N',
-              layers: 'SIC_N',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            }, {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_S',
-              layers: 'SIC_S',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            },
-          ],
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'Sea Ice Concentration North Hemisphere',
+          layers: 'SIC_N',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+        }, {
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'Sea Ice Concentration South Hemisphere',
+          layers: 'SIC_S',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
         }],
       },
     },
@@ -3363,6 +3405,7 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
           features: {
+            name: 'Administrative zones ADM0',
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
@@ -4397,6 +4440,7 @@ export const globalIndicators = [
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
+            name: 'Ship detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },

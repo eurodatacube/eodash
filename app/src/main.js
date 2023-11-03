@@ -27,12 +27,18 @@ import customDashboardApiFactory from './custom-dashboard';
 import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
+import '@eox/layercontrol';
+
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
 Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
+
+Vue.config.ignoredElements = [
+  'eox-layercontrol',
+];
 
 Vue.use(VuePapaParse);
 
