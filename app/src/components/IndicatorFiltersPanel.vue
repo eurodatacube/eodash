@@ -1,5 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" ref="itemFilterEl" >
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
     <h4 slot="filterstitle">
       {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
     </h4>
@@ -187,6 +187,12 @@ export default {
               }
               #filter-reset {
                 display: none;
+              }
+              #container-results{
+                overflow:hidden;
+              }
+              form#itemfilter{
+                overflow: auto;
               }
             `,
           },
