@@ -36,7 +36,6 @@
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
         height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
-        overflow-y:${['Domains & Tools','Filters'].includes(title) ? 'hidden':'auto'};
       `">
       <!-- close btn -->
       <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
