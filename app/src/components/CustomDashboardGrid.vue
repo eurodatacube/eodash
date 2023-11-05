@@ -636,7 +636,7 @@ export default {
 
     this.ro = new ResizeObserver(() => {
       setTimeout(() => {
-        if (document.querySelector('.scrollContainer').scrollTop > 0) {
+        if (document.querySelector('.scrollContainer')?.scrollTop > 0) {
           this.goStep(0);
         }
       });

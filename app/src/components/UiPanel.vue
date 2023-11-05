@@ -8,7 +8,7 @@
   >
       <v-expansion-panel v-if="hasPanel">
         <v-expansion-panel-header ref="header">
-          {{ title }}
+          {{ titleLabel }}
         </v-expansion-panel-header>
         <v-expansion-panel-content ref="expantionContent" eager
         :style="`max-height:${getMaxHeight}`">
@@ -28,7 +28,7 @@
       `"
       @click="$emit('panel-selected',id)"
     >
-      {{ title }}
+      {{ titleLabel }}
   </span>
     <div
       v-show="isSelected"
@@ -66,6 +66,9 @@ export default {
       return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
          + this.$vuetify.application.footer + (this.gtif
         ? 8 : -40) + (48 * this.siblingsCount))}px) * ${(this.heightPercentage / 100)});`;
+    },
+    titleLabel() {
+      return this.title?.toUpperCase();
     },
   },
   data: () => ({

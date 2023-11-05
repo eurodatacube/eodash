@@ -1,9 +1,23 @@
 import { Wkt } from 'wicket';
-import { template } from '@/utils';
 import { DateTime } from 'luxon';
 import axios from 'axios';
 
 const wkt = new Wkt();
+
+export function template(templateRe, str, data) {
+  // copy of leaflet template function, which does not export it
+  // used for getting areaIndicator URL with properties replacing templates
+  return str.replace(templateRe, (stri, key) => {
+    let value = data[key];
+
+    if (value === undefined) {
+      console.error(`No value provided for variable ${stri}`);
+    } else if (typeof value === 'function') {
+      value = value(data);
+    }
+    return value;
+  });
+}
 
 export const statisticalApiHeaders = {
   url: 'https://services.sentinel-hub.com/api/v1/statistics',
@@ -546,6 +560,49 @@ export const nasaTimelapseConfig = (
         properties: {},
         geometry: area,
       }),
+    }
+  ),
+});
+
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.time));
+        newData.measurement.push(row.median);
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
     }
   ),
 });

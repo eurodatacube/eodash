@@ -5,189 +5,17 @@ import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
 import store from '@/store';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  parseStatAPIResponse,
+  nasaStatisticsConfig,
+  xcubeAnalyticsConfig,
+} from '@/helpers/customAreaObjects';
+
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
-
-export const statisticalApiHeaders = {
-  url: 'https://services.sentinel-hub.com/api/v1/statistics',
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-};
-
-export const statisticalApiBody = (evalscript, type, timeinterval) => ({
-  requestBody: {
-    input: {
-      bounds: {
-        geometry: {
-          type: 'Polygon',
-          coordinates: '{coordinates}',
-        },
-      },
-      data: [
-        {
-          dataFilter: {},
-          type,
-        },
-      ],
-    },
-    aggregation: {
-      timeRange: {
-        from: '1995-01-01T00:00:00Z',
-        to: '2030-12-01T00:00:00Z',
-      },
-      aggregationInterval: {
-        of: timeinterval || 'P1D',
-      },
-      width: 100,
-      height: 100,
-      evalscript,
-    },
-    calculations: {
-      default: {},
-    },
-  },
-});
-
-export const parseStatAPIResponse = (requestJson, indicator) => {
-  // We need to also accept partial responses as it seems some datasets
-  // have issues on sinergise side
-  if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
-      && requestJson.data.length > 0) {
-    const { data } = requestJson;
-    const newData = {
-      time: [],
-      measurement: [],
-      referenceValue: [],
-      colorCode: [],
-      sampleSize: [],
-      noDataCount: [],
-      sampleCount: [],
-    };
-    data.sort((a, b) => (
-      (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
-        ? 1
-        : -1));
-    data.forEach((row) => {
-      // Make sure to discard possible errors from sentinelhub
-      if (row && !Object.prototype.hasOwnProperty.call(row, 'error')) {
-        const { stats } = row.outputs.data.bands.B0;
-        newData.time.push(DateTime.fromISO(row.interval.from));
-        newData.colorCode.push('');
-        newData.measurement.push(stats.mean);
-        newData.referenceValue.push(
-          `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
-        );
-        newData.noDataCount.push(stats.noDataCount);
-        newData.sampleCount.push(stats.sampleCount);
-      }
-    });
-    const ind = {
-      ...indicator,
-      ...newData,
-    };
-    return ind;
-  }
-  return null;
-};
-export const xcubeAnalyticsConfig = (
-  exampleEndpoint,
-  indicatorCode = 'XCubeCustomLineChart',
-) => ({
-  url: exampleEndpoint.href,
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    type: 'Polygon',
-    coordinates: '{coordinates}',
-  },
-  callbackFunction: (responseJson, indicator) => {
-    let ind = null;
-    if (Array.isArray(responseJson.result)) {
-      const data = responseJson.result;
-      const newData = {
-        time: [],
-        measurement: [],
-      };
-      data.forEach((row) => {
-        newData.time.push(DateTime.fromISO(row.time));
-        newData.measurement.push(row.median);
-      });
-      if (indicatorCode) {
-        // if we for some reason need to change indicator code of custom chart data
-        newData.indicator = indicatorCode;
-      }
-      ind = {
-        ...indicator,
-        ...newData,
-      };
-    }
-    return ind;
-  },
-  areaFormatFunction: (area) => (
-    {
-      coordinates: JSON.stringify(area.coordinates),
-    }
-  ),
-});
-
-export const nasaStatisticsConfig = (
-  rescale = (value) => value / 1e14,
-  indicatorCode = 'NASACustomLineChart',
-) => ({
-  url: 'https://staging-raster.delta-backend.com/cog/statistics',
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    geojson: '{geojson}',
-  },
-  callbackFunction: (responseJson, indicator) => {
-    let ind = null;
-    if (Array.isArray(responseJson)) {
-      const data = responseJson;
-      const newData = {
-        time: [],
-        measurement: [],
-        colorCode: [],
-        referenceValue: [],
-      };
-      data.forEach((row) => {
-        if (!('error' in row)) {
-          newData.time.push(DateTime.fromISO(row.time));
-          newData.colorCode.push('');
-          newData.measurement.push(rescale(row.mean));
-          newData.referenceValue.push(`[${rescale(row.median)}, ${rescale(row.std)}, ${rescale(row.max)}, ${rescale(row.min)}]`);
-        }
-      });
-      if (indicatorCode) {
-        // if we for some reason need to change indicator code of custom chart data
-        newData.indicator = indicatorCode;
-      }
-      ind = {
-        ...indicator,
-        ...newData,
-      };
-    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      console.log(responseJson.detail[0].msg);
-    }
-    return ind;
-  },
-  areaFormatFunction: (area) => (
-    {
-      geojson: JSON.stringify({
-        type: 'Feature',
-        properties: {},
-        geometry: area,
-      }),
-    }
-  ),
-});
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
@@ -245,21 +73,6 @@ export function shS2TimeFunction(date) {
   const datePast = dateObj.minus({ minutes: 45 });
   const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
   return `${datePast.toFormat(defaultFormat)}/${dateFuture.toFormat(defaultFormat)}`;
-}
-
-export function template(templateRe, str, data) {
-  // copy of leaflet template function, which does not export it
-  // used for getting areaIndicator URL with properties replacing templates
-  return str.replace(templateRe, (stri, key) => {
-    let value = data[key];
-
-    if (value === undefined) {
-      console.error(`No value provided for variable ${stri}`);
-    } else if (typeof value === 'function') {
-      value = value(data);
-    }
-    return value;
-  });
 }
 
 export async function loadIndicatorExternalData(time, mergedConfig) {

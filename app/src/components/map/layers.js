@@ -21,9 +21,8 @@ import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
-import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
-import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -574,7 +573,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     visible: config.visible,
     updateOpacityOnZoom: options.updateOpacityOnZoom,
     layerControlOptional: config.layerControlOptional,
-    ...(config.legendUrl && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
+    ...(config.legendUrl && !config.features && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {

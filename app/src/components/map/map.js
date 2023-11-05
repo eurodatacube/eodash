@@ -1,6 +1,5 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
-
 import 'ol/ol.css';
 import './olControls.css';
 import { Collection } from 'ol';
@@ -35,7 +34,7 @@ class VueMap {
     const initialLayerGroups = [
       new LayerGroup({
         id: 'backgroundGroup',
-        name: 'Background Visualisation Layers',
+        name: 'Background Layers',
         layerControlExpand: false,
       }),
       new LayerGroup({
@@ -45,7 +44,7 @@ class VueMap {
       }),
       new LayerGroup({
         id: 'overlayGroup',
-        name: 'Overlay Visualisation Layers',
+        name: 'Overlay Layers',
         layerControlExpand: false,
       }),
       new LayerGroup({

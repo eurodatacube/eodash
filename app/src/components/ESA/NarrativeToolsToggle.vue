@@ -23,7 +23,7 @@
       </div>
     </v-btn>
   </template>
-  <span>{{!$route.name.includes('explore') ? 'Explore Tools':'Tools Mode'}}</span>
+  <span>{{!$route.name?.includes('explore') ? 'Explore Tools':'Tools Mode'}}</span>
   </v-tooltip>
   <v-tooltip bottom>
     <template #activator="{on}">

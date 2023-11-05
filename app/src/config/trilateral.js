@@ -1101,6 +1101,20 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'N9',
+        yAxis: 'NO2 [10^14 molecules/cm²]',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14, 'NASACustomLineChart',
+          ),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         aoiID: 'W9',
         dataLoadFinished: true,
         country: 'all',
