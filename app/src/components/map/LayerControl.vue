@@ -84,7 +84,6 @@ export default {
       const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
       overlayGroup.getLayers().push(layer);
     });
-    map.dispatchEvent({ type: 'moveend' });
   },
   methods: {
   },
@@ -101,7 +100,6 @@ export default {
       const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
       overlayGroup.getLayers().remove(layer);
     });
-
   },
 };
 </script>
