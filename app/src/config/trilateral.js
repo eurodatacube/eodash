@@ -2085,7 +2085,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
@@ -2127,7 +2127,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         showGlobe: true,
         display: [{
@@ -2162,7 +2162,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
