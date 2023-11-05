@@ -876,7 +876,6 @@ export const baseLayersMap = [
 export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
-  updateOpacityOnZoom: true,
 }];
 
 export const defaultLayersDisplay = {
