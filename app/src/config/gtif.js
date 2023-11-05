@@ -1360,6 +1360,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: selectedVariable,
           adminZoneKey: 'zsp_id',
+          dateFormatFunction: () => '2023-01-01',
         }, {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
@@ -1422,6 +1423,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: selectedVariable,
           adminZoneKey: 'zsp_id',
+          dateFormatFunction: () => '2023-01-01',
         }, {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
