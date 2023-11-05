@@ -48,17 +48,17 @@
                 <tr>
                   <td> Potential CO2 reduction due to saved energy
                     from green roof installation with a slope &lt; 5 degree</td>
-                  <td> {{ v.co2red_05 }} tons/year</td>
+                  <td> {{ v.co2red05 }} tons/year</td>
                 </tr>
                 <tr>
                   <td> Potential CO2 reduction due to saved energy
                     from green roof installation with a slope ≥ 5 and &lt; 20 degree</td>
-                  <td> {{ v.co2red_20 }} tons/year</td>
+                  <td> {{ v.co2red20 }} tons/year</td>
                 </tr>
                 <tr>
                   <td> Potential CO2 reduction due to saved energy
                     from green roof installation with a slope ≥ 20 and &lt; 45 degree</td>
-                  <td> {{ v.co2red_45 }} tons/year</td>
+                  <td> {{ v.co2red45 }} tons/year</td>
                 </tr>
               </tbody>
             </template>
@@ -256,9 +256,9 @@ export default {
                         grpotare5: grpotare5.toFixed(0),
                         grpotare20: grpotare20.toFixed(0),
                         grpotare45: grpotare45.toFixed(0),
-                        co2red_05: co2red05.toFixed(0),
-                        co2red_20: co2red20.toFixed(0),
-                        co2red_45: co2red45.toFixed(0),
+                        co2red05: co2red05.toFixed(0),
+                        co2red20: co2red20.toFixed(0),
+                        co2red45: co2red45.toFixed(0),
                       };
                     }
                     const gemId = Math.floor(parseInt(key, 10) / 1000);

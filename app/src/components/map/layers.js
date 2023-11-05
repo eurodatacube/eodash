@@ -6,7 +6,6 @@ import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import WMTSCapabilities from 'ol/format/WMTSCapabilities';
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
-import countries from '@/assets/countries.json';
 import {
   Fill, Stroke, Style, Circle, Text,
 } from 'ol/style';
@@ -251,7 +250,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {number} config.style.weight stroke weight
  * @param {string} config.style.color stroke color
  * @param {Object} [opt_options={}] options
- * @param {boolean} [opt_options.updateOpacityOnZoom=false] sets the updateOpacityOnZoom-flag
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
@@ -264,7 +262,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
-  options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
   const paramsToPassThrough = [
     'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
   ];
@@ -359,27 +356,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }),
     });
     layer.set('id', config.id);
-  } else if (config.protocol === 'countries') {
-    const countriesSource = new VectorSource({
-      features: geoJsonFormat.readFeatures(countries, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: map.getView().getProjection(),
-      }),
-    });
-    layer = new VectorLayer({
-      layerControlHide: true,
-      source: countriesSource,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      style: new Style({
-        fill: new Fill({
-          color: '#fff',
-        }),
-        stroke: new Stroke({
-          width: 1,
-          color: '#a2a2a2',
-        }),
-      }),
-    });
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature
@@ -571,7 +547,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
-    updateOpacityOnZoom: options.updateOpacityOnZoom,
     layerControlOptional: config.layerControlOptional,
     ...(config.legendUrl && !config.features && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
   });

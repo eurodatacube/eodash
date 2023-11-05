@@ -2715,5 +2715,38 @@
         "reference_time": "2023-09-23T00:00:00",
         "reference_value": "[23.891 0.980]",
         "time": "2023-09-23T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "24.819000000000003",
+        "reference_time": "2023-09-30T00:00:00",
+        "reference_value": "[23.142 0.976]",
+        "time": "2023-09-30T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "24.855",
+        "reference_time": "2023-10-07T00:00:00",
+        "reference_value": "[22.460 1.185]",
+        "time": "2023-10-07T00:00:00"
+    },
+    {
+        "color_code": "RED",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "MODIS-Aqua,VIIRS-NPP,Sentinel-3A",
+        "indicator_value": "HIGH",
+        "input_data": "OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040",
+        "measurement_value": "24.863000000000003",
+        "reference_time": "2023-10-14T00:00:00",
+        "reference_value": "[21.721 1.170]",
+        "time": "2023-10-14T00:00:00"
     }
 ]

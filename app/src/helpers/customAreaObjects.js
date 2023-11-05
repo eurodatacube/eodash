@@ -219,6 +219,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
+  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
 });
 
 // Define custom fetch function with configurable timeout
@@ -331,9 +332,11 @@ export const fetchCustomAreaObjects = async (
     const start = times[0];
     const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    const step = {
-      days: 30 * 3,
-    };
+    // create a variable step based on the size of time array,
+    // making a maximum of 30 requests to avoid rate limiting
+    const step = end.diff(start, ['days']).toObject();
+    step.days = Math.round(step.days / 30);
+
     let currentDate = start;
     const requests = [];
     // We dont want to modify the original request body, so we create a copy here
