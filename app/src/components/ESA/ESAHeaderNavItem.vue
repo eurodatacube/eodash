@@ -71,7 +71,9 @@ export default {
     ]),
     visitExploreTool() {
       this.setCurrentDomain(this.domain.slug);
-      this.$router.push({ name: 'explore' });
+      if (this.$route.name !== 'explore') {
+        this.$router.push({ name: 'explore' });
+      }
     },
     go(domainSlug, routeName) {
       this.setCurrentDomain(domainSlug);

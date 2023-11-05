@@ -24,12 +24,9 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './data/internal/';
-export const dataEndpoints = [
-  {
-    type: 'eox',
-    provider: './data/internal/pois_trilateral.json',
-  },
-];
+export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
+// export const STACEndpoint = 'http://127.0.0.1:8000/trilateral/catalog.json';
+
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -100,6 +97,10 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   NLK: {
     indicatorSummary: 'Lakes',
     story: '/data/trilateral/NLK',
@@ -111,6 +112,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     features: {
       ...geodbFeatures,
+      name: 'Ship detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13c_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     baseLayers: cloudlessBaseLayerDefault,
@@ -120,6 +122,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -130,6 +133,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -139,6 +143,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
       allowedParameters: ['TYPE_SUMMARY', 'SPEED (KNOTSx10)', 'classification'],
@@ -149,6 +154,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/E1a',
     themes: ['economy'],
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
@@ -258,6 +264,7 @@ export const indicatorsDefinition = Object.freeze({
     features: {
       // valid for default (geodb) features, NASA have 'input_data' 'airports' override
       ...geodbFeatures,
+      name: 'Plane detections',
       url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_E13b_tri-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
     },
     story: '/data/trilateral/E13b',
@@ -507,6 +514,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['cryosphere'],
     story: '/data/trilateral/ADD',
     features: {
+      name: 'Thaites glacier outline',
       url: './data/trilateral/thwaites.geojson',
     },
     mapProjection: {
@@ -624,10 +632,6 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Surface Water Temperature Time Series',
     story: '/data/trilateral/stories/Lakes_SWTT', // stays
     themes: ['oceans'],
-  },
-  d: { // dummy for locations without Indicator code
-    indicatorSummary: 'Upcoming data',
-    themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
   },
 });
 
@@ -777,6 +781,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
       allowedParameters: ['verified'],
@@ -809,6 +814,7 @@ export const layerNameMapping = Object.freeze({
       return mapping[eoID];
     },
     features: {
+      name: 'Plane detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
       url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
       allowedParameters: ['Country', 'label', 'score'],
@@ -849,26 +855,24 @@ export const indicatorClassesIcons = Object.freeze({
   cryosphere: 'mdi-snowflake',
 });
 
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash`,
+});
+
 export const mapDefaults = Object.freeze({
   bounds: [-170, -70, 170, 70],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.eoxosm, baseLayers.cloudless];
-
-export const overlayLayersLeftMap = [{
+export const baseLayersMap = [
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
+];
+export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
-  updateOpacityOnZoom: true,
-}];
-export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay,
-  visible: true,
-  updateOpacityOnZoom: true,
 }];
 
 export const defaultLayersDisplay = {
@@ -880,7 +884,7 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
+  minZoom: 1,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -988,802 +992,31 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
+const createRECCAP2Config = (indicatorCode) => ({
+  properties: {
+    indicatorObject: {
+      indicator: indicatorCode,
+      display: {
+        minNativeZoom: 3,
+        maxNativeZoom: 5,
+      },
+    },
+  },
+});
+
 export const globalIndicators = [
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Nitrogen Dioxide (Weekly/Monthly)',
-        indicator: 'N1',
-        indicatorName: 'Nitrogen Dioxide (Weekly)',
-        eoSensor: 'ESA TROPOMI',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        aoiID: 'W1',
-        time: availableDates['AWS_NO2-VISUALISATION'],
-        inputData: [''],
-        yAxis: 'Tropospheric NO2 (μmol/m2)',
-        display: {
-          customAreaIndicator: true,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Air Quality (NO2) - ESA',
-          layers: 'AWS_NO2-VISUALISATION',
-          legendUrl: 'legends/esa/AWS_NO2-VISUALISATION.png',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions['AWS_NO2-VISUALISATION'],
-              'byoc-972e67a7-2ca8-4bf6-964a-11fe772e3ac2',
-              'P7D',
-            ),
-            callbackFunction: parseStatAPIResponse,
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Methane (Weekly)',
-        indicator: 'N1',
-        indicatorName: 'Methane (Weekly)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        eoSensor: 'ESA TROPOMI',
-        aoiID: 'CH4',
-        time: availableDates.AWS_CH4_WEEKLY,
-        inputData: [''],
-        yAxis: 'Tropospheric CH4 volume mixing ratio (ppbv)',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          customAreaIndicator: true,
-          name: 'Air Quality (CH4) - ESA',
-          layers: 'AWS_CH4_WEEKLY',
-          minZoom: 1,
-          legendUrl: 'legends/esa/AWS_CH4_WEEKLY.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_CH4_WEEKLY_DATA,
-              'byoc-0ecb4a55-5ce2-4525-bdcb-a333d37d46ef',
-            ),
-            callbackFunction: parseStatAPIResponse,
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Carbon Monoxide',
-        indicator: 'N1',
-        indicatorName: 'Carbon Monoxide',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'WorldCO',
-        time: availableDates.AWS_VIS_CO_3DAILY_DATA,
-        inputData: [''],
-        yAxis: 'CO (ppbv)',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          customAreaIndicator: true,
-          name: 'CO',
-          layers: 'AWS_VIS_CO_3DAILY_DATA',
-          minZoom: 1,
-          legendUrl: 'legends/esa/AWS_VIS_CO_3DAILY_DATA.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CO_3DAILY_DATA,
-              'byoc-57a07405-8ec2-4b9c-a273-23e287c173f8',
-              'P3D',
-            ),
-            callbackFunction: parseStatAPIResponse,
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Nitrogen Dioxide (Monthly)',
-        indicator: 'N1',
-        indicatorName: 'Air Quality - OMI: Monthly NO2',
-        eoSensor: 'NASA OMI',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        aoiID: 'W2',
-        time: availableDates['no2-monthly'],
-        inputData: [''],
-        yAxis: 'NO2 [µmol/m²]',
-        display: {
-          protocol: 'xyz',
-          minZoom: 1,
-          maxZoom: 6,
-          tileSize: 256,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0%2C108e14&bidx=1&colormap_name=reds',
-          name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'legends/trilateral/N1_W2.png',
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => value / 1e14,
-          ),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Nitrogen Dioxide (Monthly)',
-        indicator: 'N1',
-        lastIndicatorValue: 'OMI: Difference Nitrogen dioxide',
-        indicatorName: 'Air Quality - OMI: Monthly NO2 Compared to Baseline (2015-2019)',
-        eoSensor: 'NASA OMI Difference',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        lastColorCode: 'primary',
-        aoiID: 'W3',
-        time: availableDates['no2-monthly-diff'],
-        inputData: [''],
-        yAxis: 'NO2-difference [10^15 molecules/cm²]',
-        display: {
-          protocol: 'xyz',
-          maxZoom: 6,
-          minZoom: 1,
-          tileSize: 256,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&bidx=1&rescale=-3e15%2C3e15&colormap_name=rdbu_r',
-          name: 'Air Quality (NASA)',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'legends/trilateral/N1_W3.png',
-          disableCompare: true,
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => value / 1e15,
-          ),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Carbon Dioxide',
-        indicator: 'N2',
-        indicatorName: 'Carbon Dioxide',
-        calcMethod: 'Mean CO2',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        aoiID: 'W4',
-        time: availableDates['co2-mean'],
-        inputData: [''],
-        yAxis: 'CO2 mean [ppm]',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=0.000408%2C0.000419&colormap_name=rdylbu_r',
-          name: 'Greenhouse Gases (NASA)',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'legends/trilateral/N2_W4.png',
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => (value * 1e6),
-          ),
-        },
-        // compareDisplay: {
-        //   protocol: 'xyz',
-        //   tileSize: 256,
-        //   minZoom: 1,
-        //   url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=0.000408%2C0.000419&colormap_name=rdylbu_r',
-        //  // once the data are available on the STAC API, we probably can use this replace
-        //   dateFormatFunction: (date) => `url=${date[1]}`.replace('diff', 'base'),
-        // },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Population Density (Meta)',
-        indicator: 'FB',
-        indicatorName: 'Population Density (Meta)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W7',
-        time: ['TBD'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/dataforgood-fb-population-density/cog.tif&rescale=0,70&resampling_method=nearest&color_map=ylorrd',
-          name: 'Facebook population density',
-          legendUrl: 'legends/trilateral/FB_W7.png',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((2.1 48.6,2.6 48.6,2.6 49.0,2.1 49.0,2.1 48.6))').toJson(),
-            }],
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Greenhouse Gases',
-        indicator: 'N2',
-        indicatorName: 'Carbon Dioxide (CO2) Difference',
-        calcMethod: 'Difference CO2',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON((-180 -71, 180 -71, 180 71, -180 71, -180 -71))').toJson(),
-          }],
-        },
-        aoiID: 'W5',
-        time: availableDates['co2-diff'],
-        inputData: [''],
-        yAxis: 'CO2 difference [ppm]',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&bidx=1&rescale=-0.000001%2C0.000001&colormap_name=rdbu_r',
-          name: 'Greenhouse Gases (NASA)',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl: 'legends/trilateral/N2_W5.png',
-          disableCompare: true,
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => (value * 1e6),
-          ),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'NPP',
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Ocean Primary Productivity (BICEP)',
-        indicator: 'NPP',
-        indicatorName: 'Ocean Primary Productivity (BICEP)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates.BICEP_NPP_VIS_PP,
-        inputData: [],
-        yAxis: 'NPP',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'NPP (BICEP)',
-          layers: 'BICEP_NPP_VIS_PP2',
-          legendUrl: 'legends/trilateral/NPP.png',
-          minZoom: 2,
-          maxZoom: 13,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions.BICEP_NPP_VIS_PP,
-              'zarr-a216afca-8a65-4072-87a5-8ed7aa21e08a',
-              'P30D',
-            ),
-            callbackFunction: parseStatAPIResponse,
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Nitrogen Dioxide (Yearly)',
-        indicator: 'N9',
-        indicatorName: 'Nitrogen Dioxide (Yearly)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W8',
-        time: availableDates['OMI_trno2-COG'],
-        inputData: [''],
-        yAxis: 'NO2 [10^14 molecules/cm²]',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,37e14&bidx=1&colormap_name=reds',
-          name: 'NO2 OMI Annual',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/N9_W8.png',
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => value / 1e14,
-          ),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Sea Ice Thickness (ICESat-2)',
-        indicator: 'SITI',
-        indicatorName: 'Sea Ice Thickness (ICESat-2)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W10',
-        time: availableDates['IS2SITMOGR4-cog'],
-        inputData: [''],
-        showGlobe: true,
-        // yAxis: 'Sea-ice thickness [m]',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&resampling_method=bilinear&rescale=0.0,4.0&bidx=1&colormap_name=plasma',
-          name: 'Sea Ice Thickness (ICESat-2)',
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'legends/trilateral/SITI-W10.png',
-          mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-          projection: 'EPSG:3857',
-          /*
-          TODO: Could be activated but globe is used as visualiation in data panel
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => value,
-          ),
-          */
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Ocean Primary Productivity (MODIS)',
-        indicator: 'NPPN',
-        indicatorName: 'Ocean Primary Productivity (MODIS)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W11',
-        time: availableDates.MO_NPP_npp_vgpm,
-        inputData: [''],
-        yAxis: 'mgC/m²/day',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,1500.0&bidx=1&colormap_name=jet',
-          name: 'NPP (NASA)',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
-          legendUrl: 'legends/trilateral/NPPN-W11.png',
-          customAreaIndicator: true,
-          areaIndicator: nasaStatisticsConfig(
-            (value) => value,
-          ),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Aboveground Biomass',
-        indicator: 'NCEO',
-        indicatorName: 'Aboveground Biomass',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W12',
-        time: availableDates.nceo_africa_2017,
-        inputData: [''],
-        yAxis: 'mg/ha',
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-18.27 -35.05,-18.27 37.73,51.86 37.73,51.86 -35.05,-18.27 -35.05))').toJson(),
-            }],
-          },
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,400.0&bidx=1&colormap_name=gist_earth_r',
-          name: 'NCEO Africa Biomass',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/NCEO-W12.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI Built-up Area',
-        indicator: 'GRDI1',
-        indicatorName: 'Global Gridded Relative Deprivation Index',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W13',
-        time: availableDates['grdi-v1-built'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI V1 Raster',
-        indicator: 'GRDI2',
-        indicatorName: 'Global Gridded Relative Deprivation Index',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W14',
-        time: availableDates['grdi-v1-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI SHDI Constituent Raster',
-        indicator: 'GRDI3',
-        indicatorName: 'Global Gridded Relative Deprivation',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W15',
-        time: availableDates['grdi-shdi-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI VNL Slope Constituent Raster',
-        indicator: 'GRDI4',
-        indicatorName: 'Global Gridded Relative Deprivation',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W16',
-        time: availableDates['grdi-vnl-slope-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI VNL Constituent Raster',
-        indicator: 'GRDI5',
-        indicatorName: 'Global Gridded Relative Deprivation',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W17',
-        time: availableDates['grdi-vnl-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI Filled Missing Values Count',
-        indicator: 'GRDI6',
-        indicatorName: 'Global Gridded Relative Deprivation',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W18',
-        time: availableDates['grdi-filled-missing-values-count'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI IMR Constituent Raster',
-        indicator: 'GRDI7',
-        indicatorName: 'Global Gridded Relative Deprivation Index',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W19',
-        time: availableDates['grdi-imr-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'GRDI CDR Constituent Raster',
-        indicator: 'GRDI8',
-        indicatorName: 'Global Gridded Relative Deprivation Index',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W20',
-        time: availableDates['grdi-cdr-raster'],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 1,
-          maxZoom: 10,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0.0,100.0&bidx=1&colormap_name=viridis',
-          name: 'GRDI',
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
-          legendUrl: 'legends/trilateral/GRDI1-W13.png',
-        },
-      },
-    },
-  },
+  createRECCAP2Config('RECCAP_2_1'),
+  createRECCAP2Config('RECCAP_2_2'),
+  createRECCAP2Config('RECCAP_2_3'),
+  createRECCAP2Config('RECCAP_2_4'),
+  createRECCAP2Config('RECCAP_2_5'),
+  createRECCAP2Config('RECCAP_2_6'),
+  createRECCAP2Config('RECCAP_2_7'),
+  createRECCAP2Config('RECCAP_2_8'),
+  createRECCAP2Config('RECCAP_2_9'),
+  createRECCAP2Config('RECCAP_2_10'),
+  createRECCAP2Config('RECCAP_2_11'),
+  createRECCAP2Config('RECCAP_2_12'),
   {
     properties: {
       indicatorObject: {
@@ -1864,6 +1097,20 @@ export const globalIndicators = [
             }],
           },
           projection: 'EPSG:3413',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'N9',
+        yAxis: 'NO2 [10^14 molecules/cm²]',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14, 'NASACustomLineChart',
+          ),
         },
       },
     },
@@ -2039,7 +1286,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
@@ -2081,27 +1328,22 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         showGlobe: true,
         display: [{
-          name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
-          combinedLayers: [
-            {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_N',
-              layers: 'SIC_N',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            }, {
-              baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-              name: 'SIC_S',
-              layers: 'SIC_S',
-              minZoom: 2,
-              dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
-            },
-          ],
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'Sea Ice Concentration North Hemisphere',
+          layers: 'SIC_N',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
+        }, {
+          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
+          name: 'Sea Ice Concentration South Hemisphere',
+          layers: 'SIC_S',
+          minZoom: 2,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
         }],
       },
     },
@@ -2121,7 +1363,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
@@ -3363,6 +2605,7 @@ export const globalIndicators = [
           legendUrl: './data/trilateral/agriculture-GEOGLAM-legend.png',
           tileSize: 256,
           features: {
+            name: 'Administrative zones ADM0',
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
@@ -4397,6 +3640,7 @@ export const globalIndicators = [
           tileSize: 256,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           features: {
+            name: 'Ship detections',
             dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
             url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
           },

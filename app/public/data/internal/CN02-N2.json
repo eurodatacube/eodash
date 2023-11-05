@@ -4,10 +4,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "4.15",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2016-04-01T00:00:00"
     },
     {
@@ -15,10 +15,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "8.89",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2017-01-01T00:00:00"
     },
     {
@@ -26,10 +26,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "10.36",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2017-02-01T00:00:00"
     },
     {
@@ -37,10 +37,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "8.35",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2017-03-01T00:00:00"
     },
     {
@@ -48,10 +48,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "7.62",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2017-04-01T00:00:00"
     },
     {
@@ -59,10 +59,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "9.2",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2018-02-01T00:00:00"
     },
     {
@@ -70,10 +70,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "8.61",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2018-03-01T00:00:00"
     },
     {
@@ -81,10 +81,10 @@
         "data_provider": "JAXA",
         "eo_sensor": "GOSAT",
         "indicator_value": "Normal",
-        "input_data": "",
+        "input_data": "/",
         "measurement_value": "4.72",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2018-04-01T00:00:00"
     },
     {
@@ -94,8 +94,8 @@
         "indicator_value": "Normal",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "7.25",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2019-01-01T00:00:00"
     },
     {
@@ -105,8 +105,8 @@
         "indicator_value": "Normal",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "7.02",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2019-03-01T00:00:00"
     },
     {
@@ -116,8 +116,8 @@
         "indicator_value": "Normal",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "9.49",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2019-04-01T00:00:00"
     },
     {
@@ -127,8 +127,8 @@
         "indicator_value": "Low",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "12.28",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2020-01-01T00:00:00"
     },
     {
@@ -137,9 +137,9 @@
         "eo_sensor": "February value GOSAT",
         "indicator_value": "Low",
         "input_data": "GOSAT_XCO2",
-        "measurement_value": "7",
-        "reference_time": "",
-        "reference_value": "",
+        "measurement_value": "7.0",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2020-02-01T00:00:00"
     },
     {
@@ -149,8 +149,8 @@
         "indicator_value": "Low",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "4.18",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2020-03-01T00:00:00"
     },
     {
@@ -160,8 +160,8 @@
         "indicator_value": "Low",
         "input_data": "GOSAT_XCO2",
         "measurement_value": "4.54",
-        "reference_time": "",
-        "reference_value": "",
+        "reference_time": "/",
+        "reference_value": "/",
         "time": "2020-04-01T00:00:00"
     }
 ]

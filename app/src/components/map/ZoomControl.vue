@@ -1,5 +1,5 @@
 <template>
-  <div class="zoomContainer mb-2">
+  <div class="zoomContainer my-1">
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
@@ -62,6 +62,9 @@ export default {
 
 <style lang="scss" scoped>
   .zoomContainer {
+    position: relative;
+    right: 4px;
+    top: 0;
     width: 36px;
   }
 

@@ -170,13 +170,11 @@
               />
               <Map
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
-                appConfig.configuredMapPois.includes(
-                  `${element.indicatorObject.aoiID}-${element.indicatorObject.indicator}`
-                ) ||
                 Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
                 element.mapInfo"
                 :mapId="element.poi"
                 :currentIndicator="element.indicatorObject"
+                :currentFeatureData="element.currentFeatureData"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
                 :centerProp="localCenter[element.poi]"
@@ -192,6 +190,7 @@
                 v-else
                 disableAutoFocus
                 :currentIndicator="element.indicatorObject"
+                :currentFeatureData="element.currentFeatureData"
                 class="pa-5 chart"
                 style="top: 0px; position: absolute;"
               />
@@ -450,7 +449,7 @@ import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
-import { loadIndicatorData } from '@/utils';
+import { loadIndicatorData, loadFeatureData } from '@/utils';
 import Map from '@/components/map/Map.vue';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
@@ -637,7 +636,7 @@ export default {
 
     this.ro = new ResizeObserver(() => {
       setTimeout(() => {
-        if (document.querySelector('.scrollContainer').scrollTop > 0) {
+        if (document.querySelector('.scrollContainer')?.scrollTop > 0) {
           this.goStep(0);
         }
       });
@@ -699,7 +698,7 @@ export default {
       if (el.text) this.$emit('updateTextFeature', el);
     },
     redirectToPoi(indicatorObject) {
-      this.$router.push(`/?poi=${this.getLocationCode(indicatorObject)}`);
+      this.$router.push(`/?indicator=${indicatorObject.indicator}&poi=${this.getLocationCode(indicatorObject)}`);
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
     },
     changeFeatureTitleFn(poi, newTitle) {
@@ -784,14 +783,33 @@ export default {
           const p = f.poi.split('@')[0];
           poiCode = p;
         }
-
-        const feature = this.$store.state.features.allFeatures
-          .find((i) => this.getLocationCode(i.properties.indicatorObject) === poiCode);
-
-        const indicatorObject = await loadIndicatorData(
-          this.baseConfig,
-          feature.properties.indicatorObject,
+        // Try to find indicator
+        const [poi, indicatorCode] = poiCode.split('-');
+        const indicatorConfig = this.$store.state.indicators.indicators.find(
+          (ind) => ind.indicator === indicatorCode,
         );
+        // and load relevant data
+        let indicatorObject = await loadIndicatorData(
+          this.baseConfig,
+          indicatorConfig,
+        );
+
+        const currentFeatureObject = indicatorObject.features.find(
+          (feat) => feat.id === poi,
+        );
+        let currentFeatureData;
+        if (currentFeatureObject) {
+          // Merge info of feature object into indicator object as it overwrites some info
+          indicatorObject = {
+            ...indicatorObject,
+            ...currentFeatureObject.properties.indicatorObject,
+          };
+          currentFeatureData = await loadFeatureData(
+            this.baseConfig, currentFeatureObject.properties,
+          );
+          // Set subaoi info in indicatorobject
+          indicatorObject.subAoi = currentFeatureData.subAoi;
+        }
         if (f.mapInfo
           && (firstCall || f.poi === this.savedPoi || !this.localCenter[f.poi])
         ) {
@@ -816,10 +834,10 @@ export default {
             this.$set(this.serverCompareLayerTime, f.poi, f.mapInfo.compareLayerTime);
           }
         }
-
         return {
           ...f,
           indicatorObject,
+          currentFeatureData,
         };
       }));
     },
@@ -881,7 +899,6 @@ export default {
       this.numberOfRows = noOfRows;
     },
     swipe(poi) {
-      console.log(poi);
       this.$set(this.overlay, poi, true);
       setTimeout(() => {
         this.$set(this.overlay, poi, false);

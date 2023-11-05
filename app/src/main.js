@@ -27,12 +27,22 @@ import customDashboardApiFactory from './custom-dashboard';
 import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
+import '@eox/itemfilter';
+import '@eox/layercontrol';
+import '@eox/stacinfo';
+
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
 
 Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
+
+Vue.config.ignoredElements = [
+  'eox-itemfilter',
+  'eox-layercontrol',
+  'eox-stacinfo',
+];
 
 Vue.use(VuePapaParse);
 
@@ -75,7 +85,8 @@ Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
-  store.dispatch('features/loadAllEndpoints');
+  // store.dispatch('features/loadAllEndpoints');
+  store.dispatch('indicators/loadSTACIndicators');
 
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -84,7 +95,7 @@ const renderVue = async () => {
       options: {
         customProperties: true,
       },
-      dark: mq.matches,
+      dark: false,
       themes: {
         light: {
           primary: store.state.config.appConfig

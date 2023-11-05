@@ -84,7 +84,6 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
-      'getLatestUpdate',
     ]),
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
@@ -100,7 +99,7 @@ export default {
   methods: {
     featureLength(type) {
       return this.allFeatures
-        .filter((i) => !i.properties.indicatorObject.dummyFeature && this.baseConfig
+        .filter((i) => this.baseConfig
           .indicatorsDefinition[i.properties.indicatorObject.indicator]
           .themes.includes(type)).length;
     },

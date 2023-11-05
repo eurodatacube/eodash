@@ -23,6 +23,7 @@
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
       <map-chart
+        v-if='datacollection'
         id="chart"
         class="fill-height"
         :width="null"
@@ -69,7 +70,7 @@
     </v-btn>
   </div>
   <div style="width: 100%; height: 100%;" v-else>
-    <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator)'
+    <line-chart v-if='lineChartIndicators.includes(indicatorObject.indicator) && dataObject'
       id="chart" ref="lineChart"
       @extentChanged="extentChanged"
       class="fill-height"
@@ -105,6 +106,7 @@ import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 export default {
   props: {
     currentIndicator: Object,
+    currentFeatureData: Object,
     disableAutoFocus: Boolean,
     enableMapTimeInteraction: Boolean,
   },
@@ -121,16 +123,17 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
+        'N1_NO2', // Separation of N1 indocators
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
+        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'GHSBUILT',
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
@@ -140,7 +143,7 @@ export default {
         'E10a1', 'E10a5', 'N2',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL2', 'REP4_5', 'AQ1',
+        'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -148,17 +151,21 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
+      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'AQ3', 'MOBI1', 'MOBI1_1',
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'Lakes_SWT', 'REP1', 'REP1_1', 'REP1_2'],
     };
   },
   mounted() {
-    const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    const formatted = d.toFormat('dd. MMM');
-    this.dataLayerTime = {
-      value: formatted,
-      name: formatted,
-    };
+    if (Array.isArray(this.indicatorObject.time)) {
+      const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
+      if (d.toFormat) {
+        const formatted = d.toFormat('dd. MMM');
+        this.dataLayerTime = {
+          value: formatted,
+          name: formatted,
+        };
+      }
+    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -166,12 +173,13 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     arrayOfObjects() {
       const indicator = { ...this.indicatorObject };
+      const featureData = this.dataObject;
       const indicatorCode = indicator.indicator;
       const selectionOptions = [];
       if (this.mapchartIndicators.includes(indicatorCode)) {
         // Find all unique day/month available
         const timeset = new Set(
-          indicator.time.map((d) => d.toFormat('dd. MMM')),
+          featureData.time.map((d) => d.toFormat('dd. MMM')),
         );
         timeset.forEach((t) => {
           selectionOptions.push({
@@ -184,12 +192,13 @@ export default {
     },
     datacollection() {
       const indicator = { ...this.indicatorObject };
+      const featureData = this.dataObject;
       const indicatorCode = indicator.indicator;
       const { refColors } = this.appConfig;
       let labels = [];
       const datasets = [];
-      if (indicator) {
-        const { measurement } = indicator;
+      if (indicator && featureData) {
+        const { measurement } = featureData;
         const colors = [];
 
         // Definition of data structure type of indicator
@@ -412,9 +421,11 @@ export default {
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
         referenceDecompose.Lakes_SWT = referenceDecompose.N1;
+        referenceDecompose.GHSBUILT = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
+        referenceDecompose.N1_NO2 = referenceDecompose.N1;
 
         referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
 
@@ -426,8 +437,8 @@ export default {
         // Generators based on data type
         if (Object.keys(referenceDecompose).includes(indicatorCode)) {
           if ('measurementConfig' in referenceDecompose[indicatorCode]) {
-            const data = indicator.measurement.map((val, rowIdx) => ({
-              t: indicator.time[rowIdx],
+            const data = featureData.measurement.map((val, rowIdx) => ({
+              t: featureData.time[rowIdx],
               y: val,
             }));
             datasets.push({
@@ -437,8 +448,8 @@ export default {
           }
           referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
             const data = [];
-            indicator.referenceValue.forEach((item, rowIdx) => {
-              const usedTime = 'referenceTime' in entry ? indicator.referenceTime[rowIdx] : indicator.time[rowIdx];
+            featureData.referenceValue.forEach((item, rowIdx) => {
+              const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
               if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
                 let obj;
                 if ('valueDecompose' in referenceDecompose[indicatorCode]) {
@@ -459,7 +470,7 @@ export default {
                 } else if ('calc' in entry) {
                   data.push({
                     t: usedTime,
-                    y: entry.calc(indicator.measurement[rowIdx], obj),
+                    y: entry.calc(featureData.measurement[rowIdx], obj),
                   });
                 }
               } else {
@@ -495,12 +506,12 @@ export default {
         if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
           const indicatorValues = {};
-          indicator.indicatorValue.map((val, i) => {
+          featureData.indicatorValue.map((val, i) => {
             let key = val.toLowerCase();
             key = key.charAt(0).toUpperCase() + key.slice(1);
             if (!['', '/'].includes(key) && typeof indicatorValues[key] === 'undefined') {
               indicatorValues[key] = this.getIndicatorColor(
-                indicator.colorCode[i],
+                featureData.colorCode[i],
                 true,
               );
             }
@@ -510,7 +521,7 @@ export default {
           Object.entries(indicatorValues).forEach(([key, value]) => {
             const data = measurement.map((row, i) => {
               let val = row;
-              if (indicator.indicatorValue[i] !== key.toUpperCase()) {
+              if (featureData.indicatorValue[i] !== key.toUpperCase()) {
                 val = NaN;
               }
               let y = Number.isNaN(val) ? Number.NaN : (10 ** val);
@@ -518,7 +529,7 @@ export default {
                 y = Number.isNaN(val) ? Number.NaN : val;
               }
               return {
-                t: indicator.time[i],
+                t: featureData.time[i],
                 y,
               };
             });
@@ -537,8 +548,8 @@ export default {
         // Generate data for datasets where a string array is passed as measurements
         if (Object.keys(measDecompose).includes(indicatorCode)) {
           measDecompose[indicatorCode].forEach((key, idx) => {
-            const data = indicator.measurement.map((row, rowIdx) => ({
-              t: indicator.time[rowIdx],
+            const data = featureData.measurement.map((row, rowIdx) => ({
+              t: featureData.time[rowIdx],
               y: row[idx],
             }));
             datasets.push({
@@ -556,7 +567,7 @@ export default {
         // Generate data for datasets where a string array is passed as indicator object
         if (Object.keys(indicatorDecompose).includes(indicatorCode)) {
           indicatorDecompose[indicatorCode].forEach((key, idx) => {
-            const data = indicator.Values.map((entry) => ({
+            const data = featureData.Values.map((entry) => ({
               t: DateTime.fromISO(entry.date),
               y: entry[key],
             }));
@@ -578,9 +589,9 @@ export default {
             && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
-          const referenceValue = indicator.referenceValue.map(Number);
+          const referenceValue = featureData.referenceValue.map(Number);
           let datemodifier = { year: 2000 };
-          if ((indicatorCode === 'E10a1' && indicator.aoiID === 'ES8')
+          if ((indicatorCode === 'E10a1' && featureData.aoiID === 'ES8')
               || indicatorCode === 'E10a5') {
             // ES8 has different days as reference value, can only be grouped
             // when having same date, we set them all to day 1 of month
@@ -588,18 +599,18 @@ export default {
               year: 2000, day: 1, hour: 1, minute: 0, second: 0,
             };
           }
-          indicator.time.forEach((date, i) => {
+          featureData.time.forEach((date, i) => {
             const meas = {
               t: date.set(datemodifier),
               y: measurement[i],
-              indicatorValue: indicator.indicatorValue[i],
+              indicatorValue: featureData.indicatorValue[i],
             };
             if (typeof uniqueMeas.find((item) => item.t.equals(meas.t)) === 'undefined') {
               uniqueMeas.push(meas);
             }
           });
-          indicator.referenceTime.forEach((date, i) => {
-            if (!['', '/'].includes(indicator.referenceValue[i])) {
+          featureData.referenceTime.forEach((date, i) => {
+            if (!['', '/'].includes(featureData.referenceValue[i])) {
               const ref = {
                 t: date.set(datemodifier),
                 y: referenceValue[i],
@@ -630,12 +641,12 @@ export default {
         }
 
         if (['N3b'].includes(indicatorCode)) {
-          const sensors = Array.from(new Set(indicator.eoSensor)).sort();
+          const sensors = Array.from(new Set(featureData.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
-            const data = indicator.time.map((date, i) => {
+            const data = featureData.time.map((date, i) => {
               let output = null;
-              if (indicator.eoSensor[i] === pKey) {
+              if (featureData.eoSensor[i] === pKey) {
                 output = { t: date, y: measurement[i] };
               }
               return output;
@@ -654,15 +665,15 @@ export default {
             });
           }
         } else if (['N4c'].includes(indicatorCode)) {
-          const measData = indicator.measurement.map(Number);
+          const measData = featureData.measurement.map(Number);
           measData.shift();
-          const refData = indicator.referenceValue.map(Number);
+          const refData = featureData.referenceValue.map(Number);
           refData.shift();
 
           labels = [
-            indicator.referenceTime[0].toISODate(),
-            indicator.time[0].toISODate(),
-            indicator.time[5].toISODate(),
+            featureData.referenceTime[0].toISODate(),
+            featureData.time[0].toISODate(),
+            featureData.time[5].toISODate(),
           ];
 
           datasets.push({
@@ -688,9 +699,9 @@ export default {
         } else if (['E10a10'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
-          indicator.time.forEach((t, i) => {
+          featureData.time.forEach((t, i) => {
             data.push({ t, y: measurement[i] * 100 });
-            refData.push({ t, y: indicator.referenceValue[i] * 100 });
+            refData.push({ t, y: featureData.referenceValue[i] * 100 });
           });
           datasets.push({
             label: 'Observation',
@@ -713,16 +724,16 @@ export default {
         } else if (['E13n', 'C1', 'C2', 'C3'].includes(indicatorCode)) {
           // Group by indicator value
           const types = {};
-          indicator.indicatorValue.forEach((ind, idx) => {
+          featureData.indicatorValue.forEach((ind, idx) => {
             if (Object.keys(types).includes(ind)) {
               types[ind].push({
-                t: DateTime.fromISO(indicator.time[idx]),
-                y: Number(indicator.measurement[idx]),
+                t: DateTime.fromISO(featureData.time[idx]),
+                y: Number(featureData.measurement[idx]),
               });
             } else {
               types[ind] = [{
-                t: DateTime.fromISO(indicator.time[idx]),
-                y: Number(indicator.measurement[idx]),
+                t: DateTime.fromISO(featureData.time[idx]),
+                y: Number(featureData.measurement[idx]),
               }];
             }
           });
@@ -738,16 +749,16 @@ export default {
           });
         } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
-          const data = indicator.time.map((date, i) => {
+          const data = featureData.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
-              indicator.colorCode[i],
+              featureData.colorCode[i],
             ));
             const result = {
               t: date,
               y: measurement[i],
             };
-            if (indicator.referenceValue[i]) {
-              result.referenceValue = indicator.referenceValue[i].replace(/[[\]]/g, '');
+            if (featureData.referenceValue[i]) {
+              result.referenceValue = featureData.referenceValue[i].replace(/[[\]]/g, '');
             }
             return result;
           });
@@ -802,15 +813,15 @@ export default {
           let tmpTime = 0;
           const min = Math.min(...this.indicatorObject.measurement);
           const max = Math.max(...this.indicatorObject.measurement);
-          indicator.measurement.forEach((item, i) => {
+          featureData.measurement.forEach((item, i) => {
             data.push({
-              t: indicator.time[i],
+              t: featureData.time[i],
               y: item,
-              color: indicator.indicatorValue[i],
+              color: featureData.indicatorValue[i],
             });
             if (counter < 4) {
               tmpVal += item;
-              tmpTime += indicator.time[i].toMillis();
+              tmpTime += featureData.time[i].toMillis();
               counter += 1;
             } else {
               average.push({
@@ -900,11 +911,11 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === indicator.siteName[i]));
+              f.properties.NUTS_ID === featureData.siteName[i]));
             let output;
             if (geom) {
-              if (currIDs.indexOf(indicator.siteName[i]) === -1) {
-                currIDs.push(indicator.siteName[i]);
+              if (currIDs.indexOf(featureData.siteName[i]) === -1) {
+                currIDs.push(featureData.siteName[i]);
                 outline.push({
                   type: 'Feature',
                   properties: {},
@@ -928,15 +939,15 @@ export default {
                 latitude: centerPoint.lat,
                 longitude: centerPoint.lon,
                 name: geom.properties.NUTS_NAME,
-                time: indicator.time[i],
+                time: featureData.time[i],
                 value: Number(meas),
-                referenceTime: indicator.referenceTime[i],
-                referenceValue: indicator.referenceValue[i],
-                color: indicator.colorCode[i],
+                referenceTime: featureData.referenceTime[i],
+                referenceValue: featureData.referenceValue[i],
+                color: featureData.colorCode[i],
               };
               if (indicatorCode === 'E10a8') {
                 // Swap value to have reference value
-                output.value = Number(indicator.referenceValue[i]);
+                output.value = Number(featureData.referenceValue[i]);
                 output.referenceValue = Number(meas);
               }
             }
@@ -969,30 +980,14 @@ export default {
             data: filteredFeatures,
             clipMap: 'items',
           });
-        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
+        } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'MOBI1_1', 'AQ3', 'REP4_1',
+          'REP4_4', 'REP4_6', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'XCubeCustomLineChart'].includes(indicatorCode)) {
           // Rendering for fetched data
-          // TODO: there are quite some dependencies on the expected structure of the data, so
-          // it is not possible to show easily multiple parameters
-          /*
-          indicator.retrievedData.forEach((key, i) => {
-            datasets.push({
-              // fill with empty values
-              indLabels: Array(dataGroups[key].length).join('.').split('.'),
-              label: key,
-              fill: false,
-              data: indicator.retrievedData[key],
-              backgroundColor: refColors[yLength - i],
-              borderColor: refColors[yLength - i],
-              borderWidth: 2,
-            });
-          });
-          */
-          const data = indicator.time.map((date, i) => (
-            { t: date, y: indicator.measurement[i] }
+          const data = featureData.time.map((date, i) => (
+            { t: date, y: featureData.measurement[i] }
           ));
           let label = indicator.yAxis;
-          if (['MOBI1'].includes(indicatorCode)) {
+          if (['MOBI1', 'MOBI1_1'].includes(indicatorCode)) {
             label = 'time series for selected area';
           }
           datasets.push({
@@ -1006,10 +1001,10 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['AQ1'].includes(indicatorCode)) {
+        } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           datasets.push({
             label: 'data for selected bins',
@@ -1021,9 +1016,9 @@ export default {
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
           });
-        } else if (['SOL1'].includes(indicatorCode)) {
+        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          Object.keys(indicator.fetchedData).forEach((gemId, ind) => {
+          Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
             const x = [];
             const y = [];
@@ -1032,11 +1027,11 @@ export default {
             let counter = 0;
             const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
               '#9a08c7', '#e60532', '#d66d11'];
-            Object.keys(indicator.fetchedData[gemId]).forEach((zspId) => {
-              x.push(indicator.fetchedData[gemId][zspId].measurement);
-              y.push(indicator.fetchedData[gemId][zspId].referenceValue);
+            Object.keys(featureData.fetchedData[gemId]).forEach((zspId) => {
+              x.push(featureData.fetchedData[gemId][zspId].measurement);
+              y.push(featureData.fetchedData[gemId][zspId].referenceValue);
               zsps.push(zspId);
-              if (indicator.originalZsps.map((ftr) => ftr.getId())
+              if (featureData.originalZsps.map((ftr) => ftr.getId())
                 .includes(parseInt(zspId, 10))) {
                 const ii = counter % availableSelectedColors.length;
                 clrs.push(`${availableSelectedColors[ii]}80`);
@@ -1051,7 +1046,7 @@ export default {
               { x: mm, y: y[j], zsp: zsps[j] }
             ));
             datasets.push({
-              label: indicator.gemIds[gemId].trim(),
+              label: featureData.gemIds[gemId].trim(),
               fill: false,
               data,
               backgroundColor: clrs,
@@ -1060,10 +1055,10 @@ export default {
               pointRadius: 2,
             });
           });
-        } else if (['SOL2'].includes(indicatorCode)) {
+        } else if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           datasets.push({
             label: indicator.yAxis,
@@ -1078,8 +1073,8 @@ export default {
           });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
-          const data = indicator.referenceValue.map((x, i) => (
-            { x, y: indicator.measurement[i] }
+          const data = featureData.referenceValue.map((x, i) => (
+            { x, y: featureData.measurement[i] }
           ));
           // This should be done somehow different, but xAxis is not in indicator mapping
           // eslint-disable-next-line
@@ -1097,13 +1092,13 @@ export default {
         if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
           // monthly average as extra dataset
           const average = [];
-          let tempDate = indicator.time[0];
+          let tempDate = featureData.time[0];
           let tmpVal = 0;
           let counter = 0;
-          indicator.measurement.forEach((item, i) => {
+          featureData.measurement.forEach((item, i) => {
             if (
-              tempDate.month === indicator.time[i].month
-              && tempDate.year === indicator.time[i].year
+              tempDate.month === featureData.time[i].month
+              && tempDate.year === featureData.time[i].year
             ) {
               tmpVal += item;
               counter += 1;
@@ -1112,7 +1107,7 @@ export default {
                 t: DateTime.fromISO(tempDate.toISODate()).set({ day: 15 }),
                 y: tmpVal / counter,
               });
-              tempDate = DateTime.fromISO(indicator.time[i].toISODate());
+              tempDate = DateTime.fromISO(featureData.time[i].toISODate());
               counter = 0;
               tmpVal = 0;
             }
@@ -1128,11 +1123,29 @@ export default {
             showLine: true,
           });
         }
+        if (['REP1', 'REP1_1', 'REP1_2'].includes(indicatorCode)) {
+          const data = [];
+          featureData.measurement.forEach((item, i) => {
+            data.push({
+              t: featureData.time[i],
+              y: item,
+            });
+          });
+          datasets.push({
+            label: 'Monthly average wind speed for selected ZSP',
+            data,
+            fill: false,
+            borderColor: '#003247',
+            backgroundColor: '#003247',
+            borderWidth: 1,
+            pointRadius: 4,
+          });
+        }
         if (datasets.length === 0) {
           // No special handling of dataset is required we use default generator
-          const data = indicator.time.map((date, i) => {
-            colors.push(this.getIndicatorColor(indicator.colorCode[i]));
-            return { t: date, y: indicator.measurement[i] };
+          const data = featureData.time.map((date, i) => {
+            colors.push(this.getIndicatorColor(featureData.colorCode[i]));
+            return { t: date, y: featureData.measurement[i] };
           });
           const conf = {
             data,
@@ -1151,9 +1164,23 @@ export default {
       return { labels, datasets };
     },
     indicatorObject() {
+      // Return either the set prop (custom dashbaord) or the selected feature object
       return this.currentIndicator
         || this.$store.state.indicators.customAreaIndicator
-        || this.$store.state.indicators.selectedIndicator;
+        || this.$store.state.features.selectedFeature.indicatorObject;
+      // TODO: In the future we probably will want to remove the customareaindicator concept
+    },
+    dataObject() {
+      let datObj = null;
+      if (this.currentFeatureData) {
+        datObj = this.currentFeatureData;
+      } else if (this.$store.state.features?.featureData?.time) {
+        // Only use the featureData if it has the times property (maps with locations dont have it)
+        datObj = this.$store.state.features.featureData;
+      } else if (this.$store.state.indicators.customAreaIndicator) {
+        datObj = this.$store.state.indicators.customAreaIndicator;
+      }
+      return datObj;
     },
     indDefinition() {
       return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
@@ -1248,9 +1275,8 @@ export default {
         },
       };
       const indicatorCode = this.indicatorObject.indicator;
-      const reference = Number.parseFloat(this.indicatorObject.referenceValue);
+      const reference = Number.parseFloat(this.dataObject.referenceValue);
       const annotations = [];
-
       let low = 0;
       let high = 0;
 
@@ -1355,11 +1381,11 @@ export default {
       if (['C1', 'C2', 'C3'].includes(indicatorCode)) {
         customSettings.yAxisRange = [
           Math.min(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ) - 2,
           Math.max(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ),
         ];
@@ -1372,6 +1398,15 @@ export default {
           displayFormats: { month: 'MMM yyyy' },
           tooltipFormat: 'MMM yyyy',
         };
+      }
+
+      if (['REP1', 'REP1_1', 'REP1_2'].includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM' },
+          tooltipFormat: 'MMM',
+        };
+        customSettings.yAxisRange = [0, 8];
       }
 
       if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
@@ -1422,7 +1457,7 @@ export default {
         customSettings.yAxisRange = [
           0,
           Math.max(
-            ...this.indicatorObject.measurement
+            ...this.dataObject.measurement
               .filter((d) => !Number.isNaN(d)),
           ),
         ];
@@ -1585,8 +1620,8 @@ export default {
           mode: 'nearest',
         };
         // We use min max values to define y axis scale range
-        const min = Math.min(...this.indicatorObject.measurement);
-        const max = Math.max(...this.indicatorObject.measurement);
+        const min = Math.min(...this.dataObject.measurement);
+        const max = Math.max(...this.dataObject.measurement);
         customSettings.yAxisOverwrite = {
           ticks: {
             callback: (...args) => {
@@ -1644,7 +1679,10 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
+      if ([
+        'N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST',
+        'N1_SO2', 'GHSBUILT',
+      ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
@@ -1728,7 +1766,7 @@ export default {
         customSettings.hideRestrictions = true;
       }
 
-      if (['SOL1'].includes(indicatorCode)) {
+      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
             label: (context, data) => {

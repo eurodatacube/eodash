@@ -10,6 +10,8 @@ const format = new Wkt();
 let globalIdCounter = 0;
 const state = {
   allFeatures: [],
+  selectedFeature: null,
+  featureData: null,
   featureFilters: {
     countries: [],
     indicators: [],
@@ -70,10 +72,13 @@ const getters = {
           archived: f.properties.indicatorObject.description
             && (f.properties.indicatorObject.description.includes('(archived)')),
           code: f.properties.indicatorObject.indicator,
+          description: f.properties.indicatorObject.description,
           indicator: f.properties.indicatorObject.description,
+          region: f.properties.indicatorObject.region,
           themes: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].themes,
+          title: f.properties.indicatorObject.indicatorName,
           indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
             f.properties.indicatorObject.indicator
           ].indicatorOverwrite,
@@ -94,114 +99,51 @@ const getters = {
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
-  getFeatures(state, _, rootState) {
+  getFeatures(state) {
     let features = state.allFeatures;
-
-    if (state.featureFilters.countries.length > 0) {
-      features = features
-        .filter((f) => {
-          if (Array.isArray(f.properties.indicatorObject.country)) {
-            return f.properties.indicatorObject.country
-              .includes(state.featureFilters.countries);
-          } else { // eslint-disable-line
-            return state.featureFilters.countries
-              .includes(f.properties.indicatorObject.country)
-              || f.properties.indicatorObject.city === 'World';
+    // due to a mismatch in keys (e.g. 'countries' vs. 'country' etc.) between the STAC properties
+    // and the indicatorObject properties this cannot be 100% automated and a keymap is necessary
+    // TODO as soon as keys are harmonized, automate this
+    const keyMap = {
+      countries: 'country',
+      cities: 'city',
+    };
+    const indicatorsFilter = document.querySelector('eox-itemfilter');
+    if (indicatorsFilter) {
+      const { filters } = indicatorsFilter;
+      Object.keys(filters)
+        .filter((filterName) => Object.keys(keyMap).includes(filterName))
+        .forEach((filterName) => {
+          // remove features not matching active countries or cities filter
+          const whiteList = Object.entries(filters[filterName].state)
+            .filter(([, value]) => !!value)
+            .map(([key]) => key);
+          if (whiteList.length > 0) {
+            features = features.filter(
+              (f) => whiteList.includes(f.properties.indicatorObject[keyMap[filterName]]),
+            );
           }
         });
     }
-    if (state.featureFilters.indicators.length > 0) {
-      features = features
-        .filter((f) => {
-          if (['N9', 'N10'].includes(f.properties.indicatorObject.indicator)) {
-            return state.featureFilters.indicators.includes('N1');
-          }
-          return state.featureFilters.indicators
-            .includes(f.properties.indicatorObject.indicator);
-        });
-    }
-    if (state.featureFilters.themes.length > 0) {
-      features = features
-        .filter((f) => rootState.themes.currentPOIsIncludedInTheme
-          .includes(`${
-            f.properties.indicatorObject.aoiID}-${
-            f.properties.indicatorObject.indicator}`));
-    }
-    if (state.featureFilters.custom.length > 0) {
-      features = features
-        .filter((f) => state.featureFilters.custom
-          .map((c) => getLocationCode(c.properties.indicatorObject))
-          .includes(getLocationCode(f.properties.indicatorObject)));
-    }
-
-    if (!state.featureFilters.includeArchived) {
-      features = features.filter((f) => (f.properties.indicatorObject.updateFrequency ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true));
-    }
-
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
 
     return features;
   },
-  getFeaturesGtifMap(state) {
-    let features = state.allFeatures;
-    // explicitly include only those features from current indicators filters
-    if (state.featureFilters.indicators.length > 0) {
-      features = features
-        .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject.indicator));
-      return features;
-    }
-    return [];
-  },
-  getGroupedFeatures(state, getters, rootState) {
-    let allFeatures = [];
-    if (state.allFeatures.length > 0) {
-      const groupedFeatures = [];
-      if (rootState.config.appConfig.featureGrouping) {
-        rootState.config.appConfig.featureGrouping.forEach((fG) => {
-          const firstFeature = getters.getFeatures
-            .find((f) => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
-          if (firstFeature) {
-            groupedFeatures.push(firstFeature);
-          }
-        });
-      }
-      const restFeatures = rootState.config.appConfig.featureGrouping
-        ? getters.getFeatures
-          .filter((f) => {
-            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
-            return !rootState.config.appConfig.featureGrouping
-              .find((fG) => fG.features.includes(locationCode));
-          })
-        : getters.getFeatures;
-      allFeatures = groupedFeatures.concat(restFeatures);
-    }
-    return allFeatures;
-  },
-  getLatestUpdate(state) {
-    const times = state.allFeatures.map((f) => {
-      let time = f.properties.indicatorObject.Time;
-      let latest;
-      if (time && time.length > 0) {
-        time = time.sort((a, b) => ((a > b) ? 1 : -1));
-        latest = time[time.length - 1];
-      }
-      return latest;
-    });
-    const filtered = times.filter((t) => !!t).sort((a, b) => ((a > b) ? 1 : -1));
-    return filtered[filtered.length - 1];
-  },
 };
 
 const mutations = {
-  // SET_MANUAL_FEATURES(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(
-  //     features,
-  //     this.state.config.baseConfig.globalIndicators,
-  //   );
-  // },
+  SET_SELECTED_FEATURE(state, feature) {
+    state.featureData = null;
+    state.selectedFeature = feature;
+  },
+  FEATURE_LOAD_FINISHED(state, featureData) {
+    state.featureData = featureData;
+  },
+  SET_FEATURES(state, features) {
+    state.allFeatures = features;
+  },
   ADD_NEW_FEATURES(state, features) {
     // We do name replacing as based on the configuration file
     // as some data sources are external to us
@@ -242,9 +184,6 @@ const mutations = {
     // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
-  // SET_ALL_DUMMY_LOCATIONS(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(features);
-  // },
   INIT_FEATURE_FILTER(state, { countries, indicators }) {
     if (countries) {
       state.featureFilters.countries = countries;
@@ -319,11 +258,6 @@ const actions = {
     // Then, add the hardcoded features
     allFeatures = allFeatures.concat(rootState.config.baseConfig.globalIndicators);
 
-    // Then, if applicable, add the dummy features
-    if (rootState.config.appConfig.displayDummyLocations) {
-      const dummyFeatures = await this.dispatch('features/loadDummyLocations');
-      allFeatures = allFeatures.concat(dummyFeatures);
-    }
     commit('ADD_NEW_FEATURES', allFeatures);
   },
 
@@ -513,45 +447,6 @@ const actions = {
         }
         return features;
       });
-  },
-
-  loadDummyLocations({ rootState }) {
-    return new Promise((resolve) => {
-      this._vm.$papa.parse(rootState.config.appConfig.displayDummyLocations, {
-        download: true,
-        quotes: true,
-        header: true,
-        skipEmptyLines: true,
-        delimiter: ',',
-        complete: (result) => {
-          const { data } = result;
-          const featureObjs = {};
-          for (let rr = 0; rr < data.length; rr += 1) {
-            const uniqueKey = `${data[rr].aoi}_d`;
-            featureObjs[uniqueKey] = data[rr];
-            featureObjs[uniqueKey].indicator = 'd';
-            featureObjs[uniqueKey].indicatorValue = [''];
-            featureObjs[uniqueKey].dummyFeature = true;
-          }
-          const features = [];
-          const keys = Object.keys(featureObjs);
-
-          for (let kk = 0; kk < keys.length; kk += 1) {
-            const coordinates = keys[kk].split('_')[0].split(',').map(Number);
-            featureObjs[keys[kk]].id = globalIdCounter; // to connect indicator & feature
-            featureObjs[keys[kk]].aoi = latLng([coordinates[1], coordinates[0]]);
-            features.push({
-              id: globalIdCounter,
-              properties: {
-                indicatorObject: featureObjs[keys[kk]],
-              },
-            });
-            globalIdCounter += 1;
-          }
-          resolve(features);
-        },
-      });
-    });
   },
 };
 

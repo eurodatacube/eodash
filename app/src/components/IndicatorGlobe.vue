@@ -89,7 +89,6 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
-import { getIndicatorFilteredInputData } from '@/utils';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -138,10 +137,10 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       // expects an array of objects
-      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
+      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersMap;
     },
     attributions() {
       return [
@@ -150,7 +149,7 @@ export default {
       ];
     },
     indicator() {
-      return getIndicatorFilteredInputData(this.currentIndicator);
+      return this.currentIndicator;
     },
     indicatorObject() {
       return this.currentIndicator
@@ -159,7 +158,6 @@ export default {
     mergedConfigsData() {
       return createConfigFromIndicator(
         this.indicator,
-        'data',
         this.getCurrentIndex('data'),
       );
     },
@@ -224,16 +222,9 @@ export default {
           const lIndex = this.viewer.imageryLayers.indexOf(layer);
           // Remove and recreate layer to make sure new time is loaded
           this.viewer.imageryLayers.remove(layer, true);
-          if ('combinedLayers' in this.mergedConfigsData[0]) {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
-              lIndex,
-            ));
-          } else {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
-            ));
-          }
+          newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+            this.createImageryProvider(this.mergedConfigsData[index]), lIndex,
+          ));
         });
         this.dataLayers = newDataLayers;
       }
@@ -285,6 +276,8 @@ export default {
                 transparent: 'true',
                 time: config.dateFormatFunction(this.dataLayerTime.value),
               },
+              tileWidth: config.tileSize,
+              tileHeight: config.tileSize,
             });
             break;
           default:
@@ -320,17 +313,11 @@ export default {
         },
       });
       this.dataLayers = [];
-      if ('combinedLayers' in this.mergedConfigsData[0]) {
-        this.mergedConfigsData[0].combinedLayers.forEach((l) => {
-          this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-            this.createImageryProvider(l),
-          ));
-        });
-      } else {
+      this.mergedConfigsData.forEach((layerDef) => {
         this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-          this.createImageryProvider(this.mergedConfigsData[0]),
+          this.createImageryProvider(layerDef),
         ));
-      }
+      });
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;
