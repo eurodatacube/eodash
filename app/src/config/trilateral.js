@@ -101,6 +101,10 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   NLK: {
     indicatorSummary: 'Lakes',
     story: '/data/trilateral/NLK',
@@ -869,7 +873,6 @@ export const baseLayersMap = [
 export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
-  updateOpacityOnZoom: true,
 }];
 
 export const defaultLayersDisplay = {
@@ -1245,7 +1248,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
@@ -1287,7 +1290,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         showGlobe: true,
         display: [{
@@ -1322,7 +1325,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
           name: 'Sea Ice Concentration',
