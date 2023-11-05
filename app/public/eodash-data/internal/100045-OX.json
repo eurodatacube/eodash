@@ -3826,5 +3826,38 @@
         "reference_time": "",
         "reference_value": "",
         "time": "2023-09-04T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.43",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-09-11T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Green",
+        "input_data": "",
+        "measurement_value": "0.42",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-09-18T00:00:00"
+    },
+    {
+        "color_code": "Green",
+        "data_provider": "OILX",
+        "eo_sensor": "",
+        "indicator_value": "Orange (Low)",
+        "input_data": "",
+        "measurement_value": "0.42",
+        "reference_time": "",
+        "reference_value": "",
+        "time": "2023-09-25T00:00:00"
     }
 ]
