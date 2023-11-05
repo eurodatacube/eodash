@@ -7,7 +7,7 @@
     <v-row>
       <v-col>
         <h3>
-          2023-11-03: Multiple new stories added to EO Dashboard related to Lakes!
+          2023-11-03: New data, notebooks, and tutorials
         </h3>
         <ul>
           <li>New dataset added: Global Human Settlement
