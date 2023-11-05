@@ -252,7 +252,6 @@ export const fetchCustomAreaObjects = async (
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
   }
-  indicator.title = 'User defined area of interest';
   const templateSubst = {
     ...indicator,
     ...options,

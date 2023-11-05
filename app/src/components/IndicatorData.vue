@@ -1681,7 +1681,7 @@ export default {
       // Special handling for chart including STD representation
       if ([
         'N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST',
-        'N1_SO2', 'GHSBUILT'
+        'N1_SO2', 'GHSBUILT',
       ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {

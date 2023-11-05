@@ -870,7 +870,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
                 ['between', ['band', 1], ['var', 'powerDensityMin'], ['var', 'powerDensityMax']],
                 ['between', ['band', 2], ['var', 'elevationMin'], ['var', 'elevationMax']],
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
-                ['>', ['band', 4], ['var', 'settlementDistance']],
+                ['>=', ['band', 4], ['var', 'settlementDistance']],
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
                 ['>=', ['band', 8], ['var', 'cadasterDistance']],

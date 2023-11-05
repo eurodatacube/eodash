@@ -288,8 +288,6 @@ export default {
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
       mobileTimeselectionToggle: false,
-      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
-      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       frozenLayerKey: null,
     };
   },
@@ -500,6 +498,9 @@ export default {
       };
     },
     availableTimeEntries() {
+      if (!this.indicator) {
+        return [];
+      }
       if (this.featureObject && this.featureData && this.featureData.time) {
         // merge information from both
         const mergedIndicator = {
@@ -849,8 +850,6 @@ export default {
 
     this.updateBaseLayers();
     this.updateOverlayLayers();
-    map.on('moveend', this.updateOverlayOpacity);
-    map.dispatchEvent({ type: 'moveend' });
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
@@ -990,25 +989,6 @@ export default {
         });
 
       this.updateLayers(overlayGroupCollection, overlayLayers);
-    },
-    updateOverlayOpacity(e) {
-      const map = e.target;
-      const view = map.getView();
-      const zoom = Math.floor(view.getZoom());
-      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
-
-      this.overlayConfigs.forEach((c) => {
-        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
-        if (layer.get('updateOpacityOnZoom')) {
-          if (layer.get('name') === 'Country vectors') {
-            layer.setOpacity(this.opacityCountries[zoom]);
-          } else {
-            // show overlays on low zoom levels for global indicators
-            const opacity = this.isGlobalIndicator ? 1 : this.opacityOverlay[zoom] || 0;
-            layer.setOpacity(opacity);
-          }
-        }
-      });
     },
     convertDateForMsg(time) {
       let timeConverted = null;
@@ -1302,8 +1282,6 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
-    const { map } = getMapInstance(this.mapId);
-    map.un('moveend', this.updateOverlayOpacity);
   },
 };
 </script>
