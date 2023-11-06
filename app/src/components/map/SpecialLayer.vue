@@ -262,7 +262,11 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
     this.layers.forEach((layer) => {
-      dataGroup.getLayers().remove(layer);
+      if (this.options.frozenLayer) {
+        map.getLayers().remove(layer);
+      } else {
+        dataGroup.getLayers().remove(layer);
+      }
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);
@@ -278,11 +282,6 @@ export default {
         const view = getViewInstance(this.mapId, projection);
         map.setView(view);
       }
-    }
-    if (this.options.frozenLayer) {
-      this.layers.forEach((layer) => {
-        map.getLayers().remove(layer);
-      });
     }
   },
 };

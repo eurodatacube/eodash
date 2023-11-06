@@ -12,7 +12,7 @@
       >
         Reset constraints
       </v-btn>
-      <div v-for="key in Object.keys(filters)"
+      <div v-for="[index, key] in Object.keys(filters).entries()"
         :key="key"
       >
         <template v-if="filters[key].display">
@@ -55,7 +55,7 @@
               v-model="filters[key].value"
               :label="filters[key].label"
               dense
-              @change="(evt) => updateMapBool(evt, filters[key].id)"
+              @change="(evt) => updateMapBool(evt, filters[key].id, index)"
             ></v-checkbox>
             <info-dialog
               v-if="filters[key].dataInfo"
@@ -80,7 +80,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="filters[key].step || (filters[key].max-filters[key].min)/100"
-            @input="(evt) => throttledUpdate(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id, index)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;"></div>
@@ -172,9 +172,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id, index);
                   } else {
-                    throttledUpdate([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id, index);
                   }
                 }"
               >
@@ -194,9 +194,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id, index);
                   } else {
-                    throttledUpdate([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id, index);
                   }
                 }"
               >
@@ -216,7 +216,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="filters[key].step || (filters[key].max-filters[key].min)/100"
-            @input="(evt) => throttledUpdate(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id, index)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
@@ -318,6 +318,7 @@ export default {
       originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
       reportLoading: false,
       zonesLoading: false,
+      layerSourceDidRefresh: false,
     };
   },
   computed: {
@@ -359,8 +360,8 @@ export default {
     },
   },
   created() {
-    this.throttledUpdate = throttle((evt, filterId) => {
-      this.updateMap(evt, filterId);
+    this.throttledUpdate = throttle((evt, filterId, index) => {
+      this.updateMap(evt, filterId, index);
     }, 150);
   },
   mounted() {
@@ -448,17 +449,27 @@ export default {
       this.resetMap();
     },
     resetMap() {
+      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
+      this.updateLayerStyle();
+    },
+    updateLayerStyle(filterIndex = 0) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
       if (gtl) {
+        // due to an unknown bug that can not be reproduced outside of eodash
+        // GeoTiff sources with index higher than 4 (start at 1) do behave as binary filter
+        // on the first load of this panel, manual resetting of source solves the issue
+        if (filterIndex > 4 && !this.layerSourceDidRefresh) {
+          const s = gtl.getSource();
+          gtl.setSource(null);
+          gtl.setSource(s);
+          // to refresh once per dataset is enough
+          this.layerSourceDidRefresh = true;
+        }
         gtl.updateStyleVariables(this.variables);
       }
     },
-    updateMap(evt, filterId) {
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-
+    updateMap(evt, filterId, filterIndex) {
       if (evt.length > 2) {
         [
           this.variables[`${filterId}Min`],
@@ -474,18 +485,12 @@ export default {
       } else {
         this.variables[`${filterId}`] = evt;
       }
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle(filterIndex);
     },
-    updateMapBool(evt, filterId) {
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+    updateMapBool(evt, filterId, filterIndex) {
       // converts to 0/1
       this.variables[filterId] = +evt;
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle(filterIndex);
     },
     updateVisualizationBand(evt, filterId) {
       if (Object.keys(this.filters).includes('visualization')) {
@@ -494,11 +499,7 @@ export default {
       }
       [this.variables.visualizationMin, this.variables.visualizationMax] = evt.range;
       this.variables[filterId] = evt.value;
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle();
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
