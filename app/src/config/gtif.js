@@ -1992,19 +1992,22 @@ export const globalIndicators = [
             },
             color: [
               'case',
-              ['between', ['band', 1], 0.1, 420],
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 1], ['var', 'biomassMin'], ['var', 'biomassMax']],
+              ],
               [
                 'interpolate',
                 ['linear'],
-                normalize(['band', 1], 'biomassMin', 'biomassMax'),
-                ...getColorStops('viridis', 0, 1, 64, false),
+                ['band', 1],
+                ...getColorStops('viridis', 0, 420, 64, false),
               ],
               [
                 'color', 0, 0, 0, 0,
               ],
             ],
           },
-          name: 'Above Ground Biomass',
         },
       },
     },
@@ -2081,7 +2084,6 @@ export const globalIndicators = [
               ['color', 0, 0, 0, 0],
             ],
           },
-          name: 'Annual Forest Mask',
         },
       },
     },
@@ -2239,7 +2241,6 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'Forest coverage',
         },
       },
     },
@@ -2289,7 +2290,6 @@ export const globalIndicators = [
               ['color', 0, 0, 0, 0],
             ],
           },
-          name: 'Forest change detections',
         },
         {
           protocol: 'GeoJSON',
@@ -2368,7 +2368,6 @@ export const globalIndicators = [
             ],
           },
           visible: true,
-          name: 'Micro Hydropower Potential',
           url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
           styleFunction: (feature) => {
             let radius = 0;
@@ -2427,7 +2426,6 @@ export const globalIndicators = [
           tileSize: 256,
           opacity: 1,
           url: 'https://tileserver.geoville.com/heatMap/LST_aggregated_reproc_filt_clipped_AT_buffered/%7Bz%7D/%7Bx%7D/%7By%7D.png/LST_aggregated_reproc_filt_clipped_AT_buffered/{z}/{x}/{y}.png',
-          name: 'Heat Explorer',
         }, {
           name: 'Communities',
           id: 'heatmap_vector',
@@ -2456,7 +2454,6 @@ export const globalIndicators = [
         display: {
           selectedTime: '2022-01-30',
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
-          name: 'Snow depth',
           layers: 'SNOW-DEPTH',
           attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
@@ -2475,7 +2472,6 @@ export const globalIndicators = [
         display: {
           selectedTime: '2022-01-30',
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
-          name: 'Snow water equivalent',
           layers: 'SWE',
           attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
