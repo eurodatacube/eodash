@@ -5,6 +5,9 @@
         <eox-stacinfo ref="stacInfoEl"
           @loaded="onStacInfoLoad"
           :for="getLink"
+          :styleOverride.prop="`#properties li > .value {
+              font-weight: normal !important;
+          }`"
           header="[]"
           subheader="[]"
           properties='["description"]'
