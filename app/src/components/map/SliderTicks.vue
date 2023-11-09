@@ -74,10 +74,7 @@ export default {
 
       this.lines.forEach((line, index) => {
         const currentTime = DateTime.fromISO(this.times[index].value);
-        console.log(currentTime);
         const currentYear = currentTime.year;
-
-        console.log(`Current year: ${currentYear} | Previous year: ${previousYear}`);
 
         // If it's the first tick or if the year has changed, add a year mark
         if (index === 0 || currentYear !== previousYear) {
@@ -89,6 +86,16 @@ export default {
 
         // Update previousYear for the next iteration
         previousYear = currentYear;
+      });
+
+      // Filter out year marks that are too close together, in favor of the second one.
+      return yearMarks.filter((current, i) => {
+        const next = yearMarks[i + 1];
+        if (next && next.position - current.position < 20) {
+          return false;
+        } else {
+          return true;
+        }
       });
 
       return yearMarks;
