@@ -55,7 +55,7 @@ export default {
     },
 
     /** Lines with limited tick frequency for display purposes only */
-    displayedLines () {
+    displayedLines() {
       const num = this.numLines > (this.width / 2)
         ? (this.width / 2)
         : this.numLines;
@@ -80,7 +80,7 @@ export default {
         if (index === 0 || currentYear !== previousYear) {
           yearMarks.push({
             label: currentYear,
-            position: line // Assuming 'line' is the position of the tick
+            position: line,
           });
         }
 
@@ -91,14 +91,8 @@ export default {
       // Filter out year marks that are too close together, in favor of the second one.
       return yearMarks.filter((current, i) => {
         const next = yearMarks[i + 1];
-        if (next && next.position - current.position < 20) {
-          return false;
-        } else {
-          return true;
-        }
+        return !(next && next.position - current.position < 20);
       });
-
-      return yearMarks;
     },
   },
   mounted() {
