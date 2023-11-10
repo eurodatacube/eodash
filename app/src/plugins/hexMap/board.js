@@ -52,7 +52,6 @@ export default class HexSweeperGame {
       for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
           const adjacentMines = this.calculateAdjacentMines(x, y);
-          console.log(`Cell at (${x}, ${y}) has ${adjacentMines} adjacent mines`);
           this.board[y][x].adjacentMines = adjacentMines;
         }
       }
@@ -87,7 +86,7 @@ export default class HexSweeperGame {
 
   enforceBounds(x, y) {
     if (this.isOutOfBounds(x, y)) {
-      throw new Error('Coordinates are out of bounds');
+      console.warn(`Coordinates [${x}, ${y}] are out of bounds`);
     }
   }
 
@@ -135,7 +134,6 @@ export default class HexSweeperGame {
   getAdjacentMineCount(x, y) {
     this.enforceBounds(x, y);
     const tile = this.get(x, y);
-    console.log(`Coordinates: (${x}, ${y}), Tile: ${JSON.stringify(tile)}, Adjacent Mines: ${tile.adjacentMines}`);
     return tile.adjacentMines;
   }
 
@@ -151,8 +149,8 @@ export default class HexSweeperGame {
     let count = 0;
 
     const neighbors = y % 2 === 0
-      ? [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]]
-      : [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
+      ? EVEN_NEIGHBOR_OFFSETS
+      : ODD_NEIGHBOR_OFFSETS;
 
     for (const [dx, dy] of neighbors) {
       const nx = x + dx;
@@ -166,30 +164,11 @@ export default class HexSweeperGame {
           && this.board[ny][nx].isMine
       ) {
         count++;
-        // console.log(`Mine detected at ${nx}, ${ny} when checking neighbors of ${x}, ${y}`);
       }
     }
-    console.log(count);
     return count;
   }
 
-  /*
-  calculateAdjacentMines(x, y) {
-    if (this.isMine(x, y)) return 0;
-
-    console.log(neighbors);
-
-    const neighbors = this.getNeighborCoordinates(x, y);
-    return neighbors.reduce((count, [nx, ny]) => {
-        if (this.isValidCoordinate(nx, ny) && this.board[ny][nx].isMine) {  // Note the corrected order of arguments
-            count++;
-        }
-        console.log(count);
-        return count;
-    }, 0);
-
-  }
-*/
   revealArea(x, y) {
     const tile = this.revealTile(x, y);
     if (!tile || tile.adjacentMines > 0) return;
@@ -202,7 +181,9 @@ export default class HexSweeperGame {
   }
 
   revealTile(x, y) {
+    console.log('Revealing tile at ${x}, ${y}');
     const tile = this.get(x, y);
+    console.log('Got tile: ${JSON.stringify(tile)}');
     if (tile.revealed || tile.flagged) return null;
     tile.revealed = true;
     return tile;
@@ -221,10 +202,7 @@ export default class HexSweeperGame {
   }
 
   get(x, y) {
-    if (!(this.board[y] && this.board[y][x])) {
-      throw console.error(`Cartesian board tile [${x}, ${y}] does not exist!`);
-    }
-
+    this.enforceBounds(x, y);
     return this.board[y][x];
   }
 

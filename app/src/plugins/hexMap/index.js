@@ -32,10 +32,12 @@ const setupGrid = (map) => {
 };
 
 const updateTileVisuals = (x, y, grid, vectorSource, game) => {
-  const [q, r] = game.convertGameCoordsToAxial(x, y);
+  const [q, r] = game.convertGameCoordsToAxial(x + 1, y);
   const hexagonVertices = grid.getHexagon([q, r]);
   const feature = new Feature(new Polygon([hexagonVertices]));
   const tile = game.get(x, y);
+
+  console.log(`Tile: ${tile.isMine ? '💣' : tile.adjacentMines}`);
 
   // Assign a unique identifier to the feature
   const featureId = `tile-${x}-${y}`;
@@ -111,13 +113,17 @@ const updateAllTileVisuals = (game, grid, vectorSource) => {
 * @param {Object} grid - The hex grid.
 */
 const handleMapClick = (e, game, grid, vectorSource) => {
+  e.stopPropagation();
+  e.preventDefault();
+
   const { coordinate } = e;
   // Get the axial coordinates of the clicked hexagon
-  const [q, r] = grid.coord2hex(coordinate);
+  const [q, r] = grid.coord2hex(coordinate);           
   const gameCoords = game.convertAxialToGameCoords(q, r);
+  const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
-  game.revealTile(gameCoords.x, gameCoords.y);
-  updateTileVisuals(gameCoords.x, gameCoords.y, grid, vectorSource, game);
+  game.revealTile(x, y);
+  updateTileVisuals(x, y, grid, vectorSource, game);
 };
 
 /**
