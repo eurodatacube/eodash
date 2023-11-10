@@ -89,7 +89,6 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
-import { getIndicatorFilteredInputData } from '@/utils';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -150,7 +149,7 @@ export default {
       ];
     },
     indicator() {
-      return getIndicatorFilteredInputData(this.currentIndicator);
+      return this.currentIndicator;
     },
     indicatorObject() {
       return this.currentIndicator

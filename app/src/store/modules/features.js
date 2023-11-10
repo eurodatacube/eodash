@@ -99,56 +99,8 @@ const getters = {
       })
       .sort((a, b) => ((a.name > b.name) ? 1 : -1));
   },
-  getFeatures(state/* , _, rootState */) {
+  getFeatures(state) {
     let features = state.allFeatures;
-    // TODO: with current approach we should not need any filtering for features here
-    /*
-    if (state.featureFilters.countries.length > 0) {
-      features = features
-        .filter((f) => {
-          if (Array.isArray(f.properties.indicatorObject.country)) {
-            return f.properties.indicatorObject.country
-              .includes(state.featureFilters.countries);
-          } else { // eslint-disable-line
-            return state.featureFilters.countries
-              .includes(f.properties.indicatorObject.country)
-              || f.properties.indicatorObject.city === 'World';
-          }
-        });
-    }
-    if (state.featureFilters.indicators.length > 0) {
-      features = features
-        .filter((f) => {
-          if (['N9', 'N10'].includes(f.properties.indicatorObject.indicator)) {
-            return state.featureFilters.indicators.includes('N1');
-          }
-          return state.featureFilters.indicators
-            .includes(f.properties.indicatorObject.indicator);
-        });
-    }
-    if (state.featureFilters.themes.length > 0) {
-      features = features
-        .filter((f) => rootState.themes.currentPOIsIncludedInTheme
-          .includes(`${
-            f.properties.indicatorObject.aoiID}-${
-            f.properties.indicatorObject.indicator}`));
-    }
-    if (state.featureFilters.custom.length > 0) {
-      features = features
-        .filter((f) => state.featureFilters.custom
-          .map((c) => getLocationCode(c.properties.indicatorObject))
-          .includes(getLocationCode(f.properties.indicatorObject)));
-    }
-
-    if (!state.featureFilters.includeArchived) {
-      features = features.filter(
-        (f) => (
-          f.properties.indicatorObject.updateFrequency
-            ? f.properties.indicatorObject.updateFrequency.toLowerCase() !== 'archived' : true
-        )
-      );
-    }
-    */
     // due to a mismatch in keys (e.g. 'countries' vs. 'country' etc.) between the STAC properties
     // and the indicatorObject properties this cannot be 100% automated and a keymap is necessary
     // TODO as soon as keys are harmonized, automate this
@@ -159,71 +111,25 @@ const getters = {
     const indicatorsFilter = document.querySelector('eox-itemfilter');
     if (indicatorsFilter) {
       const { filters } = indicatorsFilter;
-      Object.keys(filters).forEach((filterName) => {
-        const whiteList = Object.entries(filters[filterName].state)
-          .filter(([, value]) => !!value)
-          .map(([key]) => key);
-        if (whiteList.length > 0) {
-          features = features.filter(
-            (f) => whiteList.includes(f.properties.indicatorObject[keyMap[filterName]]),
-          );
-        }
-      });
+      Object.keys(filters)
+        .filter((filterName) => Object.keys(keyMap).includes(filterName))
+        .forEach((filterName) => {
+          // remove features not matching active countries or cities filter
+          const whiteList = Object.entries(filters[filterName].state)
+            .filter(([, value]) => !!value)
+            .map(([key]) => key);
+          if (whiteList.length > 0) {
+            features = features.filter(
+              (f) => whiteList.includes(f.properties.indicatorObject[keyMap[filterName]]),
+            );
+          }
+        });
     }
     features = features
       .sort((a, b) => ((a.properties.indicatorObject.country > b.properties.indicatorObject.country)
         ? 1 : -1));
 
     return features;
-  },
-  getFeaturesGtifMap(state) {
-    let features = state.allFeatures;
-    // explicitly include only those features from current indicators filters
-    if (state.featureFilters.indicators.length > 0) {
-      features = features
-        .filter((f) => state.featureFilters.indicators
-          .includes(f.properties.indicatorObject.indicator));
-      return features;
-    }
-    return [];
-  },
-  getGroupedFeatures(state, getters, rootState) {
-    let allFeatures = [];
-    if (state.allFeatures.length > 0) {
-      const groupedFeatures = [];
-      if (rootState.config.appConfig.featureGrouping) {
-        rootState.config.appConfig.featureGrouping.forEach((fG) => {
-          const firstFeature = getters.getFeatures
-            .find((f) => `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}` === fG.features[0]);
-          if (firstFeature) {
-            groupedFeatures.push(firstFeature);
-          }
-        });
-      }
-      const restFeatures = rootState.config.appConfig.featureGrouping
-        ? getters.getFeatures
-          .filter((f) => {
-            const locationCode = `${f.properties.indicatorObject.aoiID}-${f.properties.indicatorObject.indicator}`;
-            return !rootState.config.appConfig.featureGrouping
-              .find((fG) => fG.features.includes(locationCode));
-          })
-        : getters.getFeatures;
-      allFeatures = groupedFeatures.concat(restFeatures);
-    }
-    return allFeatures;
-  },
-  getLatestUpdate(state) {
-    const times = state.allFeatures.map((f) => {
-      let time = f.properties.indicatorObject.Time;
-      let latest;
-      if (time && time.length > 0) {
-        time = time.sort((a, b) => ((a > b) ? 1 : -1));
-        latest = time[time.length - 1];
-      }
-      return latest;
-    });
-    const filtered = times.filter((t) => !!t).sort((a, b) => ((a > b) ? 1 : -1));
-    return filtered[filtered.length - 1];
   },
 };
 
@@ -278,9 +184,6 @@ const mutations = {
     // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
   },
-  // SET_ALL_DUMMY_LOCATIONS(state, features) {
-  //   state.allFeatures = state.allFeatures.concat(features);
-  // },
   INIT_FEATURE_FILTER(state, { countries, indicators }) {
     if (countries) {
       state.featureFilters.countries = countries;

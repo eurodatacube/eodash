@@ -26,10 +26,6 @@ const geojsonFormat = new GeoJSON();
 export const dataPath = './data/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
 // export const STACEndpoint = 'http://127.0.0.1:8000/trilateral/catalog.json';
-// If the catalog has collections with a theme we would like to adapt
-export const themeOverwrite = {
-  air: 'atmosphere',
-};
 
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -859,6 +855,10 @@ export const indicatorClassesIcons = Object.freeze({
   cryosphere: 'mdi-snowflake',
 });
 
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash`,
+});
+
 export const mapDefaults = Object.freeze({
   bounds: [-170, -70, 170, 70],
 });
@@ -884,7 +884,7 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
+  minZoom: 1,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -992,7 +992,31 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
+const createRECCAP2Config = (indicatorCode) => ({
+  properties: {
+    indicatorObject: {
+      indicator: indicatorCode,
+      display: {
+        minNativeZoom: 3,
+        maxNativeZoom: 5,
+      },
+    },
+  },
+});
+
 export const globalIndicators = [
+  createRECCAP2Config('RECCAP_2_1'),
+  createRECCAP2Config('RECCAP_2_2'),
+  createRECCAP2Config('RECCAP_2_3'),
+  createRECCAP2Config('RECCAP_2_4'),
+  createRECCAP2Config('RECCAP_2_5'),
+  createRECCAP2Config('RECCAP_2_6'),
+  createRECCAP2Config('RECCAP_2_7'),
+  createRECCAP2Config('RECCAP_2_8'),
+  createRECCAP2Config('RECCAP_2_9'),
+  createRECCAP2Config('RECCAP_2_10'),
+  createRECCAP2Config('RECCAP_2_11'),
+  createRECCAP2Config('RECCAP_2_12'),
   {
     properties: {
       indicatorObject: {
@@ -1073,6 +1097,20 @@ export const globalIndicators = [
             }],
           },
           projection: 'EPSG:3413',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'N9',
+        yAxis: 'NO2 [10^14 molecules/cm²]',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy'),
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e14, 'NASACustomLineChart',
+          ),
         },
       },
     },

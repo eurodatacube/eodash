@@ -11,18 +11,15 @@
     ">
       <v-row v-if="
         indicatorObject
-        && (!indicatorObject.features || dataObject || mergedConfigsData[0].customAreaIndicator)
-        " class="d-flex">
-        <filter-controls v-if="indicatorObject.cogFilters"
-          :cogFilters="indicatorObject.cogFilters"
-        >
-        </filter-controls>
-
-        <!-- TODO: remove GTIF brand check -->
+        && (appConfig.id === 'gtif' || !indicatorObject.features
+        || dataObject || mergedConfigsData[0].customAreaIndicator)
+        " class="d-flex ma-0">
+        <!--
         <v-col v-if="appConfig.id === 'gtif'"
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
         >
+
           <v-btn
             text
             color="primary"
@@ -34,14 +31,15 @@
               ? 90
               : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
           </v-btn>
+
           <scatter-plot v-if="indicatorObject.cogFilters
             && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
             :filters="indicatorObject.cogFilters.filters"
           >
           </scatter-plot>
         </v-col>
-
-        <style-controls v-if="indicatorObject.vectorStyles"
+          -->
+          <style-controls v-if="indicatorObject.vectorStyles"
           :vectorStyles="indicatorObject.vectorStyles"
         >
         </style-controls>
@@ -212,7 +210,6 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
-                  :embedMap="false"
                   v-if="!customAreaIndicator || expanded"
                 />
                 <v-btn
@@ -252,6 +249,7 @@
             :adminLayer="$store.state.features.adminBorderLayerSelected"
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
+            :indicatorCode="indicatorObject.indicator"
           >
           </filter-controls>
           <template v-if="selectableLayerConfigs.length > 0">
@@ -315,13 +313,8 @@
         />
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          class="py-0"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
-          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
-                  ? 'auto'
-                  : (expanded
-                    ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight + 'px') }`"
         >
           <v-row
             class="mt-0 fill-height pb-2"
@@ -330,10 +323,10 @@
               cols="12"
               class="pb-0"
             >
-              <div
+              <!-- <div
                 v-html="story"
                 class="md-body"
-              ></div>
+              ></div> -->
 
               <v-btn
                 v-if="indicatorObject && externalData"
@@ -350,7 +343,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else-if="indicatorObject.features.length && !featureObject">
+      <v-row v-if="indicatorObject.features.length && !featureObject">
         <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :style="`height: auto`"
@@ -371,7 +364,7 @@
             </v-col>
           </v-card>
         </v-col>
-        <v-col
+        <!-- <v-col
           :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
           :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
@@ -396,13 +389,19 @@
               ></div>
             </v-col>
           </v-row>
-        </v-col>
+        </v-col> -->
       </v-row>
-      <v-row v-else>
-        <div
-          v-html="story"
-          class="md-body"
-        ></div>
+      <v-row class="mx-0">
+        <v-col>
+          <v-btn
+            color="primary"
+            block
+            @click="freezeLayer()"
+          >
+            <v-icon left>mdi-content-duplicate</v-icon>
+            Add as custom layer
+          </v-btn>
+        </v-col>
       </v-row>
     </div>
   </div>
@@ -465,7 +464,6 @@ export default {
     ...mapGetters('features', [
       'getCountries',
       'getIndicators',
-      'getLatestUpdate',
     ]),
     ...mapState('config', [
       'appConfig',
@@ -477,42 +475,6 @@ export default {
     ...mapState('indicators', [
       'customAreaIndicator',
     ]),
-    story() {
-      // If markdown is coming from stac collection show it direclty
-      if (this.indicatorObject && 'markdown' in this.indicatorObject) {
-        return this.$marked(this.indicatorObject.markdown);
-      }
-      // If not do previous checks to see if other option can be found
-      let markdown = '';
-      let indObject = this.indicatorObject;
-      if (this.featureObject) {
-        indObject = this.featureObject;
-      }
-      try {
-        const demoItem = this.$route.name === 'demo'
-          ? this.appConfig.demoMode[this.$route.query.event]
-            .find((item) => item.poi === this.getLocationCode(indObject)) : false;
-        markdown = require(`../../public${demoItem.story}.md`);
-      } catch {
-        try {
-          markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
-        } catch {
-          try {
-            markdown = require(`../../public${this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator].story}.md`);
-          } catch {
-            try {
-              const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
-                ? this.$store.state.features.featureFilters.indicators[0]
-                : this.$store.state.features.featureFilters.indicators;
-              markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
-            } catch {
-              markdown = { default: '' };
-            }
-          }
-        }
-      }
-      return this.$marked(markdown.default);
-    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -610,15 +572,6 @@ export default {
       // currently this seems to be only the case for indicatorobjects with no features
       // customarea seems to be handled differently
       return !this.indicatorObject.features?.length;
-      // TODO: Do we need the special configure map poi overwrite?
-      // if returns true, we are showing map, if false we show chart
-      /*
-      return ['all'].includes(this.indicatorObject.country)
-        || this.appConfig.configuredMapPois.includes(
-          `${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`,
-        )
-        || Array.isArray(this.indicatorObject.country);
-      */
     },
     externalData() {
       const dataFromDefinition = this.indicatorObject.externalData;
@@ -680,6 +633,9 @@ export default {
     );
   },
   methods: {
+    freezeLayer() {
+      this.$store.dispatch('indicators/freezeCurrentIndicator');
+    },
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
       window.dispatchEvent(new Event('fetch-custom-area-chart'));
@@ -693,6 +649,49 @@ export default {
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
+    // TODO: Readd support for DEMO specific story...
+    // indicatorObject: {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(indicatorObj) {
+    //     console.log('indicatorObject watcher triggered');
+    //     // If markdown is coming from stac collection show it direclty
+    //     // console.log('changed');
+    //     if (indicatorObj && 'markdown' in indicatorObj) {
+    //       // this.$store.commit('story/SET_STORY', indicatorObj.markdown);
+    //     // return this.$marked(indicatorObj.markdown);
+    //     }
+    //     // If not do previous checks to see if other option can be found
+    //     let indObject = indicatorObj;
+    //     if (this.featureObject) {
+    //       indObject = this.featureObject;
+    //     }
+    //     try {
+    //       const demoItem = this.$route.name === 'demo'
+    //         ? this.appConfig.demoMode[this.$route.query.event]
+    //           .find((item) => item.poi === this.getLocationCode(indObject)) : false;
+    //       markdown = require(`../../public${demoItem.story}.md`);
+    //     } catch {
+    //       try {
+    //         markdown = require(`../../public${this.appConfig.storyPath}${this.getLocationCode(indObject)}.md`);
+    //       } catch {
+    //         try {
+    //           markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicatorObj.indicator].story}.md`);
+    //         } catch {
+    //           try {
+    //             const indicator = Array.isArray(this.$store.state.features.featureFilters.indicators)
+    //               ? this.$store.state.features.featureFilters.indicators[0]
+    //               : this.$store.state.features.featureFilters.indicators;
+    //             markdown = require(`../../public${this.baseConfig.indicatorsDefinition[indicator].story}.md`);
+    //           } catch {
+    //             markdown = { default: '' };
+    //           }
+    //         }
+    //       }
+    //     }
+    //   // this.$store.commit('story/SET_STORY', markdown.default);
+    //   },
+    // },
   },
 };
 </script>

@@ -20,9 +20,8 @@ import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
-import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
-import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -198,6 +197,11 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiID);
+  // if (config.xcubeDataset) {
+  //   url = url.replace(/{vmin}/gi, options.vmin);
+  //   url = url.replace(/{vmax}/gi, options.vmax);
+  //   url = url.replace(/{cbar}/gi, options.cbar);
+  // }
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
@@ -341,12 +345,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
     createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
+    const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
+    const projString = 'EPSG:3857';
     layer = new VectorTileLayer({
       style: dynamicStyleFunction,
       source: new VectorTileSource({
-        projection: 'EPSG:3857',
+        projection: projString,
         format: new MVT(),
-        url: config.url,
+        url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
     layer.set('id', config.id);
@@ -423,20 +429,22 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     }
   } else if (config.protocol === 'xyz') {
+    const sourceOptions = {
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoom || config.minZoom,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      projection: getProjectionOl(config.projection),
+      transition: 0,
+      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+    };
+    source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        tileUrlFunction: (tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, options);
-          return createFromTemplate(url, tileCoord);
-        },
+      source.setTileUrlFunction((tileCoord) => {
+        const url = replaceUrlPlaceholders(config.url, config, options);
+        return createFromTemplate(url, tileCoord);
       });
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
@@ -448,16 +456,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
-      });
-    } else {
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        projection: getProjectionOl(config.projection),
-        transition: 0,
-        tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
     layer = new TileLayer({
@@ -527,7 +525,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
   let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    if (options.drawnArea.area) {
+    if (options?.drawnArea?.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
         'EPSG:4326',
@@ -550,6 +548,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     layerControlOptional: config.layerControlOptional,
+    ...(config.legendUrl && !config.features && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {

@@ -1,30 +1,44 @@
 <template>
   <div
     v-if="$vuetify.breakpoint.smAndUp"
-    class="elevation-1 rounded"
+    class="ui-panel elevation-1 rounded ma-1"
     :style="`
       background: ${$vuetify.theme.currentTheme.background};
     `"
   >
-    <slot></slot>
+      <v-expansion-panel v-if="hasPanel">
+        <v-expansion-panel-header ref="header">
+          {{ titleLabel }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content ref="expantionContent" eager
+        :style="`max-height:${getMaxHeight}`">
+          <slot></slot>
+        </v-expansion-panel-content>
+    </v-expansion-panel>
   </div>
-  <div v-else>
-    <div
-      class="elevation-1 rounded pa-5 d-flex justify-center align-center"
+  <div v-else class="flex-column align-strech">
+    <span
+      v-if="hasPanel"
+      class="elevation-1 pa-2 d-flex justify-center
+       align-center fill-height"
       :style="`
-        background: ${$vuetify.theme.currentTheme.background};
+        background: ${isSelected ? $vuetify.theme.currentTheme.primary
+          : $vuetify.theme.currentTheme.background};
+          color:${isSelected ? 'white': 'black'}
       `"
-      @click="showOverlay = !showOverlay"
+      @click="$emit('panel-selected',id)"
     >
-      {{ title }}
-    </div>
+      {{ titleLabel }}
+  </span>
     <div
-      v-show="showOverlay"
+      v-show="isSelected"
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
-      `"
-    >
+        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
+      `">
+      <!-- close btn -->
+      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
       <slot></slot>
     </div>
   </div>
@@ -34,26 +48,71 @@
 export default {
   props: {
     title: String,
+    heightPercentage: {
+      type: Number,
+      default: 50,
+    },
+    id: Number,
+    activeID: {
+      type: Number,
+      default: null,
+    },
+  },
+  computed: {
+    isSelected() {
+      return this.id === this.activeID;
+    },
+    getMaxHeight() {
+      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
+         + this.$vuetify.application.footer + (this.gtif
+        ? 8 : -40) + (48 * this.siblingsCount))}px) * ${(this.heightPercentage / 100)});`;
+    },
+    titleLabel() {
+      return this.title?.toUpperCase();
+    },
   },
   data: () => ({
-    showOverlay: false,
+    siblingsCount: 1,
+    gtif: false,
+    hasPanel: true,
   }),
+  beforeUpdate() {
+    this.hasPanel = this.$slots.default?.length > 0 ?? false;
+    this.siblingsCount = this.$parent.$children.length;
+  },
+  mounted() {
+    // first parent is vExpantionPanels, second parent is UiPanelsLayout
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.gtif = this.$parent.$parent.$props.gtif;
+    } else {
+      // first parent is the UiPanelsLayout
+      this.gtif = this.$parent.$props.gtif;
+    }
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 div {
-  height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   pointer-events: all;
+  overflow-x: hidden;
 }
 .overlay {
   position: fixed;
   top: 60px;
   left: 0;
   width: 100%;
-  height: calc(100% - 200px);
   z-index: 4;
+  display: flex;
+  flex-direction: column;
+}
+.close-btn{
+  align-self: end;
+}
+
+::v-deep .v-expansion-panel-content__wrap {
+  padding: 0;
 }
 </style>

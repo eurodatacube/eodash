@@ -5,255 +5,21 @@ import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
 import store from '@/store';
-import { generateUsedTimes } from '@/helpers/mapConfig';
+import {
+  statisticalApiHeaders,
+  statisticalApiBody,
+  parseStatAPIResponse,
+  nasaStatisticsConfig,
+  xcubeAnalyticsConfig,
+} from '@/helpers/customAreaObjects';
+
 import { getMapInstance } from './components/map/map';
-import getLocationCode from './mixins/getLocationCode';
 
 const wkt = new Wkt();
-
-export function padLeft(str, pad, size) {
-  let out = str;
-  while (out.length < size) {
-    out = pad + str;
-  }
-  return out;
-}
-
-export const statisticalApiHeaders = {
-  url: 'https://services.sentinel-hub.com/api/v1/statistics',
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-};
-
-export const statisticalApiBody = (evalscript, type, timeinterval) => ({
-  requestBody: {
-    input: {
-      bounds: {
-        geometry: {
-          type: 'Polygon',
-          coordinates: '{coordinates}',
-        },
-      },
-      data: [
-        {
-          dataFilter: {},
-          type,
-        },
-      ],
-    },
-    aggregation: {
-      timeRange: {
-        from: '1995-01-01T00:00:00Z',
-        to: '2030-12-01T00:00:00Z',
-      },
-      aggregationInterval: {
-        of: timeinterval || 'P1D',
-      },
-      width: 100,
-      height: 100,
-      evalscript,
-    },
-    calculations: {
-      default: {},
-    },
-  },
-});
-
-export const parseStatAPIResponse = (requestJson, indicator) => {
-  // We need to also accept partial responses as it seems some datasets
-  // have issues on sinergise side
-  if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
-      && requestJson.data.length > 0) {
-    const { data } = requestJson;
-    const newData = {
-      time: [],
-      measurement: [],
-      referenceValue: [],
-      colorCode: [],
-      sampleSize: [],
-      noDataCount: [],
-      sampleCount: [],
-    };
-    data.sort((a, b) => (
-      (DateTime.fromISO(a.interval.from) > DateTime.fromISO(b.interval.from))
-        ? 1
-        : -1));
-    data.forEach((row) => {
-      // Make sure to discard possible errors from sentinelhub
-      if (row && !Object.prototype.hasOwnProperty.call(row, 'error')) {
-        const { stats } = row.outputs.data.bands.B0;
-        newData.time.push(DateTime.fromISO(row.interval.from));
-        newData.colorCode.push('');
-        newData.measurement.push(stats.mean);
-        newData.referenceValue.push(
-          `[null, ${stats.stDev}, ${stats.max}, ${stats.min}]`,
-        );
-        newData.noDataCount.push(stats.noDataCount);
-        newData.sampleCount.push(stats.sampleCount);
-      }
-    });
-    const ind = {
-      ...indicator,
-      ...newData,
-    };
-    return ind;
-  }
-  return null;
-};
-
-export const nasaStatisticsConfig = (
-  rescale = (value) => value / 1e14,
-  indicatorCode = 'NASACustomLineChart',
-) => ({
-  url: 'https://staging-raster.delta-backend.com/cog/statistics',
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    geojson: '{geojson}',
-  },
-  callbackFunction: (responseJson, indicator) => {
-    let ind = null;
-    if (Array.isArray(responseJson)) {
-      const data = responseJson;
-      const newData = {
-        time: [],
-        measurement: [],
-        colorCode: [],
-        referenceValue: [],
-      };
-      data.forEach((row) => {
-        if (!('error' in row)) {
-          newData.time.push(DateTime.fromISO(row.time));
-          newData.colorCode.push('');
-          newData.measurement.push(rescale(row.mean));
-          newData.referenceValue.push(`[${rescale(row.median)}, ${rescale(row.std)}, ${rescale(row.max)}, ${rescale(row.min)}]`);
-        }
-      });
-      if (indicatorCode) {
-        // if we for some reason need to change indicator code of custom chart data
-        newData.indicator = indicatorCode;
-      }
-      ind = {
-        ...indicator,
-        ...newData,
-      };
-    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      console.log(responseJson.detail[0].msg);
-    }
-    return ind;
-  },
-  areaFormatFunction: (area) => (
-    {
-      geojson: JSON.stringify({
-        type: 'Feature',
-        properties: {},
-        geometry: area,
-      }),
-    }
-  ),
-});
-
-/*
-// Helper function to create colorscales for cog style rendering
-function getColorStops(name, min, max, steps, reverse) {
-  const delta = (max - min) / (steps - 1);
-  const stops = new Array(steps * 2);
-  const colors = colormap({
-    colormap: name, nshades: steps, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  for (let i = 0; i < steps; i++) {
-    stops[i * 2] = min + i * delta;
-    stops[i * 2 + 1] = colors[i];
-  }
-  return stops;
-}
-
-function getColormap(name, reverse) {
-  const colors = colormap({
-    colormap: name, nshades: 16, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  return colors;
-}
-*/
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
-
-/*
-let stp = 1 / 6;
-
-const adoColor = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [215, 25, 28] },
-      { index: stp * 1, rgb: [253, 174, 97] },
-      { index: stp * 2, rgb: [255, 255, 191] },
-      { index: stp * 3, rgb: [255, 255, 255] },
-      { index: stp * 4, rgb: [245, 153, 246] },
-      { index: stp * 5, rgb: [180, 103, 221] },
-      { index: stp * 6, rgb: [69, 0, 153] },
-    ],
-    nshades: 32,
-  }),
-};
-
-stp = 1 / 7;
-
-const grywrd = {
-  steps: 128,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [0, 83, 30] },
-      { index: stp * 1, rgb: [195, 229, 86] },
-      { index: stp * 2, rgb: [255, 221, 86] },
-      { index: stp * 3, rgb: [246, 119, 88] },
-      { index: stp * 4, rgb: [255, 151, 63] },
-      { index: stp * 5, rgb: [255, 99, 49] },
-      { index: stp * 6, rgb: [213, 0, 31] },
-      { index: stp * 7, rgb: [99, 0, 13] },
-    ],
-    nshades: 128,
-  }),
-};
-
-const whitered = [
-  { index: 0, rgb: [255, 255, 255] },
-  { index: stp * 1, rgb: [255, 251, 247] },
-  { index: stp * 2, rgb: [254, 238, 223] },
-  { index: stp * 3, rgb: [254, 214, 183] },
-  { index: stp * 4, rgb: [250, 177, 129] },
-  { index: stp * 5, rgb: [233, 131, 77] },
-  { index: stp * 6, rgb: [184, 84, 38] },
-  { index: stp * 7, rgb: [127, 39, 4] },
-];
-
-const blgrrd = {
-  steps: 32,
-  colors: colormap({
-    colormap: [
-      { index: 0, rgb: [1, 152, 189] },
-      { index: 0.2, rgb: [73, 227, 206] },
-      { index: 0.4, rgb: [216, 254, 181] },
-      { index: 0.6, rgb: [254, 237, 177] },
-      { index: 0.8, rgb: [254, 173, 84] },
-      { index: 1, rgb: [209, 55, 78] },
-    ],
-    nshades: 32,
-  }),
-};
-*/
 
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
@@ -309,21 +75,6 @@ export function shS2TimeFunction(date) {
   return `${datePast.toFormat(defaultFormat)}/${dateFuture.toFormat(defaultFormat)}`;
 }
 
-export function template(templateRe, str, data) {
-  // copy of leaflet template function, which does not export it
-  // used for getting areaIndicator URL with properties replacing templates
-  return str.replace(templateRe, (stri, key) => {
-    let value = data[key];
-
-    if (value === undefined) {
-      console.error(`No value provided for variable ${stri}`);
-    } else if (typeof value === 'function') {
-      value = value(data);
-    }
-    return value;
-  });
-}
-
 export async function loadIndicatorExternalData(time, mergedConfig) {
   const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/';
   const endpoint = 'gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/GTIF_';
@@ -336,9 +87,11 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
     .catch((error) => console.log(error));
   // convert to object
   const dataObject = {};
-  data.forEach((entry) => {
-    dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
-  });
+  if (Array.isArray(data)) {
+    data.forEach((entry) => {
+      dataObject[entry[mergedConfig.adminZoneKey]] = { ...entry };
+    });
+  }
   return dataObject;
 }
 
@@ -351,8 +104,6 @@ function createWMSDisplay(config, name) {
     baseUrl: config.href,
     name,
     layers,
-    minZoom: 1,
-    maxZoom: 18,
     styles,
     dateFormatFunction: (date) => date,
     // TODO: not sure if the crossOrigin null as default will create issues (needed for N1b)
@@ -364,8 +115,6 @@ function createWMSDisplay(config, name) {
 function createXYZDisplay(config, name) {
   const display = {
     protocol: 'xyz',
-    minZoom: 1,
-    maxZoom: 18,
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
     name,
@@ -375,7 +124,22 @@ function createXYZDisplay(config, name) {
   return display;
 }
 
+function createXYZTilesXcubeDisplay(config, name) {
+  const display = {
+    xcubeDataset: true,
+    protocol: 'xyz',
+    tileSize: 256,
+    minZoom: 1,
+    url: config.href,
+    name,
+    dateFormatFunction: (date) => `${date}`,
+    labelFormatFunction: (date) => date,
+  };
+  return display;
+}
+
 function createVectorTileDisplay(config) {
+  // TODO, not finished and used yet
   const display = {
     url: config.href,
     protocol: 'geoserverTileLayer',
@@ -384,13 +148,19 @@ function createVectorTileDisplay(config) {
       getColor: (feature, options) => {
         let color = '#00000000';
         const dataSource = options.dataProp ? options.dataProp : 'mapData';
-        if (store.state.indicators.selectedIndicator
-            && store.state.indicators.selectedIndicator[dataSource]) {
+        let data = null;
+        if (dataSource === 'frozenMapData') {
+          data = store.state.indicators.frozenIndicator.mapData;
+        } else if (store.state.indicators.selectedIndicator
+          && store.state.indicators.selectedIndicator[dataSource]) {
+          data = store.state.indicators.selectedIndicator[dataSource];
+        }
+        if (data) {
           const id = feature.id_;
           const ind = store.state.indicators.selectedIndicator;
           const currPar = ind.queryParameters.items
             .find((item) => item.id === ind.queryParameters.selected);
-          if (currPar && id in store.state.indicators.selectedIndicator[dataSource]) {
+          if (currPar && id in data) {
             const value = ind[dataSource][id][currPar.id];
             const { min, max, colormapUsed } = currPar;
             const f = clamp((value - min) / (max - min), 0, 1);
@@ -470,7 +240,6 @@ export async function loadFeatureData(baseConfig, feature) {
         store.state.indicators.selectedIndicator.display = null;
       }
     }
-    console.log(store.state.indicators.selectedIndicator);
     // Add collection extent as subaoi
     const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
     const features = {
@@ -483,7 +252,7 @@ export async function loadFeatureData(baseConfig, feature) {
     };
   } else {
     // Fetch data from geodb
-    const geodbUrl = 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash';
+    const geodbUrl = baseConfig.geoDBFeatureParameters.url;
     const geodbIndicatorId = indicatorObject.geoDBID
       ? indicatorObject.geoDBID : indicatorObject.indicator;
     const url = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}`;
@@ -614,15 +383,11 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    let display = {};
     if (wmsEndpoint) {
-      const display = createWMSDisplay(
-        wmsEndpoint, jsonData.name,
+      display = createWMSDisplay(
+        wmsEndpoint, jsonData.id,
       );
-      // Handling of unique non standard functionality
-      if (indicatorObject.indicator === 'WSF') {
-        display.specialEnvTime = true;
-      }
-      indicatorObject.display = display;
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
@@ -630,11 +395,10 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
-      if (xyzEndpoint.type === 'image/png') {
-        const display = createXYZDisplay(
-          xyzEndpoint, jsonData.name,
+      if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
+        display = createXYZDisplay(
+          xyzEndpoint, jsonData.id,
         );
-        indicatorObject.display = display;
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
             let time;
@@ -650,11 +414,21 @@ export async function loadIndicatorData(baseConfig, payload) {
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+      } else if (xyzEndpoint.type === 'image/png' && xyzEndpoint.title.includes('xcube tiles')) {
+        display = createXYZTilesXcubeDisplay(
+          xyzEndpoint, jsonData.id,
+        );
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            times.push(link.datetime);
+          }
+        });
+        times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       } else if (xyzEndpoint.type === 'application/pbf') {
-        const display = createVectorTileDisplay(
+        // TODO not used yet
+        display = createVectorTileDisplay(
           xyzEndpoint,
         );
-        indicatorObject.display = display;
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
             let time;
@@ -669,19 +443,27 @@ export async function loadIndicatorData(baseConfig, payload) {
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
     } else {
-      indicatorObject.display = null;
+      // try extracting dates from items for "collection-only placeholder collections"
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          if (link.datetime) {
+            times.push(link.datetime);
+          }
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
     // If legend available add it to the display config
-    if (indicatorObject.display && 'assets' in jsonData && 'legend' in jsonData.assets) {
-      indicatorObject.display.legendUrl = jsonData.assets.legend.href;
+    if ('assets' in jsonData && 'legend' in jsonData.assets) {
+      display.legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples
     const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
     if (exampleEndpoint) {
-      if (exampleEndpoint.title === 'evalscript' && indicatorObject.display) {
+      if (exampleEndpoint.title === 'evalscript') {
         const evalscript = await (await fetch(exampleEndpoint.href)).text();
-        indicatorObject.display = {
-          ...indicatorObject.display,
+        display = {
+          ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: {
@@ -695,14 +477,22 @@ export async function loadIndicatorData(baseConfig, payload) {
             },
           },
         };
-      } else if (exampleEndpoint.title === 'VEDA Statistics' && indicatorObject.display) {
-        indicatorObject.display = {
-          ...indicatorObject.display,
+      } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        display = {
+          ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
               (value) => value,
             ),
+          },
+        };
+      } else if (exampleEndpoint.title === 'xcube analytics') {
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: xcubeAnalyticsConfig(exampleEndpoint),
           },
         };
       }
@@ -736,6 +526,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;
+          featureObject.yAxis = indicatorObject.yAxis;
           featureObject.indicatorValue = [''];
           featureObject.city = link.city ? link.city : link.name;
           featureObject.country = link.country;
@@ -752,10 +543,25 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       store.commit('features/SET_FEATURES', features);
     }
-    indicatorObject.time = times;
+    if (!(Array.isArray(indicatorObject.time) && indicatorObject.time.length > 0)) {
+      indicatorObject.time = times;
+    }
     // We need the information on features directly once loaded for the custom dashboard loading
     // TODO: probably there is a better way of managing this information
     indicatorObject.features = features;
+    if (Array.isArray(indicatorObject.display)) {
+      // merge display with first entry of original array of displays
+      indicatorObject.display[0] = {
+        ...display,
+        ...indicatorObject.display[0],
+      };
+    } else {
+      // merge object properties
+      indicatorObject.display = {
+        ...display,
+        ...indicatorObject.display,
+      };
+    }
   }
   return indicatorObject;
   /*
@@ -910,14 +716,10 @@ export function isExternalUrl(urlString) {
 export function calculatePadding() {
   // we can further refine the padding to use based on which panels are open
   // TODO: This will probably no longer be used as Robert will reimplement this with ol extent
-  const dataPanelOpen = (document.querySelector('.data-panel') !== null)
-    && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
-  const dataPanelWidth = !dataPanelOpen ? 0 : document.querySelector('.data-panel').clientWidth;
-  const searchResultsClosed = store.state.features.featureFilters.indicators.length
-    || store.state.features.featureFilters.countries.length;
-  const searchPanelWidth = (document.querySelector('eox-itemfilter') !== null)
-    ? (document.querySelector('eox-itemfilter').clientWidth) : 0;
-  const searchResultWidth = !searchResultsClosed ? searchPanelWidth : 0;
+  // const dataPanelOpen = (document.querySelector('.data-panel') !== null)
+  //   && document.querySelector('.data-panel').className.includes('v-navigation-drawer--open');
+  const dataPanelWidth = document.querySelector('.ui-panel').clientWidth;
+  const searchPanelWidth = document.querySelector('.ui-panel').clientWidth;
   const demoItemsWidth = (document.querySelector('#demoItemsList') !== null)
     ? (document.querySelector('#demoItemsList').clientWidth) : 0;
   const percentageBasedOffsetWidth = Math.floor(window.innerWidth * 0.12);
@@ -925,57 +727,9 @@ export function calculatePadding() {
     70,
     percentageBasedOffsetWidth + dataPanelWidth,
     150,
-    percentageBasedOffsetWidth + searchResultWidth + demoItemsWidth,
+    percentageBasedOffsetWidth + searchPanelWidth + demoItemsWidth,
   ];
   return padding;
-}
-
-/**
- * registry of "clean" indicators (input data filtered)
- */
-const indicatorRegistry = {};
-
-export function getIndicatorFilteredInputData(selectedIndicator) {
-  if (!selectedIndicator && !store.state.indicators.selectedIndicator) {
-    return null;
-  }
-  const indicator = selectedIndicator || { ...store.state.indicators.selectedIndicator };
-  // use possible overrides from baseConfig
-  const { inputData } = generateUsedTimes(indicator);
-  if (!inputData) {
-    return null;
-  }
-  const locationCode = getLocationCode(indicator);
-  if (indicatorRegistry[locationCode]) {
-    return indicatorRegistry[locationCode];
-  }
-
-  // filter out rows which have empty "Input Data"
-  const mask = inputData.map((item) => item !== '' && item !== '/');
-  // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
-  if (mask.length > 1) {
-    for (let [key, value] of Object.entries(indicator)) { // eslint-disable-line
-      if (Array.isArray(value) && value.length > 1) {
-        indicator[key] = value.filter((item, i) => mask[i]);
-      }
-    }
-  }
-  indicatorRegistry[locationCode] = indicator;
-  return indicator;
-}
-
-export function getPOIs() {
-  const ftrs = store.state.features.allFeatures;
-  ftrs.sort(
-    (a, b) => a.properties.indicatorObject.indicator - b.properties.indicatorObject.indicator,
-  );
-  const arr = [];
-  ftrs.forEach((item) => {
-    const { aoiID, indicator } = item.properties.indicatorObject;
-    const output = `${aoiID}-${indicator}`;
-    arr.push(output);
-  });
-  console.log(arr.join(','));
 }
 
 export const findClosest = (data, target = DateTime.now()) => data.reduce((prev, curr) => {

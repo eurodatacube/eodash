@@ -1,16 +1,7 @@
 <template>
   <v-container fluid>
-    <v-row align="center">
-      <v-col cols="6">
-        <v-subheader>
-          Data properties
-          <info-dialog
-            v-if="wmsStyles.dataInfo"
-            :infoSource="wmsStyles.dataInfo"
-          />
-        </v-subheader>
-      </v-col>
-
+    <v-row align="center"
+      v-if="wmsStyles.items.length > 1">
       <v-col cols="6">
         <v-select
           v-model="select"
@@ -22,16 +13,13 @@
           return-object
           single-line
           @change="updateMap"
-        ></v-select>
+        >
+          <template #append-outer v-if="select && select.dataInfo">
+            <info-dialog :infoSource="select.dataInfo"/>
+          </template>
+        </v-select>
       </v-col>
     </v-row>
-     <v-row align="center">
-        <div
-          style="width: 100%"
-          v-html="story"
-          class="md-body"
-        ></div>
-     </v-row>
   </v-container>
 </template>
 
@@ -53,19 +41,6 @@ export default {
   }),
   mounted() {
     [this.select] = this.wmsStyles.items;
-  },
-  computed: {
-    story() {
-      let markdown;
-      try {
-        markdown = require(`../../../public/data/gtif/markdown/${this.select.markdown}.md`);
-      } catch {
-        markdown = { default: '' };
-      }
-      return this.$marked(markdown.default);
-    },
-  },
-  watch: {
   },
   methods: {
     updateMap(evt) {
