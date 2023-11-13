@@ -172,7 +172,7 @@
                 v-else-if="(['all'].includes(element.indicatorObject.country) ||
                 Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
                 element.mapInfo"
-                :mapId="element.poi"
+                :mapId="element.poi.replace('@', '-')"
                 :currentIndicator="element.indicatorObject"
                 :currentFeatureData="element.currentFeatureData"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
