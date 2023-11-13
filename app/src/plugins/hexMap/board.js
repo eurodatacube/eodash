@@ -169,38 +169,41 @@ export default class HexSweeperGame {
     return count;
   }
 
-  revealArea(x, y) {
-    const tile = this.revealTile(x, y);
-    if (!tile || tile.adjacentMines > 0) return;
+  isNextToMine(x, y) {
     const neighbors = this.getNeighborCoordinates(x, y);
-    neighbors.forEach(([nx, ny]) => {
-      if (this.isValidCoordinate(nx, ny) && !this.board[nx][ny].isRevealed) {
-        this.revealArea(nx, ny);
-      }
+    return neighbors.some(([nx, ny]) => {
+      return this.isValidCoordinate(nx, ny) && this.board[ny][nx].isMine;
     });
   }
 
   revealTile(x, y) {
     // Accumulate a list of revealed tile coordinates to update the rendering efficiently.
-    let coordinate_pairs = [[x, y]];
+    let coordinatePairs = [[x, y]];
 
     const tile = this.get(x, y);
     if (tile.isRevealed || tile.isFlagged) return [];
     tile.isRevealed = true;
+
+      // Check if the tile is a non-mine with adjacent mines, then stop recursion.
+    if (tile.adjacentMines > 0 && !tile.isMine) {
+      return coordinatePairs;
+    }
+
     const neighbors = this.getNeighborCoordinates(x, y);
     neighbors.forEach(([nx, ny]) => {
-      if (
-        this.isValidCoordinate(nx, ny)
-          && !this.board[ny][nx].isRevealed
-          && !this.board[ny][nx].isMine
-          && this.board[ny][nx].adjacentMines === 0
-      ) {
-        // Append new entries to the list of pairs to update the rendering.
-        coordinate_pairs = coordinate_pairs.concat(this.revealTile(nx, ny));
+      if (this.isValidCoordinate(nx, ny) && !this.board[ny][nx].isRevealed) {
+        // Recursively reveal only if the neighbor is not a mine and has zero adjacent mines.
+        if (!this.board[ny][nx].isMine && this.board[ny][nx].adjacentMines === 0) {
+          coordinatePairs = coordinatePairs.concat(this.revealTile(nx, ny));
+        } else if (!this.board[ny][nx].isMine) {
+          // If the neighbor is not a mine but has adjacent mines, reveal it but do not recurse further.
+          this.board[ny][nx].isRevealed = true;
+          coordinatePairs.push([nx, ny]);
+        }
       }
     });
 
-    return coordinate_pairs;
+    return coordinatePairs;
   }
 
   isValidCoordinate(x, y) {
