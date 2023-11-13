@@ -48,51 +48,8 @@ const updateTileVisuals = (x, y, grid, vectorSource, game) => {
   if (existingFeature) {
     vectorSource.removeFeature(existingFeature);
   }
-
-  let style;
-  if (tile.revealed) {
-    if (tile.isMine) {
-      style = new Style({
-        fill: new Fill({ color: 'red' }),
-        text: new Text({
-          text: '💣',
-          font: '20px Calibri,sans-serif',
-          fill: new Fill({ color: '#fff' }),
-          stroke: new Stroke({ color: '#000', width: 3 }),
-        }),
-      });
-    } else {
-      style = new Style({
-        fill: new Fill({ color: '#00f' }),
-        text: new Text({
-          text: tile.adjacentMines ? tile.adjacentMines.toString() : '',
-          font: '20px Calibri,sans-serif',
-          fill: new Fill({ color: '#000' }),
-          stroke: new Stroke({ color: '#fff', width: 3 }),
-        }),
-      });
-    }
-  } else if (tile.flagged) {
-    style = new Style({
-      fill: new Fill({ color: 'blue' }),
-      text: new Text({
-        text: '⚑',
-        font: '20px Calibri,sans-serif',
-        fill: new Fill({ color: '#fff' }),
-        stroke: new Stroke({ color: '#000', width: 3 }),
-      }),
-    });
-  } else {
-    style = new Style({
-      fill: new Fill({ color: 'transparent' }), // Unrevealed tile color
-      text: new Text({
-        text: '',
-        font: '20px Calibri,sans-serif',
-      }),
-    });
-  }
-
-  feature.setStyle(style);
+  // Apply tile styling for mines, count, unexplored and flagged tiles.
+  feature.setStyle(getTileStyle(tile));
   vectorSource.addFeature(feature);
 };
 
@@ -118,13 +75,67 @@ const handleMapClick = (e, game, grid, vectorSource) => {
 
   const { coordinate } = e;
   // Get the axial coordinates of the clicked hexagon
-  const [q, r] = grid.coord2hex(coordinate);           
+  const [q, r] = grid.coord2hex(coordinate);
   const gameCoords = game.convertAxialToGameCoords(q, r);
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
-  game.revealTile(x, y);
-  updateTileVisuals(x, y, grid, vectorSource, game);
+  let revealedCoordsList = game.revealTile(x, y);
+
+  console.log(revealedCoordsList);
+
+  for (let [x, y] of revealedCoordsList) {
+    console.log('updating tile visuals')
+    updateTileVisuals(x, y, grid, vectorSource, game);
+  }
 };
+
+const getTileStyle = (tile) => {
+  let style;
+  console.log(tile);
+  if (tile.isRevealed === true) {
+    if (tile.isMine) {
+      style = new Style({
+        fill: new Fill({ color: 'red' }),
+        text: new Text({
+          text: '💣',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#fff' }),
+          stroke: new Stroke({ color: '#000', width: 3 }),
+        }),
+      });
+    } else {
+      style = new Style({
+        fill: new Fill({ color: '#777' }),
+        text: new Text({
+          text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#000' }),
+          stroke: new Stroke({ color: '#fff', width: 3 }),
+        }),
+      });
+    }
+  } else if (tile.isFlagged) {
+    style = new Style({
+      fill: new Fill({ color: 'blue' }),
+      text: new Text({
+        text: '⚑',
+        font: '20px Calibri,sans-serif',
+        fill: new Fill({ color: '#fff' }),
+        stroke: new Stroke({ color: '#000', width: 3 }),
+      }),
+    });
+  } else {
+    style = new Style({
+      fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
+      text: new Text({
+        text: '',
+        font: '20px Calibri,sans-serif',
+      }),
+    });
+  }
+
+  return style;
+}
 
 /**
 * Draw the game board by creating hexagon features and adding them to the map.
@@ -148,28 +159,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
       const hexCoords = grid.getHexagon([x + xOffset, y]);
       const feature = new Feature(new Polygon([hexCoords]));
 
-      let style;
-      if (tile.isMine) {
-        style = new Style({
-          fill: new Fill({ color: 'red' }),
-          text: new Text({
-            text: '💣',
-            font: '20px Calibri,sans-serif',
-            fill: new Fill({ color: '#fff' }),
-            stroke: new Stroke({ color: '#000', width: 3 }),
-          }),
-        });
-      } else {
-        style = new Style({
-          fill: new Fill({ color: '#00f' }),
-          text: new Text({
-            text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
-            font: '20px Calibri,sans-serif',
-            fill: new Fill({ color: '#000' }),
-            stroke: new Stroke({ color: '#fff', width: 3 }),
-          }),
-        });
-      }
+      let style = getTileStyle(tile);
       feature.setStyle(style);
       vectorSource.addFeature(feature);
     }
