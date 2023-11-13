@@ -4,7 +4,7 @@
     :class="$vuetify.breakpoint.xsOnly && autofocus ? 'menu-top' : 'menu-bottom'"
     :style="`position: absolute; z-index: 5; width: auto; max-width: ${
       $vuetify.breakpoint.xsOnly
-    ? '100%' : '600px'}; height: 130px;`"
+    ? '100%' : '600px'}; ${showTimeSlider ? 'height: 130px;' : 'height: 65px;'}`"
   >
     <v-col v-if="showTimeSlider" style="height:68px;">
       <v-slider

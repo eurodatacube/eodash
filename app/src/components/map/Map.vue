@@ -618,6 +618,12 @@ export default {
         && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
         position = 'bottom: 72px';
       }
+      if (this.dataLayerTimeProp && this.$vuetify.breakpoint.smAndUp) {
+        position = 'bottom: 25px';
+      }
+      if (this.mapId === 'embedMap') {
+        position = ` bottom:${this.$vuetify.application.footer + 24}px`;
+      }
       return position;
     },
     mousePosConStyle() {
