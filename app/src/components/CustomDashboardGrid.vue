@@ -175,7 +175,7 @@
                 ) ||
                 Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
                 element.mapInfo"
-                :mapId="element.poi"
+                :mapId="element.poi.replace('@', '-')"
                 :currentIndicator="element.indicatorObject"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
