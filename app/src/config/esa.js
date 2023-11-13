@@ -226,6 +226,13 @@ export const indicatorsDefinition = Object.freeze({
   E200: {
     features: geodbFeatures,
   },
+  E1_S2: {
+    features: {
+      name: 'Ship detections',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
+      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
+    },
+  }
 });
 
 export const layerNameMapping = Object.freeze({
