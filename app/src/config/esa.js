@@ -123,13 +123,11 @@ export const indicatorsDefinition = Object.freeze({
       url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
     },
   },
-  E12c: {
-    customAreaIndicator: true,
-    customAreaFeatures: true,
-  },
-  E12d: {
-    customAreaIndicator: true,
-    customAreaFeatures: true,
+  E13b: {
+    features: {
+      ...geodbFeatures,
+      name: 'Plane detections',
+    },
   },
 });
 
@@ -274,6 +272,8 @@ export const globalIndicators = [
         yAxis: 'Number of trucks detected',
         time: getDailyDates('2020-01-01', '2021-12-31'),
         display: [{
+          customAreaIndicator: true,
+          customAreaFeatures: true,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
@@ -304,6 +304,8 @@ export const globalIndicators = [
         time: getDailyDates('2020-01-01', '2021-12-31'),
         yAxis: 'Number of trucks detected',
         display: [{
+          customAreaIndicator: true,
+          customAreaFeatures: true,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
