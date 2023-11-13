@@ -26,6 +26,7 @@ const getDailyDates = (start, end) => {
 
 
 const geodbFeatures = {
+  name: 'Ship detections',
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
   callbackFunction: (responseJson) => { // geom from wkb to geojson features
@@ -73,7 +74,6 @@ const E1bConfigInputDataAsc = [{
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
   features: {
     ...geodbFeatures,
-    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }, {
@@ -107,7 +107,6 @@ const E1bConfigInputDataDes = [{
   opacity: 0.6,
   features: {
     ...geodbFeatures,
-    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }];
@@ -124,7 +123,7 @@ export const indicatorsDefinition = Object.freeze({
   },
   E13c: {
     features: {
-      name: 'Weimouth ships',
+      name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
       url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
     }
