@@ -194,19 +194,9 @@ const getTimeLabel = (time, config) => {
   }
   // If not try default approach
   if (Array.isArray(time) && time.length === 2) {
-    // show start - end
-    if (config[0].mapTimeLabelExtended) {
-      return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
-    }
     return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
   } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-    if (config[0].mapTimeLabelExtended) {
-      return time.toISO({ suppressMilliseconds: true });
-    }
     return time.toISODate();
-  }
-  if (config[0].mapTimeLabelExtended) {
-    return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
   }
   return DateTime.fromISO(time).toISODate();
 };

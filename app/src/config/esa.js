@@ -116,18 +116,35 @@ export const indicatorsDefinition = Object.freeze({
   E200: {
     features: geodbFeatures,
   },
-  E1_S2: {
-    features: {
-      name: 'Ship detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyyMMdd'T'HHmmss"),
-      url: './eodash-data/features/{indicator}/{indicator}_{aoiID}_{featuresTime}.geojson',
-    },
-  },
   E13b: {
     features: {
       ...geodbFeatures,
       name: 'Plane detections',
     },
+  },
+  E13c: {
+    features: {
+      name: 'Weimouth ships',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+      url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
+    }
+  },
+  E13d: {
+    features: {
+      ...geodbFeatures,
+      name: 'Plane detections',
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+      dateFormatFunction: (date) => {
+        // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
+        const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        const dateObj = DateTime.fromISO(date);
+        const dateFuture = dateObj.plus({ minutes: 45 }).toFormat(defaultFormat);
+        const datePast = dateObj.minus({ minutes: 45 }).toFormat(defaultFormat);
+        const query = `time=gte.${datePast}&time=lte.${dateFuture}`;
+        return query;
+      },
+    },
+    largeTimeDuration: true,
   },
 });
 
