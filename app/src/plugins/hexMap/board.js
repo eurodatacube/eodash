@@ -40,8 +40,8 @@ export default class HexSweeperGame {
           row.push({
             isMine: value > 1500,
             adjacentMines: 0,
-            revealed: false,
-            flagged: false,
+            isRevealed: false,
+            isFlagged: false,
             element: null,
           });
         }
@@ -69,8 +69,8 @@ export default class HexSweeperGame {
         row.push({
           isMine: Math.random() < this.difficulty,
           adjacentMines: 0,
-          revealed: false,
-          flagged: false,
+          isRevealed: false,
+          isFlagged: false,
           element: null,
         });
       }
@@ -174,19 +174,33 @@ export default class HexSweeperGame {
     if (!tile || tile.adjacentMines > 0) return;
     const neighbors = this.getNeighborCoordinates(x, y);
     neighbors.forEach(([nx, ny]) => {
-      if (this.isValidCoordinate(nx, ny) && !this.board[nx][ny].revealed) {
+      if (this.isValidCoordinate(nx, ny) && !this.board[nx][ny].isRevealed) {
         this.revealArea(nx, ny);
       }
     });
   }
 
   revealTile(x, y) {
-    console.log('Revealing tile at ${x}, ${y}');
+    // Accumulate a list of revealed tile coordinates to update the rendering efficiently.
+    let coordinate_pairs = [[x, y]];
+
     const tile = this.get(x, y);
-    console.log('Got tile: ${JSON.stringify(tile)}');
-    if (tile.revealed || tile.flagged) return null;
-    tile.revealed = true;
-    return tile;
+    if (tile.isRevealed || tile.isFlagged) return [];
+    tile.isRevealed = true;
+    const neighbors = this.getNeighborCoordinates(x, y);
+    neighbors.forEach(([nx, ny]) => {
+      if (
+        this.isValidCoordinate(nx, ny)
+          && !this.board[ny][nx].isRevealed
+          && !this.board[ny][nx].isMine
+          && this.board[ny][nx].adjacentMines === 0
+      ) {
+        // Append new entries to the list of pairs to update the rendering.
+        coordinate_pairs = coordinate_pairs.concat(this.revealTile(nx, ny));
+      }
+    });
+
+    return coordinate_pairs;
   }
 
   isValidCoordinate(x, y) {
@@ -204,12 +218,5 @@ export default class HexSweeperGame {
   get(x, y) {
     this.enforceBounds(x, y);
     return this.board[y][x];
-  }
-
-  revealTile(x, y) {
-    const tile = this.board[y][x];
-    if (tile.revealed || tile.flagged) return;
-    tile.revealed = true;
-    // return tile;
   }
 }
