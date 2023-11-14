@@ -5,6 +5,7 @@
         <eox-stacinfo ref="stacInfoEl"
           @loaded="onStacInfoLoad"
           :for="getLink"
+          :allowHtml.prop="true"
           :styleOverride.prop="`#properties li > .value {
               font-weight: normal !important;
           }`"
