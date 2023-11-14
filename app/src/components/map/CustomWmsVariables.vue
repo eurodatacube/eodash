@@ -72,7 +72,6 @@ export default {
       const { map } = getMapInstance('centerMap');
       const wmsLayer = map.getAllLayers().find((l) => l.get('name') === this.wmsVariables.sourceLayer);
       wmsLayer.changed();
-
     },
   },
 };

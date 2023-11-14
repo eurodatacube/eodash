@@ -208,7 +208,8 @@ export const globalIndicators = [
             },
             allowedParameters: ['name', 'amenity'],
             ...overpassApiNodes(
-            '[out:json][timeout:30];(node["amenity"="school"]({area});node["amenity"="hospital"]({area}););out body;>;out skel qt;'),
+              '[out:json][timeout:30];(node["amenity"="school"]({area});node["amenity"="hospital"]({area}););out body;>;out skel qt;',
+            ),
           },
         },
       },
