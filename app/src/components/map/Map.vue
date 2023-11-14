@@ -319,19 +319,6 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersMap)];
-      const darkOverlay = (
-        'darkOverlayLayers' in this.baseConfig
-        && this.baseConfig.darkOverlayLayers.length > 0
-      );
-      // darkOverlayLayers replace country vectors
-      if (!this.isGlobalIndicator && !darkOverlay) {
-        configs.push({
-          name: 'Country vectors',
-          protocol: 'countries',
-          projection: 'EPSG:4326',
-          visible: true,
-        });
-      }
       return configs;
     },
     darkOverlayLayers() {
@@ -442,9 +429,6 @@ export default {
     },
     dataLayerKey() {
       return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
-    },
-    countriesJson() {
-      return countries;
     },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
@@ -564,7 +548,9 @@ export default {
               loadIndicatorExternalData(
                 timeObj.value, item,
               ).then((data) => {
-                this.$store.state.indicators.selectedIndicator.mapData = data;
+                if (this.$store.state.indicators.selectedIndicator) {
+                  this.$store.state.indicators.selectedIndicator.mapData = data;
+                }
                 // finds first layer with ID
                 const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {

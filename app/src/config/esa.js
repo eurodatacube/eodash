@@ -248,15 +248,15 @@ export const indicatorsDefinition = Object.freeze({
   C1: {
     indicatorSummary: 'Combined 1',
     indicatorOverwrite: 'Ports and Shipping - impact on air quality',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   C2: {
     indicatorSummary: 'Combined 2',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   C3: {
     indicatorSummary: 'Combined 3',
-    themes: ['economy, air'],
+    themes: ['economy', 'air'],
   },
   E200: {
     indicatorSummary: 'Changes in Ships traffic within the Port',
@@ -709,6 +709,10 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['air'],
     story: '/eodash-data/stories/CDS',
   },
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['economy'],
@@ -911,6 +915,45 @@ export const globalIndicators = [
     },
   },
   */
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GHS built-up surface dataset GHS-BUILT-S_GLOBE_R2023A',
+        indicator: 'GHSBUILT',
+        indicatorName: 'GHS-BUILT-S-R2023A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: availableDates.GHS_BUILT_S,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          customAreaIndicator: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'GHS-BUILT-S_GLOBE_R2023A',
+          layers: 'GHS_BUILT_S',
+          minZoom: 1,
+          legendUrl: 'legends/esa/GHS-BUILT-S_GLOBE_R2023A.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['GHS-BUILT-S_GLOBE_R2023A'],
+              'byoc-0c7aa265-50f9-4947-9980-2ee5ae204803',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {

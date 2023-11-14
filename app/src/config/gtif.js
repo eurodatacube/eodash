@@ -209,6 +209,8 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersMap = [
+  baseLayers.s1EodcBackscattervv,
+  baseLayers.s1EodcBackscattervh,
   baseLayers.S2GLC,
   baseLayers.ESA_WORLD_COVER,
   baseLayers.CORINE_LAND_COVER,
@@ -449,6 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    customAreaIndicator: true,
   },
   REP2: {
     ...energyTransitionDefaults,
@@ -486,7 +489,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_2: {
     indicator: 'Hydro Power SWE monthly',
@@ -504,7 +509,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
@@ -534,7 +541,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmapgelaende,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP5: {
     indicator: 'Potential Assessment',
@@ -544,6 +553,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
@@ -565,6 +576,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.terrainLight,
     baseLayers.eoxosm,
     baseLayers.S2GLC,
@@ -1390,17 +1403,6 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
-        }, {
-          // TESTING layerControlOptional behavior
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
-            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
-            .toFormat('yyyy-MM-dd')}`,
-          name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          maxZoom: 14,
-          opacity: 0.7,
-          layerControlOptional: true,
-          visible: false,
         }],
       },
     },
@@ -2858,6 +2860,10 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        queryParameters: {
+          sourceLayer: 'wind_average_zsp',
+          selected: '1,2,3,4,5,6,7,8,9,10,11,12',
+        },
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
