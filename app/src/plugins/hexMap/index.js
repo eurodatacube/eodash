@@ -79,12 +79,12 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   const gameCoords = game.convertAxialToGameCoords(q, r);
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
-  let revealedCoordsList = game.revealTile(x, y);
+  const revealedCoordsList = game.revealTile(x, y);
 
   console.log(revealedCoordsList);
 
-  for (let [x, y] of revealedCoordsList) {
-    console.log('updating tile visuals')
+  for (const [x, y] of revealedCoordsList) {
+    console.log('updating tile visuals');
     updateTileVisuals(x, y, grid, vectorSource, game);
   }
 };
@@ -135,7 +135,7 @@ const getTileStyle = (tile) => {
   }
 
   return style;
-}
+};
 
 /**
 * Draw the game board by creating hexagon features and adding them to the map.
@@ -159,7 +159,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
       const hexCoords = grid.getHexagon([x + xOffset, y]);
       const feature = new Feature(new Polygon([hexCoords]));
 
-      let style = getTileStyle(tile);
+      const style = getTileStyle(tile);
       feature.setStyle(style);
       vectorSource.addFeature(feature);
     }

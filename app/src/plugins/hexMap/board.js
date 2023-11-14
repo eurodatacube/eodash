@@ -171,9 +171,8 @@ export default class HexSweeperGame {
 
   isNextToMine(x, y) {
     const neighbors = this.getNeighborCoordinates(x, y);
-    return neighbors.some(([nx, ny]) => {
-      return this.isValidCoordinate(nx, ny) && this.board[ny][nx].isMine;
-    });
+    return neighbors.some(([nx, ny]) => this.isValidCoordinate(nx, ny)
+                                          && this.board[ny][nx].isMine);
   }
 
   revealTile(x, y) {
