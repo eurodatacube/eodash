@@ -123,13 +123,11 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
-        'N1_NO2', // Separation of N1 indocators
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
-        'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
-        'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
-        'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'GHSBUILT',
+        'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
+        'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
+        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -409,23 +407,9 @@ export default {
         referenceDecompose.E12d = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
-
-        referenceDecompose.E13o = referenceDecompose.N1;
-        referenceDecompose.E13p = referenceDecompose.N1;
-        referenceDecompose.E13q = referenceDecompose.N1;
-        referenceDecompose.E13r = referenceDecompose.N1;
-        referenceDecompose.N9 = referenceDecompose.N1;
-        referenceDecompose.CDS1 = referenceDecompose.N1;
-        referenceDecompose.CDS2 = referenceDecompose.N1;
-        referenceDecompose.CDS3 = referenceDecompose.N1;
-        referenceDecompose.CDS4 = referenceDecompose.N1;
-        referenceDecompose.NPP = referenceDecompose.N1;
-        referenceDecompose.Lakes_SWT = referenceDecompose.N1;
-        referenceDecompose.GHSBUILT = referenceDecompose.N1;
+        referenceDecompose.SHCustomLineChart = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
-        referenceDecompose.N3a2 = referenceDecompose.N1;
-        referenceDecompose.N1_NO2 = referenceDecompose.N1;
 
         referenceDecompose.SST = JSON.parse(JSON.stringify(referenceDecompose.N3));
 
@@ -1678,10 +1662,9 @@ export default {
         };
       }
 
-      // Special handling for chart including STD representation
+      // Special handling for SH Custom area /statistics chart including STD representation
       if ([
-        'N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST',
-        'N1_SO2', 'GHSBUILT',
+        'N1', 'SHCustomLineChart', 'N3', 'SST',
       ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
