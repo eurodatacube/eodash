@@ -431,8 +431,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       // gets the current time entry from the store
       source = new XYZSource({
         attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoom || config.minZoom,
         crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
         transition: 0,
         projection: getProjectionOl(config.projection),
@@ -455,8 +455,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     } else {
       source = new XYZSource({
         attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
+        maxZoom: config.maxNativeZoom || config.maxZoom,
+        minZoom: config.minNativeZoom || config.minZoom,
         crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
         projection: getProjectionOl(config.projection),
         transition: 0,

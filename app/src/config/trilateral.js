@@ -17,6 +17,7 @@ import {
   evalScriptsDefinitions,
   parseStatAPIResponse,
   nasaStatisticsConfig,
+  xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -576,6 +577,54 @@ export const indicatorsDefinition = Object.freeze({
       },
     ],
   },
+  RECCAP2_1: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_2: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_3: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_4: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_5: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_5',
+  },
+  RECCAP2_6: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_6',
+  },
+  RECCAP2_7: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_7',
+  },
+  RECCAP2_8: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_8',
+  },
+  RECCAP2_9: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_10: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_11: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_12: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
     themes: ['agriculture'],
@@ -995,7 +1044,63 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
+const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, time, yAxis) => ({
+  properties: {
+    indicatorObject: {
+      indicator: indicatorCode,
+      dataLoadFinished: true,
+      country: 'all',
+      city: 'World',
+      siteName: 'global',
+      description: '',
+      indicatorName: name,
+      subAoi: {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      aoiID: 'World',
+      time,
+      inputData: [''],
+      yAxis,
+      display: {
+        presetView: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON((-82.46 13.76,-33.24 13.76,-33.24 -22.58,-82.46 -22.58,-82.46 13.76))').toJson(),
+          }],
+        },
+        legendUrl: `legends/trilateral/${indicatorCode}.png`,
+        protocol: 'xyz',
+        tileSize: 256,
+        minZoom: 1,
+        url: `https://reccap2.api.dev.brockmann-consult.de/api/tiles/cop28~reccap2-9x108x139-0.0.1.zarr/${variable}/{z}/{y}/{x}?crs=EPSG:3857&time={time}&vmin=${vmin}&vmax=${vmax}&cbar=${cbar}`,
+        name,
+        dateFormatFunction: (date) => `${date}`,
+        labelFormatFunction: (date) => date,
+        minNativeZoom: 3,
+        maxNativeZoom: 5,
+        customAreaIndicator: true,
+        areaIndicator: xcubeAnalyticsConfig({ href: `https://reccap2.api.dev.brockmann-consult.de/api/timeseries/cop28~reccap2-9x108x139-0.0.1.zarr/${variable}?aggMethods=median` }),
+      },
+    },
+  },
+});
+
 export const globalIndicators = [
+  createRECCAP2Config('RECCAP2_1', 'Methods mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_methods_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_2', 'Smooth max aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_smooth_max_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_3', 'Smooth mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_smooth_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_4', 'Trend mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_trend_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_5', 'Secondary forest growth (CCI RECCAP2)', 'SF_biomass_growth', 0, 2, 'YlGn', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_6', 'Deforestation (CCI RECCAP2)', 'deforested_biomass', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_7', 'Degradation (CCI RECCAP2)', 'degraded_biomass', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_8', 'Edge biomass change (CCI RECCAP2)', 'edge_biomass_change', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_9', 'Methods mean intact biomass change (CCI RECCAP2)', 'intact_biomass_change_methods_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_10', 'Smooth max intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_max', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_11', 'Smooth mean intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_12', 'Mean intact biomass change trend (CCI RECCAP2)', 'intact_biomass_change_trend_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
   {
     properties: {
       indicatorObject: {
