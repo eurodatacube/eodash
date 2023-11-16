@@ -153,6 +153,38 @@ export const baseLayers = Object.freeze({
     maxZoom: 13,
     protocol: 'xyz',
   },
+  terrainLightStereoNorth: {
+    baseUrl: 'https://sxcat-demo.eox.at/sxcat_maps/wms',
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    layers: 'sx-cat_ortho680500',
+    name: 'Terrain Light Stereographic North',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    projection: {
+      name: 'ORTHO:680500',
+      def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+      extent: [-6422528, -6422528, 6422528, 6422528],
+    },
+  },
+  terrainLightStereoSouth: {
+    baseUrl: 'https://sxcat-demo.eox.at/sxcat_maps/wms',
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    layers: 'sx-cat_ortho320500',
+    name: 'Terrain Light Stereographic South',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    projection: {
+      name: 'ORTHO:320500',
+      def: '+proj=ortho +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+      extent: [-6422528, -6422528, 6422528, 6422528],
+    },
+  },
 });
 
 export const overlayLayers = Object.freeze({

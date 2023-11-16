@@ -79,6 +79,65 @@ const mapBoxHighResoSubst = [{
   visible: true,
 }, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
 
+const antarcticBaseMaps = [
+  baseLayers.terrainLightStereoSouth,
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+  {
+    name: 'Antarctic hillshade, bathymetry',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_hillshade_and_bathymetry',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
+  },
+];
+
+const antarcticOverlayMaps = [
+  {
+    name: 'Antarctic coastline',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_coastline_line_medium',
+    attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+  },
+  {
+    name: 'Antarctic labels',
+    baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
+    projection: 'EPSG:3031',
+    layers: 'apip_extended_toponymy_labels',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
+  },
+];
+
+const arcticBaseMaps = [
+  {
+    ...baseLayers.terrainLightStereoNorth,
+    visible: true,
+  },
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+];
+
+const arcticOverlayMaps = [];
+
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
@@ -362,7 +421,6 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere'],
-    baseLayers: cloudlessBaseLayerDefault,
     story: '/eodash-data/stories/N12',
   },
   N11: {
@@ -528,53 +586,8 @@ export const indicatorsDefinition = Object.freeze({
     projection: 'EPSG:3031',
     minZoom: 2,
     maxZoom: 15,
-    baseLayers: [
-      baseLayers.terrainLight,
-      baseLayers.cloudless,
-      baseLayers.eoxosm,
-      {
-        name: 'Antarctic hillshade, bathymetry',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_hillshade_and_bathymetry',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
-      },
-    ],
-    overlayLayers: [
-      overlayLayers.eoxOverlay,
-      {
-        name: 'Antarctic coastline',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_coastline_line_medium',
-        attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-      },
-      {
-        name: 'Antarctic labels',
-        baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
-        projection: 'EPSG:3031',
-        layers: 'apip_extended_toponymy_labels',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
-      },
-    ],
+    baseLayers: antarcticBaseMaps,
+    overlayLayers: antarcticOverlayMaps,
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -1472,6 +1485,8 @@ export const globalIndicators = [
         showGlobe: true,
         // yAxis: 'Sea-ice thickness [m]',
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1888,6 +1903,8 @@ export const globalIndicators = [
         yAxis: 'Sea Ice Thickness (Envisat)',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Envisat)',
           layers: 'ESA-CCI-V2-ENVISAT',
@@ -1934,6 +1951,8 @@ export const globalIndicators = [
         yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Cryosat)',
           layers: 'ESA-CCI-V2-CRYOSAT',
@@ -2088,6 +2107,8 @@ export const globalIndicators = [
         time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -2165,6 +2186,8 @@ export const globalIndicators = [
         time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
+          baseLayers: antarcticBaseMaps,
+          overlayLayers: antarcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
