@@ -262,7 +262,7 @@ export const fetchCustomAreaObjects = async (
         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
       }
       // Convert geojsons back to an object
-      if (params[i] === 'geojson') {
+      if (['geojson', 'coordinates'].includes(params[i])) {
         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
       }
     }
@@ -549,6 +549,49 @@ export const nasaTimelapseConfig = (
         properties: {},
         geometry: area,
       }),
+    }
+  ),
+});
+
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.time));
+        newData.measurement.push(row.median);
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
     }
   ),
 });
