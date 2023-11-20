@@ -391,9 +391,11 @@
           </v-row>
         </v-col> -->
       </v-row>
-      <v-row class="mx-0">
-        <v-col>
+      <v-row class="ma-0">
+        <v-col :cols="6">
           <v-btn
+            large
+            class="px-2 py-0"
             color="primary"
             block
             @click="freezeLayer()"
@@ -401,6 +403,13 @@
             <v-icon left>mdi-content-duplicate</v-icon>
             Add as custom layer
           </v-btn>
+        </v-col>
+        <v-col :cols="6">
+          <v-text-field
+            hide-details
+            label="Custom Layer Name"
+            v-model="frozenLayerName">
+          </v-text-field>
         </v-col>
       </v-row>
     </div>
@@ -452,6 +461,7 @@ export default {
     position: null,
     right: null,
     up: null,
+    frozenLayerName: null,
     datalayertime: null,
     comparelayertime: null,
     compareEnabled: false,
@@ -631,10 +641,14 @@ export default {
       (e) => { this.isLoadingCustomAreaIndicator = e.detail; },
       false,
     );
+    if (this.mergedConfigsData.length > 0) {
+      const [resultConfig] = this.mergedConfigsData;
+      this.frozenLayerName = `${resultConfig.name} (Custom layer)`;
+    }
   },
   methods: {
     freezeLayer() {
-      this.$store.dispatch('indicators/freezeCurrentIndicator');
+      this.$store.dispatch('indicators/freezeCurrentIndicator', this.frozenLayerName);
     },
     generateChart() {
       // TODO: Extract fetchData method into helper file since it needs to be used from outside.
