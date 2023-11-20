@@ -255,6 +255,7 @@ module.exports = [
     countDownTimer: '2020-06-25T13:30:00.000+02:00',
     countDownMatch: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at'],
     enableStories: true,
+    minesweeperConfig: true,
   },
   {
     id: 'gtif',

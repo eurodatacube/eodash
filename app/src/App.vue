@@ -70,7 +70,6 @@ import {
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 import { loadIndicatorData } from '@/utils';
-import { createHexMap } from '@/plugins/minesweeper/index';
 
 import axios from 'axios';
 import { Wkt } from 'wicket';
@@ -268,13 +267,6 @@ export default {
       }
     });
     this.setAreaFromQuery();
-
-    const { map } = getMapInstance('centerMap');
-    const loadendHandler = async () => {
-      await createHexMap(map);
-      map.un('loadend', loadendHandler); // Unregister the event handler after it's called once
-    };
-    map.on('loadend', loadendHandler);
   },
   methods: {
     async checkComingSoon() {

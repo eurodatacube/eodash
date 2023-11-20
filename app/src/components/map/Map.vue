@@ -142,6 +142,40 @@
           :center.sync="currentCenter"
           mapControl
         />
+
+        <div>
+          <v-dialog width="500">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                v-bind="props"
+                @click="toggleMinesweeper"
+              >
+                <span
+                  :style="`font-size: 20px; filter: invert(28%) sepia(100%) hue-rotate(${minesweeper.isEnabled ? 60: -40}deg) saturate(3);`"
+                >
+                  💣
+                </span>
+              </v-btn>
+            </template>
+
+            <template v-slot:default="{ isActive }">
+              <v-card title="Dialog">
+                <v-card-text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+
+                  <v-btn
+                    text="Close Dialog"
+                    @click="isActive.value = false"
+                  ></v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+        </div>
       </div>
       <div
         v-if="$route.name !== 'demo'"
@@ -209,6 +243,7 @@ import {
   findClosest,
 } from '@/utils';
 import getLocationCode from '../../mixins/getLocationCode';
+import { createHexMap } from '@/plugins/minesweeper/index';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -288,6 +323,12 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      minesweeper: {
+        isEnabled: true,
+        isLoaded: false,
+        // Layer IDs of the hex grid and board
+        uids: [],
+      }
     };
   },
   computed: {
@@ -773,6 +814,15 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    // Initialize Minesweeper game if options are present in the appConfig.
+    if (this.appConfig.minesweeperOptions) {
+      const loadendHandler = async () => {
+        this.minesweeper.uids = await createHexMap(map);
+        map.un('loadend', loadendHandler); // Unregister the event handler after it's called once
+      };
+      map.on('loadend', loadendHandler);
+    }
   },
   methods: {
     convertDateForMsg(time) {
@@ -1054,6 +1104,25 @@ export default {
         padding,
       });
     },
+    async toggleMinesweeper() {
+      let map = getMapInstance(this.mapId).map;
+      if (this.minesweeper.isEnabled) {
+        for (const uid of this.minesweeper.uids) {
+          map.getLayers().getArray()
+            .filter(layer => {
+              console.log(layer.get('ol_uid') === uid);
+              return layer.get('ol_uid') === uid
+            })
+            .forEach(layer => map.removeLayer(layer));
+        }
+
+        this.minesweeper.isEnabled = false;
+      } else {
+        this.minesweeper.uids = await createHexMap(map);
+        this.minesweeper.isEnabled = true;
+      }
+      console.log(getMapInstance(this.mapId).map.getAllLayers());
+    }
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {

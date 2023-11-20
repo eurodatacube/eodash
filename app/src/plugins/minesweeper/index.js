@@ -26,9 +26,10 @@ const setupGrid = (map) => {
   });
 
   const hex = new HexMap({ hexGrid: grid });
-  map.addLayer(new Image({ source: hex }));
+  let imageLayer = new Image({ source: hex });
+  map.addLayer(imageLayer);
 
-  return grid;
+  return [imageLayer.ol_uid, hex.ol_uid];
 };
 
 const updateTileVisuals = (x, y, grid, vectorSource, game) => {
@@ -36,8 +37,6 @@ const updateTileVisuals = (x, y, grid, vectorSource, game) => {
   const hexagonVertices = grid.getHexagon([q, r]);
   const feature = new Feature(new Polygon([hexagonVertices]));
   const tile = game.get(x, y);
-
-  console.log(`Tile: ${tile.isMine ? '💣' : tile.adjacentMines}`);
 
   // Assign a unique identifier to the feature
   const featureId = `tile-${x}-${y}`;
@@ -74,27 +73,20 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   e.preventDefault();
 
   const { coordinate } = e;
-  console.log(coordinate);
   // Get the axial coordinates of the clicked hexagon
   const [q, r] = grid.coord2hex(coordinate);
   const gameCoords = game.convertAxialToGameCoords(q, r);
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
-  console.log(`Got click: ${x}, ${y}`);
-
   const revealedCoordsList = game.revealTile(x, y);
 
-  console.log(revealedCoordsList);
-
   for (const [x, y] of revealedCoordsList) {
-    console.log('updating tile visuals');
     updateTileVisuals(x, y, grid, vectorSource, game);
   }
 };
 
 const getTileStyle = (tile) => {
   let style;
-  console.log(tile);
   if (tile.isRevealed === true) {
     if (tile.isMine) {
       style = new Style({
@@ -108,7 +100,7 @@ const getTileStyle = (tile) => {
       });
     } else {
       style = new Style({
-        fill: new Fill({ color: '#777' }),
+        fill: new Fill({ color: 'rgba(0, 0, 0, 0.3)' }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
           font: '20px Calibri,sans-serif',
