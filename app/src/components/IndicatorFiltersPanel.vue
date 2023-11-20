@@ -1,8 +1,9 @@
 <template>
   <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
-    <h4 slot="filterstitle">
-      {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
-    </h4>
+    <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
+      Filter
+    </h4> 
+    <span v-else slot="filterstitle"></span>
     <h4 slot="resultstitle">
       {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>

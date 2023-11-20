@@ -1005,18 +1005,18 @@ const createRECCAP2Config = (indicatorCode) => ({
 });
 
 export const globalIndicators = [
-  createRECCAP2Config('RECCAP_2_1'),
-  createRECCAP2Config('RECCAP_2_2'),
-  createRECCAP2Config('RECCAP_2_3'),
-  createRECCAP2Config('RECCAP_2_4'),
-  createRECCAP2Config('RECCAP_2_5'),
-  createRECCAP2Config('RECCAP_2_6'),
-  createRECCAP2Config('RECCAP_2_7'),
-  createRECCAP2Config('RECCAP_2_8'),
-  createRECCAP2Config('RECCAP_2_9'),
-  createRECCAP2Config('RECCAP_2_10'),
-  createRECCAP2Config('RECCAP_2_11'),
-  createRECCAP2Config('RECCAP_2_12'),
+  createRECCAP2Config('RECCAP2_1'),
+  createRECCAP2Config('RECCAP2_2'),
+  createRECCAP2Config('RECCAP2_3'),
+  createRECCAP2Config('RECCAP2_4'),
+  createRECCAP2Config('RECCAP2_5'),
+  createRECCAP2Config('RECCAP2_6'),
+  createRECCAP2Config('RECCAP2_7'),
+  createRECCAP2Config('RECCAP2_8'),
+  createRECCAP2Config('RECCAP2_9'),
+  createRECCAP2Config('RECCAP2_10'),
+  createRECCAP2Config('RECCAP2_11'),
+  createRECCAP2Config('RECCAP2_12'),
   {
     properties: {
       indicatorObject: {

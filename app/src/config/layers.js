@@ -1,5 +1,13 @@
 // eslint-disable-next-line import/no-named-default
 import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+import GeoJSON from 'ol/format/GeoJSON';
+import WKB from 'ol/format/WKB';
+import { DateTime } from 'luxon';
+import { Wkt } from 'wicket';
+
+const wkb = new WKB();
+const geojsonFormat = new GeoJSON();
+const wkt = new Wkt();
 
 export const baseLayers = Object.freeze({
   cloudless: {
@@ -184,3 +192,121 @@ export const overlayLayers = Object.freeze({
     },
   },
 });
+
+export const trucksAreaIndicator = (gtifAustria = false) => ({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'time,geometry',
+    order: 'time',
+    where: `${gtifAustria ? 'aoi_id=\'AT\' AND ': ''}ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)`,
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    if (Array.isArray(responseJson[0].src)) {
+      const data = responseJson[0].src;
+      const datesObj = {};
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
+        ? 1
+        : -1));
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((row) => {
+        // for each entry, extract just those points that actually intersect the area
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
+        let intersectingFtrs = 0;
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              intersectingFtrs += 1;
+            }
+          });
+        }
+        if (intersectingFtrs > 0) {
+          // as data is structured one entry per country, we need to aggregate on date
+          if (row.time in datesObj) {
+            datesObj[row.time] += intersectingFtrs;
+          } else {
+            datesObj[row.time] = intersectingFtrs;
+          }
+        }
+      });
+      Object.entries(datesObj).forEach((entry) => {
+        const [key, value] = entry;
+        // convert to structure indicatorData expects
+        newData.time.push(DateTime.fromISO(key));
+        newData.measurement.push(value);
+      });
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    }
+    return null;
+  },
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+});
+
+export const trucksFeatures = {
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
+  requestMethod: 'POST',
+  name: 'Truck detections',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    collection: 'eodash_{indicator}-detections',
+    select: 'geometry,time',
+    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND time=\'{featuresTime}\'',
+  },
+  callbackFunction: (responseJson, indicator, area) => {
+    const ftrs = [];
+    const data = responseJson[0].src;
+    if (Array.isArray(data)) {
+      const areaAsGeom = geojsonFormat.readGeometry(area);
+      data.forEach((ftr) => {
+        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
+        if (geom.type === 'MultiPoint') {
+          // split multipoint to points
+          geom.coordinates.forEach((coordPair) => {
+            const singleGeometry = {
+              type: 'Point',
+              coordinates: coordPair,
+            };
+            // check if intersect the user drawn area
+            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
+            if (intersects) {
+              const { geometry, ...properties } = ftr;
+              ftrs.push({
+                type: 'Feature',
+                properties,
+                geometry: singleGeometry,
+              });
+            }
+          });
+        }
+      });
+    }
+    const ftrColl = {
+      type: 'FeatureCollection',
+      features: ftrs,
+    };
+    return ftrColl;
+  },
+  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}T00:00:00`,
+  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+};

@@ -457,7 +457,7 @@ export default {
       // use only first "layer" entry
       if (config.length > 0) {
         [resultConfig] = config;
-        resultConfig.name = `${resultConfig.name} (Custom layer)`;
+        resultConfig.name = this.frozenIndicator.frozenLayerName; 
         resultConfig.id = `${resultConfig.id}_frozen`;
         resultConfig.visible = false;
         // bake in selected time by only passing one time to the frozen indicator

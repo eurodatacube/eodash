@@ -203,7 +203,7 @@ module.exports = [
     demoMode: {
       cop28: [
         {
-          poi: 'None-RECCAP_2_1',
+          poi: 'None-RECCAP2_1',
         },
       ],
     },

@@ -49,7 +49,8 @@ const mutations = {
 };
 
 const actions = {
-  freezeCurrentIndicator({ commit }) {
+  freezeCurrentIndicator({ commit }, frozenLayerName) {
+    this.state.indicators.selectedIndicator.frozenLayerName = frozenLayerName;
     commit('SET_FROZEN_INDICATOR', this.state.indicators.selectedIndicator);
   },
   async loadSTACIndicators({ commit, rootState }) {

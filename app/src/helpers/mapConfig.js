@@ -156,39 +156,26 @@ const mergedConfigs = (usedTimes, inputDataConfig, indicatorObject) => {
     const indDefinition = baseConfig.indicatorsDefinition[
       indicatorObject.indicator
     ];
-    if (Object.keys(item).indexOf('features') !== -1) {
+    // get if features is defined in the merged object
+    const mergedObject = {
+      ...baseConfig.defaultLayersDisplay,
+      ...indDefinition,
+      ...item,
+      indicator: indicatorObject.indicator,
+      aoiID: indicatorObject.aoiID,
+      name,
+      usedTimes,
+    };
+    if (Object.keys(mergedObject).indexOf('features') !== -1) {
       // destructure the features property as a new layer config to keep
       // backwards compatibility but remove need for layer groups on bottom-most level
-      const { features: _, ...itemWithoutFeatureConfig } = item;
-      finalConfigs.push({
-        ...baseConfig.defaultLayersDisplay,
-        ...indDefinition,
-        ...itemWithoutFeatureConfig,
-        indicator: indicatorObject.indicator,
-        aoiID: indicatorObject.aoiID,
-        name,
-        usedTimes,
-      });
-      finalConfigs.push({
-        ...baseConfig.defaultLayersDisplay,
-        ...indDefinition,
-        ...item,
-        indicator: indicatorObject.indicator,
-        aoiID: indicatorObject.aoiID,
-        name: item.features.name,
-        usedTimes,
-      });
-    } else {
-      finalConfigs.push({
-        ...baseConfig.defaultLayersDisplay,
-        ...indDefinition,
-        ...item,
-        indicator: indicatorObject.indicator,
-        aoiID: indicatorObject.aoiID,
-        name,
-        usedTimes,
-      });
+      const { features: _, ...itemWithoutFeatureConfig } = mergedObject;
+      if (mergedObject.features.name) {
+        mergedObject.name = mergedObject.features.name;
+      }
+      finalConfigs.push(itemWithoutFeatureConfig);
     }
+    finalConfigs.push(mergedObject);
   });
   return finalConfigs;
 };
@@ -207,19 +194,9 @@ const getTimeLabel = (time, config) => {
   }
   // If not try default approach
   if (Array.isArray(time) && time.length === 2) {
-    // show start - end
-    if (config[0].mapTimeLabelExtended) {
-      return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
-    }
     return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
   } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-    if (config[0].mapTimeLabelExtended) {
-      return time.toISO({ suppressMilliseconds: true });
-    }
     return time.toISODate();
-  }
-  if (config[0].mapTimeLabelExtended) {
-    return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
   }
   return DateTime.fromISO(time).toISODate();
 };

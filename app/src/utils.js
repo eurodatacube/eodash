@@ -188,6 +188,7 @@ function createVectorTileDisplay(config) {
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature;
+  let display = {};
   if (indicatorObject.locations) {
     const response = await fetch(indicatorObject.link);
     const jsonData = await response.json();
@@ -205,19 +206,17 @@ export async function loadFeatureData(baseConfig, feature) {
       const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
       const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
       if (wmsEndpoint) {
-        const display = createWMSDisplay(
+        display = createWMSDisplay(
           wmsEndpoint, jsonData.id,
         );
         if ('assets' in jsonData && 'legend' in jsonData.assets) {
           display.legendUrl = jsonData.assets.legend.href;
         }
-        store.state.indicators.selectedIndicator.display = display;
       } else if (xyzEndpoint) {
         if (xyzEndpoint.type === 'image/png') {
-          const display = createXYZDisplay(
+          display = createXYZDisplay(
             xyzEndpoint, jsonData.id,
           );
-          store.state.indicators.selectedIndicator.display = display;
           const cogTimes = [];
           jsonData.links.forEach((link) => {
             if (link.rel === 'item') {
@@ -236,8 +235,46 @@ export async function loadFeatureData(baseConfig, feature) {
           cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
           store.state.indicators.selectedIndicator.time = cogTimes;
         }
-      } else {
-        store.state.indicators.selectedIndicator.display = null;
+      }
+    }
+    // Check for possible processing configuration in examples
+    const exampleEndpoint = jsonData.links.find((item) => item.rel === 'example');
+    if (exampleEndpoint) {
+      if (exampleEndpoint.title === 'evalscript') {
+        const evalscript = await (await fetch(exampleEndpoint.href)).text();
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: {
+              ...statisticalApiHeaders,
+              ...statisticalApiBody(
+                evalscript,
+                exampleEndpoint.dataId,
+              ),
+              callbackFunction: parseStatAPIResponse,
+              areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+            },
+          },
+        };
+      } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: nasaStatisticsConfig(
+              (value) => value,
+            ),
+          },
+        };
+      } else if (exampleEndpoint.title === 'xcube analytics') {
+        display = {
+          ...display,
+          ...{
+            customAreaIndicator: true,
+            areaIndicator: xcubeAnalyticsConfig(exampleEndpoint),
+          },
+        };
       }
     }
     // Add collection extent as subaoi
@@ -250,6 +287,7 @@ export async function loadFeatureData(baseConfig, feature) {
       type: 'FeatureCollection',
       features: [features],
     };
+    store.state.indicators.selectedIndicator.display = display;
   } else {
     // Fetch data from geodb
     const geodbUrl = baseConfig.geoDBFeatureParameters.url;
