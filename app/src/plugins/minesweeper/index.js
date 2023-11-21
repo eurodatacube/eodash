@@ -29,7 +29,10 @@ const setupGrid = (map) => {
   let imageLayer = new Image({ source: hex });
   map.addLayer(imageLayer);
 
-  return [imageLayer.ol_uid, hex.ol_uid];
+  return {
+    uids: [imageLayer.ol_uid, hex.ol_uid],
+    grid,
+  };
 };
 
 const updateTileVisuals = (x, y, grid, vectorSource, game) => {
@@ -173,7 +176,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 * @param {Object} map - The OpenLayers map instance.
 */
 export const createHexMap = async (map) => {
-  const grid = setupGrid(map);
+  const { uids, grid } =  setupGrid(map);
   const vectorSource = new VectorSource();
   const game = new HexSweeperGame(40, 40, 0.2);
 
@@ -182,6 +185,8 @@ export const createHexMap = async (map) => {
   map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
   drawGameBoard(map, game, grid, vectorSource);
   updateAllTileVisuals(game, grid, vectorSource);
+
+  return uids;
 };
 
 export default {
