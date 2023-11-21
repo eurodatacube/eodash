@@ -185,7 +185,7 @@ export const overlayLayers = Object.freeze({
   },
 });
 
-export const xcubeViewerColomaps = [
+export const xcubeViewerColormaps = [
   'magma',
   'inferno',
   'plasma',

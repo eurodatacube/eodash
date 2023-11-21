@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import {
   simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
-import { baseLayers, overlayLayers, xcubeViewerColomaps } from '@/config/layers';
+import { baseLayers, overlayLayers, xcubeViewerColormaps } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
@@ -1089,7 +1089,7 @@ const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, ti
               cbar: {
                 title: 'Colorbar',
                 type: 'string',
-                enum: xcubeViewerColomaps,
+                enum: xcubeViewerColormaps,
               },
             },
           },
