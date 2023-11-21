@@ -151,7 +151,9 @@
                 @click="toggleMinesweeper"
               >
                 <span
-                  :style="`font-size: 20px; filter: invert(28%) sepia(100%) hue-rotate(${minesweeper.isEnabled ? 60: -40}deg) saturate(3);`"
+                  :style="`font-size: 20px; filter: invert(28%) sepia(100%) hue-rotate(${
+                    minesweeper.isEnabled ? 60: -40
+                  }deg) saturate(3);`"
                 >
                   💣
                 </span>
@@ -162,7 +164,8 @@
               <v-card title="Minesweeper" class="py-6">
                 <v-card-text>
                   <h1 class="pb-6">Minesweeper Game</h1>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
                 </v-card-text>
 
                 <v-card-actions>
@@ -243,8 +246,8 @@ import {
   getIndicatorFilteredInputData,
   findClosest,
 } from '@/utils';
-import getLocationCode from '../../mixins/getLocationCode';
 import { createHexMap } from '@/plugins/minesweeper/index';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -330,7 +333,7 @@ export default {
         isLoaded: false,
         // Layer IDs of the hex grid and board
         uids: [],
-      }
+      },
     };
   },
   computed: {
@@ -534,7 +537,7 @@ export default {
     },
     isMinesweeperDialogEnabled() {
       return this.minesweeper.isDialogEnabled;
-    }
+    },
   },
   watch: {
     getFeatures(features) {
@@ -582,8 +585,8 @@ export default {
                 && this.indicator.minesweeperOptions
                 && this.minesweeper.uids.length === 0
           ) {
-            let map = getMapInstance(this.mapId).map;
-            map.once('loadend', async (e) => this.toggleMinesweeper());
+            const { map } = getMapInstance(this.mapId);
+            map.once('loadend', async () => this.toggleMinesweeper());
           }
         });
       },
@@ -1110,15 +1113,13 @@ export default {
       });
     },
     async toggleMinesweeper() {
-      let map = getMapInstance(this.mapId).map;
+      const { map } = getMapInstance(this.mapId);
       if (this.minesweeper.isEnabled) {
-        for (const uid of this.minesweeper.uids) {
-          map.getLayers().getArray()
-            .filter(layer => {
-              return layer.ol_uid === uid
-            })
-            .forEach(layer => map.removeLayer(layer));
-        }
+        // Remove all layers with matching IDs from the map.
+        this.minesweeper.uids
+          .map((uid) => map.getLayers().getArray()
+            .filter((layer) => layer.ol_uid === uid)
+            .forEach((layer) => map.removeLayer(layer)));
 
         this.minesweeper.isEnabled = false;
       } else {
@@ -1126,7 +1127,7 @@ export default {
         this.minesweeper.isEnabled = true;
         this.minesweeper.isDialogEnabled = true;
       }
-    }
+    },
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {

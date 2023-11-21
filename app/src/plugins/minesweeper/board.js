@@ -183,7 +183,7 @@ export default class HexSweeperGame {
     if (tile.isRevealed || tile.isFlagged) return [];
     tile.isRevealed = true;
 
-      // Check if the tile is a non-mine with adjacent mines, then stop recursion.
+    // Check if the tile is a non-mine with adjacent mines, then stop recursion.
     if (tile.adjacentMines > 0 && !tile.isMine) {
       return coordinatePairs;
     }

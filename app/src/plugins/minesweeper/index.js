@@ -26,7 +26,7 @@ const setupGrid = (map) => {
   });
 
   const hex = new HexMap({ hexGrid: grid });
-  let imageLayer = new Image({ source: hex });
+  const imageLayer = new Image({ source: hex });
   map.addLayer(imageLayer);
 
   return {
@@ -176,7 +176,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 * @param {Object} map - The OpenLayers map instance.
 */
 export const createHexMap = async (map) => {
-  const { uids, grid } =  setupGrid(map);
+  const { uids, grid } = setupGrid(map);
   const vectorSource = new VectorSource();
   const game = new HexSweeperGame(40, 40, 0.2);
 
