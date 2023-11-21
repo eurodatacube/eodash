@@ -144,7 +144,7 @@
         />
 
         <div>
-          <v-dialog width="500">
+          <v-dialog v-model="isMinesweeperDialogEnabled" width="500">
             <template v-slot:activator="{ props }">
               <v-btn
                 v-bind="props"
@@ -159,8 +159,9 @@
             </template>
 
             <template v-slot:default="{ isActive }">
-              <v-card title="Dialog">
+              <v-card title="Minesweeper" class="py-6">
                 <v-card-text>
+                  <h1 class="pb-6">Minesweeper Game</h1>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </v-card-text>
 
@@ -324,7 +325,8 @@ export default {
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
       minesweeper: {
-        isEnabled: true,
+        isEnabled: false,
+        isDialogEnabled: false,
         isLoaded: false,
         // Layer IDs of the hex grid and board
         uids: [],
@@ -530,6 +532,9 @@ export default {
       }
       return position;
     },
+    isMinesweeperDialogEnabled() {
+      return this.minesweeper.isDialogEnabled;
+    }
   },
   watch: {
     getFeatures(features) {
@@ -571,6 +576,15 @@ export default {
             }
           }
           this.$store.commit('features/SET_SELECTED_FEATURES', []);
+
+          // Initialize Minesweeper game if options are present in the appConfig.
+          if (this.indicator
+                && this.indicator.minesweeperOptions
+                && this.minesweeper.uids.length === 0
+          ) {
+            let map = getMapInstance(this.mapId).map;
+            map.once('loadend', async (e) => this.toggleMinesweeper());
+          }
         });
       },
     },
@@ -813,15 +827,6 @@ export default {
     if (this.mapId === 'centerMap') {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
-    }
-
-    // Initialize Minesweeper game if options are present in the appConfig.
-    if (this.appConfig.minesweeperOptions) {
-      const loadendHandler = async () => {
-        this.minesweeper.uids = await createHexMap(map);
-        map.un('loadend', loadendHandler); // Unregister the event handler after it's called once
-      };
-      map.on('loadend', loadendHandler);
     }
   },
   methods: {
@@ -1110,8 +1115,7 @@ export default {
         for (const uid of this.minesweeper.uids) {
           map.getLayers().getArray()
             .filter(layer => {
-              console.log(layer.get('ol_uid') === uid);
-              return layer.get('ol_uid') === uid
+              return layer.ol_uid === uid
             })
             .forEach(layer => map.removeLayer(layer));
         }
@@ -1120,8 +1124,8 @@ export default {
       } else {
         this.minesweeper.uids = await createHexMap(map);
         this.minesweeper.isEnabled = true;
+        this.minesweeper.isDialogEnabled = true;
       }
-      console.log(getMapInstance(this.mapId).map.getAllLayers());
     }
   },
   beforeDestroy() {
