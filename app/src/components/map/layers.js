@@ -553,6 +553,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     layerControlOptional: config.layerControlOptional,
+    layerConfig: config.layerConfig,
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
