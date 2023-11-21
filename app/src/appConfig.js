@@ -154,7 +154,6 @@ module.exports = [
         },
       ],
     },
-    minesweeperOptions: {},
   },
   {
     id: 'trilateral',

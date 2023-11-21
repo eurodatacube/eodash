@@ -1,8 +1,13 @@
-import { baseLayers, overlayLayers } from '@/config/layers';
 import GeoJSON from 'ol/format/GeoJSON';
+import colormap from 'colormap';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
+import { Wkt } from 'wicket';
+
+import { baseLayers, overlayLayers } from '@/config/layers';
+
+const wkt = new Wkt();
 
 const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
@@ -10,6 +15,9 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'Indicator 4',
     indicatorOverwrite: 'Flooding',
     themes: ['water'],
+  },
+  AQ5: {
+    themes: ['air'],
   },
 });
 
@@ -56,6 +64,26 @@ export const baseLayersMap = [
 export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
+
+function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 function overpassApiNodes(query) {
   return {
@@ -111,6 +139,7 @@ export const globalIndicators = [
         time: ['2020', '2040', '2060', '2080', '2100', '2120', '2150'],
         inputData: [''],
         yAxis: 'flooding',
+        minesweeperOptions: {},
         display: {
           wmsVariables: {
             sourceLayer: 'Indicator 4: Flood risk',
@@ -211,6 +240,78 @@ export const globalIndicators = [
               '[out:json][timeout:30];(node["amenity"="school"]({area});node["amenity"="hospital"]({area}););out body;>;out skel qt;',
             ),
           },
+        },
+      },
+    },
+  },
+
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'DEM TEST',
+        navigationDescription: 'DEM TEST',
+        indicator: 'AQ5',
+        lastIndicatorValue: null,
+        indicatorName: 'Nitrogen Dioxide (NO2)',
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        aoi: null,
+        aoiID: 'TEST',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        cogFilters: {
+          sourceLayer: 'AQ5',
+          filters: {
+            var: {
+              display: true,
+              label: 'Height',
+              dataInfo: '',
+              id: 'var',
+              min: 0,
+              max: 2000,
+              header: true,
+              range: [0, 1000],
+            },
+          },
+        },
+        display: {
+          protocol: 'cog',
+          id: 'AQ5',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
+          ],
+          style: {
+            variables: {
+              varMin: 0,
+              varMax: 2000,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 1, 2000],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'varMin', 'varMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              ['color', 0, 0, 0, 0],
+            ],
+          },
+          name: 'DEM',
         },
       },
     },
