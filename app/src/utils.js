@@ -312,6 +312,10 @@ export async function loadFeatureData(baseConfig, feature) {
         time: 'time',
         siteName: 'city',
       };
+      if (['E10a3', 'E10a8'].includes(indicatorObject.indicator)) {
+        // special case including additional property in mapping
+        mapping.siteNameNUTS = 'site_name';
+      }
       // Try to extract sub_aoi geometry information
       if (data && data.length > 0 && 'sub_aoi' in data[0]) {
         let features = null;

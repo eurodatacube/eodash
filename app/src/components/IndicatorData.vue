@@ -154,16 +154,6 @@ export default {
     };
   },
   mounted() {
-    if (Array.isArray(this.indicatorObject.time)) {
-      const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-      if (d.toFormat) {
-        const formatted = d.toFormat('dd. MMM');
-        this.dataLayerTime = {
-          value: formatted,
-          name: formatted,
-        };
-      }
-    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -196,6 +186,14 @@ export default {
       let labels = [];
       const datasets = [];
       if (indicator && featureData) {
+        if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+          const d = featureData.time[featureData.time.length - 1];
+          const formatted = d?.toFormat('dd. MMM');
+          this.dataLayerTime = {
+            value: formatted,
+            name: formatted,
+          };
+        }
         const { measurement } = featureData;
         const colors = [];
 
@@ -895,11 +893,11 @@ export default {
           let features = measurement.map((meas, i) => {
             // Find correct NUTS ID Shape
             const geom = nutsFeatures.find((f) => (
-              f.properties.NUTS_ID === featureData.siteName[i]));
+              f.properties.NUTS_ID === featureData.siteNameNUTS[i]));
             let output;
             if (geom) {
-              if (currIDs.indexOf(featureData.siteName[i]) === -1) {
-                currIDs.push(featureData.siteName[i]);
+              if (currIDs.indexOf(featureData.siteNameNUTS[i]) === -1) {
+                currIDs.push(featureData.siteNameNUTS[i]);
                 outline.push({
                   type: 'Feature',
                   properties: {},
