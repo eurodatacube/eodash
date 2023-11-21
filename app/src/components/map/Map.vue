@@ -201,7 +201,6 @@ import {
   calculatePadding,
   findClosest,
 } from '@/utils';
-import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -457,7 +456,7 @@ export default {
       // use only first "layer" entry
       if (config.length > 0) {
         [resultConfig] = config;
-        resultConfig.name = this.frozenIndicator.frozenLayerName; 
+        resultConfig.name = this.frozenIndicator.frozenLayerName;
         resultConfig.id = `${resultConfig.id}_frozen`;
         resultConfig.visible = false;
         // bake in selected time by only passing one time to the frozen indicator
@@ -1180,8 +1179,9 @@ export default {
       this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
-          if (layer) {
-            updateTimeLayer(layer, config, time, area, 'updateArea');
+          const handler = 'updateArea';
+          if (layer && layer.getSource().get(handler)) {
+            updateTimeLayer(layer, config, time, area, handler);
           }
         });
     },
