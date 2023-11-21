@@ -1,6 +1,8 @@
 import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
-import { baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator } from '@/config/layers';
+import {
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+} from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';

@@ -4,7 +4,9 @@ import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shTimeFunction, shS2TimeFunction } from '@/utils';
-import { baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator } from '@/config/layers';
+import {
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+} from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 
 const wkb = new WKB();
@@ -23,7 +25,6 @@ const getDailyDates = (start, end) => {
   }
   return dateArray;
 };
-
 
 const geodbFeatures = {
   name: 'Ship detections',
@@ -126,7 +127,7 @@ export const indicatorsDefinition = Object.freeze({
       name: 'Ship detections',
       dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
       url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
-    }
+    },
   },
   E13d: {
     features: {

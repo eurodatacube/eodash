@@ -39,7 +39,7 @@
         height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
       `">
       <!-- close btn -->
-      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
+      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715;</v-btn>
       <slot></slot>
     </div>
   </div>

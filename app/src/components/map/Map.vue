@@ -547,35 +547,20 @@ export default {
     },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
-      const { map } = getMapInstance(this.mapId);
-
       // Check for possible subaoi
-      const readerOptions = {
-        dataProjection: 'EPSG:4326',
-        featureProjection: map.getView().getProjection(),
-      };
-      if (this.featureData && 'subAoi' in this.featureData) {
+      if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
         if (subAoi && subAoi.features && subAoi.features.length > 0) {
           if (subAoi.features[0].coordinates.length) {
+            const { map } = getMapInstance(this.mapId);
+            const readerOptions = {
+              dataProjection: 'EPSG:4326',
+              featureProjection: map.getView().getProjection(),
+            };
             const subAoiGeom = geoJsonFormat.readGeometry(
               subAoi.features[0], readerOptions,
             );
             return subAoiGeom.getExtent();
-          }
-        }
-      }
-      if (this.$route.name === 'demo') {
-        // check if a demo item custom extent is set as override
-        let indObject = this.indicatorObject;
-        if (this.featureObject) {
-          indObject = this.featureObject;
-        }
-        if (indObject) {
-          const demoItem = this.appConfig.demoMode[this.$route.query.event]
-            .find((item) => item.poi === getLocationCode(indObject));
-          if (demoItem && demoItem.extent) {
-            return demoItem.extent;
           }
         }
       }
@@ -587,7 +572,7 @@ export default {
         );
         return presetViewGeom.getExtent();
       }
-      if (this.indicator && this.indicator.extent) {
+      if (this.indicator?.extent) {
         // Try to do some sanitizing
         const extent = this.indicator.extent.spatial.bbox[0];
         if (extent.length === 4) {
@@ -596,6 +581,7 @@ export default {
           extent[2] = extent[2] < 180 ? extent[2] : 180;
           extent[3] = extent[3] < 90 ? extent[3] : 90;
         }
+        const { map } = getMapInstance(this.mapId);
         return transformExtent(
           extent, 'EPSG:4326', map.getView().getProjection(),
         );
@@ -796,7 +782,7 @@ export default {
       },
     },
     zoomExtent: {
-      deep: true,
+      deep: false,
       immediate: false,
       handler(value, old) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
@@ -865,7 +851,6 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          // TODO: do we need to handle the clusters differentlyas we use new features approach?
           cluster.clusters.setVisible(true);
         }
       }

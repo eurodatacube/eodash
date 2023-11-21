@@ -203,7 +203,7 @@ export const trucksAreaIndicator = (gtifAustria = false) => ({
     collection: 'eodash_{indicator}-detections',
     select: 'time,geometry',
     order: 'time',
-    where: `${gtifAustria ? 'aoi_id=\'AT\' AND ': ''}ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)`,
+    where: `${gtifAustria ? 'aoi_id=\'AT\' AND ' : ''}ST_Intersects(ST_GeomFromText('{area}',4326), geometry)`,
   },
   callbackFunction: (responseJson, indicator, area) => {
     if (Array.isArray(responseJson[0].src)) {

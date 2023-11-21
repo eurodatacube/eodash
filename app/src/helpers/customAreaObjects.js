@@ -1,8 +1,5 @@
-import { Wkt } from 'wicket';
 import { DateTime } from 'luxon';
 import axios from 'axios';
-
-const wkt = new Wkt();
 
 export function template(templateRe, str, data) {
   // copy of leaflet template function, which does not export it
@@ -102,7 +99,7 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
 });
 
 export const parseStatAPIResponse = (
-  requestJson, indicator, indicatorCode = 'SHCustomLineChart'
+  requestJson, indicator, indicatorCode = 'SHCustomLineChart',
 ) => {
   // We need to also accept partial responses as it seems some datasets
   // have issues on sinergise side
