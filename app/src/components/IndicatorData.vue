@@ -319,6 +319,29 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
+          E8: {
+            measurementConfig: {
+              label: 'Value',
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'red',
+              spanGaps: false,
+              pointRadius: 0,
+              borderWidth: 1.5,
+            },
+            referenceData: [
+              {
+                key: '7-day mean',
+                index: 0,
+                borderColor: 'black',
+                backgroundColor: 'rgba(255,255,255,0.0)',
+                borderDash: [6, 3],
+                borderWidth: 2,
+                spanGaps: false,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
           E12c: {
             measurementConfig: {
               label: indicator.yAxis,
@@ -395,10 +418,7 @@ export default {
         referenceDecompose.N1c = referenceDecompose.N1a;
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
-        referenceDecompose.E8 = referenceDecompose.N1a;
         // Special legend for E8
-        referenceDecompose.E8.referenceData[0].key = 'roll average';
-        referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
         referenceDecompose.E12d = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
