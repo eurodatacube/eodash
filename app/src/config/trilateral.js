@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import {
   simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import { baseLayers, overlayLayers, xcubeViewerColormaps } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
@@ -1076,6 +1076,37 @@ const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, ti
       inputData: [''],
       yAxis,
       display: {
+        layerConfig: {
+          schema: {
+            type: 'object',
+            properties: {
+              vminmax: {
+                title: 'Value stretch',
+                type: 'object',
+                properties: {
+                  vmin: {
+                    type: 'number',
+                    minimum: vmin,
+                    maximum: vmax,
+                    format: 'range',
+                  },
+                  vmax: {
+                    type: 'number',
+                    minimum: vmin,
+                    maximum: vmax,
+                    format: 'range',
+                  },
+                },
+                format: 'minmax',
+              },
+              cbar: {
+                title: 'Colorbar',
+                type: 'string',
+                enum: xcubeViewerColormaps,
+              },
+            },
+          },
+        },
         presetView: {
           type: 'FeatureCollection',
           features: [{

@@ -24,6 +24,7 @@
     <eox-layercontrol
       :for="'#' + mapId "
       :titleProperty.prop="'name'"
+      :tools.prop="['config', 'opacity', 'sort']"
       class="pointerEvents">
     </eox-layercontrol>
   </v-card>
