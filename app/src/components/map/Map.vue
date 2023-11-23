@@ -143,7 +143,7 @@
           mapControl
         />
 
-        <div>
+        <div v-if="isMinesweeperConfigured">
           <v-dialog v-model="isMinesweeperDialogEnabled" width="500">
             <template v-slot:activator="{ props }">
               <v-btn
@@ -538,6 +538,11 @@ export default {
     isMinesweeperDialogEnabled() {
       return this.minesweeper.isDialogEnabled;
     },
+    isMinesweeperConfigured() {
+      return this.indicator
+        && this.indicator.minesweeperOptions
+        && this.$route.query.enableMinesweeper == "true"
+    }
   },
   watch: {
     getFeatures(features) {
@@ -583,6 +588,7 @@ export default {
           // Initialize Minesweeper game if options are present in the appConfig.
           if (this.indicator
                 && this.indicator.minesweeperOptions
+                && this.$route.query.enableMinesweeper == "true"
                 && this.minesweeper.uids.length === 0
           ) {
             const { map } = getMapInstance(this.mapId);
