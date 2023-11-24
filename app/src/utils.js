@@ -12,7 +12,7 @@ import {
   nasaStatisticsConfig,
   xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
-
+import { xcubeViewerColormaps } from '@/config/layers';
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
@@ -125,8 +125,10 @@ function createXYZDisplay(config, name) {
 }
 
 function createXYZTilesXcubeDisplay(config, name) {
+  const searchParams = new URLSearchParams(config.href);
+  const vmin = searchParams.get('vmin') || 0;
+  const vmax = searchParams.get('vmax') || 1;
   const display = {
-    xcubeDataset: true,
     protocol: 'xyz',
     tileSize: 256,
     minZoom: 1,
@@ -134,6 +136,37 @@ function createXYZTilesXcubeDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `${date}`,
     labelFormatFunction: (date) => date,
+    layerConfig: {
+      schema: {
+        type: 'object',
+        properties: {
+          vminmax: {
+            title: 'Value stretch',
+            type: 'object',
+            properties: {
+              vmin: {
+                type: 'number',
+                minimum: parseFloat(vmin),
+                maximum: parseFloat(vmax),
+                format: 'range',
+              },
+              vmax: {
+                type: 'number',
+                minimum: parseFloat(vmin),
+                maximum: parseFloat(vmax),
+                format: 'range',
+              },
+            },
+            format: 'minmax',
+          },
+          cbar: {
+            title: 'Colorbar',
+            type: 'string',
+            enum: xcubeViewerColormaps,
+          },
+        },
+      },
+    },
   };
   return display;
 }

@@ -548,6 +548,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
     layerControlOptional: config.layerControlOptional,
+    layerConfig: config.layerConfig,
     ...(config.legendUrl && !config.features && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
   });
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {

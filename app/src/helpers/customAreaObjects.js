@@ -523,6 +523,49 @@ export const xcubeAnalyticsConfig = (
   ),
 });
 
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        newData.time.push(DateTime.fromISO(row.time));
+        newData.measurement.push(row.median);
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
+    }
+  ),
+});
+
 export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
   indicatorCode = 'NASACustomLineChart',

@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import {
   simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import { baseLayers, overlayLayers, xcubeViewerColormaps } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
@@ -17,6 +17,7 @@ import {
   evalScriptsDefinitions,
   parseStatAPIResponse,
   nasaStatisticsConfig,
+  xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -75,6 +76,65 @@ const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
   visible: true,
 }, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
+
+const antarcticBaseMaps = [
+  baseLayers.terrainLightStereoSouth,
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+  {
+    name: 'Antarctic hillshade, bathymetry',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_hillshade_and_bathymetry',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
+  },
+];
+
+const antarcticOverlayMaps = [
+  {
+    name: 'Antarctic coastline',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_coastline_line_medium',
+    attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+  },
+  {
+    name: 'Antarctic labels',
+    baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
+    projection: 'EPSG:3031',
+    layers: 'apip_extended_toponymy_labels',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
+  },
+];
+
+const arcticBaseMaps = [
+  {
+    ...baseLayers.terrainLightStereoNorth,
+    visible: true,
+  },
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+];
+
+const arcticOverlayMaps = [];
 
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
@@ -359,7 +419,6 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere'],
-    baseLayers: cloudlessBaseLayerDefault,
     story: '/eodash-data/stories/N12',
   },
   N11: {
@@ -525,53 +584,65 @@ export const indicatorsDefinition = Object.freeze({
     projection: 'EPSG:3031',
     minZoom: 2,
     maxZoom: 15,
-    baseLayers: [
-      baseLayers.terrainLight,
-      baseLayers.cloudless,
-      baseLayers.eoxosm,
-      {
-        name: 'Antarctic hillshade, bathymetry',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_hillshade_and_bathymetry',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
-      },
-    ],
-    overlayLayers: [
-      overlayLayers.eoxOverlay,
-      {
-        name: 'Antarctic coastline',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_coastline_line_medium',
-        attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-      },
-      {
-        name: 'Antarctic labels',
-        baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
-        projection: 'EPSG:3031',
-        layers: 'apip_extended_toponymy_labels',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
-      },
-    ],
+    baseLayers: antarcticBaseMaps,
+    overlayLayers: antarcticOverlayMaps,
+  },
+  RECCAP2_1: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_2: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_3: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_4: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+  },
+  RECCAP2_5: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_5',
+  },
+  RECCAP2_6: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_6',
+  },
+  RECCAP2_7: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_7',
+  },
+  RECCAP2_8: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_8',
+  },
+  RECCAP2_9: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_10: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_11: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  RECCAP2_12: {
+    themes: ['biomass'],
+    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+  },
+  GGI_CH4: {
+    themes: ['atmosphere'],
+  },
+  GGI_N2O: {
+    themes: ['atmosphere'],
+  },
+  GGI_CO2: {
+    themes: ['atmosphere'],
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -992,10 +1063,12 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
-const createRECCAP2Config = (indicatorCode) => ({
+
+const createRECCAP2Config = (indicatorCode, time) => ({
   properties: {
     indicatorObject: {
       indicator: indicatorCode,
+      time,
       display: {
         minNativeZoom: 3,
         maxNativeZoom: 5,
@@ -1009,14 +1082,14 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_2'),
   createRECCAP2Config('RECCAP2_3'),
   createRECCAP2Config('RECCAP2_4'),
-  createRECCAP2Config('RECCAP2_5'),
-  createRECCAP2Config('RECCAP2_6'),
-  createRECCAP2Config('RECCAP2_7'),
-  createRECCAP2Config('RECCAP2_8'),
-  createRECCAP2Config('RECCAP2_9'),
-  createRECCAP2Config('RECCAP2_10'),
-  createRECCAP2Config('RECCAP2_11'),
-  createRECCAP2Config('RECCAP2_12'),
+  createRECCAP2Config('RECCAP2_5', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_6', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_7', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_8', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_9', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_10', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_11', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_12', getYearlyDates('2011-01-01', '2018-01-01')),
   {
     properties: {
       indicatorObject: {
@@ -1075,6 +1148,8 @@ export const globalIndicators = [
         yAxis: 'Sea Ice Thickness (Envisat)',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Envisat)',
           layers: 'ESA-CCI-V2-ENVISAT',
@@ -1135,6 +1210,8 @@ export const globalIndicators = [
         yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Cryosat)',
           layers: 'ESA-CCI-V2-CRYOSAT',
@@ -1289,6 +1366,8 @@ export const globalIndicators = [
         time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -1366,6 +1445,8 @@ export const globalIndicators = [
         time: getDailyDates('1978-11-01', '2023-09-30'),
         inputData: [''],
         display: {
+          baseLayers: antarcticBaseMaps,
+          overlayLayers: antarcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -3865,7 +3946,7 @@ export const globalIndicators = [
           minZoom: 7,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',
@@ -3905,7 +3986,7 @@ export const globalIndicators = [
           minZoom: 7,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',

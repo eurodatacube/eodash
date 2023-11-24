@@ -178,6 +178,28 @@ module.exports = [
     tutorialText: '/data/trilateral/tutorials',
     challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
+    demoMode: {
+      cop28: [
+        {
+          poi: 'World-RECCAP2_1',
+        },
+        {
+          poi: 'World-RECCAP2_5',
+        },
+        {
+          poi: 'World-RECCAP2_6',
+        },
+        {
+          poi: 'World-RECCAP2_7',
+        },
+        {
+          poi: 'World-RECCAP2_8',
+        },
+        {
+          poi: 'World-RECCAP2_9',
+        },
+      ],
+    },
     newsCarouselitems: [
       {
         poi: 'Onset-ADD',
