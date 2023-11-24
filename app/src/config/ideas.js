@@ -263,7 +263,9 @@ export const globalIndicators = [
           },
         ],
         minesweeperOptions: {
-          center: [14.482, 47.486],
+          // Board dimensions in number of hex cells
+          height: 40,
+          width: 20,
           geotiff: {
             projection: 'EPSG:4326',
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
