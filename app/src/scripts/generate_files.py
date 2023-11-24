@@ -785,6 +785,9 @@ generateData(
         ['PRCTS_Precipitation_Timeseries', ''],
         ['Lake_water_extent_tri_timeseries', ''],
         ['Lake_water_level_tri_timeseries', ''],
+        ['CCI_RECCAP_inv_CH4', ''],
+        ['CCI_RECCAP_inv_N2O', ''],
+        ['CCI_RECCAP_inv_CO2', ''],
     ]
 )
 

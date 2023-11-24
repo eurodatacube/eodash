@@ -135,7 +135,7 @@ export default {
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E1b',
+        'E1b', 'CCI_RECCAP_inv_CO2', 'CCI_RECCAP_inv_CH4', 'CCI_RECCAP_inv_N2O',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
@@ -149,7 +149,8 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1',
+        'CCI_RECCAP_inv_CO2', 'CCI_RECCAP_inv_CH4', 'CCI_RECCAP_inv_N2O'],
     };
   },
   mounted() {
@@ -337,6 +338,122 @@ export default {
                 borderDash: [6, 3],
                 borderWidth: 2,
                 spanGaps: false,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          CCI_RECCAP_inv_CO2: {
+            referenceData: [
+              {
+                key: 'CO2 Inventory',
+                index: 0,
+                borderColor: refColors[0],
+                backgroundColor: refColors[0],
+                borderWidth: 2,
+              },
+              {
+                key: 'CO2 Inversion in-situ',
+                index: 2,
+                borderColor: refColors[2],
+                backgroundColor: refColors[2],
+                borderWidth: 2,
+              },
+              {
+                key: 'CO2 Inversion satellite',
+                index: 1,
+                borderColor: refColors[1],
+                backgroundColor: refColors[1],
+                borderWidth: 2,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          CCI_RECCAP_inv_N2O: {
+            referenceData: [
+              {
+                key: 'N2O Inventory',
+                index: 0,
+                borderColor: refColors[0],
+                backgroundColor: refColors[0],
+                borderWidth: 2,
+              },
+              {
+                key: 'N2O Inversion in-situ',
+                index: 1,
+                borderColor: refColors[2],
+                backgroundColor: refColors[2],
+                borderWidth: 2,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          CCI_RECCAP_inv_CH4: {
+            referenceData: [
+              {
+                key: 'CH4 Inventory Agriculture and waste',
+                index: 0,
+                backgroundColor: '#12501c',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inventory Biomass',
+                index: 1,
+                backgroundColor: '#4e0618',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inventory Fossil',
+                index: 2,
+                backgroundColor: '#0a355f',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inversion satellite Agriculture and waste',
+                index: 3,
+                backgroundColor: '#328817',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion satellite Biomass',
+                index: 4,
+                backgroundColor: '#c52a5c',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion satellite Fossil',
+                index: 5,
+                backgroundColor: '#508ab3',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion in-situ Agriculture and waste',
+                index: 6,
+                backgroundColor: '#97e970',
+                borderWidth: 0,
+                stack: '2',
+              },
+              {
+                key: 'CH4 Inversion in-situ Biomass',
+                index: 7,
+                backgroundColor: '#dd67aa',
+                borderWidth: 0,
+                stack: '2',
+              },
+              {
+                key: 'CH4 Inversion in-situ Fossil',
+                index: 8,
+                backgroundColor: refColors[6],
+                borderWidth: 0,
+                stack: '2',
               },
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
@@ -676,38 +793,6 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           }
-        } else if (['N4c'].includes(indicatorCode)) {
-          const measData = indicator.measurement.map(Number);
-          measData.shift();
-          const refData = indicator.referenceValue.map(Number);
-          refData.shift();
-
-          labels = [
-            indicator.referenceTime[0].toISODate(),
-            indicator.time[0].toISODate(),
-            indicator.time[5].toISODate(),
-          ];
-
-          datasets.push({
-            label: 'metallic waste area',
-            data: [refData[0], measData[0], measData[5]],
-            backgroundColor: refColors[0],
-          });
-          datasets.push({
-            label: 'mixed waste area',
-            data: [refData[1], measData[1], measData[6]],
-            backgroundColor: refColors[1],
-          });
-          datasets.push({
-            label: 'plastic waste area',
-            data: [refData[2], measData[2], measData[7]],
-            backgroundColor: refColors[2],
-          });
-          datasets.push({
-            label: 'soil waste area',
-            data: [refData[3], measData[3], measData[8]],
-            backgroundColor: refColors[3],
-          });
         } else if (['E10a10'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
@@ -1479,6 +1564,9 @@ export default {
       }
       if (indicatorCode === 'E10a9') {
         customSettings.distribution = 'series';
+      }
+      if (indicatorCode === 'CCI_RECCAP_inv_CH4') {
+        customSettings.xAxisStacked = true;
       }
 
       // Special tooltips case for generated charts that should have country
