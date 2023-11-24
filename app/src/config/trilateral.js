@@ -639,13 +639,13 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/RECCAP/RECCAP2_9',
   },
   CCI_RECCAP_inv_CH4: {
-    themes: ['biomass'],
+    themes: ['atmosphere'],
   },
   CCI_RECCAP_inv_N2O: {
-    themes: ['biomass'],
+    themes: ['atmosphere'],
   },
   CCI_RECCAP_inv_CO2: {
-    themes: ['biomass'],
+    themes: ['atmosphere'],
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
