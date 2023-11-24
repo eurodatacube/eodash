@@ -197,11 +197,6 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiID);
-  // if (config.xcubeDataset) {
-  //   url = url.replace(/{vmin}/gi, options.vmin);
-  //   url = url.replace(/{vmax}/gi, options.vmax);
-  //   url = url.replace(/{cbar}/gi, options.cbar);
-  // }
   if (config.features && config.features.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
