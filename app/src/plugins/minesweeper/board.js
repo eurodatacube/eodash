@@ -25,9 +25,9 @@ export default class HexSweeperGame {
   }
 
 
-  async fromGeoTIFF(url) {
+  async fromGeoTIFF(options) {
     try {
-      const tiff = await fromUrl(url);
+      const tiff = await fromUrl(options.geotiff.url);
       const image = await tiff.getImage();
 
       this.image = image;
@@ -36,11 +36,11 @@ export default class HexSweeperGame {
       console.log(`Image res: ${image.getResolution()}`);
       console.log(`Image bbox: ${image.getBoundingBox()}`);
 
-      this.center = proj4("EPSG:4326", "EPSG:3857", image.getOrigin());
+      this.center = proj4(options.geotiff.projection, "EPSG:3857", image.getOrigin());
       
       const data = (await image.readRasters({
-        width: this.width,
-        height: this.height,
+        resX: 0.01,
+        resY: 0.01,
         resampleMethod: 'bilinear',
       }))[0];
 

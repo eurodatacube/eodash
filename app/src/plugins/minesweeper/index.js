@@ -178,7 +178,7 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 export const createHexMap = async (map, options) => {
   const vectorSource = new VectorSource();
   const game = new HexSweeperGame(options.width, options.height, 0.2);
-  await game.fromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
+  await game.fromGeoTIFF(options);
 
   const { uids, grid } = setupGrid(map, options, game.center);
 
