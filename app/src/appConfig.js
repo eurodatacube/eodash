@@ -222,13 +222,6 @@ module.exports = [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
-    demoMode: {
-      cop28: [
-        {
-          poi: 'None-RECCAP2_1',
-        },
-      ],
-    },
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],

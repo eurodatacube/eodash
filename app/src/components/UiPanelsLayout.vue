@@ -15,7 +15,7 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <div v-else class="d-flex justify-center align-strech">
+    <div v-else class="d-flex justify-center">
       <slot name="left" :panels="panels.left"
       :handleSelection="handleSelection"
       :activePanel="activePanel"></slot>
@@ -55,19 +55,19 @@ export default {
           ];
           this.panels.right = [];
         } else {
-          this.panels.left = [
+          const leftPanels = [
             {
               id: 1,
               title: 'Domains & Tools',
               heightPercentage: 100,
             },
-            {
-              id: 2,
-              title: 'Layers',
-              heightPercentage: 100,
-            },
           ];
-          this.panels.right = [
+          const layersTool = {
+            id: 2,
+            title: 'Layers',
+            heightPercentage: 100,
+          };
+          const rightPanels = [
             {
               id: 3,
               title: 'Information',
@@ -79,6 +79,13 @@ export default {
               heightPercentage: 100,
             },
           ];
+          if (this.$route.name !== 'demo') {
+            leftPanels.push(layersTool);
+          } else {
+            rightPanels.push(layersTool);
+          }
+          this.panels.left = leftPanels;
+          this.panels.right = rightPanels;
         }
       },
     },

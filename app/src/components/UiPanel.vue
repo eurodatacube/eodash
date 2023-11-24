@@ -17,7 +17,7 @@
         </v-expansion-panel-content>
     </v-expansion-panel>
   </div>
-  <div v-else class="flex-column align-strech">
+  <div v-else class="flex-column">
     <span
       v-if="hasPanel"
       class="elevation-1 pa-2 d-flex justify-center

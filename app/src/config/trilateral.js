@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import {
   simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
-import { baseLayers, overlayLayers, xcubeViewerColormaps } from '@/config/layers';
+import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
@@ -17,7 +17,6 @@ import {
   evalScriptsDefinitions,
   parseStatAPIResponse,
   nasaStatisticsConfig,
-  xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -1062,7 +1061,6 @@ const getWeeklyDates = (start, end) => {
   }
   return dateArray;
 };
-
 
 const createRECCAP2Config = (indicatorCode, time) => ({
   properties: {
