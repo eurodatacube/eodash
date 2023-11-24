@@ -640,12 +640,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   GGI_CH4: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CH4',
   },
   GGI_N2O: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_N2O',
   },
   GGI_CO2: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CO2',
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
