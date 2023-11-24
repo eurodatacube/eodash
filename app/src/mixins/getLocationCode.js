@@ -4,7 +4,7 @@ export default function getLocationCode(object) {
   if ('aoiID' in object && 'indicator' in object) {
     locationCode = `${object.aoiID}-${object.indicator}`;
   } else if ('indicator' in object) {
-    locationCode = `None-${object.indicator}`;
+    locationCode = `World-${object.indicator}`;
   }
   return locationCode;
 }

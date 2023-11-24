@@ -1,8 +1,6 @@
 <template>
   <div
-    v-if="demoItems.length > 0 && !expanded"
     class="fill-height d-flex flex-column pa-3"
-    id="demoItemsList"
     style="height: calc(var(--vh, 1vh) * 100); z-index: 11; pointer-events: all"
   >
     <v-btn
@@ -17,12 +15,12 @@
       style="overflow: auto">
       <v-card
         v-for="demoItem in demoItems"
-        :key="getLocationCode(demoItem.properties.indicatorObject)"
-        :color="getLocationCode(demoItem.properties.indicatorObject) === selectedItem
+        :key="getLocationCode(demoItem)"
+        :color="getLocationCode(demoItem) === selectedItem
           ? 'primary'
           : 'white'"
         height="200"
-        width="200"
+        width="800"
         class="my-3 overflow-hidden d-flex flex-column pa-1"
         style="pointer-events: all"
         @click="selectItem(demoItem)"
@@ -31,18 +29,18 @@
           height="100"
           class="flex-shrink-1"
           :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
-            demoItem.properties.indicatorObject
+            demoItem
           )}.png`"
         >
         </v-img>
         <v-card-title
           class="flex-grow-1"
-          :class="getLocationCode(demoItem.properties.indicatorObject) === selectedItem
+          :class="getLocationCode(demoItem) === selectedItem
             ? 'white--text'
             : 'primary--text'"
           style="font-size: 12px; line-height: 14px; padding: 5px; word-break: break-word;"
         >
-          {{ demoItem.title || demoItem.properties.indicatorObject.indicatorName }}
+          {{ demoItem.title || demoItem.indicatorName }}
         </v-card-title>
       </v-card>
     </div>
@@ -105,20 +103,20 @@ export default {
   data: () => ({
     selectedItem: null,
   }),
-  props: [
-    'expanded',
-  ],
   computed: {
+    ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapState('config', ['appConfig']),
-    ...mapState('features', ['allFeatures']),
     demoItems() {
-      return this.allFeatures.length && this.appConfig.demoMode[this.$route.query.event]
-        .map((item) => ({
+      const items = this.appConfig.demoMode[this.$route.query.event];
+      if (items?.length > 0 && this.indicators?.length > 0) {
+        const matched = items.map((item) => ({
           ...item,
-          ...this.allFeatures
-            .find((f) => getLocationCode(f.properties.indicatorObject) === item.poi),
-        }))
-        .filter((item) => !!item.properties);
+          ...this.indicators
+            .find((f) => getLocationCode(f) === item.poi),
+        }));
+        return matched;
+      }
+      return null;
     },
     highlightsModel() {
       if (this.selectedItem) {
@@ -129,27 +127,30 @@ export default {
       }
       return null;
     },
+    centerMapVueComponent() {
+      return this.$parent.$parent.$parent.$parent.$parent.$parent.$parent.$refs.centerPanel.$refs.map;
+    }
   },
   methods: {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
     selectItem(item) {
-      this.setSelectedIndicator(item.properties.indicatorObject);
-      this.selectedItem = this.getLocationCode(item.properties.indicatorObject);
+      this.setSelectedIndicator(item);
+      this.selectedItem = this.getLocationCode(item);
       if (item.dataLayerTime) {
         setTimeout(() => {
-          this.$parent.$parent.$refs.centerPanel.$refs.map.dataLayerTime = {
+          this.centerMapVueComponent.dataLayerTime = {
             value: item.dataLayerTime,
           };
         }, 0);
       }
       if (item.compareLayerTime) {
         setTimeout(() => {
-          this.$parent.$parent.$refs.centerPanel.$refs.map.compareLayerTime = {
+          tthis.centerMapVueComponent.compareLayerTime = {
             value: item.compareLayerTime,
           };
-          this.$parent.$parent.$refs.centerPanel.$refs.map.enableCompare = true;
+          this.centerMapVueComponent.enableCompare = true;
         }, 0);
       }
     },
@@ -166,7 +167,8 @@ export default {
       });
     },
     resetMapView() {
-      this.$parent.$parent.$refs.centerPanel.$refs.map.resetView();
+      // this is very fragile, we should use events or "iframe" commands
+      this.centerMapVueComponent.resetView();
     },
     scroll(direction) {
       const scrollElement = this.$refs.scrollContainer;
