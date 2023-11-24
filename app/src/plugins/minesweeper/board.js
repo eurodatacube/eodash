@@ -1,4 +1,5 @@
 import { fromUrl } from 'geotiff';
+import proj4 from 'proj4';
 
 const EVEN_NEIGHBOR_OFFSETS = [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]];
 const ODD_NEIGHBOR_OFFSETS = [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
@@ -19,12 +20,24 @@ export default class HexSweeperGame {
     this.height = height;
     this.difficulty = difficulty;
     this.board = [];
+    this.image = null;
+    this.center = [];
   }
+
 
   async fromGeoTIFF(url) {
     try {
       const tiff = await fromUrl(url);
       const image = await tiff.getImage();
+
+      this.image = image;
+
+      console.log(`Image origin: ${image.getOrigin()}`);
+      console.log(`Image res: ${image.getResolution()}`);
+      console.log(`Image bbox: ${image.getBoundingBox()}`);
+
+      this.center = proj4("EPSG:4326", "EPSG:3857", image.getOrigin());
+      
       const data = (await image.readRasters({
         width: this.width,
         height: this.height,

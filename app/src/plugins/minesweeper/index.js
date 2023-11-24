@@ -16,9 +16,9 @@ import HexSweeperGame from './board';
  * @param {Object} map - The OpenLayers map instance.
  * @returns {Object} The created `HexGrid`.
  */
-const setupGrid = (map) => {
+const setupGrid = (map, options, boardCenter) => {
   const size = 4000;
-  const boardCenter = [1800595.69763, 6140325.34559]; // Vienna
+  // const boardCenter = [1800595.69763, 6140325.34559]; // Vienna
 
   const grid = new HexGrid({
     size,
@@ -175,13 +175,13 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 *
 * @param {Object} map - The OpenLayers map instance.
 */
-export const createHexMap = async (map) => {
-  const { uids, grid } = setupGrid(map);
+export const createHexMap = async (map, options) => {
   const vectorSource = new VectorSource();
-  const game = new HexSweeperGame(40, 40, 0.2);
-
-  // game.initializeBoard();
+  const game = new HexSweeperGame(options.width, options.height, 0.2);
   await game.fromGeoTIFF('https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif');
+
+  const { uids, grid } = setupGrid(map, options, game.center);
+
   map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
   drawGameBoard(map, game, grid, vectorSource);
   updateAllTileVisuals(game, grid, vectorSource);
