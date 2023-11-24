@@ -785,9 +785,9 @@ generateData(
         ['PRCTS_Precipitation_Timeseries', ''],
         ['Lake_water_extent_tri_timeseries', ''],
         ['Lake_water_level_tri_timeseries', ''],
-        ['CCI_RECCAP_inv_CH4', ''],
-        ['CCI_RECCAP_inv_N2O', ''],
-        ['CCI_RECCAP_inv_CO2', ''],
+        ['GGI_CH4', ''],
+        ['GGI_N2O', ''],
+        ['GGI_CO2', ''],
     ]
 )
 
@@ -804,7 +804,7 @@ generateData(
         # '/public/eodash-data/data/C1.csv',
         # '/public/eodash-data/data/C2.csv',
         # '/public/eodash-data/data/C3.csv',
-        '/public/eodash-data/data/E8.csv',
+        # '/public/eodash-data/data/E8.csv',
         # '/public/eodash-data/data/E10a1.csv',
         # '/public/eodash-data/data/E10a2.csv',
         # '/public/eodash-data/data/E10a3.csv',
@@ -851,7 +851,7 @@ generateData(
         ['E2_S2', ''],
         ['E4', ''],
         ['E5', ''],
-        # ['E8', ''],
+        ['E8', ''],
         ['E10a6', ''],
         ['E10a10', ''],
         ['E11', ''],

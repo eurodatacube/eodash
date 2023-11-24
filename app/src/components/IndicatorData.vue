@@ -135,7 +135,7 @@ export default {
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E1b', 'CCI_RECCAP_inv_CO2', 'CCI_RECCAP_inv_CH4', 'CCI_RECCAP_inv_N2O',
+        'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
@@ -150,7 +150,7 @@ export default {
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
         'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1',
-        'CCI_RECCAP_inv_CO2', 'CCI_RECCAP_inv_CH4', 'CCI_RECCAP_inv_N2O'],
+        'GGI_CO2', 'GGI_CH4', 'GGI_N2O'],
     };
   },
   mounted() {
@@ -343,7 +343,7 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
           },
-          CCI_RECCAP_inv_CO2: {
+          GGI_CO2: {
             referenceData: [
               {
                 key: 'CO2 Inventory',
@@ -370,7 +370,7 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
           },
-          CCI_RECCAP_inv_N2O: {
+          GGI_N2O: {
             referenceData: [
               {
                 key: 'N2O Inventory',
@@ -390,7 +390,7 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
           },
-          CCI_RECCAP_inv_CH4: {
+          GGI_CH4: {
             referenceData: [
               {
                 key: 'CH4 Inventory Agriculture and waste',
@@ -1565,7 +1565,7 @@ export default {
       if (indicatorCode === 'E10a9') {
         customSettings.distribution = 'series';
       }
-      if (indicatorCode === 'CCI_RECCAP_inv_CH4') {
+      if (indicatorCode === 'GGI_CH4') {
         customSettings.xAxisStacked = true;
       }
 

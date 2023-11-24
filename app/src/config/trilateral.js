@@ -638,13 +638,13 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['biomass'],
     story: '/eodash-data/stories/RECCAP/RECCAP2_9',
   },
-  CCI_RECCAP_inv_CH4: {
+  GGI_CH4: {
     themes: ['atmosphere'],
   },
-  CCI_RECCAP_inv_N2O: {
+  GGI_N2O: {
     themes: ['atmosphere'],
   },
-  CCI_RECCAP_inv_CO2: {
+  GGI_CO2: {
     themes: ['atmosphere'],
   },
   PRCTS: {
