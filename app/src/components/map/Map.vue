@@ -1129,7 +1129,7 @@ export default {
 
         this.minesweeper.isEnabled = false;
       } else {
-        this.minesweeper.uids = await createHexMap(map);
+        this.minesweeper.uids = await createHexMap(map, this.indicator.minesweeperOptions);
         this.minesweeper.isEnabled = true;
         this.minesweeper.isDialogEnabled = true;
       }
