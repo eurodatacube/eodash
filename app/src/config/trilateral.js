@@ -592,51 +592,51 @@ export const indicatorsDefinition = Object.freeze({
   },
   RECCAP2_1: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_2: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_3: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_4: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_5: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_5',
+    story: '/data/trilateral/RECCAP2_5',
   },
   RECCAP2_6: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_6',
+    story: '/data/trilateral/RECCAP2_6',
   },
   RECCAP2_7: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_7',
+    story: '/data/trilateral/RECCAP2_7',
   },
   RECCAP2_8: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_8',
+    story: '/data/trilateral/RECCAP2_8',
   },
   RECCAP2_9: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_10: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_11: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_12: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   ESDC_gross_primary_productivity: {
     themes: ['biomass'],
