@@ -640,15 +640,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   ESDC_gross_primary_productivity: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/ESDC_gross_primary_productivity',
+    story: '/data/trilateral/ESDC_gross_primary_productivity',
   },
   ESDC_net_ecosystem_exchange: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/ESDC_net_ecosystem_exchange',
+    story: '/data/trilateral/ESDC_net_ecosystem_exchange',
   },
   ESCD_kndvi: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/ESDC_kndvi',
+    story: '/data/trilateral/ESDC_kndvi',
   },
   GGI_CH4: {
     themes: ['atmosphere'],
