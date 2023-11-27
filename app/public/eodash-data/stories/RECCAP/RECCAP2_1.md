@@ -10,7 +10,7 @@ Fawcett, Dominic, Sitch, Stephen, Ciais, Philippe, Wigneron, Jean Pierre, Silva-
 
 Units: MgC/ha
 
-The data shown is served from the [CCI RECCAP2 xcube Viewer](https://reccap2.viewer.dev.brockmann-consult.de/)
+The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.dev.brockmann-consult.de/)
 
 Further links:
 

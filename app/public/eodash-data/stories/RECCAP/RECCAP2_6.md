@@ -8,7 +8,7 @@ MapBiomas. (2021). Project MapBiomas—Collection 2 of Brazilian land cover and 
 
 Units: MgC/ha/year
 
-The data shown is served from the [CCI RECCAP2 xcube Viewer](https://reccap2.viewer.dev.brockmann-consult.de/)
+The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.dev.brockmann-consult.de/)
 
 Further links:
 
