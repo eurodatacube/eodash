@@ -1,6 +1,8 @@
 import { Wkt } from 'wicket';
 import { shTimeFunction } from '@/utils';
-import { baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator } from '@/config/layers';
+import {
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+} from '@/config/layers';
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
@@ -867,8 +869,8 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
           ],
           style: {
             variables: {
-              solarMin: 2,
-              solarMax: 4,
+              solarMin: 0,
+              solarMax: 8,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -909,8 +911,8 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
               [
                 'interpolate',
                 ['linear'],
-                normalize(['band', 1], 'solarMin', 'solarMax'),
-                ...getColorStops('viridis', 0, 1, 64, false),
+                ['band', 1],
+                ...getColorStops('viridis', 0, 8, 50, false),
               ],
               [
                 'color', 0, 0, 0, 0,

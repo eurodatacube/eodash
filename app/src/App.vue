@@ -215,45 +215,6 @@ export default {
             );
           }
         }
-        /*
-        const indicatorsFilter = (indicator && indicator.split(',')) || [];
-        if (poi || indicatorsFilter.length > 0) {
-          // poi or indicator was present on app init
-          this.$store.commit('setInitWithQuery', true);
-          this.$store.commit('changeBackButtonDisplay', true);
-        }
-        let selectedFeature = null;
-        if (poi && poi.includes('-')) {
-          const aoiID = poi.split('-')[0];
-          const indicatorCode = poi.split('-')[1];
-          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-            const { indicatorObject } = f.properties;
-            return indicatorObject.aoiID === aoiID
-              && indicatorObject.indicator === indicatorCode;
-          });
-        }
-        this.$store.commit(
-          'indicators/SET_SELECTED_INDICATOR',
-          selectedFeature ? selectedFeature.properties.indicatorObject : null,
-        );
-        this.$store.commit('features/SET_SELECTED_FEATURE', null);
-        // validate query for country - need to be among available
-        const selectedCountry = this.getCountryItems
-          .map((item) => item.code).flat().find((f) => f === country);
-        let selectedIndicators = this.getIndicators
-          .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
-        // If selectedIndicator is undefined and indicator has been provided
-        // it could be an archived indicator so we activate
-        if (typeof selectedIndicators !== 'undefined' && indicatorsFilter.length > 0) {
-          this.$store.commit('features/SET_FEATURE_FILTER', { includeArchived: true });
-          selectedIndicators = this.getIndicators
-            .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
-        }
-        this.$store.commit('features/INIT_FEATURE_FILTER', {
-          countries: selectedCountry,
-          indicators: selectedIndicators,
-        });
-        */
       }
       // Url query replacement
       if (mutation.type === 'features/SET_FEATURE_FILTER') {

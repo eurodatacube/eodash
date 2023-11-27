@@ -149,6 +149,9 @@ export default {
       ) {
         extendedSettings.annotation.annotations.push(...this.movementRestrictions);
       }
+      if ('xAxisStacked' in extendedSettings) {
+        extendedSettings.scales.xAxes[0].stacked = true;
+      }
       if ('yAxisRange' in extendedSettings) {
         extendedSettings.scales.yAxes[0].ticks = {
           suggestedMin: extendedSettings.yAxisRange[0],

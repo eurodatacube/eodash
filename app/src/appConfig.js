@@ -23,7 +23,6 @@ module.exports = [
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
       imagePath: '/img/ESA',
     },
-    storyPath: '/eodash-data/stories/',
     showNewsletterButton: true,
     customCSS: 'esa',
     newsBanner: {
@@ -58,7 +57,7 @@ module.exports = [
     demoMode: {
       egu2023: [
         {
-          poi: 'None-WSF',
+          poi: 'World-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
           highlights: [
             {
@@ -92,7 +91,7 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
         },
         {
-          poi: 'None-E12c',
+          poi: 'World-E12c',
           story: '/eodash-data/stories/demo-mode/egu2023/moving_truck',
         },
         {
@@ -111,23 +110,23 @@ module.exports = [
           title: 'Sea Surface Temperature Anomaly Maps',
         },
         {
-          poi: 'None-CDS1_temperature',
+          poi: 'World-CDS1_temperature',
           story: '/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m',
         },
         {
-          poi: 'None-CDS2_relative_humidity',
+          poi: 'World-CDS2_relative_humidity',
           story: '/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S',
         },
         {
-          poi: 'None-N1_NO2',
+          poi: 'World-N1_NO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI',
         },
         {
-          poi: 'None-N1_CO',
+          poi: 'World-N1_CO',
           story: '/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI',
         },
         {
-          poi: 'None-N1_SO2',
+          poi: 'World-N1_SO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI',
         },
         {
@@ -164,7 +163,6 @@ module.exports = [
       twitterCardImagePath: '/img/trilateral/twitter_card.png',
       imagePath: '/img/trilateral',
     },
-    storyPath: '/data/trilateral/',
     customCSS: 'trilateral',
     newsBanner: {
       color: 'green darken-1',
@@ -178,6 +176,28 @@ module.exports = [
     tutorialText: '/data/trilateral/tutorials',
     challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
+    demoMode: {
+      cop28: [
+        {
+          poi: 'World-RECCAP2_1',
+        },
+        {
+          poi: 'World-RECCAP2_5',
+        },
+        {
+          poi: 'World-RECCAP2_6',
+        },
+        {
+          poi: 'World-RECCAP2_7',
+        },
+        {
+          poi: 'World-RECCAP2_8',
+        },
+        {
+          poi: 'World-RECCAP2_9',
+        },
+      ],
+    },
     newsCarouselitems: [
       {
         poi: 'Onset-ADD',
@@ -200,13 +220,6 @@ module.exports = [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
-    demoMode: {
-      cop28: [
-        {
-          poi: 'None-RECCAP2_1',
-        },
-      ],
-    },
     privacyText: '/data/trilateral/privacy',
     termsText: '/data/trilateral/terms',
     feedbackTwitterHandles: ['ESA_EO', 'esa', 'NASAEarth', 'NASA', 'JAXA_en', 'JAXA_jp', 'eurodatacube'],
@@ -241,7 +254,6 @@ module.exports = [
       twitterCardImagePath: '/img/gtif/twitter_card.jpg',
       imagePath: '/img/gtif',
     },
-    storyPath: '/data/gtif/stories/',
     showNewsletterButton: false,
     customCSS: 'gtif',
     newsBanner: {
@@ -254,16 +266,8 @@ module.exports = [
     aboutText: '/data/gtif/stories/about',
     welcomeText: '/data/gtif/stories/welcome',
     tutorialText: '/data/gtif/stories/tutorials',
-    showNewsCarousel: true,
+    showNewsCarousel: false,
     newsCarouselitems: [
-      {
-        poi: 'WSF-WSF',
-        src: './eodash-data/general/WSF.png',
-      },
-      {
-        poi: 'SO2-N1',
-        src: './eodash-data/general/TROPOMI-SO2.png',
-      },
     ],
     privacyText: '/data/gtif/markdown/privacy',
     termsText: '/data/gtif/markdown/terms',

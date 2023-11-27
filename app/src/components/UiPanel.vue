@@ -17,7 +17,7 @@
         </v-expansion-panel-content>
     </v-expansion-panel>
   </div>
-  <div v-else class="flex-column align-strech">
+  <div v-else class="flex-column">
     <span
       v-if="hasPanel"
       class="elevation-1 pa-2 d-flex justify-center
@@ -39,7 +39,7 @@
         height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
       `">
       <!-- close btn -->
-      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715</v-btn>
+      <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715;</v-btn>
       <slot></slot>
     </div>
   </div>

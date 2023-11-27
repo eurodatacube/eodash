@@ -21,17 +21,8 @@
             class="py-0 fill-height"
           >
             <center-panel ref="centerPanel" />
-            <div
-              v-if="$route.name === 'demo'"
-              class="d-flex justify-start"
-              style="position: absolute; top: 0; width: 100%; pointer-events: none"
-            >
-              <IndicatorFiltersDemo
-                :expanded="dataPanelFullWidth" />
-            </div>
-
             <UiPanelsLayout class="fill-height" :gtif="appConfig.id === 'gtif'"
-            v-else
+
             >
               <template #left="{panels,handleSelection, activePanel}">
                  <UiPanel v-for="panel in panels " :key="panel.id"
@@ -39,11 +30,13 @@
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
-                   <IndicatorFiltersPanel v-if="['Domains & Tools','Domains'].includes(panel.title)" />
+                   <IndicatorFiltersDemo v-if="$route.name === 'demo' && ['Domains & Tools'].includes(panel.title)"/>
+                   <IndicatorFiltersPanel v-else-if="['Domains & Tools','Domains'].includes(panel.title)" />
                    <eox-layercontrol
-                    v-if="panel.title == 'Layers'"
+                    v-if="panel.title == 'Layers' && indicatorSelected"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
+                    :tools.prop="['config', 'opacity', 'sort']"
                     :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
                     button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;}` :''"
                     class="pointerEvents">
@@ -59,13 +52,20 @@
                  >
                  <StacInfo  v-if="panel.title == 'Information' && indicatorSelected"/>
                    <DataPanel
-                    v-if="panel.title === 'Analysis' && indicatorObject
+                    v-if="panel.title === 'Analysis' && indicatorSelected
                     || $store.state.features.featureFilters.indicators.length > 0"
                     :key="panelKey" />
+                    <eox-layercontrol
+                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    for="#centerMap"
+                    :titleProperty.prop="'name'"
+                    :tools.prop="['config', 'opacity', 'sort']"
+                    class="pointerEvents">
+                   </eox-layercontrol>
                  </UiPanel>
               </template>
             </UiPanelsLayout>
-            <HighlightLocation v-if="indicatorObject"
+            <HighlightLocation v-if="indicatorSelected"
             :indicator-object="indicatorObject"/>
           </v-col>
         </v-row>
@@ -126,20 +126,13 @@ export default {
   },
   mixins: [closeMixin, dialogMixin],
   data: () => ({
-    drawerLeft: false,
     dialog: false,
-    dataPanelFullWidth: false,
-    dataPanelTemporary: false,
     panelKey: 0,
-    isDialogRetracted: true,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
     ]),
-    // dataPanelWidth() {
-    //   return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
-    // },
     indicatorSelected() {
       return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
@@ -166,23 +159,11 @@ export default {
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
-    selectedFeature() {
-      return this.$store.state.features.selectedFeature;
-    },
-    featureCity() {
-      // Using empty ascii to make sure subheading height is kept if no poi selection is active
-      let city = '&#8194';
-      if (this.selectedFeature) {
-        city = this.selectedFeature.indicatorObject.city;
-      }
-      return city;
-    },
     ...mapGetters({
       getCurrentTheme: 'themes/getCurrentTheme',
     }),
   },
   created() {
-    this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
   },
   mounted() {
     // only show when nothing is selected
@@ -191,30 +172,17 @@ export default {
       this.$refs.globalHeader.showText = 'welcome';
       this.$refs.globalHeader.showInfoDialog = true;
     }
-    if (this.$route.name !== 'demo') {
-      const { map } = getMapInstance('centerMap');
-      const mapElement = document.querySelector('eox-layerswitcher');
-      if (mapElement) {
-        document.querySelector('eox-layerswitcher').attachTo(map);
-      }
+    const { map } = getMapInstance('centerMap');
+    const mapElement = document.querySelector('eox-layerswitcher');
+    if (mapElement) {
+      document.querySelector('eox-layerswitcher').attachTo(map);
     }
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
   },
   methods: {
-    // setDataPanelWidth(enable) {
-    //   if (enable) {
-    //     this.dataPanelTemporary = true;
-    //     this.dataPanelFullWidth = true;
-    //   } else {
-    //     this.dataPanelFullWidth = false;
-    //     // TO-DO find more reliable way of checking
-    //     setTimeout(() => { this.dataPanelTemporary = false; }, 500);
-    //   }
-    // },
     clickMobileClose() {
-      this.isDialogRetracted = true;
       this.dialog = false;
       this.$refs.globalHeader.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
@@ -222,9 +190,6 @@ export default {
         this.$refs.indicatorFilters.comboboxClear();
       }
     },
-    // close() {
-    //   this.setDataPanelWidth(false);
-    // },
   },
   watch: {
     indicatorSelected(selected) {
