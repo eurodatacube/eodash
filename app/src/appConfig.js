@@ -217,6 +217,24 @@ module.exports = [
         {
           poi: 'World-RECCAP2_9',
         },
+        {
+          poi: 'DEU-GGI_CH4',
+          title: 'Greenhouse gas reconciliation CH4 Germany (CCI RECCAP2)',
+        },
+        {
+          poi: 'DEU-GGI_N2O',
+          title: 'Greenhouse gas reconciliation N2O Germany (CCI RECCAP2)',
+        },
+        {
+          poi: 'DEU-GGI_CO2',
+          title: 'Greenhouse gas reconciliation CO2 Germany (CCI RECCAP2)',
+        },
+        {
+          poi: 'World-ESDC_gross_primary_productivity',
+        },
+        {
+          poi: 'World-ESDC_net_ecosystem_exchange',
+        },
       ],
     },
     newsCarouselitems: [
