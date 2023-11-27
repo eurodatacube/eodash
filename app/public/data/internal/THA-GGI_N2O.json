@@ -5,10 +5,10 @@
         "eo_sensor": "/",
         "indicator_value": "",
         "input_data": "/",
-        "measurement_value": "0.021505973",
+        "measurement_value": "0.035548545",
         "reference_time": "",
-        "reference_value": "[0.021505973,nan]",
-        "time": "1990-01-01T00:00:00"
+        "reference_value": "[0.035548545,nan]",
+        "time": "1994-01-01T00:00:00"
     },
     {
         "color_code": "",
@@ -16,9 +16,9 @@
         "eo_sensor": "/",
         "indicator_value": "",
         "input_data": "/",
-        "measurement_value": "0.024198364",
+        "measurement_value": "0.025454545",
         "reference_time": "",
-        "reference_value": "[0.024198364,0.028186250000000003]",
+        "reference_value": "[0.025454545,0.12102025]",
         "time": "2000-01-01T00:00:00"
     },
     {
@@ -27,10 +27,10 @@
         "eo_sensor": "/",
         "indicator_value": "",
         "input_data": "/",
-        "measurement_value": "0.021933227",
+        "measurement_value": "0.035755589",
         "reference_time": "",
-        "reference_value": "[0.021933227,0.0356205]",
-        "time": "2010-01-01T00:00:00"
+        "reference_value": "[0.035755589,0.136759]",
+        "time": "2011-01-01T00:00:00"
     },
     {
         "color_code": "",
@@ -38,10 +38,10 @@
         "eo_sensor": "/",
         "indicator_value": "",
         "input_data": "/",
-        "measurement_value": "0.024735455",
+        "measurement_value": "0.035216364",
         "reference_time": "",
-        "reference_value": "[0.024735455,0.032369249999999995]",
-        "time": "2012-01-01T00:00:00"
+        "reference_value": "[0.035216364,0.13560899999999998]",
+        "time": "2013-01-01T00:00:00"
     },
     {
         "color_code": "",
@@ -49,9 +49,20 @@
         "eo_sensor": "/",
         "indicator_value": "",
         "input_data": "/",
-        "measurement_value": "0.024334545",
+        "measurement_value": "0.035038182",
         "reference_time": "",
-        "reference_value": "[0.024334545,0.03555325]",
+        "reference_value": "[0.035038182,0.12177325]",
         "time": "2016-01-01T00:00:00"
+    },
+    {
+        "color_code": "",
+        "data_provider": "",
+        "eo_sensor": "/",
+        "indicator_value": "",
+        "input_data": "/",
+        "measurement_value": "0.035178182",
+        "reference_time": "",
+        "reference_value": "[0.035178182,0.09906100000000001]",
+        "time": "2019-01-01T00:00:00"
     }
 ]
