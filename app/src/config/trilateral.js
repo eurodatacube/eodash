@@ -646,7 +646,7 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['biomass'],
     story: '/data/trilateral/ESDC_net_ecosystem_exchange',
   },
-  ESCD_kndvi: {
+  ESDC_kndvi: {
     themes: ['biomass'],
     story: '/data/trilateral/ESDC_kndvi',
   },
@@ -1169,9 +1169,9 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_10', 'Smooth max intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_max', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
   createRECCAP2Config('RECCAP2_11', 'Smooth mean intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
   createRECCAP2Config('RECCAP2_12', 'Mean intact biomass change trend (CCI RECCAP2)', 'intact_biomass_change_trend_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
-  createRECCAP2Config('ESDC_gross_primary_productivity', 'Gross Primary Productivity', 'gross_primary_productivity', -1, 15, 'jet', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://edc-api.brockmann-consult.de', 'esdl~esdc-8d-0.25deg-184x90x90-2.1.1.zarr', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
-  createRECCAP2Config('ESDC_net_ecosystem_exchange', 'Net Ecosystem Exchange', 'net_ecosystem_exchange', -7, 2, 'bwr', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://edc-api.brockmann-consult.de', 'esdl~esdc-8d-0.25deg-184x90x90-2.1.1.zarr', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
-  // createRECCAP2Config('ESDC_kndvi', 'TODO', 'kndvi', -5, 5, 'Spectral', getDailyDates('2001-01-05', '2018-12-23', 8), 'todo', 'https://edc-api.brockmann-consult.de', 'esdl~esdc-8d-0.25deg-184x90x90-2.1.1.zarr', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  createRECCAP2Config('ESDC_gross_primary_productivity', 'Gross Primary Productivity', 'gross_primary_productivity', -1, 15, 'jet', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  createRECCAP2Config('ESDC_net_ecosystem_exchange', 'Net Ecosystem Exchange', 'net_ecosystem_exchange', -7, 2, 'bwr', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  createRECCAP2Config('ESDC_kndvi', 'KNDVI', 'kndvi', 0, 1, 'RdYlGn', getDailyDates('2000-03-01', '2021-12-31', 8), '', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
   {
     properties: {
       indicatorObject: {
