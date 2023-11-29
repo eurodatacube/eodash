@@ -16,13 +16,14 @@ import HexSweeperGame from './board';
  * @param {Object} map - The OpenLayers map instance.
  * @returns {Object} The created `HexGrid`.
  */
-const setupGrid = (map, options, boardCenter) => {
-  const size = 4000;
+const setupGrid = (map, options, game) => {
+  // size is width of a single hexagon - full width/height whichever is larger divided by size but converted to meters
+  // const size = game.gameSize;
   // const boardCenter = [1800595.69763, 6140325.34559]; // Vienna
 
   const grid = new HexGrid({
-    size,
-    origin: boardCenter,
+    size: game.gameSize,
+    origin: game.center,
   });
 
   const hex = new HexMap({ hexGrid: grid });
@@ -177,10 +178,10 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 */
 export const createHexMap = async (map, options) => {
   const vectorSource = new VectorSource();
-  const game = new HexSweeperGame(options.width, options.height, 0.2);
+  const game = new HexSweeperGame(options, 0.2);
   await game.fromGeoTIFF(options);
 
-  const { uids, grid } = setupGrid(map, options, game.center);
+  const { uids, grid } = setupGrid(map, options, game);
 
   map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
   drawGameBoard(map, game, grid, vectorSource);

@@ -15,9 +15,10 @@ export default class HexSweeperGame {
      * @param {number} height - The height of the game board (in hex cells).
      * @param {number} difficulty - The probability of a mine being in a cell.
      */
-  constructor(width, height, difficulty) {
-    this.width = width;
-    this.height = height;
+  constructor(options, difficulty) {
+    this.size = options.size;
+    this.locations = options.locations;
+    // this.height = height;
     this.difficulty = difficulty;
     this.board = [];
     this.image = null;
@@ -28,33 +29,57 @@ export default class HexSweeperGame {
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
-      const image = await tiff.getImage();
-
-      this.image = image;
-
-      console.log(`Image origin: ${image.getOrigin()}`);
-      console.log(`Image res: ${image.getResolution()}`);
-      console.log(`Image bbox: ${image.getBoundingBox()}`);
-
-      console.log(tiff);
-
-      this.center = proj4(options.geotiff.projection, "EPSG:3857", image.getOrigin());
-
-      const resX = 0.02;
-      const resY = 0.01;
-      
-      const data = (await image.readRasters({
-        resX,
-        resY,
+      // TODO switching of locations instead of fixed index 0
+      const xDiff = Math.abs(this.locations[0][2] - this.locations[0][0]);
+      const yDiff = Math.abs(this.locations[0][3] - this.locations[0][1]);
+      // const resX = xDiff / this.size;
+      // const resY = yDiff / this.size;
+      if (xDiff >= yDiff) {
+          this.width = this.size;
+          this.height = Math.round((yDiff / xDiff) * this.size);
+          const xmin = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][0], this.locations[0][1]]);
+          const xmax = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][2], this.locations[0][3]]);
+          this.gameSize = (xmax[0] - xmin[0]) / this.size;
+      } else {
+        this.height = this.size;
+        this.width = Math.round((xDiff / yDiff) * this.size);
+      }
+      const data = (await tiff.readRasters({
+        bbox: options.locations[0],
+        //resX,
+        //resY,
+        width: this.width,
+        height: this.height,
         resampleMethod: 'bilinear',
       }))[0];
+      console.log(data);
+      //const image = await tiff.getImage();
 
-      const bbox = image.getBoundingBox();
-      // Calculate width and height based on bounding box and resolution
-      // Width = (Max Longitude - Min Longitude) / Longitude Resolution
-      // Height = (Max Latitude - Min Latitude) / Latitude Resolution
-      this.width = Math.ceil((bbox[2] - bbox[0]) / resX);
-      this.height = Math.ceil((bbox[3] - bbox[1]) / resY);
+      // this.image = image;
+
+      // console.log(`Image origin: ${image.getOrigin()}`);
+      // console.log(`Image res: ${image.getResolution()}`);
+      // console.log(`Image bbox: ${image.getBoundingBox()}`);
+
+
+      const centerInLatLon = [this.locations[0][0], this.locations[0][1]];
+      this.center = proj4(options.geotiff.projection, "EPSG:3857", centerInLatLon);
+      
+      // const resX = 0.02;
+      // const resY = 0.01;
+      
+      // const data = (await image.readRasters({
+      //   resX,
+      //   resY,
+      //   resampleMethod: 'bilinear',
+      // }))[0];
+
+      // const bbox = image.getBoundingBox();
+      // // Calculate width and height based on bounding box and resolution
+      // // Width = (Max Longitude - Min Longitude) / Longitude Resolution
+      // // Height = (Max Latitude - Min Latitude) / Latitude Resolution
+      // this.width = Math.ceil((bbox[2] - bbox[0]) / resX);
+      // this.height = Math.ceil((bbox[3] - bbox[1]) / resY);
 
       console.log(`GeoTIFF size is ${this.width}x${this.height}`);
 
@@ -65,7 +90,7 @@ export default class HexSweeperGame {
           const value = data[y * this.width + x];
 
           row.push({
-            isMine: value > 1000,
+            isMine: value > 1500,
             adjacentMines: 0,
             isRevealed: false,
             isFlagged: false,

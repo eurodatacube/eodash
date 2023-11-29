@@ -264,12 +264,16 @@ export const globalIndicators = [
         ],
         minesweeperOptions: {
           // Board dimensions in number of hex cells
-          height: 40,
-          width: 20,
+          size: 40,
+          // height: 40,
+          // width: 20,
           geotiff: {
             projection: 'EPSG:4326',
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
-          }
+          },
+          locations: [// 0.3 and 0.15
+            [14.1, 47.1, 14.4, 47.25],
+          ],
         },
         subAoi: {
           type: 'FeatureCollection',
@@ -290,9 +294,9 @@ export const globalIndicators = [
               dataInfo: '',
               id: 'var',
               min: 0,
-              max: 2000,
+              max: 1500,
               header: true,
-              range: [0, 1000],
+              range: [0, 1500],
             },
           },
         },
@@ -305,11 +309,11 @@ export const globalIndicators = [
           style: {
             variables: {
               varMin: 0,
-              varMax: 2000,
+              varMax: 1500,
             },
             color: [
               'case',
-              ['between', ['band', 1], 1, 2000],
+              ['between', ['band', 1], 1, 1500],
               [
                 'interpolate',
                 ['linear'],
