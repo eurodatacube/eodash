@@ -653,14 +653,17 @@ export const indicatorsDefinition = Object.freeze({
   GGI_CH4: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_CH4',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_N2O: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_N2O',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_CO2: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_CO2',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -1100,6 +1103,7 @@ const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, ti
       inputData: [''],
       yAxis,
       display: {
+        baseLayers: cloudlessBaseLayerDefault,
         layerConfig: {
           schema: {
             type: 'object',
