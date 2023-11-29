@@ -1,5 +1,6 @@
 # Secondary forest growth
-Dataset contributed by: ESA CCI RECCAP2
+
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
 
 Annual aboveground carbon gain due to regrowth of secondary forests [MgC/ha/yr] (2011-2018). Derived from growth function of Heinrich et al. Nature Communications (2021) and secondary forest maps of Silva Junior et al. Scientific Data (2020)
 

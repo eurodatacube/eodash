@@ -1,6 +1,7 @@
 # Degraded Biomass
 
-Dataset contributed by: ESA CCI RECCAP2
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
+
 Annual aboveground carbon loss due to forest degradation, including fires but excluding edge effects [Mg C ha yr] (2011-2018). Derived from the JRC tropical moist forest maps (Landsat) of Vancutsem et al. Science Advances (2021)
 
 
