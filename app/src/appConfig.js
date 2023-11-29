@@ -197,6 +197,121 @@ module.exports = [
     tutorialText: '/data/trilateral/tutorials',
     challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
+    demoMode: {
+      cop28: [
+        {
+          poi: 'World-RECCAP2_1',
+        },
+        {
+          poi: 'World-RECCAP2_5',
+        },
+        {
+          poi: 'World-RECCAP2_6',
+        },
+        {
+          poi: 'World-RECCAP2_7',
+        },
+        {
+          poi: 'World-RECCAP2_8',
+        },
+        {
+          poi: 'World-RECCAP2_9',
+        },
+        {
+          poi: 'CHN-GGI_CH4',
+          title: 'China - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'CHN-GGI_N2O',
+          title: 'China - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'CHN-GGI_CO2',
+          title: 'China - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'USA-GGI_CH4',
+          title: 'USA - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'USA-GGI_N2O',
+          title: 'USA - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'USA-GGI_CO2',
+          title: 'USA - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'EUC-GGI_CH4',
+          title: 'EU (Convention) - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'EUC-GGI_N2O',
+          title: 'EU (Convention) - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'EUC-GGI_CO2',
+          title: 'EU (Convention) - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'IND-GGI_CH4',
+          title: 'India - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'IND-GGI_N2O',
+          title: 'India - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'IND-GGI_CO2',
+          title: 'India - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'BRA-GGI_CH4',
+          title: 'Brasil - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'BRA-GGI_N2O',
+          title: 'Brasil - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'BRA-GGI_CO2',
+          title: 'Brasil - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'RUS-GGI_CH4',
+          title: 'Russia - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'RUS-GGI_N2O',
+          title: 'Russia - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'RUS-GGI_CO2',
+          title: 'Russia - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'KAZ-GGI_CH4',
+          title: 'Kazakhstan - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+        },
+        {
+          poi: 'KAZ-GGI_N2O',
+          title: 'Kazakhstan - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+        },
+        {
+          poi: 'KAZ-GGI_CO2',
+          title: 'Kazakhstan - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+        },
+        {
+          poi: 'World-ESDC_gross_primary_productivity',
+        },
+        {
+          poi: 'World-ESDC_net_ecosystem_exchange',
+        },
+        {
+          poi: 'World-ESDC_kndvi',
+        },
+      ],
+    },
     newsCarouselitems: [
       {
         poi: 'Onset-ADD',
