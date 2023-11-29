@@ -36,13 +36,27 @@ export default class HexSweeperGame {
       console.log(`Image res: ${image.getResolution()}`);
       console.log(`Image bbox: ${image.getBoundingBox()}`);
 
+      console.log(tiff);
+
       this.center = proj4(options.geotiff.projection, "EPSG:3857", image.getOrigin());
+
+      const resX = 0.02;
+      const resY = 0.01;
       
       const data = (await image.readRasters({
-        resX: 0.01,
-        resY: 0.01,
+        resX,
+        resY,
         resampleMethod: 'bilinear',
       }))[0];
+
+      const bbox = image.getBoundingBox();
+      // Calculate width and height based on bounding box and resolution
+      // Width = (Max Longitude - Min Longitude) / Longitude Resolution
+      // Height = (Max Latitude - Min Latitude) / Latitude Resolution
+      this.width = Math.ceil((bbox[2] - bbox[0]) / resX);
+      this.height = Math.ceil((bbox[3] - bbox[1]) / resY);
+
+      console.log(`GeoTIFF size is ${this.width}x${this.height}`);
 
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
@@ -51,7 +65,7 @@ export default class HexSweeperGame {
           const value = data[y * this.width + x];
 
           row.push({
-            isMine: value > 1500,
+            isMine: value > 1000,
             adjacentMines: 0,
             isRevealed: false,
             isFlagged: false,
