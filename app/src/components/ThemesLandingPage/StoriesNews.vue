@@ -10,7 +10,7 @@
           2023-11-29: Several new datasets added to theme BIOMASS
         </h3>
         <ul>
-          <li>Datasets contributed by ESA CCI RECCAPP-2 project
+          <li>Datasets contributed by ESA CCI RECCAP-2 project
             <a href="explore?search=Biomass">
             View Datasets
           </a></li>
