@@ -73,7 +73,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
