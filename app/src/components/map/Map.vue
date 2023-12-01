@@ -635,7 +635,7 @@ export default {
       this.updateOverlayLayers();
     },
     getFeatures(features) {
-      if (this.mapId === 'centerMap' && features) {
+      if (this.mapId === 'centerMap' && features && this.$route.name !== 'demo') {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }

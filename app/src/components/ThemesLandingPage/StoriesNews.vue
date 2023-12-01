@@ -7,16 +7,16 @@
     <v-row>
       <v-col>
         <h3>
-          2023-11-03: New data, notebooks, and tutorials
+          2023-11-29: Several new datasets added to theme BIOMASS
         </h3>
         <ul>
-          <li>New dataset added: Global Human Settlement
-            <a href="explore?poi=World-GHSBUILT">
-            View Dataset JRC GHS-BUILT-S R2023A
+          <li>Datasets contributed by ESA CCI RECCAP-2 project
+            <a href="explore?search=Biomass">
+            View Datasets
           </a></li>
-          <li>ESA, NASA, JAXA present an
-            <a href="//bigdatafromspace2023.org/satellite-events">
-            EO Dashboard tutorial at Big Data From Space 2023
+          <li>EO Dashboard participates to the United Nations Climate Change Conference COP28
+            <a href="//www.cop28.com/">
+            COP28 UAE - United Nations Climate Change Conference
           </a></li>
         </ul>
       </v-col>
