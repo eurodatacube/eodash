@@ -89,7 +89,8 @@
       :class="{'hidden': enableScrollyMode}"
       :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
         ? $vuetify.application.footer + 85
-        : $vuetify.application.footer + 10}px !important`"
+        : $vuetify.application.footer + 10}px !important;
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
