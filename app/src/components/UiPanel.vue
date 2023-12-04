@@ -8,6 +8,7 @@
   >
       <v-expansion-panel v-if="hasPanel">
         <v-expansion-panel-header ref="header"
+        class="primary--text"
         :style="`background: ${gtif ? '#e9e9e9' : 'white'}`">
           {{ titleLabel }}
         </v-expansion-panel-header>
