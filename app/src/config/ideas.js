@@ -264,7 +264,7 @@ export const globalIndicators = [
         ],
         minesweeperOptions: {
           // Board dimensions in number of hex cells
-          size: 40,
+          size: 30,
           // height: 40,
           // width: 20,
           geotiff: {
@@ -272,7 +272,7 @@ export const globalIndicators = [
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
           },
           locations: [// 0.3 and 0.15
-            [14.1, 47.1, 14.4, 47.25],
+            [14.0, 47.0, 15.0, 48.0],
           ],
         },
         subAoi: {
