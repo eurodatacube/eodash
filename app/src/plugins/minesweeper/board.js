@@ -34,16 +34,17 @@ export default class HexSweeperGame {
       // Convert geographic coordinates to distances using EPSG:3857
       const xmin = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][0], this.locations[0][1]]);
       const xmax = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][2], this.locations[0][3]]);
+
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
 
-      console.log(`X distance: ${xDistance}`);
-      console.log(`Y distance: ${yDistance}`);
-      console.log(`Ratio: ${(yDistance / xDistance)}`);
-
       // Adjust board dimensions based on actual distances
       this.width = this.size;
-      this.height = Math.round((yDistance / xDistance) * this.size);
+      this.height = Math.round(
+                      (yDistance / xDistance)
+                      * this.size
+                      // Account for the fact that hexagons are wider than they are tall
+                      * 1.156);
 
       // Read the GeoTIFF data into a 1-dimensional array
       var data = (await tiff.readRasters({
@@ -66,34 +67,9 @@ export default class HexSweeperGame {
       }
 
       data = flippedData;
-      console.log(flippedData);
-      //const image = await tiff.getImage();
-
-      // this.image = image;
-
-      // console.log(`Image origin: ${image.getOrigin()}`);
-      // console.log(`Image res: ${image.getResolution()}`);
-      // console.log(`Image bbox: ${image.getBoundingBox()}`);
-
 
       const centerInLatLon = [this.locations[0][0], this.locations[0][1]];
       this.center = proj4(options.geotiff.projection, "EPSG:3857", centerInLatLon);
-      
-      // const resX = 0.02;
-      // const resY = 0.01;
-      
-      // const data = (await image.readRasters({
-      //   resX,
-      //   resY,
-      //   resampleMethod: 'bilinear',
-      // }))[0];
-
-      // const bbox = image.getBoundingBox();
-      // // Calculate width and height based on bounding box and resolution
-      // // Width = (Max Longitude - Min Longitude) / Longitude Resolution
-      // // Height = (Max Latitude - Min Latitude) / Latitude Resolution
-      // this.width = Math.ceil((bbox[2] - bbox[0]) / resX);
-      // this.height = Math.ceil((bbox[3] - bbox[1]) / resY);
 
       console.log(`GeoTIFF size is ${this.width}x${this.height}`);
 
