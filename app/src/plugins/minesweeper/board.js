@@ -60,8 +60,8 @@ export default class HexSweeperGame {
       // Flip rows in our 1-dimensional array as if it were 2D
       for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
-              flippedData[y * this.width + x] =
-                data[y * this.width + (this.width - 1 - x)];
+            let newData = data[y * this.width + (this.width - 1 - x)];
+            flippedData[y * this.width + x] = newData;
           }
       }
 
