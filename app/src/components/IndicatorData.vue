@@ -124,7 +124,7 @@ export default {
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
         'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
-        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
@@ -205,7 +205,6 @@ export default {
           GG: ['grocery', 'parks', 'residential', 'retail_recreation', 'transit_stations'],
           CV: ['confirmed'],
           OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
-          // GSA: ['waiting_time'] // Currently not in use, left for reference
         };
         const referenceDecompose = {
           N1: {
@@ -890,14 +889,14 @@ export default {
             }
             datasets.push(ds);
           });
-        } else if (['OX'].includes(indicatorCode)) {
+        } else if (['OX', 'OX-EU'].includes(indicatorCode)) {
           const data = [];
           const average = [];
           let counter = 0;
           let tmpVal = 0;
           let tmpTime = 0;
-          const min = Math.min(...this.indicatorObject.measurement);
-          const max = Math.max(...this.indicatorObject.measurement);
+          const min = Math.min(...featureData.measurement);
+          const max = Math.max(...featureData.measurement);
           featureData.measurement.forEach((item, i) => {
             data.push({
               t: featureData.time[i],
@@ -1494,7 +1493,7 @@ export default {
         customSettings.yAxisRange = [0, 8];
       }
 
-      if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
+      if (['E13d', 'E13n', 'OX', 'OX-EU'].includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
           displayFormats: { month: 'MMM yy' },
@@ -1703,7 +1702,7 @@ export default {
       }
 
       // Special chart display for oilx data
-      if (['OX'].includes(indicatorCode)) {
+      if (['OX', 'OX-EU'].includes(indicatorCode)) {
         customSettings.hover = {
           mode: 'nearest',
         };
