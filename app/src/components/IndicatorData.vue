@@ -201,11 +201,6 @@ export default {
         const measDecompose = {
           E10a9: ['National Workers', 'Foreign Workers', 'Unknown'],
         };
-        const indicatorDecompose = {
-          GG: ['grocery', 'parks', 'residential', 'retail_recreation', 'transit_stations'],
-          CV: ['confirmed'],
-          OW: ['total_vaccinations', 'people_fully_vaccinated', 'daily_vaccinations'],
-        };
         const referenceDecompose = {
           N1: {
             measurementConfig: {
@@ -237,6 +232,113 @@ export default {
                 calc: (meas, obj) => meas + obj[1],
                 color: 'rgba(0,0,0,0.1)',
                 fill: false,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
+          },
+          GG: {
+            measurementConfig: {
+              label: 'Grocery',
+              fill: false,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              cubicInterpolationMode: 'monotone',
+              borderWidth: 1,
+              pointRadius: 2,
+            },
+            referenceData: [
+              {
+                key: 'Parks',
+                index: 0,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[1],
+                borderColor: refColors[1],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
+              },
+              {
+                key: 'Residential',
+                index: 1,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[2],
+                borderColor: refColors[2],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
+              },
+              {
+                key: 'Retail Recreation',
+                index: 2,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[3],
+                borderColor: refColors[3],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
+              },
+              {
+                key: 'Transit Stations',
+                index: 3,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[4],
+                borderColor: refColors[4],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === '' ? Number.NaN : Number(str)))),
+          },
+          CV: {
+            measurementConfig: {
+              label: 'confirmed cases',
+              fill: false,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              cubicInterpolationMode: 'monotone',
+              borderWidth: 1,
+              pointRadius: 2,
+            },
+          },
+          OW: {
+            measurementConfig: {
+              label: 'Daily vaccinations',
+              fill: false,
+              backgroundColor: refColors[0],
+              borderColor: refColors[0],
+              cubicInterpolationMode: 'monotone',
+              borderWidth: 1,
+              pointRadius: 2,
+            },
+            referenceData: [
+              {
+                key: 'Total vaccinations',
+                index: 0,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[1],
+                borderColor: refColors[1],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
+              },
+              {
+                key: 'People fully vaccinated',
+                index: 1,
+                color: 'black',
+                fill: false,
+                backgroundColor: refColors[2],
+                borderColor: refColors[2],
+                cubicInterpolationMode: 'monotone',
+                borderWidth: 1,
+                pointRadius: 2,
               },
             ],
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
@@ -609,15 +711,6 @@ export default {
           });
         }
 
-        // datasets.push({
-        //   label: 'hide_',
-        //   data: [],
-        //   borderColor: 'rgba(0,0,0,0.1)',
-        //   backgroundColor: 'rgba(0,0,0,1)',
-        //   borderWidth: 1,
-        //   pointRadius: 3,
-        //   spanGaps: false,
-        // });
         // Add special points for N3
         if (['N3', 'SST'].includes(indicatorCode)) {
           // Find unique indicator values
@@ -667,25 +760,6 @@ export default {
             const data = featureData.measurement.map((row, rowIdx) => ({
               t: featureData.time[rowIdx],
               y: row[idx],
-            }));
-            datasets.push({
-              label: key,
-              data,
-              fill: false,
-              borderColor: refColors[idx],
-              backgroundColor: refColors[idx],
-              cubicInterpolationMode: 'monotone',
-              borderWidth: 1,
-              pointRadius: 2,
-            });
-          });
-        }
-        // Generate data for datasets where a string array is passed as indicator object
-        if (Object.keys(indicatorDecompose).includes(indicatorCode)) {
-          indicatorDecompose[indicatorCode].forEach((key, idx) => {
-            const data = featureData.Values.map((entry) => ({
-              t: DateTime.fromISO(entry.date),
-              y: entry[key],
             }));
             datasets.push({
               label: key,
