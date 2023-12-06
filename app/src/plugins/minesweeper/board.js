@@ -23,36 +23,50 @@ export default class HexSweeperGame {
     this.board = [];
     this.image = null;
     this.center = [];
+    this.gameSize = 2100;
   }
 
 
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
-      // TODO switching of locations instead of fixed index 0
-      const xDiff = Math.abs(this.locations[0][2] - this.locations[0][0]);
-      const yDiff = Math.abs(this.locations[0][3] - this.locations[0][1]);
-      // const resX = xDiff / this.size;
-      // const resY = yDiff / this.size;
-      if (xDiff >= yDiff) {
-          this.width = this.size;
-          this.height = Math.round((yDiff / xDiff) * this.size);
-          const xmin = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][0], this.locations[0][1]]);
-          const xmax = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][2], this.locations[0][3]]);
-          this.gameSize = (xmax[0] - xmin[0]) / this.size;
-      } else {
-        this.height = this.size;
-        this.width = Math.round((xDiff / yDiff) * this.size);
-      }
-      const data = (await tiff.readRasters({
-        bbox: options.locations[0],
-        //resX,
-        //resY,
-        width: this.width,
-        height: this.height,
-        resampleMethod: 'bilinear',
+
+      // Convert geographic coordinates to distances using EPSG:3857
+      const xmin = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][0], this.locations[0][1]]);
+      const xmax = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][2], this.locations[0][3]]);
+      const xDistance = xmax[0] - xmin[0];
+      const yDistance = xmax[1] - xmin[1];
+
+      console.log(`X distance: ${xDistance}`);
+      console.log(`Y distance: ${yDistance}`);
+      console.log(`Ratio: ${(yDistance / xDistance)}`);
+
+      // Adjust board dimensions based on actual distances
+      this.width = this.size;
+      this.height = Math.round((yDistance / xDistance) * this.size);
+
+      // Read the GeoTIFF data into a 1-dimensional array
+      var data = (await tiff.readRasters({
+          bbox: options.locations[0],
+          width: this.width,
+          height: this.height,
+          resampleMethod: 'bilinear',
       }))[0];
-      console.log(data);
+
+      // Flip the GeoTIFF upside down
+      data = data.reverse();
+
+      const flippedData = new Array(data.length);
+      // Flip rows in our 1-dimensional array as if it were 2D
+      for (let y = 0; y < this.height; y++) {
+          for (let x = 0; x < this.width; x++) {
+              flippedData[y * this.width + x] =
+                data[y * this.width + (this.width - 1 - x)];
+          }
+      }
+
+      data = flippedData;
+      console.log(flippedData);
       //const image = await tiff.getImage();
 
       // this.image = image;
