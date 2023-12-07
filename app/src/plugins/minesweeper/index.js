@@ -56,12 +56,18 @@ const updateTileVisuals = (x, y, grid, vectorSource, game) => {
   vectorSource.addFeature(feature);
 };
 
-const updateAllTileVisuals = (game, grid, vectorSource) => {
+const updateAllTileVisuals = (game, grid, vectorSource, vectorLayer) => {
+  // Clear the existing features
+  vectorSource.clear();
+
   for (let y = 0; y < game.height; y++) {
     for (let x = 0; x < game.width; x++) {
       updateTileVisuals(x, y, grid, vectorSource, game);
     }
   }
+
+  // Force redraw
+  vectorLayer.changed();
 };
 
 /**
@@ -104,7 +110,7 @@ const getTileStyle = (tile) => {
       });
     } else {
       style = new Style({
-        fill: new Fill({ color: 'rgba(0, 0, 0, 0.3)' }),
+        fill: new Fill({ color: '#fff0' }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
           font: '20px Calibri,sans-serif',
@@ -163,12 +169,6 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
       vectorSource.addFeature(feature);
     }
   }
-
-  const vectorLayer = new VectorLayer({
-    source: vectorSource,
-  });
-
-  map.addLayer(vectorLayer);
 };
 
 /**
@@ -185,7 +185,12 @@ export const createHexMap = async (map, options) => {
 
   map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
   drawGameBoard(map, game, grid, vectorSource);
-  updateAllTileVisuals(game, grid, vectorSource);
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
+
+  map.addLayer(vectorLayer);
+  updateAllTileVisuals(game, grid, vectorSource, vectorLayer);
 
   return uids;
 };
