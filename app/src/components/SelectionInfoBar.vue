@@ -39,12 +39,13 @@
             :key="i"
             class="pa-0"
             :disabled="getLayerBtn(item).disabled"
+            style="pointer-events: none;"
           >
             <v-list-item-content>
               <v-list-item-title
               class=""
               >
-              <v-icon color="primary">{{ getLayerBtn(item).icon }}</v-icon>
+              <v-icon :color="getLayerBtn(item).disabled ? 'grey':'black' ">{{ getLayerBtn(item).icon }}</v-icon>
               <span>
                 {{ getLayerBtn(item).text }}
               </span>
