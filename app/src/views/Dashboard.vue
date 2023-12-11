@@ -36,7 +36,7 @@
                     v-if="panel.title == 'Layers' && indicatorSelected"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
-                    :tools.prop="['config', 'opacity', 'sort']"
+                    :tools.prop="['info', 'config', 'opacity', 'sort']"
                     :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
                     button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;}` :''"
                     class="pointerEvents">
@@ -59,7 +59,7 @@
                     v-if="panel.title == 'Layers' && indicatorSelected"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
-                    :tools.prop="['config', 'opacity', 'sort']"
+                    :tools.prop="['info', 'config', 'opacity', 'sort']"
                     class="pointerEvents">
                    </eox-layercontrol>
                  </UiPanel>
