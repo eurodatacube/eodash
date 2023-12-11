@@ -536,7 +536,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layer.setExtent(drawnAreaExtent);
   }
-  layer.setProperties({
+  const layerProperties = {
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
@@ -544,8 +544,18 @@ export function createLayerFromConfig(config, map, _options = {}) {
     visible: config.visible,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
-    ...(config.legendUrl && !config.features && { description: `<img src="${config.legendUrl}" style="max-width: 100%" />` }),
-  });
+  };
+  if (config.legendUrl || config.layerAdditionalDescription) {
+    let description = '';
+    if (config.legendUrl) {
+      description += `<img src="${config.legendUrl}" style="max-width: 75%" />`;
+    }
+    if (config.layerAdditionalDescription) {
+      description += config.layerAdditionalDescription;
+    }
+    layerProperties.description = description;
+  }
+  layer.setProperties(layerProperties);
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
