@@ -44,7 +44,7 @@ export default class HexSweeperGame {
                       (yDistance / xDistance)
                       * this.size
                       // Account for the fact that hexagons are wider than they are tall
-                      * 1.156);
+                      * 1.2);
 
       // Read the GeoTIFF data into a 1-dimensional array
       var data = (await tiff.readRasters({
