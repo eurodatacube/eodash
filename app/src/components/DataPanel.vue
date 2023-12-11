@@ -106,17 +106,9 @@
               <template>
               <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
                 <p style="max-width: 75%; text-align: center">
-                  Draw an area on the map using the shape buttons to generate a custom chart!
+                 <v-icon color="black">mdi-shape-polygon-plus</v-icon>
+                 Draw a polygon in order to start analysis
                 </p>
-                <v-btn
-                  class="mt-3"
-                  color="secondary"
-                  :loading="isLoadingCustomAreaIndicator"
-                  :disabled="!selectedArea"
-                  @click="generateChart"
-                >
-                  Generate Chart
-                </v-btn>
               </template>
             </v-col>
             <template v-else-if="hasSelectionEnabled">
