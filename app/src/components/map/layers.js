@@ -548,7 +548,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
   if (config.legendUrl || config.layerAdditionalDescription) {
     let description = '';
     if (config.legendUrl) {
-      description += `<img src="${config.legendUrl}" style="max-width: 75%" />`;
+      description += `<img src="${config.legendUrl}" style="max-width: 100%" />`;
     }
     if (config.layerAdditionalDescription) {
       description += config.layerAdditionalDescription;
