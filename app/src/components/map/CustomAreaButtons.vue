@@ -202,6 +202,10 @@ export default {
       });
     });
     this.addDrawnAreaToMap();
+
+    if(this.$store.state.features.selectedArea){
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    }
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);

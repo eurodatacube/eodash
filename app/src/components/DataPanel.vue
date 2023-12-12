@@ -109,6 +109,11 @@
                  <v-icon color="black">mdi-shape-polygon-plus</v-icon>
                  Draw a polygon in order to start analysis
                 </p>
+                <v-progress-circular
+                 indeterminate
+                 v-if="isLoadingCustomAreaIndicator"
+                 color="secondary"
+               ></v-progress-circular>
               </template>
             </v-col>
             <template v-else-if="hasSelectionEnabled">
