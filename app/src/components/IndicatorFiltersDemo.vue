@@ -129,7 +129,7 @@ export default {
     },
     centerMapVueComponent() {
       return this.$parent.$parent.$parent.$parent.$parent.$parent.$parent.$refs.centerPanel.$refs.map;
-    }
+    },
   },
   methods: {
     ...mapMutations('indicators', {

@@ -1107,8 +1107,8 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_11', getYearlyDates('2011-01-01', '2018-01-01')),
   createRECCAP2Config('RECCAP2_12', getYearlyDates('2011-01-01', '2018-01-01')),
   createRECCAP2Config('ESDC_gross_primary_productivity', getDailyDates('2001-01-05', '2018-12-23', 8)),
-createRECCAP2Config('ESDC_net_ecosystem_exchange', getDailyDates('2001-01-05', '2018-12-23', 8)),
-createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
+  createRECCAP2Config('ESDC_net_ecosystem_exchange', getDailyDates('2001-01-05', '2018-12-23', 8)),
+  createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
   {
     properties: {
       indicatorObject: {
