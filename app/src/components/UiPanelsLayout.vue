@@ -110,23 +110,10 @@ export default {
 .layout-container {
   position: absolute;
   left: 0;
-  width: 97.2%;
+  width: 100%;
   padding: 8px;
   pointer-events: none;
-  @media only screen and (min-width: 2040px) {
-   width: 98.2%;
-  }
-
-  @media only screen and (max-width: 1380px) {
-   width: 95.7%;
-  }
-
-  @media only screen and (max-width: 900px) {
-   width: 93.7%;
-  }
-
   @media only screen and (max-width: 600px) {
-   width: 100%;
    padding: 0%;
    margin: 0%;
    z-index: 10;

@@ -1,5 +1,5 @@
 import { Wkt } from 'wicket';
-import { shTimeFunction } from '@/utils';
+import shTimeFunction from '@/shTimeFunction';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
 } from '@/config/layers';
@@ -172,7 +172,6 @@ export const mapDefaults = Object.freeze({
 export const baseLayersMap = [
   baseLayers.s1EodcBackscattervv,
   baseLayers.s1EodcBackscattervh,
-  baseLayers.S2GLC,
   baseLayers.ESA_WORLD_COVER,
   baseLayers.CORINE_LAND_COVER,
   baseLayers.geolandbasemap,
@@ -324,7 +323,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.terrainLight,
     baseLayers.cloudless,
     baseLayers.eoxosm,
-    baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
@@ -340,7 +338,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.terrainLight,
     baseLayers.cloudless,
     baseLayers.eoxosm,
-    baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
@@ -360,7 +357,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.terrainLight,
     baseLayers.cloudless,
     baseLayers.eoxosm,
-    baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
@@ -374,7 +370,6 @@ export const indicatorsDefinition = Object.freeze({
     },
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh,
-    baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
@@ -395,7 +390,6 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.s1EodcBackscattervh,
     baseLayers.terrainLight,
     baseLayers.eoxosm,
-    baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
@@ -761,8 +755,8 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('yignbu', 100, 440, 50, false),
-                ...getColorStops('yiorrd', 440, 2400, 50, true),
+                ...getColorStops('yignbu', 1, 400, 50, false),
+                ...getColorStops('yiorrd', 400, 2400, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -775,6 +769,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Admin units (Zählsprengel)',
+          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 12,
           selection: {
@@ -789,7 +784,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
   return config;
 }
 
-function createREP2Config(indicatorCode, rasterFileUrl) {
+function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
   const config = {
     properties: {
       indicatorObject: {
@@ -803,9 +798,9 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
               label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
-              min: 0,
-              max: 8,
-              range: [0, 8],
+              min,
+              max,
+              range: [min, max],
             },
             aspect: {
               display: true,
@@ -869,8 +864,8 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
           ],
           style: {
             variables: {
-              solarMin: 0,
-              solarMax: 8,
+              solarMin: min,
+              solarMax: max,
               aspectMin: 90,
               aspectMax: 270,
               aspectMin2: 0,
@@ -912,7 +907,8 @@ function createREP2Config(indicatorCode, rasterFileUrl) {
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('viridis', 0, 8, 50, false),
+                ...getColorStops('yignbu', min, (max - min) / 2, 50, false),
+                ...getColorStops('yiorrd', (max - min) / 2, max, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -1325,11 +1321,11 @@ export const globalIndicators = [
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif'),
-  createREP2Config('REP2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif'),
-  createREP2Config('REP2_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Fall_COG_clipped_3857_fixed.tif'),
-  createREP2Config('REP2_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif'),
-  createREP2Config('REP2_3', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif'),
-  createREP2Config('REP2_4', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif'),
+  createREP2Config('REP2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Annual_COG_clipped_3857_fixed.tif', 0.5, 5),
+  createREP2Config('REP2_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Fall_COG_clipped_3857_fixed.tif', 0.5, 4.5),
+  createREP2Config('REP2_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif', 1, 5.5),
+  createREP2Config('REP2_3', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif', 1.5, 7.5),
+  createREP2Config('REP2_4', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif', 0.5, 2.5),
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,

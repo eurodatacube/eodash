@@ -63,8 +63,15 @@
           class="pa-0"
           :style="`height: auto`"
         >
+        <div v-if="showCustomAreaCard &&  (mergedConfigsData[0].customAreaIndicator &&
+            !hasSelectionEnabled) && !customAreaIndicator" class="justify-center align-center">
+              <p class="justify-self-start">
+                <v-icon color="black">mdi-shape-polygon-plus</v-icon>
+                Draw a polygon in order to start analysis
+              </p>
+          </div>
           <v-card
-            v-if="showCustomAreaCard"
+            v-else-if="showCustomAreaCard"
             class="fill-height"
             :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
                               ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
@@ -75,17 +82,6 @@
               style="padding-top: 10px; padding-bottom: 0px;">
                 {{ customAreaIndicator.title }}
             </v-card-title>
-            <v-btn
-              v-if="customAreaIndicator && showRegenerateButton"
-              ref="regenerateButton"
-              color="secondary"
-              style="display: block; position: absolute; right: 90px; top: 6px;"
-              elevation="2"
-              x-small
-              @click="generateChart"
-            >
-              Regenerate
-            </v-btn>
             <template
               v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
             >
@@ -95,32 +91,6 @@
                 class="pa-2 chart"
               />
             </template>
-            <v-col
-              v-else-if="
-                (mergedConfigsData[0].customAreaIndicator &&
-                  !hasSelectionEnabled
-                )"
-              class="d-flex flex-col align-center justify-center"
-              style="flex-direction: column; height: 100%; position: absolute; top: 0;"
-            >
-              <template>
-              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
-                <p style="max-width: 75%; text-align: center">
-                  Draw an area on the map using the shape buttons to generate a custom chart!
-                </p>
-                <v-btn
-                  class="mt-3"
-                  color="secondary"
-                  :loading="isLoadingCustomAreaIndicator"
-                  :disabled="!selectedArea"
-                  @click="generateChart"
-                >
-                  Generate Chart
-                </v-btn>
-              </template>
-            </v-col>
-            <template v-else-if="hasSelectionEnabled">
-            </template>
             <indicator-data
               v-else-if="dataObject && dataObject.time"
               :enableMapTimeInteraction="true"
@@ -128,6 +98,13 @@
               class="pa-5 chart"
             />
           </v-card>
+          <div class="justify-center text-center align-center"
+          v-if="isLoadingCustomAreaIndicator">
+            <v-progress-circular
+            indeterminate
+            color="secondary"
+            ></v-progress-circular>
+          </div>
           <v-row
             v-if="(customAreaIndicator && !customAreaIndicator.isEmpty)
               && (!showMap || !customAreaIndicator.isEmpty)

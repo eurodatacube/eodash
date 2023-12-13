@@ -6,8 +6,9 @@ import GeoJSON from 'ol/format/GeoJSON';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import {
-  simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
+  simplifiedshTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
+import shTimeFunction from '@/shTimeFunction';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
@@ -69,7 +70,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
@@ -588,60 +589,78 @@ export const indicatorsDefinition = Object.freeze({
   },
   RECCAP2_1: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_2: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_3: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_4: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_1',
+    story: '/data/trilateral/RECCAP2_1',
   },
   RECCAP2_5: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_5',
+    story: '/data/trilateral/RECCAP2_5',
   },
   RECCAP2_6: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_6',
+    story: '/data/trilateral/RECCAP2_6',
   },
   RECCAP2_7: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_7',
+    story: '/data/trilateral/RECCAP2_7',
   },
   RECCAP2_8: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_8',
+    story: '/data/trilateral/RECCAP2_8',
   },
   RECCAP2_9: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_10: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_11: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
   },
   RECCAP2_12: {
     themes: ['biomass'],
-    story: '/eodash-data/stories/RECCAP/RECCAP2_9',
+    story: '/data/trilateral/RECCAP2_9',
+  },
+  ESDC_gross_primary_productivity: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_gross_primary_productivity',
+  },
+  ESDC_net_ecosystem_exchange: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_net_ecosystem_exchange',
+  },
+  ESDC_kndvi: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_kndvi',
   },
   GGI_CH4: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CH4',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_N2O: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_N2O',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_CO2: {
     themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CO2',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -1040,13 +1059,13 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end) => {
+const getDailyDates = (start, end, interval = 1) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+    currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
 };
@@ -1088,6 +1107,9 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_10', getYearlyDates('2011-01-01', '2018-01-01')),
   createRECCAP2Config('RECCAP2_11', getYearlyDates('2011-01-01', '2018-01-01')),
   createRECCAP2Config('RECCAP2_12', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('ESDC_gross_primary_productivity', getDailyDates('2001-01-05', '2018-12-23', 8)),
+  createRECCAP2Config('ESDC_net_ecosystem_exchange', getDailyDates('2001-01-05', '2018-12-23', 8)),
+  createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
   {
     properties: {
       indicatorObject: {

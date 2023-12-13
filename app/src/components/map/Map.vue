@@ -89,7 +89,8 @@
       :class="{'hidden': enableScrollyMode}"
       :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
         ? $vuetify.application.footer + 85
-        : $vuetify.application.footer + 10}px !important`"
+        : $vuetify.application.footer + 10}px !important;
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -635,7 +636,7 @@ export default {
       this.updateOverlayLayers();
     },
     getFeatures(features) {
-      if (this.mapId === 'centerMap' && features) {
+      if (this.mapId === 'centerMap' && features && this.$route.name !== 'demo') {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }

@@ -502,8 +502,10 @@ export const xcubeAnalyticsConfig = (
         measurement: [],
       };
       data.forEach((row) => {
-        newData.time.push(DateTime.fromISO(row.time));
-        newData.measurement.push(row.median);
+        if (row.median !== null) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.measurement.push(row.median);
+        }
       });
       if (indicatorCode) {
         // if we for some reason need to change indicator code of custom chart data

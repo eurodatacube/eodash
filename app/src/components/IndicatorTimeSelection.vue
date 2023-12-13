@@ -239,17 +239,27 @@ export default {
   },
   watch: {
     compareTime: {
+      deep: true,
       handler(timeObj) {
         this.compareTimeModel = timeObj;
       },
     },
     originalTime: {
+      deep: true,
       handler(timeObj) {
         this.originalTimeModel = timeObj;
       },
     },
-    originalTimeModel: {
+    compareTimeModel: {
+      deep: true,
       handler(timeObj) {
+        this.$emit('update:compareTime', timeObj);
+      },
+    },
+    originalTimeModel: {
+      deep: true,
+      handler(timeObj) {
+        this.$emit('update:originalTime', timeObj);
         // Update the slider if the dropdown changes the value
         // Find index base on value
         let index = -1;
@@ -262,8 +272,10 @@ export default {
       },
     },
     originalTimeIndex: {
+      deep: true,
       handler(index) {
         // Update the model when the slider index changes
+        this.$emit('update:originalTime', this.availableValues[index]);
         if (index !== -1) {
           this.originalTimeModel = this.availableValues[index];
         }
