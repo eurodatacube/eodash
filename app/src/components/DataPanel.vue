@@ -63,6 +63,18 @@
           class="pa-0"
           :style="`height: auto`"
         >
+        <template v-if="selectableLayerConfigs.length > 0">
+            <SelectionInfoBar class="pb-2"
+            :selectableLayerConfigs="selectableLayerConfigs"/>
+        </template>
+        <filter-controls v-if="indicatorObject.cogFilters"
+            :cogFilters="indicatorObject.cogFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :mergedConfigsData="mergedConfigsData[0]"
+            :indicatorCode="indicatorObject.indicator"
+          >
+          </filter-controls>
         <div v-if="showCustomAreaCard &&  (mergedConfigsData[0].customAreaIndicator &&
             !hasSelectionEnabled) && !customAreaIndicator" class="justify-center align-center">
               <p class="justify-self-start">
@@ -221,18 +233,6 @@
               </div>
             </v-col>
           </v-row>
-          <filter-controls v-if="indicatorObject.cogFilters"
-            :cogFilters="indicatorObject.cogFilters"
-            :adminLayer="$store.state.features.adminBorderLayerSelected"
-            :adminFeature="$store.state.features.adminBorderFeatureSelected"
-            :mergedConfigsData="mergedConfigsData[0]"
-            :indicatorCode="indicatorObject.indicator"
-          >
-          </filter-controls>
-          <template v-if="selectableLayerConfigs.length > 0">
-            <SelectionInfoBar class="pb-2"
-            :selectableLayerConfigs="selectableLayerConfigs"/>
-          </template>
           <data-mockup-view v-if="appConfig.id === 'gtif'"
             :indicatorObject="indicatorObject"
             :selectedFeatures="$store.state.features.selectedFeatures"
