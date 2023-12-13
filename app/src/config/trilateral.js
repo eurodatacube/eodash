@@ -6,8 +6,9 @@ import GeoJSON from 'ol/format/GeoJSON';
 import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import {
-  simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
+  simplifiedshTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
+import shTimeFunction from '@/shTimeFunction';
 import { baseLayers, overlayLayers } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';

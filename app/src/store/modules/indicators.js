@@ -1,5 +1,5 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-import { shTimeFunction } from '@/utils';
+import shTimeFunction from '@/shTimeFunction';
 
 const state = {
   indicators: null,
