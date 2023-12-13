@@ -755,8 +755,8 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('yignbu', 100, 440, 50, false),
-                ...getColorStops('yiorrd', 440, 2400, 50, true),
+                ...getColorStops('yignbu', 1, 400, 50, false),
+                ...getColorStops('yiorrd', 400, 2400, 50, true),
               ],
               [
                 'color', 0, 0, 0, 0,
