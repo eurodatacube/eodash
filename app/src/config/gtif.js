@@ -1,5 +1,5 @@
 import { Wkt } from 'wicket';
-import { shTimeFunction } from '@/utils';
+import shTimeFunction from '@/shTimeFunction';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
 } from '@/config/layers';

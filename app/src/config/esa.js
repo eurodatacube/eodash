@@ -3,11 +3,12 @@
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
+import { shS2TimeFunction } from '@/utils';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
 } from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
+import shTimeFunction from '../shTimeFunction';
 
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
