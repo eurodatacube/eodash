@@ -1,13 +1,13 @@
 <template>
   <div style="width: 100%; height: 100%;"
     v-if="barChartIndicators.includes(indicatorObject.indicator)">
-      <bar-chart v-if='datacollection'
+      <bar-chart v-if='datacollection()'
         id="chart"
         ref="barChart"
         class="fill-height"
         :width="null"
         :height="null"
-        :chart-data='datacollection'
+        :chart-data='datacollection()'
         @extentChanged="extentChanged"
         :options='chartOptions()'></bar-chart>
         <v-btn
@@ -23,12 +23,12 @@
   <div style="width: 100%; height: 100%;"
     v-else-if="mapchartIndicators.includes(indicatorObject.indicator)">
       <map-chart
-        v-if='datacollection'
+        v-if='datacollection()'
         id="chart"
         class="fill-height"
         :width="null"
         :height="null"
-        :chart-data='datacollection'
+        :chart-data='datacollection()'
         :options='chartOptions()'>
       </map-chart>
       <img v-if="indicatorObject.indicator=='E10a3'"
@@ -57,7 +57,7 @@
       class="fill-height"
       :width="null"
       :height="null"
-      :chart-data='datacollection'
+      :chart-data='datacollection()'
       :options='chartOptions()'></scatter-chart>
     <v-btn
       ref="zoomResetButton"
@@ -76,7 +76,7 @@
       class="fill-height"
       :width="null"
       :height="null"
-      :chart-data='datacollection'
+      :chart-data='datacollection()'
       :options='chartOptions()'></line-chart>
     <v-btn
       ref="zoomResetButton"
@@ -176,6 +176,40 @@ export default {
         });
       }
       return selectionOptions;
+    },
+    indicatorObject() {
+      // Return either the set prop (custom dashbaord) or the selected feature object
+      return this.currentIndicator
+        || this.$store.state.indicators.customAreaIndicator
+        || this.$store.state.features.selectedFeature.indicatorObject;
+      // TODO: In the future we probably will want to remove the customareaindicator concept
+    },
+    dataObject() {
+      let datObj = null;
+      if (this.currentFeatureData) {
+        datObj = this.currentFeatureData;
+      } else if (this.$store.state.features?.featureData?.time) {
+        // Only use the featureData if it has the times property (maps with locations dont have it)
+        datObj = this.$store.state.features.featureData;
+      } else if (this.$store.state.indicators.customAreaIndicator) {
+        datObj = this.$store.state.indicators.customAreaIndicator;
+      }
+      return datObj;
+    },
+    indDefinition() {
+      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
+    },
+  },
+  methods: {
+    // I am not saving display state of button as data property because
+    // changing it rerenders complete chart which nullifies use of this
+    // functionality
+    extentChanged(val) {
+      if (val) {
+        this.$refs.zoomResetButton.$el.style.display = 'block';
+      } else {
+        this.$refs.zoomResetButton.$el.style.display = 'none';
+      }
     },
     datacollection() {
       const indicator = { ...this.indicatorObject };
@@ -1321,40 +1355,6 @@ export default {
       }
       return { labels, datasets };
     },
-    indicatorObject() {
-      // Return either the set prop (custom dashbaord) or the selected feature object
-      return this.currentIndicator
-        || this.$store.state.indicators.customAreaIndicator
-        || this.$store.state.features.selectedFeature.indicatorObject;
-      // TODO: In the future we probably will want to remove the customareaindicator concept
-    },
-    dataObject() {
-      let datObj = null;
-      if (this.currentFeatureData) {
-        datObj = this.currentFeatureData;
-      } else if (this.$store.state.features?.featureData?.time) {
-        // Only use the featureData if it has the times property (maps with locations dont have it)
-        datObj = this.$store.state.features.featureData;
-      } else if (this.$store.state.indicators.customAreaIndicator) {
-        datObj = this.$store.state.indicators.customAreaIndicator;
-      }
-      return datObj;
-    },
-    indDefinition() {
-      return this.baseConfig.indicatorsDefinition[this.indicatorObject.indicator] || {};
-    },
-  },
-  methods: {
-    // I am not saving display state of button as data property because
-    // changing it rerenders complete chart which nullifies use of this
-    // functionality
-    extentChanged(val) {
-      if (val) {
-        this.$refs.zoomResetButton.$el.style.display = 'block';
-      } else {
-        this.$refs.zoomResetButton.$el.style.display = 'none';
-      }
-    },
     mapTimeUpdatedHandler(event) {
       // enable chart map time sync only if not part of custom dashboard
       if (this.enableMapTimeInteraction) {
@@ -1593,7 +1593,7 @@ export default {
                 return label;
               },
               footer: (context) => {
-                const { datasets } = this.datacollection;
+                const { datasets } = this.datacollection();
                 const obj = datasets[context[0].datasetIndex].data[context[0].index];
                 const labelOutput = `${this.indicatorObject.indicatorName} [climatic value]: ${obj.referenceValue}`;
                 return labelOutput;
@@ -1660,12 +1660,12 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: (context) => {
-              const { datasets } = this.datacollection;
+              const { datasets } = this.datacollection();
               const obj = datasets[context.datasetIndex].data[context.index];
               return obj.name;
             },
             footer: (context) => {
-              const { datasets } = this.datacollection;
+              const { datasets } = this.datacollection();
               const obj = datasets[context[0].datasetIndex].data[context[0].index];
               const refT = obj.referenceTime;
               const refV = Number(obj.referenceValue);
@@ -1747,12 +1747,12 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: (context) => {
-              const { datasets } = this.datacollection;
+              const { datasets } = this.datacollection();
               const obj = datasets[context.datasetIndex].data[context.index];
               return obj.name;
             },
             footer: (context) => {
-              const { datasets } = this.datacollection;
+              const { datasets } = this.datacollection();
               const obj = datasets[context[0].datasetIndex].data[context[0].index];
               const refV = Number(obj.referenceValue);
               const labelOutput = [
@@ -1823,7 +1823,7 @@ export default {
         customSettings.tooltips = {
           callbacks: {
             label: (context) => {
-              const { datasets } = this.datacollection;
+              const { datasets } = this.datacollection();
               const val = datasets[context.datasetIndex].data[context.index];
               return `Value (Log10): ${Math.log10(val.y).toPrecision(4)}`;
             },

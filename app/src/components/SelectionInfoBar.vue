@@ -38,15 +38,17 @@
             v-for="(item, i) in selectableLayerConfigs"
             :key="i"
             class="pa-0"
+            :disabled="getLayerBtn(item).disabled"
+            style="pointer-events: none;"
           >
             <v-list-item-content>
               <v-list-item-title
               class=""
-              @click="layerSelectClick(item)">
+              >
+              <v-icon :color="getLayerBtn(item).disabled ? 'grey':'black' ">{{ getLayerBtn(item).icon }}</v-icon>
               <span>
-                {{ getLayerText(item)}}
+                {{ getLayerBtn(item).text }}
               </span>
-              <v-icon color="primary">mdi-crosshairs-gps</v-icon>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -113,8 +115,18 @@ export default {
     },
   },
   methods: {
-    getLayerText(item) {
-      return `Zoom to ${item.name} level`;
+    getLayerBtn(item) {
+      const layer = this.selectableLayerConfigs.find((i) => i.id === item.id);
+      const { map } = getMapInstance('centerMap');
+      let text = 'Zoom in to visualize administrative units';
+      let disabled = true;
+      let icon = 'mdi-magnify-plus';
+      if (map.getView().getZoom() > layer.minZoom) {
+        text = 'Select an administrative unit in order to start analysis';
+        disabled = false;
+        icon = 'mdi-cursor-default-click';
+      }
+      return { text, disabled, icon };
     },
     getFeatureName(item, i) {
       const props = item.getProperties();
