@@ -1355,14 +1355,6 @@ export default {
       }
       return { labels, datasets };
     },
-    // Same goes for the other button
-    areaChanged(val) {
-      if (val) {
-        this.$refs.regenerateButton.$el.style.display = 'block';
-      } else {
-        this.$refs.regenerateButton.$el.style.display = 'none';
-      }
-    },
     mapTimeUpdatedHandler(event) {
       // enable chart map time sync only if not part of custom dashboard
       if (this.enableMapTimeInteraction) {
@@ -2012,12 +2004,6 @@ export default {
     },
   },
   beforeDestroy() {
-    if (this.mapId === 'centerMap') {
-      const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-      cluster.setActive(false, this.overlayCallback);
-      this.ro.unobserve(this.$refs.mapContainer);
-      getMapInstance(this.mapId).map.removeInteraction(this.queryLink);
-    }
     window.removeEventListener('message', this.mapTimeUpdatedHandler);
   },
 };
