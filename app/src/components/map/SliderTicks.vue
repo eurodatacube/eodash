@@ -73,7 +73,11 @@ export default {
       let previousYear = null;
 
       this.lines.forEach((line, index) => {
-        const currentTime = DateTime.fromISO(this.times[index].value);
+        let timeEntry = this.times[index].value;
+        if (Array.isArray(timeEntry)) {
+          [timeEntry] = timeEntry;
+        }
+        const currentTime = DateTime.fromISO(timeEntry);
         const currentYear = currentTime.year;
 
         // If it's the first tick or if the year has changed, add a year mark
