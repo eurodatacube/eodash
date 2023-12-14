@@ -654,3 +654,35 @@ export const findClosest = (data, target = DateTime.now()) => data.reduce((prev,
   const b = Math.abs(prev.ts - target.ts);
   return a - b < 0 ? curr : prev;
 });
+
+export function getFilteredInputData(customObject) {
+  // filter available times by input_data for map display
+  // there is a "rule" with geodb as data provide that if inputData == "/", it should not be shown on map
+  // if whole array consists of only "/", we should not display any layer
+  // (this is true also for indicator with locations where location was not clicked yet)
+  if (!customObject) {
+    return customObject;
+  }
+  const clone = { ...customObject };
+  const { inputData } = clone;
+  if (!inputData) {
+    // simply pass through
+    return customObject;
+  }
+
+  // filter out rows which have empty "Input Data"
+  const mask = inputData.map((item) => item && item !== '/');
+  // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
+  if (mask.length > 1) {
+    for (let [key, value] of Object.entries(clone)) { // eslint-disable-line
+      if (Array.isArray(value) && value.length > 1) {
+        clone[key] = value.filter((item, i) => mask[i]);
+      }
+    }
+  }
+  if (mask.length === 0) {
+    // if all values of input_data are invalid, filter completely
+    return null;
+  }
+  return clone;
+}
