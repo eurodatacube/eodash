@@ -144,41 +144,10 @@
         />
 
         <div v-if="isMinesweeperConfigured">
-          <v-dialog v-model="isMinesweeperDialogEnabled" width="500">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                @click="toggleMinesweeper"
-              >
-                <span
-                  :style="`font-size: 20px; filter: invert(28%) sepia(100%) hue-rotate(${
-                    minesweeper.isEnabled ? 60: -40
-                  }deg) saturate(3);`"
-                >
-                  💣
-                </span>
-              </v-btn>
-            </template>
-
-            <template v-slot:default="{ isActive }">
-              <v-card title="Minesweeper" class="py-6">
-                <v-card-text>
-                  <h1 class="pb-6">Minesweeper Game</h1>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua.
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    text="Close Dialog"
-                    @click="isActive.value = false"
-                  ></v-btn>
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
+          <MinesweeperDialog
+            :is-enabled="isMinesweeperDialogEnabled"
+            @close="minesweeper.isDialogEnabled = false"
+          />
         </div>
       </div>
       <div
@@ -248,6 +217,7 @@ import {
 } from '@/utils';
 import { createHexMap } from '@/plugins/minesweeper/index';
 import getLocationCode from '../../mixins/getLocationCode';
+import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -266,6 +236,7 @@ export default {
     IframeButton,
     AddToDashboardButton,
     DarkOverlayLayer,
+    MinesweeperDialog,
   },
   props: {
     mapId: {
