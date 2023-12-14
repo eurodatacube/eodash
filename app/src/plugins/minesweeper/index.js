@@ -95,6 +95,21 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   }
 };
 
+const handleMapRightClick = (e, game, grid, vectorSource) => {
+  e.stopPropagation();
+  e.preventDefault();
+
+  const { coordinate } = e;
+  // Get the axial coordinates of the clicked hexagon
+  const [q, r] = grid.coord2hex(coordinate);
+  const gameCoords = game.convertAxialToGameCoords(q, r);
+  const [x, y] = [gameCoords.x - 1, gameCoords.y];
+
+  const tile = game.get(x, y);
+  tile.isFlagged = !tile.isFlagged; // Toggle flag
+  updateTileVisuals(x, y, grid, vectorSource, game);
+};
+
 const getTileStyle = (tile) => {
   let style;
   if (tile.isRevealed === true) {
@@ -184,6 +199,10 @@ export const createHexMap = async (map, options) => {
   const { uids, grid } = setupGrid(map, options, game);
 
   map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
+  map.on('contextmenu', (e) => {
+    handleMapRightClick(e, game, grid, vectorSource);
+    return false;
+  })
   drawGameBoard(map, game, grid, vectorSource);
   const vectorLayer = new VectorLayer({
     source: vectorSource,
