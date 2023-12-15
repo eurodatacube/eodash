@@ -2671,8 +2671,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2781,8 +2781,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2869,8 +2869,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2913,8 +2913,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3350,8 +3350,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3394,8 +3394,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3438,8 +3438,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3482,8 +3482,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
