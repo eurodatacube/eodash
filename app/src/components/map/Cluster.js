@@ -345,9 +345,13 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city } = indicatorObject;
+        const { city, country, aoiID } = indicatorObject;
         if (city) {
           headers.push(`${city}`);
+        } else if (country) {
+          headers.push(`${country}`);
+        } else if (aoiID) {
+          headers.push(`${aoiID}`);
         }
         callback(headers, rows, coords);
       } else {

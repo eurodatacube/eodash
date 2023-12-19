@@ -580,7 +580,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.indicator = indicatorObject.indicator;
           featureObject.yAxis = indicatorObject.yAxis;
           featureObject.indicatorValue = [''];
-          featureObject.city = link.city ? link.city : link.name;
+          featureObject.city = (link.city && link.city !== '/') ? link.city : '';
           featureObject.country = link.country;
           featureObject.locations = payload.locations;
           featureObject.link = `${payload.link.replace('collection.json', '')}${link.href}`;

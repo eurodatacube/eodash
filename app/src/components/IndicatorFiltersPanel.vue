@@ -59,6 +59,9 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    clone(items) {
+      return items.map(item => Array.isArray(item) ? this.clone(item) : item);
+    },
     getSearchItems() {
       const itemArray = [
         ...this.getIndicators,
@@ -67,7 +70,7 @@ export default {
       if (this.searchItems.length > 0) {
         return;
       }
-      this.searchItems = itemArray;
+      this.searchItems = this.clone(itemArray);
 
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
