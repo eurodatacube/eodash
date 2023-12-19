@@ -11,7 +11,7 @@
         color="primary"
         class="flex-grow-0"
       >
-        {{ $store.state.indicators.selectedIndicator.city }},
+        {{ $store.state.indicators.selectedIndicator.city || $store.state.indicators.selectedIndicator.country }},
         {{ $store.state.indicators.selectedIndicator.description }}
       </v-card-title>
       <v-card-subtitle v-if="

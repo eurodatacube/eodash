@@ -5,7 +5,7 @@
     <div class="text-h7 font-weight-bold">
       <v-row align="center"
       class="pa-3">
-        <span>Map Selection</span>
+        <span>Geographic Selection</span>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <div v-on="on" class="d-inline-block">
@@ -60,8 +60,8 @@
       align="center"
       class="pl-2 pr-2">
       <v-col cols="12" class="pa-0">
-        <v-list dense class="pa-0">
-          <v-subheader class="text-body-1 font-weight-bold">Selected Features</v-subheader>
+        <v-list dense class="py-0 px-2">
+          <v-subheader style="color: black;" class="pa-0 text-body-1 font-weight-bold">Selected Units</v-subheader>
           <v-list-item-group
           v-if="selectedFeatures.length"
           >
@@ -71,7 +71,7 @@
               class="pa-0"
             >
               <v-list-item-content>
-                <v-list-item-title class="text-body-0">
+                <v-list-item-title class="text-body-0" :style="getFeatureNameStyle(i)">
                   {{getFeatureName(item, i)}}
                 </v-list-item-title>
               </v-list-item-content>
@@ -107,7 +107,7 @@ export default {
     });
   },
   computed: {
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     anyLayerZoomConstraint() {
       return this.selectableLayerConfigs.find(
         (l) => (l.minZoom !== undefined),
@@ -115,6 +115,10 @@ export default {
     },
   },
   methods: {
+    getFeatureNameStyle(index) {
+      const { refColors } = this.appConfig;
+      return `color: ${refColors[index]};`;
+    },
     getLayerBtn(item) {
       const layer = this.selectableLayerConfigs.find((i) => i.id === item.id);
       const { map } = getMapInstance('centerMap');

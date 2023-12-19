@@ -1,72 +1,26 @@
 <template>
   <div
     :style="`${$vuetify.breakpoint.mdAndDown ? ''
-    : 'height: calc(100% - 64px - ' + bannerHeight + 'px);'}`"
+    : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
     <div
       class="pt-0 pb-0"
-      :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''"
-      :style="expanded ? `width: 100%;` : ``
-    ">
+      :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''">
       <v-row v-if="
         indicatorObject
         && (appConfig.id === 'gtif' || !indicatorObject.features
         || dataObject || mergedConfigsData[0].customAreaIndicator)
         " class="d-flex ma-0">
-        <!--
-        <v-col v-if="appConfig.id === 'gtif'"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: auto`"
-        >
-
-          <v-btn
-            text
-            color="primary"
-            class="mx-3"
-            @click="showScatterplot = !showScatterplot"
-          >
-            Expand controls
-            <v-icon right :style="`transform: rotate(${showScatterplot
-              ? 90
-              : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
-          </v-btn>
-
-          <scatter-plot v-if="indicatorObject.cogFilters
-            && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
-            :filters="indicatorObject.cogFilters.filters"
-          >
-          </scatter-plot>
-        </v-col>
-          -->
-          <style-controls v-if="indicatorObject.vectorStyles"
-          :vectorStyles="indicatorObject.vectorStyles"
-        >
-        </style-controls>
-        <wms-style-controls v-if="indicatorObject.wmsStyles"
-          :wmsStyles="indicatorObject.wmsStyles"
-        >
-        </wms-style-controls>
         <!-- TODO: remove GTIF brand check -->
-        <data-mockup-view v-if="appConfig.id === 'gtif'"
-          :indicatorObject="indicatorObject"
-          :adminLayer="$store.state.features.adminBorderLayerSelected"
-          :adminFeature="$store.state.features.adminBorderFeatureSelected"
-        >
-        </data-mockup-view>
         <v-col
           v-if="!showMap
             || mergedConfigsData[0].customAreaIndicator
-            || appConfig.id === 'gtif'
-            || (expanded && $route.name === 'demo' && customAreaIndicator)"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+            || appConfig.id === 'gtif'"
+          :cols="12"
           class="pa-0"
           :style="`height: auto`"
         >
-        <template v-if="selectableLayerConfigs.length > 0">
-            <SelectionInfoBar class="pb-2"
-            :selectableLayerConfigs="selectableLayerConfigs"/>
-        </template>
         <filter-controls v-if="indicatorObject.cogFilters"
             :cogFilters="indicatorObject.cogFilters"
             :adminLayer="$store.state.features.adminBorderLayerSelected"
@@ -75,9 +29,27 @@
             :indicatorCode="indicatorObject.indicator"
           >
           </filter-controls>
-        <div v-if="showCustomAreaCard &&  (mergedConfigsData[0].customAreaIndicator &&
+        <style-controls v-if="indicatorObject.vectorStyles"
+          :vectorStyles="indicatorObject.vectorStyles"
+        >
+        </style-controls>
+        <wms-style-controls v-if="indicatorObject.wmsStyles"
+          :wmsStyles="indicatorObject.wmsStyles"
+        >
+        </wms-style-controls>
+        <template v-if="selectableLayerConfigs.length > 0">
+            <SelectionInfoBar class="pb-2"
+            :selectableLayerConfigs="selectableLayerConfigs"/>
+        </template>
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
+          <div v-if="showCustomAreaCard &&  (mergedConfigsData[0].customAreaIndicator &&
             !hasSelectionEnabled) && !customAreaIndicator" class="justify-center align-center">
-              <p class="justify-self-start">
+              <p class="justify-self-start px-2 py-0">
                 <v-icon color="black">mdi-shape-polygon-plus</v-icon>
                 Draw a polygon in order to start analysis
               </p>
@@ -85,8 +57,7 @@
           <v-card
             v-else-if="showCustomAreaCard"
             class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                              ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
+            :style="`height: 45vh;`"
             ref="mapPanel"
           >
             <v-card-title
@@ -157,7 +128,7 @@
           </v-row>
           <v-row
             v-else-if="showCustomAreaCard"
-            :class="customAreaIndicator && !expanded ? 'mt-6' : 'mt-0'"
+            :class="customAreaIndicator ? 'mt-6' : 'mt-0'"
           >
             <v-col
               cols="12"
@@ -199,7 +170,7 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
-                  v-if="!customAreaIndicator || expanded"
+                  v-if="!customAreaIndicator"
                 />
                 <v-btn
                   color="primary"
@@ -239,31 +210,6 @@
             :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
-          <!--
-          TODO disabling this for now as it is not ready for public use
-          <v-col v-if="indicatorObject.cogFilters"
-            :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-            :style="`height: auto`"
-          >
-            <v-btn
-              text
-              color="primary"
-              class="mx-3"
-              @click="showScatterplot = !showScatterplot"
-            >
-              Expand controls
-              <v-icon right :style="`transform: rotate(${showScatterplot
-                ? 90
-                : 0}deg); transition: all .3s ease-in-out;`">mdi-chevron-right</v-icon>
-            </v-btn>
-            <scatter-plot v-if="indicatorObject.cogFilters
-              && indicatorObject.cogFilters.sourceLayer === 'REP1' && showScatterplot"
-              :filters="indicatorObject.cogFilters.filters"
-            >
-            </scatter-plot>
-          </v-col>
-          -->
-          <!-- TODO: using style-controls breaks ide highlighting using StyleControls isntead-->
           <StyleControls v-if="indicatorObject.vectorStyles"
             :vectorStyles="indicatorObject.vectorStyles"
           >
@@ -279,17 +225,7 @@
           </wms-style-controls>
         </v-col>
         <v-col
-          v-else-if="expanded"
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
-                  ? 'auto'
-                  : (expanded
-                    ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight - (showMap ? 40 : 0)
-                    - buttonRowHeight + 'px') }`"
-        />
-        <v-col
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
+          :cols="12"
           class="py-0"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
         >
@@ -300,11 +236,6 @@
               cols="12"
               class="pb-0"
             >
-              <!-- <div
-                v-html="story"
-                class="md-body"
-              ></div> -->
-
               <v-btn
                 v-if="indicatorObject && externalData"
                 :href= "externalData.url"
@@ -320,58 +251,15 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="indicatorObject.features.length && !featureObject">
-        <v-col
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :style="`height: auto`"
-        >
-          <v-card
-            class="fill-height"
-            :style="`height: ${$vuetify.breakpoint.mdAndUp ? (expanded
-                      ? (bannerHeight ? 65 : 70) : 30) : 45}vh;`"
-            ref="mapPanel"
-          >
-            <v-col
-              class="d-flex flex-col align-center justify-center"
-              style="flex-direction: column; height: 100%">
-              <v-icon color="secondary" width="32" height="32">mdi-analytics</v-icon>
-              <p style="max-width: 75%; text-align: center">
-                Select a point of interest on the map to see more information
-              </p>
-            </v-col>
-          </v-card>
-        </v-col>
-        <!-- <v-col
-          :cols="$vuetify.breakpoint.mdAndDown || !expanded ? 12 : 6"
-          :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
-          :style="`padding-bottom: 0px; height: ${$vuetify.breakpoint.mdAndDown
-                  ? 'auto'
-                  : (expanded
-                    ? wrapperHeight + 'px'
-                    : wrapperHeight - mapPanelHeight
-                    - buttonRowHeight
-                    - 15 + 'px') }`"
-        >
-          <v-row
-            class="mt-0 fill-height"
-          >
-            <v-col
-              cols="12"
-              class="pb-0"
-              :style="`margin-top: ${customAreaIndicator && expanded ? '30px' : '0px'}`"
-            >
-              <div
-                v-html="story"
-                class="md-body"
-              ></div>
-            </v-col>
-          </v-row>
-        </v-col> -->
-      </v-row>
-      <v-row class="ma-0">
+      <div v-if="indicatorObject.features.length && !featureObject">
+        <p class="justify-self-start px-2 py-0">
+          <v-icon color="black">mdi-chart-areaspline</v-icon>
+          Select a point of interest on the map to see more information
+        </p>
+      </div>
+      <v-row class="ma-0" v-if="!indicatorObject.features.length">
         <v-col :cols="6">
           <v-btn
-            large
             class="px-2 py-0"
             color="primary"
             block
@@ -413,10 +301,6 @@ import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue'
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 
 export default {
-  props: [
-    'expanded',
-    'newsBanner',
-  ],
   components: {
     IndicatorData,
     IframeButton,
@@ -547,7 +431,7 @@ export default {
     downloadFileName() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       const currInd = this.indicatorObject;
-      const city = currInd.city || 'global';
+      const city = currInd.city || currInd.country || 'global';
       return `${city}_${currDate}_${currInd.aoiID}-${currInd.indicator}.csv`;
     },
     customAOIDownloadFilename() {
@@ -589,12 +473,6 @@ export default {
       }
       return 0;
     },
-    bannerHeight() {
-      if (this.newsBanner != null) {
-        return this.newsBanner.$el.clientHeight;
-      }
-      return 0;
-    },
     mergedConfigsData() {
       if (!this.indicatorObject) {
         return [];
@@ -626,10 +504,6 @@ export default {
   methods: {
     freezeLayer() {
       this.$store.dispatch('indicators/freezeCurrentIndicator', this.frozenLayerName);
-    },
-    generateChart() {
-      // TODO: Extract fetchData method into helper file since it needs to be used from outside.
-      window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
     updateQueryParameters() {
       // just passing a signal from one sibling to another, ideally would be done via store
