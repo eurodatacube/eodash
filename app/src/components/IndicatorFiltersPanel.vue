@@ -1,5 +1,6 @@
 <template>
-  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;"
+  :styleOverride.prop="itemFilterStyleOverride">
     <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
       Filter
     </h4>
@@ -41,6 +42,53 @@ export default {
       'currentDomain',
       'toolsToggle',
     ]),
+    itemFilterStyleOverride() {
+      const styleOverride = this.appConfig.id === 'gtif' ? `
+      #filters input[type=radio]{
+        width:36px;
+        height:36px;
+        margin: 6px;
+      }
+        #filters input[type=radio]:after {
+          content: "";
+          background-size: cover;
+          background-position: center center;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          margin: 0;
+        }
+        #filters input[type=radio][data-identifier="energy transition"]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
+        }
+        #filters input[type=radio][data-identifier="mobility transition"]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
+        }
+        #filters input[type=radio][data-identifier="sustainable cities"]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
+        }
+        #filters input[type=radio][data-identifier="carbon accounting"]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
+        }
+        input[type="radio"]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
+        }
+        #results input[type=radio][id="gtif-carbon-accounting"]:after,
+        #results input[type=radio][id="gtif-energy-transition"]:after,
+        #results input[type=radio][id="gtif-eo-adaptation-services"]:after,
+        #results input[type=radio][id="gtif-eo-adaptation-services-snow"]:after,
+        #results input[type=radio][id="gtif-mobility-transition"]:after,
+        #results input[type=radio][id="gtif-sustainable-cities"]:after {
+          content: "";
+          background-repeat: no-repeat;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23004170' viewBox='0 0 24 24'%3E%3Ctitle%3Epage-next-outline%3C/title%3E%3Cpath d='M22,3H5A2,2 0 0,0 3,5V9H5V5H22V19H5V15H3V19A2,2 0 0,0 5,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M7,15V13H0V11H7V9L11,12L7,15M20,13H13V11H20V13M20,9H13V7H20V9M17,17H13V15H17V17Z' /%3E%3C/svg%3E");
+        }
+        #filter-reset {
+          display: none;
+        }
+      ` : '';
+      return styleOverride;
+    },
   },
   created() {
     if (this.indicators) {
@@ -60,7 +108,7 @@ export default {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
     clone(items) {
-      return items.map(item => Array.isArray(item) ? this.clone(item) : item);
+      return items.map((item) => (Array.isArray(item) ? this.clone(item) : item));
     },
     getSearchItems() {
       const itemArray = [
@@ -71,7 +119,14 @@ export default {
         return;
       }
       this.searchItems = this.clone(itemArray);
-
+      const customOrderGTIF = {
+        'energy-transition': 0,
+        'mobility-transition': 1,
+        'sustainable-cities': 2,
+        'carbon-accounting': 3,
+        'eo-adaptation-services': 4,
+        placeholder: 5,
+      };
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
         const configs = {
@@ -121,6 +176,7 @@ export default {
                 key: 'themes',
                 title: 'Theme',
                 featured: true,
+                sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
                 type: 'select',
                 ...(this.currentDomain && this.currentDomain !== 'landing' ? {
                   state: {
@@ -149,50 +205,6 @@ export default {
             // exclusiveFilters: true,
             aggregateResults: 'tags',
             expandResults: false,
-            styleOverride: `
-            #filters input[type=radio]{
-              width:36px;
-              height:36px;
-              margin: 6px;
-            }
-              #filters input[type=radio]:after {
-                content: "";
-                background-size: cover;
-                background-position: center center;
-                border-radius: 50%;
-                width: 36px;
-                height: 36px;
-                margin: 0;
-              }
-              #filters input[type=radio][id="energy transition"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="mobility transition"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="sustainable cities"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="carbon accounting"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
-              }
-              #filters input[type=radio][id="EO adaptation services"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
-              }
-              #results input[type=radio][id="gtif-carbon-accounting"]:after,
-              #results input[type=radio][id="gtif-energy-transition"]:after,
-              #results input[type=radio][id="gtif-eo-adaptation-services"]:after,
-              #results input[type=radio][id="gtif-eo-adaptation-services-snow"]:after,
-              #results input[type=radio][id="gtif-mobility-transition"]:after,
-              #results input[type=radio][id="gtif-sustainable-cities"]:after {
-                content: "";
-                background-repeat: no-repeat;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23004170' viewBox='0 0 24 24'%3E%3Ctitle%3Epage-next-outline%3C/title%3E%3Cpath d='M22,3H5A2,2 0 0,0 3,5V9H5V5H22V19H5V15H3V19A2,2 0 0,0 5,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M7,15V13H0V11H7V9L11,12L7,15M20,13H13V11H20V13M20,9H13V7H20V9M17,17H13V15H17V17Z' /%3E%3C/svg%3E");
-              }
-              #filter-reset {
-                display: none;
-              }
-            `,
           },
         };
         this.itemfilter.config = configs[this.appConfig.id];
