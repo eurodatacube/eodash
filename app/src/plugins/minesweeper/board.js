@@ -26,14 +26,13 @@ export default class HexSweeperGame {
     this.gameSize = 2100;
   }
 
-
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
 
       // Convert geographic coordinates to distances using EPSG:3857
-      const xmin = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][0], this.locations[0][1]]);
-      const xmax = proj4(options.geotiff.projection, "EPSG:3857", [this.locations[0][2], this.locations[0][3]]);
+      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][0], this.locations[0][1]]);
+      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][2], this.locations[0][3]]);
 
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
@@ -41,17 +40,18 @@ export default class HexSweeperGame {
       // Adjust board dimensions based on actual distances
       this.width = this.size;
       this.height = Math.round(
-                      (yDistance / xDistance)
-                      * this.size
-                      // Account for the fact that hexagons are wider than they are tall
-                      * 1.2);
+        (yDistance / xDistance)
+        * this.size
+        // Account for the fact that hexagons are wider than tall
+        * 1.2,
+      );
 
       // Read the GeoTIFF data into a 1-dimensional array
-      var data = (await tiff.readRasters({
-          bbox: options.locations[0],
-          width: this.width,
-          height: this.height,
-          resampleMethod: 'bilinear',
+      let data = (await tiff.readRasters({
+        bbox: options.locations[0],
+        width: this.width,
+        height: this.height,
+        resampleMethod: 'bilinear',
       }))[0];
 
       // Flip the GeoTIFF upside down
@@ -60,16 +60,16 @@ export default class HexSweeperGame {
       const flippedData = new Array(data.length);
       // Flip rows in our 1-dimensional array as if it were 2D
       for (let y = 0; y < this.height; y++) {
-          for (let x = 0; x < this.width; x++) {
-            let newData = data[y * this.width + (this.width - 1 - x)];
-            flippedData[y * this.width + x] = newData;
-          }
+        for (let x = 0; x < this.width; x++) {
+          const newData = data[y * this.width + (this.width - 1 - x)];
+          flippedData[y * this.width + x] = newData;
+        }
       }
 
       data = flippedData;
 
       const centerInLatLon = [this.locations[0][0], this.locations[0][1]];
-      this.center = proj4(options.geotiff.projection, "EPSG:3857", centerInLatLon);
+      this.center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLatLon);
 
       console.log(`GeoTIFF size is ${this.width}x${this.height}`);
 
@@ -97,8 +97,6 @@ export default class HexSweeperGame {
           this.board[y][x].adjacentMines = adjacentMines;
         }
       }
-
-      console.log(this.board);
     } catch (error) {
       console.error('Error loading GeoTIFF data:', error);
     }
@@ -137,6 +135,14 @@ export default class HexSweeperGame {
       ? EVEN_NEIGHBOR_OFFSETS
       : ODD_NEIGHBOR_OFFSETS;
     return offsets.map(([dx, dy]) => [x + dx, y + dy]);
+  }
+
+  revealAllTiles() {
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        this.board[j][i].isRevealed = true;
+      }
+    }
   }
 
   /**
