@@ -1,6 +1,5 @@
 <template>
-  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;"
-  :styleOverride.prop="itemFilterStyleOverride">
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
     <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
       Filter
     </h4>
@@ -58,19 +57,19 @@ export default {
           height: 36px;
           margin: 0;
         }
-        #filters input[type=radio][data-identifier="energy transition"]:after {
+        li[data-identifier="energy transition"] label input[type=radio]:after  {
           background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
         }
-        #filters input[type=radio][data-identifier="mobility transition"]:after {
+        li[data-identifier="mobility transition"] label input[type=radio]:after  {
           background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
         }
-        #filters input[type=radio][data-identifier="sustainable cities"]:after {
+        li[data-identifier="sustainable cities"] label input[type=radio]:after  {
           background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
         }
-        #filters input[type=radio][data-identifier="carbon accounting"]:after {
+        li[data-identifier="carbon accounting"] label input[type=radio]:after  {
           background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
         }
-        input[type="radio"]:after {
+        li[data-identifier="EO adaptation services"] label input[type=radio]:after {
           background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
         }
         #results input[type=radio][id="gtif-carbon-accounting"]:after,
@@ -176,9 +175,7 @@ export default {
                 key: 'themes',
                 title: 'Theme',
                 featured: true,
-                sort: (a, b) => {
-                  console.log(a,b);
-                  return customOrderGTIF[a] - customOrderGTIF[b]},
+                sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
                 // sort:(a,b)=>b.localeCompare(a),
                 type: 'select',
                 ...(this.currentDomain && this.currentDomain !== 'landing' ? {
@@ -191,7 +188,6 @@ export default {
               },
             ],
             onFilter: (items, filters) => {
-
               const domains = Object.keys(filters.themes.state)
                 .filter((k) => filters.themes.state[k])
                 .map((k) => k.replaceAll(' ', '-').toLowerCase());
@@ -280,6 +276,7 @@ export default {
            form#itemfilter{
              overflow: auto;
            }
+           ${this.itemFilterStyleOverride}
         `;
       });
     },
