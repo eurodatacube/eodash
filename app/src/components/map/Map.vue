@@ -144,6 +144,7 @@
         />
 
         <div v-if="isMinesweeperConfigured">
+          <v-btn>Reveal</v-btn>
           <MinesweeperDialog
             :is-enabled="isMinesweeperDialogEnabled"
             @close="minesweeper.isDialogEnabled = false"
@@ -215,8 +216,9 @@ import {
   getIndicatorFilteredInputData,
   findClosest,
 } from '@/utils';
-import { createHexMap } from '@/plugins/minesweeper/index';
+
 import getLocationCode from '../../mixins/getLocationCode';
+import Minesweeper from '@/plugins/minesweeper/game';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 
 const geoJsonFormat = new GeoJSON({
@@ -304,6 +306,7 @@ export default {
         isLoaded: false,
         // Layer IDs of the hex grid and board
         uids: [],
+        game: null,
       },
     };
   },
@@ -512,8 +515,8 @@ export default {
     isMinesweeperConfigured() {
       return this.indicator
         && this.indicator.minesweeperOptions
-        && this.$route.query.enableMinesweeper == "true"
-    }
+        && this.$route.query.enableMinesweeper == 'true';
+    },
   },
   watch: {
     getFeatures(features) {
@@ -559,7 +562,7 @@ export default {
           // Initialize Minesweeper game if options are present in the appConfig.
           if (this.indicator
                 && this.indicator.minesweeperOptions
-                && this.$route.query.enableMinesweeper == "true"
+                && this.$route.query.enableMinesweeper == 'true'
                 && this.minesweeper.uids.length === 0
           ) {
             const { map } = getMapInstance(this.mapId);
@@ -1100,7 +1103,8 @@ export default {
 
         this.minesweeper.isEnabled = false;
       } else {
-        this.minesweeper.uids = await createHexMap(map, this.indicator.minesweeperOptions);
+        this.minesweeper.game = new Minesweeper(map, this.indicator.minesweeperOptions);
+        // this.minesweeper.uids = await createHexMap(map, this.indicator.minesweeperOptions);
         this.minesweeper.isEnabled = true;
         this.minesweeper.isDialogEnabled = true;
       }
