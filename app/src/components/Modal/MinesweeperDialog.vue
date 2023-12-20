@@ -11,10 +11,10 @@
       </template>
 
       <!-- Default Slot for Dialog Content -->
-      <v-card>
+      <v-card v-show="mode === 'start'">
         <v-card-title style="text-align: center" class="py-6">💣 Minesweeper Game</v-card-title>
         <v-card-text>
-          Try to uncover all fields while carefully avoiding mines and learn about 
+          Try to uncover all fields while carefully avoiding mines and learn about
           Earth Observation data along the way. The amount of uncovered area at the
           end of the game determines your score!
         </v-card-text>
@@ -25,11 +25,10 @@
         </v-card-actions>
       </v-card>
 
-      <v-card>
+      <v-card v-show="mode === 'gameOver'">
         <v-card-title style="text-align: center" class="py-6">Game Over</v-card-title>
         <v-card-text>
-          You stepped on a mine!
-
+          You stepped on a mine and lost the game. Try again and beat your high score!
           <div class="game-stats">
             <div class="item">
               <span class="name">🌟 TOTAL UNCOVERED AREA</span>

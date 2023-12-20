@@ -10,6 +10,17 @@ import HexMap from 'ol-games/source/HexMap';
 
 import HexSweeperGame from './board';
 
+export {
+  createHexMap,
+  setupGrid,
+  updateTileVisuals,
+  updateAllTileVisuals,
+  handleMapClick,
+  handleMapRightClick,
+  getTileStyle,
+  drawGameBoard,
+};
+
 /**
  * Set up the game grid using HexGrid and HexMap.
  *
@@ -17,10 +28,6 @@ import HexSweeperGame from './board';
  * @returns {Object} The created `HexGrid`.
  */
 const setupGrid = (map, options, game) => {
-  // size is width of a single hexagon - full width/height whichever is larger divided by size but converted to meters
-  // const size = game.gameSize;
-  // const boardCenter = [1800595.69763, 6140325.34559]; // Vienna
-
   const grid = new HexGrid({
     size: game.gameSize,
     origin: game.center,
@@ -36,7 +43,15 @@ const setupGrid = (map, options, game) => {
   };
 };
 
-const updateTileVisuals = (x, y, grid, vectorSource, game) => {
+const updateTileVisuals = (
+  x,
+  y,
+  grid,
+  vectorSource,
+  vectorLayer,
+  game,
+) => {
+
   const [q, r] = game.convertGameCoordsToAxial(x + 1, y);
   const hexagonVertices = grid.getHexagon([q, r]);
   const feature = new Feature(new Polygon([hexagonVertices]));
@@ -54,6 +69,9 @@ const updateTileVisuals = (x, y, grid, vectorSource, game) => {
   // Apply tile styling for mines, count, unexplored and flagged tiles.
   feature.setStyle(getTileStyle(tile));
   vectorSource.addFeature(feature);
+
+  // Force redraw
+  vectorLayer.changed();
 };
 
 const updateAllTileVisuals = (game, grid, vectorSource, vectorLayer) => {
@@ -62,7 +80,14 @@ const updateAllTileVisuals = (game, grid, vectorSource, vectorLayer) => {
 
   for (let y = 0; y < game.height; y++) {
     for (let x = 0; x < game.width; x++) {
-      updateTileVisuals(x, y, grid, vectorSource, game);
+      updateTileVisuals(
+        x,
+        y,
+        grid,
+        vectorSource,
+        vectorLayer,
+        game,
+      );
     }
   }
 
@@ -78,9 +103,17 @@ const updateAllTileVisuals = (game, grid, vectorSource, vectorLayer) => {
 * @param {HexSweeperGame} game - The game instance.
 * @param {Object} grid - The hex grid.
 */
-const handleMapClick = (e, game, grid, vectorSource) => {
+const handleMapClick = (
+  e,
+  game,
+  grid,
+  vectorSource,
+  updateTileVisualsCallback,
+) => {
   e.stopPropagation();
   e.preventDefault();
+
+  let hasUncoveredMine = false;
 
   const { coordinate } = e;
   // Get the axial coordinates of the clicked hexagon
@@ -91,8 +124,11 @@ const handleMapClick = (e, game, grid, vectorSource) => {
   const revealedCoordsList = game.revealTile(x, y);
 
   for (const [x, y] of revealedCoordsList) {
-    updateTileVisuals(x, y, grid, vectorSource, game);
+    hasUncoveredMine = hasUncoveredMine || game.get(x, y).isMine;
+    updateTileVisualsCallback(x, y, grid, vectorSource, game);
   }
+
+  return hasUncoveredMine;
 };
 
 const handleMapRightClick = (e, game, grid, vectorSource) => {
@@ -191,18 +227,22 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 *
 * @param {Object} map - The OpenLayers map instance.
 */
-export const createHexMap = async (map, options) => {
+const createHexMap = async (map, options) => {
   const vectorSource = new VectorSource();
   const game = new HexSweeperGame(options, 0.2);
   await game.fromGeoTIFF(options);
 
   const { uids, grid } = setupGrid(map, options, game);
+  let hasUncoveredMine = false;
 
-  map.on('click', (e) => handleMapClick(e, game, grid, vectorSource));
+  map.on('click', (e) => {
+    hasUncoveredMine = handleMapClick(e, game, grid, vectorSource);
+  });
   map.on('contextmenu', (e) => {
     handleMapRightClick(e, game, grid, vectorSource);
     return false;
-  })
+  });
+
   drawGameBoard(map, game, grid, vectorSource);
   const vectorLayer = new VectorLayer({
     source: vectorSource,
@@ -211,9 +251,9 @@ export const createHexMap = async (map, options) => {
   map.addLayer(vectorLayer);
   updateAllTileVisuals(game, grid, vectorSource, vectorLayer);
 
-  return uids;
-};
+  if (hasUncoveredMine) {
+    alert('Game over!');
+  }
 
-export default {
-  createHexMap,
+  return uids;
 };
