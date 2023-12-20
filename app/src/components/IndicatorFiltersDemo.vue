@@ -147,7 +147,7 @@ export default {
       }
       if (item.compareLayerTime) {
         setTimeout(() => {
-          tthis.centerMapVueComponent.compareLayerTime = {
+          this.centerMapVueComponent.compareLayerTime = {
             value: item.compareLayerTime,
           };
           this.centerMapVueComponent.enableCompare = true;
