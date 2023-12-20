@@ -120,12 +120,12 @@ export default {
       }
       this.searchItems = this.clone(itemArray);
       const customOrderGTIF = {
-        'energy-transition': 0,
-        'mobility-transition': 1,
-        'sustainable-cities': 2,
-        'carbon-accounting': 3,
-        'eo-adaptation-services': 4,
-        placeholder: 5,
+        'energy transition': 0,
+        'mobility transition': 1,
+        'sustainable cities': 2,
+        'carbon accounting': 3,
+        'EO adaptation services': 4,
+        // placeholder: 5,
       };
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
@@ -176,7 +176,10 @@ export default {
                 key: 'themes',
                 title: 'Theme',
                 featured: true,
-                sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
+                sort: (a, b) => {
+                  console.log(a,b);
+                  return customOrderGTIF[a] - customOrderGTIF[b]},
+                // sort:(a,b)=>b.localeCompare(a),
                 type: 'select',
                 ...(this.currentDomain && this.currentDomain !== 'landing' ? {
                   state: {
@@ -188,6 +191,7 @@ export default {
               },
             ],
             onFilter: (items, filters) => {
+
               const domains = Object.keys(filters.themes.state)
                 .filter((k) => filters.themes.state[k])
                 .map((k) => k.replaceAll(' ', '-').toLowerCase());
