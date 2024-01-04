@@ -95,15 +95,18 @@ function createWMSDisplay(config, name) {
   return display;
 }
 
-function createXYZDisplay(config, name) {
+function createXYZDisplay(config, jsonData) {
   const display = {
     protocol: 'xyz',
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
-    name,
+    name: jsonData.id,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
   };
+  if (jsonData.endpointtype === 'VEDA_tiles') {
+    display.dateFormatFunction = (date) => `item=${date[1]}`;
+  }
   return display;
 }
 
@@ -231,7 +234,7 @@ export async function loadFeatureData(baseConfig, feature) {
       } else if (xyzEndpoint) {
         if (xyzEndpoint.type === 'image/png') {
           display = createXYZDisplay(
-            xyzEndpoint, jsonData.id,
+            xyzEndpoint, jsonData,
           );
           const cogTimes = [];
           jsonData.links.forEach((link) => {
@@ -242,10 +245,17 @@ export async function loadFeatureData(baseConfig, feature) {
               } else if (link.start_datetime) {
                 time = link.start_datetime;
               }
-              cogTimes.push([
-                time,
-                link.cog_href,
-              ]);
+              if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+                cogTimes.push([
+                  time,
+                  link.item,
+                ]);
+              } else {
+                cogTimes.push([
+                  time,
+                  link.cog_href,
+                ]);
+              }
             }
           });
           cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
@@ -449,7 +459,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     } else if (xyzEndpoint) {
       if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZDisplay(
-          xyzEndpoint, jsonData.id,
+          xyzEndpoint, jsonData,
         );
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
@@ -459,10 +469,17 @@ export async function loadIndicatorData(baseConfig, payload) {
             } else if (link.start_datetime) {
               time = link.start_datetime;
             }
-            times.push([
-              time,
-              link.cog_href,
-            ]);
+            if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+              times.push([
+                time,
+                link.item,
+              ]);
+            } else {
+              times.push([
+                time,
+                link.cog_href,
+              ]);
+            }
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
