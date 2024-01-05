@@ -138,10 +138,10 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       // expects an array of objects
-      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersMap;
+      return this.baseConfig.baseLayersMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersMap;
+      return this.baseConfig.overlayLayersMap;
     },
     attributions() {
       return [
@@ -263,7 +263,7 @@ export default {
               minimumLevel: config.minZoom ? config.minZoom : 1,
               maximumLevel: config.maxZoom ? config.maxZoom : 10,
               customTags: {
-                time: () => config.dateFormatFunction(this.dataLayerTime.value),
+                time: () => config.dateFormatFunction ? config.dateFormatFunction(this.dataLayerTime.value) : this.dataLayerTime.value,
               },
             });
             break;
@@ -276,7 +276,7 @@ export default {
               parameters: {
                 format: 'image/png',
                 transparent: 'true',
-                time: config.dateFormatFunction(this.dataLayerTime.value),
+                time: config.dateFormatFunction ? config.dateFormatFunction(this.dataLayerTime.value) : this.dataLayerTime.value,
               },
               tileWidth: config.tileSize,
               tileHeight: config.tileSize,
