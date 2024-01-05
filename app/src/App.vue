@@ -95,10 +95,6 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
-    ...mapGetters('features', [
-      'getIndicators',
-      'getCountryItems',
-    ]),
     showCookieNotice() {
       return this.$route.path !== '/iframe';
     },

@@ -30,9 +30,6 @@ export default {
       'appConfig',
     ]),
     ...mapState('features', ['allFeatures']),
-    ...mapGetters('features', [
-      'getFeatures',
-    ]),
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapGetters('indicators', [
       'getIndicators',

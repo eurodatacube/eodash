@@ -110,9 +110,9 @@ export default {
       const items = this.appConfig.demoMode[this.$route.query.event];
       if (items?.length > 0 && this.indicators?.length > 0) {
         const matched = items.map((item) => ({
-          ...item,
           ...this.indicators
-            .find((f) => getLocationCode(f) === item.poi),
+          .find((f) => getLocationCode(f) === item.poi),
+          ...item,
         }));
         return matched;
       }
@@ -181,13 +181,6 @@ export default {
           break;
         default:
           //
-      }
-    },
-  },
-  watch: {
-    demoItems(items) {
-      if (items.length > 0 && !this.selectedItem) {
-        this.selectItem(items[0]);
       }
     },
   },

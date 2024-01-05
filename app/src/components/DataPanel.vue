@@ -332,10 +332,6 @@ export default {
     updateQueryParametersTrigger: null,
   }),
   computed: {
-    ...mapGetters('features', [
-      'getCountries',
-      'getIndicators',
-    ]),
     ...mapState('config', [
       'appConfig',
       'baseConfig',
