@@ -91,9 +91,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('features', {
-      setFeatureFilter: 'SET_FEATURE_FILTER',
-    }),
     ...mapActions('gtif', [
       'setCurrentDomain',
     ]),

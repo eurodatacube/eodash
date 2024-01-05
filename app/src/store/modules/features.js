@@ -1,9 +1,7 @@
 /* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { Wkt } from 'wicket';
 import latLng from '@/latLng';
-import countriesJson from '@/assets/countries.json';
 import getLocationCode from '@/mixins/getLocationCode';
-import nameMapping from '@/config/name_mapping.json';
 
 const format = new Wkt();
 
@@ -16,7 +14,6 @@ const state = {
     countries: [],
     indicators: [],
     themes: [],
-    includeArchived: false,
     custom: [],
   },
   selectedArea: null,
@@ -70,72 +67,18 @@ const mutations = {
     state.allFeatures = features;
   },
   ADD_NEW_FEATURES(state, features) {
-    // We do name replacing as based on the configuration file
-    // as some data sources are external to us
-    features.forEach((f) => {
-      const { indicatorObject } = f.properties;
-      // We see if indicator code and aoiID is a match
-      const mergedKey = getLocationCode(indicatorObject);
-      const { id } = this.state.config.appConfig;
-      let foundMapping;
-      if (mergedKey in nameMapping[id]) {
-        foundMapping = nameMapping[id][mergedKey];
-      } else if (indicatorObject.indicator in nameMapping[id]) {
-        foundMapping = nameMapping[id][indicatorObject.indicator];
-      }
-      if (foundMapping) {
-        if ('locationSplit' in foundMapping) {
-          Object.entries(foundMapping.locationSplit).forEach((item) => {
-            if (indicatorObject.aoiID.endsWith(item[0])) {
-              indicatorObject.indicatorName = item[1].title
-                ? item[1].title : indicatorObject.indicatorName;
-              indicatorObject.description = item[1].title
-                ? item[1].description : indicatorObject.description;
-            }
-          });
-        } else {
-          // allow arbitrary override of the data
-          const keys = Object.keys(foundMapping);
-          for (let kk = 0; kk < keys.length; kk += 1) {
-            if (keys[kk] === 'title') {
-              indicatorObject.indicatorName = foundMapping[keys[kk]];
-            } else {
-              indicatorObject[keys[kk]] = foundMapping[keys[kk]];
-            }
-          }
-        }
-      }
-    });
-    // indicatorName
     state.allFeatures = state.allFeatures.concat(features);
-  },
-  INIT_FEATURE_FILTER(state, { countries, indicators }) {
-    if (countries) {
-      state.featureFilters.countries = countries;
-    }
-    if (indicators) {
-      state.featureFilters.indicators = indicators;
-    }
   },
   SET_FEATURE_FILTER(state, options) {
     if (!options) return;
 
     const hasFeature = (f) => Object.keys(options).includes(f);
 
-    if (hasFeature('countries')) {
-      state.featureFilters.countries = options.countries;
-    }
     if (hasFeature('indicators')) {
       state.featureFilters.indicators = options.indicators;
     }
     if (hasFeature('themes')) {
       state.featureFilters.themes = options.themes;
-    }
-    if (hasFeature('includeArchived')) {
-      state.featureFilters.includeArchived = options.includeArchived;
-    }
-    if (hasFeature('custom')) {
-      state.featureFilters.custom = options.custom;
     }
   },
   SET_SELECTED_FEATURES(state, features) {

@@ -124,31 +124,7 @@ export default {
         }
         if (!to.query.indicator && from.query.indicator) {
           this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-          // TODO: Probably no longer needed?
-          // clear indicator filter
-          /*
-          this.$store.commit('features/SET_FEATURE_FILTER', {
-            ...this.$store.state.features.featureFilters,
-            indicators: [],
-          });
-          */
         }
-        // TODO: When does this animation apply?
-        /*
-        const currentQuery = to.query;
-        const {
-          x, y, z,
-        } = currentQuery;
-        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-          setTimeout(() => {
-            getMapInstance('centerMap').map.getView().animate({
-              center: [x, y],
-              zoom: z,
-              duration: 300,
-            });
-          }, 0); // TO DO: without this, zooming to AOI causes problems
-        }
-        */
       }
     },
   },
