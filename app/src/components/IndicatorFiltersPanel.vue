@@ -121,10 +121,10 @@ export default {
         this.itemfilter = document.querySelector('eox-itemfilter');
         const configs = {
           esa: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['title', 'description', 'themes'],
+                keys: ['name', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
@@ -144,7 +144,7 @@ export default {
             },
           },
           trilateral: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
@@ -160,14 +160,13 @@ export default {
             },
           },
           gtif: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
                 key: 'themes',
                 title: 'Theme',
                 featured: true,
                 sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
-                // sort:(a,b)=>b.localeCompare(a),
                 type: 'select',
                 ...(this.currentDomain && this.currentDomain !== 'landing' ? {
                   state: {
@@ -215,7 +214,7 @@ export default {
               this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
                 curr.narratives.forEach((narrative) => {
                   acc.push({
-                    title: narrative.name,
+                    name: narrative.name,
                     id: narrative.routeName,
                     // Temporary hack to properly display titles, ideally should be looked up
                     themes: [curr.name.toLowerCase().replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')],

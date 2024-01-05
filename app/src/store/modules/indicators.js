@@ -95,8 +95,6 @@ const actions = {
               // TODO: This is usually used in the client to define if it is a global indicator
               // it should be handled with a unique value
               country: 'all',
-              city: 'World',
-              siteName: 'global',
               countries: link.countries ? link.countries : [],
               cities: link.cities ? link.cities : [],
               // TODO: some default values we seem to need would be great if we can remove them
