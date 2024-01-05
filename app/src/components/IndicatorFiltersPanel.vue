@@ -18,7 +18,7 @@ import {
   mapActions,
 } from 'vuex';
 
-import countries from '@/assets/countries.json';
+// import countries from '@/assets/countries.json';
 
 export default {
   data: () => ({
@@ -60,6 +60,20 @@ export default {
         }
         #filter-reset {
           display: none;
+        }
+        #filters input[type=radio]{
+          width:36px;
+          height:36px;
+          margin: 6px;
+        }
+        #filters input[type=radio]:after {
+          content: "";
+          background-size: cover;
+          background-position: center center;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          margin: 0;
         }
       ` : '';
       styleOverride += `
@@ -222,36 +236,43 @@ export default {
         } else {
           this.itemfilter.apply(this.searchItems);
         }
-        let flags = `
-          [data-filter=countries] .title {
-            display: flex;
-            align-items: center;
-            position: relative;
-            text-indent: -9999px;
-          }
-          [data-filter=countries] .title:before {
-            content: "";
-            width: 20px;
-            height: 15px;
-            margin-right: 4px;
-          }
-          [data-filter=countries] .title:after {
-            text-indent: 0px;
-          }
-        `;
         // TODO currently hotlinking to assets on GitHub, replace
-        countries.features.map((c) => c.properties).forEach((cP) => {
-          flags += `
-            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:before {
-              background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${cP.alpha2?.toLowerCase()}.svg");
-            }
-            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:after {
-              content: "${cP.name}";
-            }
-          `;
-        });
+
+        // ANOTHER TODO: currently the race and trilateral filters are in inline mode
+        // which still creates the shadowRoot of the child ItemFilter components, so we can
+        // not use styleOverride to reach them, commenting out this part of styleOverride now
+
+        // YET ANOTHER TODO: harmonize countries (currently both the alpha2 eg. AT are used and the full country names eg. Austria), I think we can not expect geodb values to get harmonized, so we should try to remedy in the client by preprocessing the values
+        // let flags = `
+        //   [data-filter=countries] .title {
+        //     display: flex;
+        //     align-items: center;
+        //     position: relative;
+        //     text-indent: -9999px;
+        //   }
+        //   [data-filter=countries] .title:before {
+        //     content: "";
+        //     width: 20px;
+        //     height: 15px;
+        //     margin-right: 4px;
+        //   }
+        //   [data-filter=countries] .title:after {
+        //     text-indent: 0px;
+        //   }
+        // `;
+        // countries.features.map((c) => c.properties).forEach((cP) => {
+        //   flags += `
+        //     [data-filter=countries] [data-identifier=${cP.alpha2}] span.title:before {
+        //       background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${cP.alpha2?.toLowerCase()}.svg");
+        //     }
+        //     [data-filter=countries] [data-identifier=${cP.alpha2}] span.title:after {
+        //       content: "${cP.name}";
+        //     }
+        //   `;
+        // });
         this.itemfilter.styleOverride = `
-          ${flags}
+          ${this.itemFilterStyleOverride}
+         // ${flags}
           ${configs[this.appConfig.id].styleOverride}
           #container-results{
              overflow:hidden;
@@ -259,7 +280,6 @@ export default {
            form#itemfilter{
              overflow: auto;
            }
-           ${this.itemFilterStyleOverride}
         `;
       });
     },
