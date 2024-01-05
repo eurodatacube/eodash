@@ -6,7 +6,7 @@
     >
       <v-card-title v-if="$store.state.indicators.selectedIndicator && !enableScrollyMode"
         :class="$store.state.indicators.selectedIndicator.description ===
-          $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'
+          $store.state.indicators.selectedIndicator.name && 'preventEllipsis'
         "
         color="primary"
         class="flex-grow-0"
@@ -16,9 +16,9 @@
       </v-card-title>
       <v-card-subtitle v-if="
         $store.state.indicators.selectedIndicator.description !==
-        $store.state.indicators.selectedIndicator.indicatorName"
+        $store.state.indicators.selectedIndicator.name"
         class="subheading pb-1 flex-grow-0" style="font-size: 0.8em">
-        {{ $store.state.indicators.selectedIndicator.indicatorName }}
+        {{ $store.state.indicators.selectedIndicator.name }}
       </v-card-subtitle>
       <div
         v-if="selectedIndicator"

@@ -40,7 +40,7 @@
             : 'primary--text'"
           style="font-size: 12px; line-height: 14px; padding: 5px; word-break: break-word;"
         >
-          {{ demoItem.title || demoItem.indicatorName }}
+          {{ demoItem.name }}
         </v-card-title>
       </v-card>
     </div>
@@ -109,11 +109,26 @@ export default {
     demoItems() {
       const items = this.appConfig.demoMode[this.$route.query.event];
       if (items?.length > 0 && this.indicators?.length > 0) {
-        const matched = items.map((item) => ({
-          ...this.indicators
-          .find((f) => getLocationCode(f) === item.poi),
-          ...item,
-        }));
+        // for each item, try to get location code, if starts with World
+        // then do getLocationCode
+        const matched = [];
+        for (let i = 0; i < items.length; i++) {
+          const val = items[i].poi;
+          if (val.startsWith('World-')) {
+            const ind = this.indicators.find((f) => f.indicator === val);
+            matched.append({
+              ...ind,
+              ...items[i],
+            });
+          } else {
+
+          }
+        }
+        // const matched = items.map((item) => ({
+        //   ...this.indicators
+        //   .find((f) => getLocationCode(f) === item.poi),
+        //   ...item,
+        // }));
         return matched;
       }
       return null;

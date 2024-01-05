@@ -63,7 +63,7 @@
             <v-card-title
               v-if="customAreaIndicator"
               style="padding-top: 10px; padding-bottom: 0px;">
-                {{ customAreaIndicator.title }}
+                {{ customAreaIndicator.name }}
             </v-card-title>
             <template
               v-if="customAreaIndicator && !customAreaIndicator.isEmpty"

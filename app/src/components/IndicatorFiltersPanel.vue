@@ -124,7 +124,7 @@ export default {
             titleProperty: 'title',
             filterProperties: [
               {
-                keys: ['title', 'description', 'themes', 'region'],
+                keys: ['title', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,

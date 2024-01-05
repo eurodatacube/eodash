@@ -193,7 +193,7 @@ function isFeatureSelected(feature) {
 function clusterMemberStyle(clusterMember) {
   const { indicatorObject } = clusterMember.getProperties().properties;
   const indicatorCode = indicatorObject.indicator;
-  const indicator = store.getters['indicators/getIndicators'].find((i) => i.code === indicatorCode);
+  const indicator = store.getters['indicators/getIndicators'].find((i) => i.indicator === indicatorCode);
   let theme = null;
   if (Array.isArray(indicator.themes)) {
     [theme] = indicator.themes;
