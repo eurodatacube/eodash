@@ -234,20 +234,6 @@ export default {
     createImageryProvider(config) {
       let imagery;
       if (!config) {
-        /*
-        imagery = new Cesium.WebMapTileServiceImageryProvider({
-          url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
-          layer: 'terrain-light',
-          style: 'default',
-          format: 'image/jpeg',
-          tileMatrixSetID: 'WGS84',
-          maximumLevel: 12,
-          tilingScheme: new Cesium.GeographicTilingScheme({
-            numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1,
-          }),
-          credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
-        });
-        */
         imagery = new Cesium.UrlTemplateImageryProvider({
           name: 'EOxCloudless 2021',
           url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
@@ -263,7 +249,7 @@ export default {
               minimumLevel: config.minZoom ? config.minZoom : 1,
               maximumLevel: config.maxZoom ? config.maxZoom : 10,
               customTags: {
-                time: () => config.dateFormatFunction ? config.dateFormatFunction(this.dataLayerTime.value) : this.dataLayerTime.value,
+                time: () => config.dateFormatFunction(this.dataLayerTime.value),
               },
             });
             break;
@@ -276,7 +262,7 @@ export default {
               parameters: {
                 format: 'image/png',
                 transparent: 'true',
-                time: config.dateFormatFunction ? config.dateFormatFunction(this.dataLayerTime.value) : this.dataLayerTime.value,
+                time: config.dateFormatFunction(this.dataLayerTime.value),
               },
               tileWidth: config.tileSize,
               tileHeight: config.tileSize,
