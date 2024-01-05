@@ -4,6 +4,7 @@ import axios from 'axios';
 import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
+import GeoJSON from 'ol/format/GeoJSON';
 import store from '@/store';
 import {
   statisticalApiHeaders,
@@ -664,6 +665,23 @@ export function calculatePadding() {
     percentageBasedOffsetWidth + searchPanelWidth + demoItemsWidth,
   ];
   return padding;
+}
+
+export function moveToHighlight(_location) {
+  const { map } = getMapInstance('centerMap');
+  const featureProjection = map.getView().getProjection();
+  const geoJsonFormat = new GeoJSON({
+    featureProjection,
+  });
+  let location = _location;
+  if (typeof location === 'string') {
+    location = wkt.read(location).toJson();
+  }
+  const geom = geoJsonFormat.readGeometry(location);
+  const padding = calculatePadding();
+  map.getView().fit(geom.getExtent(), {
+    duration: 0, padding,
+  });
 }
 
 export const findClosest = (data, target = DateTime.now()) => data.reduce((prev, curr) => {

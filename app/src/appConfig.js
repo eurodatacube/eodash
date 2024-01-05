@@ -56,6 +56,7 @@ module.exports = [
     ],
     demoMode: {
       egu2023: [
+        // custom story is not supported yet for new demo mode
         {
           poi: 'World-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',

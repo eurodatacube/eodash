@@ -1,11 +1,4 @@
 /* eslint no-shadow: ["error", { "allow": ["state", "getters"] }] */
-import { Wkt } from 'wicket';
-import latLng from '@/latLng';
-import getLocationCode from '@/mixins/getLocationCode';
-
-const format = new Wkt();
-
-let globalIdCounter = 0;
 const state = {
   allFeatures: [],
   selectedFeature: null,

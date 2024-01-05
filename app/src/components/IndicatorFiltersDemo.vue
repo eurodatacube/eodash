@@ -91,11 +91,8 @@ import {
   mapMutations,
 } from 'vuex';
 
-import GeoJSON from 'ol/format/GeoJSON';
 import { Wkt } from 'wicket';
-import { getMapInstance } from '@/components/map/map';
-import { calculatePadding } from '@/utils';
-import getLocationCode from '../mixins/getLocationCode';
+import { loadIndicatorData, loadFeatureData, moveToHighlight } from '@/utils';
 
 const wkt = new Wkt();
 
@@ -105,7 +102,7 @@ export default {
   }),
   computed: {
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
-    ...mapState('config', ['appConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     demoItems() {
       const items = this.appConfig.demoMode[this.$route.query.event];
       if (items?.length > 0 && this.indicators?.length > 0) {
@@ -114,21 +111,18 @@ export default {
         const matched = [];
         for (let i = 0; i < items.length; i++) {
           const val = items[i].poi;
-          if (val.startsWith('World-')) {
-            const ind = this.indicators.find((f) => f.indicator === val);
-            matched.append({
-              ...ind,
-              ...items[i],
-            });
-          } else {
-
+          const [poi, indicatorCode] = val.split('-');
+          // and load relevant data
+          const ind = this.indicators.find((f) => f.indicator === indicatorCode);
+          const objectM = {
+            ...ind,
+            ...items[i],
           }
+          if (poi !== 'World') {
+            objectM.aoiID = poi;
+          }
+          matched.push(objectM);
         }
-        // const matched = items.map((item) => ({
-        //   ...this.indicators
-        //   .find((f) => getLocationCode(f) === item.poi),
-        //   ...item,
-        // }));
         return matched;
       }
       return null;
@@ -150,6 +144,20 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    moveToHighlight(location) {
+      moveToHighlight(location);
+    },
+    async getIndicatorData(indicatorConfig) {
+      return await loadIndicatorData(
+        this.baseConfig,
+        indicatorConfig,
+      );
+    },
+    async getFeatureData(currentFeatureObject) {
+      return await loadFeatureData(
+        this.baseConfig, currentFeatureObject.properties,
+      );
+    },
     selectItem(item) {
       this.setSelectedIndicator(item);
       this.selectedItem = this.getLocationCode(item);
@@ -168,18 +176,6 @@ export default {
           this.centerMapVueComponent.enableCompare = true;
         }, 0);
       }
-    },
-    moveToHighlight(location) {
-      const { map } = getMapInstance('centerMap');
-      const featureProjection = map.getView().getProjection();
-      const geoJsonFormat = new GeoJSON({
-        featureProjection,
-      });
-      const geom = geoJsonFormat.readGeometry(wkt.read(location).toJson());
-      const padding = calculatePadding();
-      map.getView().fit(geom.getExtent(), {
-        duration: 0, padding,
-      });
     },
     resetMapView() {
       // this is very fragile, we should use events or "iframe" commands
