@@ -5,6 +5,7 @@ import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
 import store from '@/store';
+import shTimeFunction from '@/shTimeFunction';
 import {
   statisticalApiHeaders,
   statisticalApiBody,
@@ -19,16 +20,6 @@ const wkt = new Wkt();
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
-}
-
-export function simplifiedshTimeFunction(date) {
-  let tempDate = date;
-  if (!Array.isArray(tempDate)) {
-    tempDate = [tempDate];
-  }
-  const dateObj = DateTime.fromISO(tempDate[0]);
-  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
-  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
 
 export function shWeeklyTimeFunction(date) {
@@ -228,6 +219,10 @@ export async function loadFeatureData(baseConfig, feature) {
         display = createWMSDisplay(
           wmsEndpoint, jsonData.id,
         );
+        if (jsonData.endpointtype === 'Sentinel Hub'
+          || jsonData.endpointtype === 'Sentinel Hub WMS') {
+          display.dateFormatFunction = shTimeFunction;
+        }
         if ('assets' in jsonData && 'legend' in jsonData.assets) {
           display.legendUrl = jsonData.assets.legend.href;
         }
@@ -450,6 +445,10 @@ export async function loadIndicatorData(baseConfig, payload) {
       display = createWMSDisplay(
         wmsEndpoint, jsonData.id,
       );
+      if (indicatorObject.endpointType === 'Sentinel Hub'
+        || indicatorObject.endpointType === 'Sentinel Hub WMS') {
+        display.dateFormatFunction = shTimeFunction;
+      }
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
