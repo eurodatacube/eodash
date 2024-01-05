@@ -353,7 +353,7 @@ export async function loadFeatureData(baseConfig, feature) {
           } catch (error) {
             console.log('Error parsing wkt sub_aoi');
           }
-        } else {
+        } else if (feature.geometry) {
           const { map } = getMapInstance('centerMap');
           // if not possible use aoi with padding
           // TODO: should we add a subaoi if there is none in the database? this could create a

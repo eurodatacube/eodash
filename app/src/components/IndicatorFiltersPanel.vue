@@ -236,7 +236,7 @@ export default {
         // not use styleOverride to reach them, commenting out this part of styleOverride now
 
         // YET ANOTHER TODO: harmonize countries (currently both the alpha2 eg. AT are used and the full country names eg. Austria), I think we can not expect geodb values to get harmonized, so we should try to remedy in the client by preprocessing the values
-        // let flags = `
+         let flags = ``;
         //   [data-filter=countries] .title {
         //     display: flex;
         //     align-items: center;
@@ -265,7 +265,7 @@ export default {
         // });
         this.itemfilter.styleOverride = `
           ${this.itemFilterStyleOverride}
-         // ${flags}
+          ${flags}
           ${configs[this.appConfig.id].styleOverride}
           #container-results{
              overflow:hidden;

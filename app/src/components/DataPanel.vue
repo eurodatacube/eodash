@@ -170,6 +170,7 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
+                  :featureObject="featureObject"
                   v-if="!customAreaIndicator"
                 />
                 <v-btn

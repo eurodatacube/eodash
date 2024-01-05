@@ -129,6 +129,7 @@
             && indicator
             && indicatorHasMapData(indicator)
             && appConfig.id !== 'gtif'"
+          :featureObject="featureObject"
           :indicatorObject="indicator"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
