@@ -147,6 +147,7 @@
           <v-btn>Reveal</v-btn>
           <MinesweeperDialog
             :is-enabled="isMinesweeperDialogEnabled"
+            :mode="minesweeper.mode"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -304,6 +305,7 @@ export default {
         isEnabled: false,
         isDialogEnabled: false,
         isLoaded: false,
+        mode: 'start',
         // Layer IDs of the hex grid and board
         uids: [],
         game: null,
@@ -811,6 +813,14 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    document.addEventListener('minesweeper:continue', () => {
+      console.log('Got continue event from inside game logic');
+    });
+
+    document.addEventListener('minesweeper:gameover', () => {
+      console.log('Got GAME OVER event from inside game logic');
+    });
   },
   methods: {
     convertDateForMsg(time) {

@@ -128,6 +128,12 @@ const handleMapClick = (
     updateTileVisualsCallback(x, y, grid, vectorSource, game);
   }
 
+  if (hasUncoveredMine) {
+    document.dispatchEvent(new Event('minesweeper:gameover'));
+  } else {
+    document.dispatchEvent(new Event('minesweeper:continue'));
+  }
+
   return hasUncoveredMine;
 };
 
