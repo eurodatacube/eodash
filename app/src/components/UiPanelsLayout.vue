@@ -79,10 +79,10 @@ export default {
               heightPercentage: 100,
             },
           ];
-          if (this.$route.name !== 'demo') {
-            leftPanels.push(layersTool);
-          } else {
+          if (this.$route.name === 'demo') {
             rightPanels.push(layersTool);
+          } else {
+            leftPanels.push(layersTool);
           }
           this.panels.left = leftPanels;
           this.panels.right = rightPanels;

@@ -1595,7 +1595,7 @@ export default {
               footer: (context) => {
                 const { datasets } = this.datacollection();
                 const obj = datasets[context[0].datasetIndex].data[context[0].index];
-                const labelOutput = `${this.indicatorObject.indicatorName} [climatic value]: ${obj.referenceValue}`;
+                const labelOutput = `${this.indicatorObject.name} [climatic value]: ${obj.referenceValue}`;
                 return labelOutput;
               },
             },

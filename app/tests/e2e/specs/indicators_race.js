@@ -34,8 +34,8 @@ describe('Indicator tests for RACE', () => {
         if (collection.endpointtype === 'Sentinel Hub' && !collection.locations) {
           cy.intercept('GET', '**/wms/*').as('wmsrequests');
         }
-        cy.log(`Loading indicator ${collection.code}`);
-        cy.visit(`/?indicator=${collection.code}`);
+        cy.log(`Loading indicator ${collection.indicator}`);
+        cy.visit(`/?indicator=${collection.indicator}`);
         cy.wrap(collection).should('have.property', 'code');
 
         // We check for the wms requests status

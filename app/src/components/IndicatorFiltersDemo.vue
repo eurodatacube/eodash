@@ -40,7 +40,7 @@
             : 'primary--text'"
           style="font-size: 12px; line-height: 14px; padding: 5px; word-break: break-word;"
         >
-          {{ demoItem.title || demoItem.indicatorName }}
+          {{ demoItem.name }}
         </v-card-title>
       </v-card>
     </div>
@@ -91,13 +91,7 @@ import {
   mapMutations,
 } from 'vuex';
 
-import GeoJSON from 'ol/format/GeoJSON';
-import { Wkt } from 'wicket';
-import { getMapInstance } from '@/components/map/map';
-import { calculatePadding } from '@/utils';
-import getLocationCode from '../mixins/getLocationCode';
-
-const wkt = new Wkt();
+import { loadIndicatorData, loadFeatureData, moveToHighlight } from '@/utils';
 
 export default {
   data: () => ({
@@ -105,15 +99,28 @@ export default {
   }),
   computed: {
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
-    ...mapState('config', ['appConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     demoItems() {
       const items = this.appConfig.demoMode[this.$route.query.event];
       if (items?.length > 0 && this.indicators?.length > 0) {
-        const matched = items.map((item) => ({
-          ...item,
-          ...this.indicators
-            .find((f) => getLocationCode(f) === item.poi),
-        }));
+        // for each item, try to get location code, if starts with World
+        // then do getLocationCode
+        const matched = [];
+        for (let i = 0; i < items.length; i++) {
+          const val = items[i].poi;
+          const [poi, indicatorCode] = val.split('-');
+          // and load relevant data
+          const ind = this.indicators.find((f) => f.indicator === indicatorCode);
+          const objectM = {
+            ...ind,
+            ...items[i],
+          };
+          if (poi !== 'World') {
+            // passing the aoiID into the merged object for POI indicator
+            objectM.aoiID = poi;
+          }
+          matched.push(objectM);
+        }
         return matched;
       }
       return null;
@@ -135,9 +142,51 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
-    selectItem(item) {
-      this.setSelectedIndicator(item);
+    ...mapMutations('features', {
+      setSelectedFeature: 'SET_SELECTED_FEATURE',
+    }),
+    moveToHighlight(location) {
+      moveToHighlight(location);
+    },
+    async getIndicatorData(indicatorConfig) {
+      return loadIndicatorData(
+        this.baseConfig,
+        indicatorConfig,
+      );
+    },
+    async getFeatureData(currentFeatureObject) {
+      return loadFeatureData(
+        this.baseConfig, currentFeatureObject.properties,
+      );
+    },
+    async selectItem(item) {
       this.selectedItem = this.getLocationCode(item);
+      const val = item.poi;
+      const [poi] = val.split('-');
+      if (poi !== 'World') {
+        let indicatorObject = await loadIndicatorData(
+          this.baseConfig,
+          item,
+        );
+        const currentFeatureObject = indicatorObject.features.find(
+          (feat) => feat.id === item.aoiID,
+        );
+        // let currentFeatureData;
+        if (currentFeatureObject) {
+          // Merge info of feature object into indicator object as it overwrites some info
+          indicatorObject = {
+            ...indicatorObject,
+            ...currentFeatureObject.properties.indicatorObject,
+          };
+          const test = {
+            indicatorObject,
+          };
+          this.setSelectedIndicator(indicatorObject);
+          this.setSelectedFeature(test);
+        }
+      } else {
+        this.setSelectedIndicator(item);
+      }
       if (item.dataLayerTime) {
         setTimeout(() => {
           this.centerMapVueComponent.dataLayerTime = {
@@ -154,18 +203,6 @@ export default {
         }, 0);
       }
     },
-    moveToHighlight(location) {
-      const { map } = getMapInstance('centerMap');
-      const featureProjection = map.getView().getProjection();
-      const geoJsonFormat = new GeoJSON({
-        featureProjection,
-      });
-      const geom = geoJsonFormat.readGeometry(wkt.read(location).toJson());
-      const padding = calculatePadding();
-      map.getView().fit(geom.getExtent(), {
-        duration: 0, padding,
-      });
-    },
     resetMapView() {
       // this is very fragile, we should use events or "iframe" commands
       this.centerMapVueComponent.resetView();
@@ -181,13 +218,6 @@ export default {
           break;
         default:
           //
-      }
-    },
-  },
-  watch: {
-    demoItems(items) {
-      if (items.length > 0 && !this.selectedItem) {
-        this.selectItem(items[0]);
       }
     },
   },

@@ -63,7 +63,7 @@
             <v-card-title
               v-if="customAreaIndicator"
               style="padding-top: 10px; padding-bottom: 0px;">
-                {{ customAreaIndicator.title }}
+                {{ customAreaIndicator.name }}
             </v-card-title>
             <template
               v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
@@ -170,6 +170,7 @@
                 </v-btn>
                 <iframe-button
                   :indicatorObject="indicatorObject"
+                  :featureObject="featureObject"
                   v-if="!customAreaIndicator"
                 />
                 <v-btn
@@ -283,7 +284,6 @@
 
 <script>
 import {
-  mapGetters,
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
@@ -332,10 +332,6 @@ export default {
     updateQueryParametersTrigger: null,
   }),
   computed: {
-    ...mapGetters('features', [
-      'getCountries',
-      'getIndicators',
-    ]),
     ...mapState('config', [
       'appConfig',
       'baseConfig',
@@ -369,8 +365,7 @@ export default {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
         'time', 'aoi', 'measurement',
-        'indicatorValue', 'referenceTime', /* 'referenceValue', */
-        'dataProvider', 'eoSensor', 'colorCode', 'inputData',
+        'indicatorValue', 'referenceTime', 'eoSensor', 'colorCode', 'inputData',
       ];
       const header = `${exportKeys.join()}\n`;
       let csv = header;

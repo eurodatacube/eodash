@@ -28,9 +28,8 @@
     </div>
  </template>
 <script>
-import GeoJSON from 'ol/format/GeoJSON';
-import { getMapInstance } from './map/map';
-import { calculatePadding } from '../utils';
+
+import { moveToHighlight } from '@/utils';
 
 export default {
   props: {
@@ -38,16 +37,7 @@ export default {
   },
   methods: {
     moveToHighlight(location) {
-      const { map } = getMapInstance('centerMap');
-      const featureProjection = map.getView().getProjection();
-      const geoJsonFormat = new GeoJSON({
-        featureProjection,
-      });
-      const geom = geoJsonFormat.readGeometry(location);
-      const padding = calculatePadding();
-      map.getView().fit(geom.getExtent(), {
-        duration: 0, padding,
-      });
+      moveToHighlight(location);
     },
   },
 };

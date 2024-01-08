@@ -30,9 +30,6 @@ export default {
       'appConfig',
     ]),
     ...mapState('features', ['allFeatures']),
-    ...mapGetters('features', [
-      'getFeatures',
-    ]),
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapGetters('indicators', [
       'getIndicators',
@@ -94,9 +91,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('features', {
-      setFeatureFilter: 'SET_FEATURE_FILTER',
-    }),
     ...mapActions('gtif', [
       'setCurrentDomain',
     ]),
@@ -127,10 +121,10 @@ export default {
         this.itemfilter = document.querySelector('eox-itemfilter');
         const configs = {
           esa: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['title', 'description', 'themes', 'region'],
+                keys: ['name', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
@@ -150,7 +144,7 @@ export default {
             },
           },
           trilateral: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
@@ -166,14 +160,13 @@ export default {
             },
           },
           gtif: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
                 key: 'themes',
                 title: 'Theme',
                 featured: true,
                 sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
-                // sort:(a,b)=>b.localeCompare(a),
                 type: 'select',
                 ...(this.currentDomain && this.currentDomain !== 'landing' ? {
                   state: {
@@ -221,7 +214,7 @@ export default {
               this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
                 curr.narratives.forEach((narrative) => {
                   acc.push({
-                    title: narrative.name,
+                    name: narrative.name,
                     id: narrative.routeName,
                     // Temporary hack to properly display titles, ideally should be looked up
                     themes: [curr.name.toLowerCase().replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')],
@@ -243,7 +236,7 @@ export default {
         // not use styleOverride to reach them, commenting out this part of styleOverride now
 
         // YET ANOTHER TODO: harmonize countries (currently both the alpha2 eg. AT are used and the full country names eg. Austria), I think we can not expect geodb values to get harmonized, so we should try to remedy in the client by preprocessing the values
-        // let flags = `
+        // let flags = ``;
         //   [data-filter=countries] .title {
         //     display: flex;
         //     align-items: center;
@@ -270,9 +263,10 @@ export default {
         //     }
         //   `;
         // });
+        const flags = '';
         this.itemfilter.styleOverride = `
           ${this.itemFilterStyleOverride}
-         // ${flags}
+          ${flags}
           ${configs[this.appConfig.id].styleOverride}
           #container-results{
              overflow:hidden;

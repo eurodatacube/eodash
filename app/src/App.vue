@@ -66,7 +66,6 @@
 // Utilities
 import {
   mapState,
-  mapGetters,
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
 import { loadIndicatorData, loadFeatureData } from '@/utils';
@@ -74,7 +73,6 @@ import { loadIndicatorData, loadFeatureData } from '@/utils';
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
-// import { getMapInstance } from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -94,10 +92,6 @@ export default {
     ...mapState('config', [
       'appConfig',
       'baseConfig',
-    ]),
-    ...mapGetters('features', [
-      'getIndicators',
-      'getCountryItems',
     ]),
     showCookieNotice() {
       return this.$route.path !== '/iframe';
@@ -128,31 +122,7 @@ export default {
         }
         if (!to.query.indicator && from.query.indicator) {
           this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
-          // TODO: Probably no longer needed?
-          // clear indicator filter
-          /*
-          this.$store.commit('features/SET_FEATURE_FILTER', {
-            ...this.$store.state.features.featureFilters,
-            indicators: [],
-          });
-          */
         }
-        // TODO: When does this animation apply?
-        /*
-        const currentQuery = to.query;
-        const {
-          x, y, z,
-        } = currentQuery;
-        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-          setTimeout(() => {
-            getMapInstance('centerMap').map.getView().animate({
-              center: [x, y],
-              zoom: z,
-              duration: 300,
-            });
-          }, 0); // TO DO: without this, zooming to AOI causes problems
-        }
-        */
       }
     },
   },
@@ -207,7 +177,7 @@ export default {
             [, finalIndicator] = poi.split('-');
           }
           const indicators = mutation.payload;
-          const selectedIndicator = indicators.find((ind) => ind.code === finalIndicator);
+          const selectedIndicator = indicators.find((ind) => ind.indicator === finalIndicator);
           if (selectedIndicator) {
             this.startupFeatureSelection = poi;
             this.$store.commit(
@@ -218,17 +188,6 @@ export default {
       }
       // Url query replacement
       if (mutation.type === 'features/SET_FEATURE_FILTER') {
-        if (Array.isArray(mutation.payload.countries) && mutation.payload.countries.length === 0) {
-          // Global
-          const query = Object.assign({}, this.$route.query); // eslint-disable-line
-          delete query.country;
-          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', 'Global');
-        } else if (typeof mutation.payload.countries === 'string') {
-          // Country
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', mutation.payload.countries);
-        }
         if (Array.isArray(mutation.payload.indicators)) {
           if (mutation.payload.indicators.length === 0) {
             // Reset

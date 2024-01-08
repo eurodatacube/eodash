@@ -81,10 +81,6 @@ export default {
     ...mapState('features', [
       'allFeatures',
     ]),
-    ...mapGetters('features', [
-      'getCountries',
-      'getIndicators',
-    ]),
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
     }),

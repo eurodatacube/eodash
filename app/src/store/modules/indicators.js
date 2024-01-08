@@ -83,15 +83,11 @@ const actions = {
             let resultIndicator = {
               type: 'stac',
               link: `${url.replace('catalog.json', '')}${link.href}`,
-              code: link.code,
               description: link.subtitle ? link.subtitle : '',
-              indicatorName: link.title,
               name: link.title,
               indicator: link.code,
-              region: 'global',
               themes: link.themes ? link.themes : [],
               tags: link.tags ? link.tags : [],
-              title: link.title,
               satellite: link.satellite ? link.satellite : [],
               sensor: link.sensor ? link.sensor : [],
               endpointType: link.endpointtype,
@@ -99,8 +95,6 @@ const actions = {
               // TODO: This is usually used in the client to define if it is a global indicator
               // it should be handled with a unique value
               country: 'all',
-              city: 'World',
-              siteName: 'global',
               countries: link.countries ? link.countries : [],
               cities: link.cities ? link.cities : [],
               // TODO: some default values we seem to need would be great if we can remove them
@@ -114,7 +108,7 @@ const actions = {
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
-              if (indicator.properties.indicatorObject.indicator === resultIndicator.code) {
+              if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
                 resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
               }
             });
