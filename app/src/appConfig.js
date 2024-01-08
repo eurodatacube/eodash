@@ -56,6 +56,7 @@ module.exports = [
     ],
     demoMode: {
       egu2023: [
+        // custom story is not supported yet for new demo mode
         {
           poi: 'World-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
@@ -96,18 +97,18 @@ module.exports = [
         },
         {
           poi: 'NorthAdriatic-N3a2',
-          title: 'Chlorophyll-a concentration Anomaly Maps',
+          name: 'Chlorophyll-a concentration Anomaly Maps',
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_chlorophyll-a_concentration',
         },
         {
           poi: 'NorthAdriaticTSM-N3a2',
-          title: 'Total Suspended Matter Anomaly Maps',
+          name: 'Total Suspended Matter Anomaly Maps',
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
         },
         {
           poi: 'DanubeDeltaSST-N3a2',
           story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
-          title: 'Sea Surface Temperature Anomaly Maps',
+          name: 'Sea Surface Temperature Anomaly Maps',
         },
         {
           poi: 'World-CDS1_temperature',
@@ -150,8 +151,8 @@ module.exports = [
       secondaryColor: '#004170',
       headerLogo: './data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
-      title: 'Earth Observing Dashboard',
-      subtitle: 'Global environmental changes observed by NASA, ESA, and JAXA',
+      name: 'Earth Observing Dashboard',
+      subname: 'Global environmental changes observed by NASA, ESA, and JAXA',
       coverImage: '/data/story-images/EO_Dashboard_kv_no logos.png',
       storiesHeader: 'Stories',
       headerHeight: '50vh',
@@ -198,87 +199,87 @@ module.exports = [
         },
         {
           poi: 'CHN-GGI_CH4',
-          title: 'China - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'CHN-GGI_N2O',
-          title: 'China - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'CHN-GGI_CO2',
-          title: 'China - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_CH4',
-          title: 'USA - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_N2O',
-          title: 'USA - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_CO2',
-          title: 'USA - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_CH4',
-          title: 'EU (Convention) - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_N2O',
-          title: 'EU (Convention) - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_CO2',
-          title: 'EU (Convention) - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_CH4',
-          title: 'India - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_N2O',
-          title: 'India - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_CO2',
-          title: 'India - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_CH4',
-          title: 'Brasil - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_N2O',
-          title: 'Brasil - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_CO2',
-          title: 'Brasil - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_CH4',
-          title: 'Russia - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_N2O',
-          title: 'Russia - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_CO2',
-          title: 'Russia - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_CH4',
-          title: 'Kazakhstan - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_N2O',
-          title: 'Kazakhstan - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_CO2',
-          title: 'Kazakhstan - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'World-ESDC_gross_primary_productivity',
@@ -334,8 +335,8 @@ module.exports = [
       secondaryColor: '#00ae9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
-      title: 'Green Transition Information Factory',
-      subtitle: 'Key element of the ESA Space For Green Future Accelerator',
+      name: 'Green Transition Information Factory',
+      subname: 'Key element of the ESA Space For Green Future Accelerator',
       coverImage: './data/gtif/images/image1.png',
       storiesHeader: 'Subdomains',
       headerHeight: '30vh',

@@ -4,6 +4,7 @@ import axios from 'axios';
 import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
+import GeoJSON from 'ol/format/GeoJSON';
 import store from '@/store';
 import shTimeFunction from '@/shTimeFunction';
 import {
@@ -314,11 +315,19 @@ export async function loadFeatureData(baseConfig, feature) {
     const geodbUrl = baseConfig.geoDBFeatureParameters.url;
     const geodbIndicatorId = indicatorObject.geoDBID
       ? indicatorObject.geoDBID : indicatorObject.indicator;
-    const url = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}`;
+    const selectQuery = 'site_name,city,color_code,time,aoi,measurement_value,indicator_value,reference_time,eo_sensor,reference_value,input_data';
+    const url = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}&select=${selectQuery}`;
     // Fetch location data
     const response = await axios.get(url, { credentials: 'same-origin' });
+    // specially fetch non-array like variables such as sub_aoi
+    // because they are huge and we do not expect it to change in array
+    const selectQueryNonArray = 'sub_aoi';
+    const urlNonArray = `${geodbUrl}_${geodbIndicatorId}?aoi_id=eq.${indicatorObject.aoiID}&select=${selectQueryNonArray}&limit=1`;
+    const responseNonArray = await axios.get(urlNonArray, { credentials: 'same-origin' });
+
     if (response) {
       const { data } = response;
+      const dataNonArray = responseNonArray.data;
       // Set data to indicator object
       // Convert data first
       const mapping = {
@@ -338,16 +347,16 @@ export async function loadFeatureData(baseConfig, feature) {
         mapping.siteNameNUTS = 'site_name';
       }
       // Try to extract sub_aoi geometry information
-      if (data && data.length > 0 && 'sub_aoi' in data[0]) {
+      if (dataNonArray && dataNonArray.length > 0 && 'sub_aoi' in dataNonArray[0]) {
         let features = null;
-        if (data[0].sub_aoi !== '/' && data[0].sub_aoi !== '') {
+        if (dataNonArray[0].sub_aoi !== '/' && dataNonArray[0].sub_aoi !== '') {
           // try to generate sub_aoi from geodb
           try {
-            features = wkt.read(data[0].sub_aoi).toJson();
+            features = wkt.read(dataNonArray[0].sub_aoi).toJson();
           } catch (error) {
             console.log('Error parsing wkt sub_aoi');
           }
-        } else {
+        } else if (feature.geometry) {
           const { map } = getMapInstance('centerMap');
           // if not possible use aoi with padding
           // TODO: should we add a subaoi if there is none in the database? this could create a
@@ -663,6 +672,23 @@ export function calculatePadding() {
     percentageBasedOffsetWidth + searchPanelWidth + demoItemsWidth,
   ];
   return padding;
+}
+
+export function moveToHighlight(_location) {
+  const { map } = getMapInstance('centerMap');
+  const featureProjection = map.getView().getProjection();
+  const geoJsonFormat = new GeoJSON({
+    featureProjection,
+  });
+  let location = _location;
+  if (typeof location === 'string') {
+    location = wkt.read(location).toJson();
+  }
+  const geom = geoJsonFormat.readGeometry(location);
+  const padding = calculatePadding();
+  map.getView().fit(geom.getExtent(), {
+    duration: 0, padding,
+  });
 }
 
 export const findClosest = (data, target = DateTime.now()) => data.reduce((prev, curr) => {

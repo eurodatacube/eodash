@@ -268,17 +268,19 @@ export const globalIndicators = [
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
-        aoiID: 'WSF',
+        aoiID: 'World',
         indicator: 'WSF',
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
-        // {
-        //   name: 'DLR WSF 2019 coverage',
-        //   attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
-        // }
+        {
+          url: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          layers: 'WSF_2019',
+          name: 'DLR WSF 2019 coverage',
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        },
         ],
       },
     },

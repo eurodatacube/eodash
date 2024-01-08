@@ -12,7 +12,7 @@
       :mapId="mapId"
       :indicator="indicator"
       :mergedConfigsData="mergedConfigsData[0]"
-      :isGlobal="isGlobalIndicator"
+      :isGlobal="!featureObject"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
     />
@@ -129,6 +129,7 @@
             && indicator
             && indicatorHasMapData(indicator)
             && appConfig.id !== 'gtif'"
+          :featureObject="featureObject"
           :indicatorObject="indicator"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
@@ -347,9 +348,6 @@ export default {
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
         && this.indicatorHasMapData(this.indicator)
       );
-    },
-    isGlobalIndicator() {
-      return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
     },
     indicator() {
       // the current indicator definition object.

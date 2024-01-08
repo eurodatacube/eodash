@@ -93,6 +93,7 @@ export default {
   mixins: [dialogMixin],
   props: {
     indicatorObject: Object,
+    featureObject: Object,
     mapControl: Boolean,
     center: Object,
     zoom: Number,
@@ -106,7 +107,12 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
-      let queryParams = `poi=${this.getLocationCode(this.indicatorObject)}`;
+      let indObj = this.indicatorObject;
+      if (this.featureObject) {
+        // Merge with parent indicator object to have all necessary information
+        indObj = { ...indObj, ...this.featureObject };
+      }
+      let queryParams = `poi=${this.getLocationCode(indObj)}`;
       if (this.mapControl) {
         queryParams += `&embedMap=${this.mapControl}`;
         if (this.zoom !== null) {
