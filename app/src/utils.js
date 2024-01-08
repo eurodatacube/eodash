@@ -5,6 +5,7 @@ import latLng from '@/latLng';
 import { fromExtent } from 'ol/geom/Polygon';
 import { transformExtent } from 'ol/proj';
 import store from '@/store';
+import shTimeFunction from '@/shTimeFunction';
 import {
   statisticalApiHeaders,
   statisticalApiBody,
@@ -19,16 +20,6 @@ const wkt = new Wkt();
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
-}
-
-export function simplifiedshTimeFunction(date) {
-  let tempDate = date;
-  if (!Array.isArray(tempDate)) {
-    tempDate = [tempDate];
-  }
-  const dateObj = DateTime.fromISO(tempDate[0]);
-  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
-  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
 }
 
 export function shWeeklyTimeFunction(date) {
@@ -95,15 +86,18 @@ function createWMSDisplay(config, name) {
   return display;
 }
 
-function createXYZDisplay(config, name) {
+function createXYZDisplay(config, jsonData) {
   const display = {
     protocol: 'xyz',
     tileSize: 256,
     url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
-    name,
+    name: jsonData.id,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
   };
+  if (jsonData.endpointtype === 'VEDA_tiles') {
+    display.dateFormatFunction = (date) => `item=${date[1]}`;
+  }
   return display;
 }
 
@@ -225,13 +219,17 @@ export async function loadFeatureData(baseConfig, feature) {
         display = createWMSDisplay(
           wmsEndpoint, jsonData.id,
         );
+        if (jsonData.endpointtype === 'Sentinel Hub'
+          || jsonData.endpointtype === 'Sentinel Hub WMS') {
+          display.dateFormatFunction = shTimeFunction;
+        }
         if ('assets' in jsonData && 'legend' in jsonData.assets) {
           display.legendUrl = jsonData.assets.legend.href;
         }
       } else if (xyzEndpoint) {
         if (xyzEndpoint.type === 'image/png') {
           display = createXYZDisplay(
-            xyzEndpoint, jsonData.id,
+            xyzEndpoint, jsonData,
           );
           const cogTimes = [];
           jsonData.links.forEach((link) => {
@@ -242,10 +240,17 @@ export async function loadFeatureData(baseConfig, feature) {
               } else if (link.start_datetime) {
                 time = link.start_datetime;
               }
-              cogTimes.push([
-                time,
-                link.cog_href,
-              ]);
+              if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+                cogTimes.push([
+                  time,
+                  link.item,
+                ]);
+              } else {
+                cogTimes.push([
+                  time,
+                  link.cog_href,
+                ]);
+              }
             }
           });
           cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
@@ -440,6 +445,10 @@ export async function loadIndicatorData(baseConfig, payload) {
       display = createWMSDisplay(
         wmsEndpoint, jsonData.id,
       );
+      if (indicatorObject.endpointType === 'Sentinel Hub'
+        || indicatorObject.endpointType === 'Sentinel Hub WMS') {
+        display.dateFormatFunction = shTimeFunction;
+      }
       jsonData.links.forEach((link) => {
         if (link.rel === 'item') {
           times.push(link.datetime);
@@ -449,7 +458,7 @@ export async function loadIndicatorData(baseConfig, payload) {
     } else if (xyzEndpoint) {
       if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
         display = createXYZDisplay(
-          xyzEndpoint, jsonData.id,
+          xyzEndpoint, jsonData,
         );
         jsonData.links.forEach((link) => {
           if (link.rel === 'item') {
@@ -459,10 +468,17 @@ export async function loadIndicatorData(baseConfig, payload) {
             } else if (link.start_datetime) {
               time = link.start_datetime;
             }
-            times.push([
-              time,
-              link.cog_href,
-            ]);
+            if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+              times.push([
+                time,
+                link.item,
+              ]);
+            } else {
+              times.push([
+                time,
+                link.cog_href,
+              ]);
+            }
           }
         });
         times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
@@ -580,7 +596,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.indicator = indicatorObject.indicator;
           featureObject.yAxis = indicatorObject.yAxis;
           featureObject.indicatorValue = [''];
-          featureObject.city = link.city ? link.city : link.name;
+          featureObject.city = (link.city && link.city !== '/') ? link.city : '';
           featureObject.country = link.country;
           featureObject.locations = payload.locations;
           featureObject.link = `${payload.link.replace('collection.json', '')}${link.href}`;
@@ -654,3 +670,35 @@ export const findClosest = (data, target = DateTime.now()) => data.reduce((prev,
   const b = Math.abs(prev.ts - target.ts);
   return a - b < 0 ? curr : prev;
 });
+
+export function getFilteredInputData(customObject) {
+  // filter available times by input_data for map display
+  // there is a "rule" with geodb as data provide that if inputData == "/", it should not be shown on map
+  // if whole array consists of only "/", we should not display any layer
+  // (this is true also for indicator with locations where location was not clicked yet)
+  if (!customObject) {
+    return customObject;
+  }
+  const clone = { ...customObject };
+  const { inputData } = clone;
+  if (!inputData) {
+    // simply pass through
+    return customObject;
+  }
+
+  // filter out rows which have empty "Input Data"
+  const mask = inputData.map((item) => item && item !== '/');
+  // filtering only arrays with more than 1 element to not fail on Input Data:['value'] shortcut
+  if (mask.length > 1) {
+    for (let [key, value] of Object.entries(clone)) { // eslint-disable-line
+      if (Array.isArray(value) && value.length > 1) {
+        clone[key] = value.filter((item, i) => mask[i]);
+      }
+    }
+  }
+  if (mask.length === 0) {
+    // if all values of input_data are invalid, filter completely
+    return null;
+  }
+  return clone;
+}

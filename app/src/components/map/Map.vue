@@ -201,6 +201,7 @@ import {
   loadIndicatorExternalData,
   calculatePadding,
   findClosest,
+  getFilteredInputData,
 } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({
@@ -375,7 +376,8 @@ export default {
       if (this.currentFeatureData) {
         featureData = this.currentFeatureData;
       }
-      return featureData;
+      const filteredFeatureData = getFilteredInputData(featureData);
+      return filteredFeatureData;
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
@@ -405,8 +407,10 @@ export default {
           -1, // initial time is last in array - indexed via array.at(-1)
         );
       }
-      // to do: indicator "code" (this.indicator.indicator, e.g. "E13b")
-      // is not available after createConfigFromIndicator. it is overwritten by an indicator name
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
+        return [];
+      }
       return createConfigFromIndicator(
         this.indicator,
         -1, // initial time is last in array - indexed via array.at(-1)
@@ -442,6 +446,10 @@ export default {
           mergedIndicator,
           this.currentTimeIndex,
         );
+      }
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
+        return [];
       }
       return createConfigFromIndicator(
         this.indicator,

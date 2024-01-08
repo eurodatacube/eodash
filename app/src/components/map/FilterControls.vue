@@ -4,6 +4,7 @@
     :style="`height: auto`"
   >
   <v-card class="pa-3">
+    <v-card-title :color="'style: black'">Filters</v-card-title>
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
