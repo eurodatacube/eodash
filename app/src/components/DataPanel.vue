@@ -284,7 +284,6 @@
 
 <script>
 import {
-  mapGetters,
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
@@ -366,8 +365,7 @@ export default {
       let dataHref = 'data:text/csv;charset=utf-8,';
       const exportKeys = [
         'time', 'aoi', 'measurement',
-        'indicatorValue', 'referenceTime', /* 'referenceValue', */
-        'dataProvider', 'eoSensor', 'colorCode', 'inputData',
+        'indicatorValue', 'referenceTime', 'eoSensor', 'colorCode', 'inputData',
       ];
       const header = `${exportKeys.join()}\n`;
       let csv = header;

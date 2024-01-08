@@ -36,7 +36,7 @@ export default {
   methods: {
     onStacInfoLoad() {
       this.$nextTick(() => {
-        if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description').children.length < 1) {
+        if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description')?.children?.length < 1) {
           // first parent is VExpantionPanelContent, second is VExpantionPanel
           this.$parent.$parent.$el.style.display = 'none';
         } else {

@@ -29,7 +29,7 @@
  </template>
 <script>
 
-import { moveToHighlight } from '../utils';
+import { moveToHighlight } from '@/utils';
 
 export default {
   props: {
@@ -38,7 +38,7 @@ export default {
   methods: {
     moveToHighlight(location) {
       moveToHighlight(location);
-    }
+    },
   },
 };
 </script>

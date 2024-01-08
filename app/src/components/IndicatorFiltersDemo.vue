@@ -91,10 +91,7 @@ import {
   mapMutations,
 } from 'vuex';
 
-import { Wkt } from 'wicket';
 import { loadIndicatorData, loadFeatureData, moveToHighlight } from '@/utils';
-
-const wkt = new Wkt();
 
 export default {
   data: () => ({
@@ -117,8 +114,9 @@ export default {
           const objectM = {
             ...ind,
             ...items[i],
-          }
+          };
           if (poi !== 'World') {
+            // passing the aoiID into the merged object for POI indicator
             objectM.aoiID = poi;
           }
           matched.push(objectM);
@@ -144,23 +142,51 @@ export default {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    ...mapMutations('features', {
+      setSelectedFeature: 'SET_SELECTED_FEATURE',
+    }),
     moveToHighlight(location) {
       moveToHighlight(location);
     },
     async getIndicatorData(indicatorConfig) {
-      return await loadIndicatorData(
+      return loadIndicatorData(
         this.baseConfig,
         indicatorConfig,
       );
     },
     async getFeatureData(currentFeatureObject) {
-      return await loadFeatureData(
+      return loadFeatureData(
         this.baseConfig, currentFeatureObject.properties,
       );
     },
-    selectItem(item) {
-      this.setSelectedIndicator(item);
+    async selectItem(item) {
       this.selectedItem = this.getLocationCode(item);
+      const val = item.poi;
+      const [poi] = val.split('-');
+      if (poi !== 'World') {
+        let indicatorObject = await loadIndicatorData(
+          this.baseConfig,
+          item,
+        );
+        const currentFeatureObject = indicatorObject.features.find(
+          (feat) => feat.id === item.aoiID,
+        );
+        // let currentFeatureData;
+        if (currentFeatureObject) {
+          // Merge info of feature object into indicator object as it overwrites some info
+          indicatorObject = {
+            ...indicatorObject,
+            ...currentFeatureObject.properties.indicatorObject,
+          };
+          const test = {
+            indicatorObject,
+          };
+          this.setSelectedIndicator(indicatorObject);
+          this.setSelectedFeature(test);
+        }
+      } else {
+        this.setSelectedIndicator(item);
+      }
       if (item.dataLayerTime) {
         setTimeout(() => {
           this.centerMapVueComponent.dataLayerTime = {
