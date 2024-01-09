@@ -559,7 +559,6 @@ export default {
           // Initialize Minesweeper game if options are present in the appConfig.
           if (this.indicator
                 && this.indicator.minesweeperOptions
-                && this.$route.query.enableMinesweeper == 'true'
                 && this.minesweeper.uids.length === 0
           ) {
             const { map } = getMapInstance(this.mapId);
