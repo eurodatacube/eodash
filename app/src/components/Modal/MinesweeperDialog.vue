@@ -1,6 +1,6 @@
 <template>
-  <div class="modal-success">
-    <v-dialog v-model="isEnabled" width="500">
+  <div v-if="isEnabled" class="modal-success">
+    <v-dialog width="500">
       <!-- Activator Slot -->
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
@@ -25,7 +25,7 @@
         </v-card-actions>
       </v-card>
 
-      <v-card v-show="mode === 'gameOver'">
+      <v-card v-show="mode === 'gameover'">
         <v-card-title style="text-align: center" class="py-6">Oh no!</v-card-title>
         <v-card-text>
           You stepped on a mine and lost the game. Try again and beat your high score!
