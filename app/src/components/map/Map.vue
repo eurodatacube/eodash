@@ -146,8 +146,8 @@
         <div v-if="isMinesweeperConfigured">
           <v-btn>Reveal</v-btn>
           <MinesweeperDialog
-            :is-enabled="isMinesweeperDialogEnabled"
             :mode="minesweeper.mode"
+            :is-enabled="this.minesweeper.isDialogEnabled"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -511,9 +511,6 @@ export default {
       }
       return position;
     },
-    isMinesweeperDialogEnabled() {
-      return this.minesweeper.isDialogEnabled;
-    },
     isMinesweeperConfigured() {
       return this.indicator
         && this.indicator.minesweeperOptions
@@ -820,6 +817,8 @@ export default {
 
     document.addEventListener('minesweeper:gameover', () => {
       console.log('Got GAME OVER event from inside game logic');
+      this.minesweeper.mode = 'gameover';
+      this.minesweeper.isDialogEnabled = true;
     });
   },
   methods: {

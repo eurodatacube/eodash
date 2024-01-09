@@ -26,7 +26,7 @@
       </v-card>
 
       <v-card v-show="mode === 'gameOver'">
-        <v-card-title style="text-align: center" class="py-6">Game Over</v-card-title>
+        <v-card-title style="text-align: center" class="py-6">Oh no!</v-card-title>
         <v-card-text>
           You stepped on a mine and lost the game. Try again and beat your high score!
           <div class="game-stats">
@@ -53,10 +53,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <div v-if="mode === 'start'" class="d-flex flex-column align-center justify-center py-16">
-      <!-- ... -->
-    </div>
   </div>
 </template>
 
