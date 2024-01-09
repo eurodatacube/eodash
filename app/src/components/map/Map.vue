@@ -342,9 +342,9 @@ export default {
     displayTimeSelection() {
       return (
           this.featureData?.time
-          && this.featureData.time.length > 1
+          && this.featureData.time?.length > 1
       ) || (
-        this.indicator?.time.length > 1
+        this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
         && this.indicatorHasMapData(this.indicator)
       );
@@ -642,7 +642,7 @@ export default {
       this.updateOverlayLayers();
     },
     getFeatures(features) {
-      if (this.mapId === 'centerMap' && features && this.$route.name !== 'demo') {
+      if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
@@ -1149,7 +1149,7 @@ export default {
       });
     },
     indicatorHasMapData(indicatorObject) {
-      return indicatorHasMapData(indicatorObject);
+      return indicatorHasMapData(indicatorObject, this.featureData);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;

@@ -189,7 +189,7 @@ const createConfigFromIndicator = (indicatorObject, index) => {
 
 const getTimeLabel = (time, config) => {
   // Check if custom function was configured
-  if (config[0].labelFormatFunction) {
+  if (config[0]?.labelFormatFunction) {
     return config[0].labelFormatFunction(time);
   }
   // If not try default approach
@@ -220,23 +220,22 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
   return selectionOptions;
 };
 
-const indicatorHasMapData = (indicatorObject) => {
+const indicatorHasMapData = (indicatorObject, featureObject) => {
   baseConfig = store.state.config.baseConfig;
   let hasMapData = false;
-  if (indicatorObject) {
+  if (indicatorObject && indicatorObject.display) {
     let matchingInputDataAgainstConfig = [];
-    // Check to see if we have EO Data indicator
-    const { inputData } = generateUsedTimes(indicatorObject);
-    if (inputData) {
-      matchingInputDataAgainstConfig = inputData
-        .filter((item) => Object.prototype.hasOwnProperty.call(baseConfig.layerNameMapping, item));
-      hasMapData = matchingInputDataAgainstConfig.length > 0;
-    }
-    // Check to see if we have global data indicator
-    if (indicatorObject && indicatorObject.country) {
-      if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-        hasMapData = true;
+    if (indicatorObject?.locations && featureObject) {
+      hasMapData = true;
+    } else if (!indicatorObject?.locations && indicatorObject.features && featureObject) {
+      const { inputData } = generateUsedTimes(featureObject);
+      if (inputData) {
+        matchingInputDataAgainstConfig = inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(baseConfig.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
       }
+    } else if (!indicatorObject.locations && indicatorObject.features?.length === 0) {
+      hasMapData = true;
     }
   }
   return hasMapData;

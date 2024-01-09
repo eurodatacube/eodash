@@ -101,12 +101,12 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_chlorophyll-a_concentration',
         },
         {
-          poi: 'NorthAdriaticTSM-N3a2',
+          poi: 'NorthAdriaticTSM-N3a2_TSM',
           name: 'Total Suspended Matter Anomaly Maps',
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
         },
         {
-          poi: 'DanubeDeltaSST-N3a2',
+          poi: 'DanubeDeltaSST-N3a2_SST',
           story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
           name: 'Sea Surface Temperature Anomaly Maps',
         },

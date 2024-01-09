@@ -285,7 +285,9 @@ export default {
       }
     },
     selectedIndicator() {
-      this.itemfilter.selectedResult = this.selectedIndicator;
+      if (this.itemfilter) {
+        this.itemfilter.selectedResult = this.selectedIndicator;
+      }
     },
     allFeatures() {
       if (!this.searchItem) {
