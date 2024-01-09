@@ -512,9 +512,7 @@ export default {
       return position;
     },
     isMinesweeperConfigured() {
-      return this.indicator
-        && this.indicator.minesweeperOptions
-        && this.$route.query.enableMinesweeper == 'true';
+      return this.indicator && this.indicator.minesweeperOptions;
     },
   },
   watch: {
