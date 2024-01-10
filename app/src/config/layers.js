@@ -10,6 +10,14 @@ export const baseLayers = Object.freeze({
     maxZoom: 17,
     protocol: 'xyz',
   },
+  cloudless2018: {
+    name: 'EOxCloudless 2018',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2018_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ EOxCloudless 2018: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2018) }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
   terrainLight: {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',

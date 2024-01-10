@@ -10,6 +10,8 @@ For the inversion data, updated results from an ensemble of global inversions pr
 
 For CH4 inversions are updated to 2020.
 
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
+
 ## More information
 
 - [Zhu Deng, Philippe Ciais, Liting Hu, & Frédéric Chevallier. (2023). Global greenhouse gas reconciliation 2022 [Data set]. Zenodo.](https://doi.org/10.5281/zenodo.8325356)

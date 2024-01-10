@@ -1,5 +1,7 @@
 # Deforested Biomass
 
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
+
 Annual aboveground carbon loss due to forest cover change [MgC/ha/yr] (2011-2018). Derived from Mapbiomas Amazonia Collection 2 (Landsat) data.
 
 Source:
@@ -8,7 +10,7 @@ MapBiomas. (2021). Project MapBiomas—Collection 2 of Brazilian land cover and 
 
 Units: MgC/ha/year
 
-The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.dev.brockmann-consult.de/)
+The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.brockmann-consult.de/)
 
 Further links:
 

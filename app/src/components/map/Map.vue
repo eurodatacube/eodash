@@ -517,7 +517,7 @@ export default {
   },
   watch: {
     getFeatures(features) {
-      if (this.appConfig.id === 'gtif') {
+      if (this.appConfig.id === 'gtif' || this.$route.name === 'demo') {
         return;
       }
       if (this.mapId === 'centerMap' && features) {
