@@ -236,7 +236,9 @@ export default {
         this.$store.commit('features/SET_FEATURES', []);
         if (mutation.payload) {
           this.$store.commit('features/SET_SELECTED_FEATURE', null);
-          this.loadIndicatorData(mutation.payload);
+          if (!mutation.payload.disableExtraLoadingData) {
+            this.loadIndicatorData(mutation.payload);
+          }
           const urlSearchParams = new URLSearchParams(window.location.search);
           const params = Object.fromEntries(urlSearchParams.entries());
           this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line

@@ -120,6 +120,22 @@ const configFromInputData = (usedTimes, index) => {
   return [];
 };
 
+const mergeObjectsFromArrays = (arr1, arr2) => {
+  const mergedArray = [];
+  const maxLength = Math.max(arr1.length, arr2.length);
+  for (let i = 0; i < maxLength; i++) {
+    let mergedObject = {};
+    if (i < arr1.length) {
+      mergedObject = { ...mergedObject, ...arr1[i] };
+    }
+    if (i < arr2.length) {
+      mergedObject = { ...mergedObject, ...arr2[i] };
+    }
+    mergedArray.push(mergedObject);
+  }
+  return mergedArray;
+};
+
 const mergedConfigs = (usedTimes, inputDataConfig, indicatorObject) => {
   // first check if special compare layer configured
   let displayTmp = indicatorObject.display;
@@ -134,24 +150,15 @@ const mergedConfigs = (usedTimes, inputDataConfig, indicatorObject) => {
       // always make an Array of layer configurations
       displayTmp = [displayTmp];
     }
+  } else {
+    displayTmp = [];
   }
   const finalConfigs = [];
-  let usedConfigForMerge = [];
-  let { name } = indicatorObject;
+  const usedConfigForMerge = mergeObjectsFromArrays(displayTmp, inputDataConfig);
 
-  if (!displayTmp && inputDataConfig.length === 0) {
-    // no additional config specified, use defaults
-    usedConfigForMerge = [{ name }];
-  } else if (!displayTmp) {
-    // use configFromInputData
-    usedConfigForMerge = inputDataConfig;
-  } else {
-    // use displayTmp even if configFromInputData set too
-    usedConfigForMerge = displayTmp;
-  }
   usedConfigForMerge.forEach((item) => {
     // merge configs for each layer
-    name = item.name || name;
+    const name = item.name || indicatorObject.name;
 
     const indDefinition = baseConfig.indicatorsDefinition[
       indicatorObject.indicator
