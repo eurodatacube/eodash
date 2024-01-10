@@ -285,7 +285,9 @@ export default {
       }
     },
     selectedIndicator() {
-      this.itemfilter.selectedResult = this.selectedIndicator;
+      if (this.itemfilter) {
+        this.itemfilter.selectedResult = this.selectedIndicator;
+      }
     },
     allFeatures() {
       if (!this.searchItem) {
@@ -295,6 +297,7 @@ export default {
   },
   mounted() {
     if (this.$vuetify.breakpoint.smAndUp) {
+      // programtically show the UIPanel as expanded
       this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
     }
   },

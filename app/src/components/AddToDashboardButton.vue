@@ -109,7 +109,7 @@ export default {
         // Merge with parent indicator object to have all necessary information
         indObj = { ...indObj, ...this.featureObject };
       }
-      this.title = `${indObj.city.trim()}: ${indObj.description.trim()}`;
+      this.title = `${indObj?.city?.trim()}: ${indObj?.description?.trim()}`;
     }
   },
   methods: {

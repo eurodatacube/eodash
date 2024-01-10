@@ -252,13 +252,13 @@
           </v-row>
         </v-col>
       </v-row>
-      <div v-if="indicatorObject.features.length && !featureObject">
+      <div v-if="indicatorObject.features?.length && !featureObject">
         <p class="justify-self-start px-2 py-0">
           <v-icon color="black">mdi-chart-areaspline</v-icon>
           Select a point of interest on the map to see more information
         </p>
       </div>
-      <v-row class="ma-0" v-if="!indicatorObject.features.length">
+      <v-row class="ma-0" v-if="!indicatorObject.features?.length">
         <v-col :cols="6">
           <v-btn
             class="px-2 py-0"

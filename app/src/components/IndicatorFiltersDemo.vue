@@ -60,28 +60,6 @@
       <v-icon left>mdi-image-filter-center-focus</v-icon>
       Recenter map
     </v-btn>
-    <div
-      v-if="highlightsModel"
-      style="width: 230px; pointer-events: all; position:absolute; left: 230px;top: 75px;"
-    >
-      <v-list style="width: 100%; background-color: #00000000;">
-        <v-list-item-group style="width: 100%">
-          <v-list-item
-            v-for="item in highlightsModel.highlights"
-            :key="item.name"
-            class="mb-2 dashboard-button v-btn v-btn--is-elevated v-btn--has-bg theme--light"
-            style="width: 100%"
-            @click="moveToHighlight(item.location)"
-          >
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ item.name }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </div>
   </div>
 </template>
 
@@ -91,7 +69,7 @@ import {
   mapMutations,
 } from 'vuex';
 
-import { loadIndicatorData, loadFeatureData, moveToHighlight } from '@/utils';
+import { loadIndicatorData } from '@/utils';
 
 export default {
   data: () => ({
@@ -125,63 +103,49 @@ export default {
       }
       return null;
     },
-    highlightsModel() {
-      if (this.selectedItem) {
-        const selectedItemModel = this.demoItems.find((item) => item.poi === this.selectedItem);
-        if (selectedItemModel && selectedItemModel.highlights) {
-          return selectedItemModel;
-        }
-      }
-      return null;
-    },
     centerMapVueComponent() {
       return this.$parent.$parent.$parent.$parent.$parent.$parent.$parent.$refs.centerPanel.$refs.map;
     },
   },
+  mounted() {
+    if (this.$vuetify.breakpoint.smAndUp) {
+      // programtically show the UIPanel as expanded
+      this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
+    }
+  },
   methods: {
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+      loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',
     }),
     ...mapMutations('features', {
       setSelectedFeature: 'SET_SELECTED_FEATURE',
     }),
-    moveToHighlight(location) {
-      moveToHighlight(location);
-    },
-    async getIndicatorData(indicatorConfig) {
-      return loadIndicatorData(
-        this.baseConfig,
-        indicatorConfig,
-      );
-    },
-    async getFeatureData(currentFeatureObject) {
-      return loadFeatureData(
-        this.baseConfig, currentFeatureObject.properties,
-      );
-    },
     async selectItem(item) {
       this.selectedItem = this.getLocationCode(item);
       const val = item.poi;
       const [poi] = val.split('-');
       if (poi !== 'World') {
-        let indicatorObject = await loadIndicatorData(
+        // just to update URL query
+        // eslint-disable-next-line no-param-reassign
+        item.disableExtraLoadingData = true;
+        // fetching the indicator here outside of App.vue watcher in order to 
+        // get the features and select the matching one which was clicked in in the Panel
+        this.setSelectedIndicator(item);
+        const indicatorObject = await loadIndicatorData(
           this.baseConfig,
           item,
         );
         const currentFeatureObject = indicatorObject.features.find(
           (feat) => feat.id === item.aoiID,
         );
-        // let currentFeatureData;
+        // should match if the appConfig is done correctly
         if (currentFeatureObject) {
-          // Merge info of feature object into indicator object as it overwrites some info
-          indicatorObject = {
-            ...indicatorObject,
-            ...currentFeatureObject.properties.indicatorObject,
-          };
           const test = {
             indicatorObject,
           };
-          this.setSelectedIndicator(indicatorObject);
+          this.loadIndicatorFinished(indicatorObject);
+          // manually select the feature
           this.setSelectedFeature(test);
         }
       } else {
