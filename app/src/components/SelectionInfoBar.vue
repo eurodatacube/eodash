@@ -1,31 +1,11 @@
 <template>
-  <v-sheet
+<v-col
+  :style="`height: auto`"
+>
+  <v-card
   v-if="selectableLayerConfigs"
   class="pa-2">
-    <div class="text-h7 font-weight-bold">
-      <v-row align="center"
-      class="pa-3">
-        <span>Geographic Selection</span>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-icon color="primary" class="pl-2">
-                mdi-information-outline
-              </v-icon>
-            </div>
-        </template>
-        <p>
-          Click on "Zoom to" entry to show selectable zones.
-        </p>
-        <p>
-          Click on features on the map to allow further interaction with data.
-        </p>
-        <p>
-          Deselect features by clicking on it again or by using delete icon in the list.
-        </p>
-        </v-tooltip>
-      </v-row>
-    </div>
+    <v-card-title class="pa-2">Geographic Selection</v-card-title>
     <v-row v-if="anyLayerZoomConstraint"
       align="center"
       class="pl-3 pr-3">
@@ -84,7 +64,8 @@
         </v-list>
       </v-col>
     </v-row>
-  </v-sheet>
+  </v-card>
+</v-col>
 </template>
 
 <script>
