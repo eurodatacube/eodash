@@ -147,6 +147,7 @@
           <v-btn>Reveal</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
+            :game="minesweeper.game"
             :is-enabled="this.minesweeper.isDialogEnabled"
             @close="minesweeper.isDialogEnabled = false"
           />
@@ -809,11 +810,10 @@ export default {
     }
 
     document.addEventListener('minesweeper:continue', () => {
-      console.log('Got continue event from inside game logic');
+      // TODO: Remove?
     });
 
     document.addEventListener('minesweeper:gameover', () => {
-      console.log('Got GAME OVER event from inside game logic');
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
     });

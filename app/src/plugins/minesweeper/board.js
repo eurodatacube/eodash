@@ -28,6 +28,21 @@ export default class HexSweeperGame {
     this.mineCount = 0;
   }
 
+  getUncoveredAreaPercent() {
+    let uncoveredCount = 0;
+
+    for (let j = 0; j < this.height; j++) {
+      for (let i = 0; i < this.width; i++) {
+        const tile = this.board[j][i];
+        if (tile.isRevealed) {
+          uncoveredCount++;
+        }
+      }
+    }
+
+    return uncoveredCount / this.fieldCount;
+  }
+
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);

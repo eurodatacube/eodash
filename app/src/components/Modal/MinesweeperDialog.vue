@@ -32,17 +32,17 @@
           <div class="game-stats">
             <div class="item">
               <span class="name">🌟 TOTAL UNCOVERED AREA</span>
-              <span class="value">37%</span>
+              <span class="value">{{ Math.round(game.game.getUncoveredAreaPercent() * 100) }}%</span>
             </div>
 
             <div class="item">
               <span class="name">⬡ NUMBER OF CELLS</span>
-              <span class="value">800</span>
+              <span class="value">{{ game.game.fieldCount }}</span>
             </div>
 
             <div class="item">
               <span class="name">💣 NUMBER OF MINES</span>
-              <span class="value">276</span>
+              <span class="value">{{ game.game.mineCount }}</span>
             </div>
           </div>
         </v-card-text>
@@ -72,6 +72,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    game: {
+      type: Object,
+      required: true,
+    }
   },
   methods: {
     close() {
@@ -122,9 +126,10 @@ export default {
     }
 
     .value {
-      font-size: 21px;
+      font-size: 24px;
+      margin-top: 8px;
       font-weight: 600;
-      color: #000;
+      //color: #000;
     }
   }
 }
