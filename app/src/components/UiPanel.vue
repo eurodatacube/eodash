@@ -7,9 +7,7 @@
     `"
   >
       <v-expansion-panel v-if="hasPanel">
-        <v-expansion-panel-header ref="header"
-        class="primary--text"
-        :style="`background: ${gtif ? '#e9e9e9' : 'white'}`">
+        <v-expansion-panel-header ref="header" :class="`${gtif ? 'gtif': ''}`">
           {{ titleLabel }}
         </v-expansion-panel-header>
         <v-expansion-panel-content ref="expantionContent" eager
@@ -116,5 +114,13 @@ div {
 
 ::v-deep .v-expansion-panel-content__wrap {
   padding: 0;
+}
+.gtif.v-expansion-panel-header {
+  background: #e8e8e4;
+  color: #003247;
+}
+.gtif.v-expansion-panel-header--active{
+  background: #8197a6;
+  color: #ffffff;
 }
 </style>

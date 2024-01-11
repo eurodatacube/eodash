@@ -129,7 +129,7 @@ export default {
         // just to update URL query
         // eslint-disable-next-line no-param-reassign
         item.disableExtraLoadingData = true;
-        // fetching the indicator here outside of App.vue watcher in order to 
+        // fetching the indicator here outside of App.vue watcher in order to
         // get the features and select the matching one which was clicked in in the Panel
         this.setSelectedIndicator(item);
         const indicatorObject = await loadIndicatorData(
