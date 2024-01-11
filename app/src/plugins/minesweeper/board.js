@@ -24,6 +24,8 @@ export default class HexSweeperGame {
     this.image = null;
     this.center = [];
     this.gameSize = 2100;
+    this.fieldCount = 0;
+    this.mineCount = 0;
   }
 
   async fromGeoTIFF(options) {
@@ -91,6 +93,20 @@ export default class HexSweeperGame {
         this.board.push(row);
       }
 
+      this.fieldCount = this.width * this.height;
+
+      for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+          const cell = this.board[y][x];
+          console.log(cell);
+          if (cell.isMine) {
+            this.mineCount++;
+          };
+        }
+      }
+
+      console.log(`Mine count is ${this.mineCount} out of ${this.fieldCount}`);
+
       for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
           const adjacentMines = this.calculateAdjacentMines(x, y);
@@ -126,7 +142,7 @@ export default class HexSweeperGame {
 
   enforceBounds(x, y) {
     if (this.isOutOfBounds(x, y)) {
-      console.warn(`Coordinates [${x}, ${y}] are out of bounds`);
+      // console.warn(`Coordinates [${x}, ${y}] are out of bounds`);
     }
   }
 
