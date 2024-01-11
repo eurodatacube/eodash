@@ -1,6 +1,6 @@
 <template>
   <div v-if="isEnabled" class="modal-success">
-    <v-dialog width="500">
+    <v-dialog v-model="isEnabled" width="500">
       <!-- Activator Slot -->
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
