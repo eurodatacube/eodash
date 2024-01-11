@@ -1,15 +1,15 @@
 <template>
 <v-col
   :style="`height: auto`"
+  v-if="selectableLayerConfigs"
 >
   <v-card
-  v-if="selectableLayerConfigs"
   class="pa-2">
     <v-card-title class="pa-2">Geographic Selection</v-card-title>
     <v-row v-if="anyLayerZoomConstraint"
       align="center"
       class="pl-3 pr-3">
-      <v-col cols="12" class="pa-0">
+      <v-col cols="12" class="pa-2">
       <v-list dense class="pa-0">
         <v-list-item-group
           color="primary"
@@ -39,7 +39,7 @@
     <v-row
       align="center"
       class="pl-2 pr-2">
-      <v-col cols="12" class="pa-0">
+      <v-col cols="12" class="pa-2">
         <v-list dense class="py-0 px-2">
           <v-subheader style="color: black;" class="pa-0 text-body-1 font-weight-bold">Selected Units</v-subheader>
           <v-list-item-group

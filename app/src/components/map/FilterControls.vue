@@ -232,21 +232,13 @@
         <v-menu offset-y dense>
           <template v-slot:activator="{ on, attrs }">
             <p class="justify-self-start px-2 py-0"
+              style="color: #7a7a7a;"
               v-bind="attrs"
               v-on="on"
             >
               <v-icon color="black">mdi-plus-circle-outline</v-icon>
               Add constraint
             </p>
-            <!-- <v-btn
-              small
-              class="mr-3"
-              color="primary"
-              v-bind="attrs"
-              v-on="on"
-            >
-              Add constraint
-            </v-btn> -->
           </template>
           <v-list>
             <v-list-item
