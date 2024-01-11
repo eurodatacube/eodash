@@ -3,8 +3,8 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <v-card class="pa-3">
-    <v-card-title :color="'style: black'">Filters</v-card-title>
+  <v-card class="pa-2">
+    <v-card-title class="pa-2">Filters</v-card-title>
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
@@ -21,9 +21,9 @@
             <v-row class="pl-2 pr-2 ml-14 mr-14" dense x-small>
               <v-col
                 v-if="filters[key].header"
-                cols="7"
+                cols="12"
                 dense x-small
-                style="font-size:16px; color: #000000;">
+                style="font-size:16px; color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
                 <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
@@ -49,7 +49,7 @@
               </v-col>
             </v-row>
           </span>
-          <v-col class='d-flex justify-center'
+          <v-col class='d-flex justify-center pa-0'
             v-if="filters[key].type && filters[key].type=='boolfilter'"
           >
             <v-checkbox
@@ -231,15 +231,14 @@
       <div class="text-center" v-if="hiddenFilterKeys.length > 0">
         <v-menu offset-y dense>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              small
-              class="mr-3"
-              color="primary"
+            <p class="justify-self-start px-2 py-0"
+              style="color: #7a7a7a;"
               v-bind="attrs"
               v-on="on"
             >
+              <v-icon color="black">mdi-plus-circle-outline</v-icon>
               Add constraint
-            </v-btn>
+            </p>
           </template>
           <v-list>
             <v-list-item
