@@ -3,8 +3,9 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <div class="py-2" v-if="GRStatistics">
-    <h4>Aggregated statistics</h4>
+  <v-card v-if="GRStatistics">
+    <v-card-title class="pa-2">Aggregated statistics</v-card-title>
+  <div class="py-2" >
     <v-tabs
       v-model="tab"
       align-tabs="center"
@@ -66,6 +67,7 @@
       </v-tab-item>
   </v-tabs>
   </div>
+  </v-card>
   </v-col>
 </template>
 
