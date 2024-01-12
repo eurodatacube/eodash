@@ -1781,7 +1781,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'AQ5',
-        time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2021-12-31', '2023-12-29'),
         cogFilters: {
           sourceLayer: 'AQ5',
           filters: {
