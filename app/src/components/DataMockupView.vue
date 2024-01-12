@@ -166,7 +166,6 @@ export default {
                 ...this.indicatorObject,
                 time: retrievedData[timeKey],
                 measurement: retrievedData[selected],
-                yAxis: selected,
               };
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
@@ -350,7 +349,6 @@ export default {
                 ...this.indicatorObject,
                 ...newData,
                 xAxis: 'Sentinel5-p NO2 [µmol/m²]',
-                yAxis: selected,
               };
               this.$store.commit(
                 'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
