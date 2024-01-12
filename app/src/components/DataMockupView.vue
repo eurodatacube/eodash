@@ -195,8 +195,8 @@ export default {
             ...this.indicatorObject,
             fetchedData: {},
             time: [DateTime.fromISO('20220601')],
-            xAxis: 'Green roof existing [m²]',
-            yAxis: 'Green roof potential [m²]',
+            xAxis: 'Green roof existing [km²]',
+            yAxis: 'Green roof potential [km²]',
             originalZsps,
             gemIds: {},
           };
@@ -234,10 +234,10 @@ export default {
                     }
                     // compute statistics
                     groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
-                    groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area;
-                    groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5;
-                    groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20;
-                    groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45;
+                    groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area / 1000000;
+                    groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5 / 1000000;
+                    groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20 / 1000000;
+                    groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45 / 1000000;
                     groupedBySelection[entry[adminZoneKey]].co2red05 += entry.co2red_05;
                     groupedBySelection[entry[adminZoneKey]].co2red20 += entry.co2red_20;
                     groupedBySelection[entry[adminZoneKey]].co2red45 += entry.co2red_45;
@@ -254,10 +254,10 @@ export default {
                       const { lst30mme } = groupedBySelection[key];
                       statistics[key] = {
                         lst30mme: lst30mme.toFixed(1),
-                        roofArea: roofArea.toFixed(0),
-                        grpotare5: grpotare5.toFixed(0),
-                        grpotare20: grpotare20.toFixed(0),
-                        grpotare45: grpotare45.toFixed(0),
+                        roofArea: (roofArea * 1000000).toFixed(0),
+                        grpotare5: (grpotare5 * 1000000).toFixed(0),
+                        grpotare20: (grpotare20 * 1000000).toFixed(0),
+                        grpotare45: (grpotare45 * 1000000).toFixed(0),
                         co2red05: co2red05.toFixed(0),
                         co2red20: co2red20.toFixed(0),
                         co2red45: co2red45.toFixed(0),
