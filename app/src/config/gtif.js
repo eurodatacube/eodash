@@ -1121,12 +1121,13 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
   return config;
 }
 
-function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
+function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
       indicatorObject: {
         time: availableDates.aggregated_data,
         indicator: indicatorCode,
+        yAxis,
         queryParameters: {
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: selectedVariable,
@@ -1365,31 +1366,31 @@ export const globalIndicators = [
   createAQ1Config('AQ1', 'n_trajectories', {
     min: 1,
     max: 40000,
-  }),
+  }, 'n_trajectories'),
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-  }),
+  }, 'satellite_values'),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,
-  }),
+  }, 'mean_value'),
   createAQ1Config('AQ1_3', 'congestion_index', {
     min: 0,
     max: 50,
-  }),
+  }, 'congestion_index'),
   createAQ1Config('AQ1_4', 'speed', {
     min: 0,
     max: 120,
-  }),
+  }, 'speed [km/h]'),
   createAQ1Config('AQ1_5', 'motorized_count', {
     min: 1,
     max: 20000,
-  }),
+  }, 'motorized_count'),
   createAQ1Config('AQ1_6', 'motorized_share', {
     min: 0,
     max: 100,
-  }),
+  }, 'motorized_share'),
   createSOL1Config('SOL1', 'grimpactscore_filtered'),
   createSOL1Config('SOL1_1', 'lst30mme'),
   createSOL1Config('SOL1_2', 'grexisting'),
@@ -1486,7 +1487,7 @@ export const globalIndicators = [
       indicatorObject: {
         time: getDailyDates('2020-01-01', '2022-12-18'),
         indicator: 'AQA',
-        yAxis: 'Health Risk Index',
+        yAxis: 'Aggregate Risk Index (ARI)',
         display: {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
