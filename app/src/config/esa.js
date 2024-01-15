@@ -659,6 +659,12 @@ export const indicatorsDefinition = Object.freeze({
     story: '/eodash-data/stories/OX',
     disableCSV: true,
   },
+  'OX-EU': {
+    indicatorSummary: 'Crude Oil Storage Utilization',
+    themes: ['economy'],
+    story: '/eodash-data/stories/OX',
+    disableCSV: true,
+  },
   GG: {
     indicatorSummary: 'Mobility',
     themes: ['economy'],
