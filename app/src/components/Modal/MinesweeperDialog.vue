@@ -56,7 +56,7 @@
       <v-card v-show="mode === 'win'">
         <v-card-title style="text-align: center" class="py-6">Woo-hoo! 🎉</v-card-title>
         <v-card-text>
-          You stepped on a mine and lost the game. Try again and beat your high score!
+          Congratulations, you uncovered all fields without stepping on a mine!
           <div class="game-stats">
             <div class="item">
               <span class="name">🌟 TOTAL ELAPSED TIME</span>
