@@ -52,6 +52,34 @@
           <v-btn class="primary" text @click="close()">Continue</v-btn>
         </v-card-actions>
       </v-card>
+
+      <v-card v-show="mode === 'win'">
+        <v-card-title style="text-align: center" class="py-6">Woo-hoo! 🎉</v-card-title>
+        <v-card-text>
+          You stepped on a mine and lost the game. Try again and beat your high score!
+          <div class="game-stats">
+            <div class="item">
+              <span class="name">🌟 TOTAL ELAPSED TIME</span>
+              <span class="value">{{ elapsedSeconds }}s</span>
+            </div>
+
+            <div class="item">
+              <span class="name">⬡ NUMBER OF CELLS</span>
+              <span class="value">{{ game.game.fieldCount }}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">💣 NUMBER OF MINES</span>
+              <span class="value">{{ game.game.mineCount }}</span>
+            </div>
+          </div>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="primary" text @click="close()">Continue</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
   </div>
 </template>
@@ -74,6 +102,10 @@ export default {
     },
     game: {
       type: Object,
+      required: true,
+    },
+    elapsedSeconds: {
+      type: Number,
       required: true,
     }
   },
