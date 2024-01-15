@@ -43,6 +43,17 @@ export default class HexSweeperGame {
     return uncoveredCount / this.fieldCount;
   }
 
+  revealAllTiles() {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        let tile = this.board[y][x];
+        if (!tile.isMine) {
+          tile.isRevealed = true;
+        }
+      }
+    }
+  }
+
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
@@ -113,14 +124,11 @@ export default class HexSweeperGame {
       for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
           const cell = this.board[y][x];
-          console.log(cell);
           if (cell.isMine) {
             this.mineCount++;
           };
         }
       }
-
-      console.log(`Mine count is ${this.mineCount} out of ${this.fieldCount}`);
 
       for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
