@@ -40,6 +40,28 @@ export default class Minesweeper {
     );
   }
 
+  get isGameCompleted() {
+    // If this value remains zero, i.e. there are no more covered mines, the user has won the game.
+    var coveredMineCount = 0;
+
+    for (let y = 0; y < this.game.height; y++) {
+      for (let x = 0; x < this.game.width; x++) {
+        const tile = this.game.board[y][x];
+        if (tile.isMine && !tile.isRevealed) {
+          coveredMineCount++;
+        }
+      }
+    }
+
+    return coveredMineCount === 0;
+  }
+
+  revealAllTiles() {
+    this.game.revealAllTiles();
+    this.updateAllTiles();
+    document.dispatchEvent(new Event('minesweeper:win'));
+  }
+
   setupGrid() {
     return setupGrid(
       this.map,
