@@ -21,7 +21,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="green white--text" text @click="close()">Start Game</v-btn>
+          <v-btn class="green white--text" text @click="start()">Start Game</v-btn>
         </v-card-actions>
       </v-card>
 
@@ -112,6 +112,10 @@ export default {
   methods: {
     close() {
       this.$emit('close');
+    },
+    start() {
+      document.dispatchEvent(new Event('minesweeper:start'));
+      this.close();
     },
   },
 };

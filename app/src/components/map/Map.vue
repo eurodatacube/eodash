@@ -143,11 +143,12 @@
           mapControl
         />
 
-        <div v-if="isMinesweeperConfigured">
-          <v-btn>Reveal</v-btn>
+        <div v-if="isMinesweeperConfigured && !!this.minesweeper.game">
+          <v-btn @click="minesweeper.game.revealAllTiles()">Reveal</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
+            :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
             @close="minesweeper.isDialogEnabled = false"
           />
@@ -310,6 +311,8 @@ export default {
         // Layer IDs of the hex grid and board
         uids: [],
         game: null,
+        timer: null,
+        elapsedSeconds: 0,
       },
     };
   },
@@ -809,11 +812,27 @@ export default {
       map.addInteraction(this.queryLink);
     }
 
+    document.addEventListener('minesweeper:start', () => {
+      console.info('Minesweeper::StartTimer');
+      this.minesweeper.timer = setInterval(function() {
+        this.minesweeper.elapsedSeconds += 1;
+      }.bind(this), 1000);
+    });
+
     document.addEventListener('minesweeper:continue', () => {
-      // TODO: Remove?
+      if (this.minesweeper.game.isGameCompleted) {
+        document.dispatchEvent(new Event('minesweeper:win'));
+      }
+    });
+
+    document.addEventListener('minesweeper:win', () => {
+      clearInterval(this.minesweeper.timer);
+      this.minesweeper.mode = 'win';
+      this.minesweeper.isDialogEnabled = true;
     });
 
     document.addEventListener('minesweeper:gameover', () => {
+      clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
     });
