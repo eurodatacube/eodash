@@ -47,7 +47,7 @@ export default class Minesweeper {
     for (let y = 0; y < this.game.height; y++) {
       for (let x = 0; x < this.game.width; x++) {
         const tile = this.game.board[y][x];
-        if (tile.isMine && !tile.isRevealed) {
+        if (tile.isMine && (!tile.isRevealed || tile.isFlagged)) {
           coveredMineCount++;
         }
       }
