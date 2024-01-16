@@ -44,9 +44,8 @@
             class="pb-2 col"
           >
             <v-card
-              class="pb-2 col"
+              class="pb-2 col chartareapanel"
               ref="mapPanel"
-              style="background-color: #dde3ea;"
             >
               <v-card-title
                 v-if="customAreaIndicator"
@@ -58,7 +57,7 @@
               >
                 <indicator-data
                   :enableMapTimeInteraction="true"
-                  style="margin-top: 0px;"
+                  style="margin-top: 0px; height: 40vh"
                   class="pa-2 chart"
                 />
               </template>
