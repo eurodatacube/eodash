@@ -4260,26 +4260,6 @@
         "yAxis": "Cumulative (%)"
     },
     {
-        "aoi": "48.13,11.57",
-        "aoiID": "EU",
-        "city": "/",
-        "country": "/",
-        "description": "Crude Oil Storage Index - Europe",
-        "indicator": "OX-EU",
-        "indicatorName": "/",
-        "lastColorCode": "Green",
-        "lastIndicatorValue": "Green",
-        "lastMeasurement": "0.45",
-        "lastReferenceTime": "",
-        "lastReferenceValue": "",
-        "lastTime": "2023-11-13T00:00:00",
-        "region": "/",
-        "siteName": "/",
-        "subAoi": "/",
-        "updateFrequency": "weekly",
-        "yAxis": "[%]"
-    },
-    {
         "aoi": "60.16666667,24.933332999999998",
         "aoiID": "FI",
         "city": "Helsinki",
