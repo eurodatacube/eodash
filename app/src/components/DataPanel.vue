@@ -64,7 +64,7 @@
               <indicator-data
                 v-else-if="dataObject && dataObject.time"
                 :enableMapTimeInteraction="true"
-                style="top: 0px; position: absolute;"
+                style="top: 0px; height: 40vh;"
                 class="pa-5 chart"
               />
             </v-card>
