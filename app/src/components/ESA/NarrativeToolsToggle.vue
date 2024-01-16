@@ -45,8 +45,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import { mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'NarrativesToolsToggle',

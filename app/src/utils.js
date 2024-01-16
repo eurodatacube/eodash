@@ -23,6 +23,16 @@ function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
 
+export function simplifiedshTimeFunction(date) {
+  let tempDate = date;
+  if (!Array.isArray(tempDate)) {
+    tempDate = [tempDate];
+  }
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
+}
+
 export function shWeeklyTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
