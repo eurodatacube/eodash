@@ -136,7 +136,7 @@ const handleMapClick = (
   return hasUncoveredMine;
 };
 
-const handleMapRightClick = (e, game, grid, vectorSource) => {
+const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
   e.stopPropagation();
   e.preventDefault();
 
@@ -148,7 +148,7 @@ const handleMapRightClick = (e, game, grid, vectorSource) => {
 
   const tile = game.get(x, y);
   tile.isFlagged = !tile.isFlagged; // Toggle flag
-  updateTileVisuals(x, y, grid, vectorSource, game);
+  updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
 };
 
 const getTileStyle = (tile) => {
@@ -234,6 +234,9 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
 */
 const createHexMap = async (map, options) => {
   const vectorSource = new VectorSource();
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
   const game = new HexSweeperGame(options, 0.2);
   await game.fromGeoTIFF(options);
 
@@ -244,14 +247,11 @@ const createHexMap = async (map, options) => {
     hasUncoveredMine = handleMapClick(e, game, grid, vectorSource);
   });
   map.on('contextmenu', (e) => {
-    handleMapRightClick(e, game, grid, vectorSource);
+    handleMapRightClick(e, game, grid, vectorSource, vectorLayer);
     return false;
   });
 
   drawGameBoard(map, game, grid, vectorSource);
-  const vectorLayer = new VectorLayer({
-    source: vectorSource,
-  });
 
   map.addLayer(vectorLayer);
   updateAllTileVisuals(game, grid, vectorSource, vectorLayer);
