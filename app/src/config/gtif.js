@@ -166,7 +166,7 @@ export const geoDBFeatureParameters = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: [10, 46, 20, 49.5],
+  bounds: [11, 46.5, 15.5, 48.9],
 });
 
 export const baseLayersMap = [
@@ -256,7 +256,7 @@ const energyTransitionDefaults = {
     { ...overlayLayers.eoxOverlay, visible: true },
     {
       protocol: 'GeoJSON',
-      visible: true,
+      visible: false,
       name: 'Wind turbine detections',
       url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
       style: {
@@ -1053,10 +1053,11 @@ function createADOConfig(indicatorCode, selectedVariable) {
   };
   return config;
 }
-function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
+function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
       indicatorObject: {
+        yAxis,
         time: getDailyDates('2019-07-01', '2022-12-31'),
         indicator: indicatorCode,
         queryParameters: {
@@ -1330,11 +1331,11 @@ export const globalIndicators = [
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
-  }),
+  }, 'users'),
   createMOBI1Config('MOBI1_1', 'users_density_max', {
     min: 1,
     max: 100000,
-  }),
+  }, 'user density [users/km²]'),
   createAQ4Config('AQ4', 'congestion_index_max', {
     min: 0,
     max: 100,
