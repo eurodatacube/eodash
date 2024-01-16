@@ -166,7 +166,7 @@ export const geoDBFeatureParameters = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: [10, 46, 20, 49.5],
+  bounds: [11, 46.5, 15.5, 48.9],
 });
 
 export const baseLayersMap = [
@@ -256,7 +256,7 @@ const energyTransitionDefaults = {
     { ...overlayLayers.eoxOverlay, visible: true },
     {
       protocol: 'GeoJSON',
-      visible: true,
+      visible: false,
       name: 'Wind turbine detections',
       url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
       style: {
