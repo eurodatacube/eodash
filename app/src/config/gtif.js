@@ -1053,10 +1053,11 @@ function createADOConfig(indicatorCode, selectedVariable) {
   };
   return config;
 }
-function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
+function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
       indicatorObject: {
+        yAxis,
         time: getDailyDates('2019-07-01', '2022-12-31'),
         indicator: indicatorCode,
         queryParameters: {
@@ -1330,11 +1331,11 @@ export const globalIndicators = [
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
-  }),
+  }, 'users'),
   createMOBI1Config('MOBI1_1', 'users_density_max', {
     min: 1,
     max: 100000,
-  }),
+  }, 'user density [users/km²]'),
   createAQ4Config('AQ4', 'congestion_index_max', {
     min: 0,
     max: 100,
