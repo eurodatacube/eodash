@@ -40,33 +40,36 @@
                 Draw a polygon in order to start analysis
               </p>
           </div>
-          <v-card
-            v-else-if="showCustomAreaCard"
-            class="fill-height"
-            :style="`height: 45vh;`"
-            ref="mapPanel"
+          <div v-else-if="showCustomAreaCard"
+            class="pb-2 col"
           >
-            <v-card-title
-              v-if="customAreaIndicator"
-              style="padding-top: 10px; padding-bottom: 0px;">
-                {{ customAreaIndicator.name }}
-            </v-card-title>
-            <template
-              v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+            <v-card
+              class="pb-2 col"
+              ref="mapPanel"
+              style="background-color: #dde3ea;"
             >
+              <v-card-title
+                v-if="customAreaIndicator"
+                style="padding-top: 10px; padding-bottom: 0px;">
+                  {{ customAreaIndicator.name }}
+              </v-card-title>
+              <template
+                v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+              >
+                <indicator-data
+                  :enableMapTimeInteraction="true"
+                  style="margin-top: 0px;"
+                  class="pa-2 chart"
+                />
+              </template>
               <indicator-data
+                v-else-if="dataObject && dataObject.time"
                 :enableMapTimeInteraction="true"
-                style="margin-top: 0px;"
-                class="pa-2 chart"
+                style="top: 0px; position: absolute;"
+                class="pa-5 chart"
               />
-            </template>
-            <indicator-data
-              v-else-if="dataObject && dataObject.time"
-              :enableMapTimeInteraction="true"
-              style="top: 0px; position: absolute;"
-              class="pa-5 chart"
-            />
-          </v-card>
+            </v-card>
+          </div>
           <div class="justify-center text-center align-center"
           v-if="isLoadingCustomAreaIndicator">
             <v-progress-circular
@@ -509,9 +512,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chart {
-  background: #fff;
-}
+
 .v-card.fullscreenElement {
   position: fixed !important;
   top: 0 !important;
