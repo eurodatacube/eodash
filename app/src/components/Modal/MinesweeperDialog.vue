@@ -74,6 +74,8 @@
               <span class="name">💣 NUMBER OF MINES</span>
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
+
+            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary" text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
         </v-card-text>
 
@@ -118,6 +120,19 @@ export default {
     start() {
       document.dispatchEvent(new Event('minesweeper:start'));
       this.close();
+    },
+    copyStatsToClipboard() {
+      const date = new Date();
+
+      let string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
+
+🌟  TOTAL ELAPSED TIME: ${this.elapsedSeconds} seconds
+🔳  NUMBER OF CELLS:    ${this.game.game.fieldCount}
+💣  NUMBER OF MINES:    ${this.game.game.mineCount}`;
+
+      navigator.clipboard.writeText(string);
+
+      this.$refs['copy-btn'].$el.innerText = 'Copied!';
     },
   },
 };
