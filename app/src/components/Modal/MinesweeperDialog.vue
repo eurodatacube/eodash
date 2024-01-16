@@ -32,7 +32,9 @@
           <div class="game-stats">
             <div class="item">
               <span class="name">🌟 TOTAL UNCOVERED AREA</span>
-              <span class="value">{{ Math.round(game.game.getUncoveredAreaPercent() * 100) }}%</span>
+              <span class="value">
+                {{ Math.round(game.game.getUncoveredAreaPercent() * 100) }}%
+              </span>
             </div>
 
             <div class="item">
@@ -107,7 +109,7 @@ export default {
     elapsedSeconds: {
       type: Number,
       required: true,
-    }
+    },
   },
   methods: {
     close() {

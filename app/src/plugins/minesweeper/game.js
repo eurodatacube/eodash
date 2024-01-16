@@ -36,13 +36,13 @@ export default class Minesweeper {
       this.game,
       this.grid,
       this.vectorSource,
-      this.vectorLayer
+      this.vectorLayer,
     );
   }
 
   get isGameCompleted() {
     // If this value remains zero, i.e. there are no more covered mines, the user has won the game.
-    var coveredMineCount = 0;
+    let coveredMineCount = 0;
 
     for (let y = 0; y < this.game.height; y++) {
       for (let x = 0; x < this.game.width; x++) {

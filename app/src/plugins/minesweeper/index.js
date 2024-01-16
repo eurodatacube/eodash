@@ -51,7 +51,6 @@ const updateTileVisuals = (
   vectorLayer,
   game,
 ) => {
-
   const [q, r] = game.convertGameCoordsToAxial(x + 1, y);
   const hexagonVertices = grid.getHexagon([q, r]);
   const feature = new Feature(new Polygon([hexagonVertices]));
@@ -256,10 +255,6 @@ const createHexMap = async (map, options) => {
 
   map.addLayer(vectorLayer);
   updateAllTileVisuals(game, grid, vectorSource, vectorLayer);
-
-  if (hasUncoveredMine) {
-    alert('Game over!');
-  }
 
   return uids;
 };

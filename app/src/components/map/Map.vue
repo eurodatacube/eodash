@@ -220,9 +220,9 @@ import {
   findClosest,
 } from '@/utils';
 
-import getLocationCode from '../../mixins/getLocationCode';
 import Minesweeper from '@/plugins/minesweeper/game';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
+import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -814,9 +814,9 @@ export default {
 
     document.addEventListener('minesweeper:start', () => {
       console.info('Minesweeper::StartTimer');
-      this.minesweeper.timer = setInterval(function() {
+      this.minesweeper.timer = setInterval(() => {
         this.minesweeper.elapsedSeconds += 1;
-      }.bind(this), 1000);
+      }, 1000);
     });
 
     document.addEventListener('minesweeper:continue', () => {

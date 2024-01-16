@@ -46,7 +46,7 @@ export default class HexSweeperGame {
   revealAllTiles() {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        let tile = this.board[y][x];
+        const tile = this.board[y][x];
         if (!tile.isMine) {
           tile.isRevealed = true;
         }
@@ -126,7 +126,7 @@ export default class HexSweeperGame {
           const cell = this.board[y][x];
           if (cell.isMine) {
             this.mineCount++;
-          };
+          }
         }
       }
 
@@ -174,14 +174,6 @@ export default class HexSweeperGame {
       ? EVEN_NEIGHBOR_OFFSETS
       : ODD_NEIGHBOR_OFFSETS;
     return offsets.map(([dx, dy]) => [x + dx, y + dy]);
-  }
-
-  revealAllTiles() {
-    for (let j = 0; j < this.height; j++) {
-      for (let i = 0; i < this.width; i++) {
-        this.board[j][i].isRevealed = true;
-      }
-    }
   }
 
   /**
@@ -282,7 +274,8 @@ export default class HexSweeperGame {
         if (!this.board[ny][nx].isMine && this.board[ny][nx].adjacentMines === 0) {
           coordinatePairs = coordinatePairs.concat(this.revealTile(nx, ny));
         } else if (!this.board[ny][nx].isMine) {
-          // If the neighbor is not a mine but has adjacent mines, reveal it but do not recurse further.
+          // If the neighbor is not a mine but has adjacent mines,
+          // reveal it but do not recurse further.
           this.board[ny][nx].isRevealed = true;
           coordinatePairs.push([nx, ny]);
         }
