@@ -29,24 +29,10 @@
             :indicatorCode="indicatorObject.indicator"
           >
           </filter-controls>
-        <style-controls v-if="indicatorObject.vectorStyles"
-          :vectorStyles="indicatorObject.vectorStyles"
-        >
-        </style-controls>
-        <wms-style-controls v-if="indicatorObject.wmsStyles"
-          :wmsStyles="indicatorObject.wmsStyles"
-        >
-        </wms-style-controls>
         <template v-if="selectableLayerConfigs.length > 0">
             <SelectionInfoBar class="pb-2"
             :selectableLayerConfigs="selectableLayerConfigs"/>
         </template>
-        <data-mockup-view v-if="appConfig.id === 'gtif'"
-          :indicatorObject="indicatorObject"
-          :adminLayer="$store.state.features.adminBorderLayerSelected"
-          :adminFeature="$store.state.features.adminBorderFeatureSelected"
-        >
-        </data-mockup-view>
           <div v-if="showCustomAreaCard &&  (mergedConfigsData[0].customAreaIndicator &&
             !hasSelectionEnabled) && !customAreaIndicator" class="justify-center align-center">
               <p class="justify-self-start px-2 py-0">
@@ -54,33 +40,35 @@
                 Draw a polygon in order to start analysis
               </p>
           </div>
-          <v-card
-            v-else-if="showCustomAreaCard"
-            class="fill-height"
-            :style="`height: 45vh;`"
-            ref="mapPanel"
+          <div v-else-if="showCustomAreaCard"
+            class="pb-2 col"
           >
-            <v-card-title
-              v-if="customAreaIndicator"
-              style="padding-top: 10px; padding-bottom: 0px;">
-                {{ customAreaIndicator.name }}
-            </v-card-title>
-            <template
-              v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+            <v-card
+              class="pb-2 col chartareapanel"
+              ref="mapPanel"
             >
+              <v-card-title
+                v-if="customAreaIndicator"
+                style="padding-top: 10px; padding-bottom: 0px;">
+                  {{ customAreaIndicator.name }}
+              </v-card-title>
+              <template
+                v-if="customAreaIndicator && !customAreaIndicator.isEmpty"
+              >
+                <indicator-data
+                  :enableMapTimeInteraction="true"
+                  style="margin-top: 0px; height: 40vh"
+                  class="pa-2 chart"
+                />
+              </template>
               <indicator-data
+                v-else-if="dataObject && dataObject.time"
                 :enableMapTimeInteraction="true"
-                style="margin-top: 0px;"
-                class="pa-2 chart"
+                style="top: 0px; height: 40vh;"
+                class="pa-5 chart"
               />
-            </template>
-            <indicator-data
-              v-else-if="dataObject && dataObject.time"
-              :enableMapTimeInteraction="true"
-              style="top: 0px; position: absolute;"
-              class="pa-5 chart"
-            />
-          </v-card>
+            </v-card>
+          </div>
           <div class="justify-center text-center align-center"
           v-if="isLoadingCustomAreaIndicator">
             <v-progress-circular
@@ -205,13 +193,19 @@
               </div>
             </v-col>
           </v-row>
+        <data-mockup-view v-if="appConfig.id === 'gtif'"
+          :indicatorObject="indicatorObject"
+          :adminLayer="$store.state.features.adminBorderLayerSelected"
+          :adminFeature="$store.state.features.adminBorderFeatureSelected"
+        >
+        </data-mockup-view>
           <data-mockup-view v-if="appConfig.id === 'gtif'"
             :indicatorObject="indicatorObject"
             :selectedFeatures="$store.state.features.selectedFeatures"
             :updateQueryParametersTrigger="updateQueryParametersTrigger"
           >
           </data-mockup-view>
-          <StyleControls v-if="indicatorObject.vectorStyles"
+          <StyleControls v-if="indicatorObject.vectorStyles && indicatorObject.vectorStyles.items.length > 1"
             :vectorStyles="indicatorObject.vectorStyles"
           >
           </StyleControls>
@@ -220,7 +214,7 @@
             @updatequeryparameter="updateQueryParameters"
           >
           </vector-tile-style-control>
-          <wms-style-controls v-if="indicatorObject.wmsStyles"
+          <wms-style-controls v-if="indicatorObject.wmsStyles && indicatorObject.wmsStyles.items.length > 1"
             :wmsStyles="indicatorObject.wmsStyles"
           >
           </wms-style-controls>
@@ -229,6 +223,7 @@
           :cols="12"
           class="py-0"
           :class="$vuetify.breakpoint.smAndUp ? 'scrollContainer' : ''"
+          v-if="indicatorObject && externalData"
         >
           <v-row
             class="mt-0 fill-height pb-2"
@@ -238,7 +233,6 @@
               class="pb-0"
             >
               <v-btn
-                v-if="indicatorObject && externalData"
                 :href= "externalData.url"
                 target="_blank"
                 color="primary"
@@ -252,32 +246,29 @@
           </v-row>
         </v-col>
       </v-row>
-      <div v-if="indicatorObject.features.length && !featureObject">
-        <p class="justify-self-start px-2 py-0">
+      <div v-if="indicatorObject.features?.length && !featureObject">
+        <p class="pa-2">
           <v-icon color="black">mdi-chart-areaspline</v-icon>
           Select a point of interest on the map to see more information
         </p>
       </div>
-      <v-row class="ma-0" v-if="!indicatorObject.features.length">
-        <v-col :cols="6">
-          <v-btn
-            class="px-2 py-0"
-            color="primary"
-            block
-            @click="freezeLayer()"
-          >
-            <v-icon left>mdi-content-duplicate</v-icon>
-            Add as custom layer
-          </v-btn>
-        </v-col>
-        <v-col :cols="6">
+      <v-col v-if="indicatorHasMapData"
+        :style="`height: auto`"
+      >
+        <v-card class="pa-2" >
+          <v-card-title class="pa-2">Visual Analysis Add-Ons</v-card-title>
+          <v-list-item @click="freezeLayer()" class="pa-0">
+            <v-list-item-content>
+              <v-list-item-title> <v-icon left>mdi-content-duplicate</v-icon> Save as custom layer to layers panel</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-text-field
             hide-details
-            label="Custom Layer Name"
+            label="Custom layer name"
             v-model="frozenLayerName">
           </v-text-field>
-        </v-col>
-      </v-row>
+        </v-card>
+      </v-col>
     </div>
   </div>
 </template>
@@ -287,7 +278,7 @@ import {
   mapState,
 } from 'vuex';
 import { Wkt } from 'wicket';
-import { createConfigFromIndicator } from '@/helpers/mapConfig';
+import { createConfigFromIndicator, indicatorHasMapData } from '@/helpers/mapConfig';
 import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -480,6 +471,12 @@ export default {
     selectableLayerConfigs() {
       return this.mergedConfigsData.filter((l) => l?.selection || l?.features?.selection);
     },
+    indicatorHasMapData() {
+      if (!this.indicatorObject) {
+        return false;
+      }
+      return indicatorHasMapData(this.indicatorObject, this.featureObject);
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -514,9 +511,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chart {
-  background: #fff;
-}
+
 .v-card.fullscreenElement {
   position: fixed !important;
   top: 0 !important;

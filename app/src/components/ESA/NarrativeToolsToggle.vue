@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'NarrativesToolsToggle',
@@ -54,9 +55,20 @@ export default {
     };
   },
   methods: {
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+    }),
+    ...mapActions('gtif', [
+      'setCurrentDomain',
+    ]),
     navToExplore() {
       if (!this.$route.path.includes('explore')) {
         this.$router.push('/explore');
+      } else {
+        // We use the button as "reset" function
+        this.setCurrentDomain(null);
+        this.setSelectedIndicator(null);
+        // TODO: also reset map extent, other things we need to reset?
       }
     },
   },

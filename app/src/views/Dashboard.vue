@@ -38,7 +38,7 @@
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
                     :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
-                    button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;}` :''"
+                    button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;} [data-type=vector] .title::before { content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important; } [data-type=raster] .title::before {content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important;}` :''"
                     class="pointerEvents">
                    </eox-layercontrol>
 

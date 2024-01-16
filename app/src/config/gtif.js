@@ -166,7 +166,7 @@ export const geoDBFeatureParameters = Object.freeze({
 });
 
 export const mapDefaults = Object.freeze({
-  bounds: [10, 46, 20, 49.5],
+  bounds: [11, 46.5, 15.5, 48.9],
 });
 
 export const baseLayersMap = [
@@ -256,7 +256,7 @@ const energyTransitionDefaults = {
     { ...overlayLayers.eoxOverlay, visible: true },
     {
       protocol: 'GeoJSON',
-      visible: true,
+      visible: false,
       name: 'Wind turbine detections',
       url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
       style: {
@@ -1053,10 +1053,11 @@ function createADOConfig(indicatorCode, selectedVariable) {
   };
   return config;
 }
-function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
+function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
       indicatorObject: {
+        yAxis,
         time: getDailyDates('2019-07-01', '2022-12-31'),
         indicator: indicatorCode,
         queryParameters: {
@@ -1121,12 +1122,13 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig) {
   return config;
 }
 
-function createAQ1Config(indicatorCode, selectedVariable, itemConfig) {
+function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
       indicatorObject: {
         time: availableDates.aggregated_data,
         indicator: indicatorCode,
+        yAxis,
         queryParameters: {
           sourceLayer: 'aggregated_trajs_model_satellite_v1',
           selected: selectedVariable,
@@ -1329,11 +1331,11 @@ export const globalIndicators = [
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
-  }),
+  }, 'users'),
   createMOBI1Config('MOBI1_1', 'users_density_max', {
     min: 1,
     max: 100000,
-  }),
+  }, 'user density [users/km²]'),
   createAQ4Config('AQ4', 'congestion_index_max', {
     min: 0,
     max: 100,
@@ -1365,31 +1367,31 @@ export const globalIndicators = [
   createAQ1Config('AQ1', 'n_trajectories', {
     min: 1,
     max: 40000,
-  }),
+  }, 'n_trajectories'),
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-  }),
+  }, 'satellite_values'),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,
-  }),
+  }, 'mean_value'),
   createAQ1Config('AQ1_3', 'congestion_index', {
     min: 0,
     max: 50,
-  }),
+  }, 'congestion_index'),
   createAQ1Config('AQ1_4', 'speed', {
     min: 0,
     max: 120,
-  }),
+  }, 'speed [km/h]'),
   createAQ1Config('AQ1_5', 'motorized_count', {
     min: 1,
     max: 20000,
-  }),
+  }, 'motorized_count'),
   createAQ1Config('AQ1_6', 'motorized_share', {
     min: 0,
     max: 100,
-  }),
+  }, 'motorized_share'),
   createSOL1Config('SOL1', 'grimpactscore_filtered'),
   createSOL1Config('SOL1_1', 'lst30mme'),
   createSOL1Config('SOL1_2', 'grexisting'),
@@ -1486,7 +1488,7 @@ export const globalIndicators = [
       indicatorObject: {
         time: getDailyDates('2020-01-01', '2022-12-18'),
         indicator: 'AQA',
-        yAxis: 'Health Risk Index',
+        yAxis: 'Aggregate Risk Index (ARI)',
         display: {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
@@ -1781,7 +1783,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'AQ5',
-        time: getDailyDates('2021-12-31', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates('2021-12-31', '2023-12-29'),
         cogFilters: {
           sourceLayer: 'AQ5',
           filters: {

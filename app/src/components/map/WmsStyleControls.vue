@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row align="center"
-      v-if="wmsStyles.items.length > 1">
+    <v-row align="center">
       <v-col cols="6">
         <v-select
           v-model="select"

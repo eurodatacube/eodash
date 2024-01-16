@@ -23,6 +23,16 @@ function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
 
+export function simplifiedshTimeFunction(date) {
+  let tempDate = date;
+  if (!Array.isArray(tempDate)) {
+    tempDate = [tempDate];
+  }
+  const dateObj = DateTime.fromISO(tempDate[0]);
+  const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+  return `${dateObj.toFormat(defaultFormat)}/${dateObj.toFormat(defaultFormat)}`;
+}
+
 export function shWeeklyTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -604,7 +614,6 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;
           featureObject.yAxis = indicatorObject.yAxis;
-          featureObject.indicatorValue = [''];
           featureObject.city = (link.city && link.city !== '/') ? link.city : '';
           featureObject.country = link.country;
           featureObject.locations = payload.locations;
