@@ -18,20 +18,53 @@
         ></eox-stacinfo>
       </v-col>
     </v-row>
+    <div
+      v-if="additionalGtifDataInfos.length > 0"
+      v-html="additionalGtifDataInfoContent"
+      class="md-body"
+    ></div>
   </v-container>
 </template>
 
 <script>
+import { createConfigFromIndicator } from '@/helpers/mapConfig';
+
 export default {
+  data: () => ({
+    additionalGtifDataInfoContent: null,
+  }),
   computed: {
     getLink() {
-      return this.$store.state.indicators.selectedIndicator.link;
+      return this.indicatorObject.link;
+    },
+    indicatorObject() {
+      return this.$store.state.indicators.selectedIndicator;
+    },
+    mergedConfigsData() {
+      if (!this.indicatorObject) {
+        return [];
+      }
+      return createConfigFromIndicator(
+        this.indicatorObject,
+        0,
+      );
+    },
+    additionalGtifDataInfos() {
+      const dataInfos = this.mergedConfigsData
+        .filter((config) => config.dataInfo)
+        .map((config) => config.dataInfo);
+      return dataInfos;
     },
   },
   mounted() {
     if (this.$vuetify.breakpoint.smAndUp) {
       this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
     }
+  },
+  watch: {
+    additionalGtifDataInfos() {
+      this.getAdditionalGTIFDataInfos();
+    },
   },
   methods: {
     onStacInfoLoad() {
@@ -43,6 +76,27 @@ export default {
           this.$parent.$parent.$el.style.display = '';
         }
       });
+    },
+    getAdditionalGTIFDataInfos() {
+      this.additionalGtifDataInfoContent = '';
+      for (let i = 0; i < this.additionalGtifDataInfos.length; i++) {
+        try {
+          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGtifDataInfos[i]}.md`;
+          fetch(markdownUrl)
+            .then((response) => {
+              if (!response.ok) {
+                console.error('Fetching DataInfo failed');
+              }
+              return response.text();
+            })
+            .then((text) => {
+              const markdown = { default: text };
+              this.additionalGtifDataInfoContent += this.$marked(markdown.default);
+            });
+        } catch {
+          this.additionalGtifDataInfoContent = '';
+        }
+      }
     },
   },
 };
