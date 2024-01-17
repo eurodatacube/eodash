@@ -1923,7 +1923,7 @@ export default {
           callbacks: {
             label: (context, data) => {
               const obj = data.datasets[context.datasetIndex].data[context.index];
-              const label = `Gemeinde ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, existing: ${obj.x[0].toFixed(0)} m², potential: ${obj.y[0].toFixed(0)} m²`;
+              const label = `Gem ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, exist: ${obj.x[0].toFixed(4)} km², pot: ${obj.y[0].toFixed(4)} km²`;
               return label;
             },
           },

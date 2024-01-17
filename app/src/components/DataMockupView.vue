@@ -198,6 +198,7 @@ export default {
             yAxis: 'Green roof potential [km²]',
             originalZsps,
             gemIds: {},
+            name: 'Existing Green Roofs / Potential',
           };
           window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
           fetch(urlGem)
