@@ -1231,7 +1231,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v2.sld',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v3.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: selectedVariable,
