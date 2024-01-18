@@ -15,7 +15,7 @@ export const baseLayers = Object.freeze({
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
     visible: false,
-    maxZoom: 17,
+    maxNativeZoom: 17,
     protocol: 'xyz',
   },
   cloudless2018: {
@@ -23,14 +23,14 @@ export const baseLayers = Object.freeze({
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2018_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2018: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2018) }',
     visible: false,
-    maxZoom: 17,
+    maxNativeZoom: 17,
     protocol: 'xyz',
   },
   terrainLight: {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxZoom: 16,
+    maxNativeZoom: 16,
     visible: false,
     protocol: 'xyz',
   },
@@ -38,7 +38,7 @@ export const baseLayers = Object.freeze({
     name: 'OSM Background',
     url: '//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ OSM: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
-    maxZoom: 16,
+    maxNativeZoom: 16,
     visible: false,
     protocol: 'xyz',
   },
@@ -58,7 +58,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 18,
+    maxNativeZoom: 18,
     protocol: 'xyz',
   },
   bmapgelaende: {
@@ -66,7 +66,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 18,
+    maxNativeZoom: 18,
     protocol: 'xyz',
   },
   bmaporthofoto30cm: {
@@ -74,7 +74,7 @@ export const baseLayers = Object.freeze({
     url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
-    maxZoom: 18,
+    maxNativeZoom: 18,
     protocol: 'xyz',
   },
   bodenwertigkeitskarte_agri: {
@@ -158,7 +158,7 @@ export const baseLayers = Object.freeze({
     url: '//s1map.eodc.eu/vv/{z}/{x}/{-y}.png',
     attribution: 'Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91',
     visible: false,
-    maxZoom: 13,
+    maxNativeZoom: 13,
     protocol: 'xyz',
   },
   s1EodcBackscattervh: {
@@ -166,7 +166,7 @@ export const baseLayers = Object.freeze({
     url: '//s1map.eodc.eu/vh/{z}/{x}/{-y}.png',
     attribution: 'Bauer-Marschallinger, B., Cao, S., Navacchi, C., Freeman, V., Reuß, F., Geudtner, D., Rommen, B., Vega, F. C., Snoeij, P., Attema, E., Reimer, C., & Wagner, W. (2021). The Sentinel-1 Global Backscatter Model (S1GBM) - Mapping Earth Land Surface with C-Band Microwaves (1.0) [Data set]. TU Wien. https://doi.org/10.48436/n2d1v-gqb91',
     visible: false,
-    maxZoom: 13,
+    maxNativeZoom: 13,
     protocol: 'xyz',
   },
   terrainLightStereoNorth: {
@@ -209,7 +209,7 @@ export const overlayLayers = Object.freeze({
     url: '//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ Overlay: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href="//eox.at" target="_blank">EOX</a> }',
     visible: false,
-    maxZoom: 14,
+    maxNativeZoom: 14,
     protocol: 'xyz',
   },
   powerOpenInfrastructure: {
