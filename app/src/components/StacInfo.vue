@@ -8,6 +8,9 @@
           :allowHtml.prop="true"
           :styleOverride.prop="`#properties li > .value {
               font-weight: normal !important;
+          }
+          main {
+            padding: 0px 30px;
           }`"
           header="[]"
           subheader="[]"
@@ -18,11 +21,22 @@
         ></eox-stacinfo>
       </v-col>
     </v-row>
-    <div
-      v-if="additionalGtifDataInfos.length > 0"
-      v-html="additionalGtifDataInfoContent"
-      class="md-body"
-    ></div>
+    <v-expansion-panels
+    v-if="additionalGtifDataInfos.length > 0"
+    >
+      <v-expansion-panel
+        v-for="(item, index) in additionalGtifDataInfos"
+            :key="item.dataInfo">
+        <v-expansion-panel-header>
+          {{item.name}}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div
+            v-html="additionalGtifDataInfoContent[index]">
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-container>
 </template>
 
@@ -31,7 +45,7 @@ import { createConfigFromIndicator } from '@/helpers/mapConfig';
 
 export default {
   data: () => ({
-    additionalGtifDataInfoContent: null,
+    additionalGtifDataInfoContent: [],
   }),
   computed: {
     getLink() {
@@ -51,8 +65,7 @@ export default {
     },
     additionalGtifDataInfos() {
       const dataInfos = this.mergedConfigsData
-        .filter((config) => config.dataInfo)
-        .map((config) => config.dataInfo);
+        .filter((config) => config.dataInfo);
       return dataInfos;
     },
   },
@@ -60,6 +73,7 @@ export default {
     if (this.$vuetify.breakpoint.smAndUp) {
       this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
     }
+    this.getAdditionalGTIFDataInfos();
   },
   watch: {
     additionalGtifDataInfos() {
@@ -78,10 +92,10 @@ export default {
       });
     },
     getAdditionalGTIFDataInfos() {
-      this.additionalGtifDataInfoContent = '';
+      this.additionalGtifDataInfoContent = [];
       for (let i = 0; i < this.additionalGtifDataInfos.length; i++) {
         try {
-          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGtifDataInfos[i]}.md`;
+          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGtifDataInfos[i].dataInfo}.md`;
           fetch(markdownUrl)
             .then((response) => {
               if (!response.ok) {
@@ -91,10 +105,11 @@ export default {
             })
             .then((text) => {
               const markdown = { default: text };
-              this.additionalGtifDataInfoContent += this.$marked(markdown.default);
+              this.additionalGtifDataInfoContent.push(this.$marked(markdown.default));
             });
         } catch {
-          this.additionalGtifDataInfoContent = '';
+          // just an empty catch to "fill in empty content"
+          this.additionalGtifDataInfoContent.push('');
         }
       }
     },
@@ -102,6 +117,8 @@ export default {
 };
 </script>
 
-<style scoped>
-/** */
+<style scoped lang="scss">
+::v-deep th {
+    text-align: left;
+  }
 </style>
