@@ -32,6 +32,9 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div
+            style="display: inline-block;
+            overflow-x: scroll;
+            width: 100%;"
             v-html="additionalGtifDataInfoContent[index]">
           </div>
         </v-expansion-panel-content>
