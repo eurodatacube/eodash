@@ -144,12 +144,10 @@ export const layerNameMapping = Object.freeze({
   S2L2A_REP4: {
     minZoom: 7,
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-    subAoiTransparent: true,
   },
   S1GRD_REP4: {
     minZoom: 7,
     layers: 'E8_SENTINEL1',
-    subAoiTransparent: true,
   },
 });
 
@@ -244,6 +242,19 @@ const getDailyDates = (start, end) => {
   return dateArray;
 };
 
+const solarAndGreenRoofDefaults = [
+  baseLayers.s1EodcBackscattervv,
+  baseLayers.s1EodcBackscattervh,
+  baseLayers.geolandbasemap,
+  {
+    ...baseLayers.bmapgelaende, visible: true,
+  },
+  baseLayers.bmaporthofoto30cm,
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  baseLayers.terrainLight,
+];
+
 const energyTransitionDefaults = {
   baseLayers: [
     baseLayers.bodenwertigkeitskarte_agri,
@@ -330,6 +341,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
     dataInfo: 'SWE',
+    subAoiTransparent: true,
   },
   REP4_2: {
     maxDecimals: 5,
@@ -346,15 +358,19 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
     dataInfo: 'SWE',
+    subAoiTransparent: true,
   },
   REP4_4: {
     dataInfo: 'WSE',
+    subAoiTransparent: true,
   },
   REP4_5: {
     dataInfo: 'SWE',
+    subAoiTransparent: true,
   },
   REP4_6: {
     dataInfo: 'SWE',
+    subAoiTransparent: true,
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm, visible: true,
@@ -414,87 +430,51 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
   },
   SOL1: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_1: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_2: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_3: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_4: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_5: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_6: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL1_7: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL2: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL2_1: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL2_2: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   SOL2_3: {
-    baseLayers: [{
-      ...baseLayers.bmapgelaende,
-      visible: true,
-    }, baseLayers.bmaporthofoto30cm],
+    baseLayers: solarAndGreenRoofDefaults,
     customAreaIndicator: true,
   },
   LST: {
@@ -1239,6 +1219,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
         },
         display: [{
           dataInfo: indicatorCode,
+          minZoom: 8,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
@@ -1304,6 +1285,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
         },
         display: [{
           dataInfo: indicatorCode,
+          minZoom: 8,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',

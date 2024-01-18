@@ -941,20 +941,14 @@ export default {
   methods: {
     updateLayers(layerCollection, newLayers) {
       const layersToRemove = layerCollection.getArray()
-        .filter((l) => !newLayers.find((nL) => nL.get('name') === l.get('name')));
+        .filter((l) => !newLayers.find((nL) => (nL.get('name') === l.get('name') && nL.get('visible') === l.get('visible'))));
       const layersToAdd = newLayers
-        .filter((nL) => !layerCollection.getArray().find((l) => l.get('name') === nL.get('name')));
-
-      let selectFallbackExclusiveLayer = false;
-
+        .filter((nL) => !layerCollection.getArray().find((l) => l.get('name') === nL.get('name') && nL.get('visible') === l.get('visible')));
       // remove old layers not needed in new collection
       layersToRemove.forEach((removedLayer) => {
         const layer = layerCollection.getArray()
           .find((l) => l.get('name') === removedLayer.get('name'));
         if (!layer) { return; }
-        if (layer.get('layerControlExclusive') && layer.getVisible()) {
-          selectFallbackExclusiveLayer = true;
-        }
         layerCollection.remove(layer);
       });
 
@@ -964,12 +958,6 @@ export default {
         if (!layer) { return; }
         layerCollection.push(layer);
       });
-
-      // if a currently visible exclusive layer was removed,
-      // make the first of the new ones visible instead
-      if (selectFallbackExclusiveLayer) {
-        layerCollection.getArray()[layerCollection.getArray().length - 1].setVisible(true);
-      }
     },
     updateBaseLayers() {
       const { map } = getMapInstance(this.mapId);
@@ -981,7 +969,6 @@ export default {
         .filter(Boolean)
         .map((l) => {
           const createdLayer = createLayerFromConfig(l, map);
-          createdLayer.set('layerControlExclusive', true);
           return createdLayer;
         });
 
