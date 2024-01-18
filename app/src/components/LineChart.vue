@@ -140,6 +140,12 @@ export default {
     };
   },
   methods: {
+    resetZoomExtent() {
+      const [min, max] = this.minMaxDate();
+      this.$data._chart.options.scales.xAxes[0].ticks.min = min;
+      this.$data._chart.options.scales.xAxes[0].ticks.max = max;
+      this.$data._chart.chart.update();
+    },
     extentChangedEvent() {
       this.$emit('extentChanged', true);
     },

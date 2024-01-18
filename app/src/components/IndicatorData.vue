@@ -119,6 +119,8 @@ export default {
   },
   data() {
     return {
+      minZoom: null,
+      maxZoom: null,
       dataLayerTime: null,
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
@@ -207,6 +209,9 @@ export default {
     extentChanged(val) {
       if (val) {
         this.$refs.zoomResetButton.$el.style.display = 'block';
+        const chart = this.getChartObject();
+        this.minZoom = chart.options.scales.xAxes[0].ticks.min;
+        this.maxZoom = chart.options.scales.xAxes[0].ticks.max;
       } else {
         this.$refs.zoomResetButton.$el.style.display = 'none';
       }
@@ -1365,6 +1370,15 @@ export default {
         if (event.data.command === 'chart:setCompareTime') {
           this.compareLayerTimeFromMap = event.data.time;
         }
+        this.$nextTick(() => {
+          const chart = this.getChartObject();
+          if (chart && this.minZoom !== null) {
+            chart.options.scales.xAxes[0].ticks.min = this.minZoom;
+            chart.options.scales.xAxes[0].ticks.max = this.maxZoom;
+            chart.update(false);
+            this.$refs.zoomResetButton.$el.style.display = 'block';
+          }
+        });
       }
     },
     getChartObject() {
@@ -1381,8 +1395,14 @@ export default {
     },
     resetZoom() {
       this.extentChanged(false);
-      const chart = this.getChartObject();
-      chart.resetZoom();
+      this.minZoom = null;
+      this.maxZoom = null;
+      if (this.$refs.lineChart) {
+        this.$refs.lineChart.resetZoomExtent();
+      } else {
+        const chart = this.getChartObject();
+        chart.resetZoom();
+      }
     },
     formatNumRef(num, maxDecimals = 3) {
       return Number.parseFloat(num.toFixed(maxDecimals));
