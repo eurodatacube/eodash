@@ -415,8 +415,27 @@ export default {
       );
     },
     mergedConfigsLayerSwipe() {
-      // only display the "special layers" for global indicators
       if (!this.indicator) {
+        return [];
+      }
+      if (this.featureObject && this.featureData && this.featureData.time) {
+        // merge information from both
+        const mergedIndicator = {
+          ...this.featureObject,
+          ...this.featureData,
+        };
+        // Convert feature data time to strings
+        const time = this.featureData.time.map((t) => t.toISO({ suppressMilliseconds: true }));
+        mergedIndicator.time = time;
+        // Add name from top level indicator to feature indicator
+        mergedIndicator.name = this.indicator.name;
+        return createConfigFromIndicator(
+          mergedIndicator,
+          this.currentTimeIndexLayerSwipe,
+        );
+      }
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
         return [];
       }
       return createConfigFromIndicator(

@@ -329,6 +329,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
+    dataInfo: 'SWE',
   },
   REP4_2: {
     maxDecimals: 5,
@@ -344,12 +345,16 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
+    dataInfo: 'SWE',
   },
   REP4_4: {
+    dataInfo: 'WSE',
   },
   REP4_5: {
+    dataInfo: 'SWE',
   },
   REP4_6: {
+    dataInfo: 'SWE',
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm, visible: true,
@@ -707,6 +712,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           },
         },
         display: [{
+          dataInfo: 'WindPowerDensity',
           processingEnabled: true,
           protocol: 'cog',
           id: 'REP1',
@@ -768,7 +774,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           ...nutsStyle,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
-          name: 'Admin units (Zählsprengel)',
+          name: 'Census Track (Zählsprengel)',
           layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 12,
@@ -852,6 +858,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
           },
         },
         display: {
+          dataInfo: 'GlobalHorizontalIrradiation',
           protocol: 'cog',
           id: 'REP2',
           sources: [
@@ -941,6 +948,7 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
         },
         time: getDailyDates('2019-07-01T00:00Z', '2022-12-31T22:00:00Z'),
         display: {
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_subset_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1007,6 +1015,7 @@ function createADOConfig(indicatorCode, selectedVariable) {
           ],
         },
         display: {
+          dataInfo: indicatorCode,
           opacity: 0.7,
           selection: {
             mode: 'single',
@@ -1072,6 +1081,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
           ],
         },
         display: {
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1141,6 +1151,7 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
           ],
         },
         display: {
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1227,11 +1238,12 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           ],
         },
         display: [{
+          dataInfo: indicatorCode,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           attribution: '{}',
-          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v2.sld',
+          sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v3.sld',
           protocol: 'WMS',
           exceptions: 'application/vnd.ogc.se_inimage',
           selectedStyle: selectedVariable,
@@ -1239,6 +1251,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           dateFormatFunction: () => '2023-01-01',
         }, {
           ...nutsStyle,
+          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
@@ -1290,6 +1303,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           ],
         },
         display: [{
+          dataInfo: indicatorCode,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
@@ -1305,6 +1319,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
+          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 13,
           selection: {
@@ -1490,6 +1505,7 @@ export const globalIndicators = [
         indicator: 'AQA',
         yAxis: 'Aggregate Risk Index (ARI)',
         display: {
+          dataInfo: 'AQA',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1568,6 +1584,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          dataInfo: 'AQB',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1633,6 +1650,7 @@ export const globalIndicators = [
           ],
         },
         display: {
+          dataInfo: 'AQC',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1716,6 +1734,7 @@ export const globalIndicators = [
           },
         },
         display: {
+          dataInfo: 'AQ2',
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1790,7 +1809,6 @@ export const globalIndicators = [
             var: {
               display: true,
               label: 'Nitrogen Dioxide Tropospheric column content [µmol/m2]',
-              dataInfo: 'AQ5',
               id: 'var',
               min: 0,
               max: 300,
@@ -1800,6 +1818,7 @@ export const globalIndicators = [
           },
         },
         display: {
+          dataInfo: 'AQ5',
           protocol: 'cog',
           id: 'AQ5',
           sources: [
@@ -1848,6 +1867,7 @@ export const globalIndicators = [
           },
         },
         display: {
+          dataInfo: 'BM2',
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -1903,6 +1923,7 @@ export const globalIndicators = [
           },
         ],
         display: {
+          dataInfo: 'FCM2',
           protocol: 'cog',
           id: 'FCM2',
           sources: [
@@ -2198,6 +2219,7 @@ export const globalIndicators = [
           timeFromProperty: true,
         }, {
           minZoom: 13,
+          dataInfo: 'REP6',
           protocol: 'GeoJSON',
           tooltip: true,
           getTimeFromProperty: 'detection_time',
@@ -2227,6 +2249,7 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'REP5',
         display: [{
+          dataInfo: 'REP5',
           minZoom: 5,
           protocol: 'GeoJSON',
           tooltip: {
