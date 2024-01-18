@@ -329,6 +329,7 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
+    dataInfo: 'SWE',
   },
   REP4_2: {
     maxDecimals: 5,
@@ -344,12 +345,16 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.bmaporthofoto30cm,
     baseLayers.s1EodcBackscattervv,
     baseLayers.s1EodcBackscattervh],
+    dataInfo: 'SWE',
   },
   REP4_4: {
+    dataInfo: 'WSE',
   },
   REP4_5: {
+    dataInfo: 'SWE',
   },
   REP4_6: {
+    dataInfo: 'SWE',
     maxDecimals: 5,
     baseLayers: [{
       ...baseLayers.bmaporthofoto30cm, visible: true,
@@ -943,7 +948,7 @@ function createAQ4Config(indicatorCode, selectedVariable, itemConfig) {
         },
         time: getDailyDates('2019-07-01T00:00Z', '2022-12-31T22:00:00Z'),
         display: {
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Network_edges_subset_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1010,7 +1015,7 @@ function createADOConfig(indicatorCode, selectedVariable) {
           ],
         },
         display: {
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           opacity: 0.7,
           selection: {
             mode: 'single',
@@ -1076,7 +1081,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
           ],
         },
         display: {
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1146,7 +1151,7 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
           ],
         },
         display: {
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_grid_gtif_aggregated_data',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1233,7 +1238,7 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           ],
         },
         display: [{
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
@@ -1298,7 +1303,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           ],
         },
         display: [{
-          dataInfo: selectedVariable,
+          dataInfo: indicatorCode,
           baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
           STYLES: selectedVariable,
           layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Rooftops_PV_bundesland_3857_v1',
@@ -1961,7 +1966,6 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'FCM3',
         display: {
-          dataInfo: 'FCM3',
           protocol: 'cog',
           id: 'FCM3',
           sources: [
@@ -2317,7 +2321,6 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'LST',
         display: [{
-          dataInfo: 'LST',
           protocol: 'xyz',
           tileSize: 256,
           opacity: 1,
@@ -2348,7 +2351,6 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'EO4A',
         display: {
-          dataInfo: 'EO4A',
           selectedTime: '2022-01-30',
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           layers: 'SNOW-DEPTH',
@@ -2367,7 +2369,6 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'EO4A2',
         display: {
-          dataInfo: 'EO4A2',
           selectedTime: '2022-01-30',
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           layers: 'SWE',
