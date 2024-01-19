@@ -1,5 +1,7 @@
 # Edge biomass change
 
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
+
 Annual aboveground carbon loss due to forest degradation within 120 m from forest edges [MgC/ha/yr] (2011-2018). Derived from loss function of Silva Junior et al. Science Advances (2020).
 
 Source:
@@ -8,7 +10,7 @@ Fawcett, Dominic, Sitch, Stephen, Ciais, Philippe, Wigneron, Jean Pierre, Silva-
 
 Units: MgC/ha/year
 
-The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.dev.brockmann-consult.de/)
+The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.brockmann-consult.de/)
 
 Further links:
 

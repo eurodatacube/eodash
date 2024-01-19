@@ -73,7 +73,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
@@ -653,14 +653,17 @@ export const indicatorsDefinition = Object.freeze({
   GGI_CH4: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_CH4',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_N2O: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_N2O',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_CO2: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_CO2',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -1100,6 +1103,7 @@ const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, ti
       inputData: [''],
       yAxis,
       display: {
+        baseLayers: cloudlessBaseLayerDefault,
         layerConfig: {
           schema: {
             type: 'object',
@@ -2667,8 +2671,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2777,8 +2781,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2865,8 +2869,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2909,8 +2913,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3346,8 +3350,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3390,8 +3394,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3434,8 +3438,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3478,8 +3482,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),

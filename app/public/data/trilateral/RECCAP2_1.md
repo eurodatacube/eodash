@@ -1,5 +1,7 @@
 # Aboveground carbon
 
+Dataset contributed by: [ESA CCI RECCAP2](https://climate.esa.int/en/projects/reccap-2/)
+
 Aboveground carbon [MgC/ha] (2011-2019) derived from different L-VOD indices calibrated to AGC using the ESA CCI biomass map. Provides data based on different filtering methods (smoothed, max and trend) as well as their mean.
 
 Source:
@@ -10,7 +12,7 @@ Fawcett, Dominic, Sitch, Stephen, Ciais, Philippe, Wigneron, Jean Pierre, Silva-
 
 Units: MgC/ha
 
-The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.dev.brockmann-consult.de/)
+The data shown is served from the [CCI RECCAP2 xcube server](https://reccap2.viewer.brockmann-consult.de/)
 
 Further links:
 

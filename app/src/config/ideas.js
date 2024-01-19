@@ -14,10 +14,18 @@ export const indicatorsDefinition = Object.freeze({
   IND4_1: {
     indicatorSummary: 'Indicator 4',
     indicatorOverwrite: 'Flooding',
-    themes: ['water'],
+    themes: ['economy'],
+  },
+  IND1_1: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/IND1_1',
+  },
+  IND2_1: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/IND2_1',
   },
   AQ5: {
-    themes: ['air'],
+    themes: ['economy'],
   },
 });
 
@@ -25,6 +33,8 @@ export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [];
 
 export const defaultLayersDisplay = {
+  dateFormatFunction: (date) => date,
+  labelFormatFunction: (date) => date,
   protocol: 'WMS',
   format: 'image/png',
   transparent: true,
@@ -209,7 +219,6 @@ export const globalIndicators = [
           baseUrl: 'https://wcs-eo4sdcr.adamplatform.eu/cgi-bin/mapserv/',
           layers: 'INUNDATION',
           crossOrigin: null,
-          dateFormatFunction: (date) => date,
           labelFormatFunction: (date) => date,
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
@@ -243,7 +252,6 @@ export const globalIndicators = [
       },
     },
   },
-
   {
     properties: {
       indicatorObject: {
@@ -304,7 +312,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ5',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
           ],
           style: {
             variables: {
@@ -324,6 +332,155 @@ export const globalIndicators = [
             ],
           },
           name: 'DEM',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: '',
+        indicator: 'IND1_1',
+        indicatorName: 'Indicator 1: Air pollution',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: ['2020'],
+        inputData: [''],
+        display: {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie.tif' },
+          ],
+          style: {
+            variables: {
+              varMin: 0,
+              varMax: 1500,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 1, 1500],
+              [
+                'interpolate',
+                ['linear'],
+                normalize(['band', 1], 'varMin', 'varMax'),
+                ...getColorStops('viridis', 0, 1, 64, false),
+              ],
+              ['color', 0, 0, 0, 0],
+            ],
+          },
+          name: 'Health-Oriented Pollution Index',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: '',
+        indicator: 'IND2_1',
+        indicatorName: 'Indicator 2: Wildlife',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        cogFilters: {
+          sourceLayer: 'IND2_1',
+          filters: {
+            wildlife: {
+              display: true,
+              label: 'Wildlife biodiversity',
+              id: 'wildlife',
+              // dataInfo: 'WindPowerDensity',
+              min: 0.5,
+              max: 5,
+              step: 0.25,
+              header: true,
+              range: [0.5, 5],
+            },
+            biodiversity_connectivity_quintile: {
+              display: true,
+              label: 'Area connectivity indicator',
+              id: 'biodiversity_connectivity_quintile',
+              // dataInfo: 'Elevation',
+              min: -1,
+              max: 5,
+              step: 0.25,
+              range: [-1, 5],
+            },
+            species_count_quintile: {
+              display: true,
+              label: 'Categorized species density',
+              id: 'species_count_quintile',
+              // dataInfo: 'Slope',
+              min: 0,
+              max: 5,
+              step: 0.25,
+              range: [0, 5],
+            },
+            vegetation: {
+              display: true,
+              label: 'Vegetation health indicator',
+              id: 'vegetation',
+              // dataInfo: 'Slope',
+              min: 0,
+              max: 5,
+              step: 0.25,
+              range: [0, 5],
+            },
+          },
+        },
+        display: {
+          protocol: 'cog',
+          id: 'IND2_1',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+          ],
+          name: 'Indicator 2: Wildlife',
+          style: {
+            variables: {
+              wildlifeMin: 0.5,
+              wildlifeMax: 5,
+              biodiversity_connectivity_quintileMin: -1,
+              biodiversity_connectivity_quintileMax: 5,
+              species_count_quintileMin: 0,
+              species_count_quintileMax: 5,
+              vegetationMin: 0,
+              vegetationMax: 5,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['between', ['band', 1], ['var', 'wildlifeMin'], ['var', 'wildlifeMax']],
+                ['between', ['band', 2], ['var', 'biodiversity_connectivity_quintileMin'], ['var', 'biodiversity_connectivity_quintileMax']],
+                ['between', ['band', 3], ['var', 'species_count_quintileMin'], ['var', 'species_count_quintileMax']],
+                ['between', ['band', 4], ['var', 'vegetationMin'], ['var', 'vegetationMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('chlorophyll', 0, 5, 27, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
         },
       },
     },
