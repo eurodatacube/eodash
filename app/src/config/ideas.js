@@ -273,13 +273,11 @@ export const globalIndicators = [
         minesweeperOptions: {
           // Board dimensions in number of hex cells
           size: 30,
-          // height: 40,
-          // width: 20,
           geotiff: {
             projection: 'EPSG:4326',
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
           },
-          locations: [// 0.3 and 0.15
+          locations: [
             [14.0, 47.0, 15.0, 48.0],
           ],
         },
@@ -392,7 +390,11 @@ export const globalIndicators = [
         indicatorName: 'Indicator 2: Wildlife',
         subAoi: {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-5.800781 41.409776, -5.800781 51.536086, 10.546875 51.536086, 10.546875 41.409776, -5.800781 41.409776))').toJson(),
+          }],
         },
         aoiID: 'World',
         time: [],
@@ -405,11 +407,11 @@ export const globalIndicators = [
               label: 'Wildlife biodiversity',
               id: 'wildlife',
               // dataInfo: 'WindPowerDensity',
-              min: 0.5,
+              min: 0.25,
               max: 5,
               step: 0.25,
               header: true,
-              range: [0.5, 5],
+              range: [0.25, 5],
             },
             biodiversity_connectivity_quintile: {
               display: true,
@@ -443,6 +445,24 @@ export const globalIndicators = [
             },
           },
         },
+        minesweeperOptions: {
+          // Board dimensions in number of hex cells
+          size: 30,
+          geotiff: {
+            projection: 'EPSG:4326',
+            url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1.tif',
+          },
+          selectedLocationIndex: 0,
+          locations: [{
+            name: 'Dordogne Valley',
+            bbox: [-1.3289, 44.4393, 1.944, 45.6092],
+            isMineCondition: (val) => val >= 3,
+          }, {
+            name: 'Jura/Savoie',
+            bbox: [4.7013, 45.7953, 7.0053, 47.036],
+            isMineCondition: (val) => val >= 3,
+          }],
+        },
         display: {
           protocol: 'cog',
           id: 'IND2_1',
@@ -452,7 +472,7 @@ export const globalIndicators = [
           name: 'Indicator 2: Wildlife',
           style: {
             variables: {
-              wildlifeMin: 0.5,
+              wildlifeMin: 0.25,
               wildlifeMax: 5,
               biodiversity_connectivity_quintileMin: -1,
               biodiversity_connectivity_quintileMax: 5,

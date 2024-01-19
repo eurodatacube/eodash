@@ -18,12 +18,13 @@ export default class HexSweeperGame {
   constructor(options, difficulty) {
     this.size = options.size;
     this.locations = options.locations;
+    this.selectedLocationIndex = options.selectedLocationIndex;
     // this.height = height;
     this.difficulty = difficulty;
     this.board = [];
     this.image = null;
     this.center = [];
-    this.gameSize = 2100;
+    this.gameSize = null;
     this.fieldCount = 0;
     this.mineCount = 0;
   }
@@ -59,15 +60,20 @@ export default class HexSweeperGame {
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
+      const image = await tiff.getImage();
       // get currently zoomed to location index
-      const locationIndex = 0;
+      const location = this.locations[this.selectedLocationIndex];
 
       // Convert geographic coordinates to distances using EPSG:3857
-      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[locationIndex][0], this.locations[locationIndex][1]]);
-      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[locationIndex][2], this.locations[locationIndex][3]]);
+      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [location.bbox[0], location.bbox[1]]);
+      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [location.bbox[2], location.bbox[3]]);
 
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
+
+      // compute the width of a single hex (gameSize), divided by 2 but multiply by 1.2 to 
+      // account for the below mentioned hexagon wider than taller
+      this.gameSize = Math.round(xDistance / this.size / 1.667);
 
       // Adjust board dimensions based on actual distances
       this.width = this.size;
@@ -78,8 +84,8 @@ export default class HexSweeperGame {
         * 1.2,
       );
       // Read the GeoTIFF data into a 1-dimensional array
-      let data = (await tiff.readRasters({
-        bbox: options.locations[locationIndex],
+      let data = (await image.readRasters({
+        bbox: location.bbox,
         width: this.width,
         height: this.height,
         resampleMethod: 'bilinear',
@@ -98,8 +104,8 @@ export default class HexSweeperGame {
       }
 
       data = flippedData;
-
-      const centerInLatLon = [this.locations[locationIndex][0], this.locations[locationIndex][1]];
+      // not actually center but left bottom corner
+      const centerInLatLon = [location.bbox[0], location.bbox[1]];
       this.center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLatLon);
 
       console.log(`GeoTIFF size is ${this.width}x${this.height}`);
@@ -109,9 +115,14 @@ export default class HexSweeperGame {
         const row = [];
         for (let x = 0; x < this.width; x++) {
           const value = data[y * this.width + x];
-
+          let isMine;
+          if (location.isMineCondition) {
+            isMine = location.isMineCondition(value);
+          } else {
+            isMine = Math.round(Math.random());
+          }
           row.push({
-            isMine: value > 1500,
+            isMine,
             adjacentMines: 0,
             isRevealed: false,
             isFlagged: false,
