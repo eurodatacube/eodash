@@ -1,46 +1,83 @@
 import { Feature } from 'ol';
 import { Polygon } from 'ol/geom';
-import { Image, Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
 import {
   Text, Style, Fill, Stroke,
 } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
 import HexMap from 'ol-games/source/HexMap';
 
+// eslint-disable-next-line
 import HexSweeperGame from './board';
-
-export {
-  createHexMap,
-  setupGrid,
-  updateTileVisuals,
-  updateAllTileVisuals,
-  handleMapClick,
-  handleMapRightClick,
-  getTileStyle,
-  drawGameBoard,
-};
 
 /**
  * Set up the game grid using HexGrid and HexMap.
  *
- * @param {Object} map - The OpenLayers map instance.
+ * @param {Object} game - The game object.
  * @returns {Object} The created `HexGrid`.
  */
-const setupGrid = (map, options, game) => {
+const setupGrid = (game) => {
   const grid = new HexGrid({
     size: game.gameSize,
     origin: game.center,
   });
 
   const hex = new HexMap({ hexGrid: grid });
-  const imageLayer = new Image({ source: hex });
-  map.addLayer(imageLayer);
 
   return {
-    uids: [imageLayer.ol_uid, hex.ol_uid],
+    uids: [hex.ol_uid],
     grid,
   };
+};
+
+const getTileStyle = (tile) => {
+  let style;
+  if (tile.isRevealed === true) {
+    if (tile.isMine) {
+      style = new Style({
+        stroke: new Stroke({ color: '#000', width: 1 }),
+        fill: new Fill({ color: 'red' }),
+        text: new Text({
+          text: '💣',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#fff' }),
+          stroke: new Stroke({ color: '#000', width: 3 }),
+        }),
+      });
+    } else {
+      style = new Style({
+        stroke: new Stroke({ color: '#000', width: 1 }),
+        fill: new Fill({ color: '#fff0' }),
+        text: new Text({
+          text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
+          font: '20px Calibri,sans-serif',
+          fill: new Fill({ color: '#000' }),
+          stroke: new Stroke({ color: '#fff', width: 3 }),
+        }),
+      });
+    }
+  } else if (tile.isFlagged) {
+    style = new Style({
+      stroke: new Stroke({ color: '#000', width: 1 }),
+      fill: new Fill({ color: 'blue' }),
+      text: new Text({
+        text: '⚑',
+        font: '20px Calibri,sans-serif',
+        fill: new Fill({ color: '#fff' }),
+        stroke: new Stroke({ color: '#000', width: 3 }),
+      }),
+    });
+  } else {
+    style = new Style({
+      stroke: new Stroke({ color: '#000', width: 0.5 }),
+      fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
+      text: new Text({
+        text: '',
+        font: '20px Calibri,sans-serif',
+      }),
+    });
+  }
+
+  return style;
 };
 
 const updateTileVisuals = (
@@ -121,10 +158,14 @@ const handleMapClick = (
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
   const revealedCoordsList = game.revealTile(x, y);
+  if (!revealedCoordsList) {
+    return;
+  }
 
-  for (const [x, y] of revealedCoordsList) {
-    hasUncoveredMine = hasUncoveredMine || game.get(x, y).isMine;
-    updateTileVisualsCallback(x, y, grid, vectorSource, game);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [xx, yy] of revealedCoordsList) {
+    hasUncoveredMine = hasUncoveredMine || game.get(xx, yy).isMine;
+    updateTileVisualsCallback(xx, yy, grid, vectorSource, game);
   }
 
   if (hasUncoveredMine) {
@@ -132,8 +173,6 @@ const handleMapClick = (
   } else {
     document.dispatchEvent(new Event('minesweeper:continue'));
   }
-
-  return hasUncoveredMine;
 };
 
 const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
@@ -149,53 +188,6 @@ const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
   const tile = game.get(x, y);
   tile.isFlagged = !tile.isFlagged; // Toggle flag
   updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
-};
-
-const getTileStyle = (tile) => {
-  let style;
-  if (tile.isRevealed === true) {
-    if (tile.isMine) {
-      style = new Style({
-        fill: new Fill({ color: 'red' }),
-        text: new Text({
-          text: '💣',
-          font: '20px Calibri,sans-serif',
-          fill: new Fill({ color: '#fff' }),
-          stroke: new Stroke({ color: '#000', width: 3 }),
-        }),
-      });
-    } else {
-      style = new Style({
-        fill: new Fill({ color: '#fff0' }),
-        text: new Text({
-          text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
-          font: '20px Calibri,sans-serif',
-          fill: new Fill({ color: '#000' }),
-          stroke: new Stroke({ color: '#fff', width: 3 }),
-        }),
-      });
-    }
-  } else if (tile.isFlagged) {
-    style = new Style({
-      fill: new Fill({ color: 'blue' }),
-      text: new Text({
-        text: '⚑',
-        font: '20px Calibri,sans-serif',
-        fill: new Fill({ color: '#fff' }),
-        stroke: new Stroke({ color: '#000', width: 3 }),
-      }),
-    });
-  } else {
-    style = new Style({
-      fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
-      text: new Text({
-        text: '',
-        font: '20px Calibri,sans-serif',
-      }),
-    });
-  }
-
-  return style;
 };
 
 /**
@@ -227,34 +219,12 @@ const drawGameBoard = (map, game, grid, vectorSource) => {
   }
 };
 
-/**
-* Initializes and sets up the hex map game.
-*
-* @param {Object} map - The OpenLayers map instance.
-*/
-const createHexMap = async (map, options) => {
-  const vectorSource = new VectorSource();
-  const vectorLayer = new VectorLayer({
-    source: vectorSource,
-  });
-  const game = new HexSweeperGame(options, 0.2);
-  await game.fromGeoTIFF(options);
-
-  const { uids, grid } = setupGrid(map, options, game);
-  let hasUncoveredMine = false;
-
-  map.on('click', (e) => {
-    hasUncoveredMine = handleMapClick(e, game, grid, vectorSource);
-  });
-  map.on('contextmenu', (e) => {
-    handleMapRightClick(e, game, grid, vectorSource, vectorLayer);
-    return false;
-  });
-
-  drawGameBoard(map, game, grid, vectorSource);
-
-  map.addLayer(vectorLayer);
-  updateAllTileVisuals(game, grid, vectorSource, vectorLayer);
-
-  return uids;
+export {
+  setupGrid,
+  updateTileVisuals,
+  updateAllTileVisuals,
+  handleMapClick,
+  handleMapRightClick,
+  getTileStyle,
+  drawGameBoard,
 };

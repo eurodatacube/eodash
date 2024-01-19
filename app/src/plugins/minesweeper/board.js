@@ -49,6 +49,8 @@ export default class HexSweeperGame {
         const tile = this.board[y][x];
         if (!tile.isMine) {
           tile.isRevealed = true;
+        } else {
+          tile.isFlagged = true;
         }
       }
     }
@@ -57,10 +59,12 @@ export default class HexSweeperGame {
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
+      // get currently zoomed to location index
+      const locationIndex = 0;
 
       // Convert geographic coordinates to distances using EPSG:3857
-      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][0], this.locations[0][1]]);
-      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][2], this.locations[0][3]]);
+      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[locationIndex][0], this.locations[locationIndex][1]]);
+      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[locationIndex][2], this.locations[locationIndex][3]]);
 
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
@@ -73,10 +77,9 @@ export default class HexSweeperGame {
         // Account for the fact that hexagons are wider than tall
         * 1.2,
       );
-
       // Read the GeoTIFF data into a 1-dimensional array
       let data = (await tiff.readRasters({
-        bbox: options.locations[0],
+        bbox: options.locations[locationIndex],
         width: this.width,
         height: this.height,
         resampleMethod: 'bilinear',
@@ -96,7 +99,7 @@ export default class HexSweeperGame {
 
       data = flippedData;
 
-      const centerInLatLon = [this.locations[0][0], this.locations[0][1]];
+      const centerInLatLon = [this.locations[locationIndex][0], this.locations[locationIndex][1]];
       this.center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLatLon);
 
       console.log(`GeoTIFF size is ${this.width}x${this.height}`);
@@ -163,12 +166,7 @@ export default class HexSweeperGame {
     }
   }
 
-  enforceBounds(x, y) {
-    if (this.isOutOfBounds(x, y)) {
-      // console.warn(`Coordinates [${x}, ${y}] are out of bounds`);
-    }
-  }
-
+  /* eslint-disable class-methods-use-this */
   getNeighborCoordinates(x, y) {
     const offsets = (y % 2 === 0)
       ? EVEN_NEIGHBOR_OFFSETS
@@ -183,6 +181,7 @@ export default class HexSweeperGame {
    * @param {number} r - The axial row coordinate.
    * @returns {{ x: number, y: number }} Game board coordinates.
    */
+
   convertAxialToGameCoords(q, r) {
     const x = q + Math.floor(r / 2);
     const y = r;
@@ -197,11 +196,11 @@ export default class HexSweeperGame {
    * @returns {[number, number]} Axial coordinates [q, r].
    */
   convertGameCoordsToAxial(x, y) {
-    this.enforceBounds(x, y);
     const q = x - Math.floor(y / 2);
     const r = y;
     return [q, r];
   }
+  /* eslint-enable class-methods-use-this */
 
   /**
    * Gets the count of adjacent mines for a given tile on the game board.
@@ -211,7 +210,6 @@ export default class HexSweeperGame {
    * @returns {number} The count of adjacent mines.
    */
   getAdjacentMineCount(x, y) {
-    this.enforceBounds(x, y);
     const tile = this.get(x, y);
     return tile.adjacentMines;
   }
@@ -231,6 +229,7 @@ export default class HexSweeperGame {
       ? EVEN_NEIGHBOR_OFFSETS
       : ODD_NEIGHBOR_OFFSETS;
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [dx, dy] of neighbors) {
       const nx = x + dx;
       const ny = y + dy;
@@ -259,6 +258,9 @@ export default class HexSweeperGame {
     let coordinatePairs = [[x, y]];
 
     const tile = this.get(x, y);
+    if (!tile) {
+      return null;
+    }
     if (tile.isRevealed || tile.isFlagged) return [];
     tile.isRevealed = true;
 
@@ -298,7 +300,9 @@ export default class HexSweeperGame {
   }
 
   get(x, y) {
-    this.enforceBounds(x, y);
-    return this.board[y][x];
+    if (!this.isOutOfBounds(x, y)) {
+      return this.board[y][x];
+    }
+    return null;
   }
 }

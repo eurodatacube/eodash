@@ -144,7 +144,7 @@
         />
 
         <div v-if="isMinesweeperConfigured && !!this.minesweeper.game">
-          <v-btn @click="minesweeper.game.revealAllTiles()">Reveal</v-btn>
+          <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
@@ -560,9 +560,8 @@ export default {
           }
           this.$store.commit('features/SET_SELECTED_FEATURES', []);
 
-          // Initialize Minesweeper game if options are present in the appConfig.
-          if (this.indicator
-                && this.indicator.minesweeperOptions
+          // Initialize Minesweeper game if options are present in the config.
+          if (this.isMinesweeperConfigured
                 && this.minesweeper.uids.length === 0
           ) {
             const { map } = getMapInstance(this.mapId);
@@ -812,32 +811,36 @@ export default {
       map.addInteraction(this.queryLink);
     }
 
-    document.addEventListener('minesweeper:start', () => {
+    document.addEventListener('minesweeper:start', this.startMineSweepCounter);
+
+    document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
+
+    document.addEventListener('minesweeper:win', this.winMineSweep);
+
+    document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
+  },
+  methods: {
+    startMineSweepCounter() {
       console.info('Minesweeper::StartTimer');
       this.minesweeper.timer = setInterval(() => {
         this.minesweeper.elapsedSeconds += 1;
       }, 1000);
-    });
-
-    document.addEventListener('minesweeper:continue', () => {
+    },
+    continueMineSweepCounter() {
       if (this.minesweeper.game.isGameCompleted) {
         document.dispatchEvent(new Event('minesweeper:win'));
       }
-    });
-
-    document.addEventListener('minesweeper:win', () => {
+    },
+    winMineSweep() {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'win';
       this.minesweeper.isDialogEnabled = true;
-    });
-
-    document.addEventListener('minesweeper:gameover', () => {
+    },
+    gameoverMineSweep() {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
-    });
-  },
-  methods: {
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1129,7 +1132,6 @@ export default {
         this.minesweeper.isEnabled = false;
       } else {
         this.minesweeper.game = new Minesweeper(map, this.indicator.minesweeperOptions);
-        // this.minesweeper.uids = await createHexMap(map, this.indicator.minesweeperOptions);
         this.minesweeper.isEnabled = true;
         this.minesweeper.isDialogEnabled = true;
       }
@@ -1147,6 +1149,10 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
+    document.removeEventListener('minesweeper:start', this.startMineSweepCounter);
+    document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
+    document.removeEventListener('minesweeper:win', this.winMineSweep);
+    document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
   },
 };
 </script>

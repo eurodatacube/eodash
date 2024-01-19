@@ -5,7 +5,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
           <span>
-            💣
+            💣 Open game dialog
           </span>
         </v-btn>
       </template>
@@ -47,7 +47,8 @@
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
 
-            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary" text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
+            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
+              text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
         </v-card-text>
 
@@ -77,7 +78,8 @@
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
 
-            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary" text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
+            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
+              text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
         </v-card-text>
 
@@ -126,7 +128,7 @@ export default {
     copyStatsToClipboard() {
       const date = new Date();
 
-      var string;
+      let string;
 
       if (this.mode === 'win') {
         string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}

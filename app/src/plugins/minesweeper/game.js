@@ -14,7 +14,10 @@ import {
 export default class Minesweeper {
   constructor(map, options) {
     this.vectorSource = new VectorSource();
-    this.vectorLayer = new VectorLayer({ source: this.vectorSource });
+    this.vectorLayer = new VectorLayer({
+      source: this.vectorSource,
+      name: 'Minesweep game board',
+    });
     this.map = map;
     this.options = options;
     this.game = new HexSweeperGame(options, 0.2);
@@ -25,7 +28,7 @@ export default class Minesweeper {
 
   async setupGame() {
     await this.game.fromGeoTIFF(this.options);
-    const gridLayers = setupGrid(this.map, this.options, this.game);
+    const gridLayers = setupGrid(this.game);
     this.grid = gridLayers.grid;
     this.uids = gridLayers.uids;
 
@@ -64,8 +67,6 @@ export default class Minesweeper {
 
   setupGrid() {
     return setupGrid(
-      this.map,
-      this.options,
       this.game,
     );
   }

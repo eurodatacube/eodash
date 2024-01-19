@@ -312,7 +312,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'AQ5',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
           ],
           style: {
             variables: {
