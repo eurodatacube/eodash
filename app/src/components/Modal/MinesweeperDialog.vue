@@ -46,6 +46,8 @@
               <span class="name">💣 NUMBER OF MINES</span>
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
+
+            <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary" text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
         </v-card-text>
 
@@ -124,11 +126,21 @@ export default {
     copyStatsToClipboard() {
       const date = new Date();
 
-      let string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
+      var string;
+
+      if (this.mode === 'win') {
+        string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
 
 🌟  TOTAL ELAPSED TIME: ${this.elapsedSeconds} seconds
 🔳  NUMBER OF CELLS:    ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:    ${this.game.game.mineCount}`;
+      } else if (this.mode === 'gameover') {
+        string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
+
+🌟  TOTAL UNCOVERED AREA: ${Math.round(this.game.game.getUncoveredAreaPercent() * 100)}%
+🔳  NUMBER OF CELLS:      ${this.game.game.fieldCount}
+💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
+      }
 
       navigator.clipboard.writeText(string);
 
