@@ -98,7 +98,7 @@
             dense
             :min="filters[key].min"
             :max="filters[key].max"
-            :step="(filters[key].max-filters[key].min)/100"
+            :step="filters[key].step || (filters[key].max-filters[key].min)/100"
             @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
@@ -234,7 +234,7 @@
             dense
             :min="filters[key].min"
             :max="filters[key].max"
-            :step="(filters[key].max-filters[key].min)/100"
+            :step="filters[key].step || (filters[key].max-filters[key].min)/100"
             @input="(evt) => throttledUpdate(evt, filters[key].id)"
           >
             <template v-slot:prepend>
