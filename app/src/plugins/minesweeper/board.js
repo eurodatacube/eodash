@@ -63,10 +63,10 @@ export default class HexSweeperGame {
       const image = await tiff.getImage();
       // get currently zoomed to location index
       const location = this.locations[this.selectedLocationIndex];
-
+      const { bbox } = location;
       // Convert geographic coordinates to distances using EPSG:3857
-      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [location.bbox[0], location.bbox[1]]);
-      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [location.bbox[2], location.bbox[3]]);
+      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[0], bbox[1]]);
+      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[2], bbox[3]]);
 
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
@@ -84,11 +84,26 @@ export default class HexSweeperGame {
         * 1.18,
       );
       // Read the GeoTIFF data into a 1-dimensional array
+      const [oX, oY] = image.getOrigin();
+      const [imageResX, imageResY] = image.getResolution(image);
+
+      let wnd = [
+        Math.round((bbox[0] - oX) / imageResX),
+        Math.round((bbox[1] - oY) / imageResY),
+        Math.round((bbox[2] - oX) / imageResX),
+        Math.round((bbox[3] - oY) / imageResY),
+      ];
+      wnd = [
+        Math.min(wnd[0], wnd[2]),
+        Math.min(wnd[1], wnd[3]),
+        Math.max(wnd[0], wnd[2]),
+        Math.max(wnd[1], wnd[3]),
+      ];
+
       let data = (await image.readRasters({
-        bbox: location.bbox,
+        window: wnd,
         width: this.width,
         height: this.height,
-        resampleMethod: 'bilinear',
       }))[0];
 
       // Flip the GeoTIFF upside down
@@ -104,7 +119,7 @@ export default class HexSweeperGame {
       }
 
       data = flippedData;
-      const centerInLonLat = [location.bbox[0], location.bbox[1]];
+      const centerInLonLat = [bbox[0], bbox[1]];
       const center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLonLat);
       // not actually center but left bottom corner of start of board but subtract ~1.5 hex
       this.center = [center[0] - 1.5 * this.gameSize, center[1] + 0.5 * this.gameSize];
