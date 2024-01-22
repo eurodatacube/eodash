@@ -252,88 +252,76 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
-        description: 'DEM TEST',
-        navigationDescription: 'DEM TEST',
-        indicator: 'AQ5',
-        lastIndicatorValue: null,
-        indicatorName: 'Nitrogen Dioxide (NO2)',
-        highlights: [
-          {
-            name: 'Austria overview',
-            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-          },
-        ],
-        minesweeperOptions: {
-          // Board dimensions in number of hex cells
-          size: 30,
-          geotiff: {
-            projection: 'EPSG:4326',
-            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
-          },
-          locations: [
-            [14.0, 47.0, 15.0, 48.0],
-          ],
-        },
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'TEST',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        cogFilters: {
-          sourceLayer: 'AQ5',
-          filters: {
-            var: {
-              display: true,
-              label: 'Height',
-              dataInfo: '',
-              id: 'var',
-              min: 0,
-              max: 1500,
-              header: true,
-              range: [0, 1500],
-            },
-          },
-        },
-        display: {
-          protocol: 'cog',
-          id: 'AQ5',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
-          ],
-          style: {
-            variables: {
-              varMin: 0,
-              varMax: 1500,
-            },
-            color: [
-              'case',
-              ['between', ['band', 1], 1, 1500],
-              [
-                'interpolate',
-                ['linear'],
-                normalize(['band', 1], 'varMin', 'varMax'),
-                ...getColorStops('viridis', 0, 1, 64, false),
-              ],
-              ['color', 0, 0, 0, 0],
-            ],
-          },
-          name: 'DEM',
-        },
-      },
-    },
-  },
+  // {
+  //   properties: {
+  //     indicatorObject: {
+  //       dataLoadFinished: true,
+  //       country: 'all',
+  //       city: 'Austria',
+  //       siteName: 'global',
+  //       description: 'DEM TEST',
+  //       navigationDescription: 'DEM TEST',
+  //       indicator: 'AQ5',
+  //       lastIndicatorValue: null,
+  //       indicatorName: 'Nitrogen Dioxide (NO2)',
+  //       highlights: [
+  //         {
+  //           name: 'Austria overview',
+  //           location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+  //         },
+  //       ],
+  //       minesweeperOptions: {
+  //         // Board dimensions in number of hex cells
+  //         size: 30,
+  //         selectedLocationIndex: 0,
+  //         geotiff: {
+  //           projection: 'EPSG:4326',
+  //           url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
+  //         },
+  //         locations: [{
+  //           name: 'Austria tile',
+  //           bbox: [14.0, 47.0, 15.0, 48.0],
+  //           isMineCondition: (val) => val >= 1500,
+  //         }],
+  //       },
+  //       subAoi: {
+  //         type: 'FeatureCollection',
+  //         features: [],
+  //       },
+  //       lastColorCode: null,
+  //       aoi: null,
+  //       aoiID: 'TEST',
+  //       time: [],
+  //       inputData: [''],
+  //       yAxis: '',
+  //       display: {
+  //         protocol: 'cog',
+  //         id: 'AQ5',
+  //         sources: [
+  //           { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
+  //         ],
+  //         style: {
+  //           variables: {
+  //             varMin: 0,
+  //             varMax: 1500,
+  //           },
+  //           color: [
+  //             'case',
+  //             ['between', ['band', 1], 1, 1500],
+  //             [
+  //               'interpolate',
+  //               ['linear'],
+  //               normalize(['band', 1], 'varMin', 'varMax'),
+  //               ...getColorStops('viridis', 0, 1, 64, false),
+  //             ],
+  //             ['color', 0, 0, 0, 0],
+  //           ],
+  //         },
+  //         name: 'DEM',
+  //       },
+  //     },
+  //   },
+  // },
   {
     properties: {
       indicatorObject: {
@@ -445,24 +433,6 @@ export const globalIndicators = [
             },
           },
         },
-        minesweeperOptions: {
-          // Board dimensions in number of hex cells
-          size: 30,
-          geotiff: {
-            projection: 'EPSG:4326',
-            url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1.tif',
-          },
-          selectedLocationIndex: 0,
-          locations: [{
-            name: 'Dordogne Valley',
-            bbox: [-1.3289, 44.4393, 1.944, 45.6092],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Jura/Savoie',
-            bbox: [4.7013, 45.7953, 7.0053, 47.036],
-            isMineCondition: (val) => val >= 3,
-          }],
-        },
         display: {
           protocol: 'cog',
           id: 'IND2_1',
@@ -495,6 +465,91 @@ export const globalIndicators = [
                 ['linear'],
                 ['band', 1],
                 ...getColorStops('chlorophyll', 0, 5, 27, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: '',
+        indicator: 'IND2_1',
+        indicatorName: 'Biodiversity Minesweeper',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-5.800781 41.409776, -5.800781 51.536086, 10.546875 51.536086, 10.546875 41.409776, -5.800781 41.409776))').toJson(),
+          }],
+        },
+        aoiID: 'Game',
+        time: [],
+        inputData: [''],
+        minesweeperOptions: {
+          // Board dimensions in number of hex cells
+          size: 50,
+          geotiff: {
+            projection: 'EPSG:4326',
+            url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1.tif',
+          },
+          selectedLocationIndex: 0,
+          locations: [{
+            name: 'Dordogne Valley',
+            bbox: [-1.3289, 44.4393, 1.944, 45.6092],
+            isMineCondition: (val) => val >= 3,
+          }, {
+            name: 'Atlantic Pyrenees / Landes',
+            bbox: [1.8998, 43.2202, 0.3274, 44.4389],
+            isMineCondition: (val) => val >= 3,
+          },{
+            name: 'Jura / Savoie',
+            bbox: [4.7013, 45.7953, 7.0053, 47.036],
+            isMineCondition: (val) => val >= 3,
+          },{
+            name: 'Cote d Azur / Southern Alps',
+            bbox: [5.046, 42.9342, 7.2733, 44.1586],
+            isMineCondition: (val) => val >= 3,
+          },{
+            name: 'Bretagne',
+            bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
+            isMineCondition: (val) => val >= 3,
+          },{
+            name: 'Paris',
+            bbox: [1.2304, 48.1871, 3.8054, 49.4386],
+            isMineCondition: (val) => val >= 3,
+          },{
+            name: 'Ardennes',
+            bbox: [3.6041, 48.8881, 6.179, 50.1222],
+            isMineCondition: (val) => val >= 3,
+          }],
+        },
+        display: {
+          protocol: 'cog',
+          id: 'IND2_1',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1.tif' },
+          ],
+          name: 'Indicator 2: Wildlife Game Enabled',
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 3, 5],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('chlorophyll', 1, 5, 27, true),
               ],
               [
                 'color', 0, 0, 0, 0,

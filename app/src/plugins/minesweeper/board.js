@@ -71,9 +71,9 @@ export default class HexSweeperGame {
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
 
-      // compute the width of a single hex (gameSize), divided by 2 but multiply by 1.2 to 
+      // compute the width of a single hex (gameSize), divided by 2 but multiply by ~1.155 to
       // account for the below mentioned hexagon wider than taller
-      this.gameSize = Math.round(xDistance / this.size / 1.667);
+      this.gameSize = Math.round(xDistance / this.size / 1.75);
 
       // Adjust board dimensions based on actual distances
       this.width = this.size;
@@ -81,7 +81,7 @@ export default class HexSweeperGame {
         (yDistance / xDistance)
         * this.size
         // Account for the fact that hexagons are wider than tall
-        * 1.2,
+        * 1.18,
       );
       // Read the GeoTIFF data into a 1-dimensional array
       let data = (await image.readRasters({
@@ -104,11 +104,10 @@ export default class HexSweeperGame {
       }
 
       data = flippedData;
-      // not actually center but left bottom corner
-      const centerInLatLon = [location.bbox[0], location.bbox[1]];
-      this.center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLatLon);
-
-      console.log(`GeoTIFF size is ${this.width}x${this.height}`);
+      const centerInLonLat = [location.bbox[0], location.bbox[1]];
+      const center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLonLat);
+      // not actually center but left bottom corner of start of board but subtract ~1.5 hex
+      this.center = [center[0] - 1.5 * this.gameSize, center[1] + 0.5 * this.gameSize];
 
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
@@ -117,7 +116,7 @@ export default class HexSweeperGame {
           const value = data[y * this.width + x];
           let isMine;
           if (location.isMineCondition) {
-            isMine = location.isMineCondition(value);
+            isMine = !isNaN(value) && location.isMineCondition(value);
           } else {
             isMine = Math.round(Math.random());
           }

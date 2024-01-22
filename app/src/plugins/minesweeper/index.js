@@ -38,7 +38,7 @@ const getTileStyle = (tile) => {
         fill: new Fill({ color: 'red' }),
         text: new Text({
           text: '💣',
-          font: '20px Calibri,sans-serif',
+          font: '16px Calibri,sans-serif',
           fill: new Fill({ color: '#fff' }),
           stroke: new Stroke({ color: '#000', width: 3 }),
         }),
@@ -49,7 +49,7 @@ const getTileStyle = (tile) => {
         fill: new Fill({ color: '#fff0' }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
-          font: '20px Calibri,sans-serif',
+          font: '16px Calibri,sans-serif',
           fill: new Fill({ color: '#000' }),
           stroke: new Stroke({ color: '#fff', width: 3 }),
         }),
@@ -61,7 +61,7 @@ const getTileStyle = (tile) => {
       fill: new Fill({ color: 'blue' }),
       text: new Text({
         text: '⚑',
-        font: '20px Calibri,sans-serif',
+        font: '16px Calibri,sans-serif',
         fill: new Fill({ color: '#fff' }),
         stroke: new Stroke({ color: '#000', width: 3 }),
       }),
@@ -72,7 +72,7 @@ const getTileStyle = (tile) => {
       fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
       text: new Text({
         text: '',
-        font: '20px Calibri,sans-serif',
+        font: '16px Calibri,sans-serif',
       }),
     });
   }
