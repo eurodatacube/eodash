@@ -43,7 +43,7 @@ export const baseLayers = Object.freeze({
     protocol: 'xyz',
   },
   // S2GLC: {
-  //   baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+  //   baseUrl: `https://shservices.mundiwebservices.com/ogc/wms/${shConfig.shInstanceId}`,
   //   protocol: 'WMS',
   //   format: 'image/png',
   //   tileSize: 512,
@@ -105,7 +105,7 @@ export const baseLayers = Object.freeze({
     protocol: 'vectortile',
   },
   CORINE_LAND_COVER: {
-    baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+    baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,
@@ -116,7 +116,7 @@ export const baseLayers = Object.freeze({
     minZoom: 7,
   },
   ESA_WORLD_COVER: {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,

@@ -207,7 +207,7 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
   format: 'image/png',
   tileSize: 512,
@@ -1425,7 +1425,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_MOTORWAY',
+          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1456,7 +1456,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_PRIMARY',
+          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
           minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,
