@@ -755,7 +755,6 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 12,
           selection: {
@@ -1232,7 +1231,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           dateFormatFunction: () => '2023-01-01',
         }, {
           ...nutsStyle,
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
@@ -1301,7 +1299,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 13,
           selection: {
