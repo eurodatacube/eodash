@@ -122,7 +122,7 @@ export default class HexSweeperGame {
       const centerInLonLat = [bbox[0], bbox[1]];
       const center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLonLat);
       // not actually center but left bottom corner of start of board but subtract ~1.5 hex
-      this.center = [center[0] - 1.5 * this.gameSize, center[1] + 0.5 * this.gameSize];
+      this.center = [center[0] - 1.0 * this.gameSize, center[1] + 0.5 * this.gameSize];
 
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
@@ -131,7 +131,7 @@ export default class HexSweeperGame {
           const value = data[y * this.width + x];
           let isMine;
           if (location.isMineCondition) {
-            isMine = !isNaN(value) && location.isMineCondition(value);
+            isMine = !Number.isNaN(value) && location.isMineCondition(value);
           } else {
             isMine = Math.round(Math.random());
           }
@@ -166,28 +166,6 @@ export default class HexSweeperGame {
       }
     } catch (error) {
       console.error('Error loading GeoTIFF data:', error);
-    }
-  }
-
-  initializeBoard() {
-    for (let y = 0; y < this.height; y++) {
-      const row = [];
-      for (let x = 0; x < this.width; x++) {
-        row.push({
-          isMine: Math.random() < this.difficulty,
-          adjacentMines: 0,
-          isRevealed: false,
-          isFlagged: false,
-          element: null,
-        });
-      }
-      this.board.push(row);
-    }
-
-    for (let y = 0; y < this.height; y++) {
-      for (let x = 0; x < this.width; x++) {
-        this.board[y][x].adjacentMines = this.calculateAdjacentMines(x, y);
-      }
     }
   }
 
@@ -228,18 +206,6 @@ export default class HexSweeperGame {
   /* eslint-enable class-methods-use-this */
 
   /**
-   * Gets the count of adjacent mines for a given tile on the game board.
-   *
-   * @param {number} x - The game board x coordinate.
-   * @param {number} y - The game board y coordinate.
-   * @returns {number} The count of adjacent mines.
-   */
-  getAdjacentMineCount(x, y) {
-    const tile = this.get(x, y);
-    return tile.adjacentMines;
-  }
-
-  /**
      * Calculate the number of adjacent mines to a given cell.
      *
      * @param {number} x - The x-coordinate of the cell.
@@ -270,12 +236,6 @@ export default class HexSweeperGame {
       }
     }
     return count;
-  }
-
-  isNextToMine(x, y) {
-    const neighbors = this.getNeighborCoordinates(x, y);
-    return neighbors.some(([nx, ny]) => this.isValidCoordinate(nx, ny)
-                                          && this.board[ny][nx].isMine);
   }
 
   revealTile(x, y) {

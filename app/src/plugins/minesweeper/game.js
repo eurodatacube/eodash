@@ -30,7 +30,6 @@ export default class Minesweeper {
     await this.game.fromGeoTIFF(this.options);
     const gridLayers = setupGrid(this.game);
     this.grid = gridLayers.grid;
-    this.uids = gridLayers.uids;
 
     this.drawGameBoard();
     this.addEventListeners();
@@ -50,7 +49,7 @@ export default class Minesweeper {
     for (let y = 0; y < this.game.height; y++) {
       for (let x = 0; x < this.game.width; x++) {
         const tile = this.game.board[y][x];
-        if (tile.isMine && (!tile.isRevealed || tile.isFlagged)) {
+        if (tile.isMine && (!tile.isRevealed && !tile.isFlagged)) {
           coveredMineCount++;
         }
       }
@@ -95,6 +94,7 @@ export default class Minesweeper {
       this.game,
       this.grid,
       this.vectorSource,
+      this.vectorLayer,
     ));
   }
 

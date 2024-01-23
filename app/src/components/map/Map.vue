@@ -308,8 +308,6 @@ export default {
         isDialogEnabled: false,
         isLoaded: false,
         mode: 'start',
-        // Layer IDs of the hex grid and board
-        uids: [],
         game: null,
         timer: null,
         elapsedSeconds: 0,
@@ -492,6 +490,14 @@ export default {
         // geoJsonFormat
         return [];
       }
+      if (this.mergedConfigsData[0]?.minesweeperOptions?.locations) {
+        const location = this.mergedConfigsData[0].minesweeperOptions.locations[
+          this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex
+        ];
+        return transformExtent(location.bbox,
+          'EPSG:4326',
+          map.getView().getProjection());
+      }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
           this.indicator.lng, this.indicator.lat],
@@ -516,7 +522,7 @@ export default {
       return position;
     },
     isMinesweeperConfigured() {
-      return this.indicator && this.indicator.minesweeperOptions;
+      return this.indicator && this.mergedConfigsData[0].minesweeperOptions;
     },
   },
   watch: {
@@ -562,10 +568,10 @@ export default {
 
           // Initialize Minesweeper game if options are present in the config.
           if (this.isMinesweeperConfigured
-                && this.minesweeper.uids.length === 0
           ) {
-            const { map } = getMapInstance(this.mapId);
-            map.once('loadend', async () => this.toggleMinesweeper());
+            this.setupMinesweeper();
+          } else {
+            this.tearDownMinesweeper();
           }
         });
       },
@@ -1120,21 +1126,20 @@ export default {
         padding,
       });
     },
-    async toggleMinesweeper() {
+    async setupMinesweeper() {
       const { map } = getMapInstance(this.mapId);
-      if (this.minesweeper.isEnabled) {
-        // Remove all layers with matching IDs from the map.
-        this.minesweeper.uids
-          .map((uid) => map.getLayers().getArray()
-            .filter((layer) => layer.ol_uid === uid)
-            .forEach((layer) => map.removeLayer(layer)));
-
-        this.minesweeper.isEnabled = false;
-      } else {
-        this.minesweeper.game = new Minesweeper(map, this.indicator.minesweeperOptions);
-        this.minesweeper.isEnabled = true;
-        this.minesweeper.isDialogEnabled = true;
+      this.minesweeper.game = new Minesweeper(map, this.mergedConfigsData[0].minesweeperOptions);
+      this.minesweeper.isEnabled = true;
+      this.minesweeper.isDialogEnabled = true;
+    },
+    tearDownMinesweeper() {
+      if (this.minesweeper.game?.vectorLayer) {
+        const { map } = getMapInstance(this.mapId);
+        map.removeLayer(this.minesweeper.game.vectorLayer);
       }
+      this.minesweeper.game = null;
+      this.minesweeper.isEnabled = false;
+      this.minesweeper.isDialogEnabled = false;
     },
   },
   beforeDestroy() {
@@ -1153,6 +1158,7 @@ export default {
     document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
     document.removeEventListener('minesweeper:win', this.winMineSweep);
     document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
+    this.tearDownMinesweeper();
   },
 };
 </script>

@@ -536,6 +536,18 @@ export function createLayerFromConfig(config, map, _options = {}) {
     );
     layer.setExtent(extent);
   }
+  // take currently selectedLocation for Minesweep and at set extent to match location bbox
+  if (config?.minesweeperOptions?.locations && config.protocol === 'cog') {
+    const { bbox } = config.minesweeperOptions.locations[
+      config.minesweeperOptions.selectedLocationIndex
+    ];
+    const extent = transformExtent(
+      bbox,
+      'EPSG:4326',
+      config.projection,
+    );
+    layer.setExtent(extent);
+  }
 
   let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {

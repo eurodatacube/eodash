@@ -4,13 +4,12 @@ import {
   Text, Style, Fill, Stroke,
 } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
-import HexMap from 'ol-games/source/HexMap';
 
 // eslint-disable-next-line
 import HexSweeperGame from './board';
 
 /**
- * Set up the game grid using HexGrid and HexMap.
+ * Set up the game grid using HexGrid.
  *
  * @param {Object} game - The game object.
  * @returns {Object} The created `HexGrid`.
@@ -20,11 +19,7 @@ const setupGrid = (game) => {
     size: game.gameSize,
     origin: game.center,
   });
-
-  const hex = new HexMap({ hexGrid: grid });
-
   return {
-    uids: [hex.ol_uid],
     grid,
   };
 };
@@ -188,6 +183,7 @@ const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
   const tile = game.get(x, y);
   tile.isFlagged = !tile.isFlagged; // Toggle flag
   updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
+  document.dispatchEvent(new Event('minesweeper:continue'));
 };
 
 /**

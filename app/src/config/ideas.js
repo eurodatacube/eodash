@@ -487,54 +487,50 @@ export const globalIndicators = [
         indicatorName: 'Wildlife Minesweeper',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON ((-5.800781 41.409776, -5.800781 51.536086, 10.546875 51.536086, 10.546875 41.409776, -5.800781 41.409776))').toJson(),
-          }],
+          features: [],
         },
         aoiID: 'Game',
         time: [],
         inputData: [''],
-        minesweeperOptions: {
-          // Board dimensions in number of hex cells
-          size: 30,
-          geotiff: {
-            projection: 'EPSG:4326',
-            url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1_t_final.tif',
-          },
-          selectedLocationIndex: 1,
-          locations: [{
-            name: 'Dordogne Valley',
-            bbox: [-1.3289, 44.4393, 1.944, 45.6092],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Atlantic Pyrenees / Landes',
-            bbox: [0.3274, 43.2202, 1.8998, 44.4389],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Jura / Savoie',
-            bbox: [4.7013, 45.7953, 7.0053, 47.036],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Cote d Azur / Southern Alps',
-            bbox: [5.046, 42.9342, 7.2733, 44.1586],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Bretagne',
-            bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Paris',
-            bbox: [1.2304, 48.1871, 3.8054, 49.4386],
-            isMineCondition: (val) => val >= 3,
-          }, {
-            name: 'Ardennes',
-            bbox: [3.6041, 48.8881, 6.179, 50.1222],
-            isMineCondition: (val) => val >= 3,
-          }],
-        },
         display: {
+          minesweeperOptions: {
+            // Board dimensions in number of hex cells
+            size: 20,
+            geotiff: {
+              projection: 'EPSG:4326',
+              url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1_t_final.tif',
+            },
+            selectedLocationIndex: 1,
+            locations: [{
+              name: 'Dordogne Valley',
+              bbox: [-1.3289, 44.4393, 1.944, 45.6092],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Atlantic Pyrenees / Landes',
+              bbox: [0.3274, 43.2202, 1.8998, 44.4389],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Jura / Savoie',
+              bbox: [4.7013, 45.7953, 7.0053, 47.036],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Cote d Azur / Southern Alps',
+              bbox: [5.046, 42.9342, 7.2733, 44.1586],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Bretagne',
+              bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Paris',
+              bbox: [1.2304, 48.1871, 3.8054, 49.4386],
+              isMineCondition: (val) => val >= 3,
+            }, {
+              name: 'Ardennes',
+              bbox: [3.6041, 48.8881, 6.179, 50.1222],
+              isMineCondition: (val) => val >= 3,
+            }],
+          },
           protocol: 'cog',
           id: 'IND2_1',
           sources: [
@@ -544,7 +540,7 @@ export const globalIndicators = [
           style: {
             color: [
               'case',
-              ['between', ['band', 1], 3, 5],
+              ['between', ['band', 1], 1, 5],
               [
                 'interpolate',
                 ['linear'],
