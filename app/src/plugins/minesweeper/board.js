@@ -13,16 +13,12 @@ export default class HexSweeperGame {
      *
      * @param {number} width - The width of the game board (in hex cells).
      * @param {number} height - The height of the game board (in hex cells).
-     * @param {number} difficulty - The probability of a mine being in a cell.
      */
-  constructor(options, difficulty) {
+  constructor(options) {
     this.size = options.size;
     this.locations = options.locations;
     this.selectedLocationIndex = options.selectedLocationIndex;
-    // this.height = height;
-    this.difficulty = difficulty;
     this.board = [];
-    this.image = null;
     this.center = [];
     this.gameSize = null;
     this.fieldCount = 0;

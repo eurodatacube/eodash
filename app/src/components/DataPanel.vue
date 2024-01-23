@@ -11,6 +11,13 @@
     ">
       <v-row v-if="indicatorObject" class="d-flex">
         <v-col
+          v-if="mergedConfigsData[0].minesweeperOptions"
+          class="pa-0"
+        >
+          <LocationsDropdown :options="mergedConfigsData[0].minesweeperOptions">
+          </LocationsDropdown>
+        </v-col>
+        <v-col
           v-if="!showMap
             || (showMap && mergedConfigsData[0].customAreaIndicator)
             || appConfig.id === 'esa'
@@ -378,6 +385,7 @@ import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
+import LocationsDropdown from '@/components/LocationsDropdown.vue';
 
 export default {
   props: [
@@ -396,6 +404,7 @@ export default {
     // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
+    LocationsDropdown,
   },
   data: () => ({
     overlay: false,

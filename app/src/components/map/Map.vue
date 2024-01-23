@@ -492,7 +492,7 @@ export default {
       }
       if (this.mergedConfigsData[0]?.minesweeperOptions?.locations) {
         const location = this.mergedConfigsData[0].minesweeperOptions.locations[
-          this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex
+          this.selectedLocationIndex
         ];
         return transformExtent(location.bbox,
           'EPSG:4326',
@@ -523,6 +523,10 @@ export default {
     },
     isMinesweeperConfigured() {
       return this.indicator && this.mergedConfigsData[0].minesweeperOptions;
+    },
+    selectedLocationIndex() {
+      return this.isMinesweeperConfigured
+        && this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex;
     },
   },
   watch: {
@@ -565,14 +569,6 @@ export default {
             }
           }
           this.$store.commit('features/SET_SELECTED_FEATURES', []);
-
-          // Initialize Minesweeper game if options are present in the config.
-          if (this.isMinesweeperConfigured
-          ) {
-            this.setupMinesweeper();
-          } else {
-            this.tearDownMinesweeper();
-          }
         });
       },
     },
@@ -625,6 +621,15 @@ export default {
           });
         }
       },
+    },
+    async selectedLocationIndex() {
+      // Initialize Minesweeper game if options are present in the config.
+      if (this.isMinesweeperConfigured) {
+        await this.tearDownMinesweeper();
+        await this.setupMinesweeper();
+      } else {
+        this.tearDownMinesweeper();
+      }
     },
     enableCompare(enabled) {
       // Make sure compare data is loaded if required
@@ -816,14 +821,6 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
-
-    document.addEventListener('minesweeper:start', this.startMineSweepCounter);
-
-    document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
-
-    document.addEventListener('minesweeper:win', this.winMineSweep);
-
-    document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
   },
   methods: {
     startMineSweepCounter() {
@@ -1127,19 +1124,45 @@ export default {
       });
     },
     async setupMinesweeper() {
+      document.addEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.addEventListener('minesweeper:win', this.winMineSweep);
+      document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
       const { map } = getMapInstance(this.mapId);
-      this.minesweeper.game = new Minesweeper(map, this.mergedConfigsData[0].minesweeperOptions);
+      this.minesweeper.game = new Minesweeper(map, {
+        ...this.mergedConfigsData[0].minesweeperOptions,
+        selectedLocationIndex: this.selectedLocationIndex,
+      });
       this.minesweeper.isEnabled = true;
       this.minesweeper.isDialogEnabled = true;
+      // take currently selectedLocation for Minesweep and at set extent to match location bbox
+      const { bbox } = this.mergedConfigsData[0].minesweeperOptions.locations[
+        this.selectedLocationIndex
+      ];
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
+      const extent = transformExtent(
+        bbox,
+        'EPSG:4326',
+        map.getView().getProjection(),
+      );
+      layer.setExtent(extent);
     },
     tearDownMinesweeper() {
       if (this.minesweeper.game?.vectorLayer) {
         const { map } = getMapInstance(this.mapId);
         map.removeLayer(this.minesweeper.game.vectorLayer);
       }
+      if (this.minesweeper.game) {
+        this.minesweeper.game.removeEventListeners();
+      }
       this.minesweeper.game = null;
       this.minesweeper.isEnabled = false;
       this.minesweeper.isDialogEnabled = false;
+      document.removeEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.removeEventListener('minesweeper:win', this.winMineSweep);
+      document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
     },
   },
   beforeDestroy() {
@@ -1154,10 +1177,6 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
-    document.removeEventListener('minesweeper:start', this.startMineSweepCounter);
-    document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
-    document.removeEventListener('minesweeper:win', this.winMineSweep);
-    document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
     this.tearDownMinesweeper();
   },
 };

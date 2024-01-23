@@ -193,7 +193,7 @@ const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
 * @param {Object} grid - The hex grid.
 * @param {Object} map - The OpenLayers map instance.
 */
-const drawGameBoard = (map, game, grid, vectorSource) => {
+const drawGameBoard = (game, grid, vectorSource) => {
   for (let y = 0; y < game.height; y++) {
     // Make our edges straight again so the cell calculation works out
     let xOffset = ((y % 2 !== 0) * 1) - y / 2;

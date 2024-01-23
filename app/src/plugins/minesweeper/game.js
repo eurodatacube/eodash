@@ -20,7 +20,7 @@ export default class Minesweeper {
     });
     this.map = map;
     this.options = options;
-    this.game = new HexSweeperGame(options, 0.2);
+    this.game = new HexSweeperGame(options);
 
     map.addLayer(this.vectorLayer);
     this.setupGame();
@@ -72,30 +72,41 @@ export default class Minesweeper {
 
   drawGameBoard() {
     return drawGameBoard(
-      this.map,
       this.game,
       this.grid,
       this.vectorSource,
     );
   }
 
-  addEventListeners() {
-    this.map.on('click', (e) => handleMapClick(
+  mapClickHandler(e) {
+    handleMapClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
       // Pass in our callback to work with our state
       this.updateTile.bind(this),
-    ));
+    );
+  }
 
-    this.map.on('contextmenu', (e) => handleMapRightClick(
+  mapRightClickHandler(e) {
+    handleMapRightClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
       this.vectorLayer,
-    ));
+    );
+  }
+
+  addEventListeners() {
+    this.map.on('click', this.mapClickHandler.bind(this));
+    this.map.on('contextmenu', this.mapRightClickHandler.bind(this));
+  }
+
+  removeEventListeners() {
+    this.map.un('click', this.mapClickHandler);
+    this.map.un('contextmenu', this.mapRightClickHandler);
   }
 
   updateTile(x, y) {
