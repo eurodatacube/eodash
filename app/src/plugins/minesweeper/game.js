@@ -14,20 +14,24 @@ import {
 export default class Minesweeper {
   constructor(map, options) {
     this.vectorSource = new VectorSource();
-    this.vectorLayer = new VectorLayer({ source: this.vectorSource });
+    this.vectorLayer = new VectorLayer({
+      source: this.vectorSource,
+      name: 'Minesweep game board',
+    });
     this.map = map;
     this.options = options;
-    this.game = new HexSweeperGame(options, 0.2);
+    this.game = new HexSweeperGame(options);
 
     map.addLayer(this.vectorLayer);
     this.setupGame();
+    this.clickEventHandlers = [];
+    this.contextmenuEventHandlers = [];
   }
 
   async setupGame() {
     await this.game.fromGeoTIFF(this.options);
-    const gridLayers = setupGrid(this.map, this.options, this.game);
+    const gridLayers = setupGrid(this.game);
     this.grid = gridLayers.grid;
-    this.uids = gridLayers.uids;
 
     this.drawGameBoard();
     this.addEventListeners();
@@ -47,7 +51,7 @@ export default class Minesweeper {
     for (let y = 0; y < this.game.height; y++) {
       for (let x = 0; x < this.game.width; x++) {
         const tile = this.game.board[y][x];
-        if (tile.isMine && (!tile.isRevealed || tile.isFlagged)) {
+        if (tile.isMine && (!tile.isRevealed && !tile.isFlagged)) {
           coveredMineCount++;
         }
       }
@@ -64,15 +68,12 @@ export default class Minesweeper {
 
   setupGrid() {
     return setupGrid(
-      this.map,
-      this.options,
       this.game,
     );
   }
 
   drawGameBoard() {
     return drawGameBoard(
-      this.map,
       this.game,
       this.grid,
       this.vectorSource,
@@ -80,21 +81,38 @@ export default class Minesweeper {
   }
 
   addEventListeners() {
-    this.map.on('click', (e) => handleMapClick(
+    const handleMapClickHandler = ((e) => handleMapClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
       // Pass in our callback to work with our state
       this.updateTile.bind(this),
-    ));
+      // eslint-disable-next-line no-extra-bind
+    )).bind(this);
+    this.clickEventHandlers.push(handleMapClickHandler);
 
-    this.map.on('contextmenu', (e) => handleMapRightClick(
+    const handleMapRightClickHandler = ((e) => handleMapRightClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
-    ));
+      this.vectorLayer,
+      // eslint-disable-next-line no-extra-bind
+    )).bind(this);
+    this.contextmenuEventHandlers.push(handleMapRightClickHandler);
+
+    this.map.on('click', handleMapClickHandler);
+    this.map.on('contextmenu', handleMapRightClickHandler);
+  }
+
+  removeEventListeners() {
+    this.clickEventHandlers.forEach((h) => {
+      this.map.un('click', h);
+    });
+    this.contextmenuEventHandlers.forEach((h) => {
+      this.map.un('contextmenu', h);
+    });
   }
 
   updateTile(x, y) {

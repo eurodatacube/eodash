@@ -144,7 +144,7 @@
         />
 
         <div v-if="isMinesweeperConfigured && !!this.minesweeper.game">
-          <v-btn @click="minesweeper.game.revealAllTiles()">Reveal</v-btn>
+          <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
@@ -308,8 +308,6 @@ export default {
         isDialogEnabled: false,
         isLoaded: false,
         mode: 'start',
-        // Layer IDs of the hex grid and board
-        uids: [],
         game: null,
         timer: null,
         elapsedSeconds: 0,
@@ -492,6 +490,14 @@ export default {
         // geoJsonFormat
         return [];
       }
+      if (this.mergedConfigsData[0]?.minesweeperOptions?.locations) {
+        const location = this.mergedConfigsData[0].minesweeperOptions.locations[
+          this.selectedLocationIndex
+        ];
+        return transformExtent(location.bbox,
+          'EPSG:4326',
+          map.getView().getProjection());
+      }
       if (this.indicator.aoi) {
         return transformExtent([this.indicator.lng, this.indicator.lat,
           this.indicator.lng, this.indicator.lat],
@@ -516,7 +522,11 @@ export default {
       return position;
     },
     isMinesweeperConfigured() {
-      return this.indicator && this.indicator.minesweeperOptions;
+      return this.indicator && this.mergedConfigsData[0].minesweeperOptions;
+    },
+    selectedLocationIndex() {
+      return this.isMinesweeperConfigured
+        && this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex;
     },
   },
   watch: {
@@ -559,15 +569,6 @@ export default {
             }
           }
           this.$store.commit('features/SET_SELECTED_FEATURES', []);
-
-          // Initialize Minesweeper game if options are present in the appConfig.
-          if (this.indicator
-                && this.indicator.minesweeperOptions
-                && this.minesweeper.uids.length === 0
-          ) {
-            const { map } = getMapInstance(this.mapId);
-            map.once('loadend', async () => this.toggleMinesweeper());
-          }
         });
       },
     },
@@ -620,6 +621,15 @@ export default {
           });
         }
       },
+    },
+    async selectedLocationIndex() {
+      // Initialize Minesweeper game if options are present in the config.
+      if (this.isMinesweeperConfigured) {
+        await this.tearDownMinesweeper();
+        await this.setupMinesweeper();
+      } else {
+        this.tearDownMinesweeper();
+      }
     },
     enableCompare(enabled) {
       // Make sure compare data is loaded if required
@@ -811,33 +821,29 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
-
-    document.addEventListener('minesweeper:start', () => {
+  },
+  methods: {
+    startMineSweepCounter() {
       console.info('Minesweeper::StartTimer');
       this.minesweeper.timer = setInterval(() => {
         this.minesweeper.elapsedSeconds += 1;
       }, 1000);
-    });
-
-    document.addEventListener('minesweeper:continue', () => {
+    },
+    continueMineSweepCounter() {
       if (this.minesweeper.game.isGameCompleted) {
         document.dispatchEvent(new Event('minesweeper:win'));
       }
-    });
-
-    document.addEventListener('minesweeper:win', () => {
+    },
+    winMineSweep() {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'win';
       this.minesweeper.isDialogEnabled = true;
-    });
-
-    document.addEventListener('minesweeper:gameover', () => {
+    },
+    gameoverMineSweep() {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
-    });
-  },
-  methods: {
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1117,22 +1123,46 @@ export default {
         padding,
       });
     },
-    async toggleMinesweeper() {
+    async setupMinesweeper() {
+      document.addEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.addEventListener('minesweeper:win', this.winMineSweep);
+      document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
       const { map } = getMapInstance(this.mapId);
-      if (this.minesweeper.isEnabled) {
-        // Remove all layers with matching IDs from the map.
-        this.minesweeper.uids
-          .map((uid) => map.getLayers().getArray()
-            .filter((layer) => layer.ol_uid === uid)
-            .forEach((layer) => map.removeLayer(layer)));
-
-        this.minesweeper.isEnabled = false;
-      } else {
-        this.minesweeper.game = new Minesweeper(map, this.indicator.minesweeperOptions);
-        // this.minesweeper.uids = await createHexMap(map, this.indicator.minesweeperOptions);
-        this.minesweeper.isEnabled = true;
-        this.minesweeper.isDialogEnabled = true;
+      this.minesweeper.game = new Minesweeper(map, {
+        ...this.mergedConfigsData[0].minesweeperOptions,
+        selectedLocationIndex: this.selectedLocationIndex,
+      });
+      this.minesweeper.isEnabled = true;
+      this.minesweeper.isDialogEnabled = true;
+      // take currently selectedLocation for Minesweep and at set extent to match location bbox
+      const { bbox } = this.mergedConfigsData[0].minesweeperOptions.locations[
+        this.selectedLocationIndex
+      ];
+      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
+      const extent = transformExtent(
+        bbox,
+        'EPSG:4326',
+        map.getView().getProjection(),
+      );
+      layer.setExtent(extent);
+    },
+    tearDownMinesweeper() {
+      if (this.minesweeper.game?.vectorLayer) {
+        const { map } = getMapInstance(this.mapId);
+        map.removeLayer(this.minesweeper.game.vectorLayer);
       }
+      if (this.minesweeper.game) {
+        this.minesweeper.game.removeEventListeners();
+      }
+      this.minesweeper.game = null;
+      this.minesweeper.isEnabled = false;
+      this.minesweeper.isDialogEnabled = false;
+      document.removeEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.removeEventListener('minesweeper:win', this.winMineSweep);
+      document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
     },
   },
   beforeDestroy() {
@@ -1147,6 +1177,7 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
+    this.tearDownMinesweeper();
   },
 };
 </script>

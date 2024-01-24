@@ -13,17 +13,14 @@ export default class HexSweeperGame {
      *
      * @param {number} width - The width of the game board (in hex cells).
      * @param {number} height - The height of the game board (in hex cells).
-     * @param {number} difficulty - The probability of a mine being in a cell.
      */
-  constructor(options, difficulty) {
+  constructor(options) {
     this.size = options.size;
     this.locations = options.locations;
-    // this.height = height;
-    this.difficulty = difficulty;
+    this.selectedLocationIndex = options.selectedLocationIndex;
     this.board = [];
-    this.image = null;
     this.center = [];
-    this.gameSize = 2100;
+    this.gameSize = null;
     this.fieldCount = 0;
     this.mineCount = 0;
   }
@@ -49,6 +46,8 @@ export default class HexSweeperGame {
         const tile = this.board[y][x];
         if (!tile.isMine) {
           tile.isRevealed = true;
+        } else {
+          tile.isFlagged = true;
         }
       }
     }
@@ -57,13 +56,20 @@ export default class HexSweeperGame {
   async fromGeoTIFF(options) {
     try {
       const tiff = await fromUrl(options.geotiff.url);
-
+      const image = await tiff.getImage();
+      // get currently zoomed to location index
+      const location = this.locations[this.selectedLocationIndex];
+      const { bbox } = location;
       // Convert geographic coordinates to distances using EPSG:3857
-      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][0], this.locations[0][1]]);
-      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [this.locations[0][2], this.locations[0][3]]);
+      const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[0], bbox[1]]);
+      const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[2], bbox[3]]);
 
       const xDistance = xmax[0] - xmin[0];
       const yDistance = xmax[1] - xmin[1];
+
+      // compute the width of a single hex (gameSize), divided by 2 but multiply by ~1.155 to
+      // account for the below mentioned hexagon wider than taller
+      this.gameSize = Math.round(xDistance / this.size / 1.75);
 
       // Adjust board dimensions based on actual distances
       this.width = this.size;
@@ -71,15 +77,29 @@ export default class HexSweeperGame {
         (yDistance / xDistance)
         * this.size
         // Account for the fact that hexagons are wider than tall
-        * 1.2,
+        * 1.18,
       );
-
       // Read the GeoTIFF data into a 1-dimensional array
-      let data = (await tiff.readRasters({
-        bbox: options.locations[0],
+      const [oX, oY] = image.getOrigin();
+      const [imageResX, imageResY] = image.getResolution(image);
+
+      let wnd = [
+        Math.round((bbox[0] - oX) / imageResX),
+        Math.round((bbox[1] - oY) / imageResY),
+        Math.round((bbox[2] - oX) / imageResX),
+        Math.round((bbox[3] - oY) / imageResY),
+      ];
+      wnd = [
+        Math.min(wnd[0], wnd[2]),
+        Math.min(wnd[1], wnd[3]),
+        Math.max(wnd[0], wnd[2]),
+        Math.max(wnd[1], wnd[3]),
+      ];
+
+      let data = (await image.readRasters({
+        window: wnd,
         width: this.width,
         height: this.height,
-        resampleMethod: 'bilinear',
       }))[0];
 
       // Flip the GeoTIFF upside down
@@ -95,20 +115,24 @@ export default class HexSweeperGame {
       }
 
       data = flippedData;
-
-      const centerInLatLon = [this.locations[0][0], this.locations[0][1]];
-      this.center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLatLon);
-
-      console.log(`GeoTIFF size is ${this.width}x${this.height}`);
+      const centerInLonLat = [bbox[0], bbox[1]];
+      const center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLonLat);
+      // not actually center but left bottom corner of start of board but subtract ~1.5 hex
+      this.center = [center[0] - 1.0 * this.gameSize, center[1] + 0.5 * this.gameSize];
 
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
         const row = [];
         for (let x = 0; x < this.width; x++) {
           const value = data[y * this.width + x];
-
+          let isMine;
+          if (location.isMineCondition) {
+            isMine = !Number.isNaN(value) && location.isMineCondition(value);
+          } else {
+            isMine = Math.round(Math.random());
+          }
           row.push({
-            isMine: value > 1500,
+            isMine,
             adjacentMines: 0,
             isRevealed: false,
             isFlagged: false,
@@ -141,34 +165,7 @@ export default class HexSweeperGame {
     }
   }
 
-  initializeBoard() {
-    for (let y = 0; y < this.height; y++) {
-      const row = [];
-      for (let x = 0; x < this.width; x++) {
-        row.push({
-          isMine: Math.random() < this.difficulty,
-          adjacentMines: 0,
-          isRevealed: false,
-          isFlagged: false,
-          element: null,
-        });
-      }
-      this.board.push(row);
-    }
-
-    for (let y = 0; y < this.height; y++) {
-      for (let x = 0; x < this.width; x++) {
-        this.board[y][x].adjacentMines = this.calculateAdjacentMines(x, y);
-      }
-    }
-  }
-
-  enforceBounds(x, y) {
-    if (this.isOutOfBounds(x, y)) {
-      // console.warn(`Coordinates [${x}, ${y}] are out of bounds`);
-    }
-  }
-
+  /* eslint-disable class-methods-use-this */
   getNeighborCoordinates(x, y) {
     const offsets = (y % 2 === 0)
       ? EVEN_NEIGHBOR_OFFSETS
@@ -183,6 +180,7 @@ export default class HexSweeperGame {
    * @param {number} r - The axial row coordinate.
    * @returns {{ x: number, y: number }} Game board coordinates.
    */
+
   convertAxialToGameCoords(q, r) {
     const x = q + Math.floor(r / 2);
     const y = r;
@@ -197,24 +195,11 @@ export default class HexSweeperGame {
    * @returns {[number, number]} Axial coordinates [q, r].
    */
   convertGameCoordsToAxial(x, y) {
-    this.enforceBounds(x, y);
     const q = x - Math.floor(y / 2);
     const r = y;
     return [q, r];
   }
-
-  /**
-   * Gets the count of adjacent mines for a given tile on the game board.
-   *
-   * @param {number} x - The game board x coordinate.
-   * @param {number} y - The game board y coordinate.
-   * @returns {number} The count of adjacent mines.
-   */
-  getAdjacentMineCount(x, y) {
-    this.enforceBounds(x, y);
-    const tile = this.get(x, y);
-    return tile.adjacentMines;
-  }
+  /* eslint-enable class-methods-use-this */
 
   /**
      * Calculate the number of adjacent mines to a given cell.
@@ -231,6 +216,7 @@ export default class HexSweeperGame {
       ? EVEN_NEIGHBOR_OFFSETS
       : ODD_NEIGHBOR_OFFSETS;
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const [dx, dy] of neighbors) {
       const nx = x + dx;
       const ny = y + dy;
@@ -248,17 +234,14 @@ export default class HexSweeperGame {
     return count;
   }
 
-  isNextToMine(x, y) {
-    const neighbors = this.getNeighborCoordinates(x, y);
-    return neighbors.some(([nx, ny]) => this.isValidCoordinate(nx, ny)
-                                          && this.board[ny][nx].isMine);
-  }
-
   revealTile(x, y) {
     // Accumulate a list of revealed tile coordinates to update the rendering efficiently.
     let coordinatePairs = [[x, y]];
 
     const tile = this.get(x, y);
+    if (!tile) {
+      return null;
+    }
     if (tile.isRevealed || tile.isFlagged) return [];
     tile.isRevealed = true;
 
@@ -298,7 +281,9 @@ export default class HexSweeperGame {
   }
 
   get(x, y) {
-    this.enforceBounds(x, y);
-    return this.board[y][x];
+    if (!this.isOutOfBounds(x, y)) {
+      return this.board[y][x];
+    }
+    return null;
   }
 }

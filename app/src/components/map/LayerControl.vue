@@ -21,6 +21,11 @@
     class="layerControl"
     :class="{'scrollable': appConfig.id === 'gtif' && $vuetify.breakpoint.smAndDown}"
   >
+    <v-card-actions class="pa-0">
+      <v-col class="text-right pa-0">
+        <v-btn style="width:16px;height:20px;min-width:unset;" @click="() => show = !show">x</v-btn>
+      </v-col>
+    </v-card-actions>
     <eox-layercontrol
       :for="'#' + mapId "
       :titleProperty.prop="'name'"
