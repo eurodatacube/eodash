@@ -24,6 +24,8 @@ export default class Minesweeper {
 
     map.addLayer(this.vectorLayer);
     this.setupGame();
+    this.clickEventHandlers = [];
+    this.contextmenuEventHandlers = [];
   }
 
   async setupGame() {
@@ -78,35 +80,39 @@ export default class Minesweeper {
     );
   }
 
-  mapClickHandler(e) {
-    handleMapClick(
+  addEventListeners() {
+    const handleMapClickHandler = ((e) => handleMapClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
       // Pass in our callback to work with our state
       this.updateTile.bind(this),
-    );
-  }
+      // eslint-disable-next-line no-extra-bind
+    )).bind(this);
+    this.clickEventHandlers.push(handleMapClickHandler);
 
-  mapRightClickHandler(e) {
-    handleMapRightClick(
+    const handleMapRightClickHandler = ((e) => handleMapRightClick(
       e,
       this.game,
       this.grid,
       this.vectorSource,
       this.vectorLayer,
-    );
-  }
+      // eslint-disable-next-line no-extra-bind
+    )).bind(this);
+    this.contextmenuEventHandlers.push(handleMapRightClickHandler);
 
-  addEventListeners() {
-    this.map.on('click', this.mapClickHandler.bind(this));
-    this.map.on('contextmenu', this.mapRightClickHandler.bind(this));
+    this.map.on('click', handleMapClickHandler);
+    this.map.on('contextmenu', handleMapRightClickHandler);
   }
 
   removeEventListeners() {
-    this.map.un('click', this.mapClickHandler);
-    this.map.un('contextmenu', this.mapRightClickHandler);
+    this.clickEventHandlers.forEach((h) => {
+      this.map.un('click', h);
+    });
+    this.contextmenuEventHandlers.forEach((h) => {
+      this.map.un('contextmenu', h);
+    });
   }
 
   updateTile(x, y) {
