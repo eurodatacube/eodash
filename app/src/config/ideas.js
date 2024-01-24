@@ -8,6 +8,7 @@ import { Wkt } from 'wicket';
 import { baseLayers, overlayLayers } from '@/config/layers';
 
 const wkt = new Wkt();
+const osmtogeojson = require('osmtogeojson');
 
 const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
@@ -95,9 +96,18 @@ function getColorStops(name, min, max, steps, reverse) {
   return stops;
 }
 
-function overpassApiNodes(query) {
+function overpassApiQueryTags(queryParams) {
+  let searchPartOfQuery = '';
+  queryParams.forEach((params) => {
+    const types = params.types || ['node', 'way', 'relation'];
+    types.forEach((type) => {
+      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+    });
+  });
+  const query = `[out:json][timeout:30];(${searchPartOfQuery});out body;>;out skel qt;`;
   return {
     drawnAreaLimitExtent: true,
+    overpass: true, // toggles custom UI Panel from dropdown selection
     areaFormatFunction: (area) => {
       // overpass api expects lat,lon
       const extent = geojsonFormat.readGeometry(area).getExtent();
@@ -106,25 +116,10 @@ function overpassApiNodes(query) {
     url: `https://overpass-api.de/api/interpreter?data=${query}`,
     requestMethod: 'GET',
     callbackFunction: (responseJson) => {
-      const ftrs = [];
-      const data = responseJson.elements;
-      if (Array.isArray(data)) {
-        data.forEach((ftr) => {
-          const singleGeometry = {
-            type: 'Point',
-            coordinates: [ftr.lon, ftr.lat],
-          };
-          ftrs.push({
-            type: 'Feature',
-            properties: ftr.tags,
-            geometry: singleGeometry,
-          });
-        });
-      }
-      const ftrColl = {
-        type: 'FeatureCollection',
-        features: ftrs,
-      };
+      // const data = responseJson.elements;
+      const ftrColl = osmtogeojson(responseJson, {
+        flatProperties: true,
+      });
       return ftrColl;
     },
   };
@@ -150,6 +145,12 @@ export const globalIndicators = [
         inputData: [''],
         yAxis: 'flooding',
         display: {
+          overlayLayers: [
+            overlayLayers.powerOpenInfrastructure,
+            {
+              ...overlayLayers.eoxOverlay, visible: true,
+            },
+          ],
           wmsVariables: {
             sourceLayer: 'Indicator 4: Flood risk',
             variables: {
@@ -223,12 +224,12 @@ export const globalIndicators = [
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
           features: {
-            name: 'OpenStreet Map hospitals, schools',
+            name: 'OpenStreetMap hospitals, schools',
             styleFunction: (feature) => {
               const amenity = feature.get('amenity');
               const radius = 4;
               const fill = new Fill({
-                color: 'rgba(255, 255, 255, 0)',
+                color: 'rgba(255, 255, 255, 0.25)',
               });
               const stroke = new Stroke({
                 width: 3,
@@ -240,13 +241,15 @@ export const globalIndicators = [
                   stroke,
                   radius,
                 }),
+                fill,
+                stroke,
               });
               return style;
             },
             allowedParameters: ['name', 'amenity'],
-            ...overpassApiNodes(
-              '[out:json][timeout:30];(node["amenity"="school"]({area});node["amenity"="hospital"]({area}););out body;>;out skel qt;',
-            ),
+            ...overpassApiQueryTags([
+              { key: 'amenity', value: 'school' },
+              { key: 'amenity', value: 'hospital' }]),
           },
         },
       },
