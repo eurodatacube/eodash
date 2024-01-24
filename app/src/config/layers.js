@@ -1,5 +1,26 @@
+import colormap from 'colormap';
 // eslint-disable-next-line import/no-named-default
 import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+
+export function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+export function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 export const baseLayers = Object.freeze({
   cloudless: {

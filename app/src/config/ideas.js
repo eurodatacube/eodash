@@ -1,11 +1,10 @@
 import GeoJSON from 'ol/format/GeoJSON';
-import colormap from 'colormap';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
 import { Wkt } from 'wicket';
 
-import { baseLayers, overlayLayers } from '@/config/layers';
+import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
@@ -75,26 +74,6 @@ export const baseLayersMap = [
 export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
-
-function normalize(value, varMin, varMax) {
-  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
-}
-
-function getColorStops(name, min, max, steps, reverse) {
-  const delta = (max - min) / (steps - 1);
-  const stops = new Array(steps * 2);
-  const colors = colormap({
-    colormap: name, nshades: steps, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  for (let i = 0; i < steps; i++) {
-    stops[i * 2] = min + i * delta;
-    stops[i * 2 + 1] = colors[i];
-  }
-  return stops;
-}
 
 function overpassApiQueryTags(queryParams) {
   let searchPartOfQuery = '';
@@ -337,31 +316,109 @@ export const globalIndicators = [
         indicatorName: 'Indicator 1: Air pollution',
         subAoi: {
           type: 'FeatureCollection',
-          features: [],
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-0.3259722 42.3334722, -0.3259722 45.0445833, 4.84625 45.0445833, 4.84625 42.3334722, -0.3259722 42.3334722))').toJson(),
+          }],
         },
         aoiID: 'World',
-        time: ['2020'],
+        time: [''],
         inputData: [''],
+        cogFilters: {
+          sourceLayer: 'IND1_1',
+          filters: {
+            // hospitals: {
+            //   display: true,
+            //   label: 'Number of hospitals or clinics',
+            //   id: 'hospitals',
+            //   // dataInfo: 'WindPowerDensity',
+            //   min: 0,
+            //   max: 3,
+            //   step: 0.1,
+            //   header: true,
+            //   range: [0, 3],
+            // },
+            access_to_healthcare: {
+              display: true,
+              label: 'Distance to nearest hospital or clinic',
+              id: 'access_to_healthcare',
+              // dataInfo: 'Elevation',
+              min: 0,
+              max: 45,
+              step: 0.5,
+              range: [0, 45],
+            },
+            hopi: {
+              display: true,
+              label: 'Health risk due to air pollution (3: high risk)',
+              id: 'hopi',
+              // dataInfo: 'Slope',
+              min: 0,
+              max: 3,
+              step: 0.25,
+              range: [0, 2],
+            },
+            air_pollution: {
+              display: true,
+              label: 'Number of days where air pollution exceeded WHO threshold between 2021 and 2023',
+              id: 'air_pollution',
+              // dataInfo: 'Slope',
+              min: 10,
+              max: 328,
+              step: 5,
+              range: [10, 328],
+            },
+            vulnerable_population: {
+              display: true,
+              label: 'Number of people of age < 5 or > 60.',
+              id: 'vulnerable_population',
+              // dataInfo: 'Slope',
+              min: 0,
+              max: 300,
+              step: 5,
+              range: [0, 300],
+            },
+          },
+        },
         display: {
+          id: 'IND1_1',
           protocol: 'cog',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
           ],
           style: {
             variables: {
-              varMin: 0,
-              varMax: 1500,
+              // hospitalsMin: 0,
+              // hospitalsMax: 3,
+              access_to_healthcareMin: 0,
+              access_to_healthcareMax: 45,
+              hopiMin: 0,
+              hopiMax: 3,
+              air_pollutionMin: 10,
+              air_pollutionMax: 328,
+              vulnerable_populationMin: 0,
+              vulnerable_populationMax: 300,
             },
             color: [
               'case',
-              ['between', ['band', 1], 1, 1500],
+              [
+                'all',
+                // ['between', ['band', 1], ['var', 'hospitalsMin'], ['var', 'hospitalsMax']],
+                ['between', ['band', 2], ['var', 'access_to_healthcareMin'], ['var', 'access_to_healthcareMax']],
+                ['between', ['band', 3], ['var', 'hopiMin'], ['var', 'hopiMax']],
+                ['between', ['band', 4], ['var', 'air_pollutionMin'], ['var', 'air_pollutionMax']],
+                ['between', ['band', 5], ['var', 'vulnerable_populationMin'], ['var', 'vulnerable_populationMax']],
+              ],
               [
                 'interpolate',
                 ['linear'],
-                normalize(['band', 1], 'varMin', 'varMax'),
-                ...getColorStops('viridis', 0, 1, 64, false),
+                ['band', 3],
+                ...getColorStops('hot', 0, 3, 40, true),
               ],
-              ['color', 0, 0, 0, 0],
+              [
+                'color', 0, 0, 0, 0,
+              ],
             ],
           },
           name: 'Health-Oriented Pollution Index',
