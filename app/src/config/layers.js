@@ -1,11 +1,40 @@
+import colormap from 'colormap';
 // eslint-disable-next-line import/no-named-default
 import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
+
+export function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+export function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 export const baseLayers = Object.freeze({
   cloudless: {
     name: 'EOxCloudless 2021',
     url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
     attribution: '{ EOxCloudless 2021: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2021) }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  cloudless2018: {
+    name: 'EOxCloudless 2018',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2018_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ EOxCloudless 2018: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2018) }',
     visible: false,
     maxZoom: 17,
     protocol: 'xyz',
@@ -153,6 +182,38 @@ export const baseLayers = Object.freeze({
     maxZoom: 13,
     protocol: 'xyz',
   },
+  terrainLightStereoNorth: {
+    baseUrl: 'https://sxcat-demo.eox.at/sxcat_maps/wms',
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    layers: 'sx-cat_ortho680500',
+    name: 'Terrain Light Stereographic North',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    projection: {
+      name: 'ORTHO:680500',
+      def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+      extent: [-6422528, -6422528, 6422528, 6422528],
+    },
+  },
+  terrainLightStereoSouth: {
+    baseUrl: 'https://sxcat-demo.eox.at/sxcat_maps/wms',
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    layers: 'sx-cat_ortho320500',
+    name: 'Terrain Light Stereographic South',
+    attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
+    maxZoom: 16,
+    visible: false,
+    projection: {
+      name: 'ORTHO:320500',
+      def: '+proj=ortho +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+      extent: [-6422528, -6422528, 6422528, 6422528],
+    },
+  },
 });
 
 export const overlayLayers = Object.freeze({
@@ -184,3 +245,112 @@ export const overlayLayers = Object.freeze({
     },
   },
 });
+
+export const xcubeViewerColormaps = [
+  'magma',
+  'inferno',
+  'plasma',
+  'viridis',
+  'cividis',
+  'Blues',
+  'BuGn',
+  'BuPu',
+  'GnBu',
+  'Greens',
+  'Greys',
+  'OrRd',
+  'Oranges',
+  'PuBu',
+  'PuBuGn',
+  'PuRd',
+  'Purples',
+  'RdPu',
+  'Reds',
+  'YlGn',
+  'YlGnBu',
+  'YlOrBr',
+  'YlOrRd',
+  'Wistia',
+  'afmhot',
+  'autumn',
+  'binary',
+  'bone',
+  'cool',
+  'copper',
+  'gist_gray',
+  'gist_heat',
+  'gist_yarg',
+  'gray',
+  'hot',
+  'pink',
+  'spring',
+  'summer',
+  'winter',
+  'BrBG',
+  'PRGn',
+  'PiYG',
+  'PuOr',
+  'RdBu',
+  'RdGy',
+  'RdYlBu',
+  'RdYlGn',
+  'Spectral',
+  'bwr',
+  'coolwarm',
+  'seismic',
+  'Accent',
+  'Dark2',
+  'Paired',
+  'Pastel1',
+  'Pastel2',
+  'Set1',
+  'Set2',
+  'Set3',
+  'tab10',
+  'tab20',
+  'tab20b',
+  'tab20c',
+  'twilight',
+  'twilight_shifted',
+  'hsv',
+  'reg_map',
+  'thermal',
+  'haline',
+  'solar',
+  'ice',
+  'gray',
+  'oxy',
+  'deep',
+  'dense',
+  'algae',
+  'matter',
+  'turbid',
+  'speed',
+  'amp',
+  'tempo',
+  'rain',
+  'phase',
+  'topo',
+  'balance',
+  'delta',
+  'curl',
+  'diff',
+  'tarn',
+  'turbo',
+  'CMRmap',
+  'brg',
+  'cubehelix',
+  'flag',
+  'gist_earth',
+  'gist_ncar',
+  'gist_rainbow',
+  'gist_stern',
+  'gnuplot',
+  'gnuplot2',
+  'jet',
+  'nipy_spectral',
+  'ocean',
+  'prism',
+  'rainbow',
+  'terrain',
+];

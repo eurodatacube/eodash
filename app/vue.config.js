@@ -51,6 +51,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
     'ol',
+    'ol-ext',
     '@eox/layercontrol',
   ],
   configureWebpack: {

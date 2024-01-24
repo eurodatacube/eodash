@@ -26,36 +26,38 @@ More information is available on the EO Dashboard Github page:
 
 ### Hands-on Tutorials and Competitions 
 
-If you are participating in a competition or tutorial using the EO Dashboard, you will be working in a JupyterLab Workspace in the EDC environment. Access to the EDC services will be provided free of charge by ESA.  
+The EO Dashboard is organising and supporting hands-on workshops and global open competitions, including the NASA Space Apps, the [EO Dashboard Hackathon](https://www.eodashboardhackathon.org/) and IGARSS Tutorials, workshops at FOSS4G, and many others.
 
-Free trial subscrptions to EDC can be used at any time to familiarize with the platform, but specific tutorial notebooks and other material will only be availale in the free environment provided for the tutorial or competition.
+<img src="(https://images.eodashboardhackathon.org/images/1YNfd5MM6_AHWXraOeBCU0B9efA=/1/original/)" width="50"/>
 
-To use the EDC services participants need to register for an EDC account using a specific EVENT URL announced prior to the event. 
-Upon registration, a tailored workspace is made available either immediatelly or at the start of the event.
-A notification via email is sent to participants once the workspace is available at https://hub.eox.at.
+**Example Jupyter Notebooks**
 
-## Example Jupyter Notebooks
+All materials used in such competitions are openly accessible on the Euro Data Cube (https://eurodatacube.com/notebooks) as well as on the EO Dashboard GitHub. 
 
-Free Jupyter Notebooks with the tag "EO Dashboard" are accessible from the EDC marketplace.
+*Note: If you are participating in a competition or tutorial using the EO Dashboard, you will be working in a JupyterLab Workspace in the EDC environment. Access to the EDC services will be provided free of charge by ESA via Network of Resources sponsorship. Free trial subscrptions to EDC can be used at any time to familiarize with the platform, but specific tutorial notebooks and other material will only be availale in the free environment provided for the tutorial or competition. To use the EDC services participants need to register for an EDC account using a specific EVENT URL announced prior to the event. Upon registration, a tailored workspace is made available either immediatelly or at the start of the event.A notification via email is sent to participants once the workspace is available at https://hub.eox.at.*
 
-They contain examples for how to access the different Earth observation data and indicators and create similar visualisations as the ones displayed on EO Dashboard.
-
-https://eurodatacube.com/marketplace?tag=EO%20Dashboard
-
-On the marketplace you can also discover general purpose Notebooks on the EDC services, as well as many examples of applications developed on top of these services.
 
 ## Data 
 
 The data powering the EO Dashboard is provided via:
 - Euro Data Cube services (Sentinel Hub, geodb)
+- xcube Server
 - NASA STAC API
 - JAXA web services
 - other open sources and services.
 
-The Jupyter Notebook called **"Data Access"** contains the list of available datasets + scripts to use the services and get the data. 
-Find it here: https://eurodatacube.com/marketplace?tag=EO%20Dashboard 
-
 ## Publications 
+
+2023
+- A. Anghelea, M. Maskey, S. -I. Sobue and N. Sugita, "The NASA-ESA-JAXA Earth Observation Dashboard," IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium, Pasadena, CA, USA, 2023, pp. 418-420, doi: 10.1109/IGARSS52108.2023.10282443.
+- Daniel Santillan, Silvester Pari, Stephan Meissl, Alessandro Scremin, Diego Moglioni, Sara Aparicio,  Anca Anghelea, OPEN-SOURCE SCIENCE FOR EARTH OBSERVATION DASHBOARDS, IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium, Pasadena, CA, USA, 2023
+- Manil Maskey, Barry Lefer, AIR QUALITY INSIGHTS WITH NASA INTERACTIVE DASHBOARD, IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium, Pasadena, CA, USA, 2023
+- Slesa Adhikari, Alexandra Kirk, Aimee Barciauskas, Daniel da Silva, Hanbyul Jo, Ricardo Mestre, Anthony Boyd, Michael Suttles, Brian Freitag, Manil Maskey, Jerika Christman, A CONFIGURABLE AND INTERACTIVE DASHBOARD FOR EARTH OBSERVATION, IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium, Pasadena, CA, USA, 2023
+- Naoko Sugita, Kohei Kawamura, Yusuke Ikehata, Shinichi Sobue, Ko Hamamoto, JAXA’S EFFORTS FOR BETTER ACCESS TO EO DATA AND INFORMATION: EARTH-GRAPHY AND JAXA DASHBOARD PLAN, IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium, Pasadena, CA, USA, 2023
+- S. Sobue, Y. Tochigi, K. Kawamura, Y.Ikehata, G. Segami, N. Sugita, K. Hamamoto, K. Kuroiwa, JAXA EARTH OBSERVATION DASHBOARD WITH COG AND WMS/WMTS, The International Archives of the Photogrammetry, Remote Sensing and Spatial Information Sciences, Volume XLVIII-4/W7-2023
+FOSS4G (Free and Open Source Software for Geospatial) 2023 – Academic Track, 26 June–2 July 2023, Prizren, Kosovo
+
+2021
 - B. Lefer et al., "A Multi-Agency COVID-19 Dashboard with Satellite Air Quality Data," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1553-1555, doi: [10.1109/IGARSS47720.2021.9553200](https://doi.org/10.1109/IGARSS47720.2021.9553200).
 - Y. -L. Desnos, E. Hamdouch, A. Anghelea, G. Landgraf, S. Cheli and J. Turpin, "Rapid Action on COVID-19 and Earth Observation: an Inittiative for Societal Information Enabled by Copernicus Sentinels Data," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1374-1376, doi: [10.1109/IGARSS47720.2021.9553746](https://doi.org/10.1109/IGARSS47720.2021.9553746). 
 - A. Anghelea, Y. -L. Desnos, M. Maskey, S. -i. Sobue and S. Meissl, "The COVID-19 Earth Observation Dashboard: A NASA-ESA-JAXA Collaborative Product," 2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS, 2021, pp. 1556-1559, doi: [10.1109/IGARSS47720.2021.9553205](https://doi.org/10.1109/IGARSS47720.2021.9553205).
