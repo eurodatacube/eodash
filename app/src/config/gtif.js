@@ -207,7 +207,7 @@ export const darkOverlayLayers = [{
 }];
 
 export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
   format: 'image/png',
   tileSize: 512,
@@ -755,7 +755,6 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 12,
           selection: {
@@ -1232,7 +1231,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
           dateFormatFunction: () => '2023-01-01',
         }, {
           ...nutsStyle,
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
@@ -1301,7 +1299,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Zaehlsprengel_3857',
           protocol: 'geoserverTileLayer',
           name: 'Census Track (Zählsprengel)',
-          layerAdditionalDescription: 'A counting district (abbreviated <a href="https://geometadatensuche.inspire.gv.at/metadatensuche/inspire/api/records/7767c333-302c-11e3-beb4-0000c1ab0db6">ZSP</a>) is the smallest area in official Austrian statistics for which statistical data is collected separately.',
           visible: true,
           minZoom: 13,
           selection: {
@@ -1425,7 +1422,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_MOTORWAY',
+          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1456,7 +1453,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
-          layers: 'TRUCK_REPROCESSING_PRIMARY',
+          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
           minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,

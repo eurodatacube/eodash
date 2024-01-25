@@ -971,6 +971,7 @@ export default {
           const createdLayer = createLayerFromConfig(l, map);
           return createdLayer;
         });
+      baseLayers.forEach((l) => l.set('layerControlExclusive', true));
 
       this.updateLayers(backgroundGroupCollection, baseLayers);
     },

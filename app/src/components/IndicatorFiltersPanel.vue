@@ -274,6 +274,9 @@ export default {
            form#itemfilter{
              overflow: auto;
            }
+           * {
+            font-family: 'NotesESA' !important;
+           }
         `;
       });
     },

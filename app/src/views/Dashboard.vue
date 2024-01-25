@@ -38,7 +38,7 @@
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
                     :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
-                    button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;} [data-type=vector] .title::before { content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important; } [data-type=raster] .title::before {content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important;}` :''"
+                    button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;} [data-type=vector] .title::before { content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important; } [data-type=raster] .title::before {content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important;}* {font-family: 'NotesESA' !important;}` :`* {font-family: 'NotesESA' !important;}`"
                     class="pointerEvents">
                    </eox-layercontrol>
 
@@ -83,13 +83,9 @@ import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
-// import IndicatorFilters from '@/components/IndicatorFilters.vue';
-// import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
-// import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
 import UiPanelsLayout from '@/components/UiPanelsLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
-import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -112,10 +108,7 @@ export default {
     GlobalHeader,
     GlobalFooter,
     IndicatorFiltersPanel,
-    // IndicatorFilters,
-    // IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
-    // ESABreadcrumbs,
     UiPanel,
     UiPanelsLayout,
     StacInfo,
@@ -171,11 +164,6 @@ export default {
     if (!poi && !indicator && !search && !this.$route.name === 'demo') {
       this.$refs.globalHeader.showText = 'welcome';
       this.$refs.globalHeader.showInfoDialog = true;
-    }
-    const { map } = getMapInstance('centerMap');
-    const mapElement = document.querySelector('eox-layerswitcher');
-    if (mapElement) {
-      document.querySelector('eox-layerswitcher').attachTo(map);
     }
   },
   beforeDestroy() {
