@@ -6,14 +6,13 @@
       :mapId="mapId"
       :configs="darkOverlayLayers"
       v-if="darkOverlayLayers.length > 0"
-      :key="dataLayerName + '_darkoverlay'"
     />
     <!-- a layer adding a (potential) subaoi, z-index 5 -->
     <SubaoiLayer
       :mapId="mapId"
       :indicator="indicator"
       :mergedConfigsData="mergedConfigsData[0]"
-      :isGlobal="isGlobalIndicator"
+      :isGlobal="!featureObject"
       v-if="dataLayerName"
       :key="dataLayerKey + '_subAoi'"
     />
@@ -32,13 +31,19 @@
       @setMapTime="(time) => dataLayerTime = {value: time}"
       @setTimeArray="handleSetTimeArray"
     />
+    <!-- additional special layer showing frozen indicator-->
+    <SpecialLayer
+      v-if="showFrozenLayer"
+      :mapId="mapId"
+      :mergedConfigs="mergedConfigsFrozenData"
+      :options="frozenLayerOptions"
+      :key="frozenLayerName + '_specialLayer'"
+    />
     <div
       class="d-flex justify-center fill-height"
-      :style="`position: absolute; bottom: 0; left: 0;
+      style="position: absolute; bottom: 0; left: 0;
       transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: ${panelActive && $vuetify.breakpoint.smAndUp
-        ? 'calc(100% - var(--data-panel-width))'
-        : '100%'}`"
+      width: 100%"
     >
       <LayerSwipe
         v-if="compareLayerTime"
@@ -53,7 +58,8 @@
       />
       <indicator-time-selection
         ref="timeSelection"
-        v-if="displayTimeSelection && !enableScrollyMode"
+        v-if="displayTimeSelection && !enableScrollyMode
+          && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
         :autofocus="!disableAutoFocus && !isInIframe"
         :available-values="availableTimeEntries"
         :indicator="mergedConfigsData[0]"
@@ -75,29 +81,16 @@
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"
     />
-    <div
-      v-if="$vuetify.breakpoint.smAndUp"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
-      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
-    >
-      <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
-      :src="mergedConfigsData[0].legendUrl" alt=""
-      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-      (legendExpanded && 'map-legend-expanded')}`"
-      @click="legendExpanded = !legendExpanded"
-      :style="`background: rgba(255, 255, 255, 0.8);`">
-    </div>
 
     <!-- Container for all controls. Will move when map is resizing -->
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp, 'hidden': enableScrollyMode}"
-      :style="$vuetify.breakpoint.xsOnly
-        ? `padding-bottom: ${indicator
-          ? '36vh'
-          : `${$vuetify.application.footer + 10}px`} !important`
-        : ''"
+      :class="{'hidden': enableScrollyMode}"
+      :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
+        ? $vuetify.application.footer + 85
+        : $vuetify.application.footer + 10}px !important;
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -108,16 +101,7 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-      <LayerControl
-        v-if="loaded"
-        class="pointerEvents"
-        :key="layerControlKey"
-        :mapId="mapId"
-        :baseLayerConfigs="baseLayerConfigs"
-        :overlayConfigs="overlayConfigs"
-        :dataLayerConfigLayerControls="dataLayerConfigLayerControls"
-        :isGlobalIndicator="isGlobalIndicator"
-      />
+
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded && mapId === 'centerMap'"
@@ -127,6 +111,15 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
+      <v-btn
+        v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
+        :color="$vuetify.theme.currentTheme.background"
+        class="pointerEvents"
+        style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
+        @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
+      >
+        <v-icon>mdi-map-clock-outline</v-icon>
+      </v-btn>
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -136,8 +129,8 @@
             && indicator
             && indicatorHasMapData(indicator)
             && appConfig.id !== 'gtif'"
+          :featureObject="featureObject"
           :indicatorObject="indicator"
-          :embedMap="true"
           :zoom.sync="currentZoom"
           :center.sync="currentCenter"
           mapControl
@@ -164,7 +157,9 @@
       <div v-else class="mt-auto">
         <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
-      <div ref="mousePositionContainer"/>
+      <div class="mouse-container"
+      :style="mousePosConStyle"
+       ref="mousePositionContainer"/>
     </div>
   </div>
 </template>
@@ -174,7 +169,6 @@ import {
   mapGetters,
   mapState,
 } from 'vuex';
-import LayerControl from '@/components/map/LayerControl.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
@@ -182,6 +176,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import { getMapInstance } from '@/components/map/map';
+import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
@@ -206,17 +201,15 @@ import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
   calculatePadding,
-  // getIndicatorFilteredInputData,
   findClosest,
+  getFilteredInputData,
 } from '@/utils';
-import getLocationCode from '../../mixins/getLocationCode';
 
 const geoJsonFormat = new GeoJSON({
 });
 
 export default {
   components: {
-    LayerControl,
     FullScreenControl,
     ZoomControl,
     SpecialLayer,
@@ -271,7 +264,6 @@ export default {
       type: Number,
       default: undefined,
     },
-    panelActive: Boolean,
     onScrollyModeChange: {
       type: Function,
       default: () => {},
@@ -297,10 +289,12 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      mobileTimeselectionToggle: false,
+      frozenLayerKey: null,
     };
   },
   computed: {
-    ...mapGetters('features', ['getFeatures', 'getFeaturesGtifMap']),
+    ...mapGetters('features', ['getFeatures']),
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayerConfigs() {
       return (this.mergedConfigsData.length && this.mergedConfigsData[0].baseLayers)
@@ -308,6 +302,10 @@ export default {
     },
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
+    },
+    showFrozenLayer() {
+      return this.frozenIndicator && this.mergedConfigsFrozenData
+      && this.mergedConfigsFrozenData.length;
     },
     showSpecialLayer() {
       return this.mergedConfigsData.length && this.dataLayerName
@@ -328,19 +326,6 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersMap)];
-      const darkOverlay = (
-        'darkOverlayLayers' in this.baseConfig
-        && this.baseConfig.darkOverlayLayers.length > 0
-      );
-      // darkOverlayLayers replace country vectors
-      if (!this.isGlobalIndicator && !darkOverlay) {
-        configs.push({
-          name: 'Country vectors',
-          protocol: 'countries',
-          projection: 'EPSG:4326',
-          visible: true,
-        });
-      }
       return configs;
     },
     darkOverlayLayers() {
@@ -357,19 +342,12 @@ export default {
     displayTimeSelection() {
       return (
           this.featureData?.time
-          && this.featureData.time.length > 1
+          && this.featureData.time?.length > 1
       ) || (
-        this.indicator?.time.length > 1
+        this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
         && this.indicatorHasMapData(this.indicator)
       );
-    },
-    isGlobalIndicator() {
-      return this.$store.state.indicators.selectedIndicator?.siteName === 'global';
-    },
-    layerControlKey() {
-      // re-create all base layers when config changes
-      return [...this.baseLayerConfigs, ...this.overlayConfigs].map((c) => c.name).join('');
     },
     indicator() {
       // the current indicator definition object.
@@ -380,7 +358,9 @@ export default {
         indicator = this.currentIndicator;
       }
       return indicator;
-      // return getIndicatorFilteredInputData(this.currentIndicator);
+    },
+    frozenIndicator() {
+      return this.$store.state.indicators.frozenIndicator;
     },
     featureObject() {
       let featureObject = this.$store.state.features.selectedFeature?.indicatorObject;
@@ -394,7 +374,8 @@ export default {
       if (this.currentFeatureData) {
         featureData = this.currentFeatureData;
       }
-      return featureData;
+      const filteredFeatureData = getFilteredInputData(featureData);
+      return filteredFeatureData;
     },
     drawnArea() {
       // in store or prop saved as 'object', in this component and
@@ -424,16 +405,37 @@ export default {
           -1, // initial time is last in array - indexed via array.at(-1)
         );
       }
-      // to do: indicator "code" (this.indicator.indicator, e.g. "E13b")
-      // is not available after createConfigFromIndicator. it is overwritten by an indicator name
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
+        return [];
+      }
       return createConfigFromIndicator(
         this.indicator,
         -1, // initial time is last in array - indexed via array.at(-1)
       );
     },
     mergedConfigsLayerSwipe() {
-      // only display the "special layers" for global indicators
       if (!this.indicator) {
+        return [];
+      }
+      if (this.featureObject && this.featureData && this.featureData.time) {
+        // merge information from both
+        const mergedIndicator = {
+          ...this.featureObject,
+          ...this.featureData,
+        };
+        // Convert feature data time to strings
+        const time = this.featureData.time.map((t) => t.toISO({ suppressMilliseconds: true }));
+        mergedIndicator.time = time;
+        // Add name from top level indicator to feature indicator
+        mergedIndicator.name = this.indicator.name;
+        return createConfigFromIndicator(
+          mergedIndicator,
+          this.currentTimeIndexLayerSwipe,
+        );
+      }
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
         return [];
       }
       return createConfigFromIndicator(
@@ -462,10 +464,35 @@ export default {
           this.currentTimeIndex,
         );
       }
+      if (!this.featureObject && this.indicator?.features?.length > 0) {
+        // indicator already selected but POI not yet
+        return [];
+      }
       return createConfigFromIndicator(
         this.indicator,
         this.currentTimeIndex,
       );
+    },
+    mergedConfigsFrozenData() {
+      const config = createConfigFromIndicator(
+        this.frozenIndicator,
+        -1,
+      );
+      let resultConfig = null;
+      // use only first "layer" entry
+      if (config.length > 0) {
+        [resultConfig] = config;
+        resultConfig.name = this.frozenIndicator.frozenLayerName;
+        resultConfig.id = `${resultConfig.id}_frozen`;
+        resultConfig.visible = false;
+        // bake in selected time by only passing one time to the frozen indicator
+        if ('usedTimes' in resultConfig && this.dataLayerTime) {
+          resultConfig.usedTimes.time = [
+            this.dataLayerTime.value,
+          ];
+        }
+      }
+      return [resultConfig];
     },
     currentTimeIndex() {
       return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
@@ -489,7 +516,16 @@ export default {
         drawnArea: this.drawnArea,
       };
     },
+    frozenLayerOptions() {
+      return {
+        dataProp: 'frozenMapData',
+        frozenLayer: true,
+      };
+    },
     availableTimeEntries() {
+      if (!this.indicator) {
+        return [];
+      }
       if (this.featureObject && this.featureData && this.featureData.time) {
         // merge information from both
         const mergedIndicator = {
@@ -514,6 +550,13 @@ export default {
         this.mergedConfigsData, // TODO do we really need to pass the config here?
       );
     },
+    frozenLayerName() {
+      let dataLayerName;
+      if (this.mergedConfigsFrozenData?.length) {
+        dataLayerName = this.mergedConfigsFrozenData[0].name;
+      }
+      return dataLayerName || '';
+    },
     dataLayerName() {
       let dataLayerName;
       if (this.mergedConfigsData?.length) {
@@ -521,72 +564,29 @@ export default {
       }
       return dataLayerName || '';
     },
+    specialLayerKey() {
+      return this.dataLayerName;
+    },
     dataLayerKey() {
       return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
     },
-    countriesJson() {
-      return countries;
-    },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
-      const { map } = getMapInstance(this.mapId);
-
       // Check for possible subaoi
-      const readerOptions = {
-        dataProjection: 'EPSG:4326',
-        featureProjection: map.getView().getProjection(),
-      };
-      if (this.featureData && 'subAoi' in this.featureData) {
+      if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
         if (subAoi && subAoi.features && subAoi.features.length > 0) {
           if (subAoi.features[0].coordinates.length) {
+            const { map } = getMapInstance(this.mapId);
+            const readerOptions = {
+              dataProjection: 'EPSG:4326',
+              featureProjection: map.getView().getProjection(),
+            };
             const subAoiGeom = geoJsonFormat.readGeometry(
               subAoi.features[0], readerOptions,
             );
             return subAoiGeom.getExtent();
           }
-        }
-      } else if (this.indicator && this.indicator.extent) {
-        // Try to do some sanitizing
-        const extent = this.indicator.extent.spatial.bbox[0];
-        if (extent.length === 4) {
-          extent[0] = extent[0] > -180 ? extent[0] : -180;
-          extent[1] = extent[1] > -90 ? extent[1] : -90;
-          extent[2] = extent[2] < 180 ? extent[2] : 180;
-          extent[3] = extent[3] < 90 ? extent[3] : 90;
-        }
-        return transformExtent(
-          extent, 'EPSG:4326', map.getView().getProjection(),
-        );
-      }
-
-      /*
-      // Check for possible selected poi
-      if (this.featureObject && 'aoi' in this.featureObject) {
-        const { aoi } = this.featureObject;
-        const buf = 0.05;
-        const extent = [aoi.lon - buf, aoi.lat - buf, aoi.lon + buf, aoi.lat + buf];
-        return transformExtent(
-          extent, 'EPSG:4326', map.getView().getProjection(),
-        );
-      }
-      */
-
-      // Handle extent configuration for overall indicator
-      if ((this.centerProp && this.zoomProp)
-          || (!this.indicator?.subAoi?.features && !this.mergedConfigsData[0]?.presetView)) {
-        return null;
-      }
-      if (this.$route.name === 'demo') {
-        // check if a demo item custom extent is set as override
-        let indObject = this.indicatorObject;
-        if (this.featureObject) {
-          indObject = this.featureObject;
-        }
-        const demoItem = this.appConfig.demoMode[this.$route.query.event]
-          .find((item) => item.poi === getLocationCode(indObject));
-        if (demoItem && demoItem.extent) {
-          return demoItem.extent;
         }
       }
       const presetView = this.mergedConfigsData[0]?.presetView;
@@ -597,14 +597,20 @@ export default {
         );
         return presetViewGeom.getExtent();
       }
-      /*
-      if (this.featureObject.aoi) {
-        return transformExtent([this.featureObject.lng, this.featureObject.lat,
-          this.featureObject.lng, this.featureObject.lat],
-        'EPSG:4326',
-        map.getView().getProjection());
+      if (this.indicator?.extent) {
+        // Try to do some sanitizing
+        const extent = this.indicator.extent.spatial.bbox[0];
+        if (extent.length === 4) {
+          extent[0] = extent[0] > -180 ? extent[0] : -180;
+          extent[1] = extent[1] > -90 ? extent[1] : -90;
+          extent[2] = extent[2] < 180 ? extent[2] : 180;
+          extent[3] = extent[3] < 90 ? extent[3] : 90;
+        }
+        const { map } = getMapInstance(this.mapId);
+        return transformExtent(
+          extent, 'EPSG:4326', map.getView().getProjection(),
+        );
       }
-      */
       return undefined;
     },
     isInIframe() {
@@ -612,32 +618,50 @@ export default {
     },
     calculatePosition() {
       let position = 'bottom: 155px';
+      if (this.$vuetify.breakpoint.xsOnly) {
+        position = `bottom: ${this.$vuetify.application.footer + 70}px`;
+      }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.$route.name !== 'demo') {
         position = 'bottom: 155px';
       }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
-        position = 'bottom: 80px';
+        position = 'bottom: 72px';
+      }
+      if (this.dataLayerTimeProp && this.$vuetify.breakpoint.smAndUp) {
+        position = 'bottom: 25px';
+      }
+      if (this.mapId === 'embedMap') {
+        position = ` bottom:${this.$vuetify.application.footer + 24}px`;
       }
       return position;
     },
+    mousePosConStyle() {
+      let style = 'position:absolute;';
+      if (this.$vuetify.breakpoint.smAndUp) {
+        if (this.appConfig.id === 'gtif') {
+          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+        } else {
+          style += 'bottom:0px;';
+        }
+      } else if (this.appConfig.id === 'gtif') {
+        style += `bottom:${this.$vuetify.application.footer + 50}px;`;
+      } else {
+        style += 'bottom:60px;';
+      }
+      return style;
+    },
   },
   watch: {
-    getFeatures(features) {
-      if (this.appConfig.id === 'gtif') {
-        return;
-      }
-      if (this.mapId === 'centerMap' && features) {
-        const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
-        cluster.setFeatures(features);
-      }
+    baseLayerConfigs() {
+      this.updateBaseLayers();
     },
-    getFeaturesGtifMap(features) {
-      if (this.appConfig.id !== 'gtif') {
-        return;
-      }
-      if (this.mapId === 'centerMap') {
+    overlayConfigs() {
+      this.updateOverlayLayers();
+    },
+    getFeatures(features) {
+      if (this.mapId === 'centerMap' && features) {
         const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
         cluster.setFeatures(features);
       }
@@ -681,7 +705,9 @@ export default {
               loadIndicatorExternalData(
                 timeObj.value, item,
               ).then((data) => {
-                this.$store.state.indicators.selectedIndicator.mapData = data;
+                if (this.$store.state.indicators.selectedIndicator) {
+                  this.$store.state.indicators.selectedIndicator.mapData = data;
+                }
                 // finds first layer with ID
                 const currLayer = layers.find((l) => l.get('id') === item.id);
                 if (currLayer) {
@@ -781,7 +807,7 @@ export default {
       },
     },
     zoomExtent: {
-      deep: true,
+      deep: false,
       immediate: false,
       handler(value, old) {
         // when the calculated zoom extent changes, zoom the map to the new extent.
@@ -793,6 +819,15 @@ export default {
           && !(this.centerProp || this.zoomProp)
         ) {
           const { map } = getMapInstance(this.mapId);
+          // sanitize input to fit into current view projection extent
+          const extent = value;
+          const projectionExtent = map.getView().getProjection().getExtent();
+          if (extent.length === 4) {
+            extent[0] = Math.max(extent[0], projectionExtent[0]);
+            extent[1] = Math.max(extent[1], projectionExtent[1]);
+            extent[2] = Math.min(extent[2], projectionExtent[2]);
+            extent[3] = Math.min(extent[3], projectionExtent[3]);
+          }
           if (map.getTargetElement()) {
             const padding = calculatePadding();
             // clear race condition of original view and possibly new view with new projection
@@ -800,11 +835,11 @@ export default {
               clearTimeout(this.viewZoomExtentFitId);
             }
             this.viewZoomExtentFitId = setTimeout(() => {
-              map.getView().fit(value, { duration: 500, padding });
+              map.getView().fit(extent, { duration: 500, padding });
             }, 30);
           } else {
             map.once('change:target', () => {
-              map.getView().fit(value);
+              map.getView().fit(extent);
             });
           }
         }
@@ -816,11 +851,7 @@ export default {
     if (this.mapId === 'centerMap') {
       const cluster = getCluster(this.mapId, { vm: this, mapId: this.mapId });
       cluster.setActive(true, this.overlayCallback);
-      if (this.appConfig.id === 'gtif') {
-        cluster.setFeatures(this.getFeaturesGtifMap);
-      } else {
-        cluster.setFeatures(this.getFeatures);
-      }
+      cluster.setFeatures(this.getFeatures);
       const { x, y, z } = this.$route.query;
       if (!x && !y && !z) {
         setTimeout(() => {
@@ -833,6 +864,10 @@ export default {
       }
     }
     this.loaded = true;
+
+    this.updateBaseLayers();
+    this.updateOverlayLayers();
+
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'indicators/INDICATOR_LOAD_FINISHED') {
         if (this.mapId === 'centerMap') {
@@ -841,13 +876,7 @@ export default {
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
           }
-          // TODO: do we need to handle the clusters differentlyas we use new features approach?
           cluster.clusters.setVisible(true);
-          /*
-          if (this.appConfig.id !== 'gtif') {
-            cluster.clusters.setVisible(!this.indicatorHasMapData(mutation.payload));
-          }
-          */
         }
       }
     });
@@ -910,6 +939,60 @@ export default {
     }
   },
   methods: {
+    updateLayers(layerCollection, newLayers) {
+      const layersToRemove = layerCollection.getArray()
+        .filter((l) => !newLayers.find((nL) => (nL.get('name') === l.get('name') && nL.get('visible') === l.get('visible'))));
+      const layersToAdd = newLayers
+        .filter((nL) => !layerCollection.getArray().find((l) => l.get('name') === nL.get('name') && nL.get('visible') === l.get('visible')));
+      // remove old layers not needed in new collection
+      layersToRemove.forEach((removedLayer) => {
+        const layer = layerCollection.getArray()
+          .find((l) => l.get('name') === removedLayer.get('name'));
+        if (!layer) { return; }
+        layerCollection.remove(layer);
+      });
+
+      // add missing layers to collection
+      layersToAdd.forEach((addedLayer) => {
+        const layer = newLayers.find((l) => l.get('name') === addedLayer.get('name'));
+        if (!layer) { return; }
+        layerCollection.push(layer);
+      });
+    },
+    updateBaseLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const backgroundGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'backgroundGroup').getLayers();
+
+      const baseLayers = this.baseLayerConfigs
+        .filter(Boolean)
+        .map((l) => {
+          const createdLayer = createLayerFromConfig(l, map);
+          return createdLayer;
+        });
+
+      this.updateLayers(backgroundGroupCollection, baseLayers);
+    },
+    updateOverlayLayers() {
+      const { map } = getMapInstance(this.mapId);
+
+      const overlayGroupCollection = map.getLayers().getArray()
+        .find((l) => l.get('id') === 'overlayGroup').getLayers();
+
+      const overlayLayers = this.overlayConfigs
+        .filter(Boolean)
+        .map((l) => {
+          const createdLayer = createLayerFromConfig(l,
+            map,
+            {
+              updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
+            });
+          return createdLayer;
+        });
+
+      this.updateLayers(overlayGroupCollection, overlayLayers);
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1072,7 +1155,7 @@ export default {
       });
     },
     indicatorHasMapData(indicatorObject) {
-      return indicatorHasMapData(indicatorObject);
+      return indicatorHasMapData(indicatorObject, this.featureData);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
@@ -1109,8 +1192,9 @@ export default {
       this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
-          if (layer) {
-            updateTimeLayer(layer, config, time, area, 'updateArea');
+          const handler = 'updateArea';
+          if (layer && layer.getSource().get(handler)) {
+            updateTimeLayer(layer, config, time, area, handler);
           }
         });
     },
@@ -1207,6 +1291,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .map-legend {
+    position: relative;
     max-width: 15vw;
     transition: max-width 0.5s ease-in-out;
     cursor: pointer;
@@ -1232,5 +1317,17 @@ export default {
 
   .pointerEvents {
     pointer-events: initial;
+  }
+
+  .mouse-container{
+    display: none;
+  }
+  @-moz-document url-prefix() {
+    .mouse-container{
+    display: inline;
+  }
+}
+  .mouse-container:has(span){
+    display: inline;
   }
 </style>

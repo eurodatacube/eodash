@@ -3,9 +3,12 @@
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
-import { shTimeFunction, shS2TimeFunction } from '@/utils';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import { shS2TimeFunction } from '@/utils';
+import {
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+} from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
+import shTimeFunction from '../shTimeFunction';
 
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
@@ -13,7 +16,19 @@ const geojsonFormat = new GeoJSON();
 export const dataPath = './eodash-data/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
 
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
+
 const geodbFeatures = {
+  name: 'Ship detections',
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss"),
   callbackFunction: (responseJson) => { // geom from wkb to geojson features
@@ -52,128 +67,6 @@ const geodbFeatures = {
   },
 };
 
-/*
-const trucksAreaIndicator = {
-  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    collection: 'eodash_{indicator}-detections',
-    select: 'time,geometry',
-    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
-  },
-  callbackFunction: (responseJson, indicator, area) => {
-    if (Array.isArray(responseJson[0].src)) {
-      const data = responseJson[0].src;
-      const datesObj = {};
-      const newData = {
-        time: [],
-        measurement: [],
-      };
-      data.sort((a, b) => ((DateTime.fromISO(a.time) > DateTime.fromISO(b.time))
-        ? 1
-        : -1));
-      const areaAsGeom = geojsonFormat.readGeometry(area);
-      data.forEach((row) => {
-        // for each entry, extract just those points that actually intersect the area
-        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
-        let intersectingFtrs = 0;
-        if (geom.type === 'MultiPoint') {
-          // split multipoint to points
-          geom.coordinates.forEach((coordPair) => {
-            const singleGeometry = {
-              type: 'Point',
-              coordinates: coordPair,
-            };
-            // check if intersect the user drawn area
-            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
-            if (intersects) {
-              intersectingFtrs += 1;
-            }
-          });
-        }
-        if (intersectingFtrs > 0) {
-          // as data is structured one entry per country, we need to aggregate on date
-          if (row.time in datesObj) {
-            datesObj[row.time] += intersectingFtrs;
-          } else {
-            datesObj[row.time] = intersectingFtrs;
-          }
-        }
-      });
-      Object.entries(datesObj).forEach((entry) => {
-        const [key, value] = entry;
-        // convert to structure indicatorData expects
-        newData.time.push(DateTime.fromISO(key));
-        newData.measurement.push(value);
-      });
-      const ind = {
-        ...indicator,
-        ...newData,
-      };
-      return ind;
-    }
-    return null;
-  },
-  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-};
-
-const trucksFeatures = {
-  drawnAreaLimitExtent: true,
-  name: 'Daily truck detections',
-  style: {
-    strokeColor: '#00c3ff',
-  },
-  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    collection: 'eodash_{indicator}-detections',
-    select: 'geometry,time',
-    where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND time=\'{featuresTime}\'',
-  },
-  callbackFunction: (responseJson, indicator, area) => {
-    const ftrs = [];
-    const data = responseJson[0].src;
-    if (Array.isArray(data)) {
-      const areaAsGeom = geojsonFormat.readGeometry(area);
-      data.forEach((ftr) => {
-        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
-        if (geom.type === 'MultiPoint') {
-          // split multipoint to points
-          geom.coordinates.forEach((coordPair) => {
-            const singleGeometry = {
-              type: 'Point',
-              coordinates: coordPair,
-            };
-            // check if intersect the user drawn area
-            const intersects = areaAsGeom.intersectsCoordinate(singleGeometry.coordinates);
-            if (intersects) {
-              const { geometry, ...properties } = ftr;
-              ftrs.push({
-                type: 'Feature',
-                properties,
-                geometry: singleGeometry,
-              });
-            }
-          });
-        }
-      });
-    }
-    const ftrColl = {
-      type: 'FeatureCollection',
-      features: ftrs,
-    };
-    return ftrColl;
-  },
-  dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}T00:00:00`,
-  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-};
-*/
 const E1bConfigInputDataAsc = [{
   dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
   layers: 'S1-GRD-IW-ASC-VV',
@@ -183,7 +76,6 @@ const E1bConfigInputDataAsc = [{
   legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
   features: {
     ...geodbFeatures,
-    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }, {
@@ -217,7 +109,6 @@ const E1bConfigInputDataDes = [{
   opacity: 0.6,
   features: {
     ...geodbFeatures,
-    name: 'Ship detections',
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
   },
 }];
@@ -225,6 +116,36 @@ const E1bConfigInputDataDes = [{
 export const indicatorsDefinition = Object.freeze({
   E200: {
     features: geodbFeatures,
+  },
+  E13b: {
+    features: {
+      ...geodbFeatures,
+      name: 'Plane detections',
+    },
+  },
+  E13c: {
+    features: {
+      name: 'Ship detections',
+      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+      url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
+    },
+  },
+  E13d: {
+    features: {
+      ...geodbFeatures,
+      name: 'Plane detections',
+      url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
+      dateFormatFunction: (date) => {
+        // +- 45 minutes to fix detections being few minutes from each other (adjacent scenes)
+        const defaultFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        const dateObj = DateTime.fromISO(date);
+        const dateFuture = dateObj.plus({ minutes: 45 }).toFormat(defaultFormat);
+        const datePast = dateObj.minus({ minutes: 45 }).toFormat(defaultFormat);
+        const query = `time=gte.${datePast}&time=lte.${dateFuture}`;
+        return query;
+      },
+    },
+    largeTimeDuration: true,
   },
 });
 
@@ -300,6 +221,10 @@ export const indicatorClassesIcons = Object.freeze({
   economy: 'mdi-currency-eur',
 });
 
+export const geoDBFeatureParameters = Object.freeze({
+  url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash`,
+});
+
 export const mapDefaults = Object.freeze({
   bounds: [-10, 35, 33, 70],
 });
@@ -325,7 +250,7 @@ export const defaultLayersDisplay = {
   tileSize: 512,
   opacity: 1,
   attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 7,
+  minZoom: 1,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -339,22 +264,89 @@ export const replaceMapTimes = {
 };
 
 export const globalIndicators = [
-  /* TODO:
-   * WSF Evolutioncombination with 2019 layer not implemented, need to consider how
-   * CMEMS not combined into 1 indicator, but served as 3, they have different times,
-   * so maybe best approach
-  */
+  {
+    // custom override of name + specialEnvTime
+    properties: {
+      indicatorObject: {
+        aoiID: 'World',
+        indicator: 'WSF',
+        display: [{
+          name: 'DLR WSF Evolution 1985-2015',
+          specialEnvTime: true,
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
+        },
+        {
+          url: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          layers: 'WSF_2019',
+          name: 'DLR WSF 2019 coverage',
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        },
+        ],
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: false,
-        aoiID: 'EU1',
-        country: 'indicatorall',
-        city: 'Europe',
-        siteName: 'global',
-        description: 'Crude Oil Storage Index (EU)',
-        indicator: 'OX',
-        indicatorName: 'Crude Oil Storage Index (EU)',
+        indicator: 'E12c',
+        yAxis: 'Number of trucks detected',
+        time: getDailyDates('2020-01-01', '2021-12-31'),
+        display: [{
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          areaIndicator: trucksAreaIndicator(),
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'E12d',
+        time: getDailyDates('2020-01-01', '2021-12-31'),
+        yAxis: 'Number of trucks detected',
+        display: [{
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 7,
+          areaIndicator: trucksAreaIndicator(),
+          features: trucksFeatures,
+          style: {
+            color: '#00c3ff',
+          },
+          drawnAreaLimitExtent: true,
+        }, {
+          // get layer for this month
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
+            .toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).set({ days: 1 }).plus({ months: 1 }).minus({ days: 1 })
+            .toFormat('yyyy-MM-dd')}`,
+          name: 'Monthly Aggregated Truck Traffic 10km',
+          layers: 'VIS_TRUCK_DETECTION_PRIMARY_NEW',
+          minZoom: 7,
+          maxZoom: 14,
+          opacity: 0.7,
+        }],
       },
     },
   },

@@ -1,141 +1,10 @@
 <template>
   <div
     class="dashboard fill-height"
-    :class="{ 'panel-expanded': drawerRight && $vuetify.breakpoint.smAndUp }"
   >
     <global-header
       ref="globalHeader"
     />
-    <v-navigation-drawer
-      v-if="$vuetify.breakpoint.mdAndUp"
-      v-model="drawerRight"
-      right
-      stateless
-      app
-      clipped
-      temporary
-      hide-overlay
-      :width="dataPanelFullWidth ? '100%' : `${dataPanelWidth}px`"
-      :style="`margin-top: ${$vuetify.application.top}px;
-        height: calc(100% - ${$vuetify.application.top + $vuetify.application.footer}px;`"
-      class="data-panel"
-    >
-      <eox-stacinfo
-        v-if="indicatorObject
-          || $store.state.features.featureFilters.indicators.length > 0"
-        ref="stacinfo"
-        :for="this.$store.state.indicators.selectedIndicator.link"
-        header='["title"]'
-        subheader='["keywords"]'
-        properties='["themes", "satellite", "sensor", "agency"]'
-        featured='["description", "providers", "extent", "sci:publications"]'
-        footer='["sci:citation"]'
-      >
-        <div slot="themes">
-          <ul>
-            <v-chip
-              v-for="theme in $refs.stacinfo?.stacProperties?.themes?.value"
-              :key="theme"
-              :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
-              text-color="white"
-            >
-            <v-avatar left>
-              <v-icon>{{ $store.state.config.baseConfig.indicatorClassesIcons[theme] }}</v-icon>
-            </v-avatar>
-              {{ theme }}
-            </v-chip>
-          </ul>
-        </div>
-        <div slot="featured-links">
-          My custom link display:
-          <li
-            v-for="link in $refs.stacinfo?.stacProperties?.links.value.filter(
-              (l) => l.rel === 'example' || l.rel === 'license'
-            )"
-            :key="link.rel"
-          >
-            <v-btn color="primary" :href="link.href">{{ link.rel }}</v-btn>
-          </li>
-        </div>
-        <span slot="featured-links-summary">Data Access & Methods</span>
-      </eox-stacinfo>
-    </v-navigation-drawer>
-    <v-tooltip
-      v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
-      left
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color="primary"
-          icon
-          small
-          class="reopen-right-drawer move-with-panel rounded-lg rounded-r-0 py-7 elevation-2"
-          :style="`background: ${$vuetify.theme.currentTheme.background}`"
-          v-on="on"
-          @click="drawerRight = !drawerRight"
-        >
-          <v-icon :class="{open: drawerRight}">mdi-menu-left</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ drawerRight ? 'Collapse' : 'Expand' }} side panel</span>
-    </v-tooltip>
-
-    <div
-      class="retractable"
-      :class="{
-        'retracted': isDialogRetracted,
-        'hidden': !indicatorObject
-          && $store.state.features.featureFilters.indicators.length === 0,
-      }"
-      v-if="$vuetify.breakpoint.smAndDown"
-    >
-      <v-toolbar dark color="primary">
-        <v-toolbar-title style="overflow: unset; white-space: pre-wrap;"
-          v-if="indicatorObject"
-        >{{ indicatorObject.city }},
-          {{ indicatorObject.description }}
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="() => isDialogRetracted = !isDialogRetracted">
-          <v-icon>mdi-chevron-{{isDialogRetracted ? 'up' : 'down'}}</v-icon>
-        </v-btn>
-
-        <v-btn icon dark @click="clickMobileClose">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-container
-        class="data-panel scrollContainer"
-        :style="{
-          background: $vuetify.theme.themes[theme].background,
-          height: isDialogRetracted ? 'calc(33vh - 85px)' : 'calc(var(--vh, 1vh) * 100)',
-        }"
-      >
-
-        <banner v-if="currentNews" />
-
-        <v-row>
-          <v-col>
-            <h4 v-if="
-                (indicatorObject && (
-                  indicatorObject.description !==
-                  indicatorObject.indicatorName))"
-              class="py-2"
-            >
-              {{ indicatorObject
-                && (indicatorObject.indicatorName || indicatorObject.description) }}
-            </h4>
-            <data-panel
-              v-if="indicatorObject
-                || $store.state.features.featureFilters.indicators.length > 0"
-              :newsBanner="$refs.newsBanner"
-              :expanded="dataPanelFullWidth"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-
     <v-main
       :style="`height: 100vh; height: calc((var(--vh, 1vh) * 100) + ${$vuetify.application.top
         + $vuetify.application.footer}px); overflow:hidden; width: 100%;${
@@ -151,40 +20,53 @@
             cols="12"
             class="py-0 fill-height"
           >
-            <center-panel ref="centerPanel" :panelActive="drawerRight" />
-            <div
-              v-if="$route.name === 'demo'"
-              class="d-flex justify-start"
-              style="position: absolute; top: 0; width: 100%; pointer-events: none"
+            <center-panel ref="centerPanel" />
+            <UiPanelsLayout class="fill-height" :gtif="appConfig.id === 'gtif'"
+
             >
-              <IndicatorFiltersDemo
-                :expanded="dataPanelFullWidth" />
-            </div>
-            <div
-              v-else
-              :style="`
-                position: absolute;
-                ${$vuetify.breakpoint.smAndUp ? 'top' : 'bottom'}: 0;
-                left: 0;
-                width: 100%;
-                height: ${$vuetify.breakpoint.smAndUp ? '100%' : 'auto'};
-                padding: 8px;
-                display: ${$vuetify.breakpoint.smAndUp ? 'grid' : 'flex'};
-                grid-template-columns: repeat(${$vuetify.breakpoint.lgAndUp ? 5 : 4}, 1fr);
-                grid-template-rows: repeat(5, 1fr);
-                grid-column-gap: 1rem;
-                grid-row-gap: 1rem;
-                pointer-events: none;
-              `"
-            >
-              <UiPanel
-                left
-                title="Filter"
-                :style="`grid-area: 1 / 1 / 5 / 2;`"
-              >
-                <IndicatorFiltersPanel />
-              </UiPanel>
-            </div>
+              <template #left="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                   <IndicatorFiltersDemo v-if="$route.name === 'demo' && ['Domains & Tools'].includes(panel.title)"/>
+                   <IndicatorFiltersPanel v-else-if="['Domains & Tools','Domains'].includes(panel.title)" />
+                   <eox-layercontrol
+                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    for="#centerMap"
+                    :titleProperty.prop="'name'"
+                    :tools.prop="['info', 'config', 'opacity', 'sort']"
+                    :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
+                    button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;} [data-type=vector] .title::before { content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important; } [data-type=raster] .title::before {content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important;}` :''"
+                    class="pointerEvents">
+                   </eox-layercontrol>
+
+                 </UiPanel>
+              </template>
+              <template #right="{panels,handleSelection, activePanel}">
+                 <UiPanel v-for="panel in panels " :key="panel.id"
+                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 @panel-selected="function(id){ handleSelection(id) }"
+                 :activeID="activePanel" :title="panel.title"
+                 >
+                 <StacInfo  v-if="panel.title == 'Information' && indicatorSelected"/>
+                   <DataPanel
+                    v-if="panel.title === 'Analysis' && indicatorSelected
+                    || $store.state.features.featureFilters.indicators.length > 0"
+                    :key="panelKey" />
+                    <eox-layercontrol
+                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    for="#centerMap"
+                    :titleProperty.prop="'name'"
+                    :tools.prop="['info', 'config', 'opacity', 'sort']"
+                    class="pointerEvents">
+                   </eox-layercontrol>
+                 </UiPanel>
+              </template>
+            </UiPanelsLayout>
+            <HighlightLocation v-if="indicatorSelected"
+            :indicator-object="indicatorObject"/>
           </v-col>
         </v-row>
       </v-container>
@@ -196,7 +78,6 @@
 </template>
 
 <script>
-import Banner from '@/components/Banner.vue';
 import CenterPanel from '@/components/CenterPanel.vue';
 import DataPanel from '@/components/DataPanel.vue';
 import GlobalHeader from '@/components/GlobalHeader.vue';
@@ -206,11 +87,14 @@ import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 // import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 // import ESABreadcrumbs from '@/components/ESA/ESABreadcrumbs.vue';
+import UiPanelsLayout from '@/components/UiPanelsLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import { getMapInstance } from '@/components/map/map';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
+import StacInfo from '../components/StacInfo.vue';
+import HighlightLocation from '../components/HighlightLocation.vue';
 
 export default {
   metaInfo() {
@@ -223,7 +107,6 @@ export default {
     };
   },
   components: {
-    Banner,
     CenterPanel,
     DataPanel,
     GlobalHeader,
@@ -234,27 +117,22 @@ export default {
     IndicatorFiltersDemo,
     // ESABreadcrumbs,
     UiPanel,
+    UiPanelsLayout,
+    StacInfo,
+    HighlightLocation,
   },
   props: {
     source: String,
   },
   mixins: [closeMixin, dialogMixin],
   data: () => ({
-    drawerLeft: false,
-    drawerRight: false,
     dialog: false,
-    dataPanelFullWidth: false,
-    dataPanelTemporary: false,
     panelKey: 0,
-    isDialogRetracted: true,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
     ]),
-    dataPanelWidth() {
-      return this.$vuetify.breakpoint.lgAndUp ? 600 : 400;
-    },
     indicatorSelected() {
       return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
@@ -281,57 +159,30 @@ export default {
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
-    selectedFeature() {
-      return this.$store.state.features.selectedFeature;
-    },
-    featureCity() {
-      // Using empty ascii to make sure subheading height is kept if no poi selection is active
-      let city = '&#8194';
-      if (this.selectedFeature) {
-        city = this.selectedFeature.indicatorObject.city;
-      }
-      return city;
-    },
     ...mapGetters({
       getCurrentTheme: 'themes/getCurrentTheme',
     }),
   },
   created() {
-    this.drawerLeft = this.$vuetify.breakpoint.mdAndUp;
   },
   mounted() {
-    document.documentElement.style.setProperty('--data-panel-width', `${this.dataPanelWidth}px`);
     // only show when nothing is selected
     const { poi, indicator, search } = this.$route.query;
     if (!poi && !indicator && !search && !this.$route.name === 'demo') {
       this.$refs.globalHeader.showText = 'welcome';
       this.$refs.globalHeader.showInfoDialog = true;
     }
-    if (this.$route.name !== 'demo') {
-      const { map } = getMapInstance('centerMap');
-      const mapElement = document.querySelector('eox-layerswitcher');
-      if (mapElement) {
-        document.querySelector('eox-layerswitcher').attachTo(map);
-      }
+    const { map } = getMapInstance('centerMap');
+    const mapElement = document.querySelector('eox-layerswitcher');
+    if (mapElement) {
+      document.querySelector('eox-layerswitcher').attachTo(map);
     }
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
   },
   methods: {
-    setDataPanelWidth(enable) {
-      if (enable) {
-        this.dataPanelTemporary = true;
-        this.dataPanelFullWidth = true;
-      } else {
-        this.dataPanelFullWidth = false;
-        // TO-DO find more reliable way of checking
-        setTimeout(() => { this.dataPanelTemporary = false; }, 500);
-      }
-    },
     clickMobileClose() {
-      this.isDialogRetracted = true;
-      this.drawerRight = false;
       this.dialog = false;
       this.$refs.globalHeader.showText = null;
       this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
@@ -339,17 +190,10 @@ export default {
         this.$refs.indicatorFilters.comboboxClear();
       }
     },
-    close() {
-      this.setDataPanelWidth(false);
-    },
   },
   watch: {
-    dataPanelWidth(val) {
-      document.documentElement.style.setProperty('--data-panel-width', `${val}px`);
-    },
     indicatorSelected(selected) {
       if (selected) {
-        this.drawerRight = true;
         if (!this.$vuetify.breakpoint.mdAndUp) {
           this.dialog = true;
         }
@@ -358,7 +202,6 @@ export default {
           this.$refs.globalHeader.showText = null;
         }
       } else {
-        this.drawerRight = false;
         this.dialog = false;
       }
       this.$store.commit('indicators/SET_CUSTOM_AREA_INDICATOR', null);
@@ -448,41 +291,5 @@ export default {
     font-size: 1rem;
     line-height: 1;
   }
-}
-</style>
-
-<style>
-.move-with-panel {
-  transform: translateX(0);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-.panel-expanded .move-with-panel {
-  transform: translateX(calc(-1 * var(--data-panel-width)));
-}
-
-eox-stacinfo::part(header) {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-eox-stacinfo::part(footer) {
-  position: sticky;
-  bottom: 0;
-}
-[slot="themes"] {
-  width: 100%;
-}
-[slot="themes"] ul {
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-[slot="themes"] ul li {
-  background: lightgrey;
-  border-radius: 15px;
-  min-width: 20px;
-  text-align: center;
-  padding: 2px 10px;
-  margin-right: 4px;
 }
 </style>

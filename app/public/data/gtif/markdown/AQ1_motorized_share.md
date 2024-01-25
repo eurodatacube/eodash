@@ -1,1 +1,0 @@
-<img style="float:right; margin-top:-60px;" alt="Motorized trip share index" src="legends/gtif/AQ1_motorized_share.png" width="45%" style="vertical-align: middle;"/>

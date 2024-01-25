@@ -1,10 +1,12 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
+import shTimeFunction from '@/shTimeFunction';
 
 const state = {
   indicators: null,
   selectedIndicator: null,
   selectedTime: null,
   customAreaIndicator: null,
+  frozenIndicator: null,
 };
 
 const getters = {
@@ -16,6 +18,23 @@ const getters = {
 const mutations = {
   SET_INDICATORS(state, indicators) {
     state.indicators = indicators;
+  },
+  SET_FROZEN_INDICATOR(state, indicator) {
+    // We make a deep copy but we need to make sure possible functions for date manipulation are
+    // passed correctly
+    state.frozenIndicator = JSON.parse(JSON.stringify(indicator));
+    let display = {};
+    if (Array.isArray(indicator.display) && indicator.display.length > 0) {
+      [display] = indicator.display;
+    } else if (indicator.display) {
+      display = indicator.display;
+    }
+    const displayCopy = JSON.parse(JSON.stringify(display));
+    state.frozenIndicator.display = displayCopy;
+    state.frozenIndicator.display.dateFormatFunction = display.dateFormatFunction || shTimeFunction;
+    if (display?.style?.getColor) {
+      state.frozenIndicator.display.style.getColor = display?.style?.getColor;
+    }
   },
   SET_SELECTED_INDICATOR() {
   },
@@ -30,6 +49,10 @@ const mutations = {
 };
 
 const actions = {
+  freezeCurrentIndicator({ commit }, frozenLayerName) {
+    this.state.indicators.selectedIndicator.frozenLayerName = frozenLayerName;
+    commit('SET_FROZEN_INDICATOR', this.state.indicators.selectedIndicator);
+  },
   async loadSTACIndicators({ commit, rootState }) {
     let url = rootState.config.baseConfig.STACEndpoint;
     // Allow overwrite of STAC endpoint url if catalog key is provided in url
@@ -57,56 +80,36 @@ const actions = {
         const indicators = [];
         data.links.forEach((link) => {
           if (link.rel === 'child') {
-            let { themes } = link;
-            if (themes && rootState.config.baseConfig.themeOverwrite) {
-              const overwrite = rootState.config.baseConfig.themeOverwrite;
-              const updated = [];
-              themes.forEach((t) => {
-                if (overwrite[t]) {
-                  updated.push(overwrite[t]);
-                } else {
-                  updated.push(t);
-                }
-              });
-              themes = updated;
-            }
             let resultIndicator = {
               type: 'stac',
               link: `${url.replace('catalog.json', '')}${link.href}`,
-              code: link.code,
               description: link.subtitle ? link.subtitle : '',
-              indicatorName: link.title,
               name: link.title,
               indicator: link.code,
-              region: 'global',
-              themes,
-              tags: link.tags ? link.tags.split(',') : [],
-              title: link.title,
-              satellite: link.satellite ? link.satellite.split(',') : [],
-              sensor: link.sensor ? link.sensor.split(',') : [],
+              themes: link.themes ? link.themes : [],
+              tags: link.tags ? link.tags : [],
+              satellite: link.satellite ? link.satellite : [],
+              sensor: link.sensor ? link.sensor : [],
               endpointType: link.endpointtype,
               locations: link.locations ? link.locations : false,
               // TODO: This is usually used in the client to define if it is a global indicator
               // it should be handled with a unique value
               country: 'all',
-              city: 'World',
-              siteName: 'global',
               countries: link.countries ? link.countries : [],
               cities: link.cities ? link.cities : [],
-              // aoiID: 'CDS',
               // TODO: some default values we seem to need would be great if we can remove them
               subAoi: {
                 type: 'FeatureCollection',
                 features: [],
               },
               inputData: [],
-              // yAxis: 'wind',
+              yAxis: link.yAxis,
             };
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
-              if (indicator.properties.indicatorObject.indicator === resultIndicator.code) {
-                resultIndicator = { ...indicator.properties.indicatorObject, ...resultIndicator };
+              if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
+                resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
               }
             });
             indicators.push(resultIndicator);

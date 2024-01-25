@@ -85,7 +85,6 @@ Vue.prototype.$marked = marked;
 
 const renderVue = async () => {
   await store.dispatch('config/checkBrand');
-  // store.dispatch('features/loadAllEndpoints');
   store.dispatch('indicators/loadSTACIndicators');
 
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -95,7 +94,7 @@ const renderVue = async () => {
       options: {
         customProperties: true,
       },
-      dark: mq.matches,
+      dark: false,
       themes: {
         light: {
           primary: store.state.config.appConfig

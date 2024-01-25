@@ -6,25 +6,19 @@
     >
       <v-card-title v-if="$store.state.indicators.selectedIndicator && !enableScrollyMode"
         :class="$store.state.indicators.selectedIndicator.description ===
-          $store.state.indicators.selectedIndicator.indicatorName && 'preventEllipsis'
+          $store.state.indicators.selectedIndicator.name && 'preventEllipsis'
         "
         color="primary"
         class="flex-grow-0"
       >
-        {{ $store.state.features.allFeatures
-            .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-            .properties.indicatorObject.city }},
-        {{ $store.state.features.allFeatures
-            .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-            .properties.indicatorObject.description }}
+        {{ $store.state.indicators.selectedIndicator.city || $store.state.indicators.selectedIndicator.country }},
+        {{ $store.state.indicators.selectedIndicator.description }}
       </v-card-title>
       <v-card-subtitle v-if="
         $store.state.indicators.selectedIndicator.description !==
-        $store.state.indicators.selectedIndicator.indicatorName"
+        $store.state.indicators.selectedIndicator.name"
         class="subheading pb-1 flex-grow-0" style="font-size: 0.8em">
-        {{ $store.state.features.allFeatures
-          .find(f => getLocationCode(f.properties.indicatorObject) === $route.query.poi)
-          .properties.indicatorObject.indicatorName }}
+        {{ $store.state.indicators.selectedIndicator.name }}
       </v-card-subtitle>
       <div
         v-if="selectedIndicator"
@@ -145,18 +139,6 @@ export default {
   },
   mounted() {
     document.body.classList.add('iframe');
-
-    // TODO: Is this function still needed?
-    /*
-    window.addEventListener('message', (event) => {
-      // Check that the message data is valid
-      if (!event.data.zoom) return;
-
-      // Update the state of the application using the message data
-      const newZoom = event.data.zoom;
-      // ...
-    });
-    */
   },
   methods: {
     swipe() {

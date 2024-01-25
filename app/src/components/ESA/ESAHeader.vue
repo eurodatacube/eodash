@@ -6,14 +6,14 @@
       <nav class="esa-header-wrapper">
         <section id="esa-header" class="esa-header monitoring-safeguarding">
           <div class="esa-header__left">
-            <button
+            <!-- <button
               @click="switchNav"
               id="esa-menu"
               style="margin-right: 18px;"
               class="grow-on-hover esa-header__toggle menu-toggle"
             >
               <img class="esa-header__icon" src="img/gtif/icons/ESA_Menu.svg" alt="ESA menu toggle">
-            </button>
+            </button> -->
             <!-- <button
               @click="switchSearch"
               id="esa-search"

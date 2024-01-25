@@ -2638,5 +2638,126 @@
         "reference_time": "2023-08-26T00:00:00",
         "reference_value": "[-1.382 0.133]",
         "time": "2023-08-26T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.2990000000000002",
+        "reference_time": "2023-09-02T00:00:00",
+        "reference_value": "[-1.326 0.147]",
+        "time": "2023-09-02T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.375",
+        "reference_time": "2023-09-09T00:00:00",
+        "reference_value": "[-1.214 0.115]",
+        "time": "2023-09-09T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.33",
+        "reference_time": "2023-09-16T00:00:00",
+        "reference_value": "[-1.256 0.121]",
+        "time": "2023-09-16T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.337",
+        "reference_time": "2023-09-23T00:00:00",
+        "reference_value": "[-1.188 0.094]",
+        "time": "2023-09-23T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.337",
+        "reference_time": "2023-09-23T00:00:00",
+        "reference_value": "[-1.188 0.094]",
+        "time": "2023-09-23T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.439",
+        "reference_time": "2023-09-30T00:00:00",
+        "reference_value": "[-1.231 0.108]",
+        "time": "2023-09-30T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.143",
+        "reference_time": "2023-10-07T00:00:00",
+        "reference_value": "[-1.201 0.197]",
+        "time": "2023-10-07T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.281",
+        "reference_time": "2023-10-14T00:00:00",
+        "reference_value": "[-1.210 0.091]",
+        "time": "2023-10-14T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.171",
+        "reference_time": "2023-10-21T00:00:00",
+        "reference_value": "[-1.149 0.133]",
+        "time": "2023-10-21T00:00:00"
+    },
+    {
+        "color_code": "GREEN",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "LOW",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-1.182",
+        "reference_time": "2023-10-28T00:00:00",
+        "reference_value": "[-1.136 0.137]",
+        "time": "2023-10-28T00:00:00"
+    },
+    {
+        "color_code": "BLUE",
+        "data_provider": "CNR-ISMAR",
+        "eo_sensor": "Sentinel-3",
+        "indicator_value": "NORMAL",
+        "input_data": "OL_2_WFR",
+        "measurement_value": "-0.9740000000000001",
+        "reference_time": "2023-11-04T00:00:00",
+        "reference_value": "[-1.118 0.240]",
+        "time": "2023-11-04T00:00:00"
     }
 ]

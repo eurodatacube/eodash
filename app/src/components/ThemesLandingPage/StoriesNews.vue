@@ -7,40 +7,18 @@
     <v-row>
       <v-col>
         <h3>
-          2023-07-14: Multiple new stories added to EO Dashboard related to Lakes!
+          2023-11-29: Several new datasets added to theme BIOMASS
         </h3>
         <ul>
-          <li><a href="story?id=lakes-intro">
-            Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters
+          <li>Datasets contributed by ESA CCI RECCAP-2 project
+            <a href="explore?search=Biomass">
+            View Datasets
           </a></li>
-          <li><a href="story?id=lakes-climate">Changes  in temperature, precipitation patterns and
-             extremes impacting surface water hydrology
+          <li>EO Dashboard participates to the United Nations Climate Change Conference COP28
+            <a href="//www.cop28.com/">
+            COP28 UAE - United Nations Climate Change Conference
           </a></li>
-          <li><a href="story?id=lakes-algae">Algal blooms in lake waters</a></li>
-          <li><a href="story?id=lakes-human-activity">Changing lakes due to human activity</a></li>
         </ul>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2023-05-23: Space for Climate Protection awarded to EO Dashboard!
-        </h3>
-        <p>
-          <a target="_blank" href="https://www.esa.int/Applications/Observing_the_Earth/ESA_receives_Space_for_Climate_Protection_Award">EO Dashboard receives the 'Space for Climate Protection' Special Award by the International Astronautical Federation during the 2023 Global Space Conference on Climate Change in Oslo, Norway</a>.
-        </p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2023-03-13: Three new stories published in Cryosphere.
-        </h3>
-        <p>
-          Learn about the research of NASA, ESA and JAXA on glaciers
-          and other ice formations in Antarctica and Greenland that
-          have potential to affect our global climate system.
-        </p>
       </v-col>
     </v-row>
   </v-container>

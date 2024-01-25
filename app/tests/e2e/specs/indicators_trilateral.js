@@ -38,8 +38,8 @@ describe('Indicator tests for RACE', () => {
           // eslint-disable-next-line no-useless-escape
           cy.intercept('GET', '\/cog\/').as('cogrequests'); // escape is necessary for url match
         }
-        cy.log(`Loading indicator ${collection.code}`);
-        cy.visit(`/?indicator=${collection.code}`);
+        cy.log(`Loading indicator ${collection.indicator}`);
+        cy.visit(`/?indicator=${collection.indicator}`);
         cy.wrap(collection).should('have.property', 'code');
 
         // We check for the wms requests status

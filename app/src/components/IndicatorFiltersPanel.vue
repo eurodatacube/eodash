@@ -1,10 +1,11 @@
 <template>
-  <eox-itemfilter class="pa-2">
-    <h4 slot="filterstitle" style="margin-top: 8px">
-      {{this.appConfig.id === "gtif" ? "Domains" : "Filter"}}
+  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
+    <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
+      Filter
     </h4>
-    <h4 slot="resultstitle" style="margin-top: 8px">
-      {{this.appConfig.id === "gtif" ? "Tools" : "Indicators"}}
+    <span v-else slot="filterstitle"></span>
+    <h4 slot="resultstitle">
+      {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
   </eox-itemfilter>
 </template>
@@ -14,9 +15,10 @@ import {
   mapState,
   mapGetters,
   mapMutations,
+  mapActions,
 } from 'vuex';
 
-import countries from '@/assets/countries.json';
+// import countries from '@/assets/countries.json';
 
 export default {
   data: () => ({
@@ -28,13 +30,58 @@ export default {
       'appConfig',
     ]),
     ...mapState('features', ['allFeatures']),
-    ...mapGetters('features', [
-      'getGroupedFeatures',
-    ]),
     ...mapState('indicators', ['indicators', 'selectedIndicator']),
     ...mapGetters('indicators', [
       'getIndicators',
     ]),
+    ...mapState('gtif', [
+      'currentDomain',
+      'toolsToggle',
+    ]),
+    itemFilterStyleOverride() {
+      let styleOverride = this.appConfig.id === 'gtif' ? `
+        li[data-identifier="energy transition"] label input[type=radio]:after  {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
+        }
+        li[data-identifier="mobility transition"] label input[type=radio]:after  {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
+        }
+        li[data-identifier="sustainable cities"] label input[type=radio]:after  {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
+        }
+        li[data-identifier="carbon accounting"] label input[type=radio]:after  {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
+        }
+        li[data-identifier="EO adaptation services"] label input[type=radio]:after {
+          background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
+        }
+        #filter-reset {
+          display: none;
+        }
+        #filters input[type=radio]{
+          width:36px;
+          height:36px;
+          margin: 6px;
+        }
+        #filters input[type=radio]:after {
+          content: "";
+          background-size: cover;
+          background-position: center center;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          margin: 0;
+        }
+      ` : '';
+      styleOverride += `
+        #filters {
+          margin-bottom: 0;
+        }
+        eox-selectionlist ul li, #filters li {
+          padding: 0;
+        }`;
+      return styleOverride;
+    },
   },
   created() {
     if (this.indicators) {
@@ -44,12 +91,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('features', {
-      setFeatureFilter: 'SET_FEATURE_FILTER',
-    }),
+    ...mapActions('gtif', [
+      'setCurrentDomain',
+    ]),
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
     }),
+    clone(items) {
+      return items.map((item) => (Array.isArray(item) ? this.clone(item) : item));
+    },
     getSearchItems() {
       const itemArray = [
         ...this.getIndicators,
@@ -58,16 +108,23 @@ export default {
       if (this.searchItems.length > 0) {
         return;
       }
-      this.searchItems = itemArray;
-
+      this.searchItems = this.clone(itemArray);
+      const customOrderGTIF = {
+        'energy transition': 0,
+        'mobility transition': 1,
+        'sustainable cities': 2,
+        'carbon accounting': 3,
+        'EO adaptation services': 4,
+        // placeholder: 5,
+      };
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
         const configs = {
           esa: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['title', 'description', 'themes', 'region'],
+                keys: ['name', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
@@ -87,7 +144,7 @@ export default {
             },
           },
           trilateral: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
@@ -103,82 +160,120 @@ export default {
             },
           },
           gtif: {
-            titleProperty: 'title',
+            titleProperty: 'name',
             filterProperties: [
               {
-                key: 'themes', title: 'Theme', featured: true, type: 'select',
+                key: 'themes',
+                title: 'Theme',
+                featured: true,
+                sort: (a, b) => customOrderGTIF[a] - customOrderGTIF[b],
+                type: 'select',
+                ...(this.currentDomain && this.currentDomain !== 'landing' ? {
+                  state: {
+                    [this.currentDomain.replace('gtif-', '')
+                      .replaceAll('-', ' ')
+                      .replaceAll(/\beo\b/g, 'EO')]: true,
+                  },
+                } : {}),
               },
             ],
+            onFilter: (items, filters) => {
+              const domains = Object.keys(filters.themes.state)
+                .filter((k) => filters.themes.state[k])
+                .map((k) => k.replaceAll(' ', '-').toLowerCase());
+              if (domains.length > 0) {
+                this.setCurrentDomain(`gtif-${domains[0]}`);
+              }
+            },
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
+              if (this.toolsToggle) {
+                this.setSelectedIndicator(item);
+              } else {
+                this.$router.push({ name: item.id });
+              }
             },
             // exclusiveFilters: true,
-            aggregateResults: 'themes',
-            styleOverride: `
-              #filters input[type=radio]:after,
-              #results input[type=radio]:after {
-                content: "";
-                background-size: cover;
-                background-position: center center;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                margin: 6px;
-              }
-              #filters input[type=radio][id="energy transition"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/energy-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="mobility transition"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/mobility-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="sustainable cities"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/sustainable-transition-trimmy.png");
-              }
-              #filters input[type=radio][id="carbon accounting"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/carbon-finance-trimmy.png");
-              }
-              #filters input[type=radio][id="eo adaptation services"]:after {
-                background-image: url("https://gtif.esa.int/img/gtif/icons/eo-adaptation-trimmy.png");
-              }
-              #results input[type=radio]#item-0:after {
-                background-image: url("https://gtif.esa.int/data/gtif/globalDataLayerImages/AT-AQA.png");
-              }
-            `,
+            aggregateResults: 'tags',
+            expandResults: false,
           },
         };
         this.itemfilter.config = configs[this.appConfig.id];
-        this.itemfilter.apply(this.searchItems);
-        let flags = `
-          [data-filter=countries] .title {
-            display: flex;
-            align-items: center;
-            position: relative;
-            text-indent: -9999px;
-          }
-          [data-filter=countries] .title:before {
-            content: "";
-            width: 20px;
-            height: 15px;
-            margin-right: 4px;
-          }
-          [data-filter=countries] .title:after {
-            text-indent: 0px;
-          }
-        `;
+        if (this.appConfig.id === 'gtif') {
+          this.$watch('toolsToggle', (inToolsMode) => {
+            if (inToolsMode) {
+              this.itemfilter.classList.remove('narratives');
+              this.itemfilter.config.aggregateResults = configs[this.appConfig.id].aggregateResults;
+              this.itemfilter.apply(this.searchItems.map((item) => ({
+                ...item,
+                // Temporary hack to properly display titles, ideally should be looked up
+                themes: item.themes.map((theme) => theme.replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')),
+              })));
+            } else {
+              this.itemfilter.classList.add('narratives');
+              this.itemfilter.config.aggregateResults = false;
+              this.itemfilter.apply(this.$store.state.gtif.domains.reduce((acc, curr) => {
+                curr.narratives.forEach((narrative) => {
+                  acc.push({
+                    name: narrative.name,
+                    id: narrative.routeName,
+                    // Temporary hack to properly display titles, ideally should be looked up
+                    themes: [curr.name.toLowerCase().replaceAll('-', ' ').replaceAll(/\beo\b/g, 'EO')],
+                  });
+                });
+                return acc;
+              }, []));
+            }
+          }, {
+            immediate: true,
+          });
+        } else {
+          this.itemfilter.apply(this.searchItems);
+        }
         // TODO currently hotlinking to assets on GitHub, replace
-        countries.features.map((c) => c.properties).forEach((cP) => {
-          flags += `
-            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:before {
-              background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${cP.alpha2?.toLowerCase()}.svg");
-            }
-            [data-filter=countries] input[type=checkbox]#${cP.alpha2}+.title:after {
-              content: "${cP.name}";
-            }
-          `;
-        });
+
+        // ANOTHER TODO: currently the race and trilateral filters are in inline mode
+        // which still creates the shadowRoot of the child ItemFilter components, so we can
+        // not use styleOverride to reach them, commenting out this part of styleOverride now
+
+        // YET ANOTHER TODO: harmonize countries (currently both the alpha2 eg. AT are used and the full country names eg. Austria), I think we can not expect geodb values to get harmonized, so we should try to remedy in the client by preprocessing the values
+        // let flags = ``;
+        //   [data-filter=countries] .title {
+        //     display: flex;
+        //     align-items: center;
+        //     position: relative;
+        //     text-indent: -9999px;
+        //   }
+        //   [data-filter=countries] .title:before {
+        //     content: "";
+        //     width: 20px;
+        //     height: 15px;
+        //     margin-right: 4px;
+        //   }
+        //   [data-filter=countries] .title:after {
+        //     text-indent: 0px;
+        //   }
+        // `;
+        // countries.features.map((c) => c.properties).forEach((cP) => {
+        //   flags += `
+        //     [data-filter=countries] [data-identifier=${cP.alpha2}] span.title:before {
+        //       background-image: url("https://raw.githubusercontent.com/lipis/flag-icons/main/flags/4x3/${cP.alpha2?.toLowerCase()}.svg");
+        //     }
+        //     [data-filter=countries] [data-identifier=${cP.alpha2}] span.title:after {
+        //       content: "${cP.name}";
+        //     }
+        //   `;
+        // });
+        const flags = '';
         this.itemfilter.styleOverride = `
+          ${this.itemFilterStyleOverride}
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
+          #container-results{
+             overflow:hidden;
+           }
+           form#itemfilter{
+             overflow: auto;
+           }
         `;
       });
     },
@@ -190,13 +285,21 @@ export default {
       }
     },
     selectedIndicator() {
-      this.itemfilter.selectedResult = this.selectedIndicator;
+      if (this.itemfilter) {
+        this.itemfilter.selectedResult = this.selectedIndicator;
+      }
     },
     allFeatures() {
       if (!this.searchItem) {
         this.getSearchItems();
       }
     },
+  },
+  mounted() {
+    if (this.$vuetify.breakpoint.smAndUp) {
+      // programtically show the UIPanel as expanded
+      this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
+    }
   },
 };
 </script>

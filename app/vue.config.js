@@ -54,6 +54,7 @@ module.exports = {
     '@eox/itemfilter',
     '@eox/layercontrol',
     '@eox/stacinfo',
+    'ol-mapbox-style',
   ],
   configureWebpack: {
     devServer: {

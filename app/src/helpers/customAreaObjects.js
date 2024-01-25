@@ -1,9 +1,20 @@
-import { Wkt } from 'wicket';
-import { template } from '@/utils';
 import { DateTime } from 'luxon';
 import axios from 'axios';
 
-const wkt = new Wkt();
+export function template(templateRe, str, data) {
+  // copy of leaflet template function, which does not export it
+  // used for getting areaIndicator URL with properties replacing templates
+  return str.replace(templateRe, (stri, key) => {
+    let value = data[key];
+
+    if (value === undefined) {
+      console.error(`No value provided for variable ${stri}`);
+    } else if (typeof value === 'function') {
+      value = value(data);
+    }
+    return value;
+  });
+}
 
 export const statisticalApiHeaders = {
   url: 'https://services.sentinel-hub.com/api/v1/statistics',
@@ -87,37 +98,9 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
   },
 });
 
-export const shFisAreaIndicatorStdConfig = Object.freeze({
-  callbackFunction: (responseJson, indicator) => {
-    if (Array.isArray(responseJson.C0)) {
-      const data = responseJson.C0;
-      const newData = {
-        time: [],
-        measurement: [],
-        referenceValue: [],
-        colorCode: [],
-      };
-      data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-        ? 1
-        : -1));
-      data.forEach((row) => {
-        newData.time.push(DateTime.fromISO(row.date));
-        newData.colorCode.push('');
-        newData.measurement.push(row.basicStats.mean);
-        newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-      });
-      const ind = {
-        ...indicator,
-        ...newData,
-      };
-      return ind;
-    }
-    return null;
-  },
-  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-});
-
-export const parseStatAPIResponse = (requestJson, indicator) => {
+export const parseStatAPIResponse = (
+  requestJson, indicator, indicatorCode = 'SHCustomLineChart',
+) => {
   // We need to also accept partial responses as it seems some datasets
   // have issues on sinergise side
   if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
@@ -150,6 +133,10 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         newData.sampleCount.push(stats.sampleCount);
       }
     });
+    if (indicatorCode) {
+      // if we for some reason need to change indicator code of custom chart data
+      newData.indicator = indicatorCode;
+    }
     const ind = {
       ...indicator,
       ...newData,
@@ -205,6 +192,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
+  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
 });
 
 // Define custom fetch function with configurable timeout
@@ -237,7 +225,6 @@ export const fetchCustomAreaObjects = async (
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
   }
-  indicator.title = 'User defined area of interest';
   const templateSubst = {
     ...indicator,
     ...options,
@@ -261,7 +248,7 @@ export const fetchCustomAreaObjects = async (
         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
       }
       // Convert geojsons back to an object
-      if (params[i] === 'geojson') {
+      if (['geojson', 'coordinates'].includes(params[i])) {
         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
       }
     }
@@ -317,9 +304,11 @@ export const fetchCustomAreaObjects = async (
     const start = times[0];
     const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    const step = {
-      days: 30 * 3,
-    };
+    // create a variable step based on the size of time array,
+    // making a maximum of 30 requests to avoid rate limiting
+    const step = end.diff(start, ['days']).toObject();
+    step.days = Math.round(step.days / 30);
+
     let currentDate = start;
     const requests = [];
     // We dont want to modify the original request body, so we create a copy here
@@ -491,39 +480,31 @@ export const fetchCustomAreaObjects = async (
   return customObjects;
 };
 
-export const nasaTimelapseConfig = (
-  datasetId,
-  dateRange = ['201501', DateTime.utc().toFormat('yyyyMM')],
-  rescale = (value) => value / 1e14,
-  dataTimeFormat = 'yyyyMM',
-  indicatorCode = 'NASACustomLineChart',
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
 ) => ({
-  url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
+  url: exampleEndpoint.href,
   requestMethod: 'POST',
   requestHeaders: {
     'Content-Type': 'application/json',
   },
   requestBody: {
-    datasetId,
-    dateRange,
-    geojson: '{geojson}',
+    type: 'Polygon',
+    coordinates: '{coordinates}',
   },
   callbackFunction: (responseJson, indicator) => {
     let ind = null;
-    if (Array.isArray(responseJson)) {
-      const data = responseJson;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
       const newData = {
         time: [],
         measurement: [],
-        colorCode: [],
-        referenceValue: [],
       };
       data.forEach((row) => {
-        if (!('error' in row)) {
-          newData.time.push(DateTime.fromFormat(row.date, dataTimeFormat));
-          newData.colorCode.push('');
-          newData.measurement.push(rescale(row.mean));
-          newData.referenceValue.push(rescale(row.median));
+        if (row.median !== null) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.measurement.push(row.median);
         }
       });
       if (indicatorCode) {
@@ -534,18 +515,12 @@ export const nasaTimelapseConfig = (
         ...indicator,
         ...newData,
       };
-    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      console.log(responseJson.detail[0].msg);
     }
     return ind;
   },
   areaFormatFunction: (area) => (
     {
-      geojson: JSON.stringify({
-        type: 'Feature',
-        properties: {},
-        geometry: area,
-      }),
+      coordinates: JSON.stringify(area.coordinates),
     }
   ),
 });

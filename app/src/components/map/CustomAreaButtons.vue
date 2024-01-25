@@ -1,7 +1,7 @@
 <template>
   <div
     class="customDrawTools elevation-2
-    d-flex flex-column mb-2">
+    d-flex flex-column mb-2 mr-1">
     <v-tooltip
       v-if="drawToolsVisible"
       left
@@ -202,6 +202,10 @@ export default {
       });
     });
     this.addDrawnAreaToMap();
+
+    if (this.$store.state.features.selectedArea) {
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    }
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
@@ -271,6 +275,7 @@ export default {
       this.isDrawing = false;
       // TODO: set in store (to update URL) only if not in custom dashboard instead of always
       this.$store.commit('features/SET_SELECTED_AREA', geoJsonObj);
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
     clearCustomAreaFilter() {
       // TODO: clear in store (to update URL) only if not in custom dashboard instead of always

@@ -2,9 +2,9 @@
   <v-sheet
     class="row justify-center align-center rounded"
     :class="$vuetify.breakpoint.xsOnly && autofocus ? 'menu-top' : 'menu-bottom'"
-    :style="`position: absolute; ${$vuetify.breakpoint.xsOnly && autofocus
-      ? 'top: 10px'
-      : 'bottom: 30px'}; z-index: 5; width: auto; max-width: 600px;`"
+    :style="`position: absolute; z-index: 5; width: auto; max-width: ${
+      $vuetify.breakpoint.xsOnly
+    ? '100%' : '600px'}; ${showTimeSlider ? 'height: 130px;' : 'height: 65px;'}`"
   >
     <v-col v-if="showTimeSlider" style="height:68px;">
       <v-slider
@@ -128,6 +128,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 import { DateTime } from 'luxon';
 
 import SliderTicks from './map/SliderTicks.vue';
@@ -173,6 +177,9 @@ export default {
     originalTimeIndex: 0,
   }),
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
     currentlyComparing() {
       let pass = true;
       if (this.indicator) {
@@ -181,11 +188,7 @@ export default {
       return this.compareActive && pass;
     },
     showTimeSlider() {
-      let show = false;
-      if (this.indicator) {
-        show = this.indicator.showTimeSlider;
-      }
-      return show;
+      return this.appConfig.id === 'gtif';
     },
   },
   created() {
@@ -272,8 +275,8 @@ export default {
       deep: true,
       handler(index) {
         // Update the model when the slider index changes
+        this.$emit('update:originalTime', this.availableValues[index]);
         if (index !== -1) {
-          this.$emit('update:originalTime', this.availableValues[index]);
           this.originalTimeModel = this.availableValues[index];
         }
       },

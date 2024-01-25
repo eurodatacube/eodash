@@ -140,6 +140,12 @@ export default {
     };
   },
   methods: {
+    resetZoomExtent() {
+      const [min, max] = this.minMaxDate();
+      this.$data._chart.options.scales.xAxes[0].ticks.min = min;
+      this.$data._chart.options.scales.xAxes[0].ticks.max = max;
+      this.$data._chart.chart.update();
+    },
     extentChangedEvent() {
       this.$emit('extentChanged', true);
     },
@@ -155,6 +161,12 @@ export default {
         extendedSettings.scales.yAxes[0] = {
           ...extendedSettings.scales.yAxes[0],
           ...extendedSettings.yAxisOverwrite,
+        };
+      }
+      if ('yAxisRange' in extendedSettings) {
+        extendedSettings.scales.yAxes[0].ticks = {
+          suggestedMin: extendedSettings.yAxisRange[0],
+          suggestedMax: extendedSettings.yAxisRange[1],
         };
       }
       const [min, max] = this.minMaxDate();

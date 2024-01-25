@@ -6,7 +6,6 @@ import XYZSource from 'ol/source/XYZ';
 import GeoJSON from 'ol/format/GeoJSON';
 import WMTSCapabilities from 'ol/format/WMTSCapabilities';
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS';
-import countries from '@/assets/countries.json';
 import {
   Fill, Stroke, Style, Circle, Text,
 } from 'ol/style';
@@ -21,9 +20,8 @@ import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
-import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
-import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -247,7 +245,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
  * @param {number} config.style.weight stroke weight
  * @param {string} config.style.color stroke color
  * @param {Object} [opt_options={}] options
- * @param {boolean} [opt_options.updateOpacityOnZoom=false] sets the updateOpacityOnZoom-flag
  * on the layer. this can be used inside components to update opacity
  * for overlays like labels or borders. Defaults to false.
  * @param {*} [opt_options.time=undefined] optional time.
@@ -260,7 +257,6 @@ async function createWMTSSourceFromCapabilities(config, layer) {
 // eslint-disable-next-line import/prefer-default-export
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
-  options.updateOpacityOnZoom = options.updateOpacityOnZoom || false;
   const paramsToPassThrough = [
     'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
   ];
@@ -344,36 +340,17 @@ export function createLayerFromConfig(config, map, _options = {}) {
     createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
+    const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
+    const projString = 'EPSG:3857';
     layer = new VectorTileLayer({
       style: dynamicStyleFunction,
       source: new VectorTileSource({
-        projection: 'EPSG:3857',
+        projection: projString,
         format: new MVT(),
-        url: config.url,
+        url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
     layer.set('id', config.id);
-  } else if (config.protocol === 'countries') {
-    const countriesSource = new VectorSource({
-      features: geoJsonFormat.readFeatures(countries, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: map.getView().getProjection(),
-      }),
-    });
-    layer = new VectorLayer({
-      layerControlHide: true,
-      source: countriesSource,
-      updateOpacityOnZoom: options.updateOpacityOnZoom,
-      style: new Style({
-        fill: new Fill({
-          color: '#fff',
-        }),
-        stroke: new Stroke({
-          width: 1,
-          color: '#a2a2a2',
-        }),
-      }),
-    });
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature
@@ -447,20 +424,22 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     }
   } else if (config.protocol === 'xyz') {
+    const sourceOptions = {
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoom || config.minZoom,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      projection: getProjectionOl(config.projection),
+      transition: 0,
+      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+    };
+    source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        tileUrlFunction: (tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, options);
-          return createFromTemplate(url, tileCoord);
-        },
+      source.setTileUrlFunction((tileCoord) => {
+        const url = replaceUrlPlaceholders(config.url, config, options);
+        return createFromTemplate(url, tileCoord);
       });
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
@@ -472,16 +451,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
-      });
-    } else {
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxZoom,
-        minZoom: config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        projection: getProjectionOl(config.projection),
-        transition: 0,
-        tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
     layer = new TileLayer({
@@ -551,7 +520,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
   let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    if (options.drawnArea.area) {
+    if (options?.drawnArea?.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
         'EPSG:4326',
@@ -567,15 +536,26 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layer.setExtent(drawnAreaExtent);
   }
-  layer.setProperties({
+  const layerProperties = {
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
-    updateOpacityOnZoom: options.updateOpacityOnZoom,
     layerControlOptional: config.layerControlOptional,
-  });
+    layerConfig: config.layerConfig,
+  };
+  if (config.legendUrl || config.layerAdditionalDescription) {
+    let description = '';
+    if (config.legendUrl) {
+      description += `<img src="${config.legendUrl}" style="max-width: 100%" />`;
+    }
+    if (config.layerAdditionalDescription) {
+      description += config.layerAdditionalDescription;
+    }
+    layerProperties.description = description;
+  }
+  layer.setProperties(layerProperties);
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {

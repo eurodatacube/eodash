@@ -102,19 +102,15 @@ export default {
   computed: {
     ...mapState('dashboard', ['dashboardConfig']),
   },
-  watch: {
-    indicatorObject: {
-      deep: true,
-      async handler() {
-        if (this.indicatorObject) {
-          // Re-setting title to make sure latest selected indicator is shown
-          this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`;
-        }
-      },
-    },
-  },
   created() {
-    if (this.indicatorObject) { this.title = `${this.indicatorObject.city.trim()}: ${this.indicatorObject.description.trim()}`; }
+    if (this.indicatorObject) {
+      let indObj = this.indicatorObject;
+      if (this.featureObject) {
+        // Merge with parent indicator object to have all necessary information
+        indObj = { ...indObj, ...this.featureObject };
+      }
+      this.title = `${indObj?.city?.trim()}: ${indObj?.description?.trim()}`;
+    }
   },
   methods: {
     ...mapActions('dashboard', [
