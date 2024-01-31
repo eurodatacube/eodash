@@ -66,20 +66,31 @@ const getters = {
           }
           return filtered;
         })
-        .map((f) => ({
-          archived: f.properties.indicatorObject.description
-            && (f.properties.indicatorObject.description.includes('(archived)')),
-          code: f.properties.indicatorObject.indicator,
-          indicator: f.properties.indicatorObject.description,
-          themes: rootState.config.baseConfig.indicatorsDefinition[
-            f.properties.indicatorObject.indicator
-          ].themes,
-          indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
-            f.properties.indicatorObject.indicator
-          ].indicatorOverwrite,
-        })),
+        .map((f) => {
+          let feature = null;
+          try {
+            feature = {
+              archived: f.properties.indicatorObject.description
+                && (f.properties.indicatorObject.description.includes('(archived)')),
+              code: f.properties.indicatorObject.indicator,
+              indicator: f.properties.indicatorObject.description,
+              themes: rootState.config.baseConfig.indicatorsDefinition[
+                f.properties.indicatorObject.indicator
+              ].themes,
+              indicatorOverwrite: rootState.config.baseConfig.indicatorsDefinition[
+                f.properties.indicatorObject.indicator
+              ].indicatorOverwrite,
+            };
+          } catch (error) {
+            console.log(
+              `Could not create feature correctly for id: ${f.properties.indicatorObject.indicator} `,
+            );
+          }
+          return feature;
+        }),
     ].flat(2))].sort();
-    return indicators;
+    // Remove empty indicators
+    return indicators.filter((i) => i !== null);
   },
   getCountryItems(state, gettersG) {
     return gettersG.getCountries

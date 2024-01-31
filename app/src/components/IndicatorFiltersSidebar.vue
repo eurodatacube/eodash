@@ -99,7 +99,6 @@
     </v-expand-x-transition>
     <div
       v-show="indicatorObject && indicatorObject.highlights"
-      class="fill-height"
       style="width: 130px; pointer-events: all; position:absolute; left:10px;"
     >
       <v-list style="width: 100%; background-color: #00000000;">

@@ -138,10 +138,10 @@ export default {
     ...mapState('config', ['appConfig', 'baseConfig']),
     baseLayers() {
       // expects an array of objects
-      return this.mergedConfigsData[0].baseLayers || this.baseConfig.baseLayersRightMap;
+      return this.baseConfig.baseLayersMap;
     },
     overlayLayers() {
-      return this.mergedConfigsData[0].overlayLayers || this.baseConfig.overlayLayersRightMap;
+      return this.baseConfig.overlayLayersMap;
     },
     attributions() {
       return [
@@ -224,16 +224,9 @@ export default {
           const lIndex = this.viewer.imageryLayers.indexOf(layer);
           // Remove and recreate layer to make sure new time is loaded
           this.viewer.imageryLayers.remove(layer, true);
-          if ('combinedLayers' in this.mergedConfigsData[0]) {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0].combinedLayers[index]),
-              lIndex,
-            ));
-          } else {
-            newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-              this.createImageryProvider(this.mergedConfigsData[0]), lIndex,
-            ));
-          }
+          newDataLayers.push(this.viewer.imageryLayers.addImageryProvider(
+            this.createImageryProvider(this.mergedConfigsData[index]), lIndex,
+          ));
         });
         this.dataLayers = newDataLayers;
       }
@@ -241,20 +234,6 @@ export default {
     createImageryProvider(config) {
       let imagery;
       if (!config) {
-        /*
-        imagery = new Cesium.WebMapTileServiceImageryProvider({
-          url: 'https://tiles.maps.eox.at/wmts/1.0.0/terrain-light/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
-          layer: 'terrain-light',
-          style: 'default',
-          format: 'image/jpeg',
-          tileMatrixSetID: 'WGS84',
-          maximumLevel: 12,
-          tilingScheme: new Cesium.GeographicTilingScheme({
-            numberOfLevelZeroTilesX: 2, numberOfLevelZeroTilesY: 1,
-          }),
-          credit: new Cesium.Credit('{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }'),
-        });
-        */
         imagery = new Cesium.UrlTemplateImageryProvider({
           name: 'EOxCloudless 2021',
           url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg',
@@ -285,6 +264,8 @@ export default {
                 transparent: 'true',
                 time: config.dateFormatFunction(this.dataLayerTime.value),
               },
+              tileWidth: config.tileSize,
+              tileHeight: config.tileSize,
             });
             break;
           default:
@@ -320,17 +301,11 @@ export default {
         },
       });
       this.dataLayers = [];
-      if ('combinedLayers' in this.mergedConfigsData[0]) {
-        this.mergedConfigsData[0].combinedLayers.forEach((l) => {
-          this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-            this.createImageryProvider(l),
-          ));
-        });
-      } else {
+      this.mergedConfigsData.forEach((layerDef) => {
         this.dataLayers.push(this.viewer.imageryLayers.addImageryProvider(
-          this.createImageryProvider(this.mergedConfigsData[0]),
+          this.createImageryProvider(layerDef),
         ));
-      }
+      });
       this.viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
       this.viewer.scene.fog.enabled = false;
       this.viewer.scene.globe.showGroundAtmosphere = false;

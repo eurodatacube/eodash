@@ -7,6 +7,9 @@ import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
 import GeoJSON from 'ol/format/GeoJSON';
 import WKB from 'ol/format/WKB';
+import {
+  Fill, Stroke, Style, Circle,
+} from 'ol/style';
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -205,31 +208,29 @@ export const mapDefaults = Object.freeze({
   bounds: [10, 46, 20, 49.5],
 });
 
-export const baseLayersLeftMap = [{
-  ...baseLayers.terrainLight, visible: true,
-},
-baseLayers.cloudless,
-baseLayers.eoxosm,
-baseLayers.S2GLC,
-baseLayers.ESA_WORLD_COVER,
-baseLayers.CORINE_LAND_COVER,
-baseLayers.geolandbasemap,
-baseLayers.bmapgelaende,
-baseLayers.bmaporthofoto30cm,
+export const baseLayersMap = [
+  baseLayers.s1EodcBackscattervv,
+  baseLayers.s1EodcBackscattervh,
+  baseLayers.S2GLC,
+  baseLayers.ESA_WORLD_COVER,
+  baseLayers.CORINE_LAND_COVER,
+  baseLayers.geolandbasemap,
+  baseLayers.bmapgelaende,
+  baseLayers.bmaporthofoto30cm,
+  baseLayers.eoxosm,
+  baseLayers.cloudless,
+  {
+    ...baseLayers.terrainLight, visible: true,
+  },
 ];
-export const baseLayersRightMap = [{
-  ...baseLayers.terrainLight, visible: true,
-}, baseLayers.cloudless];
 
-export const overlayLayersLeftMap = [
+export const overlayLayersMap = [
+  overlayLayers.powerOpenInfrastructure,
   {
     ...overlayLayers.eoxOverlay, visible: true,
   },
-  overlayLayers.powerOpenInfrastructure,
 ];
-export const overlayLayersRightMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
+
 const nutsStyle = {
   attribution: 'Administrative boundaries: © EuroGeographics, © TurkStat. Source: European Commission – Eurostat/GISCO',
   visible: true,
@@ -259,6 +260,8 @@ export const defaultLayersDisplay = {
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
+  maxZoom: 18,
+  minZoom: 1,
 };
 
 const getMinuteIntervals = (start, end, minutes) => {
@@ -285,10 +288,10 @@ const getDailyDates = (start, end) => {
 
 const energyTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.bodenwertigkeitskarte_agri,
     baseLayers.bodenwertigkeitskarte_grassland,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
@@ -311,8 +314,8 @@ const eoadaptationDefaults = {
 
 const mobilityTransitionDefaults = {
   baseLayers: [
-    ...baseLayersLeftMap,
     baseLayers.dsr_schnelllade_10km,
+    ...baseLayersMap,
   ],
 };
 
@@ -448,6 +451,7 @@ export const indicatorsDefinition = Object.freeze({
     class: 'air',
     themes: ['energy-transition'],
     story: '/data/gtif/markdown/REP1',
+    customAreaIndicator: true,
   },
   REP2: {
     ...energyTransitionDefaults,
@@ -485,7 +489,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_2: {
     indicator: 'Hydro Power SWE monthly',
@@ -503,7 +509,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
@@ -533,14 +541,32 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmapgelaende,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP5: {
-    ...energyTransitionDefaults,
-    indicator: 'Micro Hydropower',
-    class: 'air',
+    indicator: 'Potential Assessment',
+    class: 'water',
     themes: ['energy-transition'],
-    story: '/data/gtif/markdown/REP3',
+    story: '/data/gtif/markdown/REP5',
+    baseLayers: [{
+      ...baseLayers.bmapgelaende, visible: true,
+    },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
+    baseLayers.S2GLC,
+    baseLayers.ESA_WORLD_COVER,
+    baseLayers.CORINE_LAND_COVER,
+    baseLayers.geolandbasemap,
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.eoxosm,
+    baseLayers.terrainLight,
+    ],
+    overlayLayers: [
+      { ...overlayLayers.powerOpenInfrastructure, visible: false, minZoom: 13 },
+      { ...overlayLayers.eoxOverlay, visible: true },
+    ],
   },
   REP6: {
     indicator: 'Wind Turbines',
@@ -550,6 +576,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.terrainLight,
     baseLayers.eoxosm,
     baseLayers.S2GLC,
@@ -880,7 +908,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
             type: 'FeatureCollection',
@@ -903,7 +930,6 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_MOTORWAY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -937,7 +963,6 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          maxZoom: 18,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
           presetView: {
@@ -962,7 +987,6 @@ export const globalIndicators = [
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'TRUCK_REPROCESSING_PRIMARY',
-          minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1344,7 +1368,7 @@ export const globalIndicators = [
             },
           ],
         },
-        display: {
+        display: [{
           layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
           protocol: 'geoserverTileLayer',
           style: {
@@ -1379,7 +1403,7 @@ export const globalIndicators = [
           },
           tooltip: true,
           allowedParameters: ['name'],
-        },
+        }],
       },
     },
   },
@@ -2836,6 +2860,10 @@ export const globalIndicators = [
         time: [],
         inputData: [''],
         yAxis: '',
+        queryParameters: {
+          sourceLayer: 'wind_average_zsp',
+          selected: '1,2,3,4,5,6,7,8,9,10,11,12',
+        },
         cogFilters: {
           sourceLayer: 'REP1',
           filters: {
@@ -3053,12 +3081,10 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Sentinel 2 L2A',
           minZoom: 13,
-          maxZoom: 18,
           timeFromProperty: true,
         }, {
           minZoom: 13,
           protocol: 'GeoJSON',
-          clusterLayer: true,
           tooltip: true,
           getTimeFromProperty: 'detection_time',
           visible: true,
@@ -3070,6 +3096,108 @@ export const globalIndicators = [
           },
           selection: {
             mode: 'single',
+          },
+        }, {
+          maxZoom: 13,
+          protocol: 'GeoJSON',
+          clusterLayer: true,
+          visible: true,
+          name: 'Wind turbine detections clusters',
+          url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/wind_turbines/wind-turbines-austria-version1.geojson',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'Austria',
+        siteName: 'global',
+        description: 'Micro Hydropower Potential Assessment',
+        navigationDescription: 'Micro Hydropower',
+        indicator: 'REP5',
+        lastIndicatorValue: null,
+        indicatorName: 'Micro Hydropower',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        lastColorCode: null,
+        highlights: [
+          {
+            name: 'Austria overview',
+            location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
+          },
+        ],
+        aoi: null,
+        aoiID: 'Austria',
+        time: [],
+        inputData: [''],
+        display: [{
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          tooltip: {
+            tooltipFormatFunction: (feature) => [
+              `ws_code: ${feature.get('ws_code')}`,
+              `Area: ${Number((feature.get('area_sqm')) / 10e6).toFixed(2)} km²`,
+              `Flow Rate: ${Number(feature.get('flowrate')).toFixed(1)} m³/s`,
+              'Gravity: 9.82 m/s²',
+              'Density: 1000 kg/m³',
+              `Power rating: ${Number(feature.get('pr_mw')).toFixed(2)} MW`,
+              `Annual power: ${Number(feature.get('annp')).toFixed(0)} kWh`,
+              `Annual power potential: ${Number(feature.get('gwh_pot')).toFixed(2)} gWh`,
+              'Capacity: 50 %',
+              `Annual power actual: ${(Number(feature.get('pr_mw')) / 2).toFixed(2)} MW`,
+            ],
+          },
+          visible: true,
+          name: 'Micro Hydropower Potential',
+          url: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_power_potential&outputFormat=application/json',
+          styleFunction: (feature) => {
+            let radius = 0;
+            const powerGenerationValue = feature.get('gwh_pot');
+            if (powerGenerationValue > 0 && powerGenerationValue < 1) {
+              radius = 5;
+            } else if (powerGenerationValue >= 1 && powerGenerationValue <= 10) {
+              radius = 8;
+            } else if (powerGenerationValue > 10 && powerGenerationValue <= 50) {
+              radius = 12;
+            } else if (powerGenerationValue > 50 && powerGenerationValue <= 750) {
+              radius = 16;
+            } else {
+              radius = 20;
+            }
+            const fill = new Fill({
+              color: 'rgba(255, 255, 255, 0.3)',
+            });
+            const stroke = new Stroke({
+              width: 3,
+              color: '#003247',
+            });
+            const style = new Style({
+              image: new Circle({
+                fill,
+                stroke,
+                radius,
+              }),
+            });
+            return style;
+          },
+          selection: {
+            mode: 'single',
+          },
+        }, {
+          minZoom: 5,
+          protocol: 'GeoJSON',
+          visible: true,
+          name: 'Micro Hydropower Watersheds',
+          urlTemplateSelectedFeature: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wfs?request=GetFeature&service=WFS&version=1.0.0&typeName=geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_hydro_watersheds&outputFormat=application/json&cql_filter=hydropowerpotential_ws_code={ws_code}',
+          style: {
+            strokeColor: '#003247',
+            width: 2,
+            fillColor: 'rgba(179, 240, 252, 0.5)',
           },
         }],
       },
@@ -3318,34 +3446,6 @@ export const globalIndicators = [
         country: 'all',
         city: 'Austria',
         siteName: 'global',
-        description: 'Potential Assessment',
-        navigationDescription: 'Potential Assessment',
-        indicator: 'REP5',
-        disabled: true,
-        lastIndicatorValue: null,
-        indicatorName: 'Micro Hydropower',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        lastColorCode: null,
-        aoi: null,
-        aoiID: 'Austria',
-        time: [],
-        inputData: [''],
-        yAxis: '',
-        display: {
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Austria',
-        siteName: 'global',
         description: 'Heat Explorer',
         indicator: 'LST',
         lastIndicatorValue: null,
@@ -3429,8 +3529,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow depth',
           layers: 'SNOW-DEPTH',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow depth: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (
@@ -3476,8 +3574,6 @@ export const globalIndicators = [
           baseUrl: 'https://snow-app-gte2s.hub.eox.at/?',
           name: 'Snow water equivalent',
           layers: 'SWE',
-          maxZoom: 18,
-          minZoom: 1,
           attribution: '{Snow water equivalent: https://snow-app-gte2s.hub.eox.at/ }',
           protocol: 'WMS',
           dateFormatFunction: (date) => (

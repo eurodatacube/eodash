@@ -7,7 +7,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "29.991",
         "reference_time": "2020-01-09T00:00:00",
-        "reference_value": "[10.434]",
+        "reference_value": "10.434000000000001",
         "time": "2020-01-09T00:00:00"
     },
     {
@@ -18,7 +18,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "17.82",
         "reference_time": "2020-01-24T00:00:00",
-        "reference_value": "[7.792]",
+        "reference_value": "7.792000000000001",
         "time": "2020-01-24T00:00:00"
     },
     {
@@ -29,7 +29,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "4.537",
         "reference_time": "2020-02-09T00:00:00",
-        "reference_value": "[11.146]",
+        "reference_value": "11.145999999999999",
         "time": "2020-02-09T00:00:00"
     },
     {
@@ -40,7 +40,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "28.599",
         "reference_time": "2020-02-24T00:00:00",
-        "reference_value": "[14.601]",
+        "reference_value": "14.600999999999999",
         "time": "2020-02-24T00:00:00"
     },
     {
@@ -51,7 +51,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "12.703",
         "reference_time": "2020-03-09T00:00:00",
-        "reference_value": "[13.805]",
+        "reference_value": "13.805",
         "time": "2020-03-09T00:00:00"
     },
     {
@@ -62,7 +62,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "31.017",
         "reference_time": "2020-03-24T00:00:00",
-        "reference_value": "[21.251]",
+        "reference_value": "21.250999999999998",
         "time": "2020-03-24T00:00:00"
     },
     {
@@ -73,7 +73,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "6.431",
         "reference_time": "2020-04-09T00:00:00",
-        "reference_value": "[26.889]",
+        "reference_value": "26.889",
         "time": "2020-04-09T00:00:00"
     },
     {
@@ -82,9 +82,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "41.017",
+        "measurement_value": "41.016999999999996",
         "reference_time": "2020-04-24T00:00:00",
-        "reference_value": "[50.457]",
+        "reference_value": "50.457",
         "time": "2020-04-24T00:00:00"
     },
     {
@@ -95,7 +95,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "42.725",
         "reference_time": "2020-05-09T00:00:00",
-        "reference_value": "[66.318]",
+        "reference_value": "66.318",
         "time": "2020-05-09T00:00:00"
     },
     {
@@ -106,7 +106,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "71.705",
         "reference_time": "2020-05-24T00:00:00",
-        "reference_value": "[95.255]",
+        "reference_value": "95.255",
         "time": "2020-05-24T00:00:00"
     },
     {
@@ -117,7 +117,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "13.64",
         "reference_time": "2020-06-09T00:00:00",
-        "reference_value": "[60.217]",
+        "reference_value": "60.217",
         "time": "2020-06-09T00:00:00"
     },
     {
@@ -126,9 +126,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "92.267",
+        "measurement_value": "92.26700000000001",
         "reference_time": "2020-06-24T00:00:00",
-        "reference_value": "[67.509]",
+        "reference_value": "67.509",
         "time": "2020-06-24T00:00:00"
     },
     {
@@ -139,7 +139,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "62.653",
         "reference_time": "2020-07-09T00:00:00",
-        "reference_value": "[46.82]",
+        "reference_value": "46.82",
         "time": "2020-07-09T00:00:00"
     },
     {
@@ -150,7 +150,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "74.639",
         "reference_time": "2020-07-24T00:00:00",
-        "reference_value": "[53.423]",
+        "reference_value": "53.423",
         "time": "2020-07-24T00:00:00"
     },
     {
@@ -161,7 +161,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "42.327",
         "reference_time": "2020-08-09T00:00:00",
-        "reference_value": "[64.688]",
+        "reference_value": "64.688",
         "time": "2020-08-09T00:00:00"
     },
     {
@@ -170,9 +170,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "29.902",
+        "measurement_value": "29.901999999999997",
         "reference_time": "2020-08-24T00:00:00",
-        "reference_value": "[52.118]",
+        "reference_value": "52.118",
         "time": "2020-08-24T00:00:00"
     },
     {
@@ -181,9 +181,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "11.631",
+        "measurement_value": "11.630999999999998",
         "reference_time": "2020-09-09T00:00:00",
-        "reference_value": "[36.271]",
+        "reference_value": "36.271",
         "time": "2020-09-09T00:00:00"
     },
     {
@@ -194,7 +194,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "6.968",
         "reference_time": "2020-09-24T00:00:00",
-        "reference_value": "[28.255]",
+        "reference_value": "28.255",
         "time": "2020-09-24T00:00:00"
     },
     {
@@ -203,9 +203,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "1.303",
+        "measurement_value": "1.3030000000000002",
         "reference_time": "2020-10-09T00:00:00",
-        "reference_value": "[45.801]",
+        "reference_value": "45.801",
         "time": "2020-10-09T00:00:00"
     },
     {
@@ -216,7 +216,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "30.753",
         "reference_time": "2020-10-24T00:00:00",
-        "reference_value": "[22.602]",
+        "reference_value": "22.601999999999997",
         "time": "2020-10-24T00:00:00"
     },
     {
@@ -227,7 +227,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "4.95",
         "reference_time": "2020-11-09T00:00:00",
-        "reference_value": "[11.52]",
+        "reference_value": "11.52",
         "time": "2020-11-09T00:00:00"
     },
     {
@@ -236,9 +236,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "41.803",
+        "measurement_value": "41.803000000000004",
         "reference_time": "2020-11-24T00:00:00",
-        "reference_value": "[14.652]",
+        "reference_value": "14.652000000000001",
         "time": "2020-11-24T00:00:00"
     },
     {
@@ -249,7 +249,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "18.941",
         "reference_time": "2020-12-09T00:00:00",
-        "reference_value": "[10.2]",
+        "reference_value": "10.2",
         "time": "2020-12-09T00:00:00"
     },
     {
@@ -258,9 +258,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "11.549",
+        "measurement_value": "11.549000000000001",
         "reference_time": "2020-12-24T00:00:00",
-        "reference_value": "[15.568]",
+        "reference_value": "15.568",
         "time": "2020-12-24T00:00:00"
     },
     {
@@ -271,7 +271,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "38.203",
         "reference_time": "2021-01-09T00:00:00",
-        "reference_value": "[10.434]",
+        "reference_value": "10.434000000000001",
         "time": "2021-01-09T00:00:00"
     },
     {
@@ -282,7 +282,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "20.002",
         "reference_time": "2021-01-24T00:00:00",
-        "reference_value": "[7.792]",
+        "reference_value": "7.792000000000001",
         "time": "2021-01-24T00:00:00"
     },
     {
@@ -291,9 +291,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "3.954",
+        "measurement_value": "3.9539999999999997",
         "reference_time": "2021-02-09T00:00:00",
-        "reference_value": "[11.146]",
+        "reference_value": "11.145999999999999",
         "time": "2021-02-09T00:00:00"
     },
     {
@@ -302,9 +302,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "6.661",
+        "measurement_value": "6.6610000000000005",
         "reference_time": "2021-02-24T00:00:00",
-        "reference_value": "[14.601]",
+        "reference_value": "14.600999999999999",
         "time": "2021-02-24T00:00:00"
     },
     {
@@ -315,7 +315,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "18.352",
         "reference_time": "2021-03-09T00:00:00",
-        "reference_value": "[13.805]",
+        "reference_value": "13.805",
         "time": "2021-03-09T00:00:00"
     },
     {
@@ -326,7 +326,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "56.91",
         "reference_time": "2021-03-24T00:00:00",
-        "reference_value": "[21.251]",
+        "reference_value": "21.250999999999998",
         "time": "2021-03-24T00:00:00"
     },
     {
@@ -337,7 +337,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "34.745",
         "reference_time": "2021-04-09T00:00:00",
-        "reference_value": "[26.889]",
+        "reference_value": "26.889",
         "time": "2021-04-09T00:00:00"
     },
     {
@@ -346,9 +346,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "21.874",
+        "measurement_value": "21.874000000000002",
         "reference_time": "2021-04-24T00:00:00",
-        "reference_value": "[50.457]",
+        "reference_value": "50.457",
         "time": "2021-04-24T00:00:00"
     },
     {
@@ -359,7 +359,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "61.17",
         "reference_time": "2021-05-09T00:00:00",
-        "reference_value": "[66.318]",
+        "reference_value": "66.318",
         "time": "2021-05-09T00:00:00"
     },
     {
@@ -370,7 +370,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "103.461",
         "reference_time": "2021-05-24T00:00:00",
-        "reference_value": "[95.255]",
+        "reference_value": "95.255",
         "time": "2021-05-24T00:00:00"
     },
     {
@@ -381,7 +381,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "11.585",
         "reference_time": "2021-06-09T00:00:00",
-        "reference_value": "[60.217]",
+        "reference_value": "60.217",
         "time": "2021-06-09T00:00:00"
     },
     {
@@ -390,9 +390,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "59.101",
+        "measurement_value": "59.101000000000006",
         "reference_time": "2021-06-24T00:00:00",
-        "reference_value": "[67.509]",
+        "reference_value": "67.509",
         "time": "2021-06-24T00:00:00"
     },
     {
@@ -401,9 +401,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "40.991",
+        "measurement_value": "40.99100000000001",
         "reference_time": "2021-07-09T00:00:00",
-        "reference_value": "[46.82]",
+        "reference_value": "46.82",
         "time": "2021-07-09T00:00:00"
     },
     {
@@ -414,7 +414,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "29.12",
         "reference_time": "2021-07-24T00:00:00",
-        "reference_value": "[53.423]",
+        "reference_value": "53.423",
         "time": "2021-07-24T00:00:00"
     },
     {
@@ -425,7 +425,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "59.383",
         "reference_time": "2021-08-09T00:00:00",
-        "reference_value": "[64.688]",
+        "reference_value": "64.688",
         "time": "2021-08-09T00:00:00"
     },
     {
@@ -436,7 +436,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "26.985",
         "reference_time": "2021-08-24T00:00:00",
-        "reference_value": "[52.118]",
+        "reference_value": "52.118",
         "time": "2021-08-24T00:00:00"
     },
     {
@@ -447,7 +447,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "38.092",
         "reference_time": "2021-09-09T00:00:00",
-        "reference_value": "[36.271]",
+        "reference_value": "36.271",
         "time": "2021-09-09T00:00:00"
     },
     {
@@ -458,7 +458,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "19.971",
         "reference_time": "2021-09-24T00:00:00",
-        "reference_value": "[28.255]",
+        "reference_value": "28.255",
         "time": "2021-09-24T00:00:00"
     },
     {
@@ -467,9 +467,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "43.764",
+        "measurement_value": "43.763999999999996",
         "reference_time": "2021-10-09T00:00:00",
-        "reference_value": "[45.801]",
+        "reference_value": "45.801",
         "time": "2021-10-09T00:00:00"
     },
     {
@@ -480,7 +480,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "26.639",
         "reference_time": "2021-10-24T00:00:00",
-        "reference_value": "[22.602]",
+        "reference_value": "22.601999999999997",
         "time": "2021-10-24T00:00:00"
     },
     {
@@ -491,7 +491,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "19.668",
         "reference_time": "2021-11-09T00:00:00",
-        "reference_value": "[11.52]",
+        "reference_value": "11.52",
         "time": "2021-11-09T00:00:00"
     },
     {
@@ -500,9 +500,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "3.152",
+        "measurement_value": "3.1519999999999997",
         "reference_time": "2021-11-24T00:00:00",
-        "reference_value": "[14.652]",
+        "reference_value": "14.652000000000001",
         "time": "2021-11-24T00:00:00"
     },
     {
@@ -513,7 +513,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "2.529",
         "reference_time": "2021-12-09T00:00:00",
-        "reference_value": "[10.2]",
+        "reference_value": "10.2",
         "time": "2021-12-09T00:00:00"
     },
     {
@@ -522,9 +522,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "11.389",
+        "measurement_value": "11.389000000000001",
         "reference_time": "2021-12-24T00:00:00",
-        "reference_value": "[15.568]",
+        "reference_value": "15.568",
         "time": "2021-12-24T00:00:00"
     },
     {
@@ -535,7 +535,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "2.36",
         "reference_time": "2022-01-09T00:00:00",
-        "reference_value": "[10.434]",
+        "reference_value": "10.434000000000001",
         "time": "2022-01-09T00:00:00"
     },
     {
@@ -546,7 +546,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "2.305",
         "reference_time": "2022-01-24T00:00:00",
-        "reference_value": "[7.792]",
+        "reference_value": "7.792000000000001",
         "time": "2022-01-24T00:00:00"
     },
     {
@@ -557,7 +557,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "17.137",
         "reference_time": "2022-02-09T00:00:00",
-        "reference_value": "[11.146]",
+        "reference_value": "11.145999999999999",
         "time": "2022-02-09T00:00:00"
     },
     {
@@ -568,7 +568,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "12.667",
         "reference_time": "2022-02-24T00:00:00",
-        "reference_value": "[14.601]",
+        "reference_value": "14.600999999999999",
         "time": "2022-02-24T00:00:00"
     },
     {
@@ -579,7 +579,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "4.131",
         "reference_time": "2022-03-09T00:00:00",
-        "reference_value": "[13.805]",
+        "reference_value": "13.805",
         "time": "2022-03-09T00:00:00"
     },
     {
@@ -590,7 +590,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "37.996",
         "reference_time": "2022-03-24T00:00:00",
-        "reference_value": "[21.251]",
+        "reference_value": "21.250999999999998",
         "time": "2022-03-24T00:00:00"
     },
     {
@@ -601,7 +601,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "21.182",
         "reference_time": "2022-04-09T00:00:00",
-        "reference_value": "[26.889]",
+        "reference_value": "26.889",
         "time": "2022-04-09T00:00:00"
     },
     {
@@ -612,7 +612,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "18.328",
         "reference_time": "2022-04-24T00:00:00",
-        "reference_value": "[50.457]",
+        "reference_value": "50.457",
         "time": "2022-04-24T00:00:00"
     },
     {
@@ -623,7 +623,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "36.431",
         "reference_time": "2022-05-09T00:00:00",
-        "reference_value": "[66.318]",
+        "reference_value": "66.318",
         "time": "2022-05-09T00:00:00"
     },
     {
@@ -634,7 +634,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "70.607",
         "reference_time": "2022-05-24T00:00:00",
-        "reference_value": "[95.255]",
+        "reference_value": "95.255",
         "time": "2022-05-24T00:00:00"
     },
     {
@@ -645,7 +645,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "94.654",
         "reference_time": "2022-06-09T00:00:00",
-        "reference_value": "[60.217]",
+        "reference_value": "60.217",
         "time": "2022-06-09T00:00:00"
     },
     {
@@ -654,9 +654,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "29.277",
+        "measurement_value": "29.276999999999997",
         "reference_time": "2022-06-24T00:00:00",
-        "reference_value": "[67.509]",
+        "reference_value": "67.509",
         "time": "2022-06-24T00:00:00"
     },
     {
@@ -665,9 +665,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "29.036",
+        "measurement_value": "29.035999999999998",
         "reference_time": "2022-07-09T00:00:00",
-        "reference_value": "[46.82]",
+        "reference_value": "46.82",
         "time": "2022-07-09T00:00:00"
     },
     {
@@ -678,7 +678,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "51.176",
         "reference_time": "2022-07-24T00:00:00",
-        "reference_value": "[53.423]",
+        "reference_value": "53.423",
         "time": "2022-07-24T00:00:00"
     },
     {
@@ -689,7 +689,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "3.554",
         "reference_time": "2022-08-09T00:00:00",
-        "reference_value": "[64.688]",
+        "reference_value": "64.688",
         "time": "2022-08-09T00:00:00"
     },
     {
@@ -700,7 +700,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "25.5",
         "reference_time": "2022-08-24T00:00:00",
-        "reference_value": "[52.118]",
+        "reference_value": "52.118",
         "time": "2022-08-24T00:00:00"
     },
     {
@@ -709,9 +709,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "14.254",
+        "measurement_value": "14.254000000000001",
         "reference_time": "2022-09-09T00:00:00",
-        "reference_value": "[36.271]",
+        "reference_value": "36.271",
         "time": "2022-09-09T00:00:00"
     },
     {
@@ -722,7 +722,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "18.5",
         "reference_time": "2022-09-24T00:00:00",
-        "reference_value": "[28.255]",
+        "reference_value": "28.255",
         "time": "2022-09-24T00:00:00"
     },
     {
@@ -733,7 +733,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "7.465",
         "reference_time": "2022-10-09T00:00:00",
-        "reference_value": "[45.801]",
+        "reference_value": "45.801",
         "time": "2022-10-09T00:00:00"
     },
     {
@@ -742,9 +742,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "15.869",
+        "measurement_value": "15.869000000000002",
         "reference_time": "2022-10-24T00:00:00",
-        "reference_value": "[22.602]",
+        "reference_value": "22.601999999999997",
         "time": "2022-10-24T00:00:00"
     },
     {
@@ -753,9 +753,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "13.014",
+        "measurement_value": "13.014000000000001",
         "reference_time": "2022-11-09T00:00:00",
-        "reference_value": "[11.52]",
+        "reference_value": "11.52",
         "time": "2022-11-09T00:00:00"
     },
     {
@@ -766,7 +766,7 @@
         "input_data": "JASMAI product",
         "measurement_value": "16.291",
         "reference_time": "2022-11-24T00:00:00",
-        "reference_value": "[14.652]",
+        "reference_value": "14.652000000000001",
         "time": "2022-11-24T00:00:00"
     },
     {
@@ -775,9 +775,9 @@
         "eo_sensor": "GPM Core, GCOM-W, etc",
         "indicator_value": "/",
         "input_data": "JASMAI product",
-        "measurement_value": "6.679",
+        "measurement_value": "6.678999999999999",
         "reference_time": "2022-12-09T00:00:00",
-        "reference_value": "[10.2]",
+        "reference_value": "10.2",
         "time": "2022-12-09T00:00:00"
     },
     {
@@ -788,7 +788,139 @@
         "input_data": "JASMAI product",
         "measurement_value": "9.632",
         "reference_time": "2022-12-24T00:00:00",
-        "reference_value": "[15.568]",
+        "reference_value": "15.568",
         "time": "2022-12-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "11.782",
+        "reference_time": "2023-01-09T00:00:00",
+        "reference_value": "10.434000000000001",
+        "time": "2023-01-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "24.28",
+        "reference_time": "2023-01-24T00:00:00",
+        "reference_value": "7.792000000000001",
+        "time": "2023-01-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "8.147",
+        "reference_time": "2023-02-09T00:00:00",
+        "reference_value": "11.145999999999999",
+        "time": "2023-02-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "13.470999999999998",
+        "reference_time": "2023-02-24T00:00:00",
+        "reference_value": "14.600999999999999",
+        "time": "2023-02-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "5.185",
+        "reference_time": "2023-03-09T00:00:00",
+        "reference_value": "13.805",
+        "time": "2023-03-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "13.222000000000001",
+        "reference_time": "2023-03-24T00:00:00",
+        "reference_value": "21.250999999999998",
+        "time": "2023-03-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "15.796",
+        "reference_time": "2023-04-09T00:00:00",
+        "reference_value": "26.889",
+        "time": "2023-04-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "18.447",
+        "reference_time": "2023-04-24T00:00:00",
+        "reference_value": "50.457",
+        "time": "2023-04-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "40.162",
+        "reference_time": "2023-05-09T00:00:00",
+        "reference_value": "66.318",
+        "time": "2023-05-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "66.07",
+        "reference_time": "2023-05-24T00:00:00",
+        "reference_value": "95.255",
+        "time": "2023-05-24T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "84.56700000000001",
+        "reference_time": "2023-06-09T00:00:00",
+        "reference_value": "60.217",
+        "time": "2023-06-09T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "JAXA\u30fbMAFF-Japan",
+        "eo_sensor": "GPM Core, GCOM-W, etc",
+        "indicator_value": "/",
+        "input_data": "JASMAI product",
+        "measurement_value": "68.135",
+        "reference_time": "2023-06-24T00:00:00",
+        "reference_value": "67.509",
+        "time": "2023-06-24T00:00:00"
     }
 ]

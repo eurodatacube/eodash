@@ -121,21 +121,21 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
         'NPP', 'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO',
+        'MOBI1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'GHSBUILT',
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2', 'REP4_2',
+        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
-        'E1b',
+        'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
         'E10a1', 'E10a5', 'N2',
       ],
@@ -149,16 +149,19 @@ export default {
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
       disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ3', 'MOBI1',
-        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT'],
+        'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'Lakes_SWT', 'REP1',
+        'GGI_CO2', 'GGI_CH4', 'GGI_N2O'],
     };
   },
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    const formatted = d.toFormat('dd. MMM');
-    this.dataLayerTime = {
-      value: formatted,
-      name: formatted,
-    };
+    if (d.toFormat) {
+      const formatted = d.toFormat('dd. MMM');
+      this.dataLayerTime = {
+        value: formatted,
+        name: formatted,
+      };
+    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -317,6 +320,145 @@ export default {
             valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
               .map((str) => (str === '' ? Number.NaN : Number(str)))),
           },
+          E8: {
+            measurementConfig: {
+              label: 'Value',
+              backgroundColor: 'rgba(255,255,255,0.0)',
+              borderColor: 'red',
+              spanGaps: false,
+              pointRadius: 0,
+              borderWidth: 1.5,
+            },
+            referenceData: [
+              {
+                key: '7-day mean',
+                index: 0,
+                borderColor: 'black',
+                backgroundColor: 'rgba(255,255,255,0.0)',
+                borderDash: [6, 3],
+                borderWidth: 2,
+                spanGaps: false,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          GGI_CO2: {
+            referenceData: [
+              {
+                key: 'CO2 Inventory',
+                index: 0,
+                borderColor: refColors[0],
+                backgroundColor: refColors[0],
+                borderWidth: 2,
+              },
+              {
+                key: 'CO2 Inversion in-situ',
+                index: 2,
+                borderColor: refColors[2],
+                backgroundColor: refColors[2],
+                borderWidth: 2,
+              },
+              {
+                key: 'CO2 Inversion satellite',
+                index: 1,
+                borderColor: refColors[1],
+                backgroundColor: refColors[1],
+                borderWidth: 2,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          GGI_N2O: {
+            referenceData: [
+              {
+                key: 'N2O Inventory',
+                index: 0,
+                borderColor: refColors[0],
+                backgroundColor: refColors[0],
+                borderWidth: 2,
+              },
+              {
+                key: 'N2O Inversion in-situ',
+                index: 1,
+                borderColor: refColors[2],
+                backgroundColor: refColors[2],
+                borderWidth: 2,
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
+          GGI_CH4: {
+            referenceData: [
+              {
+                key: 'CH4 Inventory Agriculture and waste',
+                index: 0,
+                backgroundColor: '#12501c',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inventory Biomass',
+                index: 1,
+                backgroundColor: '#4e0618',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inventory Fossil',
+                index: 2,
+                backgroundColor: '#0a355f',
+                borderWidth: 0,
+                stack: '0',
+              },
+              {
+                key: 'CH4 Inversion satellite Agriculture and waste',
+                index: 3,
+                backgroundColor: '#328817',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion satellite Biomass',
+                index: 4,
+                backgroundColor: '#c52a5c',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion satellite Fossil',
+                index: 5,
+                backgroundColor: '#508ab3',
+                borderWidth: 0,
+                stack: '1',
+              },
+              {
+                key: 'CH4 Inversion in-situ Agriculture and waste',
+                index: 6,
+                backgroundColor: '#97e970',
+                borderWidth: 0,
+                stack: '2',
+              },
+              {
+                key: 'CH4 Inversion in-situ Biomass',
+                index: 7,
+                backgroundColor: '#dd67aa',
+                borderWidth: 0,
+                stack: '2',
+              },
+              {
+                key: 'CH4 Inversion in-situ Fossil',
+                index: 8,
+                backgroundColor: refColors[6],
+                borderWidth: 0,
+                stack: '2',
+              },
+            ],
+            valueDecompose: (item) => (item.replace(/[[\] ]/g, '').split(',')
+              .map((str) => (str === 'nan' ? Number.NaN : Number(str)))),
+          },
           E12c: {
             measurementConfig: {
               label: indicator.yAxis,
@@ -393,10 +535,7 @@ export default {
         referenceDecompose.N1c = referenceDecompose.N1a;
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
-        referenceDecompose.E8 = referenceDecompose.N1a;
         // Special legend for E8
-        referenceDecompose.E8.referenceData[0].key = 'roll average';
-        referenceDecompose.E8.referenceData[1].key = '2017-2019 roll average';
         referenceDecompose.E12d = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
@@ -412,6 +551,7 @@ export default {
         referenceDecompose.CDS4 = referenceDecompose.N1;
         referenceDecompose.NPP = referenceDecompose.N1;
         referenceDecompose.Lakes_SWT = referenceDecompose.N1;
+        referenceDecompose.GHSBUILT = referenceDecompose.N1;
         referenceDecompose.SMCTS = referenceDecompose.PRCTS;
         referenceDecompose.VITS = referenceDecompose.PRCTS;
         referenceDecompose.N3a2 = referenceDecompose.N1;
@@ -653,38 +793,6 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           }
-        } else if (['N4c'].includes(indicatorCode)) {
-          const measData = indicator.measurement.map(Number);
-          measData.shift();
-          const refData = indicator.referenceValue.map(Number);
-          refData.shift();
-
-          labels = [
-            indicator.referenceTime[0].toISODate(),
-            indicator.time[0].toISODate(),
-            indicator.time[5].toISODate(),
-          ];
-
-          datasets.push({
-            label: 'metallic waste area',
-            data: [refData[0], measData[0], measData[5]],
-            backgroundColor: refColors[0],
-          });
-          datasets.push({
-            label: 'mixed waste area',
-            data: [refData[1], measData[1], measData[6]],
-            backgroundColor: refColors[1],
-          });
-          datasets.push({
-            label: 'plastic waste area',
-            data: [refData[2], measData[2], measData[7]],
-            backgroundColor: refColors[2],
-          });
-          datasets.push({
-            label: 'soil waste area',
-            data: [refData[3], measData[3], measData[8]],
-            backgroundColor: refColors[3],
-          });
         } else if (['E10a10'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
@@ -970,7 +1078,7 @@ export default {
             clipMap: 'items',
           });
         } else if (['AQA', 'AQB', 'AQC', 'MOBI1', 'AQ3', 'REP4_1',
-          'REP4_4', 'REP4_6', 'ADO'].includes(indicatorCode)) {
+          'REP4_4', 'REP4_6', 'ADO', 'XCubeCustomLineChart'].includes(indicatorCode)) {
           // Rendering for fetched data
           // TODO: there are quite some dependencies on the expected structure of the data, so
           // it is not possible to show easily multiple parameters
@@ -1126,6 +1234,24 @@ export default {
             borderWidth: 2,
             pointRadius: 0,
             showLine: true,
+          });
+        }
+        if (['REP1'].includes(indicatorCode)) {
+          const data = [];
+          indicator.measurement.forEach((item, i) => {
+            data.push({
+              t: indicator.time[i],
+              y: item,
+            });
+          });
+          datasets.push({
+            label: 'Monthly average wind speed for selected ZSP',
+            data,
+            fill: false,
+            borderColor: '#003247',
+            backgroundColor: '#003247',
+            borderWidth: 1,
+            pointRadius: 4,
           });
         }
         if (datasets.length === 0) {
@@ -1374,6 +1500,15 @@ export default {
         };
       }
 
+      if (['REP1'].includes(indicatorCode)) {
+        customSettings.timeConfig = {
+          unit: 'month',
+          displayFormats: { month: 'MMM' },
+          tooltipFormat: 'MMM',
+        };
+        customSettings.yAxisRange = [0, 8];
+      }
+
       if (['E13d', 'E13n', 'OX'].includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
@@ -1429,6 +1564,9 @@ export default {
       }
       if (indicatorCode === 'E10a9') {
         customSettings.distribution = 'series';
+      }
+      if (indicatorCode === 'GGI_CH4') {
+        customSettings.xAxisStacked = true;
       }
 
       // Special tooltips case for generated charts that should have country
@@ -1644,7 +1782,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST', 'GHSBUILT'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
