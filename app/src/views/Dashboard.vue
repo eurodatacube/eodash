@@ -157,6 +157,9 @@ export default {
     }),
   },
   created() {
+    if (this.$route.path === '/') { // TODO: polar
+      this.$router.push('/demo?event=polartep');
+    }
   },
   mounted() {
     // only show when nothing is selected

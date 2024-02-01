@@ -376,4 +376,90 @@ module.exports = [
     enableScrollyTelling: true,
     enableIndicatorSidebar: true,
   },
+  {
+    id: 'polar',
+    mailingList: { // TODO: polar check if delete possible
+      development: 6,
+      staging: 6,
+      production: 7,
+    },
+    demoMode: {
+      polartep: [ // TODO: polar check indicator codes from catalog
+        {
+          poi: 'W10-SITI',
+        },
+        {
+          poi: 'Arctic-N12',
+        },
+        {
+          poi: 'World-CDS3',
+        },
+        {
+          poi: 'CDS-CDS4',
+        },
+        {
+          poi: 'CDS-CDS1',
+        },
+        {
+          poi: 'World-Snowgrain_diameter',
+        },
+        {
+          poi: 'World-Snow_specific_surface_area',
+        },
+        {
+          poi: 'World-Polartep_S1',
+        },
+        {
+          poi: 'World-Polartep_SeaIce',
+        },
+      ],
+    },
+    match: ['polar.eox.world', 'polar.localhost', 'polar.eox.home'], // TODO: polar check if valid
+    branding: {
+      appName: 'Polar Dashboard',
+      primaryColor: '#003247',
+      secondaryColor: '#00ae9d',
+      headerLogo: './data/gtif/images/gtif_attributions_logo.png', // TODO: polar
+      faviconPath: './public/img/ESA/favicon.ico',
+      name: 'Green Transition Information Factory', // TODO: polar
+      subname: 'Key element of the ESA Space For Green Future Accelerator', // TODO: polar
+      coverImage: './data/gtif/images/image1.png', // TODO: polar
+      storiesHeader: 'Subdomains', // TODO: polar
+      headerHeight: '30vh', // TODO: polar
+    },
+    pageMeta: {
+      rootPath: 'https://gtif.esa.int', // TODO: polar
+      googleSiteVerification: '',
+      shortDescription: 'Green Transition Information Factory', // TODO: polar
+      twitterCardImagePath: '/img/gtif/twitter_card.jpg', // TODO: polar
+      imagePath: '/img/gtif', // TODO: polar
+    },
+    showNewsletterButton: false,
+    customCSS: 'gtif', // TODO: polar
+    newsBanner: { // TODO: polar
+      color: 'green darken-1',
+      icon: 'calendar-star',
+      text: '<a href="https://eo4society.esa.int/2021/08/01/rapid-action-on-coronavirus-and-eo-race-dashboard-challenge-3/" target="_blank">Sign up for the RACE Dashboard Challenge #3</a>',
+      startDate: '2021-08-01',
+      endDate: '2021-11-30',
+    },
+    aboutText: '/data/gtif/stories/about', // TODO: polar
+    welcomeText: '/data/gtif/stories/welcome', // TODO: polar
+    tutorialText: '/data/gtif/stories/tutorials', // TODO: polar
+    showNewsCarousel: false,
+    newsCarouselitems: [
+    ],
+    privacyText: '/data/gtif/markdown/privacy', // TODO: polar
+    termsText: '/data/gtif/markdown/terms', // TODO: polar
+    challengesText: '/eodash-data/general/challenges', // TODO: polar
+    feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'], // TODO: polar
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
+    enableStories: false,
+    enableESALayout: true, // TODO: polar
+    enableScrollyTelling: false,
+    enableIndicatorSidebar: true, // TODO: polar
+  },
 ];
