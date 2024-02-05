@@ -46,6 +46,7 @@ export const indicatorClassesIcons = Object.freeze({
   cryosphere: 'mdi-snowflake',
   atmosphere: 'mdi-weather-windy',
   oceans: 'mdi-water',
+  air: 'mdi-weather-windy',
 });
 
 export const mapDefaults = Object.freeze({
@@ -213,10 +214,11 @@ export const globalIndicators = [
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
+          projection: 'EPSG:3857',
           mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+            name: 'EPSG:3411',
+            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+            extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
           },
         },
       },

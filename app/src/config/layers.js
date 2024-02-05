@@ -179,7 +179,7 @@ export const baseLayers = Object.freeze({
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
     visible: false,
-    minZoom: 2,
+    minZoom: 1,
     projection: {
       name: 'ORTHO:680500',
       def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
@@ -195,7 +195,7 @@ export const baseLayers = Object.freeze({
     name: 'Terrain Light Stereographic South',
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
-    minZoom: 2,
+    minZoom: 1,
     visible: false,
     projection: {
       name: 'ORTHO:320500',

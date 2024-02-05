@@ -378,39 +378,39 @@ module.exports = [
   },
   {
     id: 'polar',
-    mailingList: { // TODO: polar check if delete possible
-      development: 6,
-      staging: 6,
-      production: 7,
+    mailingList: {
+      development: 3,
+      staging: 3,
+      production: 5,
     },
     demoMode: {
-      polartep: [ // TODO: polar check indicator codes from catalog
+      polartep: [
         {
-          poi: 'W10-SITI',
+          poi: 'World-SITI',
         },
         {
-          poi: 'Arctic-N12',
+          poi: 'World-N12_1_sea_ice_concentration_arctic',
         },
         {
           poi: 'World-CDS3',
         },
         {
-          poi: 'CDS-CDS4',
+          poi: 'World-CDS4',
         },
         {
-          poi: 'CDS-CDS1',
+          poi: 'World-CDS1_temperature',
         },
         {
-          poi: 'World-Snowgrain_diameter',
+          poi: 'World-Polartep_Snowgrain_diameter_demo',
         },
         {
-          poi: 'World-Snow_specific_surface_area',
+          poi: 'World-Polartep_Snow_specific_surface_area_demo',
         },
         {
-          poi: 'World-Polartep_S1',
+          poi: 'World-Polartep_S1_demo',
         },
         {
-          poi: 'World-Polartep_SeaIce',
+          poi: 'World-Polartep_SeaIce_demo',
         },
       ],
     },
