@@ -416,11 +416,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
-  N12: {
-    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
-    themes: ['cryosphere'],
-    story: '/eodash-data/stories/N12',
-  },
   N11: {
     indicatorSummary: 'GLI Ocean Primary Productivity',
     themes: ['oceans'],
@@ -1371,42 +1366,17 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Sea Ice Concentration Arctic (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration Arctic (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_1_sea_ice_concentration_arctic',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          name: 'Sea Ice Concentration',
-          legendUrl: 'legends/trilateral/World-SIC.png',
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          layers: 'SIC_N',
-          minZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3411',
           mapProjection: {
             name: 'EPSG:3411',
             def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
             extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
           },
         },
       },
@@ -1415,23 +1385,10 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: '',
-        description: 'Sea Ice Concentration (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_2_sea_ice_concentration_both_hemispheres',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         showGlobe: true,
         display: [{
-          legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
           name: 'Sea Ice Concentration North Hemisphere',
           layers: 'SIC_N',
@@ -1450,42 +1407,17 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Sea Ice Concentration Antarctic (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration Antarctic (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_sea_ice_concentration_antarctic',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         display: {
           baseLayers: antarcticBaseMaps,
           overlayLayers: antarcticOverlayMaps,
-          name: 'Sea Ice Concentration',
-          legendUrl: 'legends/trilateral/World-SIC.png',
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          layers: 'SIC_S',
-          minZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3031',
           mapProjection: {
             name: 'EPSG:3031',
             def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
             extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-107 -64,125 -64,125.3125 -84,-107 -84,-107 -64))').toJson(),
-            }],
           },
         },
       },
