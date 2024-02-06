@@ -136,6 +136,12 @@ const arcticBaseMaps = [
 
 const arcticOverlayMaps = [];
 
+const polarStereographicProjection = {
+  name: 'EPSG:3411',
+  def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+  extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+};
+
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
@@ -1139,6 +1145,21 @@ export const globalIndicators = [
           areaIndicator: nasaStatisticsConfig(
             (value) => value,
           ),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'SITI',
+        display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
+          // WGS1984Quad as a workaround for EPSG:3857 crashing on z=0 default view for polar areas
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
+          projection: 'EPSG:4326',
+          mapProjection: polarStereographicProjection,
         },
       },
     },
