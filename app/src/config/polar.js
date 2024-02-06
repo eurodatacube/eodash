@@ -75,6 +75,12 @@ export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
+const polarStereographicProjection = {
+  name: 'EPSG:3411',
+  def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+  extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+};
+
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
@@ -214,12 +220,9 @@ export const globalIndicators = [
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          projection: 'EPSG:3857',
-          mapProjection: {
-            name: 'EPSG:3411',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
-            extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
-          },
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
+          projection: 'EPSG:4326',
+          mapProjection: polarStereographicProjection,
         },
       },
     },
@@ -234,11 +237,7 @@ export const globalIndicators = [
           overlayLayers: arcticOverlayMaps,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3411',
-          mapProjection: {
-            name: 'EPSG:3411',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
-            extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
-          },
+          mapProjection: polarStereographicProjection,
         },
       },
     },
