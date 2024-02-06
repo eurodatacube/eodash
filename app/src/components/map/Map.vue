@@ -572,16 +572,16 @@ export default {
     },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
+      const { map } = getMapInstance(this.mapId);
+      const readerOptions = {
+        dataProjection: 'EPSG:4326',
+        featureProjection: map.getView().getProjection(),
+      };
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
         if (subAoi && subAoi.features && subAoi.features.length > 0) {
           if (subAoi.features[0].coordinates.length) {
-            const { map } = getMapInstance(this.mapId);
-            const readerOptions = {
-              dataProjection: 'EPSG:4326',
-              featureProjection: map.getView().getProjection(),
-            };
             const subAoiGeom = geoJsonFormat.readGeometry(
               subAoi.features[0], readerOptions,
             );
@@ -606,7 +606,6 @@ export default {
           extent[2] = extent[2] < 180 ? extent[2] : 180;
           extent[3] = extent[3] < 90 ? extent[3] : 90;
         }
-        const { map } = getMapInstance(this.mapId);
         return transformExtent(
           extent, 'EPSG:4326', map.getView().getProjection(),
         );
