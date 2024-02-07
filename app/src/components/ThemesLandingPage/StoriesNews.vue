@@ -7,6 +7,29 @@
     <v-row>
       <v-col>
         <h3>
+          2024-02-08: Challenge announcement!!
+        </h3>
+        <h4>
+          Unveil the secrets of Earth’s Dynamic Systems: Join the Open Challenge!
+        </h4>
+        <p>
+          Go to <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank" >
+            https://eo4society.esa.int/event/sciencehubchallengefeb2024/
+          </a> for more information.
+        </p>
+        <div style="width: 100%; text-align: center;">
+          <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank">
+            <img
+              :src="`${publicPath}data/trilateral/Science-Hub_Challenge-240202_v2.jpg`"
+              style="max-width: 100%; max-height: 500px;"
+            />
+          </a>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2023-11-29: Several new datasets added to theme BIOMASS
         </h3>
         <ul>
@@ -37,6 +60,9 @@ export default {
 
         default: return 'text-h2';
       }
+    },
+    publicPath() {
+      return process.env.BASE_URL;
     },
   },
 };
