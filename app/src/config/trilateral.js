@@ -2271,7 +2271,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         display: {
           baseLayers: arcticBaseMaps,
@@ -2315,7 +2315,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         showGlobe: true,
         display: [{
@@ -2350,7 +2350,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         display: {
           baseLayers: antarcticBaseMaps,
