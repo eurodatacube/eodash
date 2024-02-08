@@ -13,7 +13,7 @@
           Unveil the secrets of Earth’s Dynamic Systems: Join the Open Challenge!
         </h4>
         <p>
-          Go to <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank" >
+          Only 20 spots available! Register before 15 February! Go to <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank" >
             https://eo4society.esa.int/event/sciencehubchallengefeb2024/
           </a> for more information.
         </p>
