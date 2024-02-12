@@ -384,6 +384,9 @@ module.exports = [
     demoMode: {
       polartep: [
         {
+          poi: 'World-TOPAZ5_SIAGE',
+        },
+        {
           poi: 'World-SITI',
         },
         {
@@ -412,7 +415,7 @@ module.exports = [
         },
       ],
     },
-    match: ['polar.eox.world', 'polar.localhost', 'polar.eox.home'], // TODO: polar check if valid
+    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-staging.eox.at', 'eodash-polar-testing.eox.at'],
     branding: {
       appName: 'Polar Dashboard',
       primaryColor: '#003247',
@@ -421,8 +424,8 @@ module.exports = [
       faviconPath: './public/img/ESA/favicon.ico',
     },
     pageMeta: {
-      rootPath: 'https://race.esa.int', // TODO: polar
-      googleSiteVerification: '', // TODO: polar
+      rootPath: 'https://polardashboard.org',
+      googleSiteVerification: '',
       shortDescription: 'Polar Dashboard', // TODO: polar
       twitterCardImagePath: '/img/ESA/twitter_card.jpg', // TODO: polar
       imagePath: '/img/ESA', // TODO: polar

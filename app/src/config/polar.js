@@ -81,6 +81,12 @@ const polarStereographicProjection = {
   extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
 };
 
+const polarStereoDatasetsConfigs = {
+  baseLayers: arcticBaseMaps,
+  overlayLayers: arcticOverlayMaps,
+  mapProjection: polarStereographicProjection,
+};
+
 export const defaultLayersDisplay = {
   baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
   protocol: 'WMS',
@@ -218,11 +224,9 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SITI',
         display: {
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
           projection: 'EPSG:4326',
-          mapProjection: polarStereographicProjection,
+          ...polarStereoDatasetsConfigs,
         },
       },
     },
@@ -238,6 +242,17 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3411',
           mapProjection: polarStereographicProjection,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'TOPAZ5_SIAGE',
+        display: {
+          projection: 'EPSG:4326',
+          ...polarStereoDatasetsConfigs,
         },
       },
     },

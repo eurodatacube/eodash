@@ -210,7 +210,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
-async function createWMTSSourceFromCapabilities(config, layer) {
+async function createWMTSSourceFromCapabilities(config, layer, options) {
   const s = await fetch(config.url)
     .then((response) => response.text())
     .then((text) => {
@@ -225,6 +225,14 @@ async function createWMTSSourceFromCapabilities(config, layer) {
         crossOrigin: config.crossOrigin,
       };
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      if (config.usedTimes?.time?.length) {
+        const updatedDimensions = {
+          ...optsFromCapabilities.dimensions,
+          ...config.dimensions || {},
+          time: options.time,
+        };
+        optsFromCapabilities.dimensions = updatedDimensions;
+      }
       const source = new WMTS({
         attributions: config.attribution,
         ...optsFromCapabilities,
@@ -233,8 +241,11 @@ async function createWMTSSourceFromCapabilities(config, layer) {
       return source;
     });
   s.set('updateTime', (updatedTime, area, configUpdate) => {
-    const newSource = createWMTSSourceFromCapabilities(configUpdate, layer);
-    layer.setSource(newSource);
+    const updatedDimensions = {
+      ...layer.getSource().getDimensions(),
+      time: configUpdate.dateFormatFunction(updatedTime),
+    };
+    layer.getSource().updateDimensions(updatedDimensions);
   });
   return s;
 }
@@ -340,7 +351,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
   } else if (config.protocol === 'WMTSCapabilities') {
     layer = new TileLayer({});
-    createWMTSSourceFromCapabilities(config, layer);
+    createWMTSSourceFromCapabilities(config, layer, options);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
