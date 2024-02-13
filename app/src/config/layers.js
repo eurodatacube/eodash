@@ -231,6 +231,21 @@ export const overlayLayers = Object.freeze({
       },
     },
   },
+  protectionZones: {
+    name: 'Protection zones',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    tooltip: {
+      tooltipFormatFunction: (feature) => [
+        feature.get('sitename'),
+      ],
+    },
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_cdda_2022',
+    style: {
+      fillColor: 'rgba(0, 0, 0, 0)',
+      strokeColor: '#aa0000',
+    },
+  },
 });
 
 export const trucksAreaIndicator = (gtifAustria = false) => ({
