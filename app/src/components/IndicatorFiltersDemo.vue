@@ -1,7 +1,7 @@
 <template>
   <div
-    class="fill-height d-flex flex-column pa-3"
-    style="height: calc(var(--vh, 1vh) * 100); z-index: 11; pointer-events: all"
+    class="fill-height d-flex flex-column pa-0"
+    style="z-index: 11; pointer-events: all"
   >
     <v-btn
       color="primary"
@@ -28,9 +28,7 @@
         <v-img
           height="100"
           class="flex-shrink-1"
-          :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
-            demoItem
-          )}.png`"
+          :src="getThumbnailImage(demoItem)"
         >
         </v-img>
         <v-card-title
@@ -170,6 +168,13 @@ export default {
     resetMapView() {
       // this is very fragile, we should use events or "iframe" commands
       this.centerMapVueComponent.resetView();
+    },
+    getThumbnailImage(demoItem) {
+      // try out the thumbnail from STAC link
+      
+      // fallback 
+      let url = `./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(demoItem)}.png`;
+      return url;
     },
     scroll(direction) {
       const scrollElement = this.$refs.scrollContainer;

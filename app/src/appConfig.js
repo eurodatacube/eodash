@@ -384,7 +384,49 @@ module.exports = [
     demoMode: {
       polartep: [
         {
-          poi: 'World-TOPAZ5_SIAGE',
+          poi: 'World-TOPAZ5_P1D_SIAGE',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SICONC',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SISNTHICK',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SITHICK',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VXO',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VXSI',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VYO',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VYSI',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SICONC',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SISNTHICK',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SITHICK',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VXO',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VXSI',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VYO',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VYSI',
         },
         {
           poi: 'World-SITI',
@@ -415,7 +457,7 @@ module.exports = [
         },
       ],
     },
-    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-staging.eox.at', 'eodash-polar-testing.eox.at'],
+    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-testing.eox.at'],
     branding: {
       appName: 'Polar Dashboard',
       primaryColor: '#003247',

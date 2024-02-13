@@ -81,10 +81,17 @@ const polarStereographicProjection = {
   extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
 };
 
+const polarStereographicProjectionSH = {
+  name: 'EPSG:3413',
+  def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+  extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+};
+
 const polarStereoDatasetsConfigs = {
   baseLayers: arcticBaseMaps,
   overlayLayers: arcticOverlayMaps,
   mapProjection: polarStereographicProjection,
+  projection: 'EPSG:4326',
 };
 
 export const defaultLayersDisplay = {
@@ -95,11 +102,32 @@ export const defaultLayersDisplay = {
   transparent: true,
   tileSize: 512,
   opacity: 1,
-  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  attribution: '{ <a href="https://polardashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
 };
+
+function createTOPAZ5Config(indicatorCode) {
+  const config = {
+    properties: {
+      indicatorObject: {
+        indicator: indicatorCode,
+        display: {
+          ...polarStereoDatasetsConfigs,
+        }
+      },
+    },
+  };
+  return config;
+}
+
+function createTOPAZ4Config(indicatorCode) {
+  const config = createTOPAZ5Config(indicatorCode);
+  config.properties.indicatorObject.time = getDailyDates('1991-01-01', '2022-12-31');
+  return config;
+}
+
 
 export const excludeMapTimes = {
 };
@@ -222,10 +250,42 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'CDS1_temperature',
+        display: {
+          ...polarStereoDatasetsConfigs,
+          projection: polarStereographicProjectionSH,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CDS3',
+        display: {
+          ...polarStereoDatasetsConfigs,
+          projection: polarStereographicProjectionSH,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CDS4',
+        display: {
+          ...polarStereoDatasetsConfigs,
+          projection: polarStereographicProjectionSH,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'SITI',
         display: {
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
-          projection: 'EPSG:4326',
           ...polarStereoDatasetsConfigs,
         },
       },
@@ -246,15 +306,19 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'TOPAZ5_SIAGE',
-        display: {
-          projection: 'EPSG:4326',
-          ...polarStereoDatasetsConfigs,
-        },
-      },
-    },
-  },
+  createTOPAZ4Config('TOPAZ4_P1D_SICONC'),
+  createTOPAZ4Config('TOPAZ4_P1D_SISNTHICK'),
+  createTOPAZ4Config('TOPAZ4_P1D_SITHICK'),
+  createTOPAZ4Config('TOPAZ4_P1D_VXO'),
+  createTOPAZ4Config('TOPAZ4_P1D_VXSI'),
+  createTOPAZ4Config('TOPAZ4_P1D_VYO'),
+  createTOPAZ4Config('TOPAZ4_P1D_VYSI'),
+  createTOPAZ5Config('TOPAZ5_P1D_SIAGE'),
+  createTOPAZ5Config('TOPAZ5_P1D_SICONC'),
+  createTOPAZ5Config('TOPAZ5_P1D_SISNTHICK'),
+  createTOPAZ5Config('TOPAZ5_P1D_SITHICK'),
+  createTOPAZ5Config('TOPAZ5_P1D_VXO'),
+  createTOPAZ5Config('TOPAZ5_P1D_VXSI'),
+  createTOPAZ5Config('TOPAZ5_P1D_VYO'),
+  createTOPAZ5Config('TOPAZ5_P1D_VYSI'),
 ];
