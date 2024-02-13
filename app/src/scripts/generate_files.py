@@ -863,5 +863,7 @@ generateData(
         ['N1', ''],
         ['E200', ''],
         ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
+        ['Crude_Oil_Storage_Index', ''],
+        ['Crude_Oil_Storage_Index-Europe', ''],
     ]
 )

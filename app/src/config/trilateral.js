@@ -136,6 +136,12 @@ const arcticBaseMaps = [
 
 const arcticOverlayMaps = [];
 
+const polarStereographicProjection = {
+  name: 'EPSG:3411',
+  def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+  extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+};
+
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
@@ -415,11 +421,6 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/N8',
     themes: ['economy'],
     disableTimeSelection: true,
-  },
-  N12: {
-    indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
-    themes: ['cryosphere'],
-    story: '/eodash-data/stories/N12',
   },
   N11: {
     indicatorSummary: 'GLI Ocean Primary Productivity',
@@ -1151,6 +1152,21 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'SITI',
+        display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
+          // WGS1984Quad as a workaround for EPSG:3857 crashing on z=0 default view for polar areas
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
+          projection: 'EPSG:4326',
+          mapProjection: polarStereographicProjection,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         aoiID: 'W8',
         dataLoadFinished: true,
         country: 'all',
@@ -1371,42 +1387,17 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Sea Ice Concentration Arctic (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration Arctic (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_1_sea_ice_concentration_arctic',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          name: 'Sea Ice Concentration',
-          legendUrl: 'legends/trilateral/World-SIC.png',
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          layers: 'SIC_N',
-          minZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3411',
           mapProjection: {
             name: 'EPSG:3411',
             def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
             extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
           },
         },
       },
@@ -1415,23 +1406,10 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: '',
-        description: 'Sea Ice Concentration (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_2_sea_ice_concentration_both_hemispheres',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         showGlobe: true,
         display: [{
-          legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
           name: 'Sea Ice Concentration North Hemisphere',
           layers: 'SIC_N',
@@ -1450,42 +1428,17 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Sea Ice Concentration Antarctic (GCOM-W)',
-        indicator: 'N12',
-        indicatorName: 'Sea Ice Concentration Antarctic (GCOM-W)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-09-30'),
-        inputData: [''],
+        indicator: 'N12_sea_ice_concentration_antarctic',
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         display: {
           baseLayers: antarcticBaseMaps,
           overlayLayers: antarcticOverlayMaps,
-          name: 'Sea Ice Concentration',
-          legendUrl: 'legends/trilateral/World-SIC.png',
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          layers: 'SIC_S',
-          minZoom: 2,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3031',
           mapProjection: {
             name: 'EPSG:3031',
             def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
             extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-107 -64,125 -64,125.3125 -84,-107 -84,-107 -64))').toJson(),
-            }],
           },
         },
       },
@@ -1783,8 +1736,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -1893,8 +1846,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -1981,8 +1934,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2025,8 +1978,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2462,8 +2415,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2506,8 +2459,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2550,8 +2503,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2594,8 +2547,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),

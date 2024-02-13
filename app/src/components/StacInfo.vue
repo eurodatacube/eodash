@@ -50,13 +50,17 @@
       </v-col>
     </v-row>
     <v-expansion-panels
-    v-if="additionalGtifDataInfos.length > 0"
+    style="justify-content: left;"
+    v-if="additionalGTIFDataInfos.length > 0"
     >
+    <h4>
+      Dataset metadata
+    </h4>
       <v-expansion-panel
-        v-for="(item, index) in additionalGtifDataInfos"
+        v-for="(item, index) in additionalGTIFDataInfos"
             :key="item.dataInfo">
         <v-expansion-panel-header>
-          {{item.name}}
+          {{item.name || item.label}} <v-icon>mdi-information-outline</v-icon>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div
@@ -95,10 +99,20 @@ export default {
         0,
       );
     },
-    additionalGtifDataInfos() {
-      const dataInfos = this.mergedConfigsData
+    additionalGTIFDataInfos() {
+      const dataInfosFromDisplay = this.mergedConfigsData
         .filter((config) => config.dataInfo);
-      return dataInfos;
+      const filters = this.indicatorObject?.cogFilters?.filters;
+      let dataInfosFromCogFilters = [];
+      if (typeof filters === 'object' && filters !== null) {
+        dataInfosFromCogFilters = Object.keys(filters)
+          .filter((filterKey) => filters[filterKey].dataInfo)
+          .map((item) => filters[item]);
+      }
+      return [
+        ...dataInfosFromDisplay,
+        ...dataInfosFromCogFilters,
+      ];
     },
   },
   mounted() {
@@ -108,7 +122,7 @@ export default {
     this.getAdditionalGTIFDataInfos();
   },
   watch: {
-    additionalGtifDataInfos() {
+    additionalGTIFDataInfos() {
       this.getAdditionalGTIFDataInfos();
     },
   },
@@ -126,9 +140,9 @@ export default {
     },
     getAdditionalGTIFDataInfos() {
       this.additionalGtifDataInfoContent = [];
-      for (let i = 0; i < this.additionalGtifDataInfos.length; i++) {
+      for (let i = 0; i < this.additionalGTIFDataInfos.length; i++) {
         try {
-          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGtifDataInfos[i].dataInfo}.md`;
+          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGTIFDataInfos[i].dataInfo}.md`;
           fetch(markdownUrl)
             .then((response) => {
               if (!response.ok) {

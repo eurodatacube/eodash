@@ -191,6 +191,8 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
+  AWS_JAXA_TSM: defaultEvalScriptDef('tsm'),
+  AWS_JAXA_CHLA: defaultEvalScriptDef('chla'),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
   'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
 });

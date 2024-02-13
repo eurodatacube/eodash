@@ -608,7 +608,6 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               display: true,
               label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
-              dataInfo: 'WindPowerDensity',
               min: 0,
               max: 4000,
               step: 10,
@@ -779,7 +778,6 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
           filters: {
             solar: {
               display: true,
-              dataInfo: 'GlobalHorizontalIrradiation',
               label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
