@@ -444,6 +444,9 @@ module.exports = [
           poi: 'World-CDS1_temperature',
         },
         {
+          poi: 'World-Polartep_SeaIceDetection_tif_demo',
+        },
+        {
           poi: 'World-Polartep_Snowgrain_diameter_demo',
         },
         {

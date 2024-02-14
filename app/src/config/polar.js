@@ -81,11 +81,11 @@ const polarStereographicProjection = {
   extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
 };
 
-const polarStereographicProjectionSH = {
-  name: 'EPSG:3413',
-  def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-  extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-};
+// const polarStereographicProjectionSH = {
+//   name: 'EPSG:3413',
+//   def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+//   extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+// };
 
 const polarStereoDatasetsConfigs = {
   baseLayers: arcticBaseMaps,
@@ -115,7 +115,7 @@ function createTOPAZ5Config(indicatorCode) {
         indicator: indicatorCode,
         display: {
           ...polarStereoDatasetsConfigs,
-        }
+        },
       },
     },
   };
@@ -128,7 +128,6 @@ function createTOPAZ4Config(indicatorCode) {
   return config;
 }
 
-
 export const excludeMapTimes = {
 };
 
@@ -136,6 +135,77 @@ export const replaceMapTimes = {
 };
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Polartep_SeaIceDetection_tif_demo',
+        display: [{
+          name: 'Sea Ice Stage of Development',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_SOD_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['>', ['band', 1], 1],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 2, 5, 30, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          name: 'Sea Ice Concentration',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_SIC_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['>', ['band', 1], 1],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 2, 10, 30, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          name: 'Sea Ice floe',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_FLOE_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['>', ['band', 1], 1],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 2, 5, 30, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }],
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -243,39 +313,6 @@ export const globalIndicators = [
             strokeColor: 'rgba(0,0,0,0.8)',
             fillColor: 'rgba(0,0,0,0.0)',
           },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CDS1_temperature',
-        display: {
-          ...polarStereoDatasetsConfigs,
-          projection: polarStereographicProjectionSH,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CDS3',
-        display: {
-          ...polarStereoDatasetsConfigs,
-          projection: polarStereographicProjectionSH,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CDS4',
-        display: {
-          ...polarStereoDatasetsConfigs,
-          projection: polarStereographicProjectionSH,
         },
       },
     },

@@ -170,11 +170,7 @@ export default {
       this.centerMapVueComponent.resetView();
     },
     getThumbnailImage(demoItem) {
-      // try out the thumbnail from STAC link
-      
-      // fallback 
-      let url = `./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(demoItem)}.png`;
-      return url;
+      return `./data/${this.appConfig.id}/globalDataLayerImages/${this.getLocationCode(demoItem)}.png`;
     },
     scroll(direction) {
       const scrollElement = this.$refs.scrollContainer;
