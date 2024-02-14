@@ -231,7 +231,7 @@ export const overlayLayers = Object.freeze({
     visible: false,
     styleFile: {
       version: 8,
-      sprite: `./data/gtif/data/openinframap/sprite`,
+      sprite: './data/gtif/data/openinframap/sprite',
       glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
       id: 'openinframap',
       name: 'OpenInfraMap',

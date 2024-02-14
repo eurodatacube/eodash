@@ -387,6 +387,101 @@ export const globalIndicators = [
           sources: [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
           ],
+          overlayLayers: [
+            {
+              // dissolved individual bands as layers
+              protocol: 'cog',
+              sources: [
+                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
+              ],
+              name: 'Indicator 1: Number of hospitals or clinics',
+              visible: false,
+              style: {
+                color: [
+                  'case',
+                  ['between', ['band', 1], 0, 3],
+                  [
+                    'interpolate',
+                    ['linear'],
+                    ['band', 1],
+                    ...getColorStops('hot', 0, 3, 40, true),
+                  ],
+                  [
+                    'color', 0, 0, 0, 0,
+                  ],
+                ],
+              },
+            }, {
+              // dissolved individual bands as layers
+              protocol: 'cog',
+              sources: [
+                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
+              ],
+              name: 'Indicator 1: Distance to nearest hospital or clinic',
+              visible: false,
+              style: {
+                color: [
+                  'case',
+                  ['between', ['band', 2], 0, 50],
+                  [
+                    'interpolate',
+                    ['linear'],
+                    ['band', 2],
+                    ...getColorStops('hot', 0, 50, 40, true),
+                  ],
+                  [
+                    'color', 0, 0, 0, 0,
+                  ],
+                ],
+              },
+            }, {
+              // dissolved individual bands as layers
+              protocol: 'cog',
+              sources: [
+                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
+              ],
+              name: 'Indicator 1: Number of days where air pollution exceeded WHO threshold between 2021 and 2023',
+              visible: false,
+              style: {
+                color: [
+                  'case',
+                  ['between', ['band', 4], 0, 328],
+                  [
+                    'interpolate',
+                    ['linear'],
+                    ['band', 4],
+                    ...getColorStops('hot', 0, 328, 40, true),
+                  ],
+                  [
+                    'color', 0, 0, 0, 0,
+                  ],
+                ],
+              },
+            }, {
+              // dissolved individual bands as layers
+              protocol: 'cog',
+              sources: [
+                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
+              ],
+              name: 'Indicator 1: Number of people of age < 5 or > 60',
+              visible: false,
+              style: {
+                color: [
+                  'case',
+                  ['between', ['band', 5], 0, 320],
+                  [
+                    'interpolate',
+                    ['linear'],
+                    ['band', 5],
+                    ...getColorStops('hot', 0, 320, 40, true),
+                  ],
+                  [
+                    'color', 0, 0, 0, 0,
+                  ],
+                ],
+              },
+            },
+          ],
           style: {
             variables: {
               // hospitalsMin: 0,
@@ -500,6 +595,76 @@ export const globalIndicators = [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
           ],
           name: 'Indicator 2: Wildlife',
+          overlayLayers: [{
+            // dissolved individual bands as layers
+            protocol: 'cog',
+            sources: [
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+            ],
+            name: 'Indicator 2: Biodiversity Connectivity Quintile',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['between', ['band', 2], 0, 5],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 2],
+                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
+          }, {
+            // dissolved individual bands as layers
+            protocol: 'cog',
+            sources: [
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+            ],
+            name: 'Indicator 2: Categorized species density',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['between', ['band', 3], 0, 5],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 3],
+                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
+          }, {
+            // dissolved individual bands as layers
+            protocol: 'cog',
+            sources: [
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+            ],
+            name: 'Indicator 2: Vegetation health indicator',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['between', ['band', 4], 0, 5],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 4],
+                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
+          }],
           style: {
             variables: {
               wildlifeMin: 0.25,
