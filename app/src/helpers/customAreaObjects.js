@@ -653,3 +653,16 @@ export const nasaStatisticsConfig = (
     }
   ),
 });
+
+export const buildOverpassAPIUrlFromParams = (queryParams) => {
+  let searchPartOfQuery = '';
+  queryParams.forEach((params) => {
+    const types = params.types || ['node', 'way', 'relation'];
+    types.forEach((type) => {
+      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+    });
+  });
+  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
+  const url = `https://overpass-api.de/api/interpreter?data=${query}`;
+  return url;
+};

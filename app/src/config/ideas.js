@@ -5,6 +5,7 @@ import {
 import { Wkt } from 'wicket';
 
 import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
+import { buildOverpassAPIUrlFromParams } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
@@ -76,14 +77,7 @@ export const overlayLayersMap = [{
 }];
 
 function overpassApiQueryTags(queryParams) {
-  let searchPartOfQuery = '';
-  queryParams.forEach((params) => {
-    const types = params.types || ['node', 'way', 'relation'];
-    types.forEach((type) => {
-      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
-    });
-  });
-  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
+  const url = buildOverpassAPIUrlFromParams(queryParams);
   return {
     drawnAreaLimitExtent: true,
     areaFormatFunction: (area) => {
@@ -91,7 +85,7 @@ function overpassApiQueryTags(queryParams) {
       const extent = geojsonFormat.readGeometry(area).getExtent();
       return { area: [extent[1], extent[0], extent[3], extent[2]] };
     },
-    url: `https://overpass-api.de/api/interpreter?data=${query}`,
+    url,
     requestMethod: 'GET',
     callbackFunction: (responseJson) => {
       // custom handling of overpass timeout raise alert and throw an exception
@@ -133,6 +127,7 @@ export const globalIndicators = [
               ...overlayLayers.eoxOverlay, visible: true,
             },
           ],
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
           wmsVariables: {
             sourceLayer: 'Indicator 4: Flood risk',
             variables: {
