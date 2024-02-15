@@ -83,10 +83,9 @@ function overpassApiQueryTags(queryParams) {
       searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
     });
   });
-  const query = `[out:json][timeout:30];(${searchPartOfQuery});out body;>;out skel qt;`;
+  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
   return {
     drawnAreaLimitExtent: true,
-    overpass: true, // toggles custom UI Panel from dropdown selection
     areaFormatFunction: (area) => {
       // overpass api expects lat,lon
       const extent = geojsonFormat.readGeometry(area).getExtent();
@@ -95,7 +94,11 @@ function overpassApiQueryTags(queryParams) {
     url: `https://overpass-api.de/api/interpreter?data=${query}`,
     requestMethod: 'GET',
     callbackFunction: (responseJson) => {
-      // const data = responseJson.elements;
+      // custom handling of overpass timeout raise alert and throw an exception
+      if (responseJson?.remark && responseJson.remark.includes('error')) {
+        window.dispatchEvent(new CustomEvent('custom-alert-message', { detail: `Request to Overpass API timeouted. Please select a smaller area. Original error: ${responseJson.remark}` }));
+        throw responseJson.remark;
+      }
       const ftrColl = osmtogeojson(responseJson, {
         flatProperties: true,
       });
@@ -196,7 +199,7 @@ export const globalIndicators = [
             },
           },
           specialEnvScenario4: true,
-          baseUrl: 'https://wcs-eo4sdcr.adamplatform.eu/cgi-bin/mapserv/',
+          baseUrl: 'https://ideas.adamplatform.eu/cgi-bin/mapserv/',
           layers: 'INUNDATION',
           crossOrigin: null,
           labelFormatFunction: (date) => date,

@@ -196,6 +196,8 @@
               <IndicatorFiltersDemo v-else-if="$route.name === 'demo'"
               :expanded="dataPanelFullWidth" />
               <indicator-filters v-else />
+              <CustomAlert>
+              </CustomAlert>
             </div>
           </v-col>
         </v-row>
@@ -216,6 +218,7 @@ import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
+import CustomAlert from '@/components/CustomAlert.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -239,6 +242,7 @@ export default {
     IndicatorFilters,
     IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
+    CustomAlert,
   },
   props: {
     source: String,
@@ -325,6 +329,7 @@ export default {
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+    window.removeEventListener('customAlert', this.setCustomAlertMessage);
   },
   methods: {
     setDataPanelWidth(enable) {
