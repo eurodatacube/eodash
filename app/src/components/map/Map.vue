@@ -75,19 +75,6 @@
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"
     />
-    <div
-      v-if="$vuetify.breakpoint.smAndUp"
-      :class="{'move-with-panel': $vuetify.breakpoint.mdAndUp}"
-      :style="`position: absolute; z-index: 3; top: 10px; right: 50px;`"
-    >
-      <img v-if="mergedConfigsData.length > 0 && mergedConfigsData[0].legendUrl"
-      :src="mergedConfigsData[0].legendUrl" alt=""
-      :class="`map-legend ${$vuetify.breakpoint.xsOnly ? 'map-legend-expanded' :
-      (legendExpanded && 'map-legend-expanded')}`"
-      @click="legendExpanded = !legendExpanded"
-      :style="`background: rgba(255, 255, 255, 0.8);`">
-    </div>
-
     <!-- Container for all controls. Will move when map is resizing -->
     <div
       ref="controlsContainer"
@@ -292,7 +279,6 @@ export default {
       dataLayerTime: null,
       compareLayerTime: null,
       enableCompare: false,
-      legendExpanded: false,
       // overlay data
       overlayHeaders: [],
       overlayRows: [],

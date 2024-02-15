@@ -564,6 +564,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   });
+  if (config.legendUrl || config.layerAdditionalDescription) {
+    let description = '';
+    if (config.legendUrl) {
+      description += `<img src="${config.legendUrl}" style="max-width: 100%" />`;
+    }
+    if (config.layerAdditionalDescription) {
+      description += config.layerAdditionalDescription;
+    }
+    layerProperties.description = description;
+  }
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
