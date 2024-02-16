@@ -555,7 +555,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layer.setExtent(drawnAreaExtent);
   }
-  layer.setProperties({
+  const layerProperties = {
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
@@ -563,7 +563,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     visible: config.visible,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
-  });
+  };
   if (config.legendUrl || config.layerAdditionalDescription) {
     let description = '';
     if (config.legendUrl) {
@@ -574,6 +574,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layerProperties.description = description;
   }
+  layer.setProperties(layerProperties);
+
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {
