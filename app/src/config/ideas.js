@@ -232,6 +232,7 @@ export const globalIndicators = [
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
           features: {
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm_hospitals_schools.png',
             name: 'OpenStreetMap hospitals, schools',
             styleFunction: (feature) => {
               const amenity = feature.get('amenity');
