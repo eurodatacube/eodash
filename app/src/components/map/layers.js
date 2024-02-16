@@ -487,11 +487,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
       if (config.specialEnvTime) {
         params.env = `year:${params.time}`;
       }
-      if (config.specialEnvScenario4) {
-        const scenario = config.wmsVariables.variables.scenario.selected;
-        const height = config.wmsVariables.variables.height.selected;
-        params.map = `SSP${scenario}_${height}Y${params.time}.map`;
-      }
+    }
+    if (config.specialEnvScenario4) {
+      const configUsed = options.dataProp === 'compareMapData' ? config.wmsVariablesCompare : config.wmsVariables;
+      const scenario = configUsed.variables.scenario.selected;
+      const height = configUsed.variables.height.selected;
+      const time = configUsed.variables.time.selected;
+      params.map = `SSP${scenario}_${height}Y${time}.map`;
     }
     source = new TileWMS({
       attributions: config.attribution,
@@ -518,9 +520,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
         newParams.env = `year:${updatedTime}`;
       }
       if (configUpdate.specialEnvScenario4) {
-        const scenario = configUpdate.wmsVariables.variables.scenario.selected;
-        const height = configUpdate.wmsVariables.variables.height.selected;
-        newParams.map = `SSP${scenario}_${height}Y${updatedTime}.map`;
+        const configUsed = options.dataProp === 'compareMapData' ? configUpdate.wmsVariablesCompare : configUpdate.wmsVariables;
+        const scenario = configUsed.variables.scenario.selected;
+        const height = configUsed.variables.height.selected;
+        const time = configUsed.variables.time.selected;
+        newParams.map = `SSP${scenario}_${height}Y${time}.map`;
       }
       source.updateParams(newParams);
     });

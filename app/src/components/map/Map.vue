@@ -41,9 +41,8 @@
         : '100%'}`"
     >
       <LayerSwipe
-        v-if="compareLayerTime"
         :mapId="mapId"
-        :time="compareLayerTime.value"
+        :time="compareLayerTime && compareLayerTime.value"
         :mergedConfigsData="mergedConfigsLayerSwipe"
         :specialLayerOptionProps="specialLayerOptions"
         :enable="enableCompare"
@@ -344,7 +343,7 @@ export default {
     },
     displayTimeSelection() {
       return this.externallySuppliedTimeEntries || (this.indicator?.time.length > 1
-        && !this.indicator?.disableTimeSelection && this.dataLayerTime
+        && !this.mergedConfigsData[0]?.disableTimeSelection && this.dataLayerTime
         && this.indicatorHasMapData(this.indicator));
     },
     isGlobalIndicator() {
@@ -627,11 +626,11 @@ export default {
             this.indicator.time[0], config,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime?.name : null);
           });
         });
       } else {
-        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime?.name : null);
       }
       if (enabled) {
         window.postMessage({
@@ -901,6 +900,24 @@ export default {
 
       if (event.data.command === 'map:setCompareTime' && event.data.time) {
         this.scheduleUpdateTime(event.data.time, true);
+      }
+
+      if (event.data.command === 'map:refreshCompareLayer') {
+        const { map } = getMapInstance(this.mapId);
+        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+        const config = createConfigFromIndicator(
+          this.indicator,
+          'compare',
+          0,
+        )[0];
+        const swipeLayer = dataGroup.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+        if (swipeLayer) {
+          updateTimeLayer(swipeLayer, config, this.compareLayerTime, this.drawnArea);
+        }
+      }
+
+      if (event.data.command === 'map:setCompare') {
+        this.enableCompare = event.data.compare;
       }
 
       if (event.data.command === 'map:setPoi' && event.data.poi) {

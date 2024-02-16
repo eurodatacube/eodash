@@ -264,6 +264,7 @@
           </wms-style-controls>
           <custom-wms-variables v-if="indicatorObject.display.wmsVariables"
             :wmsVariables="indicatorObject.display.wmsVariables"
+            :mergedConfigsData="mergedConfigsData[0]"
           >
           </custom-wms-variables>
         </v-col>

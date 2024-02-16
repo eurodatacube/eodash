@@ -13,9 +13,8 @@ const osmtogeojson = require('osmtogeojson');
 const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
   IND4_1: {
-    indicatorSummary: 'Indicator 4',
-    indicatorOverwrite: 'Flooding',
     themes: ['economy'],
+    story: '/eodash-data/stories/IND4_1',
   },
   IND1_1: {
     themes: ['economy'],
@@ -24,9 +23,6 @@ export const indicatorsDefinition = Object.freeze({
   IND2_1: {
     themes: ['economy'],
     story: '/eodash-data/stories/IND2_1',
-  },
-  AQ5: {
-    themes: ['economy'],
   },
 });
 
@@ -130,6 +126,7 @@ export const globalIndicators = [
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
           wmsVariables: {
             sourceLayer: 'Indicator 4: Flood risk',
+            title: 'Model configuration',
             variables: {
               scenario: {
                 description: 'Scenario',
@@ -191,13 +188,47 @@ export const globalIndicators = [
                   },
                 ],
               },
+              time: {
+                description: 'Model year',
+                selected: '2150',
+                items: [
+                  {
+                    id: '2020',
+                    description: '2020',
+                  },
+                  {
+                    id: '2040',
+                    description: '2040',
+                  },
+                  {
+                    id: '2060',
+                    description: '2060',
+                  },
+                  {
+                    id: '2080',
+                    description: '2080',
+                  },
+                  {
+                    id: '2100',
+                    description: '2100',
+                  },
+                  {
+                    id: '2120',
+                    description: '2120',
+                  },
+                  {
+                    id: '2150',
+                    description: '2150',
+                  },
+                ],
+              },
             },
           },
+          disableTimeSelection: true,
           specialEnvScenario4: true,
           baseUrl: 'https://ideas.adamplatform.eu/cgi-bin/mapserv/',
           layers: 'INUNDATION',
           crossOrigin: null,
-          labelFormatFunction: (date) => date,
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
           features: {
@@ -210,6 +241,7 @@ export const globalIndicators = [
               });
               const stroke = new Stroke({
                 width: 3,
+                // hospital vs schools
                 color: amenity === 'hospital' ? '#003247' : '#7d0240',
               });
               const style = new Style({
