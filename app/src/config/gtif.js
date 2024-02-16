@@ -265,7 +265,7 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
-    { ...overlayLayers.protectionZones, visible: true },
+    { ...overlayLayers.protectionZones },
     {
       protocol: 'GeoJSON',
       visible: false,
