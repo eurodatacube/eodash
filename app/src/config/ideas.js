@@ -5,7 +5,6 @@ import {
 import { Wkt } from 'wicket';
 
 import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
-import { buildOverpassAPIQueryFromParams } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
@@ -72,7 +71,20 @@ export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
-function overpassApiQueryTags(queryParams) {
+function buildOverpassAPIQueryFromParams (urlInit, mergedConfig) {
+  let searchPartOfQuery = '';
+  mergedConfig.features.featureQueryParams.items.forEach((params) => {
+    const types = params.types || ['node', 'way', 'relation'];
+    types.forEach((type) => {
+      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+    });
+  });
+  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
+  const urlEvaluated = urlInit.replace('{query}', query);
+  return urlEvaluated;
+};
+
+function overpassApiQueryTags(featureQueryParams) {
   return {
     drawnAreaLimitExtent: true,
     areaFormatFunction: (area) => {
@@ -80,7 +92,10 @@ function overpassApiQueryTags(queryParams) {
       const extent = geojsonFormat.readGeometry(area).getExtent();
       return { area: [extent[1], extent[0], extent[3], extent[2]] };
     },
-    queryParams,
+    featureQueryParams: {
+      items: featureQueryParams,
+      title: 'OSM Overpass API query parameters',
+    },
     customFormatFunction: buildOverpassAPIQueryFromParams,
     url: 'https://overpass-api.de/api/interpreter?data={query}',
     requestMethod: 'GET',
@@ -130,7 +145,7 @@ export const globalIndicators = [
             title: 'Model configuration',
             variables: {
               scenario: {
-                description: 'Scenario',
+                description: 'Climate scenario',
                 selected: '119',
                 items: [
                   {
@@ -156,7 +171,7 @@ export const globalIndicators = [
                 ],
               },
               height: {
-                description: 'Storm surge height in dam',
+                description: 'Storm surge height in m',
                 selected: '00',
                 items: [
                   {
@@ -190,7 +205,7 @@ export const globalIndicators = [
                 ],
               },
               time: {
-                description: 'Model year',
+                description: 'Model year (baseline 2020)',
                 selected: '2150',
                 items: [
                   {
@@ -259,8 +274,8 @@ export const globalIndicators = [
             },
             allowedParameters: ['name', 'amenity'],
             ...overpassApiQueryTags([
-              { key: 'amenity', value: 'school' },
-              { key: 'amenity', value: 'hospital' }]),
+              { key: 'amenity', value: 'school', types: ['node', 'way', 'relation'] },
+              { key: 'amenity', value: 'hospital', types: ['node', 'way', 'relation'] }]),
           },
         },
       },

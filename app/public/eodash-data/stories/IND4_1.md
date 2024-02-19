@@ -1,5 +1,3 @@
-### Indicator 4
-
 Spatial coverage: Global
 
 Temporal coverage: from 2020 till 2150

@@ -659,16 +659,3 @@ export const nasaStatisticsConfig = (
     }
   ),
 });
-
-export const buildOverpassAPIQueryFromParams = (urlInit, mergedConfig) => {
-  let searchPartOfQuery = '';
-  mergedConfig.features.queryParams.forEach((params) => {
-    const types = params.types || ['node', 'way', 'relation'];
-    types.forEach((type) => {
-      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
-    });
-  });
-  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
-  const urlEvaluated = urlInit.replace('{query}', query);
-  return urlEvaluated;
-};
