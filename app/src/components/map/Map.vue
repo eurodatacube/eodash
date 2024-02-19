@@ -90,7 +90,7 @@
       :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
         ? $vuetify.application.footer + 85
         : $vuetify.application.footer + 10}px !important;
-        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -291,6 +291,7 @@ export default {
       externallySuppliedTimeEntries: null,
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
+      appRightPanelsOpened: null,
     };
   },
   computed: {
@@ -640,7 +641,7 @@ export default {
       let style = 'position:absolute;';
       if (this.$vuetify.breakpoint.smAndUp) {
         if (this.appConfig.id === 'gtif') {
-          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+          style = 'position:relative;';
         } else {
           style += 'bottom:0px;';
         }
@@ -650,6 +651,9 @@ export default {
         style += 'bottom:60px;';
       }
       return style;
+    },
+    controlsContainerStyle() {
+      return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
   },
   watch: {
@@ -1104,6 +1108,10 @@ export default {
             }
           });
         });
+      }
+
+      if (event.data.command === 'app:StacInfoMounted') {
+        this.appRightPanelsOpened = true;
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {

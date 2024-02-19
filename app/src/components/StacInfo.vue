@@ -89,7 +89,11 @@ export default {
   mounted() {
     if (this.$vuetify.breakpoint.smAndUp) {
       this.$parent.$parent.$parent.$refs.header.$emit('click', { detail: '' });
+      // send signal to map to move the controlContainer
     }
+    window.postMessage({
+      command: 'app:StacInfoMounted',
+    });
     this.getAdditionalGTIFDataInfos();
   },
   watch: {
