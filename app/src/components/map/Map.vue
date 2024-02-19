@@ -916,6 +916,21 @@ export default {
         }
       }
 
+      if (event.data.command === 'map:refreshFeatures') {
+        const { map } = getMapInstance(this.mapId);
+        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+        const config = createConfigFromIndicator(
+          this.indicator,
+          'data',
+          0,
+        );
+        // config with .features will be always the "even" in the array of configs due to
+        const featureLayer = dataGroup.getLayers().getArray().find((l) => l.get('customFeatureLayer'));
+        // destructuring of .features done in createConfigFromIndicator
+        if (featureLayer) {
+          updateTimeLayer(featureLayer, config[1], this.dataLayerTime, this.drawnArea);
+        }
+      }
       if (event.data.command === 'map:setCompare') {
         this.enableCompare = event.data.compare;
       }

@@ -300,6 +300,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new VectorLayer({
       source: featuresSource,
       style: dynamicStyleFunction,
+      customFeatureLayer: true,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;

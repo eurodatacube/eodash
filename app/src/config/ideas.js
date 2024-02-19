@@ -71,18 +71,20 @@ export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay, visible: true,
 }];
 
-function buildOverpassAPIQueryFromParams (urlInit, mergedConfig) {
+function buildOverpassAPIQueryFromParams(urlInit, mergedConfig) {
   let searchPartOfQuery = '';
   mergedConfig.features.featureQueryParams.items.forEach((params) => {
-    const types = params.types || ['node', 'way', 'relation'];
-    types.forEach((type) => {
-      searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
-    });
+    if (params.selected === true) {
+      const types = params.types || ['node', 'way', 'relation'];
+      types.forEach((type) => {
+        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+      });
+    }
   });
   const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
   const urlEvaluated = urlInit.replace('{query}', query);
   return urlEvaluated;
-};
+}
 
 function overpassApiQueryTags(featureQueryParams) {
   return {
@@ -274,8 +276,8 @@ export const globalIndicators = [
             },
             allowedParameters: ['name', 'amenity'],
             ...overpassApiQueryTags([
-              { key: 'amenity', value: 'school', types: ['node', 'way', 'relation'] },
-              { key: 'amenity', value: 'hospital', types: ['node', 'way', 'relation'] }]),
+              { key: 'amenity', value: 'school', selected: true },
+              { key: 'amenity', value: 'hospital', selected: true }]),
           },
         },
       },

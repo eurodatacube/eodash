@@ -267,6 +267,13 @@
             :mergedConfigsData="mergedConfigsData[0]"
           >
           </custom-wms-variables>
+          <FeatureQueryParams
+            v-if="indicatorObject.display.features
+              && indicatorObject.display.features.featureQueryParams"
+              :featureQueryParams="indicatorObject.display.features.featureQueryParams"
+              :mergedConfigsData="mergedConfigsData[0]"
+          >
+          </FeatureQueryParams>
         </v-col>
         <v-col
           v-else-if="expanded"
@@ -387,6 +394,7 @@ import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import LocationsDropdown from '@/components/LocationsDropdown.vue';
+import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
 
 export default {
   props: [
@@ -406,6 +414,7 @@ export default {
     DataMockupView,
     SelectionInfoBar,
     LocationsDropdown,
+    FeatureQueryParams,
   },
   data: () => ({
     overlay: false,
