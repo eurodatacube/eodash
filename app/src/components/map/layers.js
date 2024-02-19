@@ -339,11 +339,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new TileLayer({});
     createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
-    const dynamicStyleFunction = createVectorLayerStyle(config, options);
+    let style;
+    if ('flatStyle' in config) {
+      style = config.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config, options);
+    }
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = 'EPSG:3857';
     layer = new VectorTileLayer({
-      style: dynamicStyleFunction,
+      style,
       source: new VectorTileSource({
         projection: projString,
         format: new MVT(),
