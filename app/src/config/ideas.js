@@ -5,7 +5,7 @@ import {
 import { Wkt } from 'wicket';
 
 import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
-import { buildOverpassAPIUrlFromParams } from '@/helpers/customAreaObjects';
+import { buildOverpassAPIQueryFromParams } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
@@ -73,7 +73,6 @@ export const overlayLayersMap = [{
 }];
 
 function overpassApiQueryTags(queryParams) {
-  const url = buildOverpassAPIUrlFromParams(queryParams);
   return {
     drawnAreaLimitExtent: true,
     areaFormatFunction: (area) => {
@@ -81,7 +80,9 @@ function overpassApiQueryTags(queryParams) {
       const extent = geojsonFormat.readGeometry(area).getExtent();
       return { area: [extent[1], extent[0], extent[3], extent[2]] };
     },
-    url,
+    queryParams,
+    customFormatFunction: buildOverpassAPIQueryFromParams,
+    url: 'https://overpass-api.de/api/interpreter?data={query}',
     requestMethod: 'GET',
     callbackFunction: (responseJson) => {
       // custom handling of overpass timeout raise alert and throw an exception
