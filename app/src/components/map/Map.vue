@@ -518,10 +518,14 @@ export default {
       };
     },
     frozenLayerOptions() {
-      return {
+      const obj = {
         dataProp: 'frozenMapData',
         frozenLayer: true,
       };
+      if (this.mergedConfigsFrozenData?.length) {
+        obj.time = this.mergedConfigsFrozenData[0]?.usedTimes?.time[0];
+      }
+      return obj;
     },
     availableTimeEntries() {
       if (!this.indicator) {
