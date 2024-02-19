@@ -1187,16 +1187,32 @@ export default {
           if (['MOBI1', 'MOBI1_1'].includes(indicatorCode)) {
             label = 'time series for selected area';
           }
-          datasets.push({
-            label,
-            fill: false,
-            data,
+          let style = {
             backgroundColor: refColors[0],
             borderColor: refColors[0],
+          };
+          if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
+            // special rendering of S2L2A, otherwise has S1GRD style
+            const colorsArray = featureData.inputData.map((d, i) => {
+              [data[i].inputData] = d.split('_');
+              if (d === 'S2L2A_REP4') {
+                return refColors[0];
+              }
+              return refColors[1];
+            });
+            style = {
+              borderColor: colorsArray,
+              backgroundColor: colorsArray,
+            };
+          }
+          datasets.push({
+            label,
+            data,
+            fill: false,
             borderWidth: 1,
-            // pointStyle: 'line',
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
+            ...style,
           });
         } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
@@ -1935,6 +1951,19 @@ export default {
       }
 
       if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
+        customSettings.hideRestrictions = true;
+      }
+
+      if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              const obj = data.datasets[context.datasetIndex].data[context.index];
+              const label = `${(obj.inputData)} - ${data.datasets[context.datasetIndex].label}: ${obj.y}`;
+              return label;
+            },
+          },
+        };
         customSettings.hideRestrictions = true;
       }
 
