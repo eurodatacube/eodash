@@ -27,8 +27,15 @@
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
             :indicatorCode="indicatorObject.indicator"
-          >
-          </filter-controls>
+        >
+        </filter-controls>
+        <feature-filters v-if="indicatorObject.featureFilters"
+            :featureFilters="indicatorObject.featureFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :mergedConfigsData="mergedConfigsData[0]"
+            :indicatorCode="indicatorObject.indicator"
+        ></feature-filters>
         <template v-if="selectableLayerConfigs.length > 0">
             <SelectionInfoBar class="pb-2"
             :selectableLayerConfigs="selectableLayerConfigs"/>
@@ -283,6 +290,7 @@ import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
+import FeatureFilters from '@/components/map/FeatureFilters.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
@@ -297,6 +305,7 @@ export default {
     IframeButton,
     AddToDashboardButton,
     FilterControls,
+    FeatureFilters,
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
