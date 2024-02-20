@@ -175,11 +175,14 @@ function createVectorLayerStyle(config, options) {
 }
 
 function createFromTemplate(templateStr, tileCoord) {
+  const zwgs84OffsetRegEx = /\{z-1\}/g;
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
   const yRegEx = /\{y\}/g;
   const dashYRegEx = /\{-y\}/g;
-  return templateStr.replace(zRegEx, tileCoord[0].toString())
+  return templateStr
+    .replace(zwgs84OffsetRegEx, (tileCoord[0] - 1).toString())
+    .replace(zRegEx, (tileCoord[0]).toString())
     .replace(xRegEx, tileCoord[1].toString())
     .replace(yRegEx, tileCoord[2].toString())
     .replace(dashYRegEx, () => {
