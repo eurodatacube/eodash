@@ -90,7 +90,7 @@
       :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
         ? $vuetify.application.footer + 85
         : $vuetify.application.footer + 10}px !important;
-        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -291,6 +291,7 @@ export default {
       externallySuppliedTimeEntries: null,
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
+      appRightPanelsOpened: null,
     };
   },
   computed: {
@@ -517,10 +518,14 @@ export default {
       };
     },
     frozenLayerOptions() {
-      return {
+      const obj = {
         dataProp: 'frozenMapData',
         frozenLayer: true,
       };
+      if (this.mergedConfigsFrozenData?.length) {
+        obj.time = this.mergedConfigsFrozenData[0]?.usedTimes?.time[0];
+      }
+      return obj;
     },
     availableTimeEntries() {
       if (!this.indicator) {
@@ -572,16 +577,16 @@ export default {
     },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
+      const { map } = getMapInstance(this.mapId);
+      const readerOptions = {
+        dataProjection: 'EPSG:4326',
+        featureProjection: map.getView().getProjection(),
+      };
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
         if (subAoi && subAoi.features && subAoi.features.length > 0) {
           if (subAoi.features[0].coordinates.length) {
-            const { map } = getMapInstance(this.mapId);
-            const readerOptions = {
-              dataProjection: 'EPSG:4326',
-              featureProjection: map.getView().getProjection(),
-            };
             const subAoiGeom = geoJsonFormat.readGeometry(
               subAoi.features[0], readerOptions,
             );
@@ -606,7 +611,6 @@ export default {
           extent[2] = extent[2] < 180 ? extent[2] : 180;
           extent[3] = extent[3] < 90 ? extent[3] : 90;
         }
-        const { map } = getMapInstance(this.mapId);
         return transformExtent(
           extent, 'EPSG:4326', map.getView().getProjection(),
         );
@@ -641,7 +645,7 @@ export default {
       let style = 'position:absolute;';
       if (this.$vuetify.breakpoint.smAndUp) {
         if (this.appConfig.id === 'gtif') {
-          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+          style = 'position:relative;';
         } else {
           style += 'bottom:0px;';
         }
@@ -651,6 +655,9 @@ export default {
         style += 'bottom:60px;';
       }
       return style;
+    },
+    controlsContainerStyle() {
+      return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
   },
   watch: {
@@ -1105,6 +1112,10 @@ export default {
             }
           });
         });
+      }
+
+      if (event.data.command === 'app:StacInfoMounted') {
+        this.appRightPanelsOpened = true;
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {

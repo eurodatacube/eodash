@@ -26,7 +26,6 @@
                 style="font-size:16px; color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 </span>
               </v-col>
               <v-col
@@ -36,7 +35,6 @@
                 style="color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 <v-btn
                   v-if="!filters[key].header"
                   icon x-small color="primary"
@@ -58,11 +56,6 @@
               dense
               @change="(evt) => updateMapBool(evt, filters[key].id, index)"
             ></v-checkbox>
-            <info-dialog
-              v-if="filters[key].dataInfo"
-              style="margin-top:10px; margin-left:5px;"
-              :infoSource="filters[key].dataInfo"
-            />
             <v-btn
               v-if="!filters[key].header"
               icon
@@ -295,14 +288,10 @@
 <script>
 import throttle from 'lodash.throttle';
 import { getMapInstance } from '@/components/map/map';
-import InfoDialog from '@/components/InfoDialog.vue';
 import { saveAs } from 'file-saver';
 
 export default {
   name: 'FilterControls',
-  components: {
-    InfoDialog,
-  },
   props: {
     cogFilters: Object,
     mergedConfigsData: Object,
