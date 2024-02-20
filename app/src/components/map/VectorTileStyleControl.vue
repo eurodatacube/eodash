@@ -20,9 +20,6 @@
           single-line
           @change="updateMap"
         >
-          <template #append-outer v-if="select && select.dataInfo">
-            <info-dialog :infoSource="select.dataInfo"/>
-          </template>
         </v-select>
       </v-col>
     </v-row>
@@ -32,13 +29,9 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
-import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {
-    InfoDialog,
-  },
   props: {
     queryParameters: Object,
   },

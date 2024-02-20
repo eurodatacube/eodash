@@ -608,7 +608,6 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               display: true,
               label: 'Wind Power Density [w/m²]',
               id: 'powerDensity',
-              dataInfo: 'WindPowerDensity',
               min: 0,
               max: 4000,
               step: 10,
@@ -779,7 +778,6 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
           filters: {
             solar: {
               display: true,
-              dataInfo: 'GlobalHorizontalIrradiation',
               label: 'Global Horizontal Irradiation [kWh/m²/day]',
               id: 'solar',
               header: true,
@@ -1423,6 +1421,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
+          extent: [9, 46, 18, 49],
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1457,6 +1456,7 @@ export const globalIndicators = [
           minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,
+          extent: [9, 46, 18, 49],
         }],
       },
     },
