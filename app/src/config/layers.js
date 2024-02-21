@@ -233,6 +233,28 @@ export const overlayLayers = Object.freeze({
       },
     },
   },
+  protectionZones: {
+    name: 'Protected areas (CDDA 2022)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_cdda_2022',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
+    },
+  },
+  protectionZonesNatura: {
+    name: 'Protected areas (Natura 2000)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_natura_2000',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
+    },
+  },
 });
 
 export const trucksAreaIndicator = (gtifAustria = false) => ({
