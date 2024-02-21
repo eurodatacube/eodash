@@ -5,14 +5,6 @@
   >
   <v-card class="pa-2">
     <v-card-title class="pa-2">Filters</v-card-title>
-      <v-btn
-        v-if="filtersChanged"
-        absolute x-small color="primary"
-        style="top:6px; right:6px;font-size:8px;"
-        @click="resetFilters()"
-      >
-        Reset constraints
-      </v-btn>
       <template>
         <v-select
           v-model="selectedFilters"
@@ -22,7 +14,7 @@
           label="Select"
           multiple
           return-object
-          hint="Pick"
+          :hint="featureFilters.hint ? featureFilters.hint: 'Select filter'"
           persistent-hint
           @change="updateMap"
         ></v-select>
@@ -32,18 +24,12 @@
 </template>
 
 <script>
-import throttle from 'lodash.throttle';
 import { getMapInstance } from '@/components/map/map';
-import { saveAs } from 'file-saver';
 
 export default {
   name: 'FilterControls',
   props: {
     featureFilters: Object,
-    mergedConfigsData: Object,
-    adminLayer: Object,
-    adminFeature: Object,
-    indicatorCode: String,
   },
   data() {
     return {
@@ -51,34 +37,10 @@ export default {
       filters: this.featureFilters.filters,
     };
   },
-  computed: {
-  },
-  created() {
-    this.throttledUpdate = throttle((evt, filterId, index) => {
-      this.updateMap(evt, filterId, index);
-    }, 150);
-  },
-  mounted() {
-  },
-  beforeUnmount() {
-    this.throttledUpdate.cancel();
-  },
-  watch: {
-  },
   methods: {
-    filtersChanged() {
-      return false;
-    },
-    resetFilters() {
-      this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
-      this.resetMap();
-    },
-    resetMap() {
-      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
-      this.updateLayerStyle();
-    },
     updateMap() {
       let resultFilters = [];
+      let style;
       if (this.selectedFilters.length > 1) {
         resultFilters.push('all');
         this.selectedFilters.forEach((f) => {
@@ -87,30 +49,19 @@ export default {
       } else if (this.selectedFilters.length === 1) {
         resultFilters = ['==', ['get', this.selectedFilters[0].id], 1];
       }
+      if (this.selectedFilters.length === 0) {
+        style = this.featureFilters.baseStyle;
+      } else {
+        style = [{
+          filter: resultFilters,
+          style: this.featureFilters.baseStyle,
+        }];
+      }
       const { map } = getMapInstance('centerMap');
-      const vectorLayer = map.getAllLayers().find((l) => l.get('id') === this.featureFilters.sourceLayer);
-      const style = {
-        filter: resultFilters,
-        style: this.featureFilters.baseStyle,
-      };
-      vectorLayer.setStyle([style]);
-    },
-    updateLayerStyle() {
-      // const { map } = getMapInstance('centerMap');
-      // const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      // if (gtl) {
-      //   // due to an unknown bug that can not be reproduced outside of eodash
-      //   // GeoTiff sources with index higher than 4 (start at 1) do behave as binary filter
-      //   // on the first load of this panel, manual resetting of source solves the issue
-      //   if (filterIndex > 4 && !this.layerSourceDidRefresh) {
-      //     const s = gtl.getSource();
-      //     gtl.setSource(null);
-      //     gtl.setSource(s);
-      //     // to refresh once per dataset is enough
-      //     this.layerSourceDidRefresh = true;
-      //   }
-      //   gtl.updateStyleVariables(this.variables);
-      // }
+      const vectorLayer = map.getAllLayers().find(
+        (l) => l.get('id') === this.featureFilters.sourceLayer,
+      );
+      vectorLayer.setStyle(style);
     },
   },
 };
