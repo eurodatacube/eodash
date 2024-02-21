@@ -89,6 +89,8 @@ const actions = {
               themes: link.themes ? link.themes : [],
               tags: link.tags ? link.tags : [],
               satellite: link.satellite ? link.satellite : [],
+              insituSources: link.insituSources ? link.insituSources : [],
+              otherSources: link.otherSources ? link.otherSources : [],
               sensor: link.sensor ? link.sensor : [],
               endpointType: link.endpointtype,
               locations: link.locations ? link.locations : false,

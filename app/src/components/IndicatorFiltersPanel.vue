@@ -134,6 +134,8 @@ export default {
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Sensor' },
+              { key: 'insituSources', title: 'In situ sources' },
+              { key: 'otherSources', title: 'Other sources' },
               { key: 'countries', title: 'Country' },
               { key: 'cities', title: 'City' },
             ],
