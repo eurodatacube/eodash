@@ -321,7 +321,9 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
-        if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(this.indicatorObject.indicator)) {
+        if (['AQ1',
+          // 'AQ1_1',
+          'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(Number(ftr.get('object_id')));
@@ -333,22 +335,25 @@ export default {
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
+              const groupedBySelection = {};
               json.forEach((entry) => {
+                if (!Object.prototype.hasOwnProperty.call(
+                  groupedBySelection, entry[adminZoneKey],
+                )) {
+                  groupedBySelection[entry[adminZoneKey]] = {
+                    time: [],
+                    measurement: [],
+                    referenceValue: [],
+                  };
+                }
                 if (entry[selected] !== null && entry.satellite_values !== null) {
-                  newData.time.push(DateTime.fromISO(entry.time));
-                  newData.measurement.push(entry[selected]);
-                  newData.referenceValue.push(entry.satellite_values);
+                  groupedBySelection[entry[adminZoneKey]].measurement.push(entry[selected]);
+                  groupedBySelection[entry[adminZoneKey]].referenceValue.push(entry.satellite_values);
                 }
               });
               const ind = {
                 ...this.indicatorObject,
-                ...newData,
+                fetchedData: groupedBySelection,
                 xAxis: 'Sentinel5-p NO2 [µmol/m²]',
               };
               this.$store.commit(

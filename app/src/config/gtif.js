@@ -518,9 +518,10 @@ export const indicatorsDefinition = Object.freeze({
   AQ1: {
     customAreaIndicator: true,
   },
-  AQ1_1: {
-    customAreaIndicator: true,
-  },
+  // commented out so that selection is disabled
+  // AQ1_1: {
+  //   customAreaIndicator: true,
+  // },
   AQ1_2: {
     customAreaIndicator: true,
   },
@@ -1111,7 +1112,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   return config;
 }
 
-function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
+function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis, selectionEnabled = true) {
   const config = {
     properties: {
       indicatorObject: {
@@ -1168,9 +1169,9 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
               return color;
             },
           },
-          selection: {
+          selection: selectionEnabled ? {
             mode: 'multiple',
-          },
+          } : false,
           tooltip: false,
           id: 'aggregated_trajs_model_satellite_v1',
           timeKey: 'timestamp',
@@ -1365,7 +1366,7 @@ export const globalIndicators = [
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-  }, 'satellite_values'),
+  }, 'satellite_values', false),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,
