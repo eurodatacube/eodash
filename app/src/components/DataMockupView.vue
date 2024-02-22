@@ -321,7 +321,9 @@ export default {
               window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
-        if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(this.indicatorObject.indicator)) {
+        if (['AQ1',
+          // 'AQ1_1',
+          'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(Number(ftr.get('object_id')));
