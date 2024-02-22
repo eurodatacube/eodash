@@ -333,22 +333,25 @@ export default {
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
+              const groupedBySelection = {};
               json.forEach((entry) => {
+                if (!Object.prototype.hasOwnProperty.call(
+                  groupedBySelection, entry[adminZoneKey],
+                )) {
+                  groupedBySelection[entry[adminZoneKey]] = {
+                    time: [],
+                    measurement: [],
+                    referenceValue: [],
+                  };
+                }
                 if (entry[selected] !== null && entry.satellite_values !== null) {
-                  newData.time.push(DateTime.fromISO(entry.time));
-                  newData.measurement.push(entry[selected]);
-                  newData.referenceValue.push(entry.satellite_values);
+                  groupedBySelection[entry[adminZoneKey]].measurement.push(entry[selected]);
+                  groupedBySelection[entry[adminZoneKey]].referenceValue.push(entry.satellite_values);
                 }
               });
               const ind = {
                 ...this.indicatorObject,
-                ...newData,
+                fetchedData: groupedBySelection,
                 xAxis: 'Sentinel5-p NO2 [µmol/m²]',
               };
               this.$store.commit(

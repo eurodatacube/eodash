@@ -1215,19 +1215,20 @@ export default {
             ...style,
           });
         } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
-          // Rendering for fetched data for rooftops
-          const data = featureData.referenceValue.map((x, i) => (
-            { x, y: featureData.measurement[i] }
-          ));
-          datasets.push({
-            label: 'data for selected bins',
-            fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
+          Object.keys(featureData.fetchedData).forEach((satelliteId, ind) => {
+            const data = featureData.fetchedData[satelliteId].referenceValue.map((x, i) => (
+              { x, y: featureData.fetchedData[satelliteId].measurement[i] }
+            ));
+            datasets.push({
+              label: satelliteId,
+              fill: false,
+              data,
+              backgroundColor: refColors[ind],
+              borderColor: refColors[ind],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
           });
         } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
