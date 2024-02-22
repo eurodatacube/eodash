@@ -225,7 +225,6 @@ export default {
         const greenRoofIndicator = ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(this.indicatorObject.indicator);
         if (solarRoofIndicator || greenRoofIndicator) {
           const { selected } = this.indicatorObject.queryParameters;
-          
           const zspStrings = [];
           const originalZsps = [];
           const gemIds = [];
@@ -246,7 +245,7 @@ export default {
             ...this.indicatorObject,
             fetchedData: {},
             xAxis: `${solarRoofIndicator ? 'Solar' : 'Green'} roof potential [km²]`,
-            yAxis: `Total roofs where ${solarRoofIndicator ? 'solar power' : 'greening' } exists [km²]`,
+            yAxis: `Total roofs where ${solarRoofIndicator ? 'solar power' : 'greening'} exists [km²]`,
             originalZsps,
             gemIds: {},
             name: `Potential area / Total roofs where ${solarRoofIndicator ? 'solar' : 'green'} exist`,
@@ -271,7 +270,7 @@ export default {
                     if (!Object.prototype.hasOwnProperty.call(
                       groupedBySelection, entry[adminZoneKey],
                     )) {
-                      if (greenRoofIndicator) { 
+                      if (greenRoofIndicator) {
                         groupedBySelection[entry[adminZoneKey]] = {
                           grpotare5: 0,
                           grpotare20: 0,
@@ -283,7 +282,7 @@ export default {
                           count: 0,
                           existingGRRoofArea: 0,
                         };
-                       } else if (solarRoofIndicator) {
+                      } else if (solarRoofIndicator) {
                         groupedBySelection[entry[adminZoneKey]] = {
                           potentialSRRoofArea: 0,
                           pveppmwhhp: 0,
@@ -324,7 +323,7 @@ export default {
                     if (!Object.prototype.hasOwnProperty.call(ind.fetchedData, gemId)) {
                       ind.fetchedData[gemId] = {};
                     }
-                    let {
+                    const {
                       grpotare5, grpotare20, grpotare45, co2red05, co2red20, co2red45, existingGRRoofArea,
                       pveppmwhhp, pveppmwhrp, pveppmwhlp, existingSRRoofArea, potentialSRRoofArea,
                     } = groupedBySelection[key];

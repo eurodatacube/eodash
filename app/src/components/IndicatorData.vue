@@ -1233,7 +1233,8 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           });
-        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3',].includes(indicatorCode)) {
+        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
+          'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
