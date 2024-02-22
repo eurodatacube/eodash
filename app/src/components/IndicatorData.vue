@@ -1233,7 +1233,7 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           });
-        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
+        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3',].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
@@ -1245,8 +1245,8 @@ export default {
             const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
               '#9a08c7', '#e60532', '#d66d11'];
             Object.keys(featureData.fetchedData[gemId]).forEach((zspId) => {
-              x.push(featureData.fetchedData[gemId][zspId].measurement);
-              y.push(featureData.fetchedData[gemId][zspId].referenceValue);
+              x.push(featureData.fetchedData[gemId][zspId].potential);
+              y.push(featureData.fetchedData[gemId][zspId].totalroof);
               zsps.push(zspId);
               if (featureData.originalZsps.map((ftr) => ftr.getId())
                 .includes(parseInt(zspId, 10))) {
@@ -1271,22 +1271,6 @@ export default {
               borderWidth: 1,
               pointRadius: 2,
             });
-          });
-        } else if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
-          // Rendering for fetched data for rooftops
-          const data = featureData.referenceValue.map((x, i) => (
-            { x, y: featureData.measurement[i] }
-          ));
-          datasets.push({
-            label: indicator.yAxis,
-            fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            // pointStyle: 'line',
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
           });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
@@ -1971,12 +1955,12 @@ export default {
         customSettings.hideRestrictions = true;
       }
 
-      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
+      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
             label: (context, data) => {
               const obj = data.datasets[context.datasetIndex].data[context.index];
-              const label = `Gem ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, exist: ${obj.x[0].toFixed(4)} km², pot: ${obj.y[0].toFixed(4)} km²`;
+              const label = `Gem ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, pot: ${obj.x[0].toFixed(4)} km², exist: ${obj.y[0].toFixed(4)} km²`;
               return label;
             },
           },

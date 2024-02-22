@@ -1191,6 +1191,9 @@ function createSOL1Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,grexisting',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1256,6 +1259,9 @@ function createSOL2Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'pvusearea,pvexisting,pvpotentl,pveppmwhhp,pveppmwhrp,pveppmwhlp',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1304,6 +1310,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
