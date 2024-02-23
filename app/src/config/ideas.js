@@ -655,6 +655,16 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
+                [
+                  'all',
+                  ['==', ['band', 1], 0],
+                  ['==', ['band', 2], 0],
+                  ['==', ['band', 3], 0],
+                  ['==', ['band', 4], 0],
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
                 ['between', ['band', 2], 0, 5],
                 [
                   'interpolate',
@@ -678,6 +688,16 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
+                [
+                  'all',
+                  ['==', ['band', 1], 0],
+                  ['==', ['band', 2], 0],
+                  ['==', ['band', 3], 0],
+                  ['==', ['band', 4], 0],
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
                 ['between', ['band', 3], 0, 5],
                 [
                   'interpolate',
@@ -701,6 +721,16 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
+                [
+                  'all',
+                  ['==', ['band', 1], 0],
+                  ['==', ['band', 2], 0],
+                  ['==', ['band', 3], 0],
+                  ['==', ['band', 4], 0],
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
                 ['between', ['band', 4], 0, 5],
                 [
                   'interpolate',
