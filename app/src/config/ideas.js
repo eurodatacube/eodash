@@ -150,13 +150,13 @@ export const globalIndicators = [
             {
               ...defaultLayersDisplay,
               name: 'WorldCereal - Winter Cereals',
-              layers: 'WINTER_CEREALS_WORLDCEREAL',
+              layers: 'WINTER_WORLDCEREAL',
               visible: false,
             },
             {
               ...defaultLayersDisplay,
               name: 'WorldCereal - Spring Cereals',
-              layers: 'SPRING_CEREALS_WORLDCEREAL',
+              layers: 'SPRING_WORLDCEREAL',
               visible: false,
             },
             {
