@@ -133,7 +133,7 @@ export default {
               // { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
-              { key: 'sensor', title: 'Sensor' },
+              { key: 'sensor', title: 'Satellite sensor' },
               { key: 'insituSources', title: 'In situ sources' },
               { key: 'otherSources', title: 'Other sources' },
               { key: 'countries', title: 'Country' },
