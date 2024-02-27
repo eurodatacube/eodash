@@ -29,6 +29,7 @@ export const dataPath = './eodash-data/internal/';
 export const dataEndpoints = [];
 
 export const defaultLayersDisplay = {
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdIdeas}`,
   dateFormatFunction: (date) => date,
   labelFormatFunction: (date) => date,
   protocol: 'WMS',
@@ -139,6 +140,42 @@ export const globalIndicators = [
             overlayLayers.powerOpenInfrastructure,
             {
               ...overlayLayers.eoxOverlay, visible: true,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Maize',
+              layers: 'MAIZE_WORLDCEREAL',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Winter Cereals',
+              layers: 'WINTER_WORLDCEREAL',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Spring Cereals',
+              layers: 'SPRING_WORLDCEREAL',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'World population 2020',
+              layers: 'GHS_POP_E2020',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'World population 2025',
+              layers: 'GHS_POP_E2025',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'World population 2030',
+              layers: 'GHS_POP_E2030',
+              visible: false,
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
