@@ -162,19 +162,19 @@ export const globalIndicators = [
             {
               ...defaultLayersDisplay,
               name: 'World population 2020',
-              layers: 'WORLD_POPULATION_2020',
+              layers: 'GHS_POP_E2020',
               visible: false,
             },
             {
               ...defaultLayersDisplay,
               name: 'World population 2025',
-              layers: 'WORLD_POPULATION_2025',
+              layers: 'GHS_POP_E2025',
               visible: false,
             },
             {
               ...defaultLayersDisplay,
               name: 'World population 2030',
-              layers: 'WORLD_POPULATION_2030',
+              layers: 'GHS_POP_E2030',
               visible: false,
             },
           ],
