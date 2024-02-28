@@ -101,6 +101,26 @@ function createXYZDisplay(config, jsonData) {
   return display;
 }
 
+async function createFlatStyleDisplay(flatStyle, collection) {
+  const response = await fetch(flatStyle.href);
+  const style = await response.json();
+  const display = {
+    protocol: 'cog',
+    id: collection.id,
+    sources: [
+      { url: 'https://data.eodc.eu/collections/GTIF/MCD13A2.Y20032018.006.globalV1.1_km_10_days_NDVI.O4.VCI.lethr35_1327_ge09_AT.tif' },
+    ],
+    /*
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+    labelFormatFunction: (date) => `${date} (14 day average)`,
+    */
+    style,
+    name: collection.title,
+  };
+  console.log(display);
+  return display;
+}
+
 function createXYZTilesXcubeDisplay(config, name) {
   const searchParams = new URLSearchParams(config.href);
   const vmin = searchParams.get('vmin') || 0;
@@ -440,6 +460,10 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    const flatStyle = jsonData.links.find(
+      (item) => item.rel === 'example' && item['example:language'] === 'FlatStyle',
+    );
+    console.log(jsonData.links);
     let display = {};
     if (wmsEndpoint) {
       display = createWMSDisplay(
@@ -510,6 +534,10 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else if (flatStyle) {
+      display = await createFlatStyleDisplay(
+        flatStyle, jsonData,
+      );
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
