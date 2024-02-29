@@ -1041,6 +1041,74 @@ function createADOConfig(indicatorCode, selectedVariable) {
   };
   return config;
 }
+function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis) {
+  const config = {
+    properties: {
+      indicatorObject: {
+        yAxis,
+        time: [''],
+        indicator: indicatorCode,
+        queryParameters: {
+          sourceLayer: 'AIT_solar',
+          selected: selectedVariable,
+          items: [
+            {
+              id: selectedVariable,
+              colormapUsed: blgrrd,
+              ...itemConfig,
+            },
+          ],
+        },
+        display: {
+          dataInfo: indicatorCode,
+          layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+          protocol: 'geoserverTileLayer',
+          style: {
+            getColor: (feature, store, options) => {
+              let color = '#00000000';
+              const dataSource = options.dataProp ? options.dataProp : 'mapData';
+              let ind = store.state.indicators.selectedIndicator;
+              let data = null;
+              if (dataSource === 'frozenMapData') {
+                data = store.state.indicators.frozenIndicator.mapData;
+                ind = store.state.indicators.frozenIndicator;
+              } else if (store.state.indicators.selectedIndicator
+                && store.state.indicators.selectedIndicator[dataSource]) {
+                data = store.state.indicators.selectedIndicator[dataSource];
+              }
+              if (data) {
+                const id = feature.id_;
+                const currPar = ind.queryParameters.items
+                  .find((item) => item.id === ind.queryParameters.selected);
+                if (currPar && id in data) {
+                  const value = data[id][currPar.id];
+                  const { min, max, colormapUsed } = currPar;
+                  const f = clamp((value - min) / (max - min), 0, 1);
+                  color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                }
+              }
+              return color;
+            },
+            strokeColor: 'rgba(0,0,0,0)',
+          },
+          opacity: 1,
+          id: 'AIT_solar',
+          adminZoneKey: 'adminzoneid',
+          parameters: `adminzoneid,${selectedVariable}`,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+          labelFormatFunction: (date) => date,
+          selection: {
+            mode: 'single',
+          },
+          tooltip: true,
+          allowedParameters: ['name'],
+        },
+      },
+    },
+  };
+  return config;
+}
+
 function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   const config = {
     properties: {
@@ -1322,6 +1390,14 @@ export const globalIndicators = [
   createREP2Config('REP2_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Spring_COG_clipped_3857_fixed.tif', 1, 5.5),
   createREP2Config('REP2_3', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Summer_COG_clipped_3857_fixed.tif', 1.5, 7.5),
   createREP2Config('REP2_4', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/SolarPowerPotential_Winter_COG_clipped_3857_fixed.tif', 0.5, 2.5),
+  createAITConfig('EEPOT_solar', 'e_2030_low_wocc', {
+    min: 0,
+    max: 10000,
+  }, 'E_2030_low_wocc'),
+  createAITConfig('EEPOT_wind', 'e_2030_low_wocc', {
+    min: 0,
+    max: 10000,
+  }, 'E_2030_low_wocc'),
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
