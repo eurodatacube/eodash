@@ -101,14 +101,23 @@ function createXYZDisplay(config, jsonData) {
   return display;
 }
 
-async function createFlatStyleDisplay(flatStyle, collection) {
+async function createFlatStyleDisplay(flatStyle, collection, link) {
+  const linkResponse = await fetch(link[1]);
+  const stacItem = await linkResponse.json();
+  let asset = null;
+  Object.keys(stacItem.assets).forEach((key) => {
+    if (stacItem.assets[key].roles.includes('data')) {
+      asset = stacItem.assets[key].href;
+    }
+  });
   const response = await fetch(flatStyle.href);
   const style = await response.json();
   const display = {
     protocol: 'cog',
+    stacItem: true,
     id: collection.id,
     sources: [
-      { url: 'https://data.eodc.eu/collections/GTIF/MCD13A2.Y20032018.006.globalV1.1_km_10_days_NDVI.O4.VCI.lethr35_1327_ge09_AT.tif' },
+      { url: asset },
     ],
     /*
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
@@ -117,7 +126,6 @@ async function createFlatStyleDisplay(flatStyle, collection) {
     style,
     name: collection.title,
   };
-  console.log(display);
   return display;
 }
 
@@ -463,7 +471,6 @@ export async function loadIndicatorData(baseConfig, payload) {
     const flatStyle = jsonData.links.find(
       (item) => item.rel === 'example' && item['example:language'] === 'FlatStyle',
     );
-    console.log(jsonData.links);
     let display = {};
     if (wmsEndpoint) {
       display = createWMSDisplay(
@@ -535,8 +542,18 @@ export async function loadIndicatorData(baseConfig, payload) {
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
     } else if (flatStyle) {
+      // we extract times and item links
+      const baseUrl = payload.link.replace('collection.json', '');
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          if (link.datetime) {
+            times.push([link.datetime, baseUrl + link.href.substring(2)]);
+          }
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
       display = await createFlatStyleDisplay(
-        flatStyle, jsonData,
+        flatStyle, jsonData, times[0],
       );
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
