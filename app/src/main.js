@@ -27,6 +27,7 @@ import customDashboardApiFactory from './custom-dashboard';
 import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
+import '@eox/map';
 import '@eox/itemfilter';
 import '@eox/layercontrol';
 import '@eox/stacinfo';
@@ -39,6 +40,7 @@ Vue.component(VueCountdown.name, VueCountdown);
 Vue.config.productionTip = false;
 
 Vue.config.ignoredElements = [
+  'eox-map',
   'eox-itemfilter',
   'eox-layercontrol',
   'eox-stacinfo',

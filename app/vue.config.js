@@ -51,6 +51,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
     'ol',
+    '@eox/map',
     '@eox/itemfilter',
     '@eox/layercontrol',
     '@eox/stacinfo',
