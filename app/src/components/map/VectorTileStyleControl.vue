@@ -12,7 +12,7 @@
         <v-select
           v-model="select"
           :items="queryParameters.items"
-          item-text="description"
+          item-text="id"
           item-value="id"
           label="Select"
           persistent-hint

@@ -61,6 +61,22 @@ const adoColor = {
   }),
 };
 
+const viridisColor = {
+  steps: 32,
+  colors: colormap({
+    colormap: [
+      { index: 0, rgb: [68, 1, 84] },
+      { index: stp * 1, rgb: [68, 57, 131] },
+      { index: stp * 2, rgb: [49, 104, 142] },
+      { index: stp * 3, rgb: [33, 145, 140] },
+      { index: stp * 4, rgb: [53, 183, 121] },
+      { index: stp * 5, rgb: [144, 215, 67] },
+      { index: stp * 6, rgb: [253, 231, 37] },
+    ],
+    nshades: 32,
+  }),
+};
+
 stp = 1 / 7;
 
 const grywrd = {
@@ -1041,7 +1057,81 @@ function createADOConfig(indicatorCode, selectedVariable) {
   };
   return config;
 }
-function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis) {
+function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis, sourceLayer) {
+  const pars = [
+    ['e_2030_low_wocc', viridisColor, [0, 10000]],
+    ['e_2030_low_mocc', viridisColor, [0, 10000]],
+    ['e_2030_low_stcc', viridisColor, [0, 10000]],
+    ['e_2030_medium_wocc', viridisColor, [0, 10000]],
+    ['e_2030_medium_mocc', viridisColor, [0, 10000]],
+    ['e_2030_medium_stcc', viridisColor, [0, 10000]],
+    ['e_2030_high_wocc', viridisColor, [0, 10000]],
+    ['e_2030_high_mocc', viridisColor, [0, 10000]],
+    ['e_2030_high_stcc', viridisColor, [0, 10000]],
+    ['e_2040_low_wocc', viridisColor, [0, 10000]],
+    ['e_2040_low_mocc', viridisColor, [0, 10000]],
+    ['e_2040_low_stcc', viridisColor, [0, 10000]],
+    ['e_2040_medium_wocc', viridisColor, [0, 10000]],
+    ['e_2040_medium_mocc', viridisColor, [0, 10000]],
+    ['e_2040_medium_stcc', viridisColor, [0, 10000]],
+    ['e_2040_high_wocc', viridisColor, [0, 10000]],
+    ['e_2040_high_mocc', viridisColor, [0, 10000]],
+    ['e_2040_high_stcc', viridisColor, [0, 10000]],
+    ['p_2030_low_wocc', viridisColor, [0, 10]],
+    ['p_2030_low_mocc', viridisColor, [0, 10]],
+    ['p_2030_low_stcc', viridisColor, [0, 10]],
+    ['p_2030_medium_wocc', viridisColor, [0, 10]],
+    ['p_2030_medium_mocc', viridisColor, [0, 10]],
+    ['p_2030_medium_stcc', viridisColor, [0, 10]],
+    ['p_2030_high_wocc', viridisColor, [0, 10]],
+    ['p_2030_high_mocc', viridisColor, [0, 10]],
+    ['p_2030_high_stcc', viridisColor, [0, 10]],
+    ['p_2040_low_wocc', viridisColor, [0, 10]],
+    ['p_2040_low_mocc', viridisColor, [0, 10]],
+    ['p_2040_low_stcc', viridisColor, [0, 10]],
+    ['p_2040_medium_wocc', viridisColor, [0, 10]],
+    ['p_2040_medium_mocc', viridisColor, [0, 10]],
+    ['p_2040_medium_stcc', viridisColor, [0, 10]],
+    ['p_2040_high_wocc', viridisColor, [0, 10]],
+    ['p_2040_high_mocc', viridisColor, [0, 10]],
+    ['p_2040_high_stcc', viridisColor, [0, 10]],
+    ['lcoe_2030_low_wocc', viridisColor, [0, 10]],
+    ['lcoe_2030_low_mocc', viridisColor, [0, 10]],
+    ['lcoe_2030_low_stcc', viridisColor, [0, 10]],
+    ['lcoe_2030_medium_wocc', viridisColor, [0, 10]],
+    ['lcoe_2030_medium_mocc', viridisColor, [0, 10]],
+    ['lcoe_2030_medium_stcc', viridisColor, [0, 10]],
+    ['lcoe_2030_high_wocc', viridisColor, [0, 10]],
+    ['lcoe_2030_high_mocc', viridisColor, [0, 10]],
+    ['lcoe_2030_high_stcc', viridisColor, [0, 10]],
+    ['lcoe_2040_low_wocc', viridisColor, [0, 10]],
+    ['lcoe_2040_low_mocc', viridisColor, [0, 10]],
+    ['lcoe_2040_low_stcc', viridisColor, [0, 10]],
+    ['lcoe_2040_medium_wocc', viridisColor, [0, 10]],
+    ['lcoe_2040_medium_mocc', viridisColor, [0, 10]],
+    ['lcoe_2040_medium_stcc', viridisColor, [0, 10]],
+    ['lcoe_2040_high_wocc', viridisColor, [0, 10]],
+    ['lcoe_2040_high_mocc', viridisColor, [0, 10]],
+    ['lcoe_2040_high_stcc', viridisColor, [0, 10]],
+    ['mv_2030_low_wocc', viridisColor, [0, 10000]],
+    ['mv_2030_low_mocc', viridisColor, [0, 10000]],
+    ['mv_2030_low_stcc', viridisColor, [0, 10000]],
+    ['mv_2030_medium_wocc', viridisColor, [0, 10000]],
+    ['mv_2030_medium_mocc', viridisColor, [0, 10000]],
+    ['mv_2030_medium_stcc', viridisColor, [0, 10000]],
+    ['mv_2030_high_wocc', viridisColor, [0, 10000]],
+    ['mv_2030_high_mocc', viridisColor, [0, 10000]],
+    ['mv_2030_high_stcc', viridisColor, [0, 10000]],
+    ['mv_2040_low_wocc', viridisColor, [0, 10000]],
+    ['mv_2040_low_mocc', viridisColor, [0, 10000]],
+    ['mv_2040_low_stcc', viridisColor, [0, 10000]],
+    ['mv_2040_medium_wocc', viridisColor, [0, 10000]],
+    ['mv_2040_medium_mocc', viridisColor, [0, 10000]],
+    ['mv_2040_medium_stcc', viridisColor, [0, 10000]],
+    ['mv_2040_high_wocc', viridisColor, [0, 10000]],
+    ['mv_2040_high_mocc', viridisColor, [0, 10000]],
+    ['mv_2040_high_stcc', viridisColor, [0, 10000]],
+  ];
   const config = {
     properties: {
       indicatorObject: {
@@ -1049,15 +1139,11 @@ function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis) {
         time: [''],
         indicator: indicatorCode,
         queryParameters: {
-          sourceLayer: 'AIT_solar',
+          sourceLayer,
           selected: selectedVariable,
-          items: [
-            {
-              id: selectedVariable,
-              colormapUsed: blgrrd,
-              ...itemConfig,
-            },
-          ],
+          items: pars.map((p) => ({
+            id: p[0], colormapUsed: p[1], min: p[2][0], max: p[2][1],
+          })),
         },
         display: {
           dataInfo: indicatorCode,
@@ -1082,6 +1168,8 @@ function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis) {
                   .find((item) => item.id === ind.queryParameters.selected);
                 if (currPar && id in data) {
                   const value = data[id][currPar.id];
+                  // eslint-disable-next-line no-param-reassign, no-return-assign
+                  pars.forEach((p) => feature.properties_[p[0]] = data[id][p[0]]);
                   const { min, max, colormapUsed } = currPar;
                   const f = clamp((value - min) / (max - min), 0, 1);
                   color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
@@ -1092,16 +1180,16 @@ function createAITConfig(indicatorCode, selectedVariable, itemConfig, yAxis) {
             strokeColor: 'rgba(0,0,0,0)',
           },
           opacity: 1,
-          id: 'AIT_solar',
+          id: sourceLayer,
           adminZoneKey: 'adminzoneid',
-          parameters: `adminzoneid,${selectedVariable}`,
+          parameters: `adminzoneid,${pars.map((p) => p[0]).join(',')}`,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
           labelFormatFunction: (date) => date,
           selection: {
             mode: 'single',
           },
           tooltip: true,
-          allowedParameters: ['name'],
+          allowedParameters: ['name', selectedVariable],
         },
       },
     },
@@ -1393,11 +1481,11 @@ export const globalIndicators = [
   createAITConfig('EEPOT_solar', 'e_2030_low_wocc', {
     min: 0,
     max: 10000,
-  }, 'E_2030_low_wocc'),
+  }, 'E_2030_low_wocc', 'AIT_solar'),
   createAITConfig('EEPOT_wind', 'e_2030_low_wocc', {
     min: 0,
     max: 10000,
-  }, 'E_2030_low_wocc'),
+  }, 'E_2030_low_wocc', 'AIT_wind'),
   createMOBI1Config('MOBI1', 'users_count_max', {
     min: 100,
     max: 100000,
