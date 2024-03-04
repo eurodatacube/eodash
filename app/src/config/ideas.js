@@ -161,21 +161,44 @@ export const globalIndicators = [
             },
             {
               ...defaultLayersDisplay,
-              name: 'World population 2020',
+              name: 'GHS World population 2020',
               layers: 'GHS_POP_E2020',
               visible: false,
             },
             {
               ...defaultLayersDisplay,
-              name: 'World population 2025',
+              name: 'GHS World population 2025',
               layers: 'GHS_POP_E2025',
               visible: false,
             },
             {
               ...defaultLayersDisplay,
-              name: 'World population 2030',
+              name: 'GHS World population 2030',
               layers: 'GHS_POP_E2030',
               visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              visible: false,
+              // for now hardcoding year 2020 until LayerControl update to support WMS is integrated
+              baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2020-01-01`,
+              name: 'GHS built up area 2020',
+              layers: 'GHS_BUILT_S',
+              // layerConfig: {
+              //   schema: {
+              //     type: 'object',
+              //     properties: {
+              //       time: {
+              //         title: 'Year',
+              //         type: 'string',
+              //         enum: [
+              //           '1975-01-01', '1980-01-01', '1985-01-01', '1990-01-01', '1995-01-01', '2000-01-01', '2005-01-01', '2010-01-01', '2015-01-01', '2020-01-01', '2025-01-01', '2030-01-01',
+              //         ],
+              //       },
+              //     },
+              //   },
+              // },
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/6b4a6c8128bdfade175822fe703a39c47d19fe93/collections/GHS-BUILT-S-R2023A/cm_legend.png',
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
