@@ -800,6 +800,7 @@ export default {
         let currentFeatureData;
         if (currentFeatureObject) {
           // Merge info of feature object into indicator object as it overwrites some info
+          // TODO LUBO CHECK IF THIS OVERRIDE DOES NOT BREAK SOMETHING, DEMOITEMS WORK DIFFERENTLY
           indicatorObject = {
             ...indicatorObject,
             ...currentFeatureObject.properties.indicatorObject,

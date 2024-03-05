@@ -42,7 +42,7 @@ module.exports = [
         src: './eodash-data/general/cimbelli.png',
       },
       {
-        poi: 'W2-E12c',
+        poi: 'World-E12c',
         src: './eodash-data/general/new-trucks.png',
       },
     ],

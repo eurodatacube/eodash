@@ -140,7 +140,13 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
+              if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
+                this.setSelectedIndicator(null);
+                this.itemfilter.selectedResult = null;
+                this.itemfilter.requestUpdate();
+              } else {
+                this.setSelectedIndicator(item);
+              }
             },
           },
           trilateral: {
@@ -162,7 +168,13 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              this.setSelectedIndicator(item);
+              if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
+                this.setSelectedIndicator(null);
+                this.itemfilter.selectedResult = null;
+                this.itemfilter.requestUpdate();
+              } else {
+                this.setSelectedIndicator(item);
+              }
             },
           },
           gtif: {
