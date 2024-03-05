@@ -11,7 +11,7 @@
           header='["title"]'
           subheader='["keywords"]'
           properties='["themes", "satellite", "sensor", "agency", "links"]'
-          featured='["description", "providers", "extent", "sci:publications"]'
+          featured='["description", "providers", "extent", "sci:publications", "assets"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
           style="margin-left: -30px; margin-right: -30px;"
@@ -35,7 +35,7 @@
           </div>
           <div slot="links"
           v-if="stacInfoLoaded">
-            My custom link display:
+            Code examples:
             <li
               v-for="link in $refs.stacInfo.stacProperties.links.value.filter(
                 (l) => l.rel === 'example' || l.rel === 'license'
