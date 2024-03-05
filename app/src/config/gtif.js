@@ -518,9 +518,10 @@ export const indicatorsDefinition = Object.freeze({
   AQ1: {
     customAreaIndicator: true,
   },
-  AQ1_1: {
-    customAreaIndicator: true,
-  },
+  // commented out so that selection is disabled
+  // AQ1_1: {
+  //   customAreaIndicator: true,
+  // },
   AQ1_2: {
     customAreaIndicator: true,
   },
@@ -1111,7 +1112,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   return config;
 }
 
-function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
+function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis, selectionEnabled = true) {
   const config = {
     properties: {
       indicatorObject: {
@@ -1168,9 +1169,9 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
               return color;
             },
           },
-          selection: {
+          selection: selectionEnabled ? {
             mode: 'multiple',
-          },
+          } : false,
           tooltip: false,
           id: 'aggregated_trajs_model_satellite_v1',
           timeKey: 'timestamp',
@@ -1190,6 +1191,9 @@ function createSOL1Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,grexisting',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1255,6 +1259,9 @@ function createSOL2Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'pvusearea,pvexisting,pvpotentl,pveppmwhhp,pveppmwhrp,pveppmwhlp',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1303,6 +1310,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
@@ -1365,7 +1373,7 @@ export const globalIndicators = [
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-  }, 'satellite_values'),
+  }, 'satellite_values', false),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,

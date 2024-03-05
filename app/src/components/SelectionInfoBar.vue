@@ -116,7 +116,7 @@ export default {
     getFeatureName(item, i) {
       const props = item.getProperties();
       const key = Object.keys(props).find(
-        (k) => ['name', 'nuts_name', 'id'].includes(k.toLowerCase()),
+        (k) => ['name', 'nuts_name', 'id', 'object_id'].includes(k.toLowerCase()),
       );
       if (props[key]) {
         return props[key];

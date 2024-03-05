@@ -32,7 +32,12 @@
         v-for="(item, index) in additionalGTIFDataInfos"
             :key="item.dataInfo">
         <v-expansion-panel-header>
-          {{item.name || item.label}} <v-icon>mdi-information-outline</v-icon>
+          {{item.name || item.label}}
+          <template v-slot:actions>
+            <v-icon>
+              mdi-information-outline
+            </v-icon>
+          </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div

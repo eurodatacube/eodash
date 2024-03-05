@@ -269,6 +269,9 @@
           </v-text-field>
         </v-card>
       </v-col>
+      <GTIFProcessingButtons
+      v-if="mergedConfigsData[0].processingEnabled">
+      </GTIFProcessingButtons>
     </div>
   </div>
 </template>
@@ -290,6 +293,7 @@ import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
+import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
 
 export default {
   components: {
@@ -303,6 +307,7 @@ export default {
     // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
+    GTIFProcessingButtons,
   },
   data: () => ({
     overlay: false,

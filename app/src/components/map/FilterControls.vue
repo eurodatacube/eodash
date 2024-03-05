@@ -245,42 +245,6 @@
           </v-list>
         </v-menu>
       </div>
-      <v-row v-if="processEnabled" class="pa-3 justify-center" style="margin-top:10px;">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                small
-                :disabled="adminSelected"
-                :loading="zonesLoading"
-                color="primary"
-                class="mr-3"
-                @click="fetchData('zones')"
-              >
-                Export best zones
-              </v-btn>
-            </div>
-            </template>
-            <span>{{ this.hoverText() }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                small
-                :disabled="adminSelected"
-                :loading="reportLoading"
-                color="primary"
-                class="mr-3"
-                @click="fetchData('report')"
-              >
-                Create report
-              </v-btn>
-            </div>
-            </template>
-            <span>{{ this.hoverText() }}</span>
-        </v-tooltip>
-      </v-row>
     </v-card>
   </v-col>
 </template>
@@ -305,30 +269,10 @@ export default {
       select: null,
       variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
       originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
-      reportLoading: false,
-      zonesLoading: false,
       layerSourceDidRefresh: false,
     };
   },
   computed: {
-    processEnabled() {
-      return this.mergedConfigsData?.processingEnabled;
-    },
-    adminSelected() {
-      let selection = null;
-      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
-        selection = true;
-      }
-      let disabled = true;
-      if (selection !== null) {
-        disabled = false;
-      }
-      // Check if other button is loading
-      if (this.zonesLoading || this.reportLoading) {
-        disabled = true;
-      }
-      return disabled;
-    },
     filtersChanged() {
       let fchanged = false;
       Object.keys(this.cogFilters.filters).forEach((key) => {
@@ -352,11 +296,19 @@ export default {
     this.throttledUpdate = throttle((evt, filterId, index) => {
       this.updateMap(evt, filterId, index);
     }, 150);
+    window.addEventListener(
+      'fetch-data-report',
+      this.handleFetchDataEvent,
+    );
   },
   mounted() {
   },
   beforeUnmount() {
     this.throttledUpdate.cancel();
+    window.removeEventListener(
+      'fetch-data-report',
+      this.handleFetchDataEvent,
+    );
   },
   watch: {
   },
@@ -372,11 +324,14 @@ export default {
       }
       return text;
     },
+    handleFetchDataEvent(e) {
+      this.fetchData(e.detail);
+    },
     fetchData(process) {
       if (process === 'zones') {
-        this.zonesLoading = true;
+        window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: true }));
       } else {
-        this.reportLoading = true;
+        window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: true }));
       }
       const baseUrl = `https://gtif-backend.hub.eox.at/${process}?`;
       const keyRenaming = {
@@ -424,12 +379,12 @@ export default {
         .then((res) => res.blob())
         .then((blob) => {
           saveAs(blob, `GTIF_${process}_${id}${fileExtension}`);
-          this.zonesLoading = false;
-          this.reportLoading = false;
+          window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: false }));
+          window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: false }));
         })
         .catch((error) => {
-          this.zonesLoading = false;
-          this.reportLoading = false;
+          window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: false }));
+          window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: false }));
           console.log(error);
         });
     },
@@ -515,9 +470,5 @@ export default {
 }
 .v-text-field__details {
   position: absolute;
-}
-
-::v-deep .compass .v-progress-circular__overlay {
-  transition: none !important;
 }
 </style>
