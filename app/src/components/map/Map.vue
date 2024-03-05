@@ -168,6 +168,7 @@
 import {
   mapGetters,
   mapState,
+  mapMutations,
 } from 'vuex';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
@@ -200,6 +201,7 @@ import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
+  loadIndicatorData,
   calculatePadding,
   findClosest,
   getFilteredInputData,
@@ -947,6 +949,13 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+      loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',
+    }),
+    ...mapMutations('features', {
+      setSelectedFeature: 'SET_SELECTED_FEATURE',
+    }),
     updateLayers(layerCollection, newLayers) {
       const layersToRemove = layerCollection.getArray()
         .filter((l) => !newLayers.find((nL) => (nL.get('name') === l.get('name') && nL.get('visible') === l.get('visible'))));
@@ -1059,7 +1068,7 @@ export default {
         this.updateTime(time, compare);
       });
     },
-    handleExternalMapMessage(event) {
+    async handleExternalMapMessage(event) {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         const { map } = getMapInstance(this.mapId);
@@ -1079,16 +1088,39 @@ export default {
         const { poi } = event.data;
         const aoiID = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
-
-        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-          const { indicatorObject } = f.properties;
-          return indicatorObject.aoiID === aoiID
-            && indicatorObject.indicator === indicatorCode;
-        });
-
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature
-          ? selectedFeature.properties.indicatorObject
-          : null);
+        const ind = this.indicators.find((f) => f.indicator === indicatorCode) || {};
+        if (aoiID !== 'World') {
+          // eslint-disable-next-line no-param-reassign
+          const objectM = {
+            ...ind,
+            aoiID,
+            disableExtraLoadingData: true,
+          };
+          // fetching the indicator here outside of App.vue watcher in order to
+          // get the features and select the matching one which was clicked in in the Panel
+          this.setSelectedIndicator(objectM);
+          const indicatorObject = await loadIndicatorData(
+            this.baseConfig,
+            objectM,
+          );
+          const currentFeatureObject = indicatorObject.features.find(
+            (feat) => feat.id === aoiID,
+          );
+          // should match if the appConfig is done correctly
+          if (currentFeatureObject) {
+            const test = {
+              indicatorObject: {
+                ...indicatorObject,
+                geoDBID: currentFeatureObject.properties.indicatorObject.geoDBID,
+              },
+            };
+            this.loadIndicatorFinished(indicatorObject);
+            // manually select the feature
+            this.setSelectedFeature(test);
+          }
+        } else {
+          this.setSelectedIndicator(ind);
+        }
       }
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
