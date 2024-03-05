@@ -3,9 +3,9 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <v-card v-if="GRStatistics">
+  <v-card v-if="GRStatistics || SRStatistics">
     <v-card-title class="pa-2">Aggregated statistics</v-card-title>
-  <div class="py-2" >
+  <div class="py-2" v-if="GRStatistics">
     <v-tabs
       v-model="tab"
       align-tabs="center"
@@ -31,8 +31,8 @@
                   <td> {{ v.lst30mme }} degrees C </td>
                 </tr>
                 <tr>
-                  <td> Total Roof area</td>
-                  <td> {{ v.roofArea }} m² </td>
+                  <td> Area of roofs where greening exists (computed on roof yes/no level, not on fraction level)</td>
+                  <td> {{ v.existingGRRoofArea }} m² </td>
                 </tr>
                 <tr>
                   <td> Potential Green Roof area with a slope &lt; 5 degree</td>
@@ -60,6 +60,53 @@
                   <td> Potential CO2 reduction due to saved energy
                     from green roof installation with a slope ≥ 20 and &lt; 45 degree</td>
                   <td> {{ v.co2red45 }} tons/year</td>
+                </tr>
+              </tbody>
+            </template>
+        </v-simple-table>
+      </v-tab-item>
+    </v-tabs>
+  </div>
+  <div class="py-2" v-if="SRStatistics">
+    <v-tabs
+      v-model="tab"
+      align-tabs="center"
+    >
+      <v-tab v-for="(v, k, i) in SRStatistics" :key="i" :value="k">{{k}}</v-tab>
+      <v-tab-item v-for="(v, k) in SRStatistics" :key="k">
+        <v-simple-table
+          v-model="tab">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Variable
+                  </th>
+                  <th class="text-left">
+                    Aggregated value
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> Potentially usable solar roof area </td>
+                  <td> {{ v.potentialSRRoofArea }} m² </td>
+                </tr>
+                <tr>
+                  <td> Area of roofs where solar power exists (computed on roof yes/no level, not on fraction level)</td>
+                  <td> {{ v.existingSRRoofArea }} m² </td>
+                </tr>
+                <tr>
+                  <td> Total electric power production potential - High Performance</td>
+                  <td> {{ v.pveppmwhhp }} MWh</td>
+                </tr>
+                <tr>
+                  <td> Total electric power production potential - Medium Performance</td>
+                  <td> {{ v.pveppmwhrp }} MWh</td>
+                </tr>
+                <tr>
+                  <td> Total electric power production potential - Low Performance</td>
+                  <td> {{ v.pveppmwhlp }} MWh</td>
                 </tr>
               </tbody>
             </template>
@@ -100,6 +147,7 @@ export default {
     show() {
       return this.selectedFeatures?.length && this.indicatorObject
       && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
+        'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
@@ -173,7 +221,10 @@ export default {
             })
             .finally(() => window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false })));
         }
-        if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(this.indicatorObject.indicator)) {
+        const solarRoofIndicator = ['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(this.indicatorObject.indicator);
+        const greenRoofIndicator = ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(this.indicatorObject.indicator);
+        if (solarRoofIndicator || greenRoofIndicator) {
+          const { selected } = this.indicatorObject.queryParameters;
           const zspStrings = [];
           const originalZsps = [];
           const gemIds = [];
@@ -193,12 +244,11 @@ export default {
           const ind = {
             ...this.indicatorObject,
             fetchedData: {},
-            time: [DateTime.fromISO('20220601')],
-            xAxis: 'Green roof existing [km²]',
-            yAxis: 'Green roof potential [km²]',
+            xAxis: `${solarRoofIndicator ? 'Solar' : 'Green'} roof potential [km²]`,
+            yAxis: `Total roofs where ${solarRoofIndicator ? 'solar power' : 'greening'} exists [km²]`,
             originalZsps,
             gemIds: {},
-            name: 'Existing Green Roofs / Potential',
+            name: `Potential area / Total roofs where ${solarRoofIndicator ? 'solar' : 'green'} exist`,
           };
           window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
           fetch(urlGem)
@@ -211,7 +261,7 @@ export default {
               });
             })
             .then(() => {
-              const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=roof_area,lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,${adminZoneKey}`;
+              const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer.selection.layer}?or=(${zspStrings.join(',')})&select=${selected},${adminZoneKey}`;
               fetch(expUrl)
                 .then((resp) => resp.json())
                 .then((json) => {
@@ -220,60 +270,106 @@ export default {
                     if (!Object.prototype.hasOwnProperty.call(
                       groupedBySelection, entry[adminZoneKey],
                     )) {
-                      groupedBySelection[entry[adminZoneKey]] = {
-                        roofArea: 0,
-                        grpotare5: 0,
-                        grpotare20: 0,
-                        grpotare45: 0,
-                        co2red05: 0,
-                        co2red20: 0,
-                        co2red45: 0,
-                        lst30mme: 0,
-                        count: 0,
-                      };
+                      if (greenRoofIndicator) {
+                        groupedBySelection[entry[adminZoneKey]] = {
+                          grpotare5: 0,
+                          grpotare20: 0,
+                          grpotare45: 0,
+                          co2red05: 0,
+                          co2red20: 0,
+                          co2red45: 0,
+                          lst30mme: 0,
+                          count: 0,
+                          existingGRRoofArea: 0,
+                        };
+                      } else if (solarRoofIndicator) {
+                        groupedBySelection[entry[adminZoneKey]] = {
+                          potentialSRRoofArea: 0,
+                          pveppmwhhp: 0,
+                          pveppmwhrp: 0,
+                          pveppmwhlp: 0,
+                          existingSRRoofArea: 0,
+                        };
+                      }
                     }
-                    // compute statistics
-                    groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
-                    groupedBySelection[entry[adminZoneKey]].roofArea += entry.roof_area / 1000000;
-                    groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5 / 1000000;
-                    groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20 / 1000000;
-                    groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45 / 1000000;
-                    groupedBySelection[entry[adminZoneKey]].co2red05 += entry.co2red_05;
-                    groupedBySelection[entry[adminZoneKey]].co2red20 += entry.co2red_20;
-                    groupedBySelection[entry[adminZoneKey]].co2red45 += entry.co2red_45;
-                    groupedBySelection[entry[adminZoneKey]].count += 1;
+                    if (solarRoofIndicator) {
+                      if (entry.pvexisting === 1) {
+                        groupedBySelection[entry[adminZoneKey]].existingSRRoofArea += entry.pvusearea / 1000000;
+                      }
+                      if (entry.pvpotentl === 1) {
+                        groupedBySelection[entry[adminZoneKey]].potentialSRRoofArea += entry.pvusearea / 1000000;
+                      }
+                      groupedBySelection[entry[adminZoneKey]].pveppmwhhp += entry.pveppmwhhp;
+                      groupedBySelection[entry[adminZoneKey]].pveppmwhrp += entry.pveppmwhrp;
+                      groupedBySelection[entry[adminZoneKey]].pveppmwhlp += entry.pveppmwhlp;
+                    } else if (greenRoofIndicator) {
+                      // compute statistics
+                      if (entry.grexisting === 1) {
+                        groupedBySelection[entry[adminZoneKey]].existingGRRoofArea += (entry.grpotare5 + entry.grpotare20 + entry.grpotare45) / 1000000;
+                      }
+                      groupedBySelection[entry[adminZoneKey]].lst30mme += entry.lst30mme;
+                      groupedBySelection[entry[adminZoneKey]].grpotare5 += entry.grpotare5 / 1000000;
+                      groupedBySelection[entry[adminZoneKey]].grpotare20 += entry.grpotare20 / 1000000;
+                      groupedBySelection[entry[adminZoneKey]].grpotare45 += entry.grpotare45 / 1000000;
+                      groupedBySelection[entry[adminZoneKey]].co2red05 += entry.co2red_05;
+                      groupedBySelection[entry[adminZoneKey]].co2red20 += entry.co2red_20;
+                      groupedBySelection[entry[adminZoneKey]].co2red45 += entry.co2red_45;
+                      groupedBySelection[entry[adminZoneKey]].count += 1;
+                    }
                   });
                   const statistics = {};
                   Object.keys(groupedBySelection).forEach((key) => {
-                    const {
-                      grpotare5, grpotare20, grpotare45, co2red05, co2red20, co2red45, roofArea,
-                    } = groupedBySelection[key];
-                    if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
-                      // for statistics consider only originally clicked ZSPs
-                      groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
-                      const { lst30mme } = groupedBySelection[key];
-                      statistics[key] = {
-                        lst30mme: lst30mme.toFixed(1),
-                        roofArea: (roofArea * 1000000).toFixed(0),
-                        grpotare5: (grpotare5 * 1000000).toFixed(0),
-                        grpotare20: (grpotare20 * 1000000).toFixed(0),
-                        grpotare45: (grpotare45 * 1000000).toFixed(0),
-                        co2red05: co2red05.toFixed(0),
-                        co2red20: co2red20.toFixed(0),
-                        co2red45: co2red45.toFixed(0),
-                      };
-                    }
                     const gemId = Math.floor(parseInt(key, 10) / 1000);
                     if (!Object.prototype.hasOwnProperty.call(ind.fetchedData, gemId)) {
                       ind.fetchedData[gemId] = {};
                     }
-                    // group all entries by gemeinde
-                    ind.fetchedData[gemId][key] = {
-                      measurement: [grpotare5 + grpotare20 + grpotare45],
-                      referenceValue: [roofArea],
-                    };
+                    const {
+                      grpotare5, grpotare20, grpotare45, co2red05, co2red20, co2red45, existingGRRoofArea,
+                      pveppmwhhp, pveppmwhrp, pveppmwhlp, existingSRRoofArea, potentialSRRoofArea,
+                    } = groupedBySelection[key];
+                    if (originalZsps.map((ftr) => ftr.getId()).includes(parseInt(key, 10))) {
+                      if (greenRoofIndicator) {
+                        // for statistics consider only originally clicked ZSPs
+                        groupedBySelection[key].lst30mme /= groupedBySelection[key].count;
+                        const { lst30mme } = groupedBySelection[key];
+                        statistics[key] = {
+                          lst30mme: lst30mme.toFixed(1),
+                          existingGRRoofArea: (existingGRRoofArea * 1000000).toFixed(0),
+                          grpotare5: (grpotare5 * 1000000).toFixed(0),
+                          grpotare20: (grpotare20 * 1000000).toFixed(0),
+                          grpotare45: (grpotare45 * 1000000).toFixed(0),
+                          co2red05: co2red05.toFixed(0),
+                          co2red20: co2red20.toFixed(0),
+                          co2red45: co2red45.toFixed(0),
+                        };
+                      } else if (solarRoofIndicator) {
+                        statistics[key] = {
+                          pveppmwhhp: pveppmwhhp.toFixed(0),
+                          pveppmwhrp: pveppmwhrp.toFixed(0),
+                          pveppmwhlp: pveppmwhlp.toFixed(0),
+                          existingSRRoofArea: (existingSRRoofArea * 1000000).toFixed(0),
+                          potentialSRRoofArea: (potentialSRRoofArea * 1000000).toFixed(0),
+                        };
+                      }
+                    }
+                    if (greenRoofIndicator) {
+                      ind.fetchedData[gemId][key] = {
+                        potential: [grpotare5 + grpotare20 + grpotare45],
+                        totalroof: [existingGRRoofArea],
+                      };
+                    } else if (solarRoofIndicator) {
+                      ind.fetchedData[gemId][key] = {
+                        potential: [potentialSRRoofArea],
+                        totalroof: [existingSRRoofArea],
+                      };
+                    }
                   });
-                  this.GRStatistics = statistics;
+                  if (solarRoofIndicator) {
+                    this.SRStatistics = statistics;
+                  } else if (greenRoofIndicator) {
+                    this.GRStatistics = statistics;
+                  }
+
                   this.$store.commit(
                     'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
                   );
@@ -281,44 +377,6 @@ export default {
                 .finally(() => {
                   window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
                 });
-            });
-        }
-        if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(this.indicatorObject.indicator)) {
-          const description = 'PV Power potential [MWh]';
-          const adminIds = [];
-          features.forEach((ftr) => {
-            adminIds.push(ftr.getId());
-          });
-          const { sourceLayer } = this.indicatorObject.wmsStyles;
-          const { adminZoneKey } = this.indicatorObject.display[0];
-          const expUrl = `https://xcube-geodb.brockmann-consult.de/gtif/f0ad1e25-98fa-4b82-9228-815ab24f5dd1/${sourceLayer}?${adminZoneKey}=in.(${adminIds.join(',')})&select=roof_area,pveppmwhhp,${adminZoneKey}`;
-          fetch(expUrl)
-            .then((resp) => resp.json())
-            .then((json) => {
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-                colorCode: [],
-              };
-              json.sort((a, b) => (
-                DateTime.fromISO(a.time).toMillis() - DateTime.fromISO(b.time).toMillis()
-              ));
-              json.forEach((entry) => {
-                newData.time.push(DateTime.fromISO('20220601'));
-                newData.measurement.push(entry.pveppmwhhp);
-                newData.referenceValue.push(entry.roof_area);
-              });
-              const ind = {
-                ...this.indicatorObject,
-                ...newData,
-                xAxis: 'Roof area [m²]',
-              };
-              ind.yAxis = description;
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
         if (['AQ1',
