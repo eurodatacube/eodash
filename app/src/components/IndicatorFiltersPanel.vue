@@ -146,7 +146,13 @@ export default {
           trilateral: {
             titleProperty: 'name',
             filterProperties: [
-              // { key: 'themes', title: 'Theme' },
+              {
+                keys: ['name', 'description', 'themes'],
+                title: 'Search',
+                type: 'text',
+                expanded: true,
+                featured: true,
+              },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Sensor' },

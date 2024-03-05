@@ -66,7 +66,7 @@
         :compare-active.sync="enableCompare"
         :compare-time.sync="compareLayerTime"
         :original-time.sync="dataLayerTime"
-        :enable-compare="!mergedConfigsData[0].disableCompare"
+        :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
@@ -342,7 +342,8 @@ export default {
     },
     displayTimeSelection() {
       return (
-          this.featureData?.time
+        !this.indicator?.disableTimeSelection
+          && this.featureData?.time
           && this.featureData.time?.length > 1
       ) || (
         this.indicator?.time?.length > 1

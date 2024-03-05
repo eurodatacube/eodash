@@ -157,6 +157,19 @@ export default {
     };
   },
   mounted() {
+    const indicator = { ...this.indicatorObject };
+    const featureData = this.dataObject;
+    if (indicator && featureData) {
+      const indicatorCode = indicator.indicator;
+      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+        const d = featureData.time[featureData.time.length - 1];
+        const formatted = d?.toFormat('dd. MMM');
+        this.dataLayerTime = {
+          value: formatted,
+          name: formatted,
+        };
+      }
+    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -226,14 +239,6 @@ export default {
       let labels = [];
       const datasets = [];
       if (indicator && featureData) {
-        if (['E10a3', 'E10a8'].includes(indicatorCode)) {
-          const d = featureData.time[featureData.time.length - 1];
-          const formatted = d?.toFormat('dd. MMM');
-          this.dataLayerTime = {
-            value: formatted,
-            name: formatted,
-          };
-        }
         const { measurement } = featureData;
         const colors = [];
 
