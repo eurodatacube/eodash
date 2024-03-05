@@ -68,7 +68,9 @@ export default {
         // We use the button as "reset" function
         this.setCurrentDomain(null);
         this.setSelectedIndicator(null);
-        // TODO: also reset map extent, other things we need to reset?
+        window.postMessage({
+          command: 'map:reset',
+        });
       }
     },
   },
