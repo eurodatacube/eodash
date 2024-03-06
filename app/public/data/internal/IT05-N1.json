@@ -1571,5 +1571,60 @@
         "reference_time": "2023-11-13T00:00:00",
         "reference_value": "[151.45807, 34.70646, 239.76843, 94.56767, 100.0]",
         "time": "2023-11-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "176.43544",
+        "reference_time": "2023-11-27T00:00:00",
+        "reference_value": "[173.60818, 25.462914, 240.1529, 130.06255, 100.0]",
+        "time": "2023-11-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "152.98082",
+        "reference_time": "2023-12-11T00:00:00",
+        "reference_value": "[162.58563, 38.317764, 217.94577, 86.60345, 100.0]",
+        "time": "2023-12-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "114.87105",
+        "reference_time": "2023-12-25T00:00:00",
+        "reference_value": "[120.554794, 32.464844, 177.57933, 62.22309, 100.0]",
+        "time": "2023-12-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "205.24813999999998",
+        "reference_time": "2024-01-08T00:00:00",
+        "reference_value": "[204.71841, 39.771473, 297.02505, 135.07227, 100.0]",
+        "time": "2024-01-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "271.62207",
+        "reference_time": "2024-01-22T00:00:00",
+        "reference_value": "[275.01822, 46.787487, 374.79553, 181.88342, 100.0]",
+        "time": "2024-01-22T00:00:00"
     }
 ]
