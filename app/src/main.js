@@ -28,7 +28,7 @@ import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 import '@eox/layercontrol';
-import "@eox/jsonform";
+import '@eox/jsonform';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
