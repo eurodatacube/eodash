@@ -1571,5 +1571,60 @@
         "reference_time": "2023-11-13T00:00:00",
         "reference_value": "[53.988224, 26.89751, 158.62245, 0.020656247, 99.8048780487805]",
         "time": "2023-11-13T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "131.16188",
+        "reference_time": "2023-11-27T00:00:00",
+        "reference_value": "[119.88462, 61.080437, 343.89328, 48.694508, 100.0]",
+        "time": "2023-11-27T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "17.933426",
+        "reference_time": "2023-12-11T00:00:00",
+        "reference_value": "[17.098679, 11.517419, 59.840813, 0.16875581, 52.87804878048781]",
+        "time": "2023-12-11T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "11.831727",
+        "reference_time": "2023-12-25T00:00:00",
+        "reference_value": "[9.448712, 9.19332, 50.57315, 0.018466232, 77.65853658536585]",
+        "time": "2023-12-25T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "78.319244",
+        "reference_time": "2024-01-08T00:00:00",
+        "reference_value": "[73.8838, 19.666296, 127.69362, 21.280407, 100.0]",
+        "time": "2024-01-08T00:00:00"
+    },
+    {
+        "color_code": "/",
+        "data_provider": "EMSS",
+        "eo_sensor": "TROPOMI",
+        "indicator_value": "/",
+        "input_data": "Sentinel-5p Level-3 NO2",
+        "measurement_value": "19.237576999999998",
+        "reference_time": "2024-01-22T00:00:00",
+        "reference_value": "[18.609913, 8.977315, 44.566124, 0.17018662, 98.73170731707317]",
+        "time": "2024-01-22T00:00:00"
     }
 ]
