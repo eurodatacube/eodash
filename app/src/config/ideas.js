@@ -311,18 +311,31 @@ export const globalIndicators = [
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
           features: {
-            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm_hospitals_schools.png',
-            name: 'OpenStreetMap hospitals, schools',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
+            name: 'OpenStreetMap selected features',
             styleFunction: (feature) => {
-              const amenity = feature.get('amenity');
+              const colormapping = {
+                amenity: {
+                  hospital: '#003247',
+                  school: '#7d0240',
+                },
+                man_made: {
+                  storage_tank: '#a15f0a',
+                },
+                building: {
+                  residential: '#00ad0e',
+                },
+              };
+              // find first matching feature property and get color
+              const matchKey = Object.keys(colormapping).find((key) => feature.get(key));
+              const color = colormapping[matchKey][feature.get(matchKey)];
               const radius = 4;
               const fill = new Fill({
                 color: 'rgba(255, 255, 255, 0.25)',
               });
               const stroke = new Stroke({
                 width: 3,
-                // hospital vs schools
-                color: amenity === 'hospital' ? '#003247' : '#7d0240',
+                color,
               });
               const style = new Style({
                 image: new Circle({
@@ -335,10 +348,12 @@ export const globalIndicators = [
               });
               return style;
             },
-            allowedParameters: ['name', 'amenity'],
+            allowedParameters: ['name', 'amenity', 'man_made', 'building'],
             ...overpassApiQueryTags([
               { key: 'amenity', value: 'school', selected: true },
-              { key: 'amenity', value: 'hospital', selected: true }]),
+              { key: 'amenity', value: 'hospital', selected: true },
+              { key: 'man_made', value: 'storage_tank', selected: true },
+              { key: 'building', value: 'residential', selected: false }]),
           },
         },
       },
