@@ -1,5 +1,3 @@
-import getLocationCode from '@/mixins/getLocationCode';
-
 import stories from '../../config/stories.json';
 import themes from '../../config/themes.json';
 
@@ -11,7 +9,6 @@ const brandConfig = (b !== undefined) ? b : appConfig[0];
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 const state = {
   currentTheme: null,
-  currentPOIsIncludedInTheme: [],
   stories,
   themes: themes[brandConfig.id],
 };
@@ -40,25 +37,11 @@ const mutations = {
     }
     state.currentTheme = theme;
   },
-
-  SET_CURRENT_THEME_POIS(state, pois) {
-    state.currentPOIsIncludedInTheme = pois;
-  },
 };
 
 const actions = {
-  async loadTheme({ commit, rootState }, theme) {
+  async loadTheme({ commit }, theme) {
     commit('SET_CURRENT_THEME', theme);
-    let storyIDs = [];
-    if (theme) {
-      const indicators = rootState.config.baseConfig.indicatorsDefinition;
-
-      storyIDs = rootState.features.allFeatures
-        .filter((f) => indicators[f.properties.indicatorObject.indicator].themes.includes(theme))
-        .map((f) => getLocationCode(f.properties.indicatorObject));
-    }
-    commit('SET_CURRENT_THEME_POIS', storyIDs);
-    commit('features/SET_FEATURE_FILTER', { themes: theme ? [theme] : [] }, { root: true });
   },
 };
 

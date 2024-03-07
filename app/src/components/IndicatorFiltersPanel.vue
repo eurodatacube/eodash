@@ -119,6 +119,13 @@ export default {
       };
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
+        const themesPresetState = {};
+        const anySelectedTheme = this.$store.state.themes.currentTheme;
+        if (anySelectedTheme) {
+          themesPresetState.state = {
+            [anySelectedTheme.slug]: true,
+          };
+        }
         const configs = {
           esa: {
             titleProperty: 'name',
@@ -153,7 +160,7 @@ export default {
             titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['name', 'description', 'themes'],
+                keys: ['name', 'description'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
@@ -164,6 +171,7 @@ export default {
               { key: 'sensor', title: 'Sensor' },
               { key: 'countries', title: 'Country' },
               { key: 'cities', title: 'City' },
+              { key: 'themes', title: 'Theme', ...themesPresetState },
             ],
             aggregateResults: 'themes',
             enableHighlighting: true,

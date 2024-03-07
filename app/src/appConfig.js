@@ -177,6 +177,18 @@ module.exports = [
     tutorialText: '/data/trilateral/tutorials',
     challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
+    customMetadataTransformer: (collectionLink) => {
+      const i = collectionLink.themes.findIndex((theme) => theme === 'air');
+      if (i !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        collectionLink.themes[i] = 'atmosphere';
+      }
+      const j = collectionLink.themes.findIndex((theme) => theme === 'water');
+      if (j !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        collectionLink.themes[j] = 'oceans';
+      }
+    },
     demoMode: {
       cop28: [
         {

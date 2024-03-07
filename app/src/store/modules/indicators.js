@@ -105,6 +105,9 @@ const actions = {
               inputData: [],
               yAxis: link.yAxis,
             };
+            if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
+              rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+            }
             // For now we try to fetch the additional information form the config
             // TODO: Replace as much configuration as possible by STAC information
             rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
