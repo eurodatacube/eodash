@@ -1912,7 +1912,6 @@ export const globalIndicators = [
           },
         ],
         display: {
-          dataInfo: 'FCM2',
           protocol: 'cog',
           id: 'FCM2',
           sources: [

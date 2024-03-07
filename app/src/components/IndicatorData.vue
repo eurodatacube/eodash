@@ -710,51 +710,53 @@ export default {
               data,
             });
           }
-          referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
-            const data = [];
-            featureData.referenceValue.forEach((item, rowIdx) => {
-              const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
-              if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
-                let obj;
-                if ('valueDecompose' in referenceDecompose[indicatorCode]) {
-                  obj = referenceDecompose[indicatorCode].valueDecompose(item);
+          if ('referenceData' in referenceDecompose[indicatorCode]) {
+            referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
+              const data = [];
+              featureData.referenceValue.forEach((item, rowIdx) => {
+                const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
+                if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
+                  let obj;
+                  if ('valueDecompose' in referenceDecompose[indicatorCode]) {
+                    obj = referenceDecompose[indicatorCode].valueDecompose(item);
+                  } else {
+                    obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+                  }
+                  if (obj[0] === -999 && obj[1] === -999) {
+                    data.push({
+                      t: usedTime,
+                      y: Number.NaN,
+                    });
+                  } else if ('index' in entry) {
+                    data.push({
+                      t: usedTime,
+                      y: obj[entry.index],
+                    });
+                  } else if ('calc' in entry) {
+                    data.push({
+                      t: usedTime,
+                      y: entry.calc(featureData.measurement[rowIdx], obj),
+                    });
+                  }
                 } else {
-                  obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-                }
-                if (obj[0] === -999 && obj[1] === -999) {
                   data.push({
                     t: usedTime,
                     y: Number.NaN,
                   });
-                } else if ('index' in entry) {
-                  data.push({
-                    t: usedTime,
-                    y: obj[entry.index],
-                  });
-                } else if ('calc' in entry) {
-                  data.push({
-                    t: usedTime,
-                    y: entry.calc(featureData.measurement[rowIdx], obj),
-                  });
                 }
-              } else {
-                data.push({
-                  t: usedTime,
-                  y: Number.NaN,
-                });
-              }
+              });
+              datasets.push({
+                label: entry.key,
+                data,
+                borderColor: entry.color,
+                backgroundColor: entry.color,
+                borderWidth: 1,
+                pointRadius: 0,
+                spanGaps: false,
+                ...entry,
+              });
             });
-            datasets.push({
-              label: entry.key,
-              data,
-              borderColor: entry.color,
-              backgroundColor: entry.color,
-              borderWidth: 1,
-              pointRadius: 0,
-              spanGaps: false,
-              ...entry,
-            });
-          });
+          }
         }
 
         // Add special points for N3
