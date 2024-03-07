@@ -708,26 +708,26 @@ export const indicatorsDefinition = Object.freeze({
   },
   Lakes_WQ_TURB: {
     indicatorSummary: 'Water Quality Turbidity mean Lakes',
-    story: '/data/trilateral/stories/Lakes_WQ_TURB',
+    story: '/data/trilateral/Lakes_WQ_TURB',
     themes: ['oceans'],
   },
   Lakes_WQ_TC: {
     indicatorSummary: 'Water Quality True color Lakes',
-    story: '/data/trilateral/stories/Lakes_WQ_TC',
+    story: '/data/trilateral/Lakes_WQ_TC',
     themes: ['oceans'],
   },
   Lakes_SWT: {
     indicatorSummary: 'Surface Water Temperature Maps',
-    story: '/data/trilateral/stories/Lakes_SWT',
+    story: '/data/trilateral/Lakes_SWT',
     themes: ['oceans'],
   },
   Lakes_SWTT: { // still depends on table content
     indicatorSummary: 'Surface Water Temperature Time Series',
-    story: '/data/trilateral/stories/Lakes_SWTT', // stays
+    story: '/data/trilateral/Lakes_SWTT', // stays
     themes: ['oceans'],
   },
   sen4ama: {
-    story: '/data/trilateral/stories/sen4ama',
+    story: '/data/trilateral/sen4ama',
     themes: ['biomass'],
   },
   d: { // dummy for locations without Indicator code
