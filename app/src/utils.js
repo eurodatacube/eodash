@@ -209,6 +209,8 @@ function createVectorTileDisplay(config) {
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature;
+  const indicatorObjectWorkingWith = store.state.indicators.selectedIndicator
+    || indicatorObject;
   let display = {};
   if (indicatorObject.locations) {
     const response = await fetch(indicatorObject.link);
@@ -222,51 +224,49 @@ export async function loadFeatureData(baseConfig, feature) {
     times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     // We set the times and display configuration for the indicators
     // Items can have display configurations when the Locations config was used in the catalog
-    if (store.state.indicators.selectedIndicator) {
-      store.state.indicators.selectedIndicator.time = times;
-      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
-      const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
-      if (wmsEndpoint) {
-        display = createWMSDisplay(
-          wmsEndpoint, jsonData.id,
+    indicatorObjectWorkingWith.time = times;
+    const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+    const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    if (wmsEndpoint) {
+      display = createWMSDisplay(
+        wmsEndpoint, jsonData.id,
+      );
+      if (jsonData.endpointtype === 'Sentinel Hub'
+        || jsonData.endpointtype === 'Sentinel Hub WMS') {
+        display.dateFormatFunction = shTimeFunction;
+      }
+      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+        display.legendUrl = jsonData.assets.legend.href;
+      }
+    } else if (xyzEndpoint) {
+      if (xyzEndpoint.type === 'image/png') {
+        display = createXYZDisplay(
+          xyzEndpoint, jsonData,
         );
-        if (jsonData.endpointtype === 'Sentinel Hub'
-          || jsonData.endpointtype === 'Sentinel Hub WMS') {
-          display.dateFormatFunction = shTimeFunction;
-        }
-        if ('assets' in jsonData && 'legend' in jsonData.assets) {
-          display.legendUrl = jsonData.assets.legend.href;
-        }
-      } else if (xyzEndpoint) {
-        if (xyzEndpoint.type === 'image/png') {
-          display = createXYZDisplay(
-            xyzEndpoint, jsonData,
-          );
-          const cogTimes = [];
-          jsonData.links.forEach((link) => {
-            if (link.rel === 'item') {
-              let time;
-              if (link.datetime) {
-                time = link.datetime;
-              } else if (link.start_datetime) {
-                time = link.start_datetime;
-              }
-              if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
-                cogTimes.push([
-                  time,
-                  link.item,
-                ]);
-              } else {
-                cogTimes.push([
-                  time,
-                  link.cog_href,
-                ]);
-              }
+        const cogTimes = [];
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
             }
-          });
-          cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
-          store.state.indicators.selectedIndicator.time = cogTimes;
-        }
+            if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+              cogTimes.push([
+                time,
+                link.item,
+              ]);
+            } else {
+              cogTimes.push([
+                time,
+                link.cog_href,
+              ]);
+            }
+          }
+        });
+        cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+        indicatorObjectWorkingWith.time = cogTimes;
       }
     }
     // Check for possible processing configuration in examples
@@ -319,7 +319,7 @@ export async function loadFeatureData(baseConfig, feature) {
       type: 'FeatureCollection',
       features: [features],
     };
-    store.state.indicators.selectedIndicator.display = display;
+    indicatorObjectWorkingWith.display = display;
   } else {
     // Fetch data from geodb
     const geodbUrl = baseConfig.geoDBFeatureParameters.url;
@@ -444,6 +444,9 @@ export async function loadFeatureData(baseConfig, feature) {
         parsedData[key] = indices.map((index) => parsedData[key][index]);
       }
     });
+  }
+  if (!store.state.indicators.selectedIndicator) {
+    parsedData.indicatorObject = indicatorObject;
   }
   return parsedData;
 }

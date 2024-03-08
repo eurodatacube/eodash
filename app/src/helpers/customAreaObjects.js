@@ -360,7 +360,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,
@@ -413,7 +412,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,
@@ -442,7 +440,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,

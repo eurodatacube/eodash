@@ -181,14 +181,6 @@
                   v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :featureObject="featureObject"
-                  :zoom="zoom"
-                  :center="center"
-                  :direction="direction"
-                  :position="position"
-                  :right="right"
-                  :up="up"
-                  :datalayertime="datalayertime"
-                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
                 />
               </div>
             </v-col>
@@ -289,7 +281,6 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-// import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
@@ -304,27 +295,15 @@ export default {
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
-    // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
     GTIFProcessingButtons,
   },
   data: () => ({
-    overlay: false,
     mounted: false,
-    zoom: null,
-    center: null,
-    direction: null,
-    position: null,
-    right: null,
-    up: null,
     frozenLayerName: null,
-    datalayertime: null,
-    comparelayertime: null,
-    compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
-    showScatterplot: null,
     updateQueryParametersTrigger: null,
   }),
   computed: {

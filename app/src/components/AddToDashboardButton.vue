@@ -155,9 +155,7 @@ export default {
           // dashboard entries
           || poiValue,
         width: 4,
-        includesIndicator: this.indicatorObject.includesIndicator,
-        ...(this.indicatorObject.includesIndicator
-          && { indicatorObject: this.indicatorObject }),
+        ...{ indicatorObject: this.indicatorObject },
         title: this.title,
         ...(this.indicatorObject.showGlobe && {
           mapInfo: {
