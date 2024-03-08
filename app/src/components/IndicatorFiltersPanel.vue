@@ -18,8 +18,6 @@ import {
   mapActions,
 } from 'vuex';
 
-// import countries from '@/assets/countries.json';
-
 export default {
   data: () => ({
     searchItems: [],
@@ -115,7 +113,6 @@ export default {
         'sustainable cities': 2,
         'carbon accounting': 3,
         'EO adaptation services': 4,
-        // placeholder: 5,
       };
       this.$nextTick(() => {
         this.itemfilter = document.querySelector('eox-itemfilter');
@@ -147,13 +144,7 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
-                this.setSelectedIndicator(null);
-                this.itemfilter.selectedResult = null;
-                this.itemfilter.requestUpdate();
-              } else {
-                this.setSelectedIndicator(item);
-              }
+              this.toggleSelectedItem(item);
             },
           },
           trilateral: {
@@ -176,13 +167,7 @@ export default {
             aggregateResults: 'themes',
             enableHighlighting: true,
             onSelect: (item) => {
-              if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
-                this.setSelectedIndicator(null);
-                this.itemfilter.selectedResult = null;
-                this.itemfilter.requestUpdate();
-              } else {
-                this.setSelectedIndicator(item);
-              }
+              this.toggleSelectedItem(item);
             },
           },
           gtif: {
@@ -213,7 +198,7 @@ export default {
             },
             onSelect: (item) => {
               if (this.toolsToggle) {
-                this.setSelectedIndicator(item);
+                this.toggleSelectedItem();
               } else {
                 this.$router.push({ name: item.id });
               }
@@ -305,6 +290,19 @@ export default {
            }
         `;
       });
+    },
+    toggleSelectedItem(item) {
+      if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
+        this.setSelectedIndicator(null);
+        this.itemfilter.selectedResult = null;
+        this.itemfilter.requestUpdate();
+      } else {
+        // do not directly set item from filter because item highlighting via search
+        // field is adding html syntax to the "name" which we use elsewhere in the app
+        // pick an indicator based on match of unique collection link instead
+        const match = this.indicators.find((indicator) => item.link === indicator.link);
+        this.setSelectedIndicator(match);
+      }
     },
   },
   watch: {
