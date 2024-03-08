@@ -92,12 +92,8 @@ const actions = {
               sensor: link.sensor ? link.sensor : [],
               endpointType: link.endpointtype,
               locations: link.locations ? link.locations : false,
-              // TODO: This is usually used in the client to define if it is a global indicator
-              // it should be handled with a unique value
-              country: 'all',
               countries: link.countries ? link.countries : [],
               cities: link.cities ? link.cities : [],
-              // TODO: some default values we seem to need would be great if we can remove them
               subAoi: {
                 type: 'FeatureCollection',
                 features: [],

@@ -1651,42 +1651,6 @@ export default {
         customSettings.xAxisStacked = true;
       }
 
-      // Special tooltips case for generated charts that should have country
-      // defined as all (should not happen for normal charts)
-      if (this.indicatorObject.country === 'all') {
-        customSettings.tooltips = {
-          mode: 'label',
-          callbacks: {
-          label: function (context, data) { // eslint-disable-line
-              let label = data.datasets[context.datasetIndex].label || '';
-              if (label) {
-                label += ': ';
-              }
-              label += this.roundValueInd(Number(context.value));
-              if (label.includes('hide_') || label.includes('(STD)')) {
-                label = null;
-              }
-              return label;
-            }.bind(this),
-          afterBody:  (context, data) => { // eslint-disable-line
-              const extraStats = [];
-              // Check if we have additional statistical information
-              if ('sampleCount' in this.indicatorObject
-              && 'noDataCount' in this.indicatorObject) {
-                const percentageValid = 100 - ((
-                  this.indicatorObject.noDataCount[context[0].index]
-                / this.indicatorObject.sampleCount[context[0].index]
-                ) * 100);
-                extraStats.push(
-                  `Valid samples in AOI: ${this.roundValueInd(percentageValid)}%`,
-                );
-              }
-              return extraStats;
-            },
-          },
-        };
-      }
-
       if (['E10a3'].includes(indicatorCode)) {
         // Special tooltip information for this indicator
         customSettings.tooltips = {

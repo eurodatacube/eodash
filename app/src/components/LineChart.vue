@@ -76,7 +76,7 @@ export default {
               }, this);
               if (
                 !this.options.sameYearComparison
-                && this.options.country !== 'all'
+                && this.options.country
                 && !this.options.hideRestrictions
               ) {
                 labelObjects.push({
