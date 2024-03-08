@@ -347,6 +347,7 @@ export default {
         !this.indicator?.disableTimeSelection
           && this.featureData?.time
           && this.featureData.time?.length > 1
+          && this.indicatorHasMapData(this.indicator, this.featureObject)
       ) || (
         this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
