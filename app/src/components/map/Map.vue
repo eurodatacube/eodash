@@ -101,7 +101,11 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-
+      <LayerControl
+        v-if="loaded && mapId !== 'centerMap'"
+        class="pointerEvents"
+        :mapId="mapId"
+      />
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded && mapId === 'centerMap'"
@@ -170,6 +174,7 @@ import {
   mapState,
   mapMutations,
 } from 'vuex';
+import LayerControl from '@/components/map/LayerControl.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
@@ -212,6 +217,7 @@ const geoJsonFormat = new GeoJSON({
 
 export default {
   components: {
+    LayerControl,
     FullScreenControl,
     ZoomControl,
     SpecialLayer,
