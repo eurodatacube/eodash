@@ -145,21 +145,11 @@ const polarStereographicProjection = {
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
-  name: 'FNF PALSAR2 World Yearly',
   projection: 'EPSG:3857',
-  legendUrl: './data/trilateral/fnf-map-legend.png',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
   minZoom: 1,
   maxZoom: 18,
-  presetView: {
-    type: 'FeatureCollection',
-    features: [{
-      type: 'Feature',
-      properties: {},
-      geometry: wkt.read('POLYGON((-94 20,50 20,50 -40,-94 -40,-94 20))').toJson(),
-    }],
-  },
 });
 
 export const indicatorsDefinition = Object.freeze({
@@ -513,11 +503,6 @@ export const indicatorsDefinition = Object.freeze({
     indicatorSummary: 'PRC',
     story: '/eodash-data/stories/PRC',
     themes: ['agriculture'],
-  },
-  FNF: {
-    indicatorSummary: 'FNF',
-    story: '/eodash-data/stories/FNF',
-    themes: ['biomass'],
   },
   PRCG: {
     indicatorSummary: 'PRCG',
@@ -1114,7 +1099,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1168,7 +1152,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'W8',
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1230,7 +1213,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'W9',
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1278,7 +1260,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         aoiID: 'SO2',
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1317,7 +1298,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1347,7 +1327,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -1447,7 +1426,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1475,7 +1453,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1504,7 +1481,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1532,7 +1508,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1560,7 +1535,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1588,7 +1562,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'Global',
         siteName: 'global',
@@ -1616,7 +1589,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic_ESA',
         country: ['HR', 'IT', 'SI'],
@@ -1661,7 +1633,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic_NASA',
         country: ['HR', 'IT', 'SI'],
@@ -1704,7 +1675,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriatic_JAXA',
         country: ['HR', 'IT', 'SI'],
@@ -1749,7 +1719,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
         aoiID: 'US03',
         country: ['US'],
@@ -1782,7 +1751,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         aoiID: 'US04',
         country: ['US'],
@@ -1815,7 +1783,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         aoiID: 'JP01',
         country: ['JP'],
@@ -1859,7 +1826,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDelta',
         country: ['FR'],
@@ -1903,7 +1869,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
         aoiID: 'JP04',
         country: ['JP'],
@@ -1947,7 +1912,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
         aoiID: 'JP02',
         country: ['JP'],
@@ -1991,7 +1955,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM_ESA',
         country: ['HR', 'IT', 'SI'],
@@ -2036,7 +1999,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.05, 29.9]),
         aoiID: 'DanubeDelta',
         country: ['RO'],
@@ -2081,7 +2043,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.05, 29.9]),
         aoiID: 'DanubeDelta',
         country: ['RO'],
@@ -2126,7 +2087,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([43.4, 4.94000]),
         aoiID: 'RhoneDeltaTSM',
         country: ['FR'],
@@ -2170,7 +2130,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticSST',
         country: ['HR', 'IT', 'SI'],
@@ -2215,7 +2174,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([43.4, 4.94]),
         aoiID: 'RhoneDeltaSST',
         country: ['FR'],
@@ -2260,7 +2218,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'BarcelonaSST',
         country: ['ES'],
@@ -2305,7 +2262,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.05, 29.9]),
         aoiID: 'DanubeDeltaSST',
         country: ['RO'],
@@ -2349,7 +2305,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
         aoiID: 'US03SPM',
         country: ['US'],
@@ -2383,7 +2338,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM_JAXA',
         country: ['HR', 'IT', 'SI'],
@@ -2428,7 +2382,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         aoiID: 'JP01TSM',
         country: ['JP'],
@@ -2472,7 +2425,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.7, 136.9]),
         aoiID: 'JP04TSM',
         country: ['JP'],
@@ -2516,7 +2468,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.35, 135]),
         aoiID: 'JP02TSM',
         country: ['JP'],
@@ -2560,7 +2511,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([45.19752, 13.02978]),
         aoiID: 'NorthAdriaticTSM_NASA',
         country: ['HR', 'IT', 'SI'],
@@ -2601,7 +2551,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         aoiID: 'US04TSM',
         country: ['US'],
@@ -2634,7 +2583,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -2674,7 +2622,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([6.13333, 1.21666]),
         aoiID: 'TG01',
         country: ['TG'],
@@ -2708,7 +2655,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([39.9, 116.38]),
         aoiID: 'CN01',
         country: ['CN'],
@@ -2745,7 +2691,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([38.90472, -77.01638]),
         aoiID: 'US10',
         country: ['US'],
@@ -2782,7 +2727,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([51.03613, 2.28537]),
         aoiID: 'FR03',
         country: ['FR'],
@@ -2819,7 +2763,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([51.09155, 3.74008]),
         aoiID: 'BE03',
         country: ['BE'],
@@ -2856,7 +2799,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([35.61, 139.78]),
         aoiID: 'JP01',
         country: ['JP'],
@@ -2893,7 +2835,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([6.13333, 1.21666]),
         aoiID: 'TG01',
         country: ['TG'],
@@ -2930,7 +2871,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.05, -118.25]),
         aoiID: 'US02',
         country: ['US'],
@@ -2967,7 +2907,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([-6.8, 39.28333]),
         aoiID: 'TZ01',
         country: ['TZ'],
@@ -3004,7 +2943,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([41.0114, -73.09]),
         aoiID: 'US04',
         country: ['US'],
@@ -3041,7 +2979,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
         aoiID: 'US03',
         country: ['US'],
@@ -3078,7 +3015,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([38.715, -121.944]),
         aoiID: 'US06',
         country: ['US'],
@@ -3115,7 +3051,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([33.94, -118.41]),
         aoiID: 'US021',
         country: ['US'],
@@ -3142,7 +3077,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.057, -117.6]),
         aoiID: 'US022',
         country: ['US'],
@@ -3169,7 +3103,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.622, -122.378]),
         aoiID: 'US031',
         country: ['US'],
@@ -3196,7 +3129,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.363, -121.93]),
         aoiID: 'US032',
         country: ['US'],
@@ -3223,7 +3155,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.722, -122.226]),
         aoiID: 'US033',
         country: ['US'],
@@ -3250,7 +3181,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.6585, -122.121]),
         aoiID: 'US034',
         country: ['US'],
@@ -3277,7 +3207,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([38.216, -122.276]),
         aoiID: 'US035',
         country: ['US'],
@@ -3304,7 +3233,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([38.144, -122.557]),
         aoiID: 'US036',
         country: ['US'],
@@ -3331,7 +3259,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.99, -122.057]),
         aoiID: 'US037',
         country: ['US'],
@@ -3358,7 +3285,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.642, -73.788]),
         aoiID: 'US041',
         country: ['US'],
@@ -3385,7 +3311,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.689, -74.172]),
         aoiID: 'US042',
         country: ['US'],
@@ -3412,7 +3337,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.072, 116.593]),
         aoiID: 'CN011',
         country: ['CN'],
@@ -3439,7 +3363,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([39.495, 116.419]),
         aoiID: 'CN012',
         country: ['CN'],
@@ -3466,7 +3389,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([35.774, 140.385]),
         aoiID: 'JP012',
         country: ['JP'],
@@ -3493,7 +3415,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([34.05, -118.251]),
         aoiID: 'US02',
         country: ['US'],
@@ -3521,7 +3442,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.6, -74.05]),
         aoiID: 'US01',
         country: ['US'],
@@ -3549,7 +3469,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([37.7775, -122.41638]),
         aoiID: 'US03',
         country: ['US'],
@@ -3577,7 +3496,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'BarcelonaTSM_ESA',
         country: ['ES'],
@@ -3622,7 +3540,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([40.985, 1.769]),
         aoiID: 'Barcelona_ESA',
         country: ['ES'],
@@ -3666,7 +3583,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi: latLng([30.05, 32.56]),
         aoiID: 'EG01',
         country: ['EG'],
@@ -3705,19 +3621,8 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Forest/non-forest map PALSAR2',
         indicator: 'FNF',
-        indicatorName: 'Forest/non-forest map PALSAR2',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
         aoiID: 'World',
-        time: getYearlyDates('2017-01-01', '2020-01-01'),
         inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
       },
     },
@@ -3725,7 +3630,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'S1GRD',
         country: 'all',
         city: 'Antarctica',
@@ -3759,7 +3663,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Meltmap',
         country: 'all',
         city: 'Antarctica',
@@ -3794,7 +3697,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Days',
         country: 'all',
         city: 'Antarctica',
@@ -3829,7 +3731,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'End',
         country: 'all',
         city: 'Antarctica',
@@ -3864,7 +3765,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Onset',
         country: 'all',
         city: 'Antarctica',
@@ -3899,7 +3799,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'ThwaitesLandsat',
         country: 'all',
         city: 'Antarctica',
@@ -3939,7 +3838,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'PineIslandLandsat',
         country: 'all',
         city: 'Antarctica',
@@ -3979,7 +3877,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Tulare',
         aoi: latLng([36.0508, -119.7830]),
         country: ['US'],
@@ -4014,7 +3911,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Aral',
         aoi: latLng([45.303, 58.581]),
         country: ['UZ', 'KZ'],
@@ -4049,7 +3945,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Aral',
         aoi: latLng([45.303, 58.581]),
         country: ['UZ', 'KZ'],
@@ -4087,7 +3982,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Biwa',
         aoi: latLng([35.284, 136.095]),
         country: ['JP'],
@@ -4122,7 +4016,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Biwa',
         aoi: latLng([35.284, 136.095]),
         country: ['JP'],
@@ -4160,7 +4053,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Colorado',
         aoi: latLng([37.4, -110.7]),
         country: ['US'],
@@ -4195,7 +4087,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4230,7 +4121,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap_HH',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4265,7 +4155,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap_HV',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4300,7 +4189,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap_VH',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4335,7 +4223,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap_VV',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4370,7 +4257,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4408,7 +4294,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Vanern',
         aoi: latLng([59.07, 13.535]),
         country: ['SW'],
@@ -4443,7 +4328,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Vanern',
         aoi: latLng([59.07, 13.535]),
         country: ['SW'],
@@ -4481,7 +4365,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Balaton',
         aoi: latLng([45.89, 17.77]),
         country: ['HU'],
@@ -4516,7 +4399,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Balaton',
         aoi: latLng([45.89, 17.77]),
         country: ['HU'],
@@ -4554,7 +4436,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Biwa',
         aoi: latLng([35.284, 136.095]),
         country: ['JP'],
@@ -4602,7 +4483,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Aral',
         aoi: latLng([45.303, 58.581]),
         country: ['UZ', 'KZ'],
@@ -4650,7 +4530,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'TonleSap',
         aoi: latLng([12.7, 104.2]),
         country: ['KH'],
@@ -4698,7 +4577,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Vanern',
         aoi: latLng([59.07, 13.535]),
         country: ['SW'],
@@ -4746,7 +4624,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoiID: 'Balaton',
         aoi: latLng([45.89, 17.77]),
         country: ['HU'],
@@ -4794,7 +4671,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -4838,7 +4714,6 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         country: 'all',
         city: 'World',
         siteName: 'global',
@@ -4883,7 +4758,6 @@ const createSlowDownIndicator = (aoiID, city, country, aoi, geometry, cog, eoSen
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi,
         aoiID,
         country,
@@ -5097,7 +4971,6 @@ const createSTACCollectionIndicator = (collection, key, value, url,
   const indicatorObject = {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
         aoi,
         id: value.id,
         aoiID: value.id,
