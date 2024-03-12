@@ -9,6 +9,9 @@
           :styleOverride.prop="`#properties li > .value {
               font-weight: normal !important;
           }
+          #properties li {
+              width: 100%;
+          }
           main {
             padding: 0px 30px;
           }`"
@@ -17,7 +20,7 @@
           properties='["description"]'
           featured="[]"
           footer="[]"
-          style="margin-left: -30px; margin-right: -30px;"
+          style="margin-left: -30px; margin-right: -30px;word-wrap: break-word;"
         ></eox-stacinfo>
       </v-col>
     </v-row>
