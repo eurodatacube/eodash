@@ -348,7 +348,7 @@ export const globalIndicators = [
               });
               return style;
             },
-            allowedParameters: ['name', 'amenity', 'man_made', 'building'],
+            allowedParameters: ['name', 'amenity', 'man_made', 'building', 'content'],
             ...overpassApiQueryTags([
               { key: 'amenity', value: 'school', selected: true },
               { key: 'amenity', value: 'hospital', selected: true },
