@@ -145,11 +145,23 @@ const polarStereographicProjection = {
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
   protocol: 'WMTSCapabilities',
-  projection: 'EPSG:3857',
   labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
   attribution: '{ <a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/fnf_e.htm" target="_blank">JAXA Global PALSAR-2/PALSAR/JERS-1 Mosaic and Forest/Non-Forest maps</a> is available to use with no charge under the <a href="https://earth.jaxa.jp/policy/en.html" target="_blank">JAXA Terms of Use of Research Data</a>.; }',
-  minZoom: 1,
-  maxZoom: 18,
+});
+
+const antarcticDatasets = Object.freeze({
+  features: {
+    name: 'Thaites glacier outline',
+    url: './data/trilateral/thwaites.geojson',
+  },
+  mapProjection: {
+    name: 'EPSG:3031',
+    def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+  },
+  projection: 'EPSG:3031',
+  baseLayers: antarcticBaseMaps,
+  overlayLayers: antarcticOverlayMaps,
 });
 
 export const indicatorsDefinition = Object.freeze({
@@ -554,85 +566,6 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     disableTimeSelection: true,
   },
-  ADD: {
-    indicatorSummary: 'Antarctic cryosphere',
-    themes: ['cryosphere'],
-    story: '/data/trilateral/ADD',
-    features: {
-      name: 'Thaites glacier outline',
-      url: './data/trilateral/thwaites.geojson',
-    },
-    mapProjection: {
-      name: 'EPSG:3031',
-      def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-      extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
-    },
-    projection: 'EPSG:3031',
-    minZoom: 2,
-    maxZoom: 15,
-    baseLayers: antarcticBaseMaps,
-    overlayLayers: antarcticOverlayMaps,
-  },
-  RECCAP2_1: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_1',
-  },
-  RECCAP2_2: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_1',
-  },
-  RECCAP2_3: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_1',
-  },
-  RECCAP2_4: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_1',
-  },
-  RECCAP2_5: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_5',
-  },
-  RECCAP2_6: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_6',
-  },
-  RECCAP2_7: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_7',
-  },
-  RECCAP2_8: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_8',
-  },
-  RECCAP2_9: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_9',
-  },
-  RECCAP2_10: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_9',
-  },
-  RECCAP2_11: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_9',
-  },
-  RECCAP2_12: {
-    themes: ['biomass'],
-    story: '/data/trilateral/RECCAP2_9',
-  },
-  ESDC_gross_primary_productivity: {
-    themes: ['biomass'],
-    story: '/data/trilateral/ESDC_gross_primary_productivity',
-  },
-  ESDC_net_ecosystem_exchange: {
-    themes: ['biomass'],
-    story: '/data/trilateral/ESDC_net_ecosystem_exchange',
-  },
-  ESDC_kndvi: {
-    themes: ['biomass'],
-    story: '/data/trilateral/ESDC_kndvi',
-  },
   GGI_CH4: {
     themes: ['atmosphere'],
     story: '/data/trilateral/GGI_CH4',
@@ -960,6 +893,7 @@ export const defaultLayersDisplay = {
   opacity: 1,
   attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank"> Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
   minZoom: 1,
+  maxZoom: 18,
   visible: true,
   mapProjection: 'EPSG:3857',
   projection: 'EPSG:3857',
@@ -3630,32 +3564,13 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'S1GRD',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'West Antarctica (Sentinel-1)',
-        indicator: 'ADD',
-        indicatorName: 'West Antarctica (Sentinel-1)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
+        aoiID: 'World',
+        indicator: 'ADD_West_Antarctica_S1',
         time: getWeeklyDates('2017-05-18', '2022-01-15'),
-        inputData: [''],
         display: {
+          ...antarcticDatasets,
           dateFormatFunction: shWeeklyTimeFunction,
           minZoom: 5,
-          maxZoom: 18,
-          layers: 'SENTINEL-1-EW',
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-103 -74,-102 -74,-102 -75,-103 -75,-103 -75))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3663,33 +3578,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'Meltmap',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Antarctica Meltmap',
-        indicator: 'ADD',
-        indicatorName: 'Antarctica Meltmap',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
+        aoiID: 'World',
+        indicator: 'ADD_Meltmap',
         time: getDailyDates('2007-01-02', '2021-12-31'),
-        inputData: [''],
         display: {
-          legendUrl: 'legends/trilateral/VIS_ANTARTICA_MELTMAP.png',
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Antarctica Meltmap',
-          layers: 'VIS_ANTARTICA_MELTMAP',
+          ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3697,33 +3591,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'Days',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Antarctica Melt Duration',
-        indicator: 'ADD',
-        indicatorName: 'Antarctica Melt Duration',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: getYearlyDates('2007-01-01', '2021-02-01'),
-        inputData: [''],
+        aoiID: 'World',
+        indicator: 'ADD_Melt_Duration',
+        time: getYearlyDates('2007-01-01', '2021-06-30'),
         display: {
-          legendUrl: 'legends/trilateral/VIS_ANTARTICA_DAYS.png',
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Antarctica Melt Duration',
-          layers: 'VIS_4D_ANTARTICA_DAYS',
+          ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3731,33 +3604,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'End',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Antarctica Melt Season End',
-        indicator: 'ADD',
-        indicatorName: 'Antarctica Melt Season End',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
+        aoiID: 'World',
+        indicator: 'ADD_Melt_Season_End',
         time: getYearlyDates('2007-01-02', '2021-12-31'),
-        inputData: [''],
         display: {
-          legendUrl: 'legends/trilateral/VIS_ANTARTICA_END.png',
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Antarctic Melt Season End',
-          layers: 'VIS_4D_ANTARTICA_END',
+          ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3765,33 +3617,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'Onset',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Antarctica Melt Onset',
-        indicator: 'ADD',
-        indicatorName: 'Antarctica Melt Onset',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
+        aoiID: 'World',
+        indicator: 'ADD_Melt_Onset',
         time: getYearlyDates('2007-01-02', '2021-12-31'),
-        inputData: [''],
         display: {
-          legendUrl: 'legends/trilateral/VIS_ANTARTICA_ONSET.png',
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Antarctica Melt Onset',
-          layers: 'VIS_4D_ANTARTICA_ONSET',
+          ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-75 -63,-40 -63,-40 -80,-75 -80,-75 -63))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3799,38 +3630,11 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'ThwaitesLandsat',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Thwaites Glacier Landsat L2 low-cloud scenes',
-        indicator: 'ADD',
-        indicatorName: 'Thwaites Glacier Landsat L2',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates['landsat-c2l2-sr-antarctic-glaciers-thwaites'],
-        inputData: [''],
+        aoiID: 'World',
+        indicator: 'ADD_L2_Thwaites',
         display: {
-          protocol: 'xyz',
-          maxZoom: 18,
-          minZoom: 7,
+          ...antarcticDatasets,
           projection: 'EPSG:3857',
-          attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          name: 'Landsat L2',
-          tileSize: 256,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-110.26 -73.60,-112.57 -75.18,-106.35 -75.73,-104.61 -74.098,-110.27 -73.60))').toJson(),
-            }],
-          },
         },
       },
     },
@@ -3838,40 +3642,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'PineIslandLandsat',
-        country: 'all',
-        city: 'Antarctica',
-        siteName: 'global',
-        description: 'Pine Island Landsat L2 low-cloud scenes',
-        indicator: 'ADD',
-        indicatorName: 'Pine Island Glacier Landsat L2',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates['landsat-c2l2-sr-antarctic-glaciers-pine-island'],
-        inputData: [''],
+        aoiID: 'World',
+        indicator: 'ADD_L2_Pine_Island',
         display: {
-          protocol: 'xyz',
-          maxZoom: 18,
-          minZoom: 7,
+          ...antarcticDatasets,
           projection: 'EPSG:3857',
-          attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          name: 'Landsat L2',
-          tileSize: 256,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-104.723 -73.176,-107.373 -75.653,-97.142-76.195,-96.01 -73.63231719321456,-104.723 -73.1758))').toJson(),
-            }],
-          },
         },
-      },
     },
   },
   {

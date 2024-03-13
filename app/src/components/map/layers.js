@@ -548,10 +548,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   };
-  if (config.legendUrl || config.layerAdditionalDescription) {
+  const legendUrl = config.features ? config.features.legendUrl : config.legendUrl;
+  if (legendUrl || config.layerAdditionalDescription) {
     let description = '';
-    if (config.legendUrl) {
-      description += `<img src="${config.legendUrl}" style="max-width: 100%" />`;
+    if (legendUrl) {
+      description += `<img src="${legendUrl}" style="max-width: 100%" />`;
     }
     if (config.layerAdditionalDescription) {
       description += config.layerAdditionalDescription;
