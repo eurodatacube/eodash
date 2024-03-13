@@ -150,8 +150,7 @@
                   :download="downloadFileName"
                   target="_blank"
                   v-if="dataObject && dataObject.time
-                    && !showMap
-                    && !dataObject.disableCSV"
+                    && !showMap"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv

@@ -125,7 +125,7 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
@@ -680,6 +680,7 @@ export default {
           },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;
+        referenceDecompose.N1_NO2_city_trilateral = referenceDecompose.N1;
         referenceDecompose.N1c = referenceDecompose.N1a;
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
@@ -1829,7 +1830,7 @@ export default {
 
       // Special handling for SH Custom area /statistics chart including STD representation
       if ([
-        'N1', 'SHCustomLineChart', 'N3', 'SST',
+        'N1', 'N1_NO2_city_trilateral', 'SHCustomLineChart', 'N3', 'SST',
       ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {

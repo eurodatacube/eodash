@@ -167,9 +167,6 @@ export default {
     indicator: {
       type: Object,
     },
-    largeTimeDuration: {
-      type: Boolean,
-    },
   },
   data: () => ({
     compareTimeModel: null,
@@ -181,11 +178,7 @@ export default {
       'appConfig',
     ]),
     currentlyComparing() {
-      let pass = true;
-      if (this.indicator) {
-        pass = !this.indicator.compareDisplay;
-      }
-      return this.compareActive && pass;
+      return this.compareActive;
     },
     showTimeSlider() {
       return this.appConfig.id === 'gtif';
@@ -193,11 +186,7 @@ export default {
   },
   created() {
     if (!this.compareTime) {
-      if (this.indicator && this.indicator.compareDisplay) {
-        this.compareTimeModel = this.originalTime;
-      } else {
-        this.compareTimeModel = this.getInitialCompareTime();
-      }
+      this.compareTimeModel = this.getInitialCompareTime();
     } else {
       this.compareTimeModel = this.compareTime;
     }
@@ -210,29 +199,6 @@ export default {
       this[modelName] = this.availableValues[newIndex];
     },
     getInitialCompareTime() {
-      if (this.indicator && this.indicator.compareDisplay) {
-        // if compareDisplay is set, both sides of map share same time
-        return this.availableValues[this.availableValues.length - 1];
-      }
-      // find closest entry one year before latest time
-      if (this.largeTimeDuration) {
-        // if interval, use just start to get closest
-        const times = this.availableValues
-          .map((item) => (Array.isArray(item.value) ? item.value[0] : item.value));
-        const lastTimeEntry = DateTime.fromISO(times[times.length - 1]);
-        const oneYearBefore = lastTimeEntry.minus({ years: 1 });
-        // select closest to one year before
-        const closestOneYearBefore = times.find((item, i) => (
-          i === times.length - 1 || (
-            Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(item).toMillis())
-            < Math.abs(oneYearBefore.toMillis() - DateTime.fromISO(times[i + 1]).toMillis())
-          )
-        ));
-        // Get index and return object from original times as there are also
-        // arrays of time tuple arrays
-        const foundIndex = times.indexOf(closestOneYearBefore);
-        return this.availableValues[foundIndex];
-      }
       // use first time
       return this.availableValues[0];
     },
