@@ -125,7 +125,7 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
@@ -879,7 +879,7 @@ export default {
           });
         }
 
-        if (['N3b'].includes(indicatorCode)) {
+        if (['N3b_tsm', 'N3b_chl'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(featureData.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
