@@ -319,7 +319,19 @@ export async function loadFeatureData(baseConfig, feature) {
       type: 'FeatureCollection',
       features: [features],
     };
-    indicatorObjectWorkingWith.display = display;
+    if (Array.isArray(indicatorObjectWorkingWith.display)) {
+      // merge display with first entry of original array of displays
+      indicatorObjectWorkingWith.display[0] = {
+        ...display,
+        ...indicatorObjectWorkingWith.display[0],
+      };
+    } else {
+      // merge object properties
+      indicatorObjectWorkingWith.display = {
+        ...display,
+        ...indicatorObjectWorkingWith.display,
+      };
+    }
   } else {
     // Fetch data from geodb
     const geodbUrl = baseConfig.geoDBFeatureParameters.url;
@@ -611,6 +623,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           const featureObject = {};
           const coordinates = link.latlng.split(',').map(Number);
           featureObject.aoiID = link.id;
+          featureObject.name = link.name;
           // Sometimes geodb id is different to eodash id
           featureObject.geoDBID = jsonData.id;
           featureObject.isFeature = true;

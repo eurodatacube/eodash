@@ -132,8 +132,6 @@ import {
   mapState,
 } from 'vuex';
 
-import { DateTime } from 'luxon';
-
 import SliderTicks from './map/SliderTicks.vue';
 
 export default {
