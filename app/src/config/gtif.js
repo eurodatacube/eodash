@@ -589,8 +589,10 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFeatures: true,
   },
   EO4A: {
+    dataInfo: 'EO4A',
   },
   EO4A2: {
+    dataInfo: 'EO4A2',
   },
 });
 
