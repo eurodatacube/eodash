@@ -379,6 +379,23 @@ export const layerNameMapping = Object.freeze({
       allowedParameters: ['Country', 'label', 'score'],
     },
   },
+  water_quality_chl: {
+    url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/{site}-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
+    protocol: 'xyz',
+    tileSize: 256,
+    dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+    siteMapping: (eoID) => {
+      const mapping = {
+        NorthAdriaticCHL: 'oc3_chla_anomaly/anomaly-chl-nas',
+        US03: 'oc3_chla_anomaly/anomaly-chl-sf',
+        US04: 'oc3_chla_anomaly/anomaly-chl-ny',
+        NorthAdriaticTSM: 'spm_anomaly/anomaly-spm-nas',
+        US03SPM: 'spm_anomaly/anomaly-spm-sf',
+        US04TSM: 'spm_anomaly/anomaly-spm-ny',
+      };
+      return mapping[eoID];
+    },
+  },
   'SGLI L2 Reflectance 8-day composited': {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-1%2C1&color_map=cfastie',
     protocol: 'xyz',
@@ -982,90 +999,6 @@ export const globalIndicators = [
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
           legendUrl: 'legends/trilateral/smc_gcom.png',
         }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'NorthAdriatic_NASA',
-        indicator: 'N3a2_chl_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'US03',
-        indicator: 'N3a2_chl_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-sf-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'US04',
-        indicator: 'N3a2_chl_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/oc3_chla_anomaly/anomaly-chl-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'NorthAdriaticTSM_NASA',
-        indicator: 'N3a2_TSM_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-nas-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'US04TSM',
-        indicator: 'N3a2_TSM_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-ny-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        aoiID: 'US03TSM',
-        indicator: 'N3a2_TSM_nasa',
-        display: {
-          protocol: 'xyz',
-          url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/spm_anomaly/anomaly-spm-fr-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-100%2C100&color_map=rdbu_r',
-          tileSize: 256,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-        },
       },
     },
   },

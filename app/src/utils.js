@@ -625,7 +625,7 @@ export async function loadIndicatorData(baseConfig, payload) {
           featureObject.aoiID = link.id;
           featureObject.name = link.name;
           // Sometimes geodb id is different to eodash id
-          featureObject.geoDBID = jsonData.id;
+          featureObject.geoDBID = jsonData.geoDBID;
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;
