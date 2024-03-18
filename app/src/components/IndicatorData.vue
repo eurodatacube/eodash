@@ -152,8 +152,6 @@ export default {
         'E10a1', 'E10a5', 'E10c', 'N2', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', // 'AQ1_1',
-        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'AQ3', 'MOBI1', 'MOBI1_1', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O', 'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'Lakes_SWT', 'REP1', 'REP1_1', 'REP1_2'],
     };
   },
   mounted() {
@@ -1681,16 +1679,6 @@ export default {
         };
       }
 
-      if (this.multiYearComparison.includes(indicatorCode)) {
-        // Special time range for same year comparisons
-        customSettings.sameYearComparison = true;
-      }
-
-      if (this.disableMobilityLabels.includes(indicatorCode)) {
-        // TODO: we should maybe have a specific way of disabling those labels
-        customSettings.sameYearComparison = true;
-      }
-
       if (['E10a6', 'E10a7'].includes(indicatorCode)) {
         // Adding labels to each point
         customSettings.plugins = {
@@ -1911,10 +1899,6 @@ export default {
         customSettings.beginAtZero = true;
       }
 
-      if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
-        customSettings.hideRestrictions = true;
-      }
-
       if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
@@ -1925,7 +1909,6 @@ export default {
             },
           },
         };
-        customSettings.hideRestrictions = true;
       }
 
       if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
@@ -1938,7 +1921,6 @@ export default {
             },
           },
         };
-        customSettings.hideRestrictions = true;
         const { refColors } = this.appConfig;
         customSettings.legend = {
           labels: {
