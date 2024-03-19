@@ -323,6 +323,9 @@ export default {
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
         return false;
       }
+      if (this.dataObject && ['N3a2_chl_nasa', 'N3a2_tsm_nasa'].includes(this.featureObject.indicator)) {
+        return false;
+      }
       return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
     },
     hasSelectionEnabled() {

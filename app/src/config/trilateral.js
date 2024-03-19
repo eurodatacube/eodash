@@ -1,22 +1,14 @@
-// config global variables here for now
-// temporary solution
 import { Wkt } from 'wicket';
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
-import latLng from '@/latLng';
 import { DateTime } from 'luxon';
 import {
   shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
 import shTimeFunction from '@/shTimeFunction';
 import { baseLayers, overlayLayers } from '@/config/layers';
-import availableDates from '@/config/data_dates.json';
-import locations from '@/config/locations.json';
+// import locations from '@/config/locations.json';
 import {
-  statisticalApiHeaders,
-  statisticalApiBody,
-  evalScriptsDefinitions,
-  parseStatAPIResponse,
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
 
@@ -221,15 +213,6 @@ export const indicatorsDefinition = Object.freeze({
   },
 });
 
-const cairoPresetView = Object.freeze({
-  type: 'FeatureCollection',
-  features: [{
-    type: 'Feature',
-    properties: {},
-    geometry: wkt.read('POLYGON((30 31.4,32.1 31.6,32.2 28,31 28,30 28,29.7 31,30 31.4))').toJson(),
-  }],
-});
-
 export const layerNameMapping = Object.freeze({
   // "inputdata" -> wms layer name and baseurl
   'Sentinel 2 L2A': {
@@ -260,27 +243,6 @@ export const layerNameMapping = Object.freeze({
   },
   'ALOS-2': {
     layers: 'AWS_JAXA_CARS_CONTAINERS_ALOS2',
-  },
-  NO2_Cairo: {
-    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-    layers: 'NO2-TROPOMI-Cairo-Daily',
-    maxZoom: 14,
-    legendUrl: 'legends/trilateral/NO2_Cairo.png',
-    presetView: cairoPresetView,
-  },
-  GOSAT_XCO2_JAXA: {
-    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-    layers: 'XCO2-GOSAT-Cairo',
-    maxZoom: 14,
-    legendUrl: 'legends/trilateral/GOSAT_XCO2_JAXA.png',
-    presetView: cairoPresetView,
-  },
-  SIF_TROPOMI_Cairo: {
-    baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-    layers: 'SIF-TROPOMI-Cairo-Monthly',
-    maxZoom: 14,
-    legendUrl: 'legends/trilateral/SIF_TROPOMI_Cairo.png',
-    presetView: cairoPresetView,
   },
   GOSAT_XCO2: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3://covid-eo-data/xco2/GOSAT_XCO2_{time}_{site}_BG_circle_cog.tif&resampling_method=nearest',
@@ -616,30 +578,11 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'W8',
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Sea Ice Thickness (Envisat)',
         indicator: 'SIE',
-        indicatorName: 'Sea Ice Thickness (Envisat)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates['ESA-CCI-V2-ENVISAT'],
-        inputData: [],
-        yAxis: 'Sea Ice Thickness (Envisat)',
-        showGlobe: true,
         display: {
+          // projection and layers overrides
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Ice Thickness (Envisat)',
-          layers: 'ESA-CCI-V2-ENVISAT',
-          legendUrl: 'legends/trilateral/SITI-W10.png',
-          minZoom: 2,
-          maxZoom: 13,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
           mapProjection: {
@@ -663,6 +606,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        // area indicator unit division override
         indicator: 'N9',
         yAxis: 'NO2 [10^14 molecules/cm²]',
         display: {
@@ -677,30 +621,12 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'W9',
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Sea Ice Thickness (Cryosat)',
         indicator: 'SIC',
-        indicatorName: 'Sea Ice Thickness (Cryosat)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates['ESA-CCI-V2-CRYOSAT'],
-        inputData: [],
-        yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
         display: {
+          // projection and layers overrides
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Sea Ice Thickness (Cryosat)',
-          layers: 'ESA-CCI-V2-CRYOSAT',
-          legendUrl: 'legends/trilateral/SITI-W10.png',
-          minZoom: 2,
-          maxZoom: 13,
           projection: 'EPSG:3413',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
           labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
@@ -722,114 +648,28 @@ export const globalIndicators = [
     },
   },
   {
+    // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
-        aoiID: 'SO2',
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Sulfur Dioxide (TROPOMI)',
-        indicator: 'N1',
-        indicatorName: 'Sulfur Dioxide (TROPOMI)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        time: availableDates.AWS_VIS_SO2_DAILY_DATA,
-        inputData: [],
-        yAxis: 'SO2',
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'SO2',
-          layers: 'AWS_VIS_SO2_DAILY_DATA',
-          legendUrl: 'legends/esa/AWS_VIS_SO2_DAILY_DATA.png',
-          minZoom: 1,
-          maxZoom: 13,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          customAreaIndicator: true,
-          areaIndicator: {
-            ...statisticalApiHeaders,
-            ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_SO2_DAILY_DATA,
-              'byoc-4ad9663f-d173-411d-8d28-3081d4d9e3aa',
-            ),
-            callbackFunction: parseStatAPIResponse,
-            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-          },
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Population Density (SEDAC)',
-        indicator: 'NASAPopulation',
-        indicatorName: 'Population Density (SEDAC)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'W6',
-        time: ['2020-05-14T00:00:00Z'],
-        inputData: [''],
-        display: {
-          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
-          name: 'Population',
-          layers: 'AWS_POPULATION_DENSITY',
-          legendUrl: 'legends/esa/AWS_POPULATION_DENSITY.png',
-          minZoom: 1,
-          maxZoom: 7,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-          disableCompare: true,
-        },
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'World Settlement Footprint',
         indicator: 'WSF',
-        indicatorName: 'World Settlement Footprint',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'WSF',
-        time: getYearlyDates('1985', '2015'),
-        inputData: [''],
         display: [{
-          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
-          name: 'DLR WSF 2019 coverage',
-          layers: 'WSF_2019',
-          legendUrl: 'data/trilateral/wsf_legend.png',
-          minZoom: 1,
-          maxZoom: 17,
-          labelFormatFunction: (date) => date,
-          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
-        }, {
-          baseUrl: 'https://a.geoservice.dlr.de/eoc/land/wms/',
           name: 'DLR WSF Evolution 1985-2015',
-          layers: 'WSF_Evolution',
-          minZoom: 1,
-          maxZoom: 17,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
-          labelFormatFunction: (date) => date,
           specialEnvTime: true,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
-        }],
+        },
+        {
+          url: 'https://a.geoservice.dlr.de/eoc/land/wms/',
+          layers: 'WSF_2019',
+          name: 'DLR WSF 2019 coverage',
+          attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
+        },
+        ],
       },
     },
   },
   {
     properties: {
+      // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_1_sea_ice_concentration_arctic',
         time: getDailyDates('1978-11-01', '2024-01-30'),
@@ -849,6 +689,7 @@ export const globalIndicators = [
   },
   {
     properties: {
+      // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_sea_ice_concentration_antarctic',
         time: getDailyDates('1978-11-01', '2024-01-30'),
@@ -869,145 +710,9 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Ocean Primary Productivity (GCOM-C)',
-        indicator: 'N11',
-        indicatorName: 'Ocean Primary Productivity (GCOM-C)',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates['ONPP-GCOMC-World-Monthly'],
-        inputData: [''],
-        display: [{
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          name: 'ONPP-GCOMC-World-Monthly',
-          layers: 'ONPP-GCOMC-World-Monthly',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          legendUrl: 'legends/trilateral/N11.png',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Soil Moisture Anomaly',
-        indicator: 'SMC',
-        indicatorName: 'Soil Moisture Anomaly',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates['SMC-Anomaly-GCOMW-World-Monthly'],
-        inputData: [''],
-        display: [{
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          name: 'SMC-Anomaly-GCOMW-World-Monthly',
-          layers: 'SMC-Anomaly-GCOMW-World-Monthly',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
-          legendUrl: 'legends/trilateral/SMC.png',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Precipitation Anomaly',
-        indicator: 'PRC',
-        indicatorName: 'Precipitation Anomaly',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates['PRC-Anomaly-GSMaP-World-Monthly'],
-        inputData: [''],
-        display: [{
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          name: 'PRC-Anomaly-GSMaP-World-Monthly',
-          layers: 'PRC-Anomaly-GSMaP-World-Monthly',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
-          legendUrl: 'legends/trilateral/PRC.png',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Precipitation',
-        indicator: 'PRCG',
-        indicatorName: 'Precipitation',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates['PRC-GSMaP-World-Monthly'],
-        inputData: [''],
-        display: [{
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          name: 'PRC-GSMaP-World-Monthly',
-          layers: 'PRC-GSMaP-World-Monthly',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
-          legendUrl: 'legends/trilateral/PRCG.png',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        country: 'all',
-        city: 'Global',
-        siteName: 'global',
-        description: 'Soil Moisture Content',
-        indicator: 'SMCG',
-        indicatorName: 'Soil Moisture Content',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
-        time: availableDates['SMC-GCOMW-World-Monthly'],
-        inputData: [''],
-        display: [{
-          baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
-          name: 'SMC-GCOMW-World-Monthly',
-          layers: 'SMC-GCOMW-World-Monthly',
-          minZoom: 1,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'"),
-          legendUrl: 'legends/trilateral/smc_gcom.png',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
         indicator: 'N6',
-        aoiID: 'World',
         display: {
+          // manually adding administrative features
           maxZoom: 6,
           features: {
             name: 'Administrative zones ADM0',
@@ -1507,9 +1212,9 @@ export const globalIndicators = [
   // },
   {
     properties: {
+      // nonstandard way that each layer is different time
       indicatorObject: {
         indicator: 'FNF',
-        aoiID: 'World',
         inputData: ['palsarFNF2017', 'palsarFNF2018', 'palsarFNF2019', 'palsarFNF2020'],
       },
     },
@@ -1517,7 +1222,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating times and additional layers
         indicator: 'ADD_West_Antarctica_S1',
         time: getWeeklyDates('2017-05-18', '2022-01-15'),
         display: {
@@ -1531,7 +1236,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating times and additional layers
         indicator: 'ADD_Meltmap',
         time: getDailyDates('2007-01-02', '2021-12-31'),
         display: {
@@ -1544,7 +1249,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating times and additional layers
         indicator: 'ADD_Melt_Duration',
         time: getYearlyDates('2007-01-01', '2021-06-30'),
         display: {
@@ -1557,7 +1262,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating times and additional layers
         indicator: 'ADD_Melt_Season_End',
         time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
@@ -1570,7 +1275,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating times and additional layers
         indicator: 'ADD_Melt_Onset',
         time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
@@ -1583,7 +1288,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        aoiID: 'World',
+        // updating additional layers
         indicator: 'ADD_Landsat_L2_Antarctica',
         display: {
           ...antarcticDatasets,
@@ -1593,74 +1298,3 @@ export const globalIndicators = [
     },
   },
 ];
-
-const createSTACCollectionIndicator = (collection, key, value, url,
-  indicator, description, legendUrl) => {
-  const bbox = JSON.parse(key);
-  const aoi = latLng([
-    bbox[1] + (bbox[3] - bbox[1]) / 2,
-    bbox[0] + (bbox[2] - bbox[0]) / 2,
-  ]);
-  const geometry = {
-    coordinates: [[
-      [bbox[0], bbox[1]],
-      [bbox[2], bbox[1]],
-      [bbox[2], bbox[3]],
-      [bbox[0], bbox[3]],
-      [bbox[0], bbox[1]],
-    ]],
-    type: 'Polygon',
-  };
-  const indicatorObject = {
-    properties: {
-      indicatorObject: {
-        aoi,
-        id: value.id,
-        aoiID: value.id,
-        country: [value.country],
-        city: value.location,
-        siteName: value.location,
-        description,
-        indicator,
-        indicatorName: '',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry,
-          }],
-        },
-        time: availableDates[`${collection}-${value.id}`],
-        inputData: [''],
-        display: {
-          protocol: 'xyz',
-          tileSize: 256,
-          minZoom: 5,
-          url,
-          name: description,
-          dateFormatFunction: (date) => `url=${date[1]}`,
-          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
-          legendUrl,
-        },
-      },
-    },
-  };
-  return indicatorObject;
-};
-const urlMapping = {
-  'nightlights-hd-monthly': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,255&bidx=1&colormap_name=inferno',
-  'nightlights-hd-1band': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,255&bidx=1&colormap_name=inferno',
-  'blue-tarp-planetscope': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}',
-  'blue-tarp-detection': 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&resampling_method=bilinear&rescale=0,10000&bidx=1&colormap_name=inferno',
-};
-
-Object.keys(locations).forEach((collection) => {
-  Object.entries(locations[collection].entries).forEach(([key, value]) => {
-    globalIndicators.push(createSTACCollectionIndicator(
-      collection, key, value, urlMapping[collection],
-      locations[collection].indicator, locations[collection].description,
-      locations[collection].legendUrl,
-    ));
-  });
-});

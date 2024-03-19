@@ -99,7 +99,6 @@ const actions = {
                 features: [],
               },
               inputData: [],
-              yAxis: link.yAxis,
             };
             if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
               rootState.config.appConfig.customMetadataTransformer(resultIndicator);

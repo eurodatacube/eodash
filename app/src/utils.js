@@ -599,6 +599,9 @@ export async function loadIndicatorData(baseConfig, payload) {
         };
       }
     }
+    // add yAxis from collection
+    indicatorObject.yAxis = jsonData.yAxis;
+
     // Add markdown from description
     indicatorObject.markdown = jsonData.description;
     // Check for stac story asset
