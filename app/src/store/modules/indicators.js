@@ -82,6 +82,7 @@ async function loadIndicator(link, url, rootState) {
     // We check to see if we have an indicator with just one entry, or with multiply entries
     if (link.subcode.length > 0 && link.subcode[0] !== link.code) {
       // We need to fetch sub collection to retrieve information
+      console.log(`${url.replace('catalog.json', '')}${link.href.substring(2)}`);
       const subEntries = await fetch(
         `${url.replace('catalog.json', '')}${link.href.substring(1)}`,
         { credentials: 'same-origin' },
@@ -96,6 +97,7 @@ async function loadIndicator(link, url, rootState) {
           resultIndicator.indicator = subEntries.links[idx].code;
           resultIndicator.locations = subEntries.links[idx].locations ? subEntries.links[idx].locations : false;
           resultIndicator.endpointType = subEntries.links[idx].endpointtype;
+          resultIndicator.yAxis = subEntries.links[idx].yAxis;
           // For now we try to fetch the additional information form the config
           // TODO: Replace as much configuration as possible by STAC information
           // eslint-disable-next-line no-loop-func
