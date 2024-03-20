@@ -208,6 +208,7 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_JAXA_CHLA: defaultEvalScriptDef('chla'),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
   'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
+  SEN4AMA: defaultEvalScriptDef('CHANGE'),
 });
 
 // Define custom fetch function with configurable timeout

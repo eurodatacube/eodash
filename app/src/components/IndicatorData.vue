@@ -121,7 +121,7 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'sen4ama', 'NASACustomLineChart', 'XCubeCustomLineChart', 'N3', 'N3b', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX',
         'N1a', 'N1c', 'N1d', 'N9', 'LWE', 'LWL',
         'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4',
@@ -545,6 +545,7 @@ export default {
         referenceDecompose.E13q = referenceDecompose.N1;
         referenceDecompose.E13r = referenceDecompose.N1;
         referenceDecompose.N9 = referenceDecompose.N1;
+        referenceDecompose.sen4ama = referenceDecompose.N1;
         referenceDecompose.CDS1 = referenceDecompose.N1;
         referenceDecompose.CDS2 = referenceDecompose.N1;
         referenceDecompose.CDS3 = referenceDecompose.N1;
@@ -1782,7 +1783,7 @@ export default {
       }
 
       // Special handling for chart including STD representation
-      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST', 'GHSBUILT'].includes(indicatorCode)) {
+      if (['N1', 'N3', 'E13o', 'E13p', 'E13q', 'E13r', 'CDS1', 'CDS2', 'CDS3', 'CDS4', 'N3a2', 'SST', 'GHSBUILT', 'sen4ama'].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
             if (legendItem.text === 'Standard deviation (STD)') {
