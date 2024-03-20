@@ -130,7 +130,7 @@ export default {
                 expanded: true,
                 featured: true,
               },
-              // { key: 'themes', title: 'Theme' },
+              { key: 'themes', title: 'Theme' },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Satellite sensor' },
@@ -139,7 +139,7 @@ export default {
               { key: 'countries', title: 'Country' },
               { key: 'cities', title: 'City' },
             ],
-            aggregateResults: 'themes',
+            aggregateResults: 'group',
             enableHighlighting: true,
             onSelect: (item) => {
               this.setSelectedIndicator(item);
