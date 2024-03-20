@@ -63,11 +63,6 @@ const cloudlessBaseLayerDefault = [{
   visible: true,
 }, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
-const mapBoxHighResoSubst = [{
-  ...baseLayers.mapboxHighReso,
-  visible: true,
-}, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
-
 const antarcticBaseMaps = [
   baseLayers.terrainLightStereoSouth,
   baseLayers.cloudless,
@@ -196,11 +191,11 @@ export const indicatorsDefinition = Object.freeze({
   },
   N7: {
     disableCompare: true,
-    baseLayers: mapBoxHighResoSubst,
+    baseLayers: cloudlessBaseLayerDefault,
   },
   N8: {
     disableCompare: true,
-    baseLayers: mapBoxHighResoSubst,
+    baseLayers: cloudlessBaseLayerDefault,
   },
   GGI_CH4: {
     baseLayers: cloudlessBaseLayerDefault,
