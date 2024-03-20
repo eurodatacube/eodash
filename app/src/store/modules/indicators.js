@@ -82,9 +82,8 @@ async function loadIndicator(link, url, rootState) {
     // We check to see if we have an indicator with just one entry, or with multiply entries
     if (link.subcode.length > 0 && link.subcode[0] !== link.code) {
       // We need to fetch sub collection to retrieve information
-      console.log(`${url.replace('catalog.json', '')}${link.href.substring(2)}`);
       const subEntries = await fetch(
-        `${url.replace('catalog.json', '')}${link.href.substring(1)}`,
+        `${url.replace('catalog.json', '')}${link.href.substring(2)}`,
         { credentials: 'same-origin' },
       ).then((r) => r.json());
       for (let idx = 0; idx < subEntries.links.length; idx++) {
