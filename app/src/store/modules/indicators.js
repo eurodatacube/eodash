@@ -91,6 +91,12 @@ async function loadIndicator(link, url, rootState) {
           resultIndicator = { ...resultTemplate };
           resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${subEntries.links[idx].href.substring(1)}`;
           resultIndicator.group = link.title;
+          resultIndicator.themes = subEntries.links[idx].themes ? subEntries.links[idx].themes : [];
+          resultIndicator.tags = subEntries.links[idx].tags ? subEntries.links[idx].tags : [];
+          resultIndicator.satellite = subEntries.links[idx].satellite ? subEntries.links[idx].satellite : [];
+          resultIndicator.insituSources = subEntries.links[idx].insituSources ? subEntries.links[idx].insituSources : [];
+          resultIndicator.otherSources = subEntries.links[idx].otherSources ? subEntries.links[idx].otherSources : [];
+          resultIndicator.sensor = subEntries.links[idx].sensor ? subEntries.links[idx].sensor : [];
           resultIndicator.description = subEntries.links[idx].subtitle ? subEntries.links[idx].subtitle : '';
           resultIndicator.name = subEntries.links[idx].title;
           resultIndicator.indicator = subEntries.links[idx].code;
