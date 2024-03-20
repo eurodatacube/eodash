@@ -116,6 +116,40 @@ function overpassApiQueryTags(featureQueryParams) {
   };
 }
 
+const ghsPopulationLegend = `Legend: <br>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #ffffff"></div>
+  <div>
+    no data (transparent)
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #E7E1EF"></div>
+  <div>
+    0 - 5
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #D4B9DA"></div>
+  <div>
+    6 - 20
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #C994C7"></div>
+  <div>
+    21 - 100
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #DF65B0"></div>
+  <div>
+    101 - 300
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #E7298A"></div>
+  <div>
+    301 - 500
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #CE1256"></div>
+  <div>
+    501 - 1,000
+  </div>
+  <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #91003F"></div>
+  <div>
+    1,000 - Max
+  </div>`;
+
 export const globalIndicators = [
   {
     properties: {
@@ -164,18 +198,21 @@ export const globalIndicators = [
               name: 'GHS World population 2020',
               layers: 'GHS_POP_E2020',
               visible: false,
+              layerAdditionalDescription: ghsPopulationLegend,
             },
             {
               ...defaultLayersDisplay,
               name: 'GHS World population 2025',
               layers: 'GHS_POP_E2025',
               visible: false,
+              layerAdditionalDescription: ghsPopulationLegend,
             },
             {
               ...defaultLayersDisplay,
               name: 'GHS World population 2030',
               layers: 'GHS_POP_E2030',
               visible: false,
+              layerAdditionalDescription: ghsPopulationLegend,
             },
             {
               ...defaultLayersDisplay,
@@ -183,7 +220,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2020-01-01`,
               name: 'GHS built up area 2020',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/6b4a6c8128bdfade175822fe703a39c47d19fe93/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
             },
             {
               ...defaultLayersDisplay,
@@ -191,7 +228,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2025-01-01`,
               name: 'GHS built up area 2025',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/6b4a6c8128bdfade175822fe703a39c47d19fe93/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
             },
             {
               ...defaultLayersDisplay,
@@ -199,7 +236,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2030-01-01`,
               name: 'GHS built up area 2030',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/6b4a6c8128bdfade175822fe703a39c47d19fe93/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
