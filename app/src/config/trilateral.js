@@ -262,7 +262,6 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    legendUrl: 'legends/trilateral/GOSAT_XCO2.png',
   },
   airport_tk: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fairport%2Ftk_{time}.tif&resampling_method=bilinear&bidx=1',
@@ -362,7 +361,6 @@ export const layerNameMapping = Object.freeze({
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/{z}/{x}/{y}@1x?url=s3%3A%2F%2Fcovid-eo-data%2Fagriculture%2Fgcom-c-{time}.tif&resampling_method=bilinear&bidx=1&rescale=-1%2C1&color_map=cfastie',
     protocol: 'xyz',
     tileSize: 256,
-    legendUrl: 'legends/trilateral/NDVI_cfastie.png',
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
   },
   palsarFNF2017: {

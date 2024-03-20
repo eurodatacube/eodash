@@ -140,7 +140,7 @@ export default {
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
-        'E10a1', 'E10a5', 'N2',
+        'E10a1', 'E10a5', 'N2_greenhouse_gases',
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
@@ -149,7 +149,7 @@ export default {
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'E10a7', 'REP4_2',
-        'E10a1', 'E10a5', 'E10c', 'N2', // Special case
+        'E10a1', 'E10a5', 'E10c', 'N2_greenhouse_gases', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
     };
@@ -823,7 +823,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
+            && !['E10c', 'N2_greenhouse_gases', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = featureData.referenceValue.map(Number);
@@ -952,7 +952,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
+        } else if (['N2_greenhouse_gases', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = featureData.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
