@@ -104,6 +104,9 @@
 
 <script>
 import { createConfigFromIndicator } from '@/helpers/mapConfig';
+import {
+  mapState,
+} from 'vuex';
 
 export default {
   data: () => ({
@@ -111,6 +114,9 @@ export default {
     stacInfoLoaded: null,
   }),
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
     getLink() {
       return this.indicatorObject.link;
     },
