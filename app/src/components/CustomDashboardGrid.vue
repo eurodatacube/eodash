@@ -169,11 +169,10 @@
                 @ready="onMapReady(element.poi)"
               />
               <Map
-                v-else-if="(['all'].includes(element.indicatorObject.country) ||
-                Array.isArray(element.indicatorObject.country)) && !element.includesIndicator ||
-                element.mapInfo"
+                v-else-if="element.mapInfo"
                 :mapId="element.poi.replace('@', '-')"
                 :currentIndicator="element.indicatorObject"
+                :currentFeatureObject="element.indicatorObject"
                 :currentFeatureData="element.currentFeatureData"
                 :dataLayerTimeProp="localDataLayerTime[element.poi]"
                 :compareLayerTimeProp="localCompareLayerTime[element.poi]"
@@ -444,7 +443,6 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon';
 import mediumZoom from 'medium-zoom';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IndicatorGlobe from '@/components/IndicatorGlobe.vue';
@@ -761,19 +759,6 @@ export default {
         firstCall = true;
       }
       this.features = await Promise.all(features.map(async (f) => {
-        if (f.includesIndicator) {
-          const convertedTimes = f.indicatorObject.time.map(
-            (d) => (DateTime.isDateTime(d) ? d : DateTime.fromISO(d)),
-          );
-          return {
-            ...f,
-            indicatorObject: {
-              ...f.indicatorObject,
-              time: convertedTimes,
-            },
-          };
-        }
-
         if (f.text) {
           return f;
         }
@@ -807,6 +792,8 @@ export default {
           currentFeatureData = await loadFeatureData(
             this.baseConfig, currentFeatureObject.properties,
           );
+          // internally it gets changed for locations pois (display gets added)
+          indicatorObject = currentFeatureData.indicatorObject;
           // Set subaoi info in indicatorobject
           indicatorObject.subAoi = currentFeatureData.subAoi;
         }

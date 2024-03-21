@@ -265,6 +265,22 @@ export const replaceMapTimes = {
 
 export const globalIndicators = [
   {
+    properties: {
+      indicatorObject: {
+        indicator: 'E10a3',
+        disableTimeSelection: true,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'E10a8',
+        disableTimeSelection: true,
+      },
+    },
+  },
+  {
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
