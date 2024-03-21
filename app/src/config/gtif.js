@@ -589,8 +589,10 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFeatures: true,
   },
   EO4A: {
+    dataInfo: 'EO4A',
   },
   EO4A2: {
+    dataInfo: 'EO4A2',
   },
 });
 
@@ -1912,7 +1914,6 @@ export const globalIndicators = [
           },
         ],
         display: {
-          dataInfo: 'FCM2',
           protocol: 'cog',
           id: 'FCM2',
           sources: [

@@ -64,9 +64,6 @@ async function loadIndicator(link, url, rootState) {
     sensor: link.sensor ? link.sensor : [],
     endpointType: link.endpointtype,
     locations: link.locations ? link.locations : false,
-    // TODO: This is usually used in the client to define if it is a global indicator
-    // it should be handled with a unique value
-    country: 'all',
     countries: link.countries ? link.countries : [],
     cities: link.cities ? link.cities : [],
     // TODO: some default values we seem to need would be great if we can remove them
@@ -75,7 +72,6 @@ async function loadIndicator(link, url, rootState) {
       features: [],
     },
     inputData: [],
-    yAxis: link.yAxis,
   };
   if (link.rel === 'child') {
     let resultIndicator;
@@ -102,7 +98,9 @@ async function loadIndicator(link, url, rootState) {
           resultIndicator.indicator = subEntries.links[idx].code;
           resultIndicator.locations = subEntries.links[idx].locations ? subEntries.links[idx].locations : false;
           resultIndicator.endpointType = subEntries.links[idx].endpointtype;
-          resultIndicator.yAxis = subEntries.links[idx].yAxis;
+          if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
+            rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+          }
           // For now we try to fetch the additional information form the config
           // TODO: Replace as much configuration as possible by STAC information
           // eslint-disable-next-line no-loop-func
