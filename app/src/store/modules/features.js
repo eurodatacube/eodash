@@ -70,9 +70,6 @@ const mutations = {
     if (hasFeature('indicators')) {
       state.featureFilters.indicators = options.indicators;
     }
-    if (hasFeature('themes')) {
-      state.featureFilters.themes = options.themes;
-    }
   },
   SET_SELECTED_FEATURES(state, features) {
     state.selectedFeatures = features;

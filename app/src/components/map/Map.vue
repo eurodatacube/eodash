@@ -66,7 +66,7 @@
         :compare-active.sync="enableCompare"
         :compare-time.sync="compareLayerTime"
         :original-time.sync="dataLayerTime"
-        :enable-compare="!mergedConfigsData[0].disableCompare"
+        :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
         :large-time-duration="indicator.largeTimeDuration"
         :key="dataLayerName + '_timeSelection'"
         @focusSelect="focusSelect"
@@ -90,7 +90,7 @@
       :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
         ? $vuetify.application.footer + 85
         : $vuetify.application.footer + 10}px !important;
-        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : 'calc(min(25%, 500px) - 18px)'}`"
+        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -101,7 +101,11 @@
         :mapId="mapId"
         class="pointerEvents"
       />
-
+      <LayerControl
+        v-if="loaded && mapId !== 'centerMap'"
+        class="pointerEvents"
+        :mapId="mapId"
+      />
       <!-- will add a drawing layer to the map (z-index 3) -->
       <CustomAreaButtons
         v-if="loaded && mapId === 'centerMap'"
@@ -168,7 +172,9 @@
 import {
   mapGetters,
   mapState,
+  mapMutations,
 } from 'vuex';
+import LayerControl from '@/components/map/LayerControl.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
 import ZoomControl from '@/components/map/ZoomControl.vue';
 import getCluster from '@/components/map/Cluster';
@@ -200,6 +206,7 @@ import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
 import {
   loadIndicatorExternalData,
+  loadIndicatorData,
   calculatePadding,
   findClosest,
   getFilteredInputData,
@@ -210,6 +217,7 @@ const geoJsonFormat = new GeoJSON({
 
 export default {
   components: {
+    LayerControl,
     FullScreenControl,
     ZoomControl,
     SpecialLayer,
@@ -291,6 +299,7 @@ export default {
       externallySuppliedTimeEntries: null,
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
+      appRightPanelsOpened: null,
     };
   },
   computed: {
@@ -308,7 +317,7 @@ export default {
       && this.mergedConfigsFrozenData.length;
     },
     showSpecialLayer() {
-      return this.mergedConfigsData.length && this.dataLayerName
+      return this.mergedConfigsData.length
       && this.indicatorHasMapData(this.indicator);
     },
     dataLayerConfigLayerControls() {
@@ -341,8 +350,10 @@ export default {
     },
     displayTimeSelection() {
       return (
-          this.featureData?.time
+        !this.indicator?.disableTimeSelection
+          && this.featureData?.time
           && this.featureData.time?.length > 1
+          && this.indicatorHasMapData(this.indicator)
       ) || (
         this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
@@ -517,10 +528,14 @@ export default {
       };
     },
     frozenLayerOptions() {
-      return {
+      const obj = {
         dataProp: 'frozenMapData',
         frozenLayer: true,
       };
+      if (this.mergedConfigsFrozenData?.length) {
+        obj.time = this.mergedConfigsFrozenData[0]?.usedTimes?.time[0];
+      }
+      return obj;
     },
     availableTimeEntries() {
       if (!this.indicator) {
@@ -640,7 +655,7 @@ export default {
       let style = 'position:absolute;';
       if (this.$vuetify.breakpoint.smAndUp) {
         if (this.appConfig.id === 'gtif') {
-          style = `position:relative; bottom:${this.$vuetify.application.footer}px;`;
+          style = 'position:relative;';
         } else {
           style += 'bottom:0px;';
         }
@@ -650,6 +665,9 @@ export default {
         style += 'bottom:60px;';
       }
       return style;
+    },
+    controlsContainerStyle() {
+      return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
   },
   watch: {
@@ -938,6 +956,13 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+      loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',
+    }),
+    ...mapMutations('features', {
+      setSelectedFeature: 'SET_SELECTED_FEATURE',
+    }),
     updateLayers(layerCollection, newLayers) {
       const layersToRemove = layerCollection.getArray()
         .filter((l) => !newLayers.find((nL) => (nL.get('name') === l.get('name') && nL.get('visible') === l.get('visible'))));
@@ -1050,7 +1075,7 @@ export default {
         this.updateTime(time, compare);
       });
     },
-    handleExternalMapMessage(event) {
+    async handleExternalMapMessage(event) {
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         const { map } = getMapInstance(this.mapId);
@@ -1070,16 +1095,39 @@ export default {
         const { poi } = event.data;
         const aoiID = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
-
-        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-          const { indicatorObject } = f.properties;
-          return indicatorObject.aoiID === aoiID
-            && indicatorObject.indicator === indicatorCode;
-        });
-
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature
-          ? selectedFeature.properties.indicatorObject
-          : null);
+        const ind = this.indicators.find((f) => f.indicator === indicatorCode) || {};
+        if (aoiID !== 'World') {
+          // eslint-disable-next-line no-param-reassign
+          const objectM = {
+            ...ind,
+            aoiID,
+            disableExtraLoadingData: true,
+          };
+          // fetching the indicator here outside of App.vue watcher in order to
+          // get the features and select the matching one which was clicked in in the Panel
+          this.setSelectedIndicator(objectM);
+          const indicatorObject = await loadIndicatorData(
+            this.baseConfig,
+            objectM,
+          );
+          const currentFeatureObject = indicatorObject.features.find(
+            (feat) => feat.id === aoiID,
+          );
+          // should match if the appConfig is done correctly
+          if (currentFeatureObject) {
+            const test = {
+              indicatorObject: {
+                ...indicatorObject,
+                geoDBID: currentFeatureObject.properties.indicatorObject.geoDBID,
+              },
+            };
+            this.loadIndicatorFinished(indicatorObject);
+            // manually select the feature
+            this.setSelectedFeature(test);
+          }
+        } else {
+          this.setSelectedIndicator(ind);
+        }
       }
 
       if (event.data.command === 'map:enableLayer' && event.data.name) {
@@ -1104,6 +1152,10 @@ export default {
             }
           });
         });
+      }
+
+      if (event.data.command === 'app:StacInfoMounted') {
+        this.appRightPanelsOpened = true;
       }
 
       if (event.data.command === 'map:disableLayer' && event.data.name) {

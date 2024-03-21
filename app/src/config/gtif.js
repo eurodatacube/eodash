@@ -265,6 +265,8 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
+    { ...overlayLayers.protectionZones },
+    { ...overlayLayers.protectionZonesNatura },
     {
       protocol: 'GeoJSON',
       visible: false,
@@ -516,9 +518,10 @@ export const indicatorsDefinition = Object.freeze({
   AQ1: {
     customAreaIndicator: true,
   },
-  AQ1_1: {
-    customAreaIndicator: true,
-  },
+  // commented out so that selection is disabled
+  // AQ1_1: {
+  //   customAreaIndicator: true,
+  // },
   AQ1_2: {
     customAreaIndicator: true,
   },
@@ -586,8 +589,10 @@ export const indicatorsDefinition = Object.freeze({
     customAreaFeatures: true,
   },
   EO4A: {
+    dataInfo: 'EO4A',
   },
   EO4A2: {
+    dataInfo: 'EO4A2',
   },
 });
 
@@ -1109,7 +1114,7 @@ function createMOBI1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
   return config;
 }
 
-function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
+function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis, selectionEnabled = true) {
   const config = {
     properties: {
       indicatorObject: {
@@ -1166,9 +1171,9 @@ function createAQ1Config(indicatorCode, selectedVariable, itemConfig, yAxis) {
               return color;
             },
           },
-          selection: {
+          selection: selectionEnabled ? {
             mode: 'multiple',
-          },
+          } : false,
           tooltip: false,
           id: 'aggregated_trajs_model_satellite_v1',
           timeKey: 'timestamp',
@@ -1188,6 +1193,9 @@ function createSOL1Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,grexisting',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1253,6 +1261,9 @@ function createSOL2Config(indicatorCode, selectedVariable) {
     properties: {
       indicatorObject: {
         indicator: indicatorCode,
+        queryParameters: {
+          selected: 'pvusearea,pvexisting,pvpotentl,pveppmwhhp,pveppmwhrp,pveppmwhlp',
+        },
         highlights: [
           {
             name: 'Graz',
@@ -1301,6 +1312,7 @@ function createSOL2Config(indicatorCode, selectedVariable) {
           minZoom: 13,
           selection: {
             mode: 'multiple',
+            layer: 'GTIF_AT_Rooftops_PV_bundesland_3857_v1',
           },
           tooltip: true,
           allowedParameters: ['name'],
@@ -1363,7 +1375,7 @@ export const globalIndicators = [
   createAQ1Config('AQ1_1', 'satellite_values', {
     min: 0,
     max: 500,
-  }, 'satellite_values'),
+  }, 'satellite_values', false),
   createAQ1Config('AQ1_2', 'mean_value', {
     min: 0,
     max: 50,
@@ -1421,6 +1433,7 @@ export const globalIndicators = [
             .toFormat('yyyy-MM-dd')}`,
           name: 'Monthly Aggregated Truck Traffic 10km',
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
+          extent: [9, 46, 18, 49],
           maxZoom: 14,
           opacity: 0.7,
         }],
@@ -1455,6 +1468,7 @@ export const globalIndicators = [
           minZoom: 7,
           maxZoom: 14,
           opacity: 0.7,
+          extent: [9, 46, 18, 49],
         }],
       },
     },
@@ -1900,7 +1914,6 @@ export const globalIndicators = [
           },
         ],
         display: {
-          dataInfo: 'FCM2',
           protocol: 'cog',
           id: 'FCM2',
           sources: [

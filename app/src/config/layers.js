@@ -126,13 +126,13 @@ export const baseLayers = Object.freeze({
     visible: false,
     minZoom: 6,
   },
-  mapboxHighReso: {
-    name: 'Mapbox high resolution',
-    url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-    attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-    visible: false,
-    protocol: 'xyz',
-  },
+  // mapboxHighReso: {
+  //   name: 'Mapbox high resolution',
+  //   url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
+  //   attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
+  //   visible: false,
+  //   protocol: 'xyz',
+  // },
   s2AT2021: {
     name: 'Sentinel-2 Austrian mosaic 2021',
     attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
@@ -231,6 +231,28 @@ export const overlayLayers = Object.freeze({
           url: 'data/gtif/data/openinframap/openinframap.json',
         },
       },
+    },
+  },
+  protectionZones: {
+    name: 'Protected areas (CDDA 2022)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_cdda_2022',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
+    },
+  },
+  protectionZonesNatura: {
+    name: 'Protected areas (Natura 2000)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_natura_2000',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
     },
   },
 });

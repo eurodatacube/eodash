@@ -125,7 +125,7 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b', 'SST',
+        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
@@ -133,28 +133,41 @@ export default {
         'Lakes_SWT',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
-        'E10a2', 'E10a6', 'N3a2', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
+        'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
         'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
-        'E10a1', 'E10a5', 'N2',
+        'E10a1', 'E10a5', 'N2_greenhouse_gases',
       ],
       scatterChartIndicators: [
-        'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
+        'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
+        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'E10a7', 'REP4_2',
-        'E10a1', 'E10a5', 'E10c', 'N2', // Special case
+        'E10a1', 'E10a5', 'E10c', 'N2_greenhouse_gases', // Special case
       ],
       mapchartIndicators: ['E10a3', 'E10a8'],
-      disableMobilityLabels: ['NPP', 'AQA', 'AQB', 'AQC', 'AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'AQ3', 'MOBI1', 'MOBI1_1', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O', 'REP4_1', 'REP4_4', 'REP4_5', 'REP4_6', 'REP4_2', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3', 'Lakes_SWT', 'REP1', 'REP1_1', 'REP1_2'],
     };
   },
   mounted() {
+    const indicator = { ...this.indicatorObject };
+    const featureData = this.dataObject;
+    if (indicator && featureData) {
+      const indicatorCode = indicator.indicator;
+      if (['E10a3', 'E10a8'].includes(indicatorCode)) {
+        const d = featureData.time[featureData.time.length - 1];
+        const formatted = d?.toFormat('dd. MMM');
+        this.dataLayerTime = {
+          value: formatted,
+          name: formatted,
+        };
+      }
+    }
     // add event listener for map up
     window.addEventListener('message', this.mapTimeUpdatedHandler);
   },
@@ -224,14 +237,6 @@ export default {
       let labels = [];
       const datasets = [];
       if (indicator && featureData) {
-        if (['E10a3', 'E10a8'].includes(indicatorCode)) {
-          const d = featureData.time[featureData.time.length - 1];
-          const formatted = d?.toFormat('dd. MMM');
-          this.dataLayerTime = {
-            value: formatted,
-            name: formatted,
-          };
-        }
         const { measurement } = featureData;
         const colors = [];
 
@@ -673,6 +678,7 @@ export default {
           },
         };
         referenceDecompose.N1b = referenceDecompose.N1a;
+        referenceDecompose.N1_NO2_city_trilateral = referenceDecompose.N1;
         referenceDecompose.N1c = referenceDecompose.N1a;
         referenceDecompose.N1d = referenceDecompose.N1a;
         referenceDecompose.E12b = referenceDecompose.N1a;
@@ -703,51 +709,53 @@ export default {
               data,
             });
           }
-          referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
-            const data = [];
-            featureData.referenceValue.forEach((item, rowIdx) => {
-              const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
-              if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
-                let obj;
-                if ('valueDecompose' in referenceDecompose[indicatorCode]) {
-                  obj = referenceDecompose[indicatorCode].valueDecompose(item);
+          if ('referenceData' in referenceDecompose[indicatorCode]) {
+            referenceDecompose[indicatorCode].referenceData.forEach((entry) => {
+              const data = [];
+              featureData.referenceValue.forEach((item, rowIdx) => {
+                const usedTime = 'referenceTime' in entry ? featureData.referenceTime[rowIdx] : featureData.time[rowIdx];
+                if (!Number.isNaN(item) && !['NaN', '[NaN NaN]', '/'].includes(item)) {
+                  let obj;
+                  if ('valueDecompose' in referenceDecompose[indicatorCode]) {
+                    obj = referenceDecompose[indicatorCode].valueDecompose(item);
+                  } else {
+                    obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
+                  }
+                  if (obj[0] === -999 && obj[1] === -999) {
+                    data.push({
+                      t: usedTime,
+                      y: Number.NaN,
+                    });
+                  } else if ('index' in entry) {
+                    data.push({
+                      t: usedTime,
+                      y: obj[entry.index],
+                    });
+                  } else if ('calc' in entry) {
+                    data.push({
+                      t: usedTime,
+                      y: entry.calc(featureData.measurement[rowIdx], obj),
+                    });
+                  }
                 } else {
-                  obj = JSON.parse(item.replace(/,/g, '.').replace(' ', ','));
-                }
-                if (obj[0] === -999 && obj[1] === -999) {
                   data.push({
                     t: usedTime,
                     y: Number.NaN,
                   });
-                } else if ('index' in entry) {
-                  data.push({
-                    t: usedTime,
-                    y: obj[entry.index],
-                  });
-                } else if ('calc' in entry) {
-                  data.push({
-                    t: usedTime,
-                    y: entry.calc(featureData.measurement[rowIdx], obj),
-                  });
                 }
-              } else {
-                data.push({
-                  t: usedTime,
-                  y: Number.NaN,
-                });
-              }
+              });
+              datasets.push({
+                label: entry.key,
+                data,
+                borderColor: entry.color,
+                backgroundColor: entry.color,
+                borderWidth: 1,
+                pointRadius: 0,
+                spanGaps: false,
+                ...entry,
+              });
             });
-            datasets.push({
-              label: entry.key,
-              data,
-              borderColor: entry.color,
-              backgroundColor: entry.color,
-              borderWidth: 1,
-              pointRadius: 0,
-              spanGaps: false,
-              ...entry,
-            });
-          });
+          }
         }
 
         // Add special points for N3
@@ -815,7 +823,7 @@ export default {
 
         // Generate datasets for charts that show two year comparisons (bar and line)
         if (this.multiYearComparison.includes(indicatorCode)
-            && !['E10c', 'N2', 'REP4_2'].includes(indicatorCode)) {
+            && !['E10c', 'N2_greenhouse_gases', 'REP4_2'].includes(indicatorCode)) {
           const uniqueRefs = [];
           const uniqueMeas = [];
           const referenceValue = featureData.referenceValue.map(Number);
@@ -869,7 +877,7 @@ export default {
           });
         }
 
-        if (['N3b'].includes(indicatorCode)) {
+        if (['N3b_tsm', 'N3b_chl'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(featureData.eoSensor)).sort();
           for (let pp = 0; pp < sensors.length; pp += 1) {
             const pKey = sensors[pp];
@@ -944,7 +952,7 @@ export default {
               borderWidth: 2,
             });
           });
-        } else if (['N2', 'E10c', 'REP4_2'].includes(indicatorCode)) {
+        } else if (['N2_greenhouse_gases', 'E10c', 'REP4_2'].includes(indicatorCode)) {
           /* Group data by year in month slices */
           const data = featureData.time.map((date, i) => {
             colors.push(this.getIndicatorColor(
@@ -1187,33 +1195,52 @@ export default {
           if (['MOBI1', 'MOBI1_1'].includes(indicatorCode)) {
             label = 'time series for selected area';
           }
+          let style = {
+            backgroundColor: refColors[0],
+            borderColor: refColors[0],
+          };
+          if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
+            // special rendering of S2L2A, otherwise has S1GRD style
+            const colorsArray = featureData.inputData.map((d, i) => {
+              [data[i].inputData] = d.split('_');
+              if (d === 'S2L2A_REP4') {
+                return refColors[0];
+              }
+              return refColors[1];
+            });
+            style = {
+              borderColor: colorsArray,
+              backgroundColor: colorsArray,
+            };
+          }
           datasets.push({
             label,
-            fill: false,
             data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            // pointStyle: 'line',
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
-          });
-        } else if (['AQ1', 'AQ1_1', 'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
-          // Rendering for fetched data for rooftops
-          const data = featureData.referenceValue.map((x, i) => (
-            { x, y: featureData.measurement[i] }
-          ));
-          datasets.push({
-            label: 'data for selected bins',
             fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
             borderWidth: 1,
             pointRadius: 2,
             cubicInterpolationMode: 'monotone',
+            ...style,
           });
-        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
+        } else if (['AQ1', // 'AQ1_1'
+          'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6'].includes(indicatorCode)) {
+          Object.keys(featureData.fetchedData).forEach((satelliteId, ind) => {
+            const data = featureData.fetchedData[satelliteId].referenceValue.map((x, i) => (
+              { x, y: featureData.fetchedData[satelliteId].measurement[i] }
+            ));
+            datasets.push({
+              label: satelliteId,
+              fill: false,
+              data,
+              backgroundColor: refColors[ind],
+              borderColor: refColors[ind],
+              borderWidth: 1,
+              pointRadius: 2,
+              cubicInterpolationMode: 'monotone',
+            });
+          });
+        } else if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
+          'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
             // for each gemeinde group into a dataset
@@ -1225,8 +1252,8 @@ export default {
             const availableSelectedColors = ['#ff0000', '#f56042', '#db911a',
               '#9a08c7', '#e60532', '#d66d11'];
             Object.keys(featureData.fetchedData[gemId]).forEach((zspId) => {
-              x.push(featureData.fetchedData[gemId][zspId].measurement);
-              y.push(featureData.fetchedData[gemId][zspId].referenceValue);
+              x.push(featureData.fetchedData[gemId][zspId].potential);
+              y.push(featureData.fetchedData[gemId][zspId].totalroof);
               zsps.push(zspId);
               if (featureData.originalZsps.map((ftr) => ftr.getId())
                 .includes(parseInt(zspId, 10))) {
@@ -1251,22 +1278,6 @@ export default {
               borderWidth: 1,
               pointRadius: 2,
             });
-          });
-        } else if (['SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
-          // Rendering for fetched data for rooftops
-          const data = featureData.referenceValue.map((x, i) => (
-            { x, y: featureData.measurement[i] }
-          ));
-          datasets.push({
-            label: indicator.yAxis,
-            fill: false,
-            data,
-            backgroundColor: refColors[0],
-            borderColor: refColors[0],
-            borderWidth: 1,
-            // pointStyle: 'line',
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone',
           });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
@@ -1639,42 +1650,6 @@ export default {
         customSettings.xAxisStacked = true;
       }
 
-      // Special tooltips case for generated charts that should have country
-      // defined as all (should not happen for normal charts)
-      if (this.indicatorObject.country === 'all') {
-        customSettings.tooltips = {
-          mode: 'label',
-          callbacks: {
-          label: function (context, data) { // eslint-disable-line
-              let label = data.datasets[context.datasetIndex].label || '';
-              if (label) {
-                label += ': ';
-              }
-              label += this.roundValueInd(Number(context.value));
-              if (label.includes('hide_') || label.includes('(STD)')) {
-                label = null;
-              }
-              return label;
-            }.bind(this),
-          afterBody:  (context, data) => { // eslint-disable-line
-              const extraStats = [];
-              // Check if we have additional statistical information
-              if ('sampleCount' in this.indicatorObject
-              && 'noDataCount' in this.indicatorObject) {
-                const percentageValid = 100 - ((
-                  this.indicatorObject.noDataCount[context[0].index]
-                / this.indicatorObject.sampleCount[context[0].index]
-                ) * 100);
-                extraStats.push(
-                  `Valid samples in AOI: ${this.roundValueInd(percentageValid)}%`,
-                );
-              }
-              return extraStats;
-            },
-          },
-        };
-      }
-
       if (['E10a3'].includes(indicatorCode)) {
         // Special tooltip information for this indicator
         customSettings.tooltips = {
@@ -1702,16 +1677,6 @@ export default {
             },
           },
         };
-      }
-
-      if (this.multiYearComparison.includes(indicatorCode)) {
-        // Special time range for same year comparisons
-        customSettings.sameYearComparison = true;
-      }
-
-      if (this.disableMobilityLabels.includes(indicatorCode)) {
-        // TODO: we should maybe have a specific way of disabling those labels
-        customSettings.sameYearComparison = true;
       }
 
       if (['E10a6', 'E10a7'].includes(indicatorCode)) {
@@ -1853,7 +1818,7 @@ export default {
 
       // Special handling for SH Custom area /statistics chart including STD representation
       if ([
-        'N1', 'SHCustomLineChart', 'N3', 'SST',
+        'N1', 'N1_NO2_city_trilateral', 'SHCustomLineChart', 'N3', 'SST',
       ].includes(indicatorCode)) {
         customSettings.legendExtend = {
           onClick: function onClick(e, legendItem) {
@@ -1934,21 +1899,28 @@ export default {
         customSettings.beginAtZero = true;
       }
 
-      if (['PRCTS', 'SMCTS', 'VITS'].includes(indicatorCode)) {
-        customSettings.hideRestrictions = true;
-      }
-
-      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7'].includes(indicatorCode)) {
+      if (['REP4_1', 'REP4_6'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
             label: (context, data) => {
               const obj = data.datasets[context.datasetIndex].data[context.index];
-              const label = `Gem ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, exist: ${obj.x[0].toFixed(4)} km², pot: ${obj.y[0].toFixed(4)} km²`;
+              const label = `${(obj.inputData)} - ${data.datasets[context.datasetIndex].label}: ${obj.y}`;
               return label;
             },
           },
         };
-        customSettings.hideRestrictions = true;
+      }
+
+      if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
+        customSettings.tooltips = {
+          callbacks: {
+            label: (context, data) => {
+              const obj = data.datasets[context.datasetIndex].data[context.index];
+              const label = `Gem ${data.datasets[context.datasetIndex].label}: ZSP: ${(obj.zsp)}, pot: ${obj.x[0].toFixed(4)} km², exist: ${obj.y[0].toFixed(4)} km²`;
+              return label;
+            },
+          },
+        };
         const { refColors } = this.appConfig;
         customSettings.legend = {
           labels: {
