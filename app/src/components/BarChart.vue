@@ -146,7 +146,6 @@ export default {
       return [timeMin, timeMax];
     },
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
