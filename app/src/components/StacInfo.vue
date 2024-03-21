@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row class="align-center">
-      <v-col>
-        <eox-stacinfo ref="stacInfoEl"
+      <v-col v-if="appConfig.id === 'gtif'">
+        <eox-stacinfo ref="stacInfo"
           @loaded="onStacInfoLoad"
           :for="getLink"
           :allowHtml.prop="true"
@@ -22,6 +22,53 @@
           footer="[]"
           style="margin-left: -30px; margin-right: -30px;word-wrap: break-word;"
         ></eox-stacinfo>
+      </v-col>
+      <v-col v-else>
+        <eox-stacinfo
+          v-if="indicatorObject
+            || $store.state.features.featureFilters.indicators.length > 0"
+          ref="stacInfo"
+          :for="getLink"
+          @loaded="onStacInfoLoad"
+          header='["title"]'
+          subheader='["keywords"]'
+          properties='["themes", "satellite", "sensor", "agency", "links"]'
+          featured='["description", "providers", "extent", "sci:publications", "assets"]'
+          footer='["sci:citation"]'
+          :allowHtml.prop="true"
+          style="margin-left: -30px; margin-right: -30px;"
+          :styleOverride.prop="'#properties li > .value { font-weight: normal !important;}'"
+        >
+          <div slot="themes"
+          v-if="stacInfoLoaded">
+            <ul>
+              <v-chip
+                v-for="theme in $refs.stacInfo.stacProperties.themes.value"
+                :key="theme"
+                :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
+                text-color="white"
+              >
+              <v-avatar left>
+                <v-icon>{{ $store.state.config.baseConfig.indicatorClassesIcons[theme] }}</v-icon>
+              </v-avatar>
+                {{ theme }}
+              </v-chip>
+            </ul>
+          </div>
+          <div slot="links"
+          v-if="stacInfoLoaded">
+            Code examples:
+            <li
+              v-for="link in $refs.stacInfo.stacProperties.links.value.filter(
+                (l) => l.rel === 'example' || l.rel === 'license'
+              )"
+              :key="link.rel"
+            >
+              <v-btn color="primary" :href="link.href">{{ link.rel }}</v-btn>
+            </li>
+          </div>
+          <span slot="featured-links-summary">Data Access & Methods</span>
+        </eox-stacinfo>
       </v-col>
     </v-row>
     <v-expansion-panels
@@ -61,6 +108,7 @@ import { createConfigFromIndicator } from '@/helpers/mapConfig';
 export default {
   data: () => ({
     additionalGtifDataInfoContent: [],
+    stacInfoLoaded: null,
   }),
   computed: {
     getLink() {
@@ -112,12 +160,13 @@ export default {
   methods: {
     onStacInfoLoad() {
       this.$nextTick(() => {
-        if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfoEl?.shadowRoot.querySelector('main .description')?.children?.length < 1) {
+        if (this.$vuetify.breakpoint.smAndUp && this.$refs.stacInfo?.shadowRoot.querySelector('main .description')?.children?.length < 1) {
           // first parent is VExpantionPanelContent, second is VExpantionPanel
           this.$parent.$parent.$el.style.display = 'none';
         } else {
           this.$parent.$parent.$el.style.display = '';
         }
+        this.stacInfoLoaded = true;
       });
     },
     getAdditionalGTIFDataInfos() {
@@ -150,4 +199,31 @@ export default {
 ::v-deep th {
     text-align: left;
   }
+</style>
+<style>
+eox-stacinfo::part(header) {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+eox-stacinfo::part(footer) {
+  position: sticky;
+  bottom: 0;
+}
+[slot="themes"] {
+  width: 100%;
+}
+[slot="themes"] ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+[slot="themes"] ul li {
+  background: lightgrey;
+  border-radius: 15px;
+  min-width: 20px;
+  text-align: center;
+  padding: 2px 10px;
+  margin-right: 4px;
+}
 </style>
