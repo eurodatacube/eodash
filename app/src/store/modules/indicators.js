@@ -93,6 +93,8 @@ async function loadIndicator(link, url, rootState) {
           resultIndicator.insituSources = subEntries.links[idx].insituSources ? subEntries.links[idx].insituSources : [];
           resultIndicator.otherSources = subEntries.links[idx].otherSources ? subEntries.links[idx].otherSources : [];
           resultIndicator.sensor = subEntries.links[idx].sensor ? subEntries.links[idx].sensor : [];
+          resultIndicator.countries = subEntries.links[idx].countries ? subEntries.links[idx].countries : [];
+          resultIndicator.cities = subEntries.links[idx].cities ? subEntries.links[idx].cities : [];
           resultIndicator.description = subEntries.links[idx].subtitle ? subEntries.links[idx].subtitle : '';
           resultIndicator.name = subEntries.links[idx].title;
           resultIndicator.indicator = subEntries.links[idx].code;
@@ -116,6 +118,9 @@ async function loadIndicator(link, url, rootState) {
       resultIndicator = { ...resultTemplate };
       resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${link.href.substring(1)}`;
       resultIndicator.group = link.title;
+      if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
+        rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+      }
       // For now we try to fetch the additional information form the config
       // TODO: Replace as much configuration as possible by STAC information
       rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
