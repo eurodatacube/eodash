@@ -200,7 +200,7 @@ export default {
             },
             onSelect: (item) => {
               if (this.toolsToggle) {
-                this.toggleSelectedItem();
+                this.toggleSelectedItem(item);
               } else {
                 this.$router.push({ name: item.id });
               }
