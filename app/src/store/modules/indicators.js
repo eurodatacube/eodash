@@ -76,7 +76,7 @@ async function loadIndicator(link, url, rootState) {
   if (link.rel === 'child') {
     let resultIndicator;
     // We check to see if we have an indicator with just one entry, or with multiply entries
-    if (link.subcode.length > 0 && link.subcode[0] !== link.code) {
+    if (link.subcode && link.subcode.length > 0 && link.subcode[0] !== link.code) {
       // We need to fetch sub collection to retrieve information
       const subEntries = await fetch(
         `${url.replace('catalog.json', '')}${link.href.substring(2)}`,
@@ -114,7 +114,23 @@ async function loadIndicator(link, url, rootState) {
           results.push(resultIndicator);
         }
       }
-    } else if (link.subcode.length === 1 && link.subcode[0] === link.code) {
+    } else if (link.subcode && link.subcode.length === 1 && link.subcode[0] === link.code) {
+      resultIndicator = { ...resultTemplate };
+      resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${link.href.substring(1)}`;
+      resultIndicator.group = link.title;
+      if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
+        rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+      }
+      // For now we try to fetch the additional information form the config
+      // TODO: Replace as much configuration as possible by STAC information
+      rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
+        if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
+          resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
+        }
+      });
+      results.push(resultIndicator);
+    } else if (!('subcode' in link)) {
+      console.log(`Subcode is missing for ${link.code}, assuming indicator with just 1 colleciton`);
       resultIndicator = { ...resultTemplate };
       resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${link.href.substring(1)}`;
       resultIndicator.group = link.title;
