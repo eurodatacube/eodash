@@ -41,7 +41,6 @@
           :compare-time.sync="compareLayerTime"
           :original-time.sync="dataLayerTime"
           :enable-compare="false"
-          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
         />
       </div>
       <v-sheet

@@ -150,8 +150,7 @@
                   :download="downloadFileName"
                   target="_blank"
                   v-if="dataObject && dataObject.time
-                    && !showMap
-                    && !dataObject.disableCSV"
+                    && !showMap"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
@@ -181,14 +180,6 @@
                   v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :featureObject="featureObject"
-                  :zoom="zoom"
-                  :center="center"
-                  :direction="direction"
-                  :position="position"
-                  :right="right"
-                  :up="up"
-                  :datalayertime="datalayertime"
-                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
                 />
               </div>
             </v-col>
@@ -289,7 +280,6 @@ import FilterControls from '@/components/map/FilterControls.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-// import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
@@ -304,27 +294,15 @@ export default {
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
-    // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
     GTIFProcessingButtons,
   },
   data: () => ({
-    overlay: false,
     mounted: false,
-    zoom: null,
-    center: null,
-    direction: null,
-    position: null,
-    right: null,
-    up: null,
     frozenLayerName: null,
-    datalayertime: null,
-    comparelayertime: null,
-    compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
-    showScatterplot: null,
     updateQueryParametersTrigger: null,
   }),
   computed: {
@@ -343,6 +321,9 @@ export default {
     },
     showCustomAreaCard() {
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
+        return false;
+      }
+      if (this.dataObject && ['N3a2_chl_nasa', 'N3a2_tsm_nasa'].includes(this.featureObject.indicator)) {
         return false;
       }
       return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);

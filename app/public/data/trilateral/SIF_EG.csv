@@ -1,4 +1,0 @@
-AOI,Country,Region,City,Site Name,Description,Method,EO Sensor,Input Data,Indicator code,Time,Measurement Value,Reference Description,Reference time,Reference value,Rule,Indicator Value,Sub-AOI,Y axis,Indicator Name,Color code,Data Provider,AOI_ID,Update Frequency
-"30.12,31.24",EG,,Cairo ,,Solar Induced Chlorophyll Fluorescence,SIF,SIF_TROPOMI_Cairo,SIF_TROPOMI_Cairo,SIF,2018-06-15T23:59:59,,,,,SIF Cairo,,"POLYGON((30 31,32 31,32 29,30 29,30 31))",SIF,,BLUE,JAXA,EG01,EndSeason
-"30.12,31.24",EG,,Cairo ,,Solar Induced Chlorophyll Fluorescence,SIF,SIF_TROPOMI_Cairo,SIF_TROPOMI_Cairo,SIF,2019-02-14T23:59:59,,,,,SIF Cairo,,,SIF,,BLUE,JAXA,EG01,EndSeason
-"30.12,31.24",EG,,Cairo ,,Solar Induced Chlorophyll Fluorescence,SIF,SIF_TROPOMI_Cairo,SIF_TROPOMI_Cairo,SIF,2019-10-16T11:59:59,,,,,SIF Cairo,,,SIF,,BLUE,JAXA,EG01,EndSeason

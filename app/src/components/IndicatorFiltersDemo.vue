@@ -143,6 +143,7 @@ export default {
         if (currentFeatureObject) {
           const test = {
             indicatorObject,
+            geoDBID: currentFeatureObject.properties.indicatorObject.geoDBID,
           };
           this.loadIndicatorFinished(indicatorObject);
           // manually select the feature
