@@ -21,6 +21,7 @@ import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import ScrollyFrame from './views/ScrollyFrame.vue';
+import Storytelling from './views/Storytelling.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -28,7 +29,9 @@ import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 import '@eox/layercontrol';
+import '@eox/map';
 import '@eox/jsonform';
+import '@eox/storytelling';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -39,7 +42,9 @@ Vue.config.productionTip = false;
 
 Vue.config.ignoredElements = [
   'eox-layercontrol',
+  'eox-map',
   'eox-jsonform',
+  'eox-storytelling',
 ];
 
 Vue.use(VuePapaParse);
@@ -217,6 +222,7 @@ const renderVue = async () => {
       ] : []
     ),
     { path: '/story', component: DashboardCustom },
+    { path: '/storytelling', component: Storytelling },
     { path: '/privacy', name: 'privacy', component: Privacy },
     { path: '/terms_and_conditions', name: 'terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },

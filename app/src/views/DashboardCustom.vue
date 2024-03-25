@@ -7,7 +7,8 @@
       : (storyModeEnabled ? 'pa-0' : 'pa-5')"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc((var(--vh, 1vh) * 100);
-        overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
+        overflow-y: ${storyModeEnabled && !storytellingMarkdownUrl ? 'hidden' : 'auto'};
+        overflow-x: hidden`"
     id="scroll-target"
   >
     <global-header />
@@ -287,9 +288,17 @@
         v-if="$vuetify.breakpoint.smAndDown && !storyModeEnabled"
         class="my-10"
       ></v-divider>
+      <eox-storytelling
+        ref="customDashboardGrid"
+        v-if="storytellingMarkdownUrl"
+        :markdown-url="storytellingMarkdownUrl"
+        no-shadow
+        class="pt-14"
+        style="height: calc(var(--vh, 1vh) * 100); display: block;"
+      ></eox-storytelling>
       <custom-dashboard-grid
         ref="customDashboardGrid"
-        v-if="$store.state.features.allFeatures.length > 0"
+        v-else-if="$store.state.features.allFeatures.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || !!newFeatureDialog"
         :storyMode="storyModeEnabled"
@@ -531,6 +540,7 @@ export default {
     localDashboardId: null,
     scrollOverlay: false,
     imageFlag: '<--IMG-->',
+    storytellingMarkdownUrl: null,
   }),
   computed: {
     ...mapState('config', [
@@ -589,29 +599,33 @@ export default {
         !editKey
         && existingConfiguration
       ) {
-        // replace with local custom dashboard
-        const localDashboard = await axios
-          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
-            headers: {
-              'Cache-Control': 'no-cache',
-              Pragma: 'no-cache',
-              Expires: '0',
-            },
-          });
-        const localDashboardContent = localDashboard.data;
         this.officialDashboard = true;
         this.localDashboardId = id;
         this.dashboardTitle = existingConfiguration.title;
         this.dashboardSubTitle = existingConfiguration.subtitle;
         this.dashboardHeaderImage = existingConfiguration.image;
         this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
-        const localFeatures = localDashboardContent.features.map((f) => {
-          const newF = { ...f };
-          delete newF.id;
-          newF.poi = f.id;
-          return newF;
-        });
-        this.localDashboardFeatures = localFeatures;
+        if (existingConfiguration.storyMarkdown) {
+          this.storytellingMarkdownUrl = existingConfiguration.storyMarkdown;
+        } else {
+          // replace with local custom dashboard
+          const localDashboard = await axios
+            .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
+              headers: {
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0',
+              },
+            });
+          const localDashboardContent = localDashboard.data;
+          const localFeatures = localDashboardContent.features.map((f) => {
+            const newF = { ...f };
+            delete newF.id;
+            newF.poi = f.id;
+            return newF;
+          });
+          this.localDashboardFeatures = localFeatures;
+        }
       } else {
         this.reconnecting = true;
         this.disconnect();

@@ -52,7 +52,9 @@ module.exports = {
     'vuetify',
     'ol',
     '@eox/layercontrol',
+    '@eox/map',
     '@eox/jsonform',
+    '@eox/storytelling',
   ],
   configureWebpack: {
     devServer: {
