@@ -802,14 +802,16 @@ export default {
       });
     },
     pageScroll({ target, offset = 0 }) {
-      this.scrollOverlay = true;
+      if (!this.storytellingMarkdownUrl) {
+        this.scrollOverlay = true;
+      }
       setTimeout(async () => {
         await this.$vuetify.goTo(
           target,
           {
             container: document.querySelector('.scrollContainer'),
             offset,
-            duration: 0,
+            duration: this.storytellingMarkdownUrl ? 500 : 0,
           },
         );
         setTimeout(() => {
