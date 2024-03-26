@@ -7,40 +7,41 @@
     <v-row>
       <v-col>
         <h3>
-          2023-07-14: Multiple new stories added to EO Dashboard related to Lakes!
+          2024-02-08: Challenge announcement!!
+        </h3>
+        <h4>
+          Unveil the secrets of Earth’s Dynamic Systems: Join the Open Challenge!
+        </h4>
+        <p>
+          Only 20 spots available! Register before 15 February! Go to <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank" >
+            https://eo4society.esa.int/event/sciencehubchallengefeb2024/
+          </a> for more information.
+        </p>
+        <div style="width: 100%; text-align: center;">
+          <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank">
+            <img
+              :src="`${publicPath}data/trilateral/Science-Hub_Challenge-240202_v2.jpg`"
+              style="max-width: 100%; max-height: 500px;"
+            />
+          </a>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
+          2023-11-29: Several new datasets added to theme BIOMASS
         </h3>
         <ul>
-          <li><a href="story?id=lakes-intro">
-            Troubled Waters: Unraveling the Impacts of Climate Change on Inland Waters
+          <li>Datasets contributed by ESA CCI RECCAP-2 project
+            <a href="explore?search=Biomass">
+            View Datasets
           </a></li>
-          <li><a href="story?id=lakes-climate">Changes  in temperature, precipitation patterns and
-             extremes impacting surface water hydrology
+          <li>EO Dashboard participates to the United Nations Climate Change Conference COP28
+            <a href="//www.cop28.com/">
+            COP28 UAE - United Nations Climate Change Conference
           </a></li>
-          <li><a href="story?id=lakes-algae">Algal blooms in lake waters</a></li>
-          <li><a href="story?id=lakes-human-activity">Changing lakes due to human activity</a></li>
         </ul>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2023-05-23: Space for Climate Protection awarded to EO Dashboard!
-        </h3>
-        <p>
-          <a target="_blank" href="https://www.esa.int/Applications/Observing_the_Earth/ESA_receives_Space_for_Climate_Protection_Award">EO Dashboard receives the 'Space for Climate Protection' Special Award by the International Astronautical Federation during the 2023 Global Space Conference on Climate Change in Oslo, Norway</a>.
-        </p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2023-03-13: Three new stories published in Cryosphere.
-        </h3>
-        <p>
-          Learn about the research of NASA, ESA and JAXA on glaciers
-          and other ice formations in Antarctica and Greenland that
-          have potential to affect our global climate system.
-        </p>
       </v-col>
     </v-row>
   </v-container>
@@ -59,6 +60,9 @@ export default {
 
         default: return 'text-h2';
       }
+    },
+    publicPath() {
+      return process.env.BASE_URL;
     },
   },
 };

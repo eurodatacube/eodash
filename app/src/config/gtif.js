@@ -209,6 +209,8 @@ export const mapDefaults = Object.freeze({
 });
 
 export const baseLayersMap = [
+  baseLayers.s1EodcBackscattervv,
+  baseLayers.s1EodcBackscattervh,
   baseLayers.S2GLC,
   baseLayers.ESA_WORLD_COVER,
   baseLayers.CORINE_LAND_COVER,
@@ -487,7 +489,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_2: {
     indicator: 'Hydro Power SWE monthly',
@@ -505,7 +509,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmaporthofoto30cm],
+    baseLayers.bmaporthofoto30cm,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP4_4: {
     indicator: 'Hydro Power WSE monthly',
@@ -535,7 +541,9 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
     baseLayers.geolandbasemap,
-    baseLayers.bmapgelaende],
+    baseLayers.bmapgelaende,
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh],
   },
   REP5: {
     indicator: 'Potential Assessment',
@@ -545,6 +553,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.S2GLC,
     baseLayers.ESA_WORLD_COVER,
     baseLayers.CORINE_LAND_COVER,
@@ -566,6 +576,8 @@ export const indicatorsDefinition = Object.freeze({
     baseLayers: [{
       ...baseLayers.bmapgelaende, visible: true,
     },
+    baseLayers.s1EodcBackscattervv,
+    baseLayers.s1EodcBackscattervh,
     baseLayers.terrainLight,
     baseLayers.eoxosm,
     baseLayers.S2GLC,

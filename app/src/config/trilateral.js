@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // config global variables here for now
 // temporary solution
 import { Wkt } from 'wicket';
@@ -8,7 +9,7 @@ import { DateTime } from 'luxon';
 import {
   simplifiedshTimeFunction, shTimeFunction, shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import { baseLayers, overlayLayers, xcubeViewerColormaps } from '@/config/layers';
 import availableDates from '@/config/data_dates.json';
 import locations from '@/config/locations.json';
 import {
@@ -17,6 +18,7 @@ import {
   evalScriptsDefinitions,
   parseStatAPIResponse,
   nasaStatisticsConfig,
+  xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
 
 const wkt = new Wkt();
@@ -72,12 +74,71 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const mapBoxHighResoSubst = [{
   ...baseLayers.mapboxHighReso,
   visible: true,
 }, baseLayers.terrainLight, baseLayers.eoxosm, baseLayers.cloudless];
+
+const antarcticBaseMaps = [
+  baseLayers.terrainLightStereoSouth,
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+  {
+    name: 'Antarctic hillshade, bathymetry',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_hillshade_and_bathymetry',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
+  },
+];
+
+const antarcticOverlayMaps = [
+  {
+    name: 'Antarctic coastline',
+    baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
+    projection: 'EPSG:3031',
+    layers: 'add:antarctic_coastline_line_medium',
+    attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+  },
+  {
+    name: 'Antarctic labels',
+    baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
+    projection: 'EPSG:3031',
+    layers: 'apip_extended_toponymy_labels',
+    minZoom: 2,
+    maxZoom: 17,
+    visible: true,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
+  },
+];
+
+const arcticBaseMaps = [
+  {
+    ...baseLayers.terrainLightStereoNorth,
+    visible: true,
+  },
+  baseLayers.cloudless,
+  baseLayers.eoxosm,
+];
+
+const arcticOverlayMaps = [];
 
 const sharedPalsarFNFConfig = Object.freeze({
   url: 'https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview/1.0.0/WMTSCapabilities.xml',
@@ -100,6 +161,10 @@ const sharedPalsarFNFConfig = Object.freeze({
 });
 
 export const indicatorsDefinition = Object.freeze({
+  GHSBUILT: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/GHSBUILT',
+  },
   NLK: {
     indicatorSummary: 'Lakes',
     story: '/data/trilateral/NLK',
@@ -358,7 +423,6 @@ export const indicatorsDefinition = Object.freeze({
   N12: {
     indicatorSummary: 'Sea Ice Concentration (GCOM-W)',
     themes: ['cryosphere'],
-    baseLayers: cloudlessBaseLayerDefault,
     story: '/eodash-data/stories/N12',
   },
   N11: {
@@ -524,53 +588,83 @@ export const indicatorsDefinition = Object.freeze({
     projection: 'EPSG:3031',
     minZoom: 2,
     maxZoom: 15,
-    baseLayers: [
-      baseLayers.terrainLight,
-      baseLayers.cloudless,
-      baseLayers.eoxosm,
-      {
-        name: 'Antarctic hillshade, bathymetry',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_hillshade_and_bathymetry',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ REMA: Howat, I. M., Porter, C., Smith, B. E., Noh, M.-J., and Morin, P.: The Reference Elevation Model of Antarctica, The Cryosphere, 13, 665-674, https://doi.org/10.5194/tc-13-665-2019, 2019. ; GEBCO Compilation Group (2019) GEBCO 2019 Grid (doi:10.5285/836f016a-33be-6ddc-e053-6c86abc0788e) Available from: GEBCO; https://www.gebco.net/ }',
-      },
-    ],
-    overlayLayers: [
-      overlayLayers.eoxOverlay,
-      {
-        name: 'Antarctic coastline',
-        baseUrl: 'https://maps.bas.ac.uk/antarctic/wms',
-        projection: 'EPSG:3031',
-        layers: 'add:antarctic_coastline_line_medium',
-        attribution: '{ Gerrish, L., Fretwell, P., & Cooper, P. (2022). Medium resolution vector polylines of the Antarctic coastline (7.6) [Data set]. UK Polar Data Centre, Natural Environment Research Council, UK Research & Innovation. https://doi.org/10.5285/1db7f188-6c3e-46cf-a3bf-e39dbd77e14c }',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-      },
-      {
-        name: 'Antarctic labels',
-        baseUrl: 'https://add.data.bas.ac.uk/ogc/64/wms',
-        projection: 'EPSG:3031',
-        layers: 'apip_extended_toponymy_labels',
-        minZoom: 2,
-        maxZoom: 17,
-        visible: true,
-        protocol: 'WMS',
-        format: 'image/png',
-        tileSize: 512,
-        attribution: '{ Place Names sourced from SCAR Composite Gazetteer of Antarctica }',
-      },
-    ],
+    baseLayers: antarcticBaseMaps,
+    overlayLayers: antarcticOverlayMaps,
+  },
+  RECCAP2_1: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_1',
+  },
+  RECCAP2_2: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_1',
+  },
+  RECCAP2_3: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_1',
+  },
+  RECCAP2_4: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_1',
+  },
+  RECCAP2_5: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_5',
+  },
+  RECCAP2_6: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_6',
+  },
+  RECCAP2_7: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_7',
+  },
+  RECCAP2_8: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_8',
+  },
+  RECCAP2_9: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_9',
+  },
+  RECCAP2_10: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_9',
+  },
+  RECCAP2_11: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_9',
+  },
+  RECCAP2_12: {
+    themes: ['biomass'],
+    story: '/data/trilateral/RECCAP2_9',
+  },
+  ESDC_gross_primary_productivity: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_gross_primary_productivity',
+  },
+  ESDC_net_ecosystem_exchange: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_net_ecosystem_exchange',
+  },
+  ESDC_kndvi: {
+    themes: ['biomass'],
+    story: '/data/trilateral/ESDC_kndvi',
+  },
+  GGI_CH4: {
+    themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CH4',
+    baseLayers: cloudlessBaseLayerDefault,
+  },
+  GGI_N2O: {
+    themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_N2O',
+    baseLayers: cloudlessBaseLayerDefault,
+  },
+  GGI_CO2: {
+    themes: ['atmosphere'],
+    story: '/data/trilateral/GGI_CO2',
+    baseLayers: cloudlessBaseLayerDefault,
   },
   PRCTS: {
     indicatorSummary: 'Precipitation anomaly',
@@ -614,23 +708,27 @@ export const indicatorsDefinition = Object.freeze({
   },
   Lakes_WQ_TURB: {
     indicatorSummary: 'Water Quality Turbidity mean Lakes',
-    story: '/data/trilateral/stories/Lakes_WQ_TURB',
+    story: '/data/trilateral/Lakes_WQ_TURB',
     themes: ['oceans'],
   },
   Lakes_WQ_TC: {
     indicatorSummary: 'Water Quality True color Lakes',
-    story: '/data/trilateral/stories/Lakes_WQ_TC',
+    story: '/data/trilateral/Lakes_WQ_TC',
     themes: ['oceans'],
   },
   Lakes_SWT: {
     indicatorSummary: 'Surface Water Temperature Maps',
-    story: '/data/trilateral/stories/Lakes_SWT',
+    story: '/data/trilateral/Lakes_SWT',
     themes: ['oceans'],
   },
   Lakes_SWTT: { // still depends on table content
     indicatorSummary: 'Surface Water Temperature Time Series',
-    story: '/data/trilateral/stories/Lakes_SWTT', // stays
+    story: '/data/trilateral/Lakes_SWTT', // stays
     themes: ['oceans'],
+  },
+  sen4ama: {
+    story: '/data/trilateral/sen4ama',
+    themes: ['biomass'],
   },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
@@ -872,7 +970,6 @@ export const baseLayersMap = [
 export const overlayLayersMap = [{
   ...overlayLayers.eoxOverlay,
   visible: true,
-  updateOpacityOnZoom: true,
 }];
 
 export const defaultLayersDisplay = {
@@ -970,13 +1067,13 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end) => {
+const getDailyDates = (start, end, interval = 1) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+    currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
 };
@@ -992,7 +1089,137 @@ const getWeeklyDates = (start, end) => {
   return dateArray;
 };
 
+const createRECCAP2Config = (indicatorCode, name, variable, vmin, vmax, cbar, time, yAxis, xcubeServerUrl = 'https://reccap2.api.dev.brockmann-consult.de', xcubeCubeName = 'cop28~reccap2-9x108x139-0.0.1.zarr', subaoiWkt = 'POLYGON((-82.46 13.76,-33.24 13.76,-33.24 -22.58,-82.46 -22.58,-82.46 13.76))') => ({
+  properties: {
+    indicatorObject: {
+      indicator: indicatorCode,
+      dataLoadFinished: true,
+      country: 'all',
+      city: 'World',
+      siteName: 'global',
+      description: '',
+      indicatorName: name,
+      subAoi: {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      aoiID: 'World',
+      time,
+      inputData: [''],
+      yAxis,
+      display: {
+        baseLayers: cloudlessBaseLayerDefault,
+        layerConfig: {
+          schema: {
+            type: 'object',
+            properties: {
+              vminmax: {
+                title: 'Value stretch',
+                type: 'object',
+                properties: {
+                  vmin: {
+                    type: 'number',
+                    minimum: vmin,
+                    maximum: vmax,
+                    format: 'range',
+                  },
+                  vmax: {
+                    type: 'number',
+                    minimum: vmin,
+                    maximum: vmax,
+                    format: 'range',
+                  },
+                },
+                format: 'minmax',
+              },
+              cbar: {
+                title: 'Colorbar',
+                type: 'string',
+                enum: xcubeViewerColormaps,
+              },
+            },
+          },
+        },
+        presetView: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read(subaoiWkt).toJson(),
+          }],
+        },
+        legendUrl: `legends/trilateral/${indicatorCode}.png`,
+        protocol: 'xyz',
+        tileSize: 256,
+        minZoom: 1,
+        url: `${xcubeServerUrl}/api/tiles/${xcubeCubeName}/${variable}/{z}/{y}/{x}?crs=EPSG:3857&time={time}&vmin=${vmin}&vmax=${vmax}&cbar=${cbar}`,
+        name,
+        dateFormatFunction: (date) => `${date}`,
+        labelFormatFunction: (date) => date,
+        minNativeZoom: 3,
+        maxNativeZoom: 5,
+        customAreaIndicator: true,
+        areaIndicator: xcubeAnalyticsConfig({ href: `${xcubeServerUrl}/api/timeseries/${xcubeCubeName}/${variable}?aggMethods=median` }),
+      },
+    },
+  },
+});
+
 export const globalIndicators = [
+  createRECCAP2Config('RECCAP2_1', 'Methods mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_methods_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_2', 'Smooth max aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_smooth_max_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_3', 'Smooth mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_smooth_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_4', 'Trend mean aboveground carbon (CCI RECCAP2)', 'AGC_LVOD_amazonia_trend_mean_crop', 0, 150, 'rain', getYearlyDates('2011-01-01', '2019-01-01'), 'Mg C/ha'),
+  createRECCAP2Config('RECCAP2_5', 'Secondary forest growth (CCI RECCAP2)', 'SF_biomass_growth', 0, 2, 'YlGn', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_6', 'Deforestation (CCI RECCAP2)', 'deforested_biomass', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_7', 'Degradation (CCI RECCAP2)', 'degraded_biomass', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_8', 'Edge biomass change (CCI RECCAP2)', 'edge_biomass_change', 0, 5, 'YlOrRd', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_9', 'Methods mean intact biomass change (CCI RECCAP2)', 'intact_biomass_change_methods_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_10', 'Smooth max intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_max', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_11', 'Smooth mean intact biomass change (CCI RECCAP2)', 'intact_biomass_change_smooth_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('RECCAP2_12', 'Mean intact biomass change trend (CCI RECCAP2)', 'intact_biomass_change_trend_mean', -5, 5, 'Spectral', getYearlyDates('2011-01-01', '2018-01-01'), 'Mg C/ha/year'),
+  createRECCAP2Config('ESDC_gross_primary_productivity', 'Gross Primary Productivity', 'gross_primary_productivity', -1, 15, 'jet', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  createRECCAP2Config('ESDC_net_ecosystem_exchange', 'Net Ecosystem Exchange', 'net_ecosystem_exchange', -7, 2, 'bwr', getDailyDates('2001-01-05', '2018-12-23', 8), 'gC/m2/day', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  createRECCAP2Config('ESDC_kndvi', 'KNDVI', 'kndvi', 0, 1, 'RdYlGn', getDailyDates('2000-03-01', '2021-12-31', 8), '', 'https://api.earthsystemdatalab.net', 'esdc', 'POLYGON((-160 75,160 75,175.5859375 -75,-160 -75,-160 75))'),
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'GHS built-up surface dataset GHS-BUILT-S_GLOBE_R2023A',
+        indicator: 'GHSBUILT',
+        indicatorName: 'GHS-BUILT-S-R2023A',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: availableDates.GHS_BUILT_S,
+        inputData: [''],
+        yAxis: '',
+        display: {
+          customAreaIndicator: true,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'GHS-BUILT-S_GLOBE_R2023A',
+          layers: 'GHS_BUILT_S',
+          minZoom: 1,
+          legendUrl: 'legends/esa/GHS-BUILT-S_GLOBE_R2023A.png',
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          areaIndicator: {
+            ...statisticalApiHeaders,
+            ...statisticalApiBody(
+              evalScriptsDefinitions['GHS-BUILT-S_GLOBE_R2023A'],
+              'byoc-0c7aa265-50f9-4947-9980-2ee5ae204803',
+            ),
+            callbackFunction: parseStatAPIResponse,
+            areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
+          },
+        },
+      },
+    },
+  },
   {
     properties: {
       indicatorObject: {
@@ -1430,6 +1657,8 @@ export const globalIndicators = [
         showGlobe: true,
         // yAxis: 'Sea-ice thickness [m]',
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           protocol: 'xyz',
           tileSize: 256,
           minZoom: 1,
@@ -1846,6 +2075,8 @@ export const globalIndicators = [
         yAxis: 'Sea Ice Thickness (Envisat)',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Envisat)',
           layers: 'ESA-CCI-V2-ENVISAT',
@@ -1892,6 +2123,8 @@ export const globalIndicators = [
         yAxis: 'ESA-CCI-V2-CRYOSAT',
         showGlobe: true,
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           name: 'Sea Ice Thickness (Cryosat)',
           layers: 'ESA-CCI-V2-CRYOSAT',
@@ -2043,9 +2276,11 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Arctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         display: {
+          baseLayers: arcticBaseMaps,
+          overlayLayers: arcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -2085,7 +2320,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         showGlobe: true,
         display: [{
@@ -2120,9 +2355,11 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'Antarctic',
-        time: getDailyDates('1978-11-01', '2023-01-30'),
+        time: getDailyDates('1978-11-01', '2023-12-31'),
         inputData: [''],
         display: {
+          baseLayers: antarcticBaseMaps,
+          overlayLayers: antarcticOverlayMaps,
           name: 'Sea Ice Concentration',
           legendUrl: 'legends/trilateral/World-SIC.png',
           baseUrl: 'https://ogcpreview2.restecmap.com/examind/api/WS/wms/default?',
@@ -2439,8 +2676,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2549,8 +2786,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2637,8 +2874,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -2681,8 +2918,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_CHLA,
+              'byoc-198aa13a-b0c0-4b78-8f69-e08fc58551a7',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3118,8 +3355,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_CHL_MAPS,
-              'byoc-7db8e19e-bf12-4203-bdd1-673455647354',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3162,8 +3399,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3206,8 +3443,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -3250,8 +3487,8 @@ export const globalIndicators = [
           areaIndicator: {
             ...statisticalApiHeaders,
             ...statisticalApiBody(
-              evalScriptsDefinitions.AWS_VIS_TSM_MAPS,
-              'byoc-698ade22-bc30-44d1-8751-159ee135f998',
+              evalScriptsDefinitions.AWS_JAXA_TSM,
+              'byoc-925b4bf6-ca1b-45df-a523-88f30823ab07',
             ),
             callbackFunction: parseStatAPIResponse,
             areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
@@ -4622,7 +4859,7 @@ export const globalIndicators = [
           minZoom: 7,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-thwaites&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',
@@ -4662,7 +4899,7 @@ export const globalIndicators = [
           minZoom: 7,
           projection: 'EPSG:3857',
           attribution: 'Landsat Data Policy: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat_Data_Policy.pdf',
-          url: 'https://dev-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
+          url: 'https://staging-raster.delta-backend.com/stac/tiles/WebMercatorQuad/{z}/{x}/{y}@2x?collection=landsat-c2l2-sr-antarctic-glaciers-pine-island&item={time}&assets=red&assets=green&assets=blue&color_formula=gamma+RGB+2.7%2C+saturation+1.5%2C+sigmoidal+RGB+15+0.55&nodata=0&format=png',
           dateFormatFunction: (date) => `${date[1]}`,
           labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Landsat L2',
@@ -5574,6 +5811,51 @@ export const globalIndicators = [
               type: 'Feature',
               properties: {},
               geometry: wkt.read('POLYGON((7.99 46.55,13.04 46.55,13.04 43.08,7.99 43.08,7.99 46.55))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Sentinel-1 for Science Amazonas area of forest loss',
+        indicator: 'sen4ama',
+        indicatorName: 'Sentinel-1 for Science Amazonas',
+        eoSensor: 'Sentinel-1',
+        aoiID: 'World',
+        time: [ // times for a monthly composite
+          '2017-01-01', '2017-02-01', '2017-03-01', '2017-04-01', '2017-05-01', '2017-06-01', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01', '2018-05-01', '2018-06-01', '2018-07-01', '2018-08-01', '2018-09-01', '2018-10-01', '2018-11-01', '2018-12-01', '2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01', '2019-06-01', '2019-07-01', '2019-08-01', '2019-09-01', '2019-10-01', '2019-11-01', '2019-12-01', '2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01', '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01', '2021-06-01', '2021-07-01', '2021-08-01', '2021-09-01', '2021-10-01', '2021-11-01',
+        ],
+        // actual scene dates!
+        // [
+        //   '2017-01-02', '2017-01-14', '2017-01-26', '2017-02-07', '2017-02-19', '2017-03-03', '2017-03-15', '2017-03-27', '2017-04-08', '2017-04-20', '2017-05-02', '2017-05-14', '2017-05-26', '2017-06-07', '2017-06-19', '2017-07-01', '2017-07-13', '2017-07-25', '2017-08-06', '2017-08-18', '2017-08-30', '2017-09-11', '2017-09-23', '2017-10-05', '2017-10-17', '2017-10-29', '2017-11-10', '2017-11-22', '2017-12-04', '2017-12-16', '2017-12-28', '2018-01-09', '2018-01-21', '2018-02-02', '2018-02-14', '2018-02-26', '2018-03-10', '2018-03-22', '2018-04-03', '2018-04-15', '2018-04-27', '2018-05-09', '2018-05-21', '2018-06-02', '2018-06-14', '2018-06-26', '2018-07-08', '2018-07-20', '2018-08-01', '2018-08-13', '2018-08-25', '2018-09-06', '2018-09-18', '2018-09-30', '2018-10-12', '2018-10-24', '2018-11-05', '2018-11-17', '2018-11-29', '2018-12-11', '2018-12-23', '2019-01-04', '2019-01-16', '2019-01-28', '2019-02-09', '2019-02-21', '2019-03-05', '2019-03-17', '2019-03-29', '2019-04-10', '2019-04-22', '2019-05-04', '2019-05-16', '2019-05-28', '2019-06-09', '2019-06-21', '2019-07-03', '2019-07-15', '2019-07-27', '2019-08-08', '2019-08-20', '2019-09-01', '2019-09-13', '2019-09-25', '2019-10-07', '2019-10-19', '2019-10-31', '2019-11-12', '2019-11-24', '2019-12-06', '2019-12-18', '2019-12-30', '2020-01-11', '2020-01-23', '2020-02-04', '2020-02-16', '2020-02-28', '2020-03-11', '2020-03-23', '2020-04-04', '2020-04-16', '2020-04-28', '2020-05-10', '2020-05-22', '2020-06-03', '2020-06-15', '2020-06-27', '2020-07-09', '2020-07-21', '2020-08-02', '2020-08-14', '2020-08-26', '2020-09-07', '2020-09-19', '2020-10-01', '2020-10-13', '2020-10-25', '2020-11-06', '2020-11-18', '2020-11-30', '2020-12-12', '2020-12-24', '2021-01-05', '2021-01-17', '2021-01-29', '2021-02-10', '2021-02-22', '2021-03-06', '2021-03-18', '2021-03-30', '2021-04-11', '2021-04-23', '2021-05-05', '2021-05-17', '2021-05-29', '2021-06-10', '2021-06-22', '2021-07-04', '2021-07-16', '2021-07-28', '2021-08-09', '2021-05-17', '2021-05-29', '2021-06-10', '2021-06-22', '2021-07-04', '2021-07-16', '2021-07-28', '2021-08-09', '2021-08-21', '2021-09-02', '2021-09-14', '2021-09-26', '2021-10-08', '2021-10-20', '2021-11-01', '2021-11-13',
+        // ],
+        inputData: [''],
+        yAxis: '',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sentinel-1 for Science Amazonas area of forest loss',
+          layers: 'ID-AMAZONAS_PROJECT',
+          minZoom: 5,
+          maxZoom: 16,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ months: 1 }).minus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((-58.193359 -5.652236, -58.193359 -1.537901, -52.625 -1.537901, -52.625 -5.652236, -58.193359 -5.652236))').toJson(),
             }],
           },
         },

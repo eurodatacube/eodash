@@ -334,19 +334,6 @@ export default {
       const configs = [...((
         this.mergedConfigsData.length && this.mergedConfigsData[0].overlayLayers
       ) || this.baseConfig.overlayLayersMap)];
-      const darkOverlay = (
-        'darkOverlayLayers' in this.baseConfig
-        && this.baseConfig.darkOverlayLayers.length > 0
-      );
-      // darkOverlayLayers replace country vectors
-      if (!this.isGlobalIndicator && !darkOverlay) {
-        configs.push({
-          name: 'Country vectors',
-          protocol: 'countries',
-          projection: 'EPSG:4326',
-          visible: true,
-        });
-      }
       return configs;
     },
     darkOverlayLayers() {
@@ -458,9 +445,6 @@ export default {
     dataLayerKey() {
       return this.dataLayerName + this.indicator.aoiID + this.indicator.indicator;
     },
-    countriesJson() {
-      return countries;
-    },
     // extent to be zoomed to. Padding will be applied.
     zoomExtent() {
       if ((this.centerProp && this.zoomProp)
@@ -523,7 +507,7 @@ export default {
   },
   watch: {
     getFeatures(features) {
-      if (this.appConfig.id === 'gtif') {
+      if (this.appConfig.id === 'gtif' || this.$route.name === 'demo') {
         return;
       }
       if (this.mapId === 'centerMap' && features) {

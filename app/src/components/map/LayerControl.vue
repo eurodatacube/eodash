@@ -24,6 +24,7 @@
     <eox-layercontrol
       :for="'#' + mapId "
       :titleProperty.prop="'name'"
+      :tools.prop="['config', 'opacity', 'sort']"
       class="pointerEvents">
     </eox-layercontrol>
   </v-card>
@@ -79,37 +80,13 @@ export default {
       backgroundGroup.getLayers().push(layer);
     });
     const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
-      map,
-      {
-        updateOpacityOnZoom: l.name === 'Overlay labels' || l.name === 'Country vectors',
-      }));
+      map, {}));
     overlayLayers.forEach((layer) => {
       const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
       overlayGroup.getLayers().push(layer);
     });
-    map.on('moveend', this.updateOverlayOpacity);
-    map.dispatchEvent({ type: 'moveend' });
   },
   methods: {
-    updateOverlayOpacity(e) {
-      const map = e.target;
-      const view = map.getView();
-      const zoom = Math.floor(view.getZoom());
-      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
-
-      this.overlayConfigs.forEach((c) => {
-        const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === c.name);
-        if (layer.get('updateOpacityOnZoom')) {
-          if (layer.get('name') === 'Country vectors') {
-            layer.setOpacity(this.opacityCountries[zoom]);
-          } else {
-            // show overlays on low zoom levels for global indicators
-            const opacity = this.isGlobalIndicator ? 1 : this.opacityOverlay[zoom] || 0;
-            layer.setOpacity(opacity);
-          }
-        }
-      });
-    },
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
@@ -124,8 +101,6 @@ export default {
       const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
       overlayGroup.getLayers().remove(layer);
     });
-
-    map.un('moveend', this.updateOverlayOpacity);
   },
 };
 </script>

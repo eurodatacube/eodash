@@ -143,6 +143,7 @@ BYOD_COLLECTIONS = [
     "AWS_VIS_SST_MAPS",
     "LAKES_SURFACE_WATER_TEMPERATURE",
     "LAKE_WATER_QUALITY_TURBIDITY_MEAN",
+    "GHS_BUILT_S",
 ]
 
 ZARRCOLLECTIONS = [
@@ -561,6 +562,7 @@ def generateData(
         indicator_id = indicator[0]
         indicator_query = indicator[1]
         try:
+            print("working on collection %s" % indicator_id)
             indicator_data = geodb.get_collection(indicator_id, database='eodash', query=indicator_query)
             for index, line in indicator_data.iterrows():
                 # Aggregate data for unique pois and write unique data to poi_dict
@@ -754,22 +756,26 @@ generateData(
     "/public/data/internal/pois_trilateral.json",
     "/public/data/internal/",
     [
-        '/public/data/trilateral/E10a1.csv',
-        '/public/eodash-data/data/E10a2.csv',
-        '/public/eodash-data/data/E10a3.csv',
-        '/public/data/trilateral/E10a6.csv',
-        '/public/data/trilateral/E10a8.csv',
-        '/public/data/trilateral/E10c.csv',
-        '/public/data/trilateral/N2.csv',
+        # '/public/data/trilateral/E10a1.csv',
+        # '/public/eodash-data/data/E10a2.csv',
+        # '/public/eodash-data/data/E10a3.csv',
+        # '/public/data/trilateral/E10a6.csv',
+        # '/public/data/trilateral/E10a8.csv',
+        # '/public/data/trilateral/E10c.csv',
+        # '/public/data/trilateral/N2.csv',
         '/public/data/trilateral/N1_EG.csv',
         '/public/data/trilateral/N2_EG.csv',
         '/public/data/trilateral/SIF_EG.csv',
     ],
     [
-        #['E1', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
-        #['E1a', 'or=(aoi_id.eq.BE3,aoi_id.eq.FR3)'], archived
+        ['E10a1_tri', ''],
+        ['E10a2_tri', ''],
+        ['E10a3_tri', ''],
+        ['E10a6', ''],
+        ['E10a8', ''],
+        ['E10c_tri', ''],
+        ['N2_tri', ''],
         ['E9_tri', ''],
-        # ['N3_tri', ''],
         ['Regional_Water_quality_timeseries', ''], # contains N3b indicator
         ['N1_tri', ''],
         ['E13b_tri', ''],
@@ -779,6 +785,9 @@ generateData(
         ['PRCTS_Precipitation_Timeseries', ''],
         ['Lake_water_extent_tri_timeseries', ''],
         ['Lake_water_level_tri_timeseries', ''],
+        ['GGI_CH4', ''],
+        ['GGI_N2O', ''],
+        ['GGI_CO2', ''],
     ]
 )
 
@@ -792,40 +801,57 @@ generateData(
     "/public/data/internal/pois_eodash.json",
     "/public/eodash-data/internal/",
     [
-        '/public/eodash-data/data/C1.csv',
-        '/public/eodash-data/data/C2.csv',
-        '/public/eodash-data/data/C3.csv',
-        '/public/eodash-data/data/E8.csv',
-        '/public/eodash-data/data/E10a1.csv',
-        '/public/eodash-data/data/E10a2.csv',
-        '/public/eodash-data/data/E10a3.csv',
-        '/public/eodash-data/data/E10a5.csv',
-        '/public/data/trilateral/E10a8.csv',
-        '/public/eodash-data/data/E10a9.csv',
-        '/public/eodash-data/data/E13b2.csv',  # archived
-        '/public/eodash-data/data/N1a_PM25_CAMS.csv',
-        '/public/eodash-data/data/N1b_NO2_CAMS.csv',
-        '/public/eodash-data/data/N1c_PM10_CAMS.csv',
-        '/public/eodash-data/data/N1d_O3_CAMS.csv',
-        '/public/eodash-data/data/E13e_cargo.csv',
-        '/public/eodash-data/data/E13f_fishing.csv',
-        '/public/eodash-data/data/E13g_tanker.csv',
-        '/public/eodash-data/data/E13h_gioiatauro_tug.csv',
-        '/public/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
-        '/public/eodash-data/data/E13l_genova_pleasure.csv',
-        '/public/eodash-data/data/E13m_genova_passenger.csv',
-        '/public/eodash-data/data/E13n_traffic.csv',
+        # '/public/eodash-data/data/C1.csv',
+        # '/public/eodash-data/data/C2.csv',
+        # '/public/eodash-data/data/C3.csv',
+        # '/public/eodash-data/data/E8.csv',
+        # '/public/eodash-data/data/E10a1.csv',
+        # '/public/eodash-data/data/E10a2.csv',
+        # '/public/eodash-data/data/E10a3.csv',
+        # '/public/eodash-data/data/E10a5.csv',
+        # '/public/data/trilateral/E10a8.csv',
+        # '/public/eodash-data/data/E10a9.csv',
+        # '/public/eodash-data/data/E13b2.csv',  # archived
+        # '/public/eodash-data/data/N1a_PM25_CAMS.csv',
+        # '/public/eodash-data/data/N1b_NO2_CAMS.csv',
+        # '/public/eodash-data/data/N1c_PM10_CAMS.csv',
+        # '/public/eodash-data/data/N1d_O3_CAMS.csv',
+        # '/public/eodash-data/data/E13e_cargo.csv',
+        # '/public/eodash-data/data/E13f_fishing.csv',
+        # '/public/eodash-data/data/E13g_tanker.csv',
+        # '/public/eodash-data/data/E13h_gioiatauro_tug.csv',
+        # '/public/eodash-data/data/E13i_gioiatauro_SearchRescue.csv',
+        # '/public/eodash-data/data/E13l_genova_pleasure.csv',
+        # '/public/eodash-data/data/E13m_genova_passenger.csv',
+        # '/public/eodash-data/data/E13n_traffic.csv',
     ],
     [
-        #['E1', ''], archived
+        ['C1', ''],
+        ['C2', ''],
+        ['C3', ''],
+        ['E10a1_tri', ''],
+        ['E10a2_tri', ''],
+        ['E10a3_tri', ''],
+        ['E10a5', ''],
+        ['E10a8', ''],
+        ['E10a9', ''],
+        ['N1a', ''],
+        ['N1b', ''],
+        ['N1c', ''],
+        ['N1d', ''],
+        ['E13e', ''],
+        ['E13h', ''],
+        ['E13i', ''],
+        ['E13l', ''],
+        ['E13m', ''],
+        ['E13n', ''],
+        # 
         ['E1_S2', ''],
-        #['E1a', ''], archived
         ['E1a_S2', ''],
-        #['E2', ''], archived
         ['E2_S2', ''],
         ['E4', ''],
         ['E5', ''],
-        #['E8', ''],
+        ['E8', ''],
         ['E10a6', ''],
         ['E10a10', ''],
         ['E11', ''],
@@ -837,5 +863,7 @@ generateData(
         ['N1', ''],
         ['E200', ''],
         ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
+        ['Crude_Oil_Storage_Index', ''],
+        # ['Crude_Oil_Storage_Index-Europe', ''],
     ]
 )

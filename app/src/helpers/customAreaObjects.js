@@ -204,7 +204,10 @@ export const evalScriptsDefinitions = Object.freeze({
   AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
   AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
   AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
+  AWS_JAXA_TSM: defaultEvalScriptDef('tsm'),
+  AWS_JAXA_CHLA: defaultEvalScriptDef('chla'),
   LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
+  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
 });
 
 // Define custom fetch function with configurable timeout
@@ -261,7 +264,7 @@ export const fetchCustomAreaObjects = async (
         requestBody[params[i]] = template(templateRe, requestBody[params[i]], templateSubst);
       }
       // Convert geojsons back to an object
-      if (params[i] === 'geojson') {
+      if (['geojson', 'coordinates'].includes(params[i])) {
         requestBody[params[i]] = JSON.parse(requestBody[params[i]]);
       }
     }
@@ -317,9 +320,11 @@ export const fetchCustomAreaObjects = async (
     const start = times[0];
     const end = times[times.length - 1];
     const format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    const step = {
-      days: 30 * 3,
-    };
+    // create a variable step based on the size of time array,
+    // making a maximum of 30 requests to avoid rate limiting
+    const step = end.diff(start, ['days']).toObject();
+    step.days = Math.round(step.days / 30);
+
     let currentDate = start;
     const requests = [];
     // We dont want to modify the original request body, so we create a copy here
@@ -546,6 +551,51 @@ export const nasaTimelapseConfig = (
         properties: {},
         geometry: area,
       }),
+    }
+  ),
+});
+
+export const xcubeAnalyticsConfig = (
+  exampleEndpoint,
+  indicatorCode = 'XCubeCustomLineChart',
+) => ({
+  url: exampleEndpoint.href,
+  requestMethod: 'POST',
+  requestHeaders: {
+    'Content-Type': 'application/json',
+  },
+  requestBody: {
+    type: 'Polygon',
+    coordinates: '{coordinates}',
+  },
+  callbackFunction: (responseJson, indicator) => {
+    let ind = null;
+    if (Array.isArray(responseJson.result)) {
+      const data = responseJson.result;
+      const newData = {
+        time: [],
+        measurement: [],
+      };
+      data.forEach((row) => {
+        if (row.median !== null) {
+          newData.time.push(DateTime.fromISO(row.time));
+          newData.measurement.push(row.median);
+        }
+      });
+      if (indicatorCode) {
+        // if we for some reason need to change indicator code of custom chart data
+        newData.indicator = indicatorCode;
+      }
+      ind = {
+        ...indicator,
+        ...newData,
+      };
+    }
+    return ind;
+  },
+  areaFormatFunction: (area) => (
+    {
+      coordinates: JSON.stringify(area.coordinates),
     }
   ),
 });
