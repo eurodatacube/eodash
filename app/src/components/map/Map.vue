@@ -1076,6 +1076,10 @@ export default {
       });
     },
     async handleExternalMapMessage(event) {
+      if (event.data.command === 'map:reset') {
+        // Update the state of the application using the message data
+        this.resetView();
+      }
       if (event.data.command === 'map:setZoom' && event.data.zoom) {
         // Update the state of the application using the message data
         const { map } = getMapInstance(this.mapId);

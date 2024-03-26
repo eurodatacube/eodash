@@ -66,7 +66,6 @@ async function loadIndicator(link, url, rootState) {
     locations: link.locations ? link.locations : false,
     countries: link.countries ? link.countries : [],
     cities: link.cities ? link.cities : [],
-    // TODO: some default values we seem to need would be great if we can remove them
     subAoi: {
       type: 'FeatureCollection',
       features: [],
@@ -75,62 +74,42 @@ async function loadIndicator(link, url, rootState) {
   };
   if (link.rel === 'child') {
     let resultIndicator;
-    // We check to see if we have an indicator with just one entry, or with multiply entries
-    if (link.subcode.length > 0 && link.subcode[0] !== link.code) {
-      // We need to fetch sub collection to retrieve information
-      const subEntries = await fetch(
-        `${url.replace('catalog.json', '')}${link.href.substring(2)}`,
-        { credentials: 'same-origin' },
-      ).then((r) => r.json());
-      for (let idx = 0; idx < subEntries.links.length; idx++) {
-        if (subEntries.links[idx].rel === 'child') {
-          resultIndicator = { ...resultTemplate };
-          resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${subEntries.links[idx].href.substring(1)}`;
-          resultIndicator.group = link.title;
-          resultIndicator.themes = subEntries.links[idx].themes ? subEntries.links[idx].themes : [];
-          resultIndicator.tags = subEntries.links[idx].tags ? subEntries.links[idx].tags : [];
-          resultIndicator.satellite = subEntries.links[idx].satellite ? subEntries.links[idx].satellite : [];
-          resultIndicator.insituSources = subEntries.links[idx].insituSources ? subEntries.links[idx].insituSources : [];
-          resultIndicator.otherSources = subEntries.links[idx].otherSources ? subEntries.links[idx].otherSources : [];
-          resultIndicator.sensor = subEntries.links[idx].sensor ? subEntries.links[idx].sensor : [];
-          resultIndicator.countries = subEntries.links[idx].countries ? subEntries.links[idx].countries : [];
-          resultIndicator.cities = subEntries.links[idx].cities ? subEntries.links[idx].cities : [];
-          resultIndicator.description = subEntries.links[idx].subtitle ? subEntries.links[idx].subtitle : '';
-          resultIndicator.name = subEntries.links[idx].title;
-          resultIndicator.indicator = subEntries.links[idx].code;
-          resultIndicator.locations = subEntries.links[idx].locations ? subEntries.links[idx].locations : false;
-          resultIndicator.endpointType = subEntries.links[idx].endpointtype;
-          if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
-            rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+    // We need to fetch sub collections to retrieve information
+    const subEntries = await fetch(
+      `${url.replace('catalog.json', '')}${link.href.substring(2)}`,
+      { credentials: 'same-origin' },
+    ).then((r) => r.json());
+    for (let idx = 0; idx < subEntries.links.length; idx++) {
+      if (subEntries.links[idx].rel === 'child') {
+        resultIndicator = { ...resultTemplate };
+        resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${subEntries.links[idx].href.substring(1)}`;
+        resultIndicator.group = link.title;
+        resultIndicator.themes = subEntries.links[idx].themes ? subEntries.links[idx].themes : [];
+        resultIndicator.tags = subEntries.links[idx].tags ? subEntries.links[idx].tags : [];
+        resultIndicator.satellite = subEntries.links[idx].satellite ? subEntries.links[idx].satellite : [];
+        resultIndicator.insituSources = subEntries.links[idx].insituSources ? subEntries.links[idx].insituSources : [];
+        resultIndicator.otherSources = subEntries.links[idx].otherSources ? subEntries.links[idx].otherSources : [];
+        resultIndicator.sensor = subEntries.links[idx].sensor ? subEntries.links[idx].sensor : [];
+        resultIndicator.countries = subEntries.links[idx].countries ? subEntries.links[idx].countries : [];
+        resultIndicator.cities = subEntries.links[idx].cities ? subEntries.links[idx].cities : [];
+        resultIndicator.description = subEntries.links[idx].subtitle ? subEntries.links[idx].subtitle : '';
+        resultIndicator.name = subEntries.links[idx].title;
+        resultIndicator.indicator = subEntries.links[idx].code;
+        resultIndicator.locations = subEntries.links[idx].locations ? subEntries.links[idx].locations : false;
+        resultIndicator.endpointType = subEntries.links[idx].endpointtype;
+        if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
+          rootState.config.appConfig.customMetadataTransformer(resultIndicator);
+        }
+        // For now we try to fetch the additional information form the config
+        // TODO: Replace as much configuration as possible by STAC information
+        // eslint-disable-next-line no-loop-func
+        rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
+          if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
+            resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
           }
-          // For now we try to fetch the additional information form the config
-          // TODO: Replace as much configuration as possible by STAC information
-          // eslint-disable-next-line no-loop-func
-          rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
-            if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
-              resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
-            }
-          });
-          results.push(resultIndicator);
-        }
+        });
+        results.push(resultIndicator);
       }
-    } else if (link.subcode.length === 1 && link.subcode[0] === link.code) {
-      resultIndicator = { ...resultTemplate };
-      resultIndicator.link = `${url.replace('catalog.json', '')}${link.id}${link.href.substring(1)}`;
-      resultIndicator.group = link.title;
-      if (typeof rootState.config.appConfig.customMetadataTransformer === 'function') {
-        rootState.config.appConfig.customMetadataTransformer(resultIndicator);
-      }
-      // For now we try to fetch the additional information form the config
-      // TODO: Replace as much configuration as possible by STAC information
-      rootState.config.baseConfig.globalIndicators.forEach((indicator) => {
-        if (indicator.properties.indicatorObject.indicator === resultIndicator.indicator) {
-          resultIndicator = { ...resultIndicator, ...indicator.properties.indicatorObject };
-        }
-      });
-      results.push(resultIndicator);
-    } else {
-      console.log(`Issue loading entry for ${link.code}`);
     }
   }
   return results;
@@ -138,13 +117,17 @@ async function loadIndicator(link, url, rootState) {
 
 async function loadAllIndicators(data, url, rootState) {
   const indicators = [];
-  for (let idx = 0; idx < data.links.length; idx++) {
-    // eslint-disable-next-line no-await-in-loop
-    const results = await loadIndicator(data.links[idx], url, rootState);
-    if (results && results.length > 0) {
-      indicators.push(...results);
-    }
-  }
+  const promises = data.links.map(link => loadIndicator(link, url, rootState));
+  Promise.all(promises).then(results => {
+    // results is an array of all the resolved values
+    results.forEach(result => {
+      if (result && result.length > 0) {
+        indicators.push(...result);
+      }
+    });
+  }).catch(error => {
+    console.error('Error loading datasets:', error);
+  });
   return indicators;
 }
 
