@@ -12,14 +12,18 @@
           <v-icon>mdi-dots-horizontal</v-icon>
         </v-btn>
       </template>
-      <span>Choose value</span>
+      <span>{{config.title}}</span>
     </v-tooltip>
     <v-card v-else class="sliderContainer">
+      <v-card-title class="mb-4">
+        {{config.title}}
+      </v-card-title>
       <v-card-text>
         <v-slider
           v-model="sliderValue"
-          :max="maxVal"
-          :step="1"
+          :max="config.max || 100"
+          :min="config.min || 0"
+          :step="config.step || 1"
           thumb-label="always"
           track-color="grey"
         ></v-slider>
@@ -35,7 +39,7 @@ import { getMapInstance } from '@/components/map/map';
 export default {
   props: {
     mapId: String,
-    maxVal: Number,
+    config: Object,
   },
   components: {
     VSlider,
@@ -45,6 +49,13 @@ export default {
       show: false,
       sliderValue: null,
     };
+  },
+  created() {
+    if (this.config?.default) {
+      // initial setup
+      this.sliderValue = this.config?.default;
+      this.$store.commit('features/SET_SLIDER_VALUE', this.sliderValue);
+    }
   },
   watch: {
     show(val) {
@@ -56,16 +67,15 @@ export default {
     },
     sliderValue(val) {
       const store = this.$store;
-
-      // Check, if at least 1500ms have passed since the last change, otherwise we commit
+      // Check, if at least 300ms have passed since the last change, otherwise we commit
       // every small change, which makes the slider slow.
       this.lastChangeTimestamp = Date.now();
       setTimeout(() => {
         const currentTime = Date.now();
-        if (currentTime - this.lastChangeTimestamp >= 1500) {
+        if (currentTime - this.lastChangeTimestamp >= 300) {
           store.commit('features/SET_SLIDER_VALUE', val);
         }
-      }, 1500);
+      }, 300);
     },
   },
 };

@@ -18,7 +18,7 @@ const state = {
     custom: [],
   },
   selectedArea: null,
-  selectedDate: null,
+  selectedCalendarDate: null,
   sliderValue: null,
   selectedFeatures: [],
 };
@@ -294,7 +294,7 @@ const mutations = {
     state.selectedArea = area;
   },
   SET_SELECTED_DATE(state, date) {
-    state.selectedDate = date;
+    state.selectedCalendarDate = date;
   },
   SET_SLIDER_VALUE(state, sliderValue) {
     state.sliderValue = sliderValue;

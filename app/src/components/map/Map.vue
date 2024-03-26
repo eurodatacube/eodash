@@ -128,15 +128,16 @@
         :drawnArea.sync="drawnArea"
       />
       <DatePickerControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].showDatePicker"
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+        @selectedDate="setDateFromDatePicker"
         class="pointerEvents"
         :mapId="mapId"
       />
       <SliderControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].showSlider"
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
         class="pointerEvents"
         :mapId="mapId"
-        :maxVal="100"
+        :config="mergedConfigsData[0].sliderConfig"
       />
       <div
         v-if="$route.name !== 'demo'"
@@ -577,7 +578,9 @@ export default {
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
           this.mergedConfigsDataIndexAware.filter(
-            (config) => config.timeFromProperty || config.usedTimes?.time?.length,
+            (config) => config.mapTimeDatepicker
+              || config.timeFromProperty
+              || config.usedTimes?.time?.length,
           )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
@@ -810,6 +813,12 @@ export default {
       this.$emit('update:center', e);
       this.currentCenter = e;
     },
+    setDateFromDatePicker(date) {
+      this.dataLayerTime = {
+        name: date,
+        value: DateTime.fromISO(date),
+      };
+    },
     updateTime(time, compare) {
       // Define a function to update the data layer
       // direct match on name
@@ -986,7 +995,9 @@ export default {
       const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
-      this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+      this.mergedConfigsDataIndexAware.filter(
+        (config) => config.mapTimeDatepicker || config.usedTimes?.time?.length,
+      )
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {

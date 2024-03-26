@@ -29,6 +29,9 @@ export const fetchCustomDataOptions = (time, sourceOptionsObj, store) => {
     );
     outputOptionsObj.site = currSite;
   }
+  if (store.state.features.sliderValue) {
+    outputOptionsObj.sliderValue = store.state.features.sliderValue;
+  }
 
   if (time) {
     // substitutes {time} template possibly utilizing dateFormatFunction

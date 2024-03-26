@@ -455,6 +455,10 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '',
   },
+  E13c_ship_detection: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/E13c_ship_detection',
+  },
   E13b: {
     indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
@@ -1823,42 +1827,53 @@ export const globalIndicators = [
       indicatorObject: {
         dataLoadFinished: true,
         country: 'all',
-        city: 'Europe',
+        city: 'World',
         siteName: 'global',
-        description: 'Number of Trucks',
-        indicator: 'E12c',
-        lastIndicatorValue: 'Regional Truck Traffic Motorways',
-        indicatorName: 'Motorways',
+        description: 'Ship detection',
+        indicator: 'E13c_ship_detection',
+        indicatorName: 'Ships-detection on-the-fly',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
         },
-        lastColorCode: 'primary',
-        eoSensor: null,
-        aoiID: 'W2_test',
-        time: getDailyDates('2020-01-01', '2021-12-31'),
+        aoiID: 'World',
+        time: [],
         inputData: [''],
-        yAxis: 'Number of trucks detected',
+        yAxis: '',
         display: [{
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          baseLayers: cloudlessBaseLayerDefault,
+          disableCompare: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
           maxZoom: 18,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
-          showDatePicker: true,
-          showSlider: true,
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-8 55,25 55,25 40,-8 40,-8 55))').toJson(),
-            }],
+          mapTimeDatepicker: true,
+          sliderConfig: {
+            title: 'Detection Threshold',
+            min: 0,
+            max: 1,
+            step: 0.01,
+            default: 0.5,
           },
-          areaIndicator: trucksAreaIndicator,
-          features: trucksFeatures,
           drawnAreaLimitExtent: true,
+          // areaIndicator: trucksAreaIndicator,
+          features: {
+            url: 'https://gtif-backend.hub.eox.at/ship_detection?{area}&{featuresTime}&threshold={sliderValue}',
+            name: 'Ship detections on-the-fly',
+            style: {
+              strokeColor: '#00c3ff',
+            },
+            dateFormatFunction: (date) => `start_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}&end_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+            areaFormatFunction: (area) => {
+              const extent = geojsonFormat.readGeometry(area).getExtent();
+              const formattedArea = `lon_min=${extent[0]}&lat_min=${extent[1]}&lon_max=${extent[2]}&lat_max=${extent[3]}`;
+              return {
+                area: formattedArea,
+              };
+            },
+          },
+          customAreaFeatures: true,
         }],
       },
     },

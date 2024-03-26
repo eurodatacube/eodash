@@ -20,6 +20,7 @@
 
 <script>
 import { VDatePicker } from 'vuetify/lib';
+import { DateTime } from 'luxon';
 import { getMapInstance } from '@/components/map/map';
 
 export default {
@@ -32,8 +33,12 @@ export default {
   data() {
     return {
       show: false,
-      selectedDate: null,
+      selectedDate: DateTime.now().minus({ days: 7 }).toFormat('yyyy-MM-dd'),
     };
+  },
+  mounted() {
+    this.$emit('selectedDate', this.selectedDate);
+    this.$store.commit('features/SET_SELECTED_DATE', this.selectedDate);
   },
   watch: {
     show(value) {
@@ -44,6 +49,7 @@ export default {
       }
     },
     selectedDate(date) {
+      this.$emit('selectedDate', date);
       this.$store.commit('features/SET_SELECTED_DATE', date);
     },
   },
