@@ -1223,7 +1223,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), '2023-11-28'),
         inputData: [''],
         yAxis: 'NO2 (μmol/m2)',
         display: {
@@ -1256,7 +1256,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), '2023-11-28'),
         inputData: [''],
         yAxis: 'PM2.5 (μg/m3)',
         display: {
@@ -1289,7 +1289,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), '2023-11-28'),
         inputData: [''],
         yAxis: 'PM10 (μg/m3)',
         display: {
@@ -1322,7 +1322,7 @@ export const globalIndicators = [
           type: 'FeatureCollection',
           features: [],
         },
-        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), DateTime.utc().minus({ days: 2 }).toFormat('yyyy-LL-dd')),
+        time: getDailyDates(DateTime.utc().minus({ years: 1, days: -1 }).toFormat('yyyy-LL-dd'), '2023-11-28'),
         inputData: [''],
         yAxis: 'O3 (μg/m3)',
         display: {
