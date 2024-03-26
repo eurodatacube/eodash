@@ -5882,7 +5882,7 @@ export const globalIndicators = [
       },
     },
   },
-    {
+  {
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
