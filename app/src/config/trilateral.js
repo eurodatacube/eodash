@@ -730,16 +730,7 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/sen4ama',
     themes: ['biomass'],
   },
-  EPA_Forest_fire_Methane_Yearly: {
-    story: '/data/trilateral/EPA_Forest_fire_Methane_Yearly',
-    themes: ['biomass'],
-  },
-  EPA_Forest_fire_Methane_Daily: {
-    story: '/data/trilateral/EPA_Forest_fire_Methane_Daily',
-    themes: ['biomass'],
-  },
-  EPA_Field_burning_Monthly: {
-    story: '/data/trilateral/EPA_Field_burning_Monthly',
+  EPA: {
     themes: ['biomass'],
   },
   LIS_Global_DA_Evap: {
@@ -5886,12 +5877,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
+        country: ['US'],
+        city: 'US',
         siteName: 'global',
         description: 'Emissions from sector 5 from forest fires.',
-        indicator: 'EPA_Forest_fire_Methane_Yearly',
-        indicatorName: 'Gridded 2012 EPA Methane Emissions - Forest Fires',
+        indicator: 'EPA',
+        indicatorName: 'Forest Fires annual - EPA Methane Emissions 2012',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -5900,7 +5891,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
           }],
         },
-        aoiID: 'World',
+        aoiID: 'Forest_fire_Methane_Yearly',
         time: [],
         inputData: [''],
         display: {
@@ -5918,12 +5909,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
+        country: ['US'],
+        city: 'US',
         siteName: 'global',
-        description: 'Daily emissions from sector 5 from forest fires.',
-        indicator: 'EPA_Forest_fire_Methane_Daily',
-        indicatorName: 'Gridded 2012 EPA Methane Emissions - Forest Fires (daily)',
+        description: 'Daily emissions from sector 5 from forest fires for 2012, gridded.',
+        indicator: 'EPA',
+        indicatorName: 'Forest Fires daily - EPA Methane Emissions 2012',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -5932,7 +5923,7 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
           }],
         },
-        aoiID: 'World',
+        aoiID: 'Forest_fire_Methane_Daily',
         time: availableDates['EPA-daily-emissions_5_Forest_Fires'],
         inputData: [''],
         yAxis: '*10^12[molec/cm2/s]',
@@ -5942,6 +5933,7 @@ export const globalIndicators = [
           tileSize: 256,
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&nodata=0&rescale=0%2C2e12&bidx=1&colormap_name=rainbow', // rescale taken from VEDA defaults
           dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
           name: 'Gridded 2012 EPA Methane Emissions - Forest Fires (daily)',
           legendUrl: 'legends/trilateral/EPA_Forest_fire_Methane_Daily.png',
           customAreaIndicator: true,
@@ -5956,12 +5948,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
+        country: ['US'],
+        city: 'US',
         siteName: 'global',
-        description: 'Emissions from sector 4F from agricultural field burning (monthly)',
-        indicator: 'EPA_Field_burning_Monthly',
-        indicatorName: 'Gridded 2012 EPA Methane Emissions - Field Burning (monthly)',
+        description: 'Emissions from sector 4F from agricultural field burning (monthly), gridded',
+        indicator: 'EPA',
+        indicatorName: 'Field Burning monthly - EPA Methane Emissions 2012',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -5970,10 +5962,11 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
           }],
         },
-        aoiID: 'World',
+        aoiID: 'Field_burning_Monthly',
         time: availableDates['EPA-monthly-emissions_4F_Field_Burning'],
         inputData: [''],
         yAxis: '*10^9[molec/cm2/s]',
+        eoSensor: null,
         display: {
           protocol: 'xyz',
           minZoom: 1,
@@ -5998,9 +5991,9 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: 'Gridded total evapotranspiration from 10km global LIS with assimilation',
+        description: 'Total evapotranspiration gridded from 10km global LIS with assimilation',
         indicator: 'LIS_Global_DA_Evap',
-        indicatorName: 'Evapotranspiration - LIS 10km Global DA',
+        indicatorName: 'Evapotranspiration, LIS',
         subAoi: {
           type: 'FeatureCollection',
           features: [],
@@ -6009,14 +6002,16 @@ export const globalIndicators = [
         time: getDailyDates('2002-08-02', '2021-12-01'),
         inputData: [''],
         yAxis: 'g/m2/s',
+        eoSensor: null,
         display: {
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url=s3://veda-data-store-staging/EIS/COG/LIS_GLOBAL_DA/Evap/LIS_Evap_{time}0000.d01.cog.tif&nodata=0&rescale=0%2C0.1&bidx=1&colormap_name=viridis', // rescale taken from VEDA defaults
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url=s3://veda-data-store-staging/EIS/COG/LIS_GLOBAL_DA/Evap/LIS_Evap_{time}0000.d01.cog.tif&nodata=0&rescale=0%2C0.0001&bidx=1&colormap_name=viridis', // rescale taken from VEDA defaults
           name: 'Evapotranspiration - LIS 10km Global DA',
           legendUrl: 'legends/trilateral/LIS_Global_DA_Evap.png',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
     },
@@ -6025,12 +6020,12 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
+        country: ['US'],
+        city: 'Punta Gorda',
+        siteName: 'Punta Gorda',
         description: 'NDVI calculated from Harmonized Landsat and Sentinel-2',
         indicator: 'HLS_NDVI',
-        indicatorName: 'Normalized difference vegetation index from HLS',
+        indicatorName: 'NDVI from HLS',
         subAoi: {
           type: 'FeatureCollection',
           features: [{
@@ -6039,10 +6034,11 @@ export const globalIndicators = [
             geometry: wkt.read('POLYGON ((-82.367 26.31, -82.367 27.03, -81.9 27.03, -81.9 26.31, -82.367 26.31))').toJson(),
           }],
         },
-        aoiID: 'World',
+        aoiID: 'PG',
         time: availableDates['hls-ndvi'],
         inputData: [''],
         yAxis: '',
+        eoSensor: null,
         display: {
           protocol: 'xyz',
           minZoom: 1,
@@ -6051,6 +6047,7 @@ export const globalIndicators = [
           name: 'Normalized difference vegetation index from HLS',
           legendUrl: 'legends/trilateral/HLS_NDVI.png',
           dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
         },
       },
     },
