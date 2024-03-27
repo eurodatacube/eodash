@@ -7,6 +7,20 @@
     <v-row>
       <v-col>
         <h3>
+          New story editor!
+        </h3>
+        <p>
+          Currently only for testing, your feedback is welcome,
+          more documentation and information comming soon!
+        </p>
+        <p>
+          You can have a first glance <a href="./story-editor">here</a>!
+        </p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2024-02-08: Challenge announcement!!
         </h3>
         <h4>
