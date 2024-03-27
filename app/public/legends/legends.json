@@ -364,6 +364,32 @@
             "cm": [[0, [56, 56, 148]], [2,[82, 133, 140]], [4,[111, 213, 132]], [6,[136, 210, 111]], [8,[155, 116, 78]], [10,[175, 28, 47]]],
             "label": "Turbidity [NTU]",
             "ticks": [0, 2, 4, 6, 8, 10]
+        },
+        "EPA_Forest_fire_Methane_Yearly": {
+            "range": [0, 2],
+            "cm": "rainbow",
+            "label": "*10^10[molec/cm2/s]"
+        },
+        "EPA_Forest_fire_Methane_Daily": {
+            "range": [0, 2],
+            "cm": "rainbow",
+            "label": "*10^12[molec/cm2/s]"
+        },
+        "EPA_Field_burning_Monthly": {
+            "range": [0, 4.5],
+            "cm": "rainbow",
+            "label": "*10^9[molec/cm2/s]"
+        },
+        "LIS_Global_DA_Evap": {
+            "range": [0, 0.1],
+            "cm": "viridis",
+            "label": "g/m2/s"
+        },
+        "HLS_NDVI": {
+            "range": [-1, 1],
+            "cm": "cfastie",
+            "label": "NDVI",
+            "ticks": [-1, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1]
         }
     },
     "gtif": {

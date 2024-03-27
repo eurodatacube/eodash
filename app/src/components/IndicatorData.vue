@@ -155,7 +155,7 @@ export default {
   },
   mounted() {
     const d = this.indicatorObject.time[this.indicatorObject.time.length - 1];
-    if (d.toFormat) {
+    if (d?.toFormat) {
       const formatted = d.toFormat('dd. MMM');
       this.dataLayerTime = {
         value: formatted,
