@@ -14,7 +14,8 @@
           more documentation and information comming soon!
         </p>
         <p>
-          You can have a first glance <a href="./story-editor">here</a>!
+          You can have a first glance
+          <a href="javascript:void(0)" @click="$router.push({ path: 'story-editor' })">here</a>!
         </p>
       </v-col>
     </v-row>
