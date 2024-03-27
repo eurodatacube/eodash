@@ -86,7 +86,6 @@ import Feature from 'ol/Feature';
 import {
   mapState,
 } from 'vuex';
-// import { getArea } from 'ol/extent';
 import Text from 'ol/style/Text';
 import { Polygon } from 'ol/geom';
 
@@ -244,12 +243,14 @@ export default {
      * @param {*} geom OpenLayer geometry
      * @returns {Boolean}
      */
-    isGeometryTooLarge(geom) { // eslint-disable-line
-      // for now commenting out previous logic
+    isGeometryTooLarge(geom) {
+      if (this.mergedConfigsData.length && this.mergedConfigsData[0]?.maxDrawnAreaSide) {
+        const extent = geom.getExtent();
+        return extent && (
+          (extent[3] - extent[1] > this.mergedConfigsData[0]?.maxDrawnAreaSide)
+          || (extent[2] - extent[0] > this.mergedConfigsData[0]?.maxDrawnAreaSide));
+      }
       return false;
-      // const extent = geom.getExtent();
-      // to do: use more exact turf calculations?
-      // return extent && (getArea(extent) > 50000000000);
     },
     onDrawFinished(event) {
       const { map } = getMapInstance(this.mapId);

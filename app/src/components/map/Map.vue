@@ -127,6 +127,18 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
+      <DatePickerControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+        @selectedDate="setDateFromDatePicker"
+        class="pointerEvents"
+        :mapId="mapId"
+      />
+      <SliderControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
+        class="pointerEvents"
+        :mapId="mapId"
+        :config="mergedConfigsData[0].sliderConfig"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -180,6 +192,8 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
+import DatePickerControl from '@/components/map/DatePickerControl.vue';
+import SliderControl from '@/components/map/SliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -222,6 +236,8 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
+    DatePickerControl,
+    SliderControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
@@ -562,7 +578,9 @@ export default {
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
           this.mergedConfigsDataIndexAware.filter(
-            (config) => config.timeFromProperty || config.usedTimes?.time?.length,
+            (config) => config.mapTimeDatepicker
+              || config.timeFromProperty
+              || config.usedTimes?.time?.length,
           )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
@@ -795,6 +813,12 @@ export default {
       this.$emit('update:center', e);
       this.currentCenter = e;
     },
+    setDateFromDatePicker(date) {
+      this.dataLayerTime = {
+        name: date,
+        value: DateTime.fromISO(date),
+      };
+    },
     updateTime(time, compare) {
       // Define a function to update the data layer
       // direct match on name
@@ -971,7 +995,9 @@ export default {
       const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
-      this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+      this.mergedConfigsDataIndexAware.filter(
+        (config) => config.mapTimeDatepicker || config.usedTimes?.time?.length,
+      )
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {
