@@ -1846,6 +1846,9 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
+          // 2500 pixel SH limit * 10 m resolution of S2 RGB bands
+          // and multiplied by 3/5 to cater for slowness of algorithm and data transfer
+          maxDrawnAreaSide: 15000,
           minZoom: 7,
           maxZoom: 18,
           mapTimeDatepicker: true,
