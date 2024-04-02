@@ -144,6 +144,7 @@ export default {
               { key: 'cities', title: 'City' },
             ],
             aggregateResults: 'group',
+            autoSpreadSingle: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
@@ -166,7 +167,8 @@ export default {
               { key: 'cities', title: 'City' },
               { key: 'themes', title: 'Theme', ...themesPresetState },
             ],
-            aggregateResults: 'themes',
+            aggregateResults: 'group',
+            autoSpreadSingle: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
