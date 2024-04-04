@@ -233,6 +233,7 @@ export const fetchCustomAreaObjects = async (
     ...options,
     ...customArea,
   };
+  console.log(indicator);
   const templateRe = /\{ *([\w_ -]+) *\}/g;
   const url = template(templateRe, mergedConfig[lookup].url, templateSubst);
   let requestBody = null;
@@ -288,13 +289,14 @@ export const fetchCustomAreaObjects = async (
     });
     // Set the Authorization header using the Bearer token
     requestOpts.headers.Authorization = `Bearer ${accessToken}`;
-  } else if (indicator.display && indicator.display.areaIndicator
-    && indicator.display.areaIndicator.url.includes('api.cropomservices.com')) {
+  }
+
+  if (options.indicator === 'CROPOM') {
     // Handling of auth for cropom endpoint
     const clientId = shConfig.cropomClientId;
     let auth0Client = null;
     const configureClient = async () => {
-      auth0Client = await auth0.createAuth0Client({
+      auth0Client = await createAuth0Client({
         domain: 'http://cropom.eu.auth0.com',
         clientId,
       });
@@ -436,6 +438,14 @@ export const fetchCustomAreaObjects = async (
         }
         return custom;
       });
+  } else if (options.indicator === 'CROPOM') {
+    customObjects = await fetch(url, requestOpts).then((response) => {
+      if (!response.ok) {
+        return response.text().then((text) => { throw text; });
+      }
+      return response.json();
+    });
+    return customObjects;
   } else {
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {

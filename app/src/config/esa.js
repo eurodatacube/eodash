@@ -410,7 +410,7 @@ export const globalIndicators = [
           },
           features: {
             name: 'CropOM',
-            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cropom_test_data.json',
+            url: 'https://api.cropomservices.com/crop_model/regional_forcast?country_code=HU',
             id: 'cropom',
             projection: {
               name: 'EPSG:3035',
