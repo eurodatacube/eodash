@@ -897,6 +897,14 @@ export default {
         }
       }
     });
+
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+          window.dispatchEvent(new Event('fetch-custom-area-chart'));
+        }
+      }
+    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     // adding a necessary reference for eox-layercontrol plugin
     this.$refs.mapContainer.map = map;

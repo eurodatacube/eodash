@@ -11,7 +11,7 @@ import {
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
 
-function getColormap(name, reverse, nshades=16) {
+function getColormap(name, reverse, nshades = 16) {
   const colors = colormap({
     colormap: name, nshades, format: 'rgba',
   });
@@ -405,10 +405,33 @@ export const globalIndicators = [
               return [
                 `Region: ${feature.get('NUTS_NAME')}`,
                 `${selectedCrop.description} ${selectedParameter.description}, scenario ${selectedScenario}: ${value}`,
-              ]
+              ];
             },
           },
           layerControlHide: true,
+          areaIndicator: {
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/CropModel_response_sample.json',
+            requestMethod: 'GET',
+            callbackFunction: (responseJson, indicator) => {
+              const data = responseJson.growth;
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+              };
+              Object.entries(data).forEach(([key, value]) => {
+                newData.time.push(DateTime.fromISO(key));
+                newData.measurement.push(value.yield_);
+                newData.referenceValue.push(value.biomass);
+              });
+              newData.yAxis = ['t/ha', 'g/m2'];
+              const ind = {
+                ...indicator,
+                ...newData,
+              };
+              return ind;
+            },
+          },
           features: {
             name: 'CropModel API ',
             id: 'cropom',
