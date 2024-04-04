@@ -297,7 +297,7 @@ export const fetchCustomAreaObjects = async (
     let auth0Client = null;
     const configureClient = async () => {
       auth0Client = await createAuth0Client({
-        domain: 'http://cropom.eu.auth0.com',
+        domain: 'https://cropom.eu.auth0.com',
         clientId,
       });
     };
