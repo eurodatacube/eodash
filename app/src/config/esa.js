@@ -411,6 +411,7 @@ export const globalIndicators = [
           layerControlHide: true,
           areaIndicator: {
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/CropModel_response_sample.json',
+            adminZoneKey: 'FID',
             requestMethod: 'GET',
             callbackFunction: (responseJson, indicator) => {
               const data = responseJson.growth;
@@ -461,7 +462,6 @@ export const globalIndicators = [
             selection: {
               mode: 'single',
             },
-            adminZoneKey: 'FID',
           },
         },
       },

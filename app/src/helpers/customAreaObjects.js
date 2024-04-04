@@ -227,6 +227,14 @@ export const fetchCustomAreaObjects = async (
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
   }
+
+  const { selectedFeatures } = store.state.features;
+  if (selectedFeatures.length === 1) {
+    const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
+    if (adminZoneKey) {
+      options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
+    }
+  }
   const templateSubst = {
     ...indicator,
     ...options,
