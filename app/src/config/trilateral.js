@@ -16,7 +16,6 @@ const wkt = new Wkt();
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
-export const dataPath = './data/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
 
 const geodbFeatures = {
