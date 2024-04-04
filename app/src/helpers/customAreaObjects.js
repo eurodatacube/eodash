@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import axios from 'axios';
+import { createAuth0Client } from '@auth0/auth0-spa-js';
 
 export function template(templateRe, str, data) {
   // copy of leaflet template function, which does not export it
@@ -287,6 +288,21 @@ export const fetchCustomAreaObjects = async (
     });
     // Set the Authorization header using the Bearer token
     requestOpts.headers.Authorization = `Bearer ${accessToken}`;
+  } else if (indicator.display && indicator.display.areaIndicator
+    && indicator.display.areaIndicator.url.includes('api.cropomservices.com')) {
+    // Handling of auth for cropom endpoint
+    const clientId = shConfig.cropomClientId;
+    let auth0Client = null;
+    const configureClient = async () => {
+      auth0Client = await auth0.createAuth0Client({
+        domain: 'http://cropom.eu.auth0.com',
+        clientId,
+      });
+    };
+    await configureClient();
+    const token = await auth0Client.getTokenSilently();
+    // Set the Authorization header using the Bearer token
+    requestOpts.headers.Authorization = `Bearer ${token}`;
   }
   // This method takes care of all types of custom requests
   //   - custom area request to NASA endpoint
