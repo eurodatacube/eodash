@@ -539,12 +539,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.setExtent(drawnAreaExtent);
   }
   const layerProperties = {
-    id: config.id,
+    id: config?.features?.id ? config.features.id : config.id,
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
+    layerControlHide: config?.features ? config.features.layerControlHide : config.layerControlHide,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   };

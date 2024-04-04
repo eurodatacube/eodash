@@ -11,9 +11,9 @@ import {
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
 
-function getColormap(name, reverse) {
+function getColormap(name, reverse, nshades=16) {
   const colors = colormap({
-    colormap: name, nshades: 16, format: 'rgba',
+    colormap: name, nshades, format: 'rgba',
   });
   if (reverse) {
     colors.reverse();
@@ -408,14 +408,16 @@ export const globalIndicators = [
               ]
             },
           },
+          layerControlHide: true,
           features: {
-            name: 'CropOM',
-            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cropom_test_data.json',
+            name: 'CropModel API ',
             id: 'cropom',
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cropom_test_data.json',
             projection: {
               name: 'EPSG:3035',
               def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
             },
+            layerControlHide: false,
             style: {
               strokeColor: 'rgba(0,0,0,0)',
               getColor: (feature, store) => {
@@ -424,12 +426,12 @@ export const globalIndicators = [
                 const selectedParameter = ind.queryParameters[0].selected;
                 const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
                 const selectedScenario = ind.queryParameters[2].selected;
-                const colormapUsed = selectedParameter === 'yield' ? getColormap('chlorophyll', true) : getColormap('density', true);
+                const colormapUsed = selectedParameter === 'yield' ? getColormap('chlorophyll', true, 64) : getColormap('jet', false, 64);
                 const min = selectedParameter === 'yield' ? selectedCrop.min_y : selectedCrop.min_w;
                 const max = selectedParameter === 'yield' ? selectedCrop.max_y : selectedCrop.max_w;
-                const value = feature.get('yield')[selectedCrop.id][selectedScenario];
+                const value = feature.get(selectedParameter)[selectedCrop.id][selectedScenario];
                 const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed.colors[Math.round(f * (colormapUsed.steps - 1))];
+                color = colormapUsed[Math.round(f * (colormapUsed.length - 1))];
                 return color;
               },
             },
