@@ -327,10 +327,12 @@ export const globalIndicators = [
             {
               id: 'yield',
               description: 'Yield',
+              yAxis: 't/ha',
             },
             {
               id: 'water_need',
               description: 'Water need',
+              yAxis: 'mm',
             },
           ],
         }, {
@@ -340,34 +342,34 @@ export const globalIndicators = [
             {
               id: 'Wheat',
               description: 'Wheat',
-              min_y: 0,
-              max_y: 15,
-              min_w: 100,
-              max_w: 700,
+              min_y: 6,
+              max_y: 10,
+              min_w: 0,
+              max_w: 200,
             },
             {
               id: 'Maize',
               description: 'Maize',
               min_y: 0,
-              max_y: 10,
-              min_w: 100,
-              max_w: 700,
+              max_y: 8,
+              min_w: 250,
+              max_w: 550,
             },
             {
               id: 'Sunflower',
               description: 'Sunflower',
               min_y: 0,
-              max_y: 5,
-              min_w: 100,
-              max_w: 700,
+              max_y: 3,
+              min_w: 250,
+              max_w: 550,
             },
             {
               id: 'Soybean',
               description: 'Soybean',
               min_y: 0,
-              max_y: 5,
-              min_w: 100,
-              max_w: 700,
+              max_y: 3,
+              min_w: 250,
+              max_w: 550,
             },
           ],
         }, {
@@ -392,24 +394,27 @@ export const globalIndicators = [
           baseUrl: null,
           customAreaIndicator: true,
           disableVisualAnalysisAddons: true,
+          tooltip: {
+            tooltipFormatFunction: (feature, _, store) => {
+              const ind = store.state.indicators.selectedIndicator;
+              const selectedParameter = ind.queryParameters[0].items.find((item) => item.id === ind.queryParameters[0].selected);
+
+              const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
+              const selectedScenario = ind.queryParameters[2].selected;
+              const value = feature.get(selectedParameter.id)[selectedCrop.id][selectedScenario];
+              return [
+                `Region: ${feature.get('NUTS_NAME')}`,
+                `${selectedCrop.description} ${selectedParameter.description}, scenario ${selectedScenario}: ${value}`,
+              ]
+            },
+          },
           features: {
-            name: 'Yield',
+            name: 'CropOM',
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cropom_test_data.json',
             id: 'cropom',
             projection: {
               name: 'EPSG:3035',
               def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
-            },
-            tooltip: {
-              tooltipFormatFunction: (feature, _, store) => {
-                const ind = store.state.indicators.selectedIndicator;
-                const selectedParameter = ind.queryParameters[0].selected;
-                const value = feature.get('yield')[selectedCrop.id][selectedScenario];
-                return [
-                  `Region: ${feature.get('NUTS_NAME')}`,
-                  `${selectedParameter}: ${value}`,
-                ]
-              },
             },
             style: {
               strokeColor: 'rgba(0,0,0,0)',
