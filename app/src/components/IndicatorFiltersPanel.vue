@@ -1,7 +1,7 @@
 <template>
   <eox-itemfilter class="px-4" ref="itemFilterEl" style="height: max-content;">
     <span slot="filterstitle"></span>
-    <h4 slot="resultstitle">
+    <h4 slot="resultstitle" style="margin-bottom: 4px;">
       {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
   </eox-itemfilter>
@@ -135,10 +135,12 @@ export default {
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Satellite sensor' },
+              /*
               { key: 'insituSources', title: 'In situ sources' },
               { key: 'otherSources', title: 'Other sources' },
+              */
               { key: 'countries', title: 'Country' },
-              { key: 'cities', title: 'City' },
+              { key: 'cities', title: 'City/Location' },
             ],
             aggregateResults: 'group',
             autoSpreadSingle: true,
@@ -283,11 +285,39 @@ export default {
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
           #container-results{
-             overflow:hidden;
-           }
-           form#itemfilter{
-             overflow: auto;
-           }
+            overflow:hidden;
+          }
+          form#itemfilter{
+            overflow: auto;
+          }
+          /* to fix strange double scroll bar in filters*/
+          eox-itemfilter-multiselect {
+            overflow-y: hidden!important;
+          }
+          /* to fix cutting of text in result names*/
+          label span {
+            height: 15px;
+          }
+          /* to have indicator results closer together */
+          #results li {
+            padding-top: 2px!important;
+            padding-bottom: 2px!important;
+          }
+          /* making reset button small and changing position */
+          #filter-reset {
+            height: 16px;
+            top: 39px!important;
+            right: 1px!important;
+            padding: 5px;
+            margin: 0px;
+          }
+          /* ading more indentation to summarized items */
+          details div ul li {
+            margin-left: 9px;
+          }
+          #filters>li:first-child {
+            margin-bottom: 10px!important;
+          }
         `;
         if (this.appConfig.id === 'gtif') {
           newStyle = `${newStyle} * {
