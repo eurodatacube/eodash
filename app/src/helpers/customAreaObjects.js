@@ -386,11 +386,11 @@ export const fetchCustomAreaObjects = async (
   } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
     // Here we handle parallel requests to the new statistical api from nasa
     const requests = [];
-    // Add limit on how many requests we can send if there are over 600 time entries
+    // Add limit on how many requests we can send if there are over 365 time entries
     // TODO: Sending more requests overloads server, need to think how to handle this
     let requestTimes = indicator.time;
-    if (indicator.time.length > 600) {
-      requestTimes = indicator.time.slice(-600);
+    if (indicator.time.length > 365) {
+      requestTimes = indicator.time.slice(-365);
     }
     requestTimes.forEach((entry) => {
       const requestUrl = `${url}?url=${entry[1]}`;

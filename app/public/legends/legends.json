@@ -381,9 +381,9 @@
             "label": "*10^9[molec/cm2/s]"
         },
         "LIS_Global_DA_Evap": {
-            "range": [0, 0.1],
+            "range": [0, 100],
             "cm": "viridis",
-            "label": "g/m2/s"
+            "label": "mg/m2/s"
         },
         "HLS_NDVI": {
             "range": [-1, 1],

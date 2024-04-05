@@ -1078,12 +1078,21 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end, interval = 1) => {
+const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    if (s3Path) {
+      const t = DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd');
+      let evaluated = s3Path.replace('{time}', t);
+      if (formatFunction) {
+        evaluated = s3Path.replace('{time}', formatFunction(t));
+      }
+      dateArray.push([t, evaluated]);
+    } else {
+      dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    }
     currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
@@ -5999,19 +6008,23 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: getDailyDates('2002-08-02', '2021-12-01'),
+        time: getDailyDates('2002-08-02', '2021-12-01', 1, 's3://veda-data-store-staging/EIS/COG/LIS_GLOBAL_DA/Evap/LIS_Evap_{time}0000.d01.cog.tif', (date) => DateTime.fromISO(date).toFormat('yyyyMMdd')),
         inputData: [''],
-        yAxis: 'g/m2/s',
+        yAxis: 'mg/m2/s',
         eoSensor: null,
         display: {
           protocol: 'xyz',
           minZoom: 1,
           tileSize: 256,
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url=s3://veda-data-store-staging/EIS/COG/LIS_GLOBAL_DA/Evap/LIS_Evap_{time}0000.d01.cog.tif&nodata=0&rescale=0%2C0.0001&bidx=1&colormap_name=viridis', // rescale taken from VEDA defaults
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&nodata=0&rescale=0%2C0.0001&bidx=1&colormap_name=viridis', // rescale taken from VEDA defaults
           name: 'Evapotranspiration - LIS 10km Global DA',
           legendUrl: 'legends/trilateral/LIS_Global_DA_Evap.png',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value * 1e6,
+          ),
         },
       },
     },
