@@ -390,7 +390,10 @@ export const fetchCustomAreaObjects = async (
     // TODO: Sending more requests overloads server, need to think how to handle this
     let requestTimes = indicator.time;
     if (indicator.time.length > 365) {
-      requestTimes = indicator.time.slice(-365);
+      if (options.currentTimeIndex) {
+        const startIndex = Math.max(0, options.currentTimeIndex - 365);
+        requestTimes = indicator.time.slice(startIndex, options.currentTimeIndex);
+      }
     }
     requestTimes.forEach((entry) => {
       const requestUrl = `${url}?url=${entry[1]}`;

@@ -990,10 +990,12 @@ export default {
         return;
       }
       window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
-
+      const options = {
+        currentTimeIndex: this.currentTimeIndex,
+      };
       try {
         const custom = await fetchCustomAreaObjects(
-          {},
+          options,
           this.drawnArea.area,
           this.mergedConfigsData[0],
           this.indicator,
