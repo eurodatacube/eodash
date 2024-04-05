@@ -580,12 +580,13 @@ export async function loadIndicatorData(baseConfig, payload) {
           },
         };
       } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        const rescale = exampleEndpoint.rescale || 1;
         display = {
           ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
-              (value) => value,
+              (value) => rescale * value,
             ),
           },
         };
