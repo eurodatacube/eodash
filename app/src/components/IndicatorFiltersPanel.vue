@@ -1,9 +1,6 @@
 <template>
-  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
-    <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
-      Filter
-    </h4>
-    <span v-else slot="filterstitle"></span>
+  <eox-itemfilter class="px-4" ref="itemFilterEl" style="height: max-content;">
+    <span slot="filterstitle"></span>
     <h4 slot="resultstitle">
       {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
@@ -160,15 +157,17 @@ export default {
                 expanded: true,
                 featured: true,
               },
+              /*
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Sensor' },
               { key: 'countries', title: 'Country' },
               { key: 'cities', title: 'City' },
               { key: 'themes', title: 'Theme', ...themesPresetState },
+              */
             ],
-            aggregateResults: 'group',
-            autoSpreadSingle: true,
+            aggregateResults: 'themes',
+            autoSpreadSingle: false,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
@@ -279,7 +278,7 @@ export default {
         //   `;
         // });
         const flags = '';
-        this.itemfilter.styleOverride = `
+        let newStyle = `
           ${this.itemFilterStyleOverride}
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
@@ -289,10 +288,13 @@ export default {
            form#itemfilter{
              overflow: auto;
            }
-           * {
-            font-family: 'NotesESA' !important;
-           }
         `;
+        if (this.appConfig.id === 'gtif') {
+          newStyle = `${newStyle} * {
+            font-family: 'NotesESA' !important;
+           }`;
+        }
+        this.itemfilter.styleOverride = newStyle;
       });
     },
     toggleSelectedItem(item) {
