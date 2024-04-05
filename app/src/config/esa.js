@@ -1847,8 +1847,8 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           // 2500 pixel SH limit * 10 m resolution of S2 RGB bands
-          // and multiplied by 3/5 to cater for slowness of algorithm and data transfer
-          maxDrawnAreaSide: 15000,
+          // and multiplied by 4/5 to cater for slowness of algorithm and data transfer
+          maxDrawnAreaSide: 20000,
           minZoom: 7,
           maxZoom: 18,
           mapTimeDatepicker: true,
@@ -1866,6 +1866,7 @@ export const globalIndicators = [
             name: 'Ship detections on-the-fly',
             style: {
               strokeColor: '#00c3ff',
+              width: 2,
             },
             dateFormatFunction: (date) => `start_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}&end_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
             areaFormatFunction: (area) => {

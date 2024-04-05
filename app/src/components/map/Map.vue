@@ -139,6 +139,12 @@
         :mapId="mapId"
         :config="mergedConfigsData[0].sliderConfig"
       />
+      <CustomFeaturesFetchButton
+      v-if="loaded && mergedConfigsData.length
+        && mergedConfigsData[0].mapTimeDatepicker"
+        class="pointerEvents"
+        v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -193,6 +199,7 @@ import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
 import DatePickerControl from '@/components/map/DatePickerControl.vue';
+import CustomFeaturesFetchButton from '@/components/map/CustomFeaturesFetchButton.vue';
 import SliderControl from '@/components/map/SliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
@@ -216,6 +223,7 @@ import { DateTime } from 'luxon';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
+import { Vector as VectorLayer } from 'ol/layer';
 import {
   loadIndicatorExternalData,
   calculatePadding,
@@ -243,6 +251,7 @@ export default {
     IframeButton,
     AddToDashboardButton,
     DarkOverlayLayer,
+    CustomFeaturesFetchButton,
   },
   props: {
     mapId: {
@@ -584,7 +593,9 @@ export default {
           )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
-              if (layer) {
+              if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+                // do not fetch new features on time changeempty
+              } else if (layer) {
                 updateTimeLayer(layer, config, timeObj.value, area);
               }
             });
@@ -989,7 +1000,7 @@ export default {
         }
       }
     },
-    updateSelectedAreaFeature() {
+    updateSelectedAreaFeature(manualTrigger = false) {
       const { map } = getMapInstance(this.mapId);
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layers = dataGroup.getLayers().getArray();
@@ -1001,7 +1012,13 @@ export default {
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {
-            updateTimeLayer(layer, config, time, area, 'updateArea');
+            if (manualTrigger) {
+              updateTimeLayer(layer, config, time, area, 'updateArea');
+            } else if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+              // do nothing
+            } else {
+              updateTimeLayer(layer, config, time, area, 'updateArea');
+            }
           }
         });
     },
