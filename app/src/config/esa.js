@@ -455,9 +455,9 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '',
   },
-  E13c_ship_detection: {
+  E13c_ship_detections: {
     themes: ['economy'],
-    story: '/eodash-data/stories/E13c_ship_detection',
+    story: '/eodash-data/stories/E13c_ship_detections',
   },
   E13b: {
     indicatorSummary: 'Throughput at principal hub airports',
@@ -1830,7 +1830,7 @@ export const globalIndicators = [
         city: 'World',
         siteName: 'global',
         description: 'Ship detection',
-        indicator: 'E13c_ship_detection',
+        indicator: 'E13c_ship_detections',
         indicatorName: 'Ships-detection on-the-fly',
         subAoi: {
           type: 'FeatureCollection',
