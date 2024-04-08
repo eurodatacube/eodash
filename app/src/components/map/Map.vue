@@ -802,18 +802,20 @@ export default {
       if (timeEntry === undefined && time.isLuxonDateTime) {
         // search for closest time to datetime if provided as such
         const searchTimes = this.availableTimeEntries.map((e) => {
-          if (e.value?.isLuxonDateTime) {
-            return e.value;
+          const timeValue = Array.isArray(e.value) ? e.value[0] : e.value;
+          if (timeValue?.isLuxonDateTime) {
+            return timeValue;
           }
-          return DateTime.fromISO(e.value);
+          return DateTime.fromISO(timeValue);
         });
         const closestTime = findClosest(searchTimes, time);
         // get back the original unmapped object with value and name
         timeEntry = this.availableTimeEntries.find((e) => {
-          if (e.value?.isLuxonDateTime) {
-            return e.value.ts === closestTime.ts;
+          const timeValue = Array.isArray(e.value) ? e.value[0] : e.value;
+          if (timeValue?.isLuxonDateTime) {
+            return timeValue.ts === closestTime.ts;
           }
-          return DateTime.fromISO(e.value).ts === closestTime.ts;
+          return DateTime.fromISO(timeValue).ts === closestTime.ts;
         });
       } else {
         // Use most recent time since there is none defined in the map timeline
@@ -990,10 +992,12 @@ export default {
         return;
       }
       window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
-
+      const options = {
+        currentTimeIndex: this.currentTimeIndex,
+      };
       try {
         const custom = await fetchCustomAreaObjects(
-          {},
+          options,
           this.drawnArea.area,
           this.mergedConfigsData[0],
           this.indicator,

@@ -730,6 +730,17 @@ export const indicatorsDefinition = Object.freeze({
     story: '/data/trilateral/sen4ama',
     themes: ['biomass'],
   },
+  EPA: {
+    themes: ['biomass'],
+  },
+  LIS_Global_DA_Evap: {
+    story: '/data/trilateral/LIS_Global_DA_Evap',
+    themes: ['biomass'],
+  },
+  HLS_NDVI: {
+    story: '/data/trilateral/HLS_NDVI',
+    themes: ['biomass'],
+  },
   d: { // dummy for locations without Indicator code
     indicatorSummary: 'Upcoming data',
     themes: ['atmosphere', 'agriculture', 'biomass', 'economy', 'oceans', 'cryosphere', 'covid-19'],
@@ -1067,12 +1078,21 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end, interval = 1) => {
+const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    if (s3Path) {
+      const t = DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd');
+      let evaluated = s3Path.replace('{time}', t);
+      if (formatFunction) {
+        evaluated = s3Path.replace('{time}', formatFunction(t));
+      }
+      dateArray.push([t, evaluated]);
+    } else {
+      dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    }
     currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
@@ -5858,6 +5878,189 @@ export const globalIndicators = [
               geometry: wkt.read('POLYGON ((-58.193359 -5.652236, -58.193359 -1.537901, -52.625 -1.537901, -52.625 -5.652236, -58.193359 -5.652236))').toJson(),
             }],
           },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: ['US'],
+        city: 'US',
+        siteName: 'global',
+        description: 'Emissions from sector 5 from forest fires.',
+        indicator: 'EPA',
+        indicatorName: 'Forest Fires annual - EPA Methane Emissions 2012',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
+          }],
+        },
+        aoiID: 'Forest_fire_Methane_Yearly',
+        time: [],
+        inputData: [''],
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url=s3://veda-data-store-staging/EIS/cog/EPA-inventory-2012/annual/EPA-annual-emissions_5_Forest_Fires.tif&nodata=0&rescale=0%2C2e10&bidx=1&colormap_name=rainbow',
+          name: 'Gridded 2012 EPA Methane Emissions - Forest Fires',
+          legendUrl: 'legends/trilateral/EPA_Forest_fire_Methane_Yearly.png',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: ['US'],
+        city: 'US',
+        siteName: 'global',
+        description: 'Daily emissions from sector 5 from forest fires for 2012, gridded.',
+        indicator: 'EPA',
+        indicatorName: 'Forest Fires daily - EPA Methane Emissions 2012',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
+          }],
+        },
+        aoiID: 'Forest_fire_Methane_Daily',
+        time: availableDates['EPA-daily-emissions_5_Forest_Fires'],
+        inputData: [''],
+        yAxis: '*10^12[molec/cm2/s]',
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&nodata=0&rescale=0%2C2e12&bidx=1&colormap_name=rainbow', // rescale taken from VEDA defaults
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          name: 'Gridded 2012 EPA Methane Emissions - Forest Fires (daily)',
+          legendUrl: 'legends/trilateral/EPA_Forest_fire_Methane_Daily.png',
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e12,
+          ),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: ['US'],
+        city: 'US',
+        siteName: 'global',
+        description: 'Emissions from sector 4F from agricultural field burning (monthly), gridded',
+        indicator: 'EPA',
+        indicatorName: 'Field Burning monthly - EPA Methane Emissions 2012',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-127.96875 22.917923, -127.96875 51.618017, -71.71875 51.618017, -71.71875 22.917923, -127.96875 22.917923))').toJson(),
+          }],
+        },
+        aoiID: 'Field_burning_Monthly',
+        time: availableDates['EPA-monthly-emissions_4F_Field_Burning'],
+        inputData: [''],
+        yAxis: '*10^9[molec/cm2/s]',
+        eoSensor: null,
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&nodata=0&rescale=0%2C4.5e9&bidx=1&colormap_name=rainbow', // rescale taken from VEDA defaults
+          name: 'Gridded 2012 EPA Methane Emissions - Field Burning (monthly)',
+          legendUrl: 'legends/trilateral/EPA_Field_burning_Monthly.png',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('LLL yyyy'),
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value / 1e9,
+          ),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Total evapotranspiration gridded from 10km global LIS with assimilation',
+        indicator: 'LIS_Global_DA_Evap',
+        indicatorName: 'Evapotranspiration, LIS',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: getDailyDates('2002-08-02', '2021-12-01', 1, 's3://veda-data-store-staging/EIS/COG/LIS_GLOBAL_DA/Evap/LIS_Evap_{time}0000.d01.cog.tif', (date) => DateTime.fromISO(date).toFormat('yyyyMMdd')),
+        inputData: [''],
+        yAxis: 'mg/m2/s',
+        eoSensor: null,
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?url={time}&nodata=0&rescale=0%2C0.0001&bidx=1&colormap_name=viridis', // rescale taken from VEDA defaults
+          name: 'Evapotranspiration - LIS 10km Global DA',
+          legendUrl: 'legends/trilateral/LIS_Global_DA_Evap.png',
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
+          customAreaIndicator: true,
+          areaIndicator: nasaStatisticsConfig(
+            (value) => value * 1e6,
+          ),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: ['US'],
+        city: 'Punta Gorda',
+        siteName: 'Punta Gorda',
+        description: 'NDVI calculated from Harmonized Landsat and Sentinel-2',
+        indicator: 'HLS_NDVI',
+        indicatorName: 'NDVI from HLS',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-82.367 26.31, -82.367 27.03, -81.9 27.03, -81.9 26.31, -82.367 26.31))').toJson(),
+          }],
+        },
+        aoiID: 'PG',
+        time: availableDates['hls-ndvi'],
+        inputData: [''],
+        yAxis: '',
+        eoSensor: null,
+        display: {
+          protocol: 'xyz',
+          minZoom: 1,
+          tileSize: 256,
+          url: 'https://staging-raster.delta-backend.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?{time}&nodata=0&rescale=-1%2C1&bidx=1&colormap_name=cfastie',
+          name: 'Normalized difference vegetation index from HLS',
+          legendUrl: 'legends/trilateral/HLS_NDVI.png',
+          dateFormatFunction: (date) => `url=${date[1]}`,
+          labelFormatFunction: (date) => DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd'),
         },
       },
     },
