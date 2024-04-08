@@ -132,7 +132,8 @@
       </v-btn>
       <div
         v-if="$route.name !== 'demo'"
-        class="pointerEvents mt-auto mb-2"
+        class="pointerEvents mb-2"
+        style="padding-right: 4px; margin-top: 5px;"
       >
         <IframeButton
           v-if="mapId === 'centerMap'
@@ -149,6 +150,7 @@
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mb-2"
+        style="padding-right: 4px;"
       >
         <AddToDashboardButton
           v-if="mapId === 'centerMap'
@@ -163,9 +165,6 @@
           :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
           mapControl
         />
-      </div>
-      <div v-else class="mt-auto">
-        <!-- empty div to shift down attribution button if no other buttons present -->
       </div>
     </div>
   </div>
