@@ -631,13 +631,13 @@ export default {
       return window.self !== window.top;
     },
     calculatePosition() {
-      let position = 'bottom: 155px';
+      let position = 'bottom: 40px';
       if (this.$vuetify.breakpoint.xsOnly) {
         position = `bottom: ${this.$vuetify.application.footer + 70}px`;
       }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.$route.name !== 'demo') {
-        position = 'bottom: 155px';
+        position = 'bottom: 40px';
       }
       if (this.mapId === 'centerMap'
         && this.$vuetify.breakpoint.smAndUp && this.appConfig.enableESALayout) {
