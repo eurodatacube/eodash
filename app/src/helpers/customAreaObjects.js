@@ -29,6 +29,9 @@ export const fetchCustomDataOptions = (time, sourceOptionsObj, store) => {
     );
     outputOptionsObj.site = currSite;
   }
+  if (store.state.features.sliderValue) {
+    outputOptionsObj.sliderValue = store.state.features.sliderValue;
+  }
 
   if (time) {
     // substitutes {time} template possibly utilizing dateFormatFunction
@@ -440,6 +443,7 @@ export const fetchCustomAreaObjects = async (
         return custom;
       });
   } else {
+    window.dispatchEvent(new CustomEvent('set-custom-area-features-loading', { detail: true }));
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
         return response.text().then((text) => { throw text; });
@@ -494,6 +498,9 @@ export const fetchCustomAreaObjects = async (
           // If error message is an object it is probably the returned html
           console.log('Possible issue retrieving geoJSON for specified time');
         }
+      })
+      .finally(() => {
+        window.dispatchEvent(new CustomEvent('set-custom-area-features-loading', { detail: false }));
       });
   }
   return customObjects;

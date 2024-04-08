@@ -455,6 +455,10 @@ export const indicatorsDefinition = Object.freeze({
     themes: ['economy'],
     story: '',
   },
+  E13c_ship_detections: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/E13c_ship_detections',
+  },
   E13b: {
     indicatorSummary: 'Throughput at principal hub airports',
     themes: ['economy'],
@@ -1814,6 +1818,66 @@ export const globalIndicators = [
           minZoom: 1,
           maxZoom: 14,
           opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: 'Ship detection',
+        indicator: 'E13c_ship_detections',
+        indicatorName: 'Ships-detection on-the-fly',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'World',
+        time: [],
+        inputData: [''],
+        yAxis: '',
+        display: [{
+          baseLayers: cloudlessBaseLayerDefault,
+          disableCompare: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          // 2500 pixel SH limit * 10 m resolution of S2 RGB bands
+          // and multiplied by 4/5 to cater for slowness of algorithm and data transfer
+          maxDrawnAreaSide: 20000,
+          minZoom: 7,
+          maxZoom: 18,
+          mapTimeDatepicker: true,
+          sliderConfig: {
+            title: 'Detection Threshold',
+            min: 0,
+            max: 1,
+            step: 0.01,
+            default: 0.5,
+          },
+          drawnAreaLimitExtent: true,
+          // areaIndicator: trucksAreaIndicator,
+          features: {
+            url: 'https://gtif-backend.hub.eox.at/ship_detection?{area}&{featuresTime}&threshold={sliderValue}',
+            name: 'Ship detections on-the-fly',
+            style: {
+              strokeColor: '#00c3ff',
+              width: 2,
+            },
+            dateFormatFunction: (date) => `start_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}&end_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+            areaFormatFunction: (area) => {
+              const extent = geojsonFormat.readGeometry(area).getExtent();
+              const formattedArea = `lon_min=${extent[0]}&lat_min=${extent[1]}&lon_max=${extent[2]}&lat_max=${extent[3]}`;
+              return {
+                area: formattedArea,
+              };
+            },
+          },
+          customAreaFeatures: true,
         }],
       },
     },

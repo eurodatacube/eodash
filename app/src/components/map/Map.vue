@@ -127,6 +127,24 @@
         :key="dataLayerName  + '_customArea'"
         :drawnArea.sync="drawnArea"
       />
+      <DatePickerControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+        @selectedDate="setDateFromDatePicker"
+        class="pointerEvents"
+        :mapId="mapId"
+      />
+      <SliderControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
+        class="pointerEvents"
+        :mapId="mapId"
+        :config="mergedConfigsData[0].sliderConfig"
+      />
+      <CustomFeaturesFetchButton
+      v-if="loaded && mergedConfigsData.length
+        && mergedConfigsData[0].mapTimeDatepicker"
+        class="pointerEvents"
+        v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -180,6 +198,9 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
+import DatePickerControl from '@/components/map/DatePickerControl.vue';
+import CustomFeaturesFetchButton from '@/components/map/CustomFeaturesFetchButton.vue';
+import SliderControl from '@/components/map/SliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
@@ -202,6 +223,7 @@ import { DateTime } from 'luxon';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
+import { Vector as VectorLayer } from 'ol/layer';
 import {
   loadIndicatorExternalData,
   calculatePadding,
@@ -222,11 +244,14 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
+    DatePickerControl,
+    SliderControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
     DarkOverlayLayer,
+    CustomFeaturesFetchButton,
   },
   props: {
     mapId: {
@@ -562,11 +587,15 @@ export default {
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
           this.mergedConfigsDataIndexAware.filter(
-            (config) => config.timeFromProperty || config.usedTimes?.time?.length,
+            (config) => config.mapTimeDatepicker
+              || config.timeFromProperty
+              || config.usedTimes?.time?.length,
           )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
-              if (layer) {
+              if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+                // do not fetch new features on time changeempty
+              } else if (layer) {
                 updateTimeLayer(layer, config, timeObj.value, area);
               }
             });
@@ -795,6 +824,12 @@ export default {
       this.$emit('update:center', e);
       this.currentCenter = e;
     },
+    setDateFromDatePicker(date) {
+      this.dataLayerTime = {
+        name: date,
+        value: DateTime.fromISO(date),
+      };
+    },
     updateTime(time, compare) {
       // Define a function to update the data layer
       // direct match on name
@@ -967,17 +1002,25 @@ export default {
         }
       }
     },
-    updateSelectedAreaFeature() {
+    updateSelectedAreaFeature(manualTrigger = false) {
       const { map } = getMapInstance(this.mapId);
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
-      this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+      this.mergedConfigsDataIndexAware.filter(
+        (config) => config.mapTimeDatepicker || config.usedTimes?.time?.length,
+      )
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           if (layer) {
-            updateTimeLayer(layer, config, time, area, 'updateArea');
+            if (manualTrigger) {
+              updateTimeLayer(layer, config, time, area, 'updateArea');
+            } else if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+              // do nothing
+            } else {
+              updateTimeLayer(layer, config, time, area, 'updateArea');
+            }
           }
         });
     },
