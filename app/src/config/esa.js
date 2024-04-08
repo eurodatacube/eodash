@@ -131,8 +131,7 @@ export const indicatorsDefinition = Object.freeze({
   E13c: {
     features: {
       name: 'Ship detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-      url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/E13c/E13c_UK9_20200829.geojson',
     },
   },
   E13d: {

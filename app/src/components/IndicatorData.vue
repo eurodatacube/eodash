@@ -125,8 +125,8 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
-        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
+        'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX_EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
@@ -1010,7 +1010,7 @@ export default {
             }
             datasets.push(ds);
           });
-        } else if (['OX', 'OX-EU'].includes(indicatorCode)) {
+        } else if (['OX', 'OX_EU'].includes(indicatorCode)) {
           const data = [];
           const average = [];
           let counter = 0;
@@ -1590,7 +1590,7 @@ export default {
         customSettings.yAxisRange = [0, 8];
       }
 
-      if (['E13d', 'E13n', 'OX', 'OX-EU'].includes(indicatorCode)) {
+      if (['E13d', 'E13n', 'OX', 'OX_EU'].includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
           displayFormats: { month: 'MMM yy' },
@@ -1753,7 +1753,7 @@ export default {
       }
 
       // Special chart display for oilx data
-      if (['OX', 'OX-EU'].includes(indicatorCode)) {
+      if (['OX', 'OX_EU'].includes(indicatorCode)) {
         customSettings.hover = {
           mode: 'nearest',
         };
