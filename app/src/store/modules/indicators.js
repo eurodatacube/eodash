@@ -117,15 +117,15 @@ async function loadIndicator(link, url, rootState) {
 
 async function loadAllIndicators(data, url, rootState) {
   const indicators = [];
-  const promises = data.links.map(link => loadIndicator(link, url, rootState));
-  Promise.all(promises).then(results => {
+  const promises = data.links.map((link) => loadIndicator(link, url, rootState));
+  Promise.all(promises).then((results) => {
     // results is an array of all the resolved values
-    results.forEach(result => {
+    results.forEach((result) => {
       if (result && result.length > 0) {
         indicators.push(...result);
       }
     });
-  }).catch(error => {
+  }).catch((error) => {
     console.error('Error loading datasets:', error);
   });
   return indicators;
