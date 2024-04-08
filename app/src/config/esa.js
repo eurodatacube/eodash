@@ -436,7 +436,7 @@ export const globalIndicators = [
           features: {
             name: 'CropModel API ',
             id: 'cropom',
-            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cropom_test_data.json',
+            url: 'https://api.cropomservices.com/crop_model/regional_forcast?country_code=HU',
             projection: {
               name: 'EPSG:3035',
               def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
