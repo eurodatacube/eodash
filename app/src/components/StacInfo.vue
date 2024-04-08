@@ -29,6 +29,11 @@
           :for="getLink"
           :allowHtml.prop="true"
           :styleOverride.prop="`
+          .single-property {
+            columns: 1!important;
+            -webkit-columns: 1!important;
+            word-break: break-word
+          }
           h1 {margin:0px!important;font-size:16px!important;}
           h1:after {
             content:' ';
