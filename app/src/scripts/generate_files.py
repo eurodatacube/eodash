@@ -197,6 +197,9 @@ STAC_COLLECTIONS = {
     "landsat-c2l2-sr-lakes-lake-biwa": "https://staging-stac.delta-backend.com/collections/",
     "landsat-c2l2-sr-lakes-tonle-sap": "https://staging-stac.delta-backend.com/collections/",
     "landsat-c2l2-sr-lakes-vanern": "https://staging-stac.delta-backend.com/collections/",
+    "EPA-daily-emissions_5_Forest_Fires": "https://staging-stac.delta-backend.com/collections/",
+    "EPA-monthly-emissions_4F_Field_Burning": "https://staging-stac.delta-backend.com/collections/",
+    "hls-ndvi": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic-nopop": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-socioeconomic": "https://staging-stac.delta-backend.com/collections/",
     #"social-vulnerability-index-household": "https://staging-stac.delta-backend.com/collections/",
@@ -864,6 +867,6 @@ generateData(
         ['E200', ''],
         ['Sentinel_1_Vessel_Density_Europe_Timeseries', ''],
         ['Crude_Oil_Storage_Index', ''],
-        ['Crude_Oil_Storage_Index-Europe', ''],
+        # ['Crude_Oil_Storage_Index-Europe', ''],
     ]
 )

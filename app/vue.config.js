@@ -55,6 +55,7 @@ module.exports = {
     '@eox/layercontrol',
     '@eox/stacinfo',
     'ol-mapbox-style',
+    '@eox/jsonform',
   ],
   configureWebpack: {
     devServer: {
