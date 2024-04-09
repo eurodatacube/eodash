@@ -301,22 +301,22 @@ export const fetchCustomAreaObjects = async (
     // Set the Authorization header using the Bearer token
     requestOpts.headers.Authorization = `Bearer ${accessToken}`;
   }
-
-  if (options.indicator === 'CROPOM') {
-    // Handling of auth for cropom endpoint
-    const clientId = shConfig.cropomClientId;
-    let auth0Client = null;
-    const configureClient = async () => {
-      auth0Client = await createAuth0Client({
-        domain: 'https://cropom.eu.auth0.com',
-        clientId,
-      });
-    };
-    await configureClient();
-    const token = await auth0Client.getTokenSilently();
-    // Set the Authorization header using the Bearer token
-    requestOpts.headers.Authorization = `Bearer ${token}`;
-  }
+  // TODO: for now commented our the Auth0 part for CROPOM
+  // if (options.indicator === 'CROPOM') {
+  //   // Handling of auth for cropom endpoint
+  //   const clientId = shConfig.cropomClientId;
+  //   let auth0Client = null;
+  //   const configureClient = async () => {
+  //     auth0Client = await createAuth0Client({
+  //       domain: 'https://cropom.eu.auth0.com',
+  //       clientId,
+  //     });
+  //   };
+  //   await configureClient();
+  //   const token = await auth0Client.getTokenSilently();
+  //   // Set the Authorization header using the Bearer token
+  //   requestOpts.headers.Authorization = `Bearer ${token}`;
+  // }
   // This method takes care of all types of custom requests
   //   - custom area request to NASA endpoint
   //   - geodb request for truck detections?
