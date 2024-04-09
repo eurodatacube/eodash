@@ -53,6 +53,9 @@ module.exports = [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
+    },
     demoMode: {
       egu2023: [
         // custom story is not supported yet for new demo mode
@@ -187,6 +190,9 @@ module.exports = [
         // eslint-disable-next-line no-param-reassign
         collectionLink.themes[j] = 'oceans';
       }
+    },
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
     },
     demoMode: {
       cop28: [
@@ -507,5 +513,8 @@ module.exports = [
     enableStories: false,
     enableESALayout: false,
     enableScrollyTelling: false,
+    enableIndicatorSidebar: true,
+    uiText: {
+    },
   },
 ];

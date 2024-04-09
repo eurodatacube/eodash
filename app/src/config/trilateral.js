@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Wkt } from 'wicket';
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -61,7 +62,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const antarcticBaseMaps = [
   baseLayers.terrainLightStereoSouth,
@@ -502,12 +503,21 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end, interval = 1) => {
+const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    if (s3Path) {
+      const t = DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd');
+      let evaluated = s3Path.replace('{time}', t);
+      if (formatFunction) {
+        evaluated = s3Path.replace('{time}', formatFunction(t));
+      }
+      dateArray.push([t, evaluated]);
+    } else {
+      dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    }
     currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
@@ -1286,6 +1296,30 @@ export const globalIndicators = [
         display: {
           ...antarcticDatasets,
           projection: 'EPSG:3857',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'sen4ama',
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sentinel-1 for Science Amazonas area of forest loss',
+          layers: 'ID-AMAZONAS_PROJECT',
+          minZoom: 5,
+          maxZoom: 16,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ months: 1 }).minus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((-58.193359 -5.652236, -58.193359 -1.537901, -52.625 -1.537901, -52.625 -5.652236, -58.193359 -5.652236))').toJson(),
+            }],
+          },
         },
       },
     },

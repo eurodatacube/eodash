@@ -31,7 +31,7 @@
                  :activeID="activePanel" :title="panel.title"
                  >
                    <IndicatorFiltersDemo v-if="$route.name === 'demo' && ['Domains & Tools'].includes(panel.title)"/>
-                   <IndicatorFiltersPanel v-else-if="['Domains & Tools','Domains'].includes(panel.title)" />
+                   <IndicatorFiltersPanel v-else-if="indicatorPanelheader === panel.title" />
                    <eox-layercontrol
                     v-if="panel.title == 'Layers' && indicatorSelected"
                     for="#centerMap"
@@ -129,6 +129,12 @@ export default {
     indicatorSelected() {
       return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
+    },
+    indicatorPanelheader() {
+      if ('indicatorPanelheader' in this.appConfig.uiText) {
+        return this.appConfig.uiText.indicatorPanelheader;
+      }
+      return 'Domains & Tools';
     },
     currentNews() {
       let currentNews;

@@ -115,19 +115,20 @@ async function loadIndicator(link, url, rootState) {
   return results;
 }
 
-async function loadAllIndicators(data, url, rootState) {
+async function loadAllIndicators(data, url, rootState, commit) {
   const indicators = [];
-  const promises = data.links.map(link => loadIndicator(link, url, rootState));
-  Promise.all(promises).then(results => {
+  const promises = data.links.map((link) => loadIndicator(link, url, rootState));
+  await Promise.all(promises).then((results) => {
     // results is an array of all the resolved values
-    results.forEach(result => {
+    results.forEach((result) => {
       if (result && result.length > 0) {
         indicators.push(...result);
       }
     });
-  }).catch(error => {
+  }).catch((error) => {
     console.error('Error loading datasets:', error);
   });
+  commit('SET_INDICATORS', indicators);
   return indicators;
 }
 
@@ -153,15 +154,13 @@ const actions = {
       };
       url = `${bucket}${catalogBranch}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
     }
-    const indicators = await this.dispatch( // eslint-disable-line
-      'indicators/loadSTACEndpoint', { url, rootState },
+    this.dispatch( // eslint-disable-line
+      'indicators/loadSTACEndpoint', { url, commit, rootState },
     );
-    commit('SET_INDICATORS', indicators);
   },
-  loadSTACEndpoint(_, { url, rootState }) {
-    return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
-      .then((data) => loadAllIndicators(data, url, rootState))
-      .then((indicators) => indicators);
+  async loadSTACEndpoint(_, { url, commit, rootState }) {
+    fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
+      .then((data) => loadAllIndicators(data, url, rootState, commit));
   },
 };
 

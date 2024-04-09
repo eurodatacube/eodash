@@ -68,7 +68,7 @@ export default {
         ? 8 : -40) + (48 * this.siblingsCount))}px) * ${(this.heightPercentage / 100)});`;
     },
     titleLabel() {
-      return this.title?.toUpperCase();
+      return this.title;
     },
   },
   data: () => ({

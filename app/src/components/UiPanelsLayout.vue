@@ -27,6 +27,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 export default {
   props: {
     gtif: {
@@ -49,7 +53,7 @@ export default {
           this.panels.left = [
             {
               id: 1,
-              title: 'Domains',
+              title: this.indicatorPanelheader,
               heightPercentage: 100,
             },
           ];
@@ -58,7 +62,7 @@ export default {
           const leftPanels = [
             {
               id: 1,
-              title: 'Domains & Tools',
+              title: this.indicatorPanelheader,
               heightPercentage: 100,
             },
           ];
@@ -91,6 +95,15 @@ export default {
     },
   },
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
+    indicatorPanelheader() {
+      if ('indicatorPanelheader' in this.appConfig.uiText) {
+        return this.appConfig.uiText.indicatorPanelheader;
+      }
+      return 'Domains & Tools';
+    },
     inToolMode() {
       return this.$store.state.gtif.toolsToggle;
     },
