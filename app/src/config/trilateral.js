@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Wkt } from 'wicket';
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -60,7 +61,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const antarcticBaseMaps = [
   baseLayers.terrainLightStereoSouth,
@@ -501,12 +502,21 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end, interval = 1) => {
+const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    if (s3Path) {
+      const t = DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd');
+      let evaluated = s3Path.replace('{time}', t);
+      if (formatFunction) {
+        evaluated = s3Path.replace('{time}', formatFunction(t));
+      }
+      dateArray.push([t, evaluated]);
+    } else {
+      dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    }
     currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
@@ -1285,6 +1295,33 @@ export const globalIndicators = [
         display: {
           ...antarcticDatasets,
           projection: 'EPSG:3857',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'sen4ama',
+        time: [ // times for a monthly composite
+          '2017-01-01', '2017-02-01', '2017-03-01', '2017-04-01', '2017-05-01', '2017-06-01', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01', '2018-05-01', '2018-06-01', '2018-07-01', '2018-08-01', '2018-09-01', '2018-10-01', '2018-11-01', '2018-12-01', '2019-01-01', '2019-02-01', '2019-03-01', '2019-04-01', '2019-05-01', '2019-06-01', '2019-07-01', '2019-08-01', '2019-09-01', '2019-10-01', '2019-11-01', '2019-12-01', '2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01', '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01', '2021-06-01', '2021-07-01', '2021-08-01', '2021-09-01', '2021-10-01', '2021-11-01',
+        ],
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sentinel-1 for Science Amazonas area of forest loss',
+          layers: 'ID-AMAZONAS_PROJECT',
+          minZoom: 5,
+          maxZoom: 16,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ months: 1 }).minus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((-58.193359 -5.652236, -58.193359 -1.537901, -52.625 -1.537901, -52.625 -5.652236, -58.193359 -5.652236))').toJson(),
+            }],
+          },
         },
       },
     },

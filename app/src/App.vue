@@ -148,7 +148,7 @@ export default {
     // Listen for initial loading of indicators and set possible indicator from url
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_FEATURES') {
-        if (mutation.payload && this.startupFeatureSelection !== null) {
+        if (mutation.payload?.length && this.startupFeatureSelection !== null) {
           const features = mutation.payload;
           const selectedFeature = features.find((ft) => {
             const indObj = ft.properties.indicatorObject;
@@ -168,7 +168,7 @@ export default {
 
       if (mutation.type === 'indicators/SET_INDICATORS') {
         // Read route query and set selected indicator, once indicator loaded set selected feature
-        if (mutation.payload) {
+        if (mutation.payload?.length) {
           const { poi, indicator } = this.$route.query;
           // For legacy support we need to consider indicator not being set, only poi,
           // then we need to extract the information from the poi
