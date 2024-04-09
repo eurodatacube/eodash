@@ -6,9 +6,7 @@ module.exports = [
       staging: 2,
       production: 4,
     },
-    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at',
-    // 'eodash-testing.eox.at',
-    'race.eox.world', 'race.localhost', 'race.eox.home'],
+    match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost', 'race.eox.home'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
       shortName: 'RACE Dashboard',
@@ -480,9 +478,7 @@ module.exports = [
         },
       ],
     },
-    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-testing.eox.at',
-    'eodash-testing.eox.at', // temporary added, polartep remove
-  ],
+    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-testing.eox.at'],
     branding: {
       appName: 'Polar Dashboard',
       primaryColor: '#003247',
