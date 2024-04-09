@@ -6,7 +6,13 @@
           @loaded="onStacInfoLoad"
           :for="getLink"
           :allowHtml.prop="true"
-          :styleOverride.prop="`#properties li > .value {
+          :styleOverride.prop="`
+          .single-property {
+            columns: 1!important;
+            -webkit-columns: 1!important;
+            word-break: break-word
+          }
+          #properties li > .value {
               font-weight: normal !important;
           }
           #properties li {
@@ -20,7 +26,11 @@
           properties='["description"]'
           featured="[]"
           footer="[]"
-          style="margin-left: -30px; margin-right: -30px;word-wrap: break-word;"
+          :style="`
+            margin-left: -30px;
+            margin-right: -30px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}`"
         ></eox-stacinfo>
       </v-col>
       <v-col v-else-if="appConfig.id === 'trilateral'">
@@ -67,7 +77,11 @@
           properties='["description"]'
           featured='[]'
           footer="[]"
-          style="margin-left: -20px; margin-right: -20px;word-wrap: break-word;"
+          :style="`
+            margin-left: -20px;
+            margin-right: -20px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}`"
         ></eox-stacinfo>
       </v-col>
       <v-col v-else>
@@ -83,10 +97,15 @@
           featured='["description","providers","assets","links"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
-          style="margin-left: -20px; margin-right: -20px;"
+          :style="`
+            margin-left: -20px;
+            margin-right: -20px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}!important;
+            --color-primary-lighter: white;`"
           :styleOverride.prop="`
           h1 {margin:0px!important;font-size:16px!important;}
-          h1:after {
+          header h1:after {
             content:' ';
             display:block;
             border:1px solid #d0d0d0;
@@ -96,6 +115,9 @@
           summary {cursor: pointer;}
           #properties li > .value { font-weight: normal !important;}
           main {padding-bottom: 10px;}
+          .footer-container {line-height:1;}
+          .footer-container button {margin-top: -10px;}
+          .footer-container small {font-size:10px;line-height:1;}
           `"
         >
           <div slot="themes"
@@ -274,12 +296,10 @@ export default {
 }
 .col {
   padding-top: 0px;
+  padding-bottom: 0px;
 }
 </style>
 <style>
-eox-stacinfo {
-  --color-primary: this.$vuetify.theme.currentTheme.main;
-}
 eox-stacinfo::part(header) {
   top: 0;
   z-index: 1;
