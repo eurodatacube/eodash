@@ -6,12 +6,12 @@
       background: ${$vuetify.theme.currentTheme.background};
     `"
   >
-      <v-expansion-panel v-if="hasPanel">
+      <v-expansion-panel v-if="hasPanel" @click="onExpansionPanelClick">
         <v-expansion-panel-header ref="header" :class="`${gtif ? 'gtif': ''}`">
           {{ titleLabel }}
         </v-expansion-panel-header>
         <v-expansion-panel-content ref="expantionContent" eager
-        :style="`max-height:${getMaxHeight}`">
+        >
           <slot></slot>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -52,26 +52,73 @@ export default {
       type: Number,
       default: 50,
     },
+    heightPercentageBothOpen: {
+      type: Number,
+      default: 50,
+    },
     id: Number,
     activeID: {
       type: Number,
       default: null,
     },
   },
+  methods: {
+    onExpansionPanelClick(evt) {
+      const totalOpenBeforeClick = this.$parent.$children.filter((el) => (
+        el.$children[0].$el.classList.contains('v-expansion-panel--active')
+      )).length;
+      let modifier;
+      if ('currentTarget' in evt) {
+        if (evt.currentTarget.parentNode.classList.contains('v-expansion-panel--active')) {
+          // panel is in the process of being close, so we remove from total
+          modifier = -1;
+        } else {
+          // panel is in the process of being opened, so we add to the total
+          modifier = 1;
+        }
+      }
+      const openPanels = totalOpenBeforeClick + modifier;
+      // re-calculate height of all panels within the group
+      this.$parent.$children.forEach((element) => {
+        const remHeight = this.$vuetify.application.top + this.$vuetify.application.footer + (
+          this.gtif ? 8 : -40
+        );
+        console.log(element.heightPercentageBothOpen);
+        console.log(element.heightPercentage);
+        console.log(element.title);
+        const totalHeight = remHeight + (48 * element.siblingsCount);
+        let percentage = element.heightPercentage / 100;
+        if (openPanels > 1) {
+          percentage = element.heightPercentageBothOpen / 100;
+        }
+        const maxHeight = `calc(((var(--vh, 1vh) * 100) - ${totalHeight}px) * ${percentage})`;
+        // eslint-disable-next-line no-param-reassign
+        element.$children[0].$children[1].$el.style.maxHeight = maxHeight;
+      });
+    },
+  },
   computed: {
     isSelected() {
       return this.id === this.activeID;
     },
-    getMaxHeight() {
-      return `calc(((var(--vh, 1vh) * 100) - ${(this.$vuetify.application.top
-         + this.$vuetify.application.footer + (this.gtif
-        ? 8 : -40) + (48 * this.siblingsCount))}px) * ${(this.heightPercentage / 100)});`;
+    maxHeight() {
+      const remHeight = this.$vuetify.application.top + this.$vuetify.application.footer + (
+        this.gtif ? 8 : -40
+      );
+      const totalHeight = remHeight + (48 * this.siblingsCount);
+      let percentage = this.heightPercentage / 100;
+      if (this.openPanels > 1) {
+        percentage = this.heightPercentageBothOpen / 100;
+      }
+      console.log(percentage);
+      return `calc(((var(--vh, 1vh) * 100) - ${totalHeight}px) * ${percentage});`;
     },
     titleLabel() {
       return this.title;
     },
   },
   data: () => ({
+    active: true,
     siblingsCount: 1,
     gtif: false,
     hasPanel: true,
