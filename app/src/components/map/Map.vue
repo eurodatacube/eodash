@@ -124,6 +124,24 @@
       >
         <v-icon>mdi-map-clock-outline</v-icon>
       </v-btn>
+      <DatePickerControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+        @selectedDate="setDateFromDatePicker"
+        class="pointerEvents"
+        :mapId="mapId"
+      />
+      <SliderControl
+        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
+        class="pointerEvents"
+        :mapId="mapId"
+        :config="mergedConfigsData[0].sliderConfig"
+      />
+      <CustomFeaturesFetchButton
+      v-if="loaded && mergedConfigsData.length
+        && mergedConfigsData[0].mapTimeDatepicker"
+        class="pointerEvents"
+        v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+      />
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mt-auto mb-2"
@@ -131,7 +149,7 @@
         <IframeButton
           v-if="mapId === 'centerMap'
             && indicator
-            && indicatorHasMapData(indicator)
+            && indicatorHasMapData()
             && appConfig.id !== 'gtif'"
           :featureObject="featureObject"
           :indicatorObject="indicator"
@@ -147,7 +165,7 @@
         <AddToDashboardButton
           v-if="mapId === 'centerMap'
             && indicator
-            && indicatorHasMapData(indicator)
+            && indicatorHasMapData()
             && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
           :featureObject="featureObject"
@@ -181,6 +199,9 @@ import getCluster from '@/components/map/Cluster';
 import SpecialLayer from '@/components/map/SpecialLayer.vue';
 import LayerSwipe from '@/components/map/LayerSwipe.vue';
 import CustomAreaButtons from '@/components/map/CustomAreaButtons.vue';
+import DatePickerControl from '@/components/map/DatePickerControl.vue';
+import CustomFeaturesFetchButton from '@/components/map/CustomFeaturesFetchButton.vue';
+import SliderControl from '@/components/map/SliderControl.vue';
 import { getMapInstance } from '@/components/map/map';
 import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
@@ -204,6 +225,7 @@ import { DateTime } from 'luxon';
 import SubaoiLayer from '@/components/map/SubaoiLayer.vue';
 import DarkOverlayLayer from '@/components/map/DarkOverlayLayer.vue';
 import Link from 'ol/interaction/Link';
+import { Vector as VectorLayer } from 'ol/layer';
 import {
   loadIndicatorExternalData,
   loadIndicatorData,
@@ -224,11 +246,14 @@ export default {
     IndicatorTimeSelection,
     LayerSwipe,
     CustomAreaButtons,
+    DatePickerControl,
+    SliderControl,
     SubaoiLayer,
     MapOverlay,
     IframeButton,
     AddToDashboardButton,
     DarkOverlayLayer,
+    CustomFeaturesFetchButton,
   },
   props: {
     mapId: {
@@ -318,7 +343,7 @@ export default {
     },
     showSpecialLayer() {
       return this.mergedConfigsData.length
-      && this.indicatorHasMapData(this.indicator);
+      && this.indicatorHasMapData();
     },
     dataLayerConfigLayerControls() {
       // SpecialLayer entries in LayerControl
@@ -349,15 +374,19 @@ export default {
       };
     },
     displayTimeSelection() {
+      if (this.indicator.indicator === 'E13d' && this.featureData) {
+        // custom overload for extra hassle with replaceMapTimes from config
+        return true;
+      }
       return (
         !this.indicator?.disableTimeSelection
           && this.featureData?.time
           && this.featureData.time?.length > 1
-          && this.indicatorHasMapData(this.indicator)
+          && this.indicatorHasMapData()
       ) || (
         this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && this.indicatorHasMapData(this.indicator)
+        && this.indicatorHasMapData()
       );
     },
     indicator() {
@@ -736,11 +765,15 @@ export default {
           // redraw all time-dependant layers, if time is passed via WMS params
           const area = this.drawnArea;
           this.mergedConfigsDataIndexAware.filter(
-            (config) => config.timeFromProperty || config.usedTimes?.time?.length,
+            (config) => config.mapTimeDatepicker
+              || config.timeFromProperty
+              || config.usedTimes?.time?.length,
           )
             .forEach((config) => {
               const layer = layers.find((l) => l.get('name') === config.name);
-              if (layer) {
+              if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+                // do not fetch new features on time changeempty
+              } else if (layer) {
                 updateTimeLayer(layer, config, timeObj.value, area);
               }
             });
@@ -1046,6 +1079,12 @@ export default {
       this.$emit('update:center', e);
       this.currentCenter = e;
     },
+    setDateFromDatePicker(date) {
+      this.dataLayerTime = {
+        name: date,
+        value: DateTime.fromISO(date),
+      };
+    },
     updateTime(time, compare) {
       // Define a function to update the data layer
       // direct match on name
@@ -1053,18 +1092,20 @@ export default {
       if (timeEntry === undefined && time.isLuxonDateTime) {
         // search for closest time to datetime if provided as such
         const searchTimes = this.availableTimeEntries.map((e) => {
-          if (e.value?.isLuxonDateTime) {
-            return e.value;
+          const timeValue = Array.isArray(e.value) ? e.value[0] : e.value;
+          if (timeValue?.isLuxonDateTime) {
+            return timeValue;
           }
-          return DateTime.fromISO(e.value);
+          return DateTime.fromISO(timeValue);
         });
         const closestTime = findClosest(searchTimes, time);
         // get back the original unmapped object with value and name
         timeEntry = this.availableTimeEntries.find((e) => {
-          if (e.value?.isLuxonDateTime) {
-            return e.value.ts === closestTime.ts;
+          const timeValue = Array.isArray(e.value) ? e.value[0] : e.value;
+          if (timeValue?.isLuxonDateTime) {
+            return timeValue.ts === closestTime.ts;
           }
-          return DateTime.fromISO(e.value).ts === closestTime.ts;
+          return DateTime.fromISO(timeValue).ts === closestTime.ts;
         });
       } else {
         // Use most recent time since there is none defined in the map timeline
@@ -1218,8 +1259,8 @@ export default {
         return obj;
       });
     },
-    indicatorHasMapData(indicatorObject) {
-      return indicatorHasMapData(indicatorObject, this.featureData);
+    indicatorHasMapData() {
+      return indicatorHasMapData(this.indicator, this.featureData);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
@@ -1247,18 +1288,26 @@ export default {
         }
       }
     },
-    updateSelectedAreaFeature() {
+    updateSelectedAreaFeature(manualTrigger = false) {
       const { map } = getMapInstance(this.mapId);
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layers = dataGroup.getLayers().getArray();
       const area = this.drawnArea;
       const time = this.dataLayerTime?.value;
-      this.mergedConfigsDataIndexAware.filter((config) => config.usedTimes?.time?.length)
+      this.mergedConfigsDataIndexAware.filter(
+        (config) => config.mapTimeDatepicker || config.usedTimes?.time?.length,
+      )
         .forEach((config) => {
           const layer = layers.find((l) => l.get('name') === config.name);
           const handler = 'updateArea';
           if (layer && layer.getSource().get(handler)) {
-            updateTimeLayer(layer, config, time, area, handler);
+            if (manualTrigger) {
+              updateTimeLayer(layer, config, time, area, handler);
+            } else if (layer instanceof VectorLayer && config.mapTimeDatepicker) {
+              // do nothing
+            } else {
+              updateTimeLayer(layer, config, time, area, handler);
+            }
           }
         });
     },
@@ -1273,10 +1322,12 @@ export default {
         return;
       }
       window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: true }));
-
+      const options = {
+        currentTimeIndex: this.currentTimeIndex,
+      };
       try {
         const custom = await fetchCustomAreaObjects(
-          {},
+          options,
           this.drawnArea.area,
           this.mergedConfigsData[0],
           this.indicator,

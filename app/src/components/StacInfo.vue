@@ -43,7 +43,7 @@
           v-if="stacInfoLoaded">
             <ul>
               <v-chip
-                v-for="theme in $refs.stacInfo.stacProperties.themes.value"
+                v-for="theme in themesInStacInfo"
                 :key="theme"
                 :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
                 text-color="white"
@@ -59,9 +59,7 @@
           v-if="stacInfoLoaded">
             Code examples:
             <li
-              v-for="link in $refs.stacInfo.stacProperties.links.value.filter(
-                (l) => l.rel === 'example' || l.rel === 'license'
-              )"
+              v-for="link in linksInStacInfo"
               :key="link.rel"
             >
               <v-btn color="primary" :href="link.href">{{ link.rel }}</v-btn>
@@ -73,7 +71,7 @@
     </v-row>
     <v-expansion-panels
     style="justify-content: left;"
-    v-if="additionalGTIFDataInfos.length > 0"
+    v-if="appConfig.id === 'gtif' && additionalGTIFDataInfos.length > 0"
     >
     <h4>
       Dataset metadata
@@ -112,6 +110,8 @@ export default {
   data: () => ({
     additionalGtifDataInfoContent: [],
     stacInfoLoaded: null,
+    themesInStacInfo: [],
+    linksInStacInfo: [],
   }),
   computed: {
     ...mapState('config', [
@@ -172,6 +172,11 @@ export default {
         } else {
           this.$parent.$parent.$el.style.display = '';
         }
+        this.themesInStacInfo = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        const links = this.$refs.stacInfo?.stacProperties?.links?.value || [];
+        this.linksInStacInfo = links.filter(
+          (l) => l.rel === 'example' || l.rel === 'license',
+        );
         this.stacInfoLoaded = true;
       });
     },
