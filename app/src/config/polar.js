@@ -4,6 +4,7 @@ import {
   baseLayers, overlayLayers,
 } from '@/config/layers';
 import shTimeFunction from '../shTimeFunction';
+import { Wkt } from 'wicket';
 
 export const dataPath = './data/polar/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/polar/catalog.json';
@@ -18,7 +19,7 @@ const getDailyDates = (start, end) => {
   }
   return dateArray;
 };
-
+const wkt = new Wkt();
 // Helper function to create colorscales for cog style rendering
 function getColorStops(name, min, max, steps, reverse) {
   const delta = (max - min) / (steps - 1);
@@ -92,6 +93,14 @@ const polarStereoDatasetsConfigs = {
   overlayLayers: arcticOverlayMaps,
   mapProjection: polarStereographicProjection,
   projection: 'EPSG:4326',
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-20 89,50 89,50 77,-20 77,-20 89))').toJson(),
+    }],
+  },
 };
 
 export const defaultLayersDisplay = {
@@ -334,11 +343,9 @@ export const globalIndicators = [
         indicator: 'N12_1_sea_ice_concentration_arctic',
         time: getDailyDates('1978-11-01', '2023-12-31'),
         display: {
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
+          ...polarStereoDatasetsConfigs,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),
           projection: 'EPSG:3411',
-          mapProjection: polarStereographicProjection,
         },
       },
     },

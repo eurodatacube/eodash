@@ -82,7 +82,7 @@
           Welcome
         </v-btn>
         <v-btn
-          v-if="$route.name === 'explore' && !polartepTemp"
+          v-if="$route.name === 'explore'"
           block
           text
           color="primary"
@@ -102,7 +102,7 @@
       </v-btn>
 
         <v-badge
-          v-if="$store.state.dashboard.dashboardConfig && !polartepTemp"
+          v-if="$store.state.dashboard.dashboardConfig"
           bordered
           color="secondary"
           :content="$store.state.dashboard.dashboardConfig
@@ -234,7 +234,6 @@
         Welcome
       </v-btn>
       <v-btn
-        v-if="!polartepTemp"
         text
         dark
         small
@@ -281,7 +280,7 @@
     <v-spacer v-if="!(appConfig && appConfig.enableStories)"></v-spacer>
 
     <h2
-      v-if="$route.name === 'demo' && !polartepTemp"
+      v-if="$route.name === 'demo'"
       class="mr-2"
     >
       {{ appConfig && appConfig.pageMeta.rootPath  }}
@@ -444,7 +443,7 @@ export default {
     }),
     polartepTemp() {
       // TODO remove when to be merged
-      return this.$route.query.event === 'polartep';
+      return this.appConfig.id === 'polar';
     },
 
     isThemePageActive() {
