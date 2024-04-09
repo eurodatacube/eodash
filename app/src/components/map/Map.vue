@@ -156,7 +156,7 @@
         <IframeButton
           v-if="mapId === 'centerMap'
             && indicator
-            && indicatorHasMapData(indicator)
+            && indicatorHasMapData()
             && appConfig.id !== 'gtif'"
           :featureObject="featureObject"
           :indicatorObject="indicator"
@@ -173,7 +173,7 @@
         <AddToDashboardButton
           v-if="mapId === 'centerMap'
             && indicator
-            && indicatorHasMapData(indicator)
+            && indicatorHasMapData()
             && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
           :indicatorObject="indicator"
           :featureObject="featureObject"
@@ -345,7 +345,7 @@ export default {
     },
     showSpecialLayer() {
       return this.mergedConfigsData.length
-      && this.indicatorHasMapData(this.indicator);
+      && this.indicatorHasMapData();
     },
     dataLayerConfigLayerControls() {
       // SpecialLayer entries in LayerControl
@@ -376,15 +376,19 @@ export default {
       };
     },
     displayTimeSelection() {
+      if (this.indicator.indicator === 'E13d' && this.featureData) {
+        // custom overload for extra hassle with replaceMapTimes from config
+        return true;
+      }
       return (
         !this.indicator?.disableTimeSelection
           && this.featureData?.time
           && this.featureData.time?.length > 1
-          && this.indicatorHasMapData(this.indicator)
+          && this.indicatorHasMapData()
       ) || (
         this.indicator?.time?.length > 1
         && !this.indicator?.disableTimeSelection && this.dataLayerTime
-        && this.indicatorHasMapData(this.indicator)
+        && this.indicatorHasMapData()
       );
     },
     indicator() {
@@ -1254,8 +1258,8 @@ export default {
         return obj;
       });
     },
-    indicatorHasMapData(indicatorObject) {
-      return indicatorHasMapData(indicatorObject, this.featureData);
+    indicatorHasMapData() {
+      return indicatorHasMapData(this.indicator, this.featureData);
     },
     overlayCallback(headers, rows, coordinate) {
       this.overlayHeaders = headers;
