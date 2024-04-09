@@ -376,7 +376,7 @@ export default {
       };
     },
     displayTimeSelection() {
-      if (this.indicator.indicator === 'E13d' && this.featureData) {
+      if (this.indicator?.indicator === 'E13d' && this.featureData) {
         // custom overload for extra hassle with replaceMapTimes from config
         return true;
       }
