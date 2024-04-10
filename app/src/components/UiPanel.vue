@@ -63,10 +63,31 @@ export default {
     },
   },
   methods: {
+    updateHeights(openPanels) {
+      // re-calculate height of all panels within the group
+      this.$parent.$children.forEach((element) => {
+        const remHeight = this.$vuetify.application.top + this.$vuetify.application.footer + (
+          this.gtif ? 8 : -40
+        );
+        const totalHeight = remHeight + (48 * element.siblingsCount);
+        let percentage = element.heightPercentage / 100;
+        if (openPanels > 1) {
+          percentage = element.heightPercentageBothOpen / 100;
+        }
+        const maxHeight = `calc(((var(--vh, 1vh) * 100) - ${totalHeight}px) * ${percentage})`;
+        if (element.$children.length > 0 && element.$children[0].$children.length > 1) {
+          // eslint-disable-next-line no-param-reassign
+          element.$children[0].$children[1].$el.style.maxHeight = maxHeight;
+        }
+      });
+    },
     onExpansionPanelClick(evt) {
-      const totalOpenBeforeClick = this.$parent.$children.filter((el) => (
-        el.$children[0].$el.classList.contains('v-expansion-panel--active')
-      )).length;
+      const totalOpenBeforeClick = this.$parent.$children.filter((el) => {
+        if (el.$children.length > 0) {
+          return el.$children[0].$el.classList.contains('v-expansion-panel--active');
+        }
+        return false;
+      }).length;
       let modifier;
       if ('currentTarget' in evt) {
         if (evt.currentTarget.parentNode.classList.contains('v-expansion-panel--active')) {
@@ -78,23 +99,7 @@ export default {
         }
       }
       const openPanels = totalOpenBeforeClick + modifier;
-      // re-calculate height of all panels within the group
-      this.$parent.$children.forEach((element) => {
-        const remHeight = this.$vuetify.application.top + this.$vuetify.application.footer + (
-          this.gtif ? 8 : -40
-        );
-        console.log(element.heightPercentageBothOpen);
-        console.log(element.heightPercentage);
-        console.log(element.title);
-        const totalHeight = remHeight + (48 * element.siblingsCount);
-        let percentage = element.heightPercentage / 100;
-        if (openPanels > 1) {
-          percentage = element.heightPercentageBothOpen / 100;
-        }
-        const maxHeight = `calc(((var(--vh, 1vh) * 100) - ${totalHeight}px) * ${percentage})`;
-        // eslint-disable-next-line no-param-reassign
-        element.$children[0].$children[1].$el.style.maxHeight = maxHeight;
-      });
+      this.updateHeights(openPanels);
     },
   },
   computed: {
@@ -110,7 +115,6 @@ export default {
       if (this.openPanels > 1) {
         percentage = this.heightPercentageBothOpen / 100;
       }
-      console.log(percentage);
       return `calc(((var(--vh, 1vh) * 100) - ${totalHeight}px) * ${percentage});`;
     },
     titleLabel() {
@@ -126,6 +130,13 @@ export default {
   beforeUpdate() {
     this.hasPanel = this.$slots.default?.length > 0 ?? false;
     this.siblingsCount = this.$parent.$children.length;
+    const openPanels = this.$parent.$children.filter((el) => {
+      if (el.$children.length > 0) {
+        return el.$children[0].$el?.classList.contains('v-expansion-panel--active');
+      }
+      return false;
+    }).length;
+    this.updateHeights(openPanels);
   },
   mounted() {
     // first parent is vExpantionPanels, second parent is UiPanelsLayout
@@ -135,6 +146,7 @@ export default {
       // first parent is the UiPanelsLayout
       this.gtif = this.$parent.$props.gtif;
     }
+    this.hasPanel = this.$slots.default?.length > 0 ?? false;
   },
 };
 </script>
