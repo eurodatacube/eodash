@@ -17,7 +17,7 @@ Several ESA, JAXA and NASA satellites such as the Copernicus Sentinel missions, 
 
 Data delivered by these missions provides the essential information used in global forest products such as the global Biomass Essential Climate Variable (ECV) of ESA's Climate Change Initiative (CCI). This product counts with an annual estimate of global above-ground biomass at 100 m spatial resolution over five years based on ESA’s C-band (Sentinel-1 A and -B) and JAXA’s L-band SAR on board of ALOS-2 PALSAR-2 with additional information from Space borne LIDAR (such as NASA’s Global Ecosystem Dynamics Investigation Lidar GEDI). JAXA also offers  global 25m resolution SAR mosaics and forest/non-forest maps, based on ALOS PALSAR, ALOS-2 PALSAR-2 and the JERS-1 SAR. In addition, “JICA-JAXA Forest Early Warning System in the Tropics" (JJ-FAST) is now operating for monitoring early deforestation in tropical forests globally collaboration with the Japan International Cooperation Agency (JICA) and JAXA. 
 
-**INCLUDE JAXA forest non-forest dataset** https://www.eodashboard.org/explore?search=World%3A+Forest%2Fnon-forest+map+PALSAR2&x=629717.68287&y=-1706955.20697&z=3.93111&poi=World-FNF
+## <!--{ as="eox-map" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/FNF_Palsar/FNF_Palsar/FNF_Palsar/2020/2020.json","displayWebMapLink":true,"displayFootprint":false}]' style="height:400px" }-->
 
 ## Boreal forests: from carbon sink to carbon source? 
 
