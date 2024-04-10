@@ -8,8 +8,6 @@
           :allowHtml.prop="true"
           :styleOverride.prop="`
           .single-property {
-            columns: 1!important;
-            -webkit-columns: 1!important;
             word-break: break-word
           }
           #properties li > .value {
@@ -39,11 +37,7 @@
           :for="getLink"
           :allowHtml.prop="true"
           :styleOverride.prop="`
-          .single-property {
-            columns: 1!important;
-            -webkit-columns: 1!important;
-            word-break: break-word
-          }
+          .single-property {columns: 1!important;}
           h1 {margin:0px!important;font-size:16px!important;}
           h1:after {
             content:' ';
@@ -104,6 +98,7 @@
             --color-primary: ${$vuetify.theme.currentTheme.main}!important;
             --color-primary-lighter: white;`"
           :styleOverride.prop="`
+          .single-property {columns: 1!important;}
           h1 {margin:0px!important;font-size:16px!important;}
           header h1:after {
             content:' ';
