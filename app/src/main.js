@@ -30,6 +30,7 @@ import getLocationCode from './mixins/getLocationCode';
 
 import '@eox/layercontrol';
 import '@eox/map';
+import '@eox/map/dist/eox-map-advanced-layers-and-sources.js';
 import '@eox/jsonform';
 import '@eox/storytelling';
 
