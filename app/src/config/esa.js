@@ -358,8 +358,8 @@ export const globalIndicators = [
               areaIndicator: 'MaizeGDD',
               min_y: 0,
               max_y: 12,
-              min_w: 250,
-              max_w: 550,
+              min_w: 100,
+              max_w: 650,
             },
             {
               id: 'Sunflower',
@@ -367,8 +367,8 @@ export const globalIndicators = [
               areaIndicator: 'SunflowerGDD',
               min_y: 0,
               max_y: 6,
-              min_w: 250,
-              max_w: 550,
+              min_w: 100,
+              max_w: 650,
             },
             {
               id: 'Soybean',
@@ -376,8 +376,8 @@ export const globalIndicators = [
               areaIndicator: 'Soybean',
               min_y: 0,
               max_y: 5,
-              min_w: 250,
-              max_w: 550,
+              min_w: 100,
+              max_w: 650,
             },
           ],
         }, {
