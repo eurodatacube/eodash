@@ -56,6 +56,9 @@ export default {
         layer.changed();
       }
       this.$emit('updatequeryparameter', true);
+      if (this.$store.state.features.selectedFeatures?.length > 0) {
+        window.dispatchEvent(new Event('fetch-custom-area-chart'));
+      }
     },
   },
 };

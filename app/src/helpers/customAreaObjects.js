@@ -191,8 +191,8 @@ export const fetchCustomAreaObjects = async (
     if (indicator.indicator === 'CROPOM' && Array.isArray(queryParameters)) {
       const selectedCrop = queryParameters[1].items.find((item) => item.id === queryParameters[1].selected);
       const selectedScenario = queryParameters[2].selected;
-      options.crop = selectedCrop.areaIndicator;
-      options.scenario = selectedScenario;
+      options.crop = selectedCrop.areaIndicator; // eslint-disable-line
+      options.scenario = selectedScenario; // eslint-disable-line
     }
   }
   const templateSubst = {
