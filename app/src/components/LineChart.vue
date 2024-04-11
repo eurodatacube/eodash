@@ -23,6 +23,14 @@ export default {
     }
   },
   data() {
+    const yAxes = this.options.yAxis.map((value) => (
+      {
+        scaleLabel: {
+          display: true,
+          labelString: value,
+          padding: 2,
+        },
+      }));
     return {
       defaultOptions: {
         responsive: true,
@@ -90,13 +98,7 @@ export default {
             distribution: this.options.distribution ? this.options.distribution : 'linear',
             ticks: {},
           }],
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: this.options.yAxis,
-              padding: 2,
-            },
-          }],
+          yAxes,
         },
         pan: {
           enabled: true,
