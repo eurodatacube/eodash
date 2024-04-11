@@ -291,10 +291,10 @@
       <eox-storytelling
         ref="customDashboardGrid"
         v-if="storytellingMarkdownUrl"
+        show-nav
         :markdown-url="storytellingMarkdownUrl"
         no-shadow
-        class="pt-14"
-        style="height: calc(var(--vh, 1vh) * 100); display: block;"
+        style="height: calc(var(--vh, 1vh) * 100); display: block; position: relative; z-index: 0;"
       ></eox-storytelling>
       <custom-dashboard-grid
         ref="customDashboardGrid"

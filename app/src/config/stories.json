@@ -74,8 +74,8 @@
         "storyMarkdown": "./data/storytelling-md/Earth Observing Dashboard-3.md",
         "title": "Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes",
         "subtitle": "Forest Loss and Degradation worldwide",
-        "image": "./data/story-images/Agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
       }
     },
     "cryosphere": {
