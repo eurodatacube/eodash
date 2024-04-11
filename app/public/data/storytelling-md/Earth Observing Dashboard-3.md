@@ -21,13 +21,13 @@ Data delivered by these missions provides the essential information used in glob
 
 ## Boreal forests: from carbon sink to carbon source?
 
-## ndvi<!--{ as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eodashcatalog.eox.at/ndvi_fixes/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false}]' }-->
+## ndvi<!--{ as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false}]' }-->
 
 ### <!--{ center="[15,60]" zoom="3" }-->
 
 Boreal forests comprise 44% of Earth’s remaining intact forest landscapes [(10)](https://intactforests.org/shp/IFL_readme_2021.pdf). The boreal forest biome stretches across including Canada, Scandinavia, Russia, and China. An increase of 1.6 degrees Celsius (associated to climate change) can have significant effects on species growth and survival. The UN’s Intergovernmental Panel on Climate Change (IPCC) expects that the vast areas of the boreal forest could experience warming of up to 6 to 11 degrees Celsius by 2100, with the potential to hit a tipping point [(11)](https://www.sciencedaily.com/releases/2015/08/150820144722.htm).
 
-![boreal](BorealForest.png)
+![BorealForest](https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/BorealForest.png)
 
 ### <!--{ center="[-100,55]" zoom="4" }-->
 
@@ -47,13 +47,13 @@ To better understanding the vulnerability and resilience of the Arctic and borea
 
 ## Amazon rainforest: the next Savanna?
 
-![boreal](AmazonForest.png)
+![AmazonForest](https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/AmazonForest.png)
 
 In the Amazon, deforestation and climate change enhance the risk to reach a tipping point [(16)](https://www.esa.int/Applications/Observing_the_Earth/Space_for_our_climate/Forest_degradation_primary_driver_of_carbon_loss_in_the_Brazilian_Amazon).
 
-## amazon <!--{ as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/LIS_Global_DA_Evap/LIS_Global_DA_Evap/lis-global-da-evap/2021/LIS_Evap_202112010000.d01.cog.json","displayWebMapLink":true,"showFootprint":false}]' }-->
+## amazon <!--{ as="eox-map" mode="tour" }-->
 
-### <!--{ center=[-67,-3] zoom="5" }-->
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-1"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/LIS_Global_DA_Evap/LIS_Global_DA_Evap/lis-global-da-evap/2021/LIS_Evap_202112010000.d01.cog.json","displayWebMapLink":true,"displayFootprint":false}]' center=[-67,-3] zoom="5" }-->
 
 This ecosystem, thanks to its trees, has the ability to generate its own rainfall. However, ongoing deforestation is fundamentally changing how the land and atmosphere interact, leading to higher surface temperatures and reduced evapotranspiration leading to the ‘drying out’ of the forest.’ This alteration is particularly pronounced during dry seasons when rainfall in the southern Amazon diminishes significantly. Simultaneously, climate change, spurred by escalating greenhouse gas concentrations, further curtails evapotranspiration due to CO2 fertilisation and the closing of stomata in response to escalating temperatures. Both mechanisms collectively decrease rainfall recycling across the Amazon, intensifying drought stress and elevating the likelihood of fires [(17)](https://www.nature.com/articles/s41558-022-01287-8).
 
@@ -61,11 +61,13 @@ This ecosystem, thanks to its trees, has the ability to generate its own rainfal
 
 Less trees mean a diminished release of water vapour in the atmosphere, consequently reducing cloud formation and precipitation, which ultimately lead to droughts and wildfires [(18)](https://www.scientificamerican.com/article/amazon-rain-forest-nears-dangerous-tipping-point/). This cycle forms a positive feedback loop, perpetuating reduced evapotranspiration and carbon stocks. Whether stemming from localised deforestation impacts or broader global climate shifts, scientific consensus asserts a future for the Amazon characterised by increased warmth and aridity. As a result, the Amazon rainforest is gradually losing its unique ability to ‘bounce back’ after disruptive occurrences, like droughts or other extreme events, leading to a downward spiral where rainforest will shift into a savanna [(19)](https://www.nature.com/articles/s41558-022-01287-8).
 
-### <!--{ layers='[{"type":"STAC","url":"https://eodashcatalog.eox.at/ndvi_fixes/trilateral/sen4ama/sen4ama/sen4ama/2021/2021-11-01.json","displayWebMapLink":true,"showFootprint":false}]' }-->
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/S14Amazonas_detections/S14Amazonas_detections/S14Amazonas_detections/2021/2021-11-01.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-60,0]" zoom="7" }-->
 
 Savannas are generally less efficient than tropical forests at sequestering carbon dioxide from the atmosphere, and recent studies indicate that certain areas of the Amazon are now releasing more carbon dioxide than they absorb. However, there remains no definitive agreement on a tipping point leading to widespread rainforest depletion and the proliferation of savanna species (Cerrado) from the biome. Given the intricate interplay between regional land-use alterations and global climate shifts, scientists are working to gain more understanding about this potential 'point of no return' for the Amazon rainforest. The threshold has been estimated to occur when deforestation reaches 20-25%. Currently, the Amazon has already undergone approximately 17% deforestation, which highlights the urgency of conservation efforts to prevent reaching an ecological tiping point.
 
-## Wildfires crisis: increased severity
+## wildfires <!--{ as="eox-map" mode="tour" }-->
+
+### Wildfires crisis: increased severity <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' }-->
 
 Wildfires are becoming more destructive due to several factors, which include rising temperatures, land use changes, and drought [(20)](https://www.esa.int/ESA_Multimedia/Images/2021/03/Amazon_rainforest), which contribute to considerable alterations in vast forested areas, transforming them into barren lands that struggle to sustain diverse ecosystems. Savannas and boreal forests have opposite trajectories of fire activity. Fires are declining in savannas and grasslands. In fact, global burned area has declined by ~25% over the past 18 years, largely in savannas and grasslands because of agriculture expansion and intensification [(21)](https://www.science.org/doi/10.1126/science.aal4108). On the other hand, fires are increasing in boreal forest ecosystems, albeit with large interannual variability [(22)](https://www.fao.org/3/xii/0207-b3.htm), making it difficult to attribute recent high fire years to an overall positive trend in burned areas.
 
@@ -73,11 +75,11 @@ The ESA CCI programme delivers Global maps of burned area, based on the NASA's M
 
 **Wildfires in Siberian Boreal forests**
 
----> LOAD NASA CO2 yearly dataset, zoom to Siberia
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-1"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/Gridded_EPA_Methane/EPA_Forest_fire_Methane_Yearly/EPA-annual-emissions_5_Forest_Fires/2012/EPA-annual-emissions_5_Forest_Fires.json","displayWebMapLink":true,"displayFootprint":false}]' center=[85,55] zoom="0" }-->
 
 In August 2021, wildfires in Siberia produced 800 megatons of carbon dioxide, nearly double the previous year [(23)](https://www.space.com/siberia-wildfires-greenhouse-gas-emissions-satellite-images). According to estimates by the European Copernicus Atmosphere Monitoring Service (CAMS), more carbon dioxide was released in two and half months than the world’s six most polluting countries emit in a year. Climate change is exacerbating both drier and warmer conditions, fueling more frequent and farther-reaching wildfires that release massive amount of carbon into the atmosphere [(24)](https://www.nrdc.org/stories/climate-tipping-points-are-closer-once-thought). Also, there is consistent evidence that the intervals between fires are shortening, meaning that more carbon is being released from organic soils in boreal forests than the ecosystems can reabsorb, adding up to the trend where boreal forests are leading to a tipping point in that they are becoming a source for global emissions from biomass burning [(25)](https://earthsky.org/earth/wildfires-turn-worlds-largest-forests-carbon-sinks-emitters/) [(26)](https://alaskabeacon.com/2023/03/03/extreme-wildfires-are-turning-worlds-largest-forest-ecosystem-from-carbon-sink-into-net-emitter/) [(27)](https://climate.nasa.gov/news/2905/boreal-forest-fires-could-release-deep-soil-carbon/).
 
-![boreal](Siberia.png)
+![Siberia](https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/Siberia.png)
 
 **The change of fire regime in grasslands and Savannas**
 
@@ -86,9 +88,7 @@ Some of the world’s most relevant woody biomes, the savannas, might be facing 
 Conversely, other activities such as fire suppression have allowed fuel loads to accumulate, resulting in a dramatic increase of wildfire intensity. While much of the evidence comes from Australia and the USA,
 additional insights can be gained from other regions as well.
 
-**--> ZOOM to this dataset**
-
-https://www.eodashboard.org/explore?search=US%3A+Field+Burning+monthly+-+EPA+Methane+Emissions+2012&x=-7853242.20206&y=4241881.422&z=3.848&poi=Field_burning_Monthly-EPA
+### <!--{ layers='[{"type":"STAC","properties":{"id":"methane"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/Gridded_EPA_Methane/EPA_Field_burning_Monthly/EPA-monthly-emissions_4F_Field_Burning/2012/EPA-monthly-emissions_4F_Field_Burning_201205.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-100, 40]" zoom="4" }-->
 
 In Central Africa, the slash-and-burn agriculture practice combined with the seasonal rise in temperature are primarily responsible for wildfires in Central Africa. In 2019, data from NASA's MODIS satellite revealed Central Africa experienced five times the number of wildfires as the Amazon, although the phenomena and impacts in the two regions are not equivalent [(30)](https://www.newsweek.com/nasa-images-show-africa-has-five-times-more-wildfires-burning-amazonheres-why-theyre-1456382) . The changes in savanna, grassland, and tropical forest fire patterns are so large that they have so far offset some of the increased risk of fire caused by global warming. The impact of a warming and drying climate is more obvious at higher latitudes, where fire has increased in Canada and the American West. Regions of China, India, Brazil, and southern Africa also showed increases in burned area.
 
@@ -96,17 +96,17 @@ In Central Africa, the slash-and-burn agriculture practice combined with the sea
 
 According to the U.S. Forest Service, recent fires have killed from 13 to 19% of the world’s giant sequoias in 2020 and 2021 alone [(31)](https://insideclimatenews.org/news/23092022/california-sequioa-wildfires/). [(32)](https://www.nps.gov/articles/000/2021-fire-season-impacts-to-giant-sequoias.htm), causing concern in the scientific community that California forests may be nearing a tipping point from wildfires. Giant sequoias evolved to survive and thrive under lightning-ignited wildfires. In fact, the giant trees depend on fire to release the seeds inside their cones and to remove competing trees that would otherwise deprive them of the ample sunlight they need to flourish [(33)](https://150.parks.ca.gov/?page_id=27588).
 
-![boreal](California.png)
+![California](https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/California.png)
 
 However, the increased severity of fires in recent years, fueled by the racing pace of global warming, is threatening the giant sequoias. In 2021 two very large fires, the Kings Canyon National Park “(KNP) Complex Fire ”and the “Windy Fire”, burned in the southern Sierra Nevada mountains of California in 2021. They had a significant impact on the region's giant sequoia groves, killing thousands of trees. On September 15, 2021 the Operational Land Imager (OLI) on Landsat 8 [(34)](https://landsat.gsfc.nasa.gov/satellites/landsat-8/) acquired an imagery of the “KNP Complex fire” - the largest wildfire in California history at the time. The instrument allowed to depict fire fronts beneath the plumes thanks to the thermal signature provided by infrared data [(35)](https://earthobservatory.nasa.gov/images/148840/fire-encroaching-on-giant-sequoias). Satellite images of the KNP Complex and Windy Fire, both within the Sequoia National Park, were captured by the Geostationary Operational Environmental Satellite 17 (GOES-17) [(36)](https://www.goes-r.gov/multimedia/dataAndImageryImagesGoes-17.html), which prompted authorities to issue evacuation orders [(37)](https://earthobservatory.nasa.gov/images/148878/southern-california-under-smoke).
 
---> load dataset from sentinel-hub - Landsat Sentine Harmonized product https://sentinelshare.page.link/uumq zoom on Sequyoia National Park, date 15 September 2021
+### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"overlay_base_bright_3857"}},{"type":"Tile","properties":{"id":"sequoia"},"source":{"type":"TileWMS","url": "https://services-uswest2.sentinel-hub.com/ogc/wms/6be61090-7d26-4e41-aeaa-1eab79b1bf68","params": {"LAYERS":"TRUE-COLOR","TIME":"2021-09-15"}}}]' center="[-119.5, 36.55]" zoom="8" }-->
 
 The following year, 4800 acres burned from 7th to 40th of July causing road closures for multiple weeks. These fires were part of a larger pattern of wildfires in the western United States, where wildland fires occur more frequently and over a longer period each year as the fire season extends. NASA Earth has been spatializing and mapping wildfires since 1950 [(38)](https://appliedsciences.nasa.gov/our-impact/news/washburn-fire-fits-pattern-longer-and-more-frequent-wildfires).
 
 ## Closeness to human settlements reduces the resilience of temperate forests
 
-![](temperate.png)
+![temperate](https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/temperate.png)
 
 Due to their moderate climates, fertile soils, and vegetation productivity, temperate forest regions have historically attracted human settlement. Consequently, these forests are often situated in proximity to large human populations and have faced substantial impacts from human activities. These impacts encompass pollution, deforestation for agricultural expansion, and the introduction of invasive pests and diseases, all of which significantly affect the health and sustainability of these ecosystems [(39)](https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/temperate-forest).
 
@@ -114,7 +114,7 @@ Recent studies [(41)](https://www.nature.com/articles/s41586-022-04959-9) indica
 
 The biomass of some temperate forests exceeds that of any tropical forest. They provide critical ecosystem services, and recent evidence indicates the global importance of carbon sinks in the temperate forest zone, especially in eastern North America. While temperate forests generally have lower biodiversity compared to tropical forests, they do feature hotspots with high levels of endemism [(43)](https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/temperate-forest). In Europe, the situation is concerning, with less than half of the continent’s original forested areas remaining. Deforestation is accelerating across the developing word, largely driven by human population growth [(44)](https://www.esa.int/Applications/Observing_the_Earth/Space_for_our_climate/Forests). A study published in Nature reported a worrying trend: canopy mortality has doubled in Europe’s temperate forests over the past three decades [(45)](https://www.nature.com/articles/s41467-018-07539-6).
 
----> Map of cloudless layer zoomed over Europe
+## <!--{as="eox-map" style="width: 100%; height: 500px;" prevent-scroll config='{ "controls": { "Zoom": {}, "FullScreen": {} }, "layers":[{"type":"Tile","source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}], "view": { "center": [15,48], "zoom": 4 } }'}-->
 
 Another article also published in the same journal estimated a global decline in forest resilience over the past two decades, affecting not just temperate forests but also tropical and arid forests. This decline is likely linked to increased water stress and the broader impacts of climate change [(41)](https://www.nature.com/articles/s41586-022-04959-9).
 
