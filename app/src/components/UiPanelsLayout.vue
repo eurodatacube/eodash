@@ -5,12 +5,12 @@
     <v-row class="d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%;max-width: min(25%, 500px);" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="left" :panels="panels.left" ></slot>
         </v-expansion-panels>
       </v-col>
       <v-col :cols="3" style="max-height: 100%;max-width: min(25%, 500px);" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="right" :panels="panels.right" ></slot>
         </v-expansion-panels>
       </v-col>
@@ -64,23 +64,27 @@ export default {
               id: 1,
               title: this.indicatorPanelheader,
               heightPercentage: 100,
+              heightPercentageBothOpen: 70,
             },
           ];
           const layersTool = {
             id: 2,
             title: 'Layers',
-            heightPercentage: 100,
+            heightPercentage: 99,
+            heightPercentageBothOpen: 30,
           };
           const rightPanels = [
             {
               id: 3,
               title: 'Information',
               heightPercentage: 100,
+              heightPercentageBothOpen: 50,
             },
             {
               id: 4,
               title: 'Analysis',
               heightPercentage: 100,
+              heightPercentageBothOpen: 50,
             },
           ];
           if (this.$route.name === 'demo') {

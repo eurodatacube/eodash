@@ -323,6 +323,9 @@ export default {
     ...mapState('indicators', [
       'customAreaIndicator',
     ]),
+    showingChart() {
+      return this.customAreaIndicator || this.customAreaIndicator || this.dataObject?.time;
+    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -504,6 +507,16 @@ export default {
     },
   },
   watch: {
+    showingChart() {
+      if (this.showingChart) {
+        // we only want to open if it is closed
+        if (!this.$parent.$parent.$el.classList.contains('v-expansion-panel--active')) {
+          this.$parent.$parent.$parent.$refs.header.$emit('click', {
+            currentTarget: this.$parent.$parent.$parent.$refs.header.$el,
+          });
+        }
+      }
+    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },
