@@ -149,57 +149,6 @@ export const parseStatAPIResponse = (
   return null;
 };
 
-function defaultEvalScriptDef(bandname, maxOutlierFilterOut = 1e20) {
-  return `//VERSION=3
-function setup() {
-  return {
-    input: [{
-      bands: [
-        "${bandname}",
-        "dataMask"
-      ]
-    }],
-    output: [
-      {
-        id: "data",
-        bands: 1,
-        sampleType: "FLOAT32"
-      },
-      {
-        id: "dataMask",
-        bands: 1
-      }
-    ]
-  }
-}
-function evaluatePixel(samples) {
-  let validValue = 1
-  if (samples.${bandname} >= ${maxOutlierFilterOut}){
-      validValue = 0
-  }
-  let index = samples.${bandname};
-  return {
-    data:  [index],
-    dataMask: [samples.dataMask * validValue]
-  }
-}`;
-}
-
-export const evalScriptsDefinitions = Object.freeze({
-  'AWS_NO2-VISUALISATION': defaultEvalScriptDef('tropno2'),
-  AWS_CH4_WEEKLY_DATA: defaultEvalScriptDef('ch4'),
-  AWS_VIS_SO2_DAILY_DATA: defaultEvalScriptDef('so2'),
-  BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
-  AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
-  AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
-  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
-  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
-  AWS_JAXA_TSM: defaultEvalScriptDef('tsm'),
-  AWS_JAXA_CHLA: defaultEvalScriptDef('chla'),
-  LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
-  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
-});
-
 // Define custom fetch function with configurable timeout
 async function fetchWithTimeout(resource, options = {}) {
   const { timeout = 20000 } = options;
@@ -229,6 +178,22 @@ export const fetchCustomAreaObjects = async (
     customArea = typeof mergedConfig[lookup].areaFormatFunction === 'function'
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
+  }
+
+  const { selectedFeatures } = store.state.features;
+  if (selectedFeatures.length === 1) {
+    const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
+    if (adminZoneKey) {
+      options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
+    }
+    // special custom handling of cropom dataset
+    const queryParameters = indicatorObject?.queryParameters;
+    if (indicator.indicator === 'CROPOM' && Array.isArray(queryParameters)) {
+      const selectedCrop = queryParameters[1].items.find((item) => item.id === queryParameters[1].selected);
+      const selectedScenario = queryParameters[2].selected;
+      options.crop = selectedCrop.areaIndicator; // eslint-disable-line
+      options.scenario = selectedScenario; // eslint-disable-line
+    }
   }
   const templateSubst = {
     ...indicator,

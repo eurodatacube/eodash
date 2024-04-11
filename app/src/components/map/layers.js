@@ -60,8 +60,9 @@ export async function fetchData({
     );
     source.clear();
     if (custom?.features && custom.features.length) {
+      const projection = config?.features?.projection ? getProjectionOl(config.features.projection) : 'EPSG:4326';
       const features = geoJsonFormat.readFeatures(custom, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       });
       features.forEach((ftr) => {
@@ -75,7 +76,7 @@ export async function fetchData({
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
-            dataProjection: 'EPSG:4326',
+            dataProjection: projection,
             featureProjection: map.getView().getProjection(),
           }));
         }
@@ -321,10 +322,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       source: wgSource,
       style: config.style,
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
     layer = new VectorTileLayer({});
-    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
@@ -353,21 +352,21 @@ export function createLayerFromConfig(config, map, _options = {}) {
         url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
+    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     } : {
       features: geoJsonFormat.readFeatures(config.data, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     };
@@ -540,11 +539,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.setExtent(drawnAreaExtent);
   }
   const layerProperties = {
+    id: config?.features?.id ? config.features.id : config.id,
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
+    layerControlHide: config?.features ? config.features.layerControlHide : config.layerControlHide,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   };

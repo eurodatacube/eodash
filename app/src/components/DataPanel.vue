@@ -200,7 +200,12 @@
             :vectorStyles="indicatorObject.vectorStyles"
           >
           </StyleControls>
-          <vector-tile-style-control v-if="indicatorObject.queryParameters"
+          <VectorStyleControl v-if="useVectorStyleControl"
+            :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
+            >
+          </VectorStyleControl>
+          <vector-tile-style-control v-if="indicatorObject.queryParameters && !Array.isArray(indicatorObject.queryParameters)"
             :queryParameters="indicatorObject.queryParameters"
             @updatequeryparameter="updateQueryParameters"
           >
@@ -243,7 +248,7 @@
           Select a point of interest on the map to see more information
         </p>
       </div>
-      <v-col v-if="indicatorHasMapData"
+      <v-col v-if="showVisualAnalysisAddons"
         :style="`height: auto`"
       >
         <v-card class="pa-2" >
@@ -282,6 +287,7 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
+import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
 
@@ -297,6 +303,7 @@ export default {
     DataMockupView,
     SelectionInfoBar,
     GTIFProcessingButtons,
+    VectorStyleControl,
   },
   data: () => ({
     mounted: false,
@@ -409,6 +416,14 @@ export default {
     customAOIDownloadFilename() {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
+    },
+    useVectorStyleControl() {
+      return Array.isArray(this.indicatorObject?.queryParameters);
+    },
+    showVisualAnalysisAddons() {
+      const showVar = this.indicatorHasMapData;
+      const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
+      return showVar && !hideVar;
     },
     showMap() {
       // show map means that only information on the map is shown and no indicator data is expected

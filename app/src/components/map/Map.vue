@@ -930,6 +930,19 @@ export default {
         }
       }
     });
+
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+          if (mutation.payload?.length > 0) {
+            window.dispatchEvent(new Event('fetch-custom-area-chart'));
+          } else {
+            // reset custom area chart
+            this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
+          }
+        }
+      }
+    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     // adding a necessary reference for eox-layercontrol plugin
     this.$refs.mapContainer.map = map;
