@@ -82,7 +82,6 @@ export default {
       });
     },
     onExpansionPanelClick(evt) {
-      debugger;
       const totalOpenBeforeClick = this.$parent.$children.filter((el) => {
         if (el.$children.length > 0) {
           return el.$children[0].$el.classList.contains('v-expansion-panel--active');
