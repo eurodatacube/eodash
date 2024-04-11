@@ -26,7 +26,9 @@
             >
               <template #left="{panels,handleSelection, activePanel}">
                  <UiPanel v-for="panel in panels " :key="panel.id"
-                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 :height-percentage="panel.heightPercentage"
+                 :height-percentage-both-open="panel.heightPercentageBothOpen"
+                 :id="panel.id"
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >

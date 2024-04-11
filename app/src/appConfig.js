@@ -515,6 +515,7 @@ module.exports = [
     enableScrollyTelling: false,
     enableIndicatorSidebar: true,
     uiText: {
+
     },
   },
 ];

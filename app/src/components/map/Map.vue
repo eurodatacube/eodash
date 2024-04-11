@@ -81,16 +81,22 @@
       :overlayRows="overlayRows"
       :overlayCoordinate="overlayCoordinate"
     />
-
+    <div
+      ref="bottomControlsContainer"
+      class="bottomControlsContainer pa-2 d-flex flex-column align-end"
+      :class="{'hidden': enableScrollyMode}"
+      :style="calculatePadding"
+    >
+    <div class="mouse-container"
+      :style="mousePosConStyle"
+       ref="mousePositionContainer"/>
+    </div>
     <!-- Container for all controls. Will move when map is resizing -->
     <div
       ref="controlsContainer"
       class="controlsContainer pa-2 d-flex flex-column align-end"
       :class="{'hidden': enableScrollyMode}"
-      :style="`padding-bottom: ${$vuetify.breakpoint.xsOnly
-        ? $vuetify.application.footer + 85
-        : $vuetify.application.footer + 10}px !important;
-        margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
+      :style="`margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
     >
       <FullScreenControl
         v-if="mapId !== 'centerMap'"
@@ -144,7 +150,8 @@
       />
       <div
         v-if="$route.name !== 'demo'"
-        class="pointerEvents mt-auto mb-2"
+        class="pointerEvents mb-2"
+        style="padding-right: 4px; margin-top: 5px;"
       >
         <IframeButton
           v-if="mapId === 'centerMap'
@@ -161,6 +168,7 @@
       <div
         v-if="$route.name !== 'demo'"
         class="pointerEvents mb-2"
+        style="padding-right: 4px;"
       >
         <AddToDashboardButton
           v-if="mapId === 'centerMap'
@@ -176,12 +184,6 @@
           mapControl
         />
       </div>
-      <div v-else class="mt-auto">
-        <!-- empty div to shift down attribution button if no other buttons present -->
-      </div>
-      <div class="mouse-container"
-      :style="mousePosConStyle"
-       ref="mousePositionContainer"/>
     </div>
   </div>
 </template>
@@ -680,18 +682,23 @@ export default {
       }
       return position;
     },
-    mousePosConStyle() {
-      let style = 'position:absolute;';
-      if (this.$vuetify.breakpoint.smAndUp) {
-        if (this.appConfig.id === 'gtif') {
-          style = 'position:relative;';
-        } else {
-          style += 'bottom:0px;';
-        }
-      } else if (this.appConfig.id === 'gtif') {
-        style += `bottom:${this.$vuetify.application.footer + 50}px;`;
+    calculatePadding() {
+      // It seems that the footer on gtif is somehow not evaluated need to handle it differently
+      let style;
+      if (this.appConfig.id === 'gtif') {
+        style = `padding-bottom: ${this.$vuetify.breakpoint.xsOnly
+          ? this.$vuetify.application.footer + 60 : this.$vuetify.application.footer + 11}px !important;`;
       } else {
-        style += 'bottom:60px;';
+        style = `padding-bottom: ${this.$vuetify.breakpoint.xsOnly
+          ? this.$vuetify.application.footer + 30 : 3}px !important;`;
+      }
+      return style;
+    },
+    mousePosConStyle() {
+      let style = 'position:absolute;bottom:-5px;';
+      // Trying to detect touch device, if it is, remove coordinates hover visualization
+      if (matchMedia('(hover: none), (pointer: coarse)').matches) {
+        style += 'display:none;';
       }
       return style;
     },
@@ -930,12 +937,25 @@ export default {
         }
       }
     });
+
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'features/SET_SELECTED_FEATURES') {
+        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+          if (mutation.payload?.length > 0) {
+            window.dispatchEvent(new Event('fetch-custom-area-chart'));
+          } else {
+            // reset custom area chart
+            this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
+          }
+        }
+      }
+    });
     map.setTarget(/** @type {HTMLElement} */ (this.$refs.mapContainer));
     // adding a necessary reference for eox-layercontrol plugin
     this.$refs.mapContainer.map = map;
 
     const attributions = new Attribution();
-    attributions.setTarget(this.$refs.controlsContainer);
+    attributions.setTarget(this.$refs.bottomControlsContainer);
     attributions.setMap(map);
 
     map.addControl(new MousePosition({
@@ -1414,6 +1434,18 @@ export default {
     right: 0px;
     min-width: 50px;
     height: 100%;
+    pointer-events: none;
+    z-index: 4;
+
+    &.hidden {
+      opacity: 0 !important;
+    }
+  }
+  .bottomControlsContainer {
+    position: absolute;
+    right: 4px;
+    bottom: 0px;
+    min-width: 50px;
     pointer-events: none;
     z-index: 4;
 

@@ -10,6 +10,9 @@ fi
 echo "Running generate_files script ..."
 docker run --user $defaultuserid --rm -it -v $PWD/../config:/config -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_files.py
 
+echo "Running generate_stories script ..."
+docker run --user $defaultuserid --rm -it -v $PWD/../config:/config -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/generate_stories.py
+
 echo "Running retrieve_covid_data script ..."
 docker run --user $defaultuserid --rm -it -v $PWD/../assets:/assets -v $PWD:/working -v $PWD/../../public:/public eurodatacube/jupyter-user:0.19.6 /opt/conda/envs/eurodatacube-0.19.6/bin/python3 /working/retrieve_covid_data.py
 
