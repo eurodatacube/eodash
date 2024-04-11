@@ -237,6 +237,14 @@ export const fetchCustomAreaObjects = async (
     if (adminZoneKey) {
       options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
     }
+    // special custom handling of cropom dataset
+    const queryParameters = mergedConfig?.queryParameters;
+    if (indicator.indicator === 'CROPOM' && Array.isArray(queryParameters)) {
+      const selectedCrop = queryParameters[1].items.find((item) => item.id === queryParameters[1].selected);
+      const selectedScenario = queryParameters[2].selected;
+      options.crop = selectedCrop.areaIndicator;
+      options.scenario = selectedScenario;
+    }
   }
   const templateSubst = {
     ...indicator,

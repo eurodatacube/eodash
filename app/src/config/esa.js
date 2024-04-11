@@ -346,6 +346,7 @@ export const globalIndicators = [
             {
               id: 'Wheat',
               description: 'Wheat',
+              areaIndicator: 'WheatGDD',
               min_y: 6,
               max_y: 10,
               min_w: 0,
@@ -354,6 +355,7 @@ export const globalIndicators = [
             {
               id: 'Maize',
               description: 'Maize',
+              areaIndicator: 'MaizeGDD',
               min_y: 0,
               max_y: 8,
               min_w: 250,
@@ -362,6 +364,7 @@ export const globalIndicators = [
             {
               id: 'Sunflower',
               description: 'Sunflower',
+              areaIndicator: 'SunflowerGDD',
               min_y: 0,
               max_y: 3,
               min_w: 250,
@@ -370,6 +373,7 @@ export const globalIndicators = [
             {
               id: 'Soybean',
               description: 'Soybean',
+              areaIndicator: 'Soybean',
               min_y: 0,
               max_y: 3,
               min_w: 250,
@@ -414,7 +418,7 @@ export const globalIndicators = [
           },
           layerControlHide: true,
           areaIndicator: {
-            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/CropModel_response_sample.json',
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
             adminZoneKey: 'FID',
             requestMethod: 'GET',
             callbackFunction: (responseJson, indicator) => {
@@ -440,7 +444,7 @@ export const globalIndicators = [
           features: {
             name: 'CropModel API ',
             id: 'cropom',
-            url: 'https://api.cropomservices.com/crop_model/regional_forcast?country_code=HU',
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?country_code=HU',
             projection: {
               name: 'EPSG:3035',
               def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
