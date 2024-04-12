@@ -64,14 +64,14 @@ export default {
               id: 1,
               title: this.indicatorPanelheader,
               heightPercentage: 100,
-              heightPercentageBothOpen: 70,
+              heightPercentageBothOpen: 75,
             },
           ];
           const layersTool = {
             id: 2,
             title: 'Layers',
             heightPercentage: 99,
-            heightPercentageBothOpen: 30,
+            heightPercentageBothOpen: 25,
           };
           const rightPanels = [
             {
