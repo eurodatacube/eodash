@@ -261,7 +261,7 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-    console.log(`data group: ${dataGroup.length}`);
+    console.log(`data group: ${dataGroup}`);
     console.log(`layers: ${this.layers.length}`);
     this.layers.forEach((layer) => {
       if (this.options.frozenLayer) {
