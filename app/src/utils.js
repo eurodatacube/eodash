@@ -14,7 +14,7 @@ import {
   nasaStatisticsConfig,
   xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
-import { xcubeViewerColormaps } from '@/config/layers';
+// import { xcubeViewerColormaps } from '@/config/layers';
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
@@ -113,9 +113,9 @@ function createXYZDisplay(config, jsonData) {
 }
 
 function createXYZTilesXcubeDisplay(config, name) {
-  const searchParams = new URLSearchParams(config.href);
-  const vmin = searchParams.get('vmin') || 0;
-  const vmax = searchParams.get('vmax') || 1;
+  // const searchParams = new URLSearchParams(config.href);
+  // const vmin = searchParams.get('vmin') || 0;
+  // const vmax = searchParams.get('vmax') || 1;
   const display = {
     protocol: 'xyz',
     tileSize: 256,
@@ -124,37 +124,38 @@ function createXYZTilesXcubeDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `${date}`,
     labelFormatFunction: (date) => date,
-    layerConfig: {
-      schema: {
-        type: 'object',
-        properties: {
-          vminmax: {
-            title: 'Value stretch',
-            type: 'object',
-            properties: {
-              vmin: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-              vmax: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-            },
-            format: 'minmax',
-          },
-          cbar: {
-            title: 'Colorbar',
-            type: 'string',
-            enum: xcubeViewerColormaps,
-          },
-        },
-      },
-    },
+    // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
+    // layerConfig: {
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       vminmax: {
+    //         title: 'Value stretch',
+    //         type: 'object',
+    //         properties: {
+    //           vmin: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //           vmax: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //         },
+    //         format: 'minmax',
+    //       },
+    //       cbar: {
+    //         title: 'Colorbar',
+    //         type: 'string',
+    //         enum: xcubeViewerColormaps,
+    //       },
+    //     },
+    //   },
+    // },
   };
   return display;
 }
