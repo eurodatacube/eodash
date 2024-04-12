@@ -85,13 +85,11 @@ Less trees mean a diminished release of water vapour in the atmosphere, conseque
 
 *Map information: NASA Evapotranspiration - LIS 10km Global DA. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Evapotranspiration%2C+LIS&x=8381574.94156&y=-1001875.41714&z=2.64386&poi=World-LIS_Global_DA_Evap)* 
 
-### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/S14Amazonas_detections/S14Amazonas_detections/S14Amazonas_detections/2021/2021-11-01.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-60,0]" zoom="7" }--> 
-
-USE THIS INSTEAD OF THE AMAZONAS: https://www.eodashboard.org/explore?search=World%3A+Deforestation+%28CCI+RECCAP2%29&x=-3771417.60562&y=-873093.0997&z=4.13747&poi=World-RECCAP2_6 
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-60,0]" zoom="7" }--> 
 
 Savannas are generally less efficient than tropical forests at sequestering carbon dioxide from the atmosphere, and recent studies indicate that certain areas of the Amazon are now releasing more carbon dioxide than they absorb. However, there remains no definitive agreement on a tipping point leading to widespread rainforest depletion and the proliferation of savanna species (Cerrado) from the biome. Given the intricate interplay between regional land-use alterations and global climate shifts, scientists are working to gain more understanding about this potential 'point of no return' for the Amazon rainforest. The threshold has been estimated to occur when deforestation reaches 20-25%. Currently, the Amazon has already undergone approximately 17% deforestation, which highlights the urgency of conservation efforts to prevent reaching an ecological tiping point.
 
-*Map information: ESA Deforested Biomass CCI RECCAP-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Evapotranspiration%2C+LIS&x=8381574.94156&y=-1001875.41714&z=2.64386&poi=World-LIS_Global_DA_Evap)* 
+*Map information: ESA Deforested Biomass CCI RECCAP-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Deforestation+%28CCI+RECCAP2%29&x=-4728884.58935&y=-802462.43364&z=4.52712&poi=World-RECCAP2_6)* 
 
 ## Wildfires <!--{as="img" mode="hero" src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/wildfire.jpg"}-->
 
@@ -140,6 +138,8 @@ In Central Africa, the slash-and-burn agriculture practice combined with the sea
 
 According to the U.S. Forest Service, recent fires have killed from 13 to 19% of the world’s giant sequoias in 2020 and 2021 alone [(31)](https://insideclimatenews.org/news/23092022/california-sequioa-wildfires/). [(32)](https://www.nps.gov/articles/000/2021-fire-season-impacts-to-giant-sequoias.htm), causing concern in the scientific community that California forests may be nearing a tipping point from wildfires. Giant sequoias evolved to survive and thrive under lightning-ignited wildfires. In fact, the giant trees depend on fire to release the seeds inside their cones and to remove competing trees that would otherwise deprive them of the ample sunlight they need to flourish [(33)](https://150.parks.ca.gov/?page_id=27588).
 
+*Map information: EPA Methane Emissions [View dataset](https://www.eodashboard.org/explore?search=US%3A+Field+Burning+monthly+-+EPA+Methane+Emissions+2012&x=-8823681.74165&y=4371273.36061&z=4.35755&poi=Field_burning_Monthly-EPA)*
+
 ###
 
 However, the increased severity of fires in recent years, fueled by the racing pace of global warming, is threatening the giant sequoias. In 2021 two very large fires, the Kings Canyon National Park “(KNP) Complex Fire ”and the “Windy Fire”, burned in the southern Sierra Nevada mountains of California in 2021. They had a significant impact on the region's giant sequoia groves, killing thousands of trees. On September 15, 2021 the Operational Land Imager (OLI) on Landsat 8 [(34)](https://landsat.gsfc.nasa.gov/satellites/landsat-8/) acquired an imagery of the “KNP Complex fire” - the largest wildfire in California history at the time. The instrument allowed to depict fire fronts beneath the plumes thanks to the thermal signature provided by infrared data [(35)](https://earthobservatory.nasa.gov/images/148840/fire-encroaching-on-giant-sequoias). Satellite images of the KNP Complex and Windy Fire, both within the Sequoia National Park, were captured by the Geostationary Operational Environmental Satellite 17 (GOES-17) [(36)](https://www.goes-r.gov/multimedia/dataAndImageryImagesGoes-17.html), which prompted authorities to issue evacuation orders [(37)](https://earthobservatory.nasa.gov/images/148878/southern-california-under-smoke).
@@ -185,6 +185,8 @@ Another article also published in the same journal estimated a global decline in
 #### Satellite for restoration and conservation and monitoring illegal activities
 
 One of the main drives of degradation in sub/tropical countries is unsustainable logging [(46)](https://iopscience.iop.org/article/10.1088/1748-9326/7/4/044009). To counter this, many private companies, public institutions and non-governmental organisations (NGOs) are stepping up their forestry conservation pledges. But given the size and accessibility of many locations on Earth, a crucial component in these efforts is the use of satellite-based forest monitoring systems. For instance, such system have been instrumental in slowing down deforestation in Brazil [(47)](https://earthobservatory.nasa.gov/images/145988/tracking-amazon-deforestation-from-above).
+
+*Map information: Secondary forest growth - CCI RECCAP2 [View dataset](https://www.eodashboard.org/explore?search=World%3A+Secondary+forest+growth+%28CCI+RECCAP2%29&x=-4789989.87338&y=-985778.28575&z=4.52712&poi=World-RECCAP2_5)* 
 
 ## <!--{ as="iframe" src="https://www.youtube.com/embed/wF_td3QRBuM" width="100%" height="500px" frameBorder="0" scroll="no" style="overflow:hidden" }-->
 
