@@ -1,5 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 import shTimeFunction from '@/shTimeFunction';
+import countriesJSON from '@/assets/countries.json';
 
 const state = {
   indicators: null,
@@ -114,7 +115,41 @@ async function loadIndicator(link, url, rootState) {
   }
   return results;
 }
-
+function sanitizeData(indicator) {
+  if (indicator.cities?.length > 0) {
+    const sanitizedCities = [];
+    indicator.cities.forEach((c) => {
+      if (c !== '/' && c !== undefined) {
+        sanitizedCities.push(c);
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+    indicator.cities = sanitizedCities;
+  }
+  const sanitizedCountries = [];
+  console.log(countriesJSON);
+  if (indicator.countries?.length > 0) {
+    indicator.countries.forEach((cntr) => {
+      const match = countriesJSON.features.find((it) => it.properties.alpha2 === cntr || it.is === cntr);
+      if (match) {
+        if (match.properties.name === 'Czechia') {
+          sanitizedCountries.push('Czech Republic');
+        } else {
+          sanitizedCountries.push(match.properties.name);
+        }
+      } else if (cntr === 'UK') {
+        sanitizedCountries.push('United Kingdom');
+      } else if (cntr === 'Czechia') {
+        sanitizedCountries.push('Czech Republic');
+      } else if (!(cntr === '/' || cntr === undefined)) {
+        sanitizedCountries.push(cntr);
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+    indicator.countries = sanitizedCountries;
+  }
+  return indicator;
+}
 async function loadAllIndicators(data, url, rootState, commit) {
   const indicators = [];
   const promises = data.links.map((link) => loadIndicator(link, url, rootState));
@@ -122,7 +157,10 @@ async function loadAllIndicators(data, url, rootState, commit) {
     // results is an array of all the resolved values
     results.forEach((result) => {
       if (result && result.length > 0) {
-        indicators.push(...result);
+        for (let r = 0; r < result.length; r++) {
+          sanitizeData(result[r]);
+          indicators.push(result[r]);
+        }
       }
     });
   }).catch((error) => {
