@@ -7,15 +7,11 @@
     <v-row>
       <v-col>
         <h3>
-          New story editor!
+          2024-04-12: New biomass story published!
         </h3>
+        <p><b>Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes</b></p>
         <p>
-          Currently only for testing, your feedback is welcome,
-          more documentation and information comming soon!
-        </p>
-        <p>
-          You can have a first glance
-          <a href="javascript:void(0)" @click="$router.push({ path: 'story-editor' })">here</a>!
+          Explore the interactive story <a href="./story?id=forests-on-the-brink">here</a>!
         </p>
       </v-col>
     </v-row>
