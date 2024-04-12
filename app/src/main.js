@@ -28,7 +28,7 @@ import getLocationCode from './mixins/getLocationCode';
 // eslint-disable-line no-unused-vars
 
 import '@eox/itemfilter';
-import '@eox/layercontrol';
+import './plugins/eox-layercontrol';
 import '@eox/stacinfo';
 import '@eox/jsonform';
 
