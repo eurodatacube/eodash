@@ -127,7 +127,6 @@ function sanitizeData(indicator) {
     indicator.cities = sanitizedCities;
   }
   const sanitizedCountries = [];
-  console.log(countriesJSON);
   if (indicator.countries?.length > 0) {
     indicator.countries.forEach((cntr) => {
       const match = countriesJSON.features.find((it) => it.properties.alpha2 === cntr || it.is === cntr);
