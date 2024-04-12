@@ -193,14 +193,14 @@ export default {
             // Reset
             const query = Object.assign({}, this.$route.query); // eslint-disable-line
             delete query.indicator;
-            this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+            //this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
             this.trackEvent('filters', 'select_indicator_filter', 'all');
           } else {
             // Single
             const urlSearchParams = new URLSearchParams(window.location.search);
             const params = Object.fromEntries(urlSearchParams.entries());
-            this.$router.push({ query: params });
-            this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators.join(',') }) }).catch(err => {}); // eslint-disable-line
+            //this.$router.push({ query: params });
+            //this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicators.join(',') }) }).catch(err => {}); // eslint-disable-line
             this.trackEvent('filters', 'select_indicator_filter', mutation.payload.indicators.join(','));
           }
         }
@@ -208,11 +208,11 @@ export default {
       if (mutation.type === 'features/SET_SELECTED_AREA') {
         if (mutation.payload) {
           const area = wkt.read(JSON.stringify(mutation.payload)).write();
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { area, }) }).catch(err => {}); // eslint-disable-line
+          //this.$router.replace({ query: Object.assign({}, this.$route.query, { area, }) }).catch(err => {}); // eslint-disable-line
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.area;
-          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          //this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
         }
       }
       if (['features/SET_SELECTED_FEATURE'].includes(mutation.type)) {
@@ -220,15 +220,15 @@ export default {
           this.loadFeatureData(mutation.payload);
           const indObj = mutation.payload.indicatorObject;
           const locCode = `${indObj.aoiID}-${indObj.indicator}`;
-          this.$router.replace({
+          /*this.$router.replace({
             query: Object.assign({}, this.$route.query, { poi: locCode }) // eslint-disable-line
-          }).catch(() => {});
+          }).catch(() => {});*/
           this.trackEvent('features', 'select_feature', locCode);
         } else {
           this.loadFeatureData(mutation.payload);
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
-          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          //this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
         }
       }
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
@@ -241,15 +241,15 @@ export default {
           }
           const urlSearchParams = new URLSearchParams(window.location.search);
           const params = Object.fromEntries(urlSearchParams.entries());
-          this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicator }) }).catch(err => {}); // eslint-disable-line
+          //this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
+          //this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicator }) }).catch(err => {}); // eslint-disable-line
           this.trackEvent('indicators', 'select_indicator', mutation.payload.indicator);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
           delete query.indicator;
-          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+          //this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
           this.trackEvent('indicators', 'deselect_indicator');

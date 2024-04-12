@@ -261,6 +261,8 @@ export default {
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
     const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+    console.log(`data group: ${dataGroup.length}`);
+    console.log(`layers: ${this.layers.length}`);
     this.layers.forEach((layer) => {
       if (this.options.frozenLayer) {
         map.getLayers().remove(layer);
@@ -268,12 +270,15 @@ export default {
         dataGroup.getLayers().remove(layer);
       }
     });
+    console.log(`point handlers: ${this.pointerMoveHandlers.length}`);
+    console.log(`click handlers: ${this.singleClickHandlers.length}`);
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);
     });
     this.singleClickHandlers.forEach((h) => {
       map.un('singleclick', h);
     });
+    console.log('resetting projection');
     if (this.resetProjectionOnDestroy) {
       // reset to default map projection if different from it
       const defaultProjection = store.state.config.baseConfig.defaultLayersDisplay.mapProjection;
