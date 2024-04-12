@@ -41,7 +41,6 @@
           :compare-time.sync="compareLayerTime"
           :original-time.sync="dataLayerTime"
           :enable-compare="false"
-          :large-time-duration="mergedConfigsData[0].largeTimeDuration"
         />
       </div>
       <v-sheet
@@ -89,7 +88,6 @@ import {
   createConfigFromIndicator,
   createAvailableTimeEntries,
 } from '@/helpers/mapConfig';
-import { getIndicatorFilteredInputData } from '@/utils';
 import IndicatorTimeSelection from './IndicatorTimeSelection.vue';
 
 export default {
@@ -150,7 +148,7 @@ export default {
       ];
     },
     indicator() {
-      return getIndicatorFilteredInputData(this.currentIndicator);
+      return this.currentIndicator;
     },
     indicatorObject() {
       return this.currentIndicator
@@ -159,7 +157,6 @@ export default {
     mergedConfigsData() {
       return createConfigFromIndicator(
         this.indicator,
-        'data',
         this.getCurrentIndex('data'),
       );
     },

@@ -52,10 +52,11 @@ export default {
           const aoiSource = aoiLayer.getSource();
           aoiSource.clear();
           if (value) {
-            aoiSource.addFeature(geoJsonFormat.readFeature(value), {
+            const feature = geoJsonFormat.readFeature(value, {
               dataProjection: 'EPSG:4326',
               featureProjection: map.getView().getProjection(),
             });
+            aoiSource.addFeature(feature);
           }
         }
       },
@@ -63,24 +64,31 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig', 'baseConfig']),
+    featureData() {
+      return this.$store.state.features.featureData;
+    },
     subAoi() {
       // create an inverse of subaoi, using difference of whole world and subaoi
+      let subAoiObject;
       if (this.indicator?.subAoi?.features?.length) {
-        const subaoiInv = JSON.parse(JSON.stringify(this.indicator.subAoi.features[0]));
+        subAoiObject = this.indicator.subAoi;
+      }
+      if (this.featureData?.subAoi?.features?.length) {
+        subAoiObject = this.featureData.subAoi;
+      }
+      if (this.layer && subAoiObject) {
+        const subaoiInv = JSON.parse(JSON.stringify(subAoiObject.features[0]));
         // both Object.assign({}, this.subAoi) and { ...this.subAoi } create shallow copy
         if (subaoiInv) {
-          if (this.isInverse) {
-            const globalBox = {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
-              },
-            };
-            const diff = turfDifference(globalBox, subaoiInv.geometry);
-            subaoiInv.geometry = diff.geometry;
-          }
+          const globalBox = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+            },
+          };
+          return turfDifference(globalBox, subaoiInv);
         }
         return subaoiInv;
       }
@@ -89,27 +97,11 @@ export default {
     layerNameMapping() {
       return this.baseConfig.layerNameMapping;
     },
-    isInverse() {
-      return !!(this.indicator.country === 'all'
-        || this.appConfig.configuredMapPois.includes(`${this.indicator.aoiID}-${this.indicator.indicator}`)
-        || ((Array.isArray(this.indicator.inputData)
-        && this.indicatorHasMapData(this.indicator)
-        )));
-    },
   },
   mounted() {
     const { map } = getMapInstance(this.mapId);
     const { subAoiTransparent } = this.mergedConfigsData;
     const fillTransparency = subAoiTransparent ? 0 : 0.5;
-    const subAoiStyle = new Style({
-      fill: new Fill({
-        color: `rgba(100, 160, 255, ${fillTransparency})`,
-      }),
-      stroke: new Stroke({
-        width: 2,
-        color: 'rgba(0, 0, 0, 0.5)',
-      }),
-    });
 
     const inverseStyle = new Style({
       fill: new Fill({
@@ -125,7 +117,7 @@ export default {
       name: 'subAoi',
       layerControlHide: true,
       source: new VectorSource({}),
-      style: () => (this.isInverse ? inverseStyle : subAoiStyle),
+      style: () => inverseStyle,
     });
     this.layer = layer;
     if (this.subAoi) {
@@ -135,7 +127,7 @@ export default {
       });
       layer.getSource().addFeature(feature);
     }
-    if (this.isInverse && this.subAoi && !this.isGlobal) {
+    if (this.subAoi && !this.isGlobal) {
       // subaoi-geometry has a hole, use extent of that hole to constrain the view
       const insidePolygon = JSON.parse(JSON.stringify(this.subAoi));
       // eslint-disable-next-line prefer-destructuring

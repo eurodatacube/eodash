@@ -84,6 +84,7 @@ import {
 export default {
   props: {
     indicatorObject: Object,
+    featureObject: Object,
     zoom: Number,
     center: Object,
     direction: Array,
@@ -103,17 +104,18 @@ export default {
   },
   watch: {
     indicatorObject: {
-      deep: true,
       async handler() {
-        if (this.indicatorObject) {
-          // Re-setting title to make sure latest selected indicator is shown
-          this.title = `${this.indicatorObject.city.trim()}, ${this.indicatorObject.description.trim()}`;
-        }
+        this.title = this.getItemTitle();
+      },
+    },
+    featureObject: {
+      async handler() {
+        this.title = this.getItemTitle();
       },
     },
   },
   created() {
-    if (this.indicatorObject) { this.title = `${this.indicatorObject.city.trim()}: ${this.indicatorObject.description.trim()}`; }
+    this.title = this.getItemTitle();
   },
   methods: {
     ...mapActions('dashboard', [
@@ -121,39 +123,60 @@ export default {
       'addFeature',
       'removeFeature',
     ]),
+    getItemTitle() {
+      let title = '';
+      if (this.indicatorObject) {
+        let indObj = this.indicatorObject;
+        if (this.featureObject) {
+          // Merge with parent indicator object to have all necessary information
+          indObj = { ...indObj, ...this.featureObject };
+        }
+        // features
+        if (indObj?.city) {
+          title = `${indObj?.city?.trim()}: `;
+        } else if (indObj?.country) {
+          title = `${indObj?.country?.trim()}: `;
+        }
+        // global indicator has neither city nor country
+        title += `${indObj?.description?.trim()}`;
+      }
+      return title;
+    },
     async toggle() {
-      const poiValue = `${this.getLocationCode(this.indicatorObject)}@${Date.now()}`;
-      this.addFeature(
-        {
-          poi: this.indicatorObject.poi
-            // Encode location code and current datetime object to create unique
-            // dashboard entries
-            || poiValue,
-          width: 4,
-          includesIndicator: this.indicatorObject.includesIndicator,
-          ...(this.indicatorObject.includesIndicator
-            && { indicatorObject: this.indicatorObject }),
-          title: this.title,
-          ...(this.indicatorObject.showGlobe && {
-            mapInfo: {
-              direction: this.direction,
-              position: this.position,
-              right: this.right,
-              up: this.up,
-              dataLayerTime: this.datalayertime,
-              compareLayerTime: this.comparelayertime,
-            },
-          }),
-          ...(this.zoom && this.center && {
-            mapInfo: {
-              zoom: this.zoom,
-              center: this.center,
-              dataLayerTime: this.datalayertime,
-              compareLayerTime: this.comparelayertime,
-            },
-          }),
-        },
-      );
+      let indObj = this.indicatorObject;
+      if (this.featureObject) {
+        // Merge with parent indicator object to have all necessary information
+        indObj = { ...indObj, ...this.featureObject };
+      }
+      const poiValue = `${this.getLocationCode(indObj)}@${Date.now()}`;
+      const feature = {
+        poi: this.indicatorObject.poi
+          // Encode location code and current datetime object to create unique
+          // dashboard entries
+          || poiValue,
+        width: 4,
+        ...{ indicatorObject: this.indicatorObject },
+        title: this.title,
+        ...(this.indicatorObject.showGlobe && {
+          mapInfo: {
+            direction: this.direction,
+            position: this.position,
+            right: this.right,
+            up: this.up,
+            dataLayerTime: this.datalayertime,
+            compareLayerTime: this.comparelayertime,
+          },
+        }),
+        ...(this.zoom && this.center && {
+          mapInfo: {
+            zoom: this.zoom,
+            center: this.center,
+            dataLayerTime: this.datalayertime,
+            compareLayerTime: this.comparelayertime,
+          },
+        }),
+      };
+      this.addFeature(feature);
       this.dialog = false;
     },
   },

@@ -76,7 +76,6 @@ function loadImages() {
       const image = new Image();
       acc[key] = {
         small: null,
-        large: null,
       };
       image.addEventListener('load', () => {
         const canvas = document.createElement('canvas');
@@ -111,12 +110,6 @@ function loadImages() {
           small: new Icon({
             scale: 0.6,
             img: canvas,
-            imgSize: [50, 50],
-          }),
-          large: new Icon({
-            scale: 0.8,
-            img: canvas,
-            imgSize: [50, 250],
           }),
         };
         if (onStylesLoaded && Object.keys(acc).every((accKey) => acc[accKey].small)) {
@@ -189,10 +182,7 @@ function getClusterMemberForCoordinate(map, openClusterFeature, coordinate) {
  * @returns {boolean}
  */
 function isFeatureSelected(feature) {
-  const { indicatorObject } = feature.getProperties().properties;
-  const { selectedIndicator } = store.state.indicators;
-  return selectedIndicator && selectedIndicator.indicator === indicatorObject.indicator
-  && selectedIndicator.aoiID === indicatorObject.aoiID;
+  return feature.getProperties().indicatorObject === store.state.features.selectedFeature;
 }
 
 /**
@@ -203,9 +193,30 @@ function isFeatureSelected(feature) {
 function clusterMemberStyle(clusterMember) {
   const { indicatorObject } = clusterMember.getProperties().properties;
   const indicatorCode = indicatorObject.indicator;
-  const indicator = store.getters['features/getIndicators'].find((i) => i.code === indicatorCode);
-  const isSelected = isFeatureSelected(clusterMember);
-  const image = indicatorClassesStyles[indicator.themes[0]]?.[isSelected ? 'large' : 'small'];
+  const indicator = store.getters['indicators/getIndicators'].find((i) => i.indicator === indicatorCode);
+  let theme = null;
+  if (Array.isArray(indicator.themes)) {
+    [theme] = indicator.themes;
+  } else {
+    theme = indicator.themes;
+  }
+  let image = indicatorClassesStyles[theme]?.small;
+  if (typeof image === 'undefined') {
+    // Falling back to a default style without icon
+    // TODO: add some configurable default
+    const fill = new Fill({
+      color: '#497fa9',
+    });
+    const stroke = new Stroke({
+      color: '#fff',
+      width: 2,
+    });
+    image = new CircleStyle({
+      fill,
+      stroke,
+      radius: 12,
+    });
+  }
   const iconStyle = new Style({
     image,
     geometry: clusterMember.getGeometry(),
@@ -334,15 +345,17 @@ class Cluster {
           coords = hoverFeature.getGeometry().getCoordinates();
         }
         const { indicatorObject } = hoverFeature.getProperties().properties;
-        const { city } = indicatorObject;
-        const indicator = store.state.config.baseConfig
-          .indicatorsDefinition[indicatorObject.indicator]
-          .indicatorOverwrite || indicatorObject.indicatorName || indicatorObject.description;
+        const {
+          city, country, name, aoiID,
+        } = indicatorObject;
         if (city) {
-          headers.push(`${city}:`);
-        }
-        if (indicator) {
-          headers.push(indicator);
+          headers.push(`${city}`);
+        } else if (country) {
+          headers.push(`${country}`);
+        } else if (name) {
+          headers.push(`${name}`);
+        } else if (aoiID) {
+          headers.push(`${aoiID}`);
         }
         callback(headers, rows, coords);
       } else {
@@ -463,6 +476,11 @@ class Cluster {
    * @param {Array} indicatorFeatures indicator feature definition objects
    */
   setFeatures(indicatorFeatures) {
+    const clusterSource = this.clusters.getSource().getSource();
+    if (!indicatorFeatures.length > 0) {
+      clusterSource.clear();
+      return;
+    }
     const features = indicatorFeatures.filter((i) => i.properties.indicatorObject.aoi).map((i) => {
       const feature = new Feature({
         properties: i.properties,
@@ -473,25 +491,8 @@ class Cluster {
       feature.setId(i.id);
       return feature;
     });
-    const clusterSource = this.clusters.getSource().getSource();
     clusterSource.clear();
     clusterSource.addFeatures(features);
-    const router = this.vm.$router;
-    const { query } = router.currentRoute;
-    // if search box is empty, don't reset view to all features
-    if (features.length && query.search) {
-      setTimeout(() => {
-        const { selectedIndicator } = store.state.indicators;
-        if (!selectedIndicator) {
-          const padding = calculatePadding();
-          this.map.getView().fit(clusterSource.getExtent(), {
-            maxZoom: 8,
-            duration: 200,
-            padding,
-          }, 0);
-        }
-      });
-    }
   }
 
   /**
@@ -548,9 +549,10 @@ class Cluster {
     }
 
     const { indicatorObject } = feature.getProperties().properties;
-    if (!indicatorObject.dummyFeature) {
-      store.commit('indicators/SET_SELECTED_INDICATOR', indicatorObject);
-    }
+    store.commit('features/SET_SELECTED_FEATURE', {
+      indicatorObject,
+      geometry: feature.getGeometry(),
+    });
   }
 }
 

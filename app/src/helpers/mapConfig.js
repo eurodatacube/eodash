@@ -120,12 +120,25 @@ const configFromInputData = (usedTimes, index) => {
   return [];
 };
 
-const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObject) => {
+const mergeObjectsFromArrays = (arr1, arr2) => {
+  const mergedArray = [];
+  const maxLength = Math.max(arr1.length, arr2.length);
+  for (let i = 0; i < maxLength; i++) {
+    let mergedObject = {};
+    if (i < arr1.length) {
+      mergedObject = { ...mergedObject, ...arr1[i] };
+    }
+    if (i < arr2.length) {
+      mergedObject = { ...mergedObject, ...arr2[i] };
+    }
+    mergedArray.push(mergedObject);
+  }
+  return mergedArray;
+};
+
+const mergedConfigs = (usedTimes, inputDataConfig, indicatorObject) => {
   // first check if special compare layer configured
-  let displayTmp = side === 'compare'
-    && indicatorObject.compareDisplay
-    ? indicatorObject.compareDisplay
-    : indicatorObject.display;
+  let displayTmp = indicatorObject.display;
   // following configuration merging is done:
   // defaultLayersDisplay (to avoid having to configure it before)
   // indDefinition - indicator code specific configuration
@@ -137,24 +150,15 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
       // always make an Array of layer configurations
       displayTmp = [displayTmp];
     }
+  } else {
+    displayTmp = [];
   }
   const finalConfigs = [];
-  let usedConfigForMerge = [];
-  let name = indicatorObject.description;
+  const usedConfigForMerge = mergeObjectsFromArrays(displayTmp, inputDataConfig);
 
-  if (!displayTmp && inputDataConfig.length === 0) {
-    // no additional config specified, use defaults
-    usedConfigForMerge = [{ name }];
-  } else if (!displayTmp) {
-    // use configFromInputData
-    usedConfigForMerge = inputDataConfig;
-  } else {
-    // use displayTmp even if configFromInputData set too
-    usedConfigForMerge = displayTmp;
-  }
   usedConfigForMerge.forEach((item) => {
     // merge configs for each layer
-    name = item.name || name;
+    const name = item.name || indicatorObject.name;
 
     const indDefinition = baseConfig.indicatorsDefinition[
       indicatorObject.indicator
@@ -183,33 +187,23 @@ const mergedConfigs = (usedTimes, side = 'data', inputDataConfig, indicatorObjec
   return finalConfigs;
 };
 
-const createConfigFromIndicator = (indicatorObject, side, index) => {
+const createConfigFromIndicator = (indicatorObject, index) => {
   baseConfig = store.state.config.baseConfig;
   const usedTimes = generateUsedTimes(indicatorObject);
   const inputDataConfig = configFromInputData(usedTimes, index);
-  return mergedConfigs(usedTimes, side, inputDataConfig, indicatorObject);
+  return mergedConfigs(usedTimes, inputDataConfig, indicatorObject);
 };
 
 const getTimeLabel = (time, config) => {
   // Check if custom function was configured
-  if (config[0].labelFormatFunction) {
+  if (config[0]?.labelFormatFunction) {
     return config[0].labelFormatFunction(time);
   }
   // If not try default approach
   if (Array.isArray(time) && time.length === 2) {
-    // show start - end
-    if (config[0].mapTimeLabelExtended) {
-      return time.map((d) => DateTime.fromISO(d).toISO({ suppressMilliseconds: true })).join(' - ');
-    }
     return time.map((d) => DateTime.fromISO(d).toISODate()).join(' - ');
   } else if (time instanceof DateTime) { // eslint-disable-line no-else-return
-    if (config[0].mapTimeLabelExtended) {
-      return time.toISO({ suppressMilliseconds: true });
-    }
     return time.toISODate();
-  }
-  if (config[0].mapTimeLabelExtended) {
-    return DateTime.fromISO(time).toISO({ suppressMilliseconds: true });
   }
   return DateTime.fromISO(time).toISODate();
 };
@@ -233,23 +227,26 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
   return selectionOptions;
 };
 
-const indicatorHasMapData = (indicatorObject) => {
+const indicatorHasMapData = (indicatorObject, featureObject) => {
+  if (indicatorObject?.indicator === 'E13d' && featureObject) {
+    // custom overload for extra hassle with replaceMapTimes from config
+    return true;
+  }
   baseConfig = store.state.config.baseConfig;
   let hasMapData = false;
   if (indicatorObject) {
     let matchingInputDataAgainstConfig = [];
-    // Check to see if we have EO Data indicator
-    const { inputData } = generateUsedTimes(indicatorObject);
-    if (inputData) {
-      matchingInputDataAgainstConfig = inputData
-        .filter((item) => Object.prototype.hasOwnProperty.call(baseConfig.layerNameMapping, item));
-      hasMapData = matchingInputDataAgainstConfig.length > 0;
-    }
-    // Check to see if we have global data indicator
-    if (indicatorObject && indicatorObject.country) {
-      if (indicatorObject.country === 'all' || Array.isArray(indicatorObject.country)) {
-        hasMapData = true;
+    if (indicatorObject?.locations && featureObject) {
+      hasMapData = true;
+    } else if (!indicatorObject?.locations && featureObject) {
+      const { inputData } = generateUsedTimes(featureObject);
+      if (inputData) {
+        matchingInputDataAgainstConfig = inputData
+          .filter((item) => Object.prototype.hasOwnProperty.call(baseConfig.layerNameMapping, item));
+        hasMapData = matchingInputDataAgainstConfig.length > 0;
       }
+    } else if (!indicatorObject.locations && indicatorObject.features?.length === 0) {
+      hasMapData = true;
     }
   }
   return hasMapData;

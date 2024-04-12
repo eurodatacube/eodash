@@ -67,9 +67,17 @@ export default {
     const options = { ...this.options };
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
-      this.layers.push(layer);
       if (this.compare) {
         layer.set('name', `${layer.get('name')}_compare`);
+      }
+      if (!options.frozenLayer) {
+        layer.set('layerControlToolsExpand', true);
+      }
+      this.layers.push(layer);
+      if (options.frozenLayer) {
+        // exit early and do not bind any handlers
+        map.getLayers().push(layer);
+        return;
       }
       // find first feature layer
       if (config.features || config.tooltip) {
@@ -103,7 +111,7 @@ export default {
             let rows = [];
             if (config?.tooltip?.tooltipFormatFunction) {
               // has to return a list of rows
-              rows = config?.tooltip?.tooltipFormatFunction(feature, config);
+              rows = config?.tooltip?.tooltipFormatFunction(feature, config, this.$store);
             } else {
               const props = feature.getProperties();
               // some indicators have 'allowedParameters', which define the keys to display
@@ -254,7 +262,11 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
     this.layers.forEach((layer) => {
-      dataGroup.getLayers().remove(layer);
+      if (this.options.frozenLayer) {
+        map.getLayers().remove(layer);
+      } else {
+        dataGroup.getLayers().remove(layer);
+      }
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);

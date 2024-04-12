@@ -37,21 +37,36 @@ export default {
   },
   data: () => ({
     dialog: false,
+    story: null,
   }),
+  created() {
+    this.getDataInfo();
+  },
   mounted() {},
   computed: {
-    story() {
-      let markdown;
-      try {
-        markdown = require(`../../public/data/gtif/markdown/dataInfo/${this.infoSource}.md`);
-      } catch {
-        markdown = { default: '' };
-      }
-      return this.$marked(markdown.default);
-    },
   },
   watch: {},
-  methods: {},
+  methods: {
+    getDataInfo() {
+      let markdown;
+      try {
+        const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.infoSource}.md`;
+        fetch(markdownUrl)
+          .then((response) => {
+            if (!response.ok) {
+              console.error('Fetching DataInfo failed');
+            }
+            return response.text();
+          })
+          .then((text) => {
+            markdown = { default: text };
+            this.story = this.$marked(markdown.default);
+          });
+      } catch {
+        this.story = this.$marked({ default: '' });
+      }
+    },
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip v-if="!show && !enableScrollyMode" left>
+  <v-tooltip v-if="!show" left>
     <template v-slot:activator="{ on }">
       <v-btn
         :color="$vuetify.theme.currentTheme.background"
@@ -24,7 +24,7 @@
     <eox-layercontrol
       :for="'#' + mapId "
       :titleProperty.prop="'name'"
-      :tools.prop="['config', 'opacity', 'sort']"
+      :tools.prop="['info', 'config', 'opacity', 'sort']"
       class="pointerEvents">
     </eox-layercontrol>
   </v-card>
@@ -33,27 +33,16 @@
 <script>
 import 'ol/ol.css';
 import { getMapInstance } from '@/components/map/map';
-import { createLayerFromConfig } from '@/components/map/layers';
 import { mapState } from 'vuex';
 
-/**
- * a component that will handle base and overlay layers and displays
- * them in an interactive layer control
- */
 export default {
   components: {},
   props: {
     mapId: String,
-    baseLayerConfigs: Array,
-    overlayConfigs: Array,
-    isGlobalIndicator: Boolean,
-    enableScrollyMode: Boolean,
   },
   data() {
     return {
       show: false,
-      opacityOverlay: [0, 0, 0, 0, 0, 0, 0.4, 0.4, 0.8, 0.8, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
-      opacityCountries: [1, 1, 1, 1, 0.7, 0.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
   },
   watch: {
@@ -67,40 +56,6 @@ export default {
   },
   computed: {
     ...mapState('config', ['appConfig']),
-  },
-  mounted() {
-    const { map } = getMapInstance(this.mapId);
-    const baseLayers = this.baseLayerConfigs.map((l) => {
-      const createdLayer = createLayerFromConfig(l, map);
-      createdLayer.set('layerControlExclusive', true);
-      return createdLayer;
-    });
-    baseLayers.forEach((layer) => {
-      const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
-      backgroundGroup.getLayers().push(layer);
-    });
-    const overlayLayers = this.overlayConfigs.map((l) => createLayerFromConfig(l,
-      map, {}));
-    overlayLayers.forEach((layer) => {
-      const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
-      overlayGroup.getLayers().push(layer);
-    });
-  },
-  methods: {
-  },
-  beforeDestroy() {
-    const { map } = getMapInstance(this.mapId);
-    const backgroundGroup = map.getLayers().getArray().find((l) => l.get('id') === 'backgroundGroup');
-    this.baseLayerConfigs.forEach((config) => {
-      const layer = backgroundGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
-      backgroundGroup.getLayers().remove(layer);
-    });
-
-    const overlayGroup = map.getLayers().getArray().find((l) => l.get('id') === 'overlayGroup');
-    this.overlayConfigs.forEach((config) => {
-      const layer = overlayGroup.getLayers().getArray().find((l) => l.get('name') === config.name);
-      overlayGroup.getLayers().remove(layer);
-    });
   },
 };
 </script>
