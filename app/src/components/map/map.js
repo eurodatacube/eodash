@@ -1,6 +1,5 @@
 import Map from 'ol/Map';
 import View from 'ol/View';
-
 import 'ol/ol.css';
 import './olControls.css';
 import { Collection } from 'ol';
@@ -19,6 +18,7 @@ export function getViewInstance(id, projection, options = {}) {
       zoom: 0,
       center: [0, 0],
       padding: [20, 20, 20, 20],
+      minZoom: 1,
       maxZoom: 18,
       extent: options.constrainExtent,
       constrainOnlyCenter: true,
@@ -35,17 +35,17 @@ class VueMap {
       new LayerGroup({
         id: 'backgroundGroup',
         name: 'Background Layers',
-        layerControlExpand: true,
+        layerControlExpand: false,
       }),
       new LayerGroup({
         id: 'dataGroup',
-        name: 'Data Layers',
+        name: 'Analysis Layers',
         layerControlExpand: true,
       }),
       new LayerGroup({
         id: 'overlayGroup',
         name: 'Overlay Layers',
-        layerControlExpand: true,
+        layerControlExpand: false,
       }),
       new LayerGroup({
         id: 'internalGroup',

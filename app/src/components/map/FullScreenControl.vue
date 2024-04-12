@@ -69,6 +69,7 @@ export default {
 
 <style lang="scss" scoped>
   .controlButton {
+    right:4px;
     width: 36px;
     min-width: 0px !important;
     height: 36px !important;

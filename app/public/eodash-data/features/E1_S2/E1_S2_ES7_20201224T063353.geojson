@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/24 06:57:53", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 225424000.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Cement Carrier", "LENGTH": 133.0 }, "geometry": { "type": "Point", "coordinates": [ -5.69991, 43.5662 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/24 06:53:08", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 255805896.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Vehicles Carrier", "LENGTH": 129.0 }, "geometry": { "type": "Point", "coordinates": [ -5.695435, 43.56571 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/24 06:55:54", "STATUS": 5.0, "SPEED (KNOTSx10)": 1.0, "MMSI": 538005879.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Bulk Carrier", "LENGTH": 200.0 }, "geometry": { "type": "Point", "coordinates": [ -5.690753, 43.57892 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/12\/24 06:57:14", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 636018322.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Container Ship", "LENGTH": 217.11 }, "geometry": { "type": "Point", "coordinates": [ -5.688673, 43.55695 ] } }
-]
-}

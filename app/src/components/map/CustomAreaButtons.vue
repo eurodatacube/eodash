@@ -1,7 +1,7 @@
 <template>
   <div
     class="customDrawTools elevation-2
-    d-flex flex-column mb-2">
+    d-flex flex-column mb-2 mr-1">
     <v-tooltip
       v-if="drawToolsVisible"
       left
@@ -86,7 +86,6 @@ import Feature from 'ol/Feature';
 import {
   mapState,
 } from 'vuex';
-// import { getArea } from 'ol/extent';
 import Text from 'ol/style/Text';
 import { Polygon } from 'ol/geom';
 
@@ -172,6 +171,7 @@ export default {
       style: this.drawStyleFunction,
       declutter: false,
     });
+    drawnAreaLayer.set('displayInLayerSwitcher', false);
     this.drawnAreaLayer = drawnAreaLayer;
     const internalGroup = map.getLayers().getArray().find((l) => l.get('id') === 'internalGroup');
     internalGroup.getLayers().push(drawnAreaLayer);
@@ -201,6 +201,10 @@ export default {
       });
     });
     this.addDrawnAreaToMap();
+
+    if (this.$store.state.features.selectedArea) {
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
+    }
   },
   beforeDestroy() {
     const { map } = getMapInstance(this.mapId);
@@ -244,12 +248,14 @@ export default {
      * @param {*} geom OpenLayer geometry
      * @returns {Boolean}
      */
-    isGeometryTooLarge(geom) { // eslint-disable-line
-      // for now commenting out previous logic
+    isGeometryTooLarge(geom) {
+      if (this.mergedConfigsData.length && this.mergedConfigsData[0]?.maxDrawnAreaSide) {
+        const extent = geom.getExtent();
+        return extent && (
+          (extent[3] - extent[1] > this.mergedConfigsData[0]?.maxDrawnAreaSide)
+          || (extent[2] - extent[0] > this.mergedConfigsData[0]?.maxDrawnAreaSide));
+      }
       return false;
-      // const extent = geom.getExtent();
-      // to do: use more exact turf calculations?
-      // return extent && (getArea(extent) > 50000000000);
     },
     onDrawFinished(event) {
       const { map } = getMapInstance(this.mapId);
@@ -270,6 +276,7 @@ export default {
       this.isDrawing = false;
       // TODO: set in store (to update URL) only if not in custom dashboard instead of always
       this.$store.commit('features/SET_SELECTED_AREA', geoJsonObj);
+      window.dispatchEvent(new Event('fetch-custom-area-chart'));
     },
     clearCustomAreaFilter() {
       // TODO: clear in store (to update URL) only if not in custom dashboard instead of always

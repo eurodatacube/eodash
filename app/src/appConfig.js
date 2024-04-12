@@ -1,6 +1,7 @@
 module.exports = [
   {
     id: 'esa',
+    catalogUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json',
     mailingList: {
       development: 2,
       staging: 2,
@@ -22,7 +23,6 @@ module.exports = [
       twitterCardImagePath: '/img/ESA/twitter_card.jpg',
       imagePath: '/img/ESA',
     },
-    storyPath: '/eodash-data/stories/',
     showNewsletterButton: true,
     customCSS: 'esa',
     newsBanner: {
@@ -42,7 +42,7 @@ module.exports = [
         src: './eodash-data/general/cimbelli.png',
       },
       {
-        poi: 'W2-E12c',
+        poi: 'World-E12c',
         src: './eodash-data/general/new-trucks.png',
       },
     ],
@@ -50,19 +50,18 @@ module.exports = [
     termsText: '/eodash-data/general/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
-    configuredMapPois: [],
-    // The label parameter can be used as string to select the parameter identifier
-    // or it can be an array of strings the same size as features to set custom
-    // tab titles for each of the tabbed groups
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
+    },
     demoMode: {
       egu2023: [
+        // custom story is not supported yet for new demo mode
         {
-          poi: 'WSF-WSF',
+          poi: 'World-WSF',
           story: '/eodash-data/stories/demo-mode/egu2023/WSF-WSF',
           highlights: [
             {
@@ -96,61 +95,47 @@ module.exports = [
           story: '/eodash-data/stories/demo-mode/egu2023/vessel_density',
         },
         {
-          poi: 'W2-E12c',
+          poi: 'World-E12c',
           story: '/eodash-data/stories/demo-mode/egu2023/moving_truck',
         },
         {
           poi: 'NorthAdriatic-N3a2',
-          title: 'Chlorophyll-a concentration Anomaly Maps',
+          name: 'Chlorophyll-a concentration Anomaly Maps',
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_chlorophyll-a_concentration',
         },
         {
-          poi: 'NorthAdriaticTSM-N3a2',
-          title: 'Total Suspended Matter Anomaly Maps',
+          poi: 'NorthAdriaticTSM-N3a2_TSM',
+          name: 'Total Suspended Matter Anomaly Maps',
           story: '/eodash-data/stories/demo-mode/egu2023/water_quality_total_suspended_matter',
         },
         {
-          poi: 'DanubeDeltaSST-N3a2',
+          poi: 'DanubeDeltaSST-N3a2_SST',
           story: '/eodash-data/stories/demo-mode/egu2023/sea_surface_temperature',
-          title: 'Sea Surface Temperature Anomaly Maps',
+          name: 'Sea Surface Temperature Anomaly Maps',
         },
         {
-          poi: 'CDS-CDS1',
+          poi: 'World-CDS1_temperature',
           story: '/eodash-data/stories/demo-mode/egu2023/Air_temperature_2m',
         },
         {
-          poi: 'CDS-CDS2',
+          poi: 'World-CDS2_relative_humidity',
           story: '/eodash-data/stories/demo-mode/egu2023/relative_humidity_C3S',
         },
         {
-          poi: 'World-N1',
+          poi: 'World-N1_NO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Nitrogen_Dioxide_TROPOMI',
         },
         {
-          poi: 'WorldCO-N1',
+          poi: 'World-N1_CO',
           story: '/eodash-data/stories/demo-mode/egu2023/Carbon_Monoxide_TROPOMI',
         },
         {
-          poi: 'SO2-N1',
+          poi: 'World-N1_SO2',
           story: '/eodash-data/stories/demo-mode/egu2023/Sulfur_Dioxide_TROPOMI',
         },
         {
           poi: 'AT4-E13d',
           story: '/eodash-data/stories/demo-mode/egu2023/Flying_Planes',
-        },
-      ],
-      test: [
-        {
-          poi: 'NO3-E1b',
-        },
-        {
-          poi: 'CDS-CDS2',
-        },
-        {
-          poi: 'CDS-CDS3',
-        },
-        {
-          poi: 'World-N1',
         },
       ],
     },
@@ -169,8 +154,8 @@ module.exports = [
       secondaryColor: '#004170',
       headerLogo: './data/trilateral/Trilateral_Logo.svg',
       faviconPath: './public/img/trilateral/favicon.ico',
-      title: 'Earth Observing Dashboard',
-      subtitle: 'Global environmental changes observed by NASA, ESA, and JAXA',
+      name: 'Earth Observing Dashboard',
+      subname: 'Global environmental changes observed by NASA, ESA, and JAXA',
       coverImage: '/data/story-images/EO_Dashboard_kv_no logos.png',
       storiesHeader: 'Stories',
       headerHeight: '50vh',
@@ -182,8 +167,6 @@ module.exports = [
       twitterCardImagePath: '/img/trilateral/twitter_card.png',
       imagePath: '/img/trilateral',
     },
-    displayDummyLocations: './data/trilateral/dummylocations.csv',
-    storyPath: '/data/trilateral/',
     customCSS: 'trilateral',
     newsBanner: {
       color: 'green darken-1',
@@ -197,6 +180,21 @@ module.exports = [
     tutorialText: '/data/trilateral/tutorials',
     challengesText: '/eodash-data/general/eodashboardhackathon',
     showNewsCarousel: true,
+    customMetadataTransformer: (collectionLink) => {
+      const i = collectionLink.themes.findIndex((theme) => theme === 'air');
+      if (i !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        collectionLink.themes[i] = 'atmosphere';
+      }
+      const j = collectionLink.themes.findIndex((theme) => theme === 'water');
+      if (j !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        collectionLink.themes[j] = 'oceans';
+      }
+    },
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
+    },
     demoMode: {
       cop28: [
         {
@@ -219,87 +217,87 @@ module.exports = [
         },
         {
           poi: 'CHN-GGI_CH4',
-          title: 'China - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'CHN-GGI_N2O',
-          title: 'China - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'CHN-GGI_CO2',
-          title: 'China - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'China - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_CH4',
-          title: 'USA - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_N2O',
-          title: 'USA - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'USA-GGI_CO2',
-          title: 'USA - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'USA - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_CH4',
-          title: 'EU (Convention) - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_N2O',
-          title: 'EU (Convention) - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'EUC-GGI_CO2',
-          title: 'EU (Convention) - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'EU (Convention) - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_CH4',
-          title: 'India - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_N2O',
-          title: 'India - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'IND-GGI_CO2',
-          title: 'India - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'India - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_CH4',
-          title: 'Brasil - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_N2O',
-          title: 'Brasil - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'BRA-GGI_CO2',
-          title: 'Brasil - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Brasil - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_CH4',
-          title: 'Russia - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_N2O',
-          title: 'Russia - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'RUS-GGI_CO2',
-          title: 'Russia - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Russia - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_CH4',
-          title: 'Kazakhstan - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation CH4 (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_N2O',
-          title: 'Kazakhstan - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation N2O (CCI RECCAP2)',
         },
         {
           poi: 'KAZ-GGI_CO2',
-          title: 'Kazakhstan - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
+          name: 'Kazakhstan - Greenhouse gas reconciliation CO2 (CCI RECCAP2)',
         },
         {
           poi: 'World-ESDC_gross_primary_productivity',
@@ -322,43 +320,14 @@ module.exports = [
         src: './data/trilateral/new-precipitation-jaxa.png',
       },
       {
-        poi: 'ThwaitesLandsat-ADD',
+        poi: 'ADD_L2_Thwaites-ADD_Landsat_L2_Antarctica',
         src: './data/trilateral/landsat-antarctica.png',
       },
       {
-        poi: 'S1GRD-ADD',
+        poi: 'World-ADD_West_Antarctica_S1',
         src: './data/trilateral/s-1-antarctica.png',
       },
     ],
-    customCountryList: [
-      { code: 'US', region: 'NORTH AMERICA' },
-      { code: 'PR', region: 'NORTH AMERICA' },
-      { code: 'BE', region: 'EUROPE' },
-      { code: 'HR', region: 'EUROPE' },
-      { code: 'FR', region: 'EUROPE' },
-      { code: 'GB', region: 'EUROPE' },
-      { code: 'DE', region: 'EUROPE' },
-      { code: 'IT', region: 'EUROPE' },
-      { code: 'SI', region: 'EUROPE' },
-      { code: 'ES', region: 'EUROPE' },
-      { code: 'JP', region: 'ASIA' },
-      { code: 'CN', region: 'ASIA' },
-      { code: 'SG', region: 'ASIA' },
-      { code: 'BD', region: 'ASIA' },
-      { code: 'IN', region: 'ASIA' },
-      { code: 'BR', region: 'SOUTH AMERICA' },
-      { code: 'CL', region: 'SOUTH AMERICA' },
-      { code: 'PE', region: 'SOUTH AMERICA' },
-      { code: 'TG', region: 'AFRICA' },
-      { code: 'TZ', region: 'AFRICA' },
-      { code: 'EG', region: 'AFRICA' },
-    ],
-    configuredMapPois: [
-      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
-      'EG01-SIF',
-    ],
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -384,8 +353,8 @@ module.exports = [
       secondaryColor: '#00ae9d',
       headerLogo: './data/gtif/images/gtif_attributions_logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
-      title: 'Green Transition Information Factory',
-      subtitle: 'Key element of the ESA Space For Green Future Accelerator',
+      name: 'Green Transition Information Factory',
+      subname: 'Key element of the ESA Space For Green Future Accelerator',
       coverImage: './data/gtif/images/image1.png',
       storiesHeader: 'Subdomains',
       headerHeight: '30vh',
@@ -397,7 +366,6 @@ module.exports = [
       twitterCardImagePath: '/img/gtif/twitter_card.jpg',
       imagePath: '/img/gtif',
     },
-    storyPath: '/data/gtif/stories/',
     showNewsletterButton: false,
     customCSS: 'gtif',
     newsBanner: {
@@ -410,23 +378,13 @@ module.exports = [
     aboutText: '/data/gtif/stories/about',
     welcomeText: '/data/gtif/stories/welcome',
     tutorialText: '/data/gtif/stories/tutorials',
-    showNewsCarousel: true,
+    showNewsCarousel: false,
     newsCarouselitems: [
-      {
-        poi: 'WSF-WSF',
-        src: './eodash-data/general/WSF.png',
-      },
-      {
-        poi: 'SO2-N1',
-        src: './eodash-data/general/TROPOMI-SO2.png',
-      },
     ],
     privacyText: '/data/gtif/markdown/privacy',
     termsText: '/data/gtif/markdown/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube', 'gtif'],
-    configuredMapPois: [],
-    featureGrouping: [],
     refColors: [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
@@ -435,5 +393,8 @@ module.exports = [
     enableESALayout: true,
     enableScrollyTelling: true,
     enableIndicatorSidebar: true,
+    uiText: {
+
+    },
   },
 ];

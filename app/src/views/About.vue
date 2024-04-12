@@ -78,13 +78,8 @@ export default {
       'appConfig',
       'baseConfig',
     ]),
-    ...mapState('features', [
-      'allFeatures',
-    ]),
-    ...mapGetters('features', [
-      'getCountries',
-      'getIndicators',
-      'getLatestUpdate',
+    ...mapState('indicators', [
+      'indicators',
     ]),
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
@@ -99,10 +94,9 @@ export default {
   },
   methods: {
     featureLength(type) {
-      return this.allFeatures
-        .filter((i) => !i.properties.indicatorObject.dummyFeature && this.baseConfig
-          .indicatorsDefinition[i.properties.indicatorObject.indicator]
-          .themes.includes(type)).length;
+      return this.indicators
+        .filter((i) => i.themes.includes(type))
+        .length;
     },
   },
 };

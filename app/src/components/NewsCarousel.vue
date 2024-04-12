@@ -61,9 +61,17 @@
 </template>
 
 <script>
-import { isExternalUrl } from '@/utils';
+import { isExternalUrl, loadIndicatorData } from '@/utils';
+import {
+  mapState,
+  mapMutations,
+} from 'vuex';
 
 export default {
+  computed: {
+    ...mapState('indicators', ['indicators']),
+    ...mapState('config', ['baseConfig']),
+  },
   data() {
     return {
       currentSlide: 0,
@@ -72,22 +80,51 @@ export default {
     };
   },
   methods: {
-    onClickItem(item) {
-      const { poi, indicator, href } = item;
+    ...mapMutations('indicators', {
+      setSelectedIndicator: 'SET_SELECTED_INDICATOR',
+      loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',
+    }),
+    ...mapMutations('features', {
+      setSelectedFeature: 'SET_SELECTED_FEATURE',
+    }),
+    async onClickItem(item) {
+      const { poi, href } = item;
       if (poi) {
         const aoiID = poi.split('-')[0];
         const indicatorCode = poi.split('-')[1];
-        const selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-          const { indicatorObject } = f.properties;
-          return indicatorObject.aoiID === aoiID
-            && indicatorObject.indicator === indicatorCode;
-        });
-        if (indicator) {
-          this.$store.commit('features/SET_FEATURE_FILTER', {
-            indicators: [indicator],
-          });
+        const ind = this.indicators.find((f) => f.indicator === indicatorCode) || {};
+        if (aoiID !== 'World') {
+          // eslint-disable-next-line no-param-reassign
+          const objectM = {
+            ...ind,
+            aoiID,
+            disableExtraLoadingData: true,
+          };
+          // fetching the indicator here outside of App.vue watcher in order to
+          // get the features and select the matching one which was clicked in in the Panel
+          this.setSelectedIndicator(objectM);
+          const indicatorObject = await loadIndicatorData(
+            this.baseConfig,
+            objectM,
+          );
+          const currentFeatureObject = indicatorObject.features.find(
+            (feat) => feat.id === aoiID,
+          );
+          // should match if the appConfig is done correctly
+          if (currentFeatureObject) {
+            const test = {
+              indicatorObject: {
+                ...indicatorObject,
+                geoDBID: currentFeatureObject.properties.indicatorObject.geoDBID,
+              },
+            };
+            this.loadIndicatorFinished(indicatorObject);
+            // manually select the feature
+            this.setSelectedFeature(test);
+          }
+        } else {
+          this.setSelectedIndicator(ind);
         }
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature.properties.indicatorObject);
       } else if (href) {
         if (isExternalUrl(href)) {
           window.open(href);

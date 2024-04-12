@@ -20,9 +20,8 @@ import VectorTileSource from 'ol/source/VectorTile';
 import { MVT, WKB } from 'ol/format';
 import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
-import { fetchCustomDataOptions, fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
+import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
-import { template } from '@/utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -61,8 +60,9 @@ export async function fetchData({
     );
     source.clear();
     if (custom?.features && custom.features.length) {
+      const projection = config?.features?.projection ? getProjectionOl(config.features.projection) : 'EPSG:4326';
       const features = geoJsonFormat.readFeatures(custom, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       });
       features.forEach((ftr) => {
@@ -76,7 +76,7 @@ export async function fetchData({
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
-            dataProjection: 'EPSG:4326',
+            dataProjection: projection,
             featureProjection: map.getView().getProjection(),
           }));
         }
@@ -176,11 +176,14 @@ function createVectorLayerStyle(config, options) {
 }
 
 function createFromTemplate(templateStr, tileCoord) {
+  const zwgs84OffsetRegEx = /\{z-1\}/g;
   const zRegEx = /\{z\}/g;
   const xRegEx = /\{x\}/g;
   const yRegEx = /\{y\}/g;
   const dashYRegEx = /\{-y\}/g;
-  return templateStr.replace(zRegEx, tileCoord[0].toString())
+  return templateStr
+    .replace(zwgs84OffsetRegEx, (tileCoord[0] - 1).toString())
+    .replace(zRegEx, (tileCoord[0]).toString())
     .replace(xRegEx, tileCoord[1].toString())
     .replace(yRegEx, tileCoord[2].toString())
     .replace(dashYRegEx, () => {
@@ -319,10 +322,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       source: wgSource,
       style: config.style,
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
     layer = new VectorTileLayer({});
-    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
@@ -341,32 +342,31 @@ export function createLayerFromConfig(config, map, _options = {}) {
     createWMTSSourceFromCapabilities(config, layer);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
-
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
-    const projString = '3857';
+    const projString = 'EPSG:3857';
     layer = new VectorTileLayer({
       style: dynamicStyleFunction,
       source: new VectorTileSource({
-        projection: 'EPSG:3857',
+        projection: projString,
         format: new MVT(),
-        url: `${geoserverUrl}${config.layerName}@EPSG%3A${projString}@pbf/{z}/{x}/{-y}.pbf`,
+        url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
+    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     } : {
       features: geoJsonFormat.readFeatures(config.data, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     };
@@ -426,20 +426,22 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     }
   } else if (config.protocol === 'xyz') {
+    const sourceOptions = {
+      attributions: config.attribution,
+      maxZoom: config.maxNativeZoom || config.maxZoom,
+      minZoom: config.minNativeZoom || config.minZoom,
+      crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
+      projection: getProjectionOl(config.projection),
+      transition: 0,
+      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+    };
+    source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
       // for layers with time entries, use a tileUrl function that
       // gets the current time entry from the store
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoom || config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        transition: 0,
-        projection: getProjectionOl(config.projection),
-        tileUrlFunction: (tileCoord) => {
-          const url = replaceUrlPlaceholders(config.url, config, options);
-          return createFromTemplate(url, tileCoord);
-        },
+      source.setTileUrlFunction((tileCoord) => {
+        const url = replaceUrlPlaceholders(config.url, config, options);
+        return createFromTemplate(url, tileCoord);
       });
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
@@ -451,16 +453,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
           return createFromTemplate(url, tileCoord);
         });
-      });
-    } else {
-      source = new XYZSource({
-        attributions: config.attribution,
-        maxZoom: config.maxNativeZoom || config.maxZoom,
-        minZoom: config.minNativeZoom || config.minZoom,
-        crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
-        projection: getProjectionOl(config.projection),
-        transition: 0,
-        tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
       });
     }
     layer = new TileLayer({
@@ -530,7 +522,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
 
   let drawnAreaExtent;
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
-    if (options.drawnArea.area) {
+    if (options?.drawnArea?.area) {
       drawnAreaExtent = transformExtent(
         geoJsonFormat.readGeometry(options.drawnArea.area).getExtent(),
         'EPSG:4326',
@@ -546,15 +538,29 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layer.setExtent(drawnAreaExtent);
   }
-  layer.setProperties({
+  const layerProperties = {
+    id: config?.features?.id ? config.features.id : config.id,
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
+    layerControlHide: config?.features ? config.features.layerControlHide : config.layerControlHide,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
-  });
+  };
+  const legendUrl = config.features ? config.features.legendUrl : config.legendUrl;
+  if (legendUrl || config.layerAdditionalDescription) {
+    let description = '';
+    if (legendUrl) {
+      description += `<img src="${legendUrl}" style="max-width: 100%" />`;
+    }
+    if (config.layerAdditionalDescription) {
+      description += config.layerAdditionalDescription;
+    }
+    layerProperties.description = description;
+  }
+  layer.setProperties(layerProperties);
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
     const areaUpdate = (time, drawnArea, configUpdate, l) => {
       if (drawnArea.area) {

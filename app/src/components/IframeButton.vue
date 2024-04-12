@@ -30,7 +30,7 @@
         small
         @click="dialog = true"
       >
-        <template v-if="!showMap">
+        <template>
           <v-icon left>mdi-code-tags</v-icon>
           embed chart
         </template>
@@ -93,11 +93,8 @@ export default {
   mixins: [dialogMixin],
   props: {
     indicatorObject: Object,
+    featureObject: Object,
     mapControl: Boolean,
-    embedMap: {
-      type: Boolean,
-      default: false,
-    },
     center: Object,
     zoom: Number,
   },
@@ -110,9 +107,14 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
-      let queryParams = `poi=${this.getLocationCode(this.indicatorObject)}`;
-      if (this.embedMap) {
-        queryParams += `&embedMap=${this.embedMap}`;
+      let indObj = this.indicatorObject;
+      if (this.featureObject) {
+        // Merge with parent indicator object to have all necessary information
+        indObj = { ...indObj, ...this.featureObject };
+      }
+      let queryParams = `poi=${this.getLocationCode(indObj)}`;
+      if (this.mapControl) {
+        queryParams += `&embedMap=${this.mapControl}`;
         if (this.zoom !== null) {
           queryParams += `&z=${this.zoom}`;
         }
@@ -122,9 +124,6 @@ export default {
         }
       }
       return `<iframe class="item" src="${window.location.origin}/iframe?${queryParams}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
-    },
-    showMap() {
-      return ['all'].includes(this.indicatorObject.country) || this.appConfig.configuredMapPois.includes(`${this.indicatorObject.aoiID}-${this.indicatorObject.indicator}`) || Array.isArray(this.indicatorObject.country);
     },
   },
   methods: {

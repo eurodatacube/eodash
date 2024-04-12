@@ -1,35 +1,15 @@
 <template>
-  <v-sheet
+<v-col
+  :style="`height: auto`"
   v-if="selectableLayerConfigs"
+>
+  <v-card
   class="pa-2">
-    <div class="text-h7 font-weight-bold">
-      <v-row align="center"
-      class="pa-3">
-        <span>Map Selection</span>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-icon color="primary" class="pl-2">
-                mdi-information-outline
-              </v-icon>
-            </div>
-        </template>
-        <p>
-          Click on "Zoom to" entry to show selectable zones.
-        </p>
-        <p>
-          Click on features on the map to allow further interaction with data.
-        </p>
-        <p>
-          Deselect features by clicking on it again or by using delete icon in the list.
-        </p>
-        </v-tooltip>
-      </v-row>
-    </div>
+    <v-card-title class="pa-2">Geographic Selection</v-card-title>
     <v-row v-if="anyLayerZoomConstraint"
       align="center"
       class="pl-3 pr-3">
-      <v-col cols="12" class="pa-0">
+      <v-col cols="12" class="pa-2">
       <v-list dense class="pa-0">
         <v-list-item-group
           color="primary"
@@ -38,15 +18,17 @@
             v-for="(item, i) in selectableLayerConfigs"
             :key="i"
             class="pa-0"
+            :disabled="getLayerBtn(item).disabled"
+            style="pointer-events: none;"
           >
             <v-list-item-content>
               <v-list-item-title
               class=""
-              @click="layerSelectClick(item)">
+              >
+              <v-icon :color="getLayerBtn(item).disabled ? 'grey':'black' ">{{ getLayerBtn(item).icon }}</v-icon>
               <span>
-                {{ getLayerText(item)}}
+                {{ getLayerBtn(item).text }}
               </span>
-              <v-icon color="primary">mdi-crosshairs-gps</v-icon>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -57,9 +39,9 @@
     <v-row
       align="center"
       class="pl-2 pr-2">
-      <v-col cols="12" class="pa-0">
-        <v-list dense class="pa-0">
-          <v-subheader class="text-body-1 font-weight-bold">Selected Features</v-subheader>
+      <v-col cols="12" class="pa-2">
+        <v-list dense class="py-0 px-2">
+          <v-subheader style="color: black;" class="pa-0 text-body-1 font-weight-bold">Selected Units</v-subheader>
           <v-list-item-group
           v-if="selectedFeatures.length"
           >
@@ -69,7 +51,7 @@
               class="pa-0"
             >
               <v-list-item-content>
-                <v-list-item-title class="text-body-0">
+                <v-list-item-title class="text-body-0" :style="getFeatureNameStyle(i)">
                   {{getFeatureName(item, i)}}
                 </v-list-item-title>
               </v-list-item-content>
@@ -82,7 +64,8 @@
         </v-list>
       </v-col>
     </v-row>
-  </v-sheet>
+  </v-card>
+</v-col>
 </template>
 
 <script>
@@ -105,7 +88,7 @@ export default {
     });
   },
   computed: {
-    ...mapState('config', ['baseConfig']),
+    ...mapState('config', ['appConfig', 'baseConfig']),
     anyLayerZoomConstraint() {
       return this.selectableLayerConfigs.find(
         (l) => (l.minZoom !== undefined),
@@ -113,13 +96,27 @@ export default {
     },
   },
   methods: {
-    getLayerText(item) {
-      return `Zoom to ${item.name} level`;
+    getFeatureNameStyle(index) {
+      const { refColors } = this.appConfig;
+      return `color: ${refColors[index]};`;
+    },
+    getLayerBtn(item) {
+      const layer = this.selectableLayerConfigs.find((i) => i.id === item.id);
+      const { map } = getMapInstance('centerMap');
+      let text = 'Zoom in to visualize administrative units';
+      let disabled = true;
+      let icon = 'mdi-magnify-plus';
+      if (map.getView().getZoom() > layer.minZoom) {
+        text = 'Select an administrative unit in order to start analysis';
+        disabled = false;
+        icon = 'mdi-cursor-default-click';
+      }
+      return { text, disabled, icon };
     },
     getFeatureName(item, i) {
       const props = item.getProperties();
       const key = Object.keys(props).find(
-        (k) => ['name', 'nuts_name', 'id'].includes(k.toLowerCase()),
+        (k) => ['name', 'nuts_name', 'id', 'object_id'].includes(k.toLowerCase()),
       );
       if (props[key]) {
         return props[key];

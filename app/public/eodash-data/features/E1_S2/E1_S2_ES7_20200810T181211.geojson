@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/08\/10 17:55:47", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 255805896.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Vehicles Carrier", "LENGTH": 129.0 }, "geometry": { "type": "Point", "coordinates": [ -5.695372, 43.56567 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/08\/10 17:57:47", "STATUS": 5.0, "SPEED (KNOTSx10)": 1.0, "MMSI": 255806133.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "LENGTH": 108.21 }, "geometry": { "type": "Point", "coordinates": [ -5.688473, 43.5795 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/08\/10 17:57:57", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 305639000.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "LENGTH": 87.84 }, "geometry": { "type": "Point", "coordinates": [ -5.699798, 43.5634 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/08\/10 17:56:41", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "MMSI": 477168600.0, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Bulk Carrier", "LENGTH": 179.9 }, "geometry": { "type": "Point", "coordinates": [ -5.697392, 43.56433 ] } }
-]
-}
