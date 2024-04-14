@@ -105,7 +105,7 @@ Wildfires are becoming more destructive due to several factors, which include ri
 
 Find more information about the South American Fires in 2023 on the [NASA Earth Observatory](https://earthobservatory.nasa.gov/images/event/151021/south-american-fires-in-2023).
 
-*Map information: Monthly Carbon Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
+*Map information: Carbon Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
 
 ###
 
@@ -115,7 +115,7 @@ Find more information about the South American Fires in 2023 on the [NASA Earth 
 
 In August 2021, wildfires in Siberia produced 800 megatons of carbon dioxide, nearly double the previous year [(23)](https://www.space.com/siberia-wildfires-greenhouse-gas-emissions-satellite-images). According to estimates by the European Copernicus Atmosphere Monitoring Service (CAMS), more carbon dioxide was released in two and half months than the world’s six most polluting countries emit in a year. Climate change is exacerbating both drier and warmer conditions, fueling more frequent and farther-reaching wildfires that release massive amount of carbon into the atmosphere [(24)](https://www.nrdc.org/stories/climate-tipping-points-are-closer-once-thought). Also, there is consistent evidence that the intervals between fires are shortening, meaning that more carbon is being released from organic soils in boreal forests than the ecosystems can reabsorb, adding up to the trend where boreal forests are leading to a tipping point in that they are becoming a source for global emissions from biomass burning [(25)](https://earthsky.org/earth/wildfires-turn-worlds-largest-forests-carbon-sinks-emitters/) [(26)](https://alaskabeacon.com/2023/03/03/extreme-wildfires-are-turning-worlds-largest-forest-ecosystem-from-carbon-sink-into-net-emitter/) [(27)](https://climate.nasa.gov/news/2905/boreal-forest-fires-could-release-deep-soil-carbon/).
 
-*Map information: Monthly Nitrogen Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
+*Map information: Carbon Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
 
 ###
 
