@@ -67,7 +67,7 @@ To better understanding the vulnerability and resilience of the Arctic and borea
 
 *Map information: GCOM-C/SGLI L3 Normalized Difference Vegetation Index (NDVI). [View dataset](https://www.eodashboard.org/explore?search=Global%3A+NDVI&x=5065036.83109&y=-2298331.0934&z=2.64386&poi=World-E10e)* 
 
-### <!--{ layers='[{"type":"STAC","properties":{"id":"step-1"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/LIS_Global_DA_Evap/LIS_Global_DA_Evap/lis-global-da-evap/2021/LIS_Evap_202112010000.d01.cog.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' center=[-67,-3] zoom="5" }-->
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-1"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/LIS_Global_DA_Evap/LIS_Global_DA_Evap/lis-global-da-evap/2021/LIS_Evap_202112010000.d01.cog.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' center=[-75,-5] zoom="5" }-->
 
 #### Amazon rainforest: the next Savanna?
 
@@ -85,7 +85,7 @@ Less trees mean a diminished release of water vapour in the atmosphere, conseque
 
 *Map information: NASA Evapotranspiration - LIS 10km Global DA. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Evapotranspiration%2C+LIS&x=8381574.94156&y=-1001875.41714&z=2.64386&poi=World-LIS_Global_DA_Evap)* 
 
-### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-60,0]" zoom="7" }--> 
+### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-75,-5]" zoom="5" }--> 
 
 Savannas are generally less efficient than tropical forests at sequestering carbon dioxide from the atmosphere, and recent studies indicate that certain areas of the Amazon are now releasing more carbon dioxide than they absorb. However, there remains no definitive agreement on a tipping point leading to widespread rainforest depletion and the proliferation of savanna species (Cerrado) from the biome. Given the intricate interplay between regional land-use alterations and global climate shifts, scientists are working to gain more understanding about this potential 'point of no return' for the Amazon rainforest. The threshold has been estimated to occur when deforestation reaches 20-25%. Currently, the Amazon has already undergone approximately 17% deforestation, which highlights the urgency of conservation efforts to prevent reaching an ecological tiping point.
 
@@ -105,7 +105,7 @@ Wildfires are becoming more destructive due to several factors, which include ri
 
 Find more information about the South American Fires in 2023 on the [NASA Earth Observatory](https://earthobservatory.nasa.gov/images/event/151021/south-american-fires-in-2023).
 
-*Map information: Monthly Nitrogen Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=7514065.62855&y=-1001875.41714&z=2.64386&poi=W4-N2)* 
+*Map information: Monthly Carbon Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
 
 ###
 
@@ -115,7 +115,7 @@ Find more information about the South American Fires in 2023 on the [NASA Earth 
 
 In August 2021, wildfires in Siberia produced 800 megatons of carbon dioxide, nearly double the previous year [(23)](https://www.space.com/siberia-wildfires-greenhouse-gas-emissions-satellite-images). According to estimates by the European Copernicus Atmosphere Monitoring Service (CAMS), more carbon dioxide was released in two and half months than the world’s six most polluting countries emit in a year. Climate change is exacerbating both drier and warmer conditions, fueling more frequent and farther-reaching wildfires that release massive amount of carbon into the atmosphere [(24)](https://www.nrdc.org/stories/climate-tipping-points-are-closer-once-thought). Also, there is consistent evidence that the intervals between fires are shortening, meaning that more carbon is being released from organic soils in boreal forests than the ecosystems can reabsorb, adding up to the trend where boreal forests are leading to a tipping point in that they are becoming a source for global emissions from biomass burning [(25)](https://earthsky.org/earth/wildfires-turn-worlds-largest-forests-carbon-sinks-emitters/) [(26)](https://alaskabeacon.com/2023/03/03/extreme-wildfires-are-turning-worlds-largest-forest-ecosystem-from-carbon-sink-into-net-emitter/) [(27)](https://climate.nasa.gov/news/2905/boreal-forest-fires-could-release-deep-soil-carbon/).
 
-*Map information: Monthly Nitrogen Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=7514065.62855&y=-1001875.41714&z=2.64386&poi=W4-N2)* 
+*Map information: Monthly Nitrogen Dioxide (CO2) from NASA’s OCO-2. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Carbon+Dioxide+%28daily%29&x=-17393.67044&y=-859057.16368&z=2.86573&indicator=N2_CO2_mean)* 
 
 ###
 
@@ -130,7 +130,7 @@ additional insights can be gained from other regions as well.
 
 In Central Africa, the slash-and-burn agriculture practice combined with the seasonal rise in temperature are primarily responsible for wildfires in Central Africa. In 2019, data from NASA's MODIS satellite revealed Central Africa experienced five times the number of wildfires as the Amazon, although the phenomena and impacts in the two regions are not equivalent [(30)](https://www.newsweek.com/nasa-images-show-africa-has-five-times-more-wildfires-burning-amazonheres-why-theyre-1456382) . The changes in savanna, grassland, and tropical forest fire patterns are so large that they have so far offset some of the increased risk of fire caused by global warming. The impact of a warming and drying climate is more obvious at higher latitudes, where fire has increased in Canada and the American West. Regions of China, India, Brazil, and southern Africa also showed increases in burned area.
 
-### <!--{ layers='[{"type":"STAC","properties":{"id":"methane"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/Gridded_EPA_Methane/EPA_Field_burning_Monthly/EPA-monthly-emissions_4F_Field_Burning/2012/EPA-monthly-emissions_4F_Field_Burning_201205.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-3"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' center="[-100, 40]" zoom="4" }-->
+### <!--{ layers='[{"type":"STAC","properties":{"id":"methane"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/Gridded_EPA_Methane/EPA_Field_burning_Monthly/EPA-monthly-emissions_4F_Field_Burning/2012/EPA-monthly-emissions_4F_Field_Burning_201205.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-3"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' center="[-130, 40]" zoom="4" }-->
 
 #### California's giant sequoias
 
@@ -144,7 +144,7 @@ According to the U.S. Forest Service, recent fires have killed from 13 to 19% of
 
 However, the increased severity of fires in recent years, fueled by the racing pace of global warming, is threatening the giant sequoias. In 2021 two very large fires, the Kings Canyon National Park “(KNP) Complex Fire ”and the “Windy Fire”, burned in the southern Sierra Nevada mountains of California in 2021. They had a significant impact on the region's giant sequoia groves, killing thousands of trees. On September 15, 2021 the Operational Land Imager (OLI) on Landsat 8 [(34)](https://landsat.gsfc.nasa.gov/satellites/landsat-8/) acquired an imagery of the “KNP Complex fire” - the largest wildfire in California history at the time. The instrument allowed to depict fire fronts beneath the plumes thanks to the thermal signature provided by infrared data [(35)](https://earthobservatory.nasa.gov/images/148840/fire-encroaching-on-giant-sequoias). Satellite images of the KNP Complex and Windy Fire, both within the Sequoia National Park, were captured by the Geostationary Operational Environmental Satellite 17 (GOES-17) [(36)](https://www.goes-r.gov/multimedia/dataAndImageryImagesGoes-17.html), which prompted authorities to issue evacuation orders [(37)](https://earthobservatory.nasa.gov/images/148878/southern-california-under-smoke).
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"overlay_base_bright_3857"}},{"type":"Tile","properties":{"id":"sequoia"},"source":{"type":"TileWMS","url": "https://services-uswest2.sentinel-hub.com/ogc/wms/6be61090-7d26-4e41-aeaa-1eab79b1bf68","params": {"LAYERS":"TRUE-COLOR","TIME":"2021-09-15"}}}]' center="[-119.5, 36.55]" zoom="8" }-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"overlay_base_bright_3857"}},{"type":"Tile","properties":{"id":"sequoia"},"source":{"type":"TileWMS","url": "https://services-uswest2.sentinel-hub.com/ogc/wms/6be61090-7d26-4e41-aeaa-1eab79b1bf68","params": {"LAYERS":"TRUE-COLOR","TIME":"2021-09-15"}}}]' center="[-119.5, 36.27]" zoom="10" }-->
 
 The following year, 4800 acres burned from 7th to 40th of July causing road closures for multiple weeks. These fires were part of a larger pattern of wildfires in the western United States, where wildland fires occur more frequently and over a longer period each year as the fire season extends. NASA Earth has been spatializing and mapping wildfires since 1950 [(38)](https://appliedsciences.nasa.gov/our-impact/news/washburn-fire-fits-pattern-longer-and-more-frequent-wildfires).
 
@@ -178,15 +178,15 @@ Another article also published in the same journal estimated a global decline in
 
 ### Restoration and conservation <!--{style="font-size: 4rem"}-->
 
-## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eodashcatalog.eox.at/xcube-datasets-item-xyz-link/trilateral/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
+## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
 
-### <!--{ center=[-67,-3] zoom="5" }-->
+### <!--{ center=[-74,-3] zoom="5" }-->
 
 #### Satellite for restoration and conservation and monitoring illegal activities
 
 One of the main drives of degradation in sub/tropical countries is unsustainable logging [(46)](https://iopscience.iop.org/article/10.1088/1748-9326/7/4/044009). To counter this, many private companies, public institutions and non-governmental organisations (NGOs) are stepping up their forestry conservation pledges. But given the size and accessibility of many locations on Earth, a crucial component in these efforts is the use of satellite-based forest monitoring systems. For instance, such system have been instrumental in slowing down deforestation in Brazil [(47)](https://earthobservatory.nasa.gov/images/145988/tracking-amazon-deforestation-from-above).
 
-*Map information: Secondary forest growth - CCI RECCAP2 [View dataset](https://www.eodashboard.org/explore?search=World%3A+Secondary+forest+growth+%28CCI+RECCAP2%29&x=-4789989.87338&y=-985778.28575&z=4.52712&poi=World-RECCAP2_5)* 
+*Map information: Secondary forest growth - CCI RECCAP2 [View dataset](https://www.eodashboard.org/explore?search=World%3A+Secondary+forest+growth+%28CCI+RECCAP2%29&x=-6860063.62014&y=-850287.36643&z=4.35591&indicator=RECCAP2_5)* 
 
 ## <!--{ as="iframe" src="https://www.youtube.com/embed/wF_td3QRBuM" width="100%" height="500px" frameBorder="0" scroll="no" style="overflow:hidden" }-->
 
