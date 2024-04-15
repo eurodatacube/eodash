@@ -116,6 +116,9 @@ async function loadIndicator(link, url, rootState) {
   return results;
 }
 function sanitizeData(indicator) {
+  if (indicator.themes?.length === 0) {
+    indicator.themes.push('others');
+  }
   if (indicator.cities?.length > 0) {
     const sanitizedCities = [];
     indicator.cities.forEach((c) => {
