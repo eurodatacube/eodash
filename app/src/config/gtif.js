@@ -1935,8 +1935,21 @@ export const globalIndicators = [
           ],
         },
         display: [
+          /*
+          {
+            protocol: 'GeoJSON',
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/biomass_powerplants.geojson',
+            name: 'Biomass power plants',
+            legendUrl: '',
+            style: {
+              strokeColor: 'rgba(0,0,0,0.9)',
+              fillColor: 'rgba(0,0,0,0.0001)',
+            },
+          },
+          */
           {
             id: 'sawmill_features',
+            legendUrl: '',
             flatStyle: [
               {
                 /*
@@ -1967,6 +1980,7 @@ export const globalIndicators = [
           {
             dataInfo: 'FCM2',
             protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/FCM2_Forest_disturbance_type/FCM_dist_type.png',
             id: 'FCM2',
             sources: [
               { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
