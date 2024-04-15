@@ -138,7 +138,7 @@ In Central Africa, the slash-and-burn agriculture practice combined with the sea
 
 According to the U.S. Forest Service, recent fires have killed from 13 to 19% of the world’s giant sequoias in 2020 and 2021 alone [(31)](https://insideclimatenews.org/news/23092022/california-sequioa-wildfires/). [(32)](https://www.nps.gov/articles/000/2021-fire-season-impacts-to-giant-sequoias.htm), causing concern in the scientific community that California forests may be nearing a tipping point from wildfires. Giant sequoias evolved to survive and thrive under lightning-ignited wildfires. In fact, the giant trees depend on fire to release the seeds inside their cones and to remove competing trees that would otherwise deprive them of the ample sunlight they need to flourish [(33)](https://150.parks.ca.gov/?page_id=27588).
 
-*Map information: EPA Methane Emissions [View dataset](https://www.eodashboard.org/explore?search=US%3A+Field+Burning+monthly+-+EPA+Methane+Emissions+2012&x=-8823681.74165&y=4371273.36061&z=4.35755&poi=Field_burning_Monthly-EPA)*
+*Map information: EPA Methane Emissions [View dataset](https://www.eodashboard.org/explore?indicator=EPA_Field_burning_Monthly&x=-10575351.41304&y=4201451.01648&z=3.34556)*
 
 ###
 
