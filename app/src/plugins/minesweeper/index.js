@@ -8,6 +8,34 @@ import HexGrid from 'ol-ext/render/HexGrid';
 // eslint-disable-next-line
 import HexSweeperGame from './board';
 
+// Function to generate a random bounding box within world bounds
+function getRandomBoundingBox(worldBounds, horizontalExtent) {
+  // Calculate vertical extent
+  const verticalExtent = horizontalExtent / 1.18;
+
+  // World bounds in the format [minLongitude, minLatitude, maxLongitude, maxLatitude]
+  const [minWorldLon, minWorldLat, maxWorldLon, maxWorldLat] = worldBounds;
+
+  // Calculate the maximum latitude and longitude for the origin point to ensure the bounding box fits within the worldBounds
+  const maxOriginLat = maxWorldLat - verticalExtent;
+  const maxOriginLon = maxWorldLon - horizontalExtent;
+
+  // Ensure the origin point is selected such that the bounding box will fit within the worldBounds
+  const originLatRange = maxOriginLat - minWorldLat;
+  const originLonRange = maxOriginLon - minWorldLon;
+
+  // Randomly select origin point
+  const originLat = minWorldLat + Math.random() * originLatRange;
+  const originLon = minWorldLon + Math.random() * originLonRange;
+
+  // Calculate the bottom-right corner of the bounding box
+  const bottomRightLat = originLat + verticalExtent;
+  const bottomRightLon = originLon + horizontalExtent;
+
+  // Return the new bounding box.
+  return [originLon, originLat, bottomRightLon, bottomRightLat];
+}
+
 /**
  * Set up the game grid using HexGrid.
  *
