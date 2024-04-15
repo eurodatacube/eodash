@@ -138,7 +138,7 @@ In Central Africa, the slash-and-burn agriculture practice combined with the sea
 
 According to the U.S. Forest Service, recent fires have killed from 13 to 19% of the world’s giant sequoias in 2020 and 2021 alone [(31)](https://insideclimatenews.org/news/23092022/california-sequioa-wildfires/). [(32)](https://www.nps.gov/articles/000/2021-fire-season-impacts-to-giant-sequoias.htm), causing concern in the scientific community that California forests may be nearing a tipping point from wildfires. Giant sequoias evolved to survive and thrive under lightning-ignited wildfires. In fact, the giant trees depend on fire to release the seeds inside their cones and to remove competing trees that would otherwise deprive them of the ample sunlight they need to flourish [(33)](https://150.parks.ca.gov/?page_id=27588).
 
-*Map information: EPA Methane Emissions [View dataset](https://www.eodashboard.org/explore?search=US%3A+Field+Burning+monthly+-+EPA+Methane+Emissions+2012&x=-8823681.74165&y=4371273.36061&z=4.35755&poi=Field_burning_Monthly-EPA)*
+*Map information: EPA Methane Emissions [View dataset](https://www.eodashboard.org/explore?indicator=EPA_Field_burning_Monthly&x=-10575351.41304&y=4201451.01648&z=3.34556)*
 
 ###
 
@@ -146,7 +146,7 @@ However, the increased severity of fires in recent years, fueled by the racing p
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"overlay_base_bright_3857"}},{"type":"Tile","properties":{"id":"sequoia"},"source":{"type":"TileWMS","url": "https://services-uswest2.sentinel-hub.com/ogc/wms/6be61090-7d26-4e41-aeaa-1eab79b1bf68","params": {"LAYERS":"TRUE-COLOR","TIME":"2021-09-15"}}}]' center="[-119.5, 36.27]" zoom="10" }-->
 
-The following year, 4800 acres burned from 7th to 40th of July causing road closures for multiple weeks. These fires were part of a larger pattern of wildfires in the western United States, where wildland fires occur more frequently and over a longer period each year as the fire season extends. NASA Earth has been spatializing and mapping wildfires since 1950 [(38)](https://appliedsciences.nasa.gov/our-impact/news/washburn-fire-fits-pattern-longer-and-more-frequent-wildfires).
+The following year, 4800 acres burned from 7th to 30th of July causing road closures for multiple weeks. These fires were part of a larger pattern of wildfires in the western United States, where wildland fires occur more frequently and over a longer period each year as the fire season extends. NASA Earth has been spatializing and mapping wildfires since 1950 [(38)](https://appliedsciences.nasa.gov/our-impact/news/washburn-fire-fits-pattern-longer-and-more-frequent-wildfires).
 
 ## Human proximity and resilience <!--{as="img" mode="hero" src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/trees_city.jpeg"}-->
 
