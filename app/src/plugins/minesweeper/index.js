@@ -8,8 +8,69 @@ import HexGrid from 'ol-ext/render/HexGrid';
 // eslint-disable-next-line
 import HexSweeperGame from './board';
 
-// Function to generate a random bounding box within world bounds
-function getRandomBoundingBox(worldBounds, horizontalExtent) {
+/**
+ * Generate a pseudorandom 128-bit hash from a string to use as a seed.
+ *
+ * @param {Object} game - The game object.
+ * @returns {Object} The created `HexGrid`.
+ */
+function cyrb128(str) {
+  let h1 = 1779033703, h2 = 3144134277,
+      h3 = 1013904242, h4 = 2773480762;
+  for (let i = 0, k; i < str.length; i++) {
+      k = str.charCodeAt(i);
+      h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+      h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+      h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+      h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+  }
+  h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+  h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+  h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+  h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+  h1 ^= (h2 ^ h3 ^ h4), h2 ^= h1, h3 ^= h1, h4 ^= h1;
+
+  return [h1 >>> 0, h2 >>> 0, h3 >>> 0, h4 >>> 0];
+}
+
+/**
+ * Implementation of the fast and simple `splitmix32` PRNG algorithm.
+ *
+ * @param {Number} a - Initial seed value.
+ * @returns {Number} The generated random number.
+ */
+function splitmix32(a) {
+  return function() {
+    a |= 0;
+    a = a + 0x9e3779b9 | 0;
+    let t = a ^ a >>> 16;
+    t = Math.imul(t, 0x21f0aaad);
+    t = t ^ t >>> 15;
+    t = Math.imul(t, 0x735a2d97);
+    return ((t = t ^ t >>> 15) >>> 0) / 4294967296;
+   }
+ }
+
+/**
+ * Get a seedable random bbox within world bounds.
+ *
+ * @param {Object} worldBounds - The bounding box in which the random bbox should be generated.
+ * @param {Object} horizontalExtent - How wide the generated bbox should be.
+ * @param {Object} seedString - Optional parameter to make the random generation deterministic and repeatable.
+ * @returns {Array} The generated bbox as a [long, lat, long, lat] array.
+ */
+function getRandomBoundingBox(worldBounds, horizontalExtent, seedString) {
+  var rng;
+
+  if (seedString === undefined) {
+    rng = Math.random;
+  } else {
+    // Generate a 128-bit hash from the seed string
+    const hash = cyrb128(seedString);
+    // Use one of the hash values to seed the PRNG
+    rng = splitmix32(hash[0]);
+  }
+
   // Calculate vertical extent
   const verticalExtent = horizontalExtent / 1.18;
 
@@ -25,8 +86,8 @@ function getRandomBoundingBox(worldBounds, horizontalExtent) {
   const originLonRange = maxOriginLon - minWorldLon;
 
   // Randomly select origin point
-  const originLat = minWorldLat + Math.random() * originLatRange;
-  const originLon = minWorldLon + Math.random() * originLonRange;
+  const originLat = minWorldLat + rng() * originLatRange;
+  const originLon = minWorldLon + rng() * originLonRange;
 
   // Calculate the bottom-right corner of the bounding box
   const bottomRightLat = originLat + verticalExtent;
