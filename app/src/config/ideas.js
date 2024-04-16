@@ -919,9 +919,7 @@ export const globalIndicators = [
             },
             selectedLocationIndex: 1,
             // The available space from which a bounding box can be randomly selected.
-            worldBounds: [
-              -3.779297, 42.457537, 31.157227, 52.935918,
-            ],
+            worldBounds: [-3.779297, 42.457537, 31.157227, 52.935918],
             locations: [{
               name: 'Dordogne Valley',
               bbox: [-1.3289, 44.4393, 1.944, 45.6092],
