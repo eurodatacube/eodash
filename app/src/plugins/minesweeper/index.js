@@ -11,8 +11,8 @@ import HexSweeperGame from './board';
 /**
  * Generate a pseudorandom 128-bit hash from a string to use as a seed.
  *
- * @param {Object} game - The game object.
- * @returns {Object} The created `HexGrid`.
+ * @param {String} str - The seed string.
+ * @returns {Array} Four 32-bit numbers used as starting values for the `splitmix32` PRNG.
  */
 function cyrb128(str) {
   let h1 = 1779033703, h2 = 3144134277,
