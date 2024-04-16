@@ -1,4 +1,5 @@
 import GeoJSON from 'ol/format/GeoJSON';
+import { DateTime } from 'luxon';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -8,6 +9,17 @@ import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
+
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
 
 const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
@@ -22,6 +34,10 @@ export const indicatorsDefinition = Object.freeze({
   IND2_1: {
     themes: ['economy'],
     story: '/eodash-data/stories/IND2_1',
+  },
+  IND3_1: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/IND3_1',
   },
 });
 
@@ -78,7 +94,13 @@ function buildOverpassAPIQueryFromParams(urlInit, mergedConfig) {
     if (params.selected === true) {
       const types = params.types || ['node', 'way', 'relation'];
       types.forEach((type) => {
-        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+        let booleanAndStaticParams = '';
+        if (params.staticParams) {
+          params.staticParams.forEach((staticParam) => {
+            booleanAndStaticParams += `["${staticParam.key}"="${staticParam.value}"]`;
+          });
+        }
+        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]${booleanAndStaticParams}({area});`;
       });
     }
   });
@@ -969,6 +991,108 @@ export const globalIndicators = [
               ],
             ],
           },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: '',
+        indicator: 'IND3_1',
+        indicatorName: 'Indicator 3: Food security',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-26 -3.3, -26 37, 76 37, 76 -3.3, -26 -3.3))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
+        inputData: [''],
+        display: {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator3/{time}_locust_3857.tif' },
+          ],
+          projection: 'EPSG:3857',
+          style: {
+            variables: {
+              valueMin: 0.7,
+              valueMax: 1,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.7, 1],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0.7, 1, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Locusts',
+          customAreaFeatures: true,
+          // features: {
+          //   // legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
+          //   name: 'OpenStreetMap selected features',
+          //   styleFunction: (feature) => {
+          //     const colormapping = {
+          //       crop: {
+          //         rice: '#ec2d01',
+          //         sugarcane: '#aae06e',
+          //         barley: '#976f39',
+          //         vegetables: '#2ddb21',
+          //       },
+          //     };
+          //     // find first matching feature property and get color
+          //     const matchKey = Object.keys(colormapping).find((key) => feature.get(key));
+          //     const color = colormapping[matchKey][feature.get(matchKey)];
+          //     const radius = 4;
+          //     const fill = new Fill({
+          //       color: 'rgba(255, 255, 255, 0.25)',
+          //     });
+          //     const stroke = new Stroke({
+          //       width: 3,
+          //       color,
+          //     });
+          //     const style = new Style({
+          //       image: new Circle({
+          //         fill,
+          //         stroke,
+          //         radius,
+          //       }),
+          //       fill,
+          //       stroke,
+          //     });
+          //     return style;
+          //   },
+          //   allowedParameters: ['name', 'crop'],
+          //   ...overpassApiQueryTags([
+          //     {
+          //       key: 'crop', value: 'rice', selected: true, staticParams: [{ key: 'landuse', value: 'farmland' }],
+          //     },
+          //     {
+          //       key: 'crop', value: 'sugarcane', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: false,
+          //     },
+          //     {
+          //       key: 'crop', value: 'barley', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: false,
+          //     },
+          //     {
+          //       key: 'crop', value: 'vegetable', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+          //     },
+          //   ]),
+          // },
         },
       },
     },
