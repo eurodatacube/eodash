@@ -321,4 +321,5 @@ export {
   handleMapRightClick,
   getTileStyle,
   drawGameBoard,
+  getRandomBoundingBox,
 };
