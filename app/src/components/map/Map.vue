@@ -1154,9 +1154,15 @@ export default {
       this.minesweeper.isEnabled = true;
       this.minesweeper.isDialogEnabled = true;
       // take currently selectedLocation for Minesweep and at set extent to match location bbox
-      const { bbox } = this.mergedConfigsData[0].minesweeperOptions.locations[
+      let seedString = new URLSearchParams(window.location.search).get('seed');
+      if (!seedString) {
+        const date = new Date();
+        seedString = date.toDateString();
+      }
+      const location = this.mergedConfigsData[0].minesweeperOptions.locations[
         this.selectedLocationIndex
       ];
+      const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
