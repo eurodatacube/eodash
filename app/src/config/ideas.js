@@ -1043,56 +1043,56 @@ export const globalIndicators = [
           },
           name: 'Locusts',
           customAreaFeatures: true,
-          // features: {
-          //   // legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
-          //   name: 'OpenStreetMap selected features',
-          //   styleFunction: (feature) => {
-          //     const colormapping = {
-          //       crop: {
-          //         rice: '#ec2d01',
-          //         sugarcane: '#aae06e',
-          //         barley: '#976f39',
-          //         vegetables: '#2ddb21',
-          //       },
-          //     };
-          //     // find first matching feature property and get color
-          //     const matchKey = Object.keys(colormapping).find((key) => feature.get(key));
-          //     const color = colormapping[matchKey][feature.get(matchKey)];
-          //     const radius = 4;
-          //     const fill = new Fill({
-          //       color: 'rgba(255, 255, 255, 0.25)',
-          //     });
-          //     const stroke = new Stroke({
-          //       width: 3,
-          //       color,
-          //     });
-          //     const style = new Style({
-          //       image: new Circle({
-          //         fill,
-          //         stroke,
-          //         radius,
-          //       }),
-          //       fill,
-          //       stroke,
-          //     });
-          //     return style;
-          //   },
-          //   allowedParameters: ['name', 'crop'],
-          //   ...overpassApiQueryTags([
-          //     {
-          //       key: 'crop', value: 'rice', selected: true, staticParams: [{ key: 'landuse', value: 'farmland' }],
-          //     },
-          //     {
-          //       key: 'crop', value: 'sugarcane', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: false,
-          //     },
-          //     {
-          //       key: 'crop', value: 'barley', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: false,
-          //     },
-          //     {
-          //       key: 'crop', value: 'vegetable', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
-          //     },
-          //   ]),
-          // },
+          features: {
+            // legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
+            name: 'OpenStreetMap selected features',
+            styleFunction: (feature) => {
+              const colormapping = {
+                crop: {
+                  rice: '#ec2d01',
+                  sugarcane: '#aae06e',
+                  barley: '#976f39',
+                  vegetables: '#2ddb21',
+                },
+              };
+              // find first matching feature property and get color
+              const matchKey = Object.keys(colormapping).find((key) => feature.get(key));
+              const color = colormapping[matchKey][feature.get(matchKey)];
+              const radius = 4;
+              const fill = new Fill({
+                color: 'rgba(255, 255, 255, 0.25)',
+              });
+              const stroke = new Stroke({
+                width: 3,
+                color,
+              });
+              const style = new Style({
+                image: new Circle({
+                  fill,
+                  stroke,
+                  radius,
+                }),
+                fill,
+                stroke,
+              });
+              return style;
+            },
+            allowedParameters: ['name', 'crop'],
+            ...overpassApiQueryTags([
+              {
+                key: 'crop', value: 'rice', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'sugarcane', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'barley', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'vegetable', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+            ]),
+          },
         },
       },
     },

@@ -8,11 +8,10 @@
  */
 
 import GeoTIFF from 'ol/source/GeoTIFF';
-import { applyStyle } from 'ol-mapbox-style';
 
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
-  if (config.protocol === 'cog') {
+  if (config.protocol === 'cog' && !config.features) {
     const updatedSources = config.sources.map((item) => {
       const url = item.url.replace(/{time}/i, config.dateFormatFunction(time));
       return { url };
@@ -22,19 +21,6 @@ export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'upd
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
     }));
-  } else if (config.styleFile) {
-    // TODO: this is not the way to get the layer for sure,
-    // also the whole time logic needs to be done properly
-    const currStyleLayer = currlayer.get('selectedStyleLayer');
-    fetch(config.styleFile).then((r) => r.json())
-      .then((glStyle) => {
-        layer.setSource(null);
-        // eslint-disable-next-line no-param-reassign
-        glStyle.sources.air_quality.data = glStyle
-          .sources.air_quality.data.replace('{{time}}', time.replaceAll('-', '_'));
-        applyStyle(layer, glStyle, [currStyleLayer]);
-      })
-      .catch(() => console.log('Issue loading mapbox style'));
   } else {
     const source = layer.getSource();
     const updateTimeFunction = source.get(sourceGet);

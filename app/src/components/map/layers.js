@@ -61,8 +61,9 @@ export async function fetchData({
     );
     source.clear();
     if (custom?.features && custom.features.length) {
+      const projection = config?.features?.projection ? getProjectionOl(config.features.projection) : 'EPSG:4326';
       const features = geoJsonFormat.readFeatures(custom, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       });
       features.forEach((ftr) => {
@@ -76,7 +77,7 @@ export async function fetchData({
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
-            dataProjection: 'EPSG:4326',
+            dataProjection: projection,
             featureProjection: map.getView().getProjection(),
           }));
         }
@@ -267,8 +268,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   let featuresSource = null;
   let featuresUpdateFn = null;
   if (config.features) {
-    // some layers have a baselayer and GeoJSON features above them
-    // e.g. "Ports and Shipping"
     featuresSource = new VectorSource({
       features: [],
     });
@@ -359,15 +358,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
+    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     } : {
       features: geoJsonFormat.readFeatures(config.data, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     };
