@@ -1017,6 +1017,24 @@ export const globalIndicators = [
         time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
         inputData: [''],
         display: {
+          overlayLayers: [
+            {
+              ...overlayLayers.eoxOverlay, visible: true,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Maize',
+              layers: 'MAIZE_WORLDCEREAL',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Winter Cereals',
+              layers: 'WINTER_WORLDCEREAL',
+              visible: false,
+            },
+          ],
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/cm_legend.png',
           protocol: 'cog',
           sources: [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator3/{time}_locust_3857.tif' },
@@ -1044,7 +1062,7 @@ export const globalIndicators = [
           name: 'Locusts',
           customAreaFeatures: true,
           features: {
-            // legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/osm_legend.png',
             name: 'OpenStreetMap selected features',
             styleFunction: (feature) => {
               const colormapping = {
