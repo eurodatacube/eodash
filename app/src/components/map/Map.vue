@@ -207,6 +207,7 @@ import {
 } from '@/utils';
 
 import Minesweeper from '@/plugins/minesweeper/game';
+import { getRandomBoundingBox } from '@/plugins/minesweeper';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -1146,14 +1147,8 @@ export default {
       document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
       document.addEventListener('minesweeper:win', this.winMineSweep);
       document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
+
       const { map } = getMapInstance(this.mapId);
-      this.minesweeper.game = new Minesweeper(map, {
-        ...this.mergedConfigsData[0].minesweeperOptions,
-        selectedLocationIndex: this.selectedLocationIndex,
-      });
-      this.minesweeper.isEnabled = true;
-      this.minesweeper.isDialogEnabled = true;
-      // take currently selectedLocation for Minesweep and at set extent to match location bbox
       let seedString = new URLSearchParams(window.location.search).get('seed');
       if (!seedString) {
         const date = new Date();
@@ -1163,6 +1158,16 @@ export default {
         this.selectedLocationIndex
       ];
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
+      console.log(`Generated bounding box (Seed: "${seedString}"): ${bbox}`);
+
+      this.minesweeper.game = new Minesweeper(map, {
+        ...this.mergedConfigsData[0].minesweeperOptions,
+        bbox,
+        selectedLocationIndex: this.selectedLocationIndex,
+      });
+      this.minesweeper.isEnabled = true;
+      this.minesweeper.isDialogEnabled = true;
+      // take currently selectedLocation for Minesweep and at set extent to match location bbox
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
