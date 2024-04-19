@@ -78,6 +78,15 @@
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
 
+            <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
+
+            <dl>
+              <div v-for="s in species" style="margin-bottom: 10px;">
+                <dt><b>{{ s.species }}</b></dt>
+                <dd>{{ s.common_name }}</dd>
+              </div>
+            </dl>
+
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
@@ -116,6 +125,10 @@ export default {
       type: Number,
       required: true,
     },
+    species: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
     close() {
@@ -136,6 +149,12 @@ export default {
 🌟  TOTAL ELAPSED TIME: ${this.elapsedSeconds} seconds
 🔳  NUMBER OF CELLS:    ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:    ${this.game.game.mineCount}`;
+
+        string += '\n\nDiscovered species:\n';
+
+        for (const s of this.species) {
+          string += `${s.species} - ${s.common_name}\n`;
+        }
       } else if (this.mode === 'gameover') {
         string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
 
@@ -143,6 +162,8 @@ export default {
 🔳  NUMBER OF CELLS:      ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
       }
+
+
 
       navigator.clipboard.writeText(string);
 
