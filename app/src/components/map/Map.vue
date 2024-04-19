@@ -136,6 +136,7 @@
             :game="minesweeper.game"
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
+            :species="minesweeper.discoveredSpecies"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -295,6 +296,9 @@ export default {
         mode: 'start',
         game: null,
         timer: null,
+        bbox: [],
+        /// Contains names of species native to the area, which are displayed in the dialog.
+        discoveredSpecies: [],
         elapsedSeconds: 0,
       },
     };
@@ -819,8 +823,32 @@ export default {
         document.dispatchEvent(new Event('minesweeper:win'));
       }
     },
-    winMineSweep() {
+    async winMineSweep() {
+      // Do this first, so that we do not add our own data fetching and processing time to the user's high score
       clearInterval(this.minesweeper.timer);
+
+      const isWithinBounds = point => {
+        const [minX, minY, maxX, maxY] = this.minesweeper.bbox;
+        return point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY;
+      };
+
+      // Get wildlife species index
+      const r1 = await fetch('./data/ideas/species_index.json');
+      const speciesIndex = await r1.json();
+      console.log(speciesIndex);
+
+      // Get locations of species
+      const r2 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Europe_characteristic_species.geojson');
+      const speciesLocations = await r2.json();
+
+      // Finally, see which species can be found within the bounding box of the Minesweeper game and collect them into an array.
+      speciesLocations.features
+        .filter(point => isWithinBounds(point.geometry.coordinates))
+        .map(point => point.properties.species_indices.map(i => {
+          let s = speciesIndex.find(species => species.index === i);
+          if (s) this.minesweeper.discoveredSpecies.push(s);
+        }));
+
       this.minesweeper.mode = 'win';
       this.minesweeper.isDialogEnabled = true;
     },
@@ -1157,6 +1185,7 @@ export default {
       const { bbox } = this.mergedConfigsData[0].minesweeperOptions.locations[
         this.selectedLocationIndex
       ];
+      this.minesweeper.bbox = bbox;
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
