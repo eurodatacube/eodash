@@ -757,6 +757,7 @@ export const globalIndicators = [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
           ],
           name: 'Indicator 2: Wildlife',
+          customAreaFeatures: true,
           overlayLayers: [{
             // dissolved individual bands as layers
             protocol: 'cog',
