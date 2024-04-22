@@ -80,12 +80,7 @@
 
             <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
 
-            <dl>
-              <div v-for="s in species" :key="s.species" style="margin-bottom: 20px;">
-                <dt><b>{{ s.species }}</b></dt>
-                <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
-              </div>
-            </dl>
+            <SpeciesList :species="species" />
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
@@ -102,7 +97,12 @@
 </template>
 
 <script>
+import SpeciesList from '../SpeciesList.vue';
+
 export default {
+  components: {
+    SpeciesList,
+  },
   props: {
     /**
      * The context in which this modal is used. One of 'dashboard' or 'newsletter'.
