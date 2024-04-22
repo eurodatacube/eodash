@@ -827,7 +827,7 @@ export default {
       // Do this first, so that we do not add our own data fetching and processing time to the user's high score
       clearInterval(this.minesweeper.timer);
 
-      const isWithinBounds = point => {
+      const isWithinBounds = (point) => {
         const [minX, minY, maxX, maxY] = this.minesweeper.bbox;
         return point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY;
       };
@@ -843,10 +843,11 @@ export default {
 
       // Finally, see which species can be found within the bounding box of the Minesweeper game and collect them into an array.
       speciesLocations.features
-        .filter(point => isWithinBounds(point.geometry.coordinates))
-        .map(point => point.properties.species_indices.map(i => {
-          let s = speciesIndex.find(species => species.index === i);
+        .filter((point) => isWithinBounds(point.geometry.coordinates))
+        .map((point) => point.properties.species_indices.map((i) => {
+          const s = speciesIndex.find((species) => species.index === i);
           if (s) this.minesweeper.discoveredSpecies.push(s);
+          return s;
         }));
 
       this.minesweeper.mode = 'win';

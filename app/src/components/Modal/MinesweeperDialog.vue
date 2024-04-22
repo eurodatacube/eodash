@@ -81,7 +81,7 @@
             <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
 
             <dl>
-              <div v-for="s in species" style="margin-bottom: 20px;">
+              <div v-for="s in species" :key="s.species" style="margin-bottom: 20px;">
                 <dt><b>{{ s.species }}</b></dt>
                 <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
               </div>
@@ -151,10 +151,7 @@ export default {
 💣  NUMBER OF MINES:    ${this.game.game.mineCount}`;
 
         string += '\n\nDiscovered species:\n';
-
-        for (const s of this.species) {
-          string += `${s.species}${s.common_name === 'Unknown' ? `` : ` - ${s.common_name}`}\n`;
-        }
+        string += this.species.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
       } else if (this.mode === 'gameover') {
         string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
 
@@ -163,10 +160,7 @@ export default {
 💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
       }
 
-
-
       navigator.clipboard.writeText(string);
-
       this.$refs['copy-btn'].$el.innerText = 'Copied!';
     },
   },
