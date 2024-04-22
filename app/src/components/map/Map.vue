@@ -137,6 +137,7 @@
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
             :species="minesweeper.discoveredSpecies"
+            :bbox="minesweeper.bbox"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>

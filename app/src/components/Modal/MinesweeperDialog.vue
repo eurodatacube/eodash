@@ -80,7 +80,7 @@
 
             <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
 
-            <SpeciesList :species="species" />
+            <SpeciesList v-if="mode === 'win'" :species="species" :bbox="bbox" />
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
@@ -124,6 +124,10 @@ export default {
     elapsedSeconds: {
       type: Number,
       required: true,
+    },
+    bbox: {
+      type: Array,
+      default: () => [],
     },
     species: {
       type: Array,
