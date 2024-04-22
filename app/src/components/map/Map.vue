@@ -825,33 +825,7 @@ export default {
       }
     },
     async winMineSweep() {
-      // Do this first, so that we do not add our own processing time to the user's high score
       clearInterval(this.minesweeper.timer);
-
-      const isWithinBounds = (point) => {
-        const [minX, minY, maxX, maxY] = this.minesweeper.bbox;
-        return point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY;
-      };
-
-      // Get wildlife species index
-      const r1 = await fetch('./data/ideas/species_index.json');
-      const speciesIndex = await r1.json();
-      console.log(speciesIndex);
-
-      // Get locations of species
-      const r2 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Europe_characteristic_species.geojson');
-      const speciesLocations = await r2.json();
-
-      // Finally, see which species can be found within the bounding box
-      // of the Minesweeper game and collect them into an array.
-      speciesLocations.features
-        .filter((point) => isWithinBounds(point.geometry.coordinates))
-        .map((point) => point.properties.species_indices.map((i) => {
-          const s = speciesIndex.find((species) => species.index === i);
-          if (s) this.minesweeper.discoveredSpecies.push(s);
-          return s;
-        }));
-
       this.minesweeper.mode = 'win';
       this.minesweeper.isDialogEnabled = true;
     },
