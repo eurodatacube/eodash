@@ -568,7 +568,7 @@ export const globalIndicators = [
           dateFormatFunction: ((date) => date[1]),
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b5/cm_legend.png',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_5.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_occitanie_3857_5.tif' },
           ],
           name: 'Land Surface Temperature',
           visible: false,
@@ -580,7 +580,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', 10, 30, 40, true),
+                ...getColorStops('hot', -10, 30, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -912,7 +912,6 @@ export const globalIndicators = [
         time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
         inputData: [''],
         display: {
-          disableCompare: true,
           overlayLayers: [
             {
               ...overlayLayers.eoxOverlay, visible: true,

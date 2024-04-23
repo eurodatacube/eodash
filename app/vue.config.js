@@ -53,6 +53,9 @@ module.exports = {
     'ol',
     'ol-ext',
     '@eox/layercontrol',
+    'color-parse',
+    'color-rgba',
+    'color-space',
   ],
   configureWebpack: {
     devServer: {
