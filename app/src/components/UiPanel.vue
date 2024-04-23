@@ -166,9 +166,12 @@ div {
   z-index: 4;
   display: flex;
   flex-direction: column;
+  padding-top: 36px;
 }
 .close-btn{
-  align-self: end;
+  position: fixed;
+  top: 64px;
+  right: 0;
 }
 
 ::v-deep .v-expansion-panel-content__wrap {
