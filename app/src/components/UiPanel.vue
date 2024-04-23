@@ -172,6 +172,7 @@ div {
   position: fixed;
   top: 64px;
   right: 0;
+  z-index: 6;
 }
 
 ::v-deep .v-expansion-panel-content__wrap {
