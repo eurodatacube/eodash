@@ -31,7 +31,7 @@ export default {
       return;
     }
     // Get wildlife species index
-    const r1 = await fetch('./data/ideas/species_index.json');
+    const r1 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/species_index.json');
     const speciesIndex = await r1.json();
 
     // Get locations of species
