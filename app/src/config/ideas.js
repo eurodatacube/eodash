@@ -1,4 +1,5 @@
 import GeoJSON from 'ol/format/GeoJSON';
+import { DateTime } from 'luxon';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -8,6 +9,17 @@ import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
 
 const wkt = new Wkt();
 const osmtogeojson = require('osmtogeojson');
+
+const getDailyDates = (start, end) => {
+  let currentDate = DateTime.fromISO(start);
+  const stopDate = DateTime.fromISO(end);
+  const dateArray = [];
+  while (currentDate <= stopDate) {
+    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    currentDate = DateTime.fromISO(currentDate).plus({ days: 1 });
+  }
+  return dateArray;
+};
 
 const geojsonFormat = new GeoJSON();
 export const indicatorsDefinition = Object.freeze({
@@ -22,6 +34,10 @@ export const indicatorsDefinition = Object.freeze({
   IND2_1: {
     themes: ['economy'],
     story: '/eodash-data/stories/IND2_1',
+  },
+  IND3_1: {
+    themes: ['economy'],
+    story: '/eodash-data/stories/IND3_1',
   },
 });
 
@@ -78,7 +94,13 @@ function buildOverpassAPIQueryFromParams(urlInit, mergedConfig) {
     if (params.selected === true) {
       const types = params.types || ['node', 'way', 'relation'];
       types.forEach((type) => {
-        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]({area});`;
+        let booleanAndStaticParams = '';
+        if (params.staticParams) {
+          params.staticParams.forEach((staticParam) => {
+            booleanAndStaticParams += `["${staticParam.key}"="${staticParam.value}"]`;
+          });
+        }
+        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]${booleanAndStaticParams}({area});`;
       });
     }
   });
@@ -396,76 +418,6 @@ export const globalIndicators = [
       },
     },
   },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       dataLoadFinished: true,
-  //       country: 'all',
-  //       city: 'Austria',
-  //       siteName: 'global',
-  //       description: 'DEM TEST',
-  //       navigationDescription: 'DEM TEST',
-  //       indicator: 'AQ5',
-  //       lastIndicatorValue: null,
-  //       indicatorName: 'Nitrogen Dioxide (NO2)',
-  //       highlights: [
-  //         {
-  //           name: 'Austria overview',
-  //           location: wkt.read('POLYGON((9.5 46, 9.5 49, 17.1 49, 17.1 46, 9.5 46))').toJson(),
-  //         },
-  //       ],
-  //       minesweeperOptions: {
-  //         // Board dimensions in number of hex cells
-  //         size: 30,
-  //         selectedLocationIndex: 0,
-  //         geotiff: {
-  //           projection: 'EPSG:4326',
-  //           url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif',
-  //         },
-  //         locations: [{
-  //           name: 'Austria tile',
-  //           bbox: [14.0, 47.0, 15.0, 48.0],
-  //           isMineCondition: (val) => val >= 1500,
-  //         }],
-  //       },
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [],
-  //       },
-  //       lastColorCode: null,
-  //       aoi: null,
-  //       aoiID: 'TEST',
-  //       time: [],
-  //       inputData: [''],
-  //       yAxis: '',
-  //       display: {
-  //         protocol: 'cog',
-  //         id: 'AQ5',
-  //         sources: [
-  //           { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/ideas_data/Copernicus_DSM_30_N47_00_E014_00_DEM_COG.tif' },
-  //         ],
-  //         style: {
-  //           variables: {
-  //             varMin: 0,
-  //             varMax: 1500,
-  //           },
-  //           color: [
-  //             'case',
-  //             ['between', ['band', 1], 1, 1500],
-  //             [
-  //               'interpolate',
-  //               ['linear'],
-  //               normalize(['band', 1], 'varMin', 'varMax'),
-  //               ...getColorStops('viridis', 0, 1, 64, false),
-  //             ],
-  //             ['color', 0, 0, 0, 0],
-  //           ],
-  //         },
-  //         name: 'DEM',
-  //       },
-  //     },
-  //   },
-  // },
   {
     properties: {
       indicatorObject: {
@@ -473,7 +425,7 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: '',
+        description: 'Health-Oriented Urban Heat and Pollution Index (HOUHPI)',
         indicator: 'IND1_1',
         indicatorName: 'Indicator 1: Air pollution',
         subAoi: {
@@ -485,201 +437,157 @@ export const globalIndicators = [
           }],
         },
         aoiID: 'World',
-        time: [''],
+        time: [['2021-01-01', 'Spring'], ['2021-04-01', 'Summer'], ['2021-07-01', 'Autumn'], ['2021-10-01', 'Winter']],
         inputData: [''],
         cogFilters: {
           sourceLayer: 'IND1_1',
           filters: {
-            // hospitals: {
-            //   display: true,
-            //   label: 'Number of hospitals or clinics',
-            //   id: 'hospitals',
-            //   // dataInfo: 'WindPowerDensity',
-            //   min: 0,
-            //   max: 3,
-            //   step: 0.1,
-            //   header: true,
-            //   range: [0, 3],
-            // },
-            access_to_healthcare: {
+            houhpi: {
               display: true,
-              label: 'Distance to nearest hospital or clinic',
-              id: 'access_to_healthcare',
-              // dataInfo: 'Elevation',
+              label: 'Health risk due to air pollution (0 being no risk on health and 2 extreme risk on health)',
+              id: 'houhpi',
               min: 0,
-              max: 50,
-              step: 0.5,
-              range: [0, 50],
-            },
-            hopi: {
-              display: true,
-              label: 'Health risk due to air pollution (3: high risk)',
-              id: 'hopi',
-              // dataInfo: 'Slope',
-              min: 0,
-              max: 3,
-              step: 0.25,
-              range: [0, 2],
-            },
-            air_pollution: {
-              display: true,
-              label: 'Number of days where air pollution exceeded WHO threshold between 2021 and 2023',
-              id: 'air_pollution',
-              // dataInfo: 'Slope',
-              min: 10,
-              max: 328,
-              step: 5,
-              range: [10, 328],
-            },
-            vulnerable_population: {
-              display: true,
-              label: 'Number of people of age < 5 or > 60.',
-              id: 'vulnerable_population',
-              // dataInfo: 'Slope',
-              min: 0,
-              max: 320,
-              step: 5,
-              range: [0, 320],
+              max: 0.65,
+              step: 0.005,
+              range: [0, 0.65],
             },
           },
         },
-        display: {
+        display: [{
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b1/cm_legend.png',
           id: 'IND1_1',
           protocol: 'cog',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_occitanie_3857_1.tif' },
           ],
-          overlayLayers: [
-            {
-              // dissolved individual bands as layers
-              protocol: 'cog',
-              sources: [
-                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
-              ],
-              name: 'Indicator 1: Number of hospitals or clinics',
-              visible: false,
-              style: {
-                color: [
-                  'case',
-                  ['between', ['band', 1], 0, 3],
-                  [
-                    'interpolate',
-                    ['linear'],
-                    ['band', 1],
-                    ...getColorStops('hot', 0, 3, 40, true),
-                  ],
-                  [
-                    'color', 0, 0, 0, 0,
-                  ],
-                ],
-              },
-            }, {
-              // dissolved individual bands as layers
-              protocol: 'cog',
-              sources: [
-                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
-              ],
-              name: 'Indicator 1: Distance to nearest hospital or clinic',
-              visible: false,
-              style: {
-                color: [
-                  'case',
-                  ['between', ['band', 2], 0, 50],
-                  [
-                    'interpolate',
-                    ['linear'],
-                    ['band', 2],
-                    ...getColorStops('hot', 0, 50, 40, true),
-                  ],
-                  [
-                    'color', 0, 0, 0, 0,
-                  ],
-                ],
-              },
-            }, {
-              // dissolved individual bands as layers
-              protocol: 'cog',
-              sources: [
-                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
-              ],
-              name: 'Indicator 1: Number of days where air pollution exceeded WHO threshold between 2021 and 2023',
-              visible: false,
-              style: {
-                color: [
-                  'case',
-                  ['between', ['band', 4], 0, 328],
-                  [
-                    'interpolate',
-                    ['linear'],
-                    ['band', 4],
-                    ...getColorStops('hot', 0, 328, 40, true),
-                  ],
-                  [
-                    'color', 0, 0, 0, 0,
-                  ],
-                ],
-              },
-            }, {
-              // dissolved individual bands as layers
-              protocol: 'cog',
-              sources: [
-                { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/air_pollution_v0_hopi_occitanie_OVR.tif' },
-              ],
-              name: 'Indicator 1: Number of people of age < 5 or > 60',
-              visible: false,
-              style: {
-                color: [
-                  'case',
-                  ['between', ['band', 5], 0, 320],
-                  [
-                    'interpolate',
-                    ['linear'],
-                    ['band', 5],
-                    ...getColorStops('hot', 0, 320, 40, true),
-                  ],
-                  [
-                    'color', 0, 0, 0, 0,
-                  ],
-                ],
-              },
-            },
-          ],
+          dateFormatFunction: ((date) => date[1]),
+          labelFormatFunction: ((date) => date[1]),
           style: {
             variables: {
-              // hospitalsMin: 0,
-              // hospitalsMax: 3,
-              access_to_healthcareMin: 0,
-              access_to_healthcareMax: 50,
-              hopiMin: 0,
-              hopiMax: 3,
-              air_pollutionMin: 10,
-              air_pollutionMax: 328,
-              vulnerable_populationMin: 0,
-              vulnerable_populationMax: 320,
+              houhpiMin: 0,
+              houhpiMax: 0.65,
             },
             color: [
               'case',
+              ['==', ['band', 1], 0],
               [
-                'all',
-                // ['between', ['band', 1], ['var', 'hospitalsMin'], ['var', 'hospitalsMax']],
-                ['between', ['band', 2], ['var', 'access_to_healthcareMin'], ['var', 'access_to_healthcareMax']],
-                ['between', ['band', 3], ['var', 'hopiMin'], ['var', 'hopiMax']],
-                ['between', ['band', 4], ['var', 'air_pollutionMin'], ['var', 'air_pollutionMax']],
-                ['between', ['band', 5], ['var', 'vulnerable_populationMin'], ['var', 'vulnerable_populationMax']],
+                'color', 0, 0, 0, 0,
               ],
+              ['between', ['band', 1], ['var', 'houhpiMin'], ['var', 'houhpiMax']],
               [
                 'interpolate',
                 ['linear'],
-                ['band', 3],
-                ...getColorStops('hot', 0, 3, 40, true),
+                ['band', 1],
+                ...getColorStops('hot', 0, 0.2, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
               ],
             ],
           },
-          name: 'Health-Oriented Pollution Index',
+          name: 'Health-Oriented Urban Heat and Pollution Index',
         },
+        {
+          // dissolved individual bands as layers
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b2/cm_legend.png',
+          protocol: 'cog',
+          dateFormatFunction: ((date) => date[1]),
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_2.tif' },
+          ],
+          name: 'Number of people of age > 60 or <5',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 0.01, 220],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 25, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          // dissolved individual bands as layers
+          protocol: 'cog',
+          dateFormatFunction: ((date) => date[1]),
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b3/cm_legend.png',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_3.tif' },
+          ],
+          name: 'Distance to nearest hospital or clinic [km]',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 0.01, 50],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 50, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          // dissolved individual bands as layers
+          protocol: 'cog',
+          dateFormatFunction: ((date) => date[1]),
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b4/cm_legend.png',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_4.tif' },
+          ],
+          name: 'Number of days where air pollution exceeded WHO threshold',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 0.01, 36],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 15, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          // dissolved individual bands as layers
+          protocol: 'cog',
+          dateFormatFunction: ((date) => date[1]),
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b5/cm_legend.png',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_5.tif' },
+          ],
+          name: 'Land Surface Temperature',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['!=', ['band', 1], 0],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 10, 30, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }],
       },
     },
   },
@@ -922,30 +830,38 @@ export const globalIndicators = [
             locations: [{
               name: 'Dordogne Valley',
               bbox: [-1.3289, 44.4393, 1.944, 45.6092],
+              /// How wide the bounding box should be as a longitudinal extent.
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Atlantic Pyrenees / Landes',
               bbox: [0.3274, 43.2202, 1.8998, 44.4389],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Jura / Savoie',
               bbox: [4.7013, 45.7953, 7.0053, 47.036],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Cote d Azur / Southern Alps',
               bbox: [5.046, 42.9342, 7.2733, 44.1586],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Bretagne',
               bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Paris',
               bbox: [1.2304, 48.1871, 3.8054, 49.4386],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Ardennes',
               bbox: [3.6041, 48.8881, 6.179, 50.1222],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }],
           },
@@ -969,6 +885,127 @@ export const globalIndicators = [
                 'color', 0, 0, 0, 0,
               ],
             ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        description: '',
+        indicator: 'IND3_1',
+        indicatorName: 'Indicator 3: Food security',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: {},
+            geometry: wkt.read('POLYGON ((-26 -3.3, -26 37, 76 37, 76 -3.3, -26 -3.3))').toJson(),
+          }],
+        },
+        aoiID: 'World',
+        time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
+        inputData: [''],
+        display: {
+          disableCompare: true,
+          overlayLayers: [
+            {
+              ...overlayLayers.eoxOverlay, visible: true,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Maize',
+              layers: 'MAIZE_WORLDCEREAL',
+              visible: false,
+            },
+            {
+              ...defaultLayersDisplay,
+              name: 'WorldCereal - Winter Cereals',
+              layers: 'WINTER_WORLDCEREAL',
+              visible: false,
+            },
+          ],
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/cm_legend.png',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator3/{time}_locust_3857.tif' },
+          ],
+          projection: 'EPSG:3857',
+          style: {
+            variables: {
+              valueMin: 0.7,
+              valueMax: 1,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], 0.7, 1],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0.7, 1, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Locusts',
+          customAreaFeatures: true,
+          features: {
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/osm_legend.png',
+            name: 'OpenStreetMap selected features',
+            styleFunction: (feature) => {
+              const colormapping = {
+                crop: {
+                  rice: '#ec2d01',
+                  sugarcane: '#aae06e',
+                  barley: '#976f39',
+                  vegetables: '#2ddb21',
+                },
+              };
+              // find first matching feature property and get color
+              const matchKey = Object.keys(colormapping).find((key) => feature.get(key));
+              const color = colormapping[matchKey][feature.get(matchKey)];
+              const radius = 4;
+              const fill = new Fill({
+                color: 'rgba(255, 255, 255, 0.25)',
+              });
+              const stroke = new Stroke({
+                width: 3,
+                color,
+              });
+              const style = new Style({
+                image: new Circle({
+                  fill,
+                  stroke,
+                  radius,
+                }),
+                fill,
+                stroke,
+              });
+              return style;
+            },
+            allowedParameters: ['name', 'crop'],
+            ...overpassApiQueryTags([
+              {
+                key: 'crop', value: 'rice', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'sugarcane', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'barley', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+              {
+                key: 'crop', value: 'vegetable', staticParams: [{ key: 'landuse', value: 'farmland' }], selected: true,
+              },
+            ]),
           },
         },
       },

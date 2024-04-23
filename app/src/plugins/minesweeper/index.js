@@ -1,3 +1,5 @@
+/* eslint no-bitwise: 0 */
+
 import { Feature } from 'ol';
 import { Polygon } from 'ol/geom';
 import {
@@ -7,6 +9,102 @@ import HexGrid from 'ol-ext/render/HexGrid';
 
 // eslint-disable-next-line
 import HexSweeperGame from './board';
+
+/**
+ * Generate a pseudorandom 128-bit hash from a string to use as a seed.
+ *
+ * @param {String} str - The seed string.
+ * @returns {Array} Four 32-bit numbers used as starting values for the `splitmix32` PRNG.
+ */
+function cyrb128(str) {
+  let h1 = 1779033703; let h2 = 3144134277;
+  let h3 = 1013904242; let
+    h4 = 2773480762;
+  for (let i = 0, k; i < str.length; i++) {
+    k = str.charCodeAt(i);
+    h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+    h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+    h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+    h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+  }
+  h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+  h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+  h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+  h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+
+  h1 ^= (h2 ^ h3 ^ h4);
+  h2 ^= h1;
+  h3 ^= h1;
+  h4 ^= h1;
+
+  return [h1 >>> 0, h2 >>> 0, h3 >>> 0, h4 >>> 0];
+}
+
+/**
+ * Implementation of the fast and simple `splitmix32` PRNG algorithm.
+ *
+ * @param {Number} a - Initial seed value.
+ * @returns {Number} The generated random number.
+ */
+function splitmix32(a) {
+  return () => {
+    a |= 0; /* eslint-disable-line */
+    a = a + 0x9e3779b9 | 0; /* eslint-disable-line */
+    let t = a ^ a >>> 16;
+    t = Math.imul(t, 0x21f0aaad);
+    t ^= t >>> 15;
+    t = Math.imul(t, 0x735a2d97);
+    t ^= t >>> 15;
+    return (t >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Get a seedable random bbox within world bounds.
+ *
+ * @param {Object} worldBounds - The bounding box in which the random bbox should be generated.
+ * @param {Object} horizontalExtent - How wide the generated bbox should be.
+ * @param {Object} seedString - Optional parameter to make output deterministic and repeatable.
+ * @returns {Array} The generated bbox as a [long, lat, long, lat] array.
+ */
+function getRandomBoundingBox(worldBounds, horizontalExtent, seedString) {
+  let rng;
+
+  if (seedString === undefined) {
+    rng = Math.random;
+  } else {
+    // Generate a 128-bit hash from the seed string
+    const hash = cyrb128(seedString);
+    // Use one of the hash values to seed the PRNG
+    rng = splitmix32(hash[0]);
+  }
+
+  // Calculate vertical extent
+  const verticalExtent = horizontalExtent / 1.18;
+
+  // World bounds in the format [minLongitude, minLatitude, maxLongitude, maxLatitude]
+  const [minWorldLon, minWorldLat, maxWorldLon, maxWorldLat] = worldBounds;
+
+  // Calculate the maximum latitude and longitude for the origin
+  // point to ensure the bounding box fits within world bounds.
+  const maxOriginLat = maxWorldLat - verticalExtent;
+  const maxOriginLon = maxWorldLon - horizontalExtent;
+
+  // Ensure the origin point is selected such that the bounding box will fit within the worldBounds
+  const originLatRange = maxOriginLat - minWorldLat;
+  const originLonRange = maxOriginLon - minWorldLon;
+
+  // Randomly select origin point
+  const originLat = minWorldLat + rng() * originLatRange;
+  const originLon = minWorldLon + rng() * originLonRange;
+
+  // Calculate the bottom-right corner of the bounding box
+  const bottomRightLat = originLat + verticalExtent;
+  const bottomRightLon = originLon + horizontalExtent;
+
+  // Return the new bounding box.
+  return [originLon, originLat, bottomRightLon, bottomRightLat];
+}
 
 /**
  * Set up the game grid using HexGrid.
@@ -223,4 +321,5 @@ export {
   handleMapRightClick,
   getTileStyle,
   drawGameBoard,
+  getRandomBoundingBox,
 };
