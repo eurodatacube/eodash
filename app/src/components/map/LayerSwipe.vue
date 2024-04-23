@@ -52,12 +52,8 @@ export default {
     swipeLayerObject: null,
     swipe: 0,
     swipePixelX: null,
-    webGlContexts: [],
+    _time: null,
   }),
-  created() {
-    const { map } = getMapInstance(this.mapId);
-    map.on('prerender', this.clearAllContexts);
-  },
   computed: {
     specialLayerOptions() {
       const options = { ...this.specialLayerOptionProps };
@@ -161,18 +157,12 @@ export default {
     },
   },
   methods: {
-    clearAllContexts() {
-      this.webGlContexts.forEach((ctx) => ctx.clear(ctx.COLOR_BUFFER_BIT));
-    },
     onPrerender(evt) {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-        if (!(ctx in this.webGlContexts)) {
-          this.webGlContexts.push(ctx);
-        }
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-          ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
+        ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
             : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
@@ -184,17 +174,19 @@ export default {
         this.$emit('updateSwipePosition', this.swipePixelX);
         // check if the event-layer is displayed on the right side
         const isRightLayer = !evt.target.get('name').includes('_compare');
-        if (ctx instanceof WebGLRenderingContext) {
-          ctx.clearColor(0, 0, 0, 0);
-          ctx.clear(ctx.COLOR_BUFFER_BIT);
-        }
         if (isRightLayer) {
           if (ctx instanceof WebGLRenderingContext) {
-            ctx.clearColor(0, 0, 0, 0);
+            if (this._time != evt.frameState.time) {
+              ctx.clearColor(0, 0, 0, 0);
+              ctx.clear(ctx.COLOR_BUFFER_BIT);
+              this._time = evt.frameState.time
+            }
             ctx.enable(ctx.SCISSOR_TEST);
             ctx.scissor(
               this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight,
             );
+            ctx.clearColor(0, 0, 0, 0);
+            ctx.clear(ctx.COLOR_BUFFER_BIT);
           } else {
             ctx.save();
             ctx.beginPath();
@@ -202,9 +194,16 @@ export default {
             ctx.clip();
           }
         } else if (ctx instanceof WebGLRenderingContext) {
+          if (this._time != evt.frameState.time) {
+            ctx.clearColor(0, 0, 0, 0);
+            ctx.clear(ctx.COLOR_BUFFER_BIT);
+            this._time = evt.frameState.time
+          }
           ctx.clearColor(0, 0, 0, 0);
           ctx.enable(ctx.SCISSOR_TEST);
           ctx.scissor(0, 0, this.swipePixelX, actualHeight);
+          ctx.clearColor(0, 0, 0, 0);
+          ctx.clear(ctx.COLOR_BUFFER_BIT);
         } else {
           ctx.save();
           ctx.beginPath();
@@ -221,10 +220,6 @@ export default {
         ctx.restore();
       }
     },
-  },
-  beforeDestroy() {
-    const { map } = getMapInstance(this.mapId);
-    map.un('prerender', this.clearAllContexts);
   },
 };
 </script>
