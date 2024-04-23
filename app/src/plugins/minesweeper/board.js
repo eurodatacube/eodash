@@ -18,6 +18,7 @@ export default class HexSweeperGame {
     this.size = options.size;
     this.locations = options.locations;
     this.selectedLocationIndex = options.selectedLocationIndex;
+    this.bbox = options.bbox;
     this.board = [];
     this.center = [];
     this.gameSize = null;
@@ -59,7 +60,8 @@ export default class HexSweeperGame {
       const image = await tiff.getImage();
       // get currently zoomed to location index
       const location = this.locations[this.selectedLocationIndex];
-      const { bbox } = location;
+      // Get the randomized smaller bounding box calculated in the Map component.
+      const { bbox } = this;
       // Convert geographic coordinates to distances using EPSG:3857
       const xmin = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[0], bbox[1]]);
       const xmax = proj4(options.geotiff.projection, 'EPSG:3857', [bbox[2], bbox[3]]);

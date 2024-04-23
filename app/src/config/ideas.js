@@ -829,30 +829,38 @@ export const globalIndicators = [
             locations: [{
               name: 'Dordogne Valley',
               bbox: [-1.3289, 44.4393, 1.944, 45.6092],
+              /// How wide the bounding box should be as a longitudinal extent.
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Atlantic Pyrenees / Landes',
               bbox: [0.3274, 43.2202, 1.8998, 44.4389],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Jura / Savoie',
               bbox: [4.7013, 45.7953, 7.0053, 47.036],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Cote d Azur / Southern Alps',
               bbox: [5.046, 42.9342, 7.2733, 44.1586],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Bretagne',
               bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Paris',
               bbox: [1.2304, 48.1871, 3.8054, 49.4386],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }, {
               name: 'Ardennes',
               bbox: [3.6041, 48.8881, 6.179, 50.1222],
+              horizontalExtent: 0.8,
               isMineCondition: (val) => val >= 3,
             }],
           },
