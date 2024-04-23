@@ -606,7 +606,7 @@ export const globalIndicators = [
           features: [{
             type: 'Feature',
             properties: {},
-            geometry: wkt.read('POLYGON ((-5.800781 41.409776, -5.800781 51.536086, 10.546875 51.536086, 10.546875 41.409776, -5.800781 41.409776))').toJson(),
+            geometry: wkt.read('POLYGON ((-28.125 33.72434, -28.125 71.746432, 42.539063 71.746432, 42.539063 33.72434, -28.125 33.72434))').toJson(),
           }],
         },
         aoiID: 'World',
@@ -617,20 +617,18 @@ export const globalIndicators = [
           filters: {
             wildlife: {
               display: true,
-              label: 'Wildlife biodiversity',
+              label: 'Biodiversity indicator',
               id: 'wildlife',
-              // dataInfo: 'WindPowerDensity',
               min: 0.25,
               max: 5,
               step: 0.25,
               header: true,
               range: [0.25, 5],
             },
-            biodiversity_connectivity_quintile: {
+            road_pressure_indicator: {
               display: true,
-              label: 'Area connectivity indicator',
-              id: 'biodiversity_connectivity_quintile',
-              // dataInfo: 'Elevation',
+              label: 'Road Pressure Indicator',
+              id: 'road_pressure_indicator',
               min: -1,
               max: 5,
               step: 0.25,
@@ -640,7 +638,6 @@ export const globalIndicators = [
               display: true,
               label: 'Categorized species density',
               id: 'species_count_quintile',
-              // dataInfo: 'Slope',
               min: 0,
               max: 5,
               step: 0.25,
@@ -650,7 +647,6 @@ export const globalIndicators = [
               display: true,
               label: 'Vegetation health indicator',
               id: 'vegetation',
-              // dataInfo: 'Slope',
               min: 0,
               max: 5,
               step: 0.25,
@@ -662,7 +658,7 @@ export const globalIndicators = [
           protocol: 'cog',
           id: 'IND2_1',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife.tif' },
           ],
           name: 'Indicator 2: Wildlife',
           customAreaFeatures: true,
@@ -670,9 +666,9 @@ export const globalIndicators = [
             // dissolved individual bands as layers
             protocol: 'cog',
             sources: [
-              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_2.tif' },
             ],
-            name: 'Indicator 2: Biodiversity Connectivity Quintile',
+            name: 'Indicator 2: Road Pressure Indicator',
             visible: false,
             style: {
               color: [
@@ -703,7 +699,7 @@ export const globalIndicators = [
             // dissolved individual bands as layers
             protocol: 'cog',
             sources: [
-              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_3.tif' },
             ],
             name: 'Indicator 2: Categorized species density',
             visible: false,
@@ -736,7 +732,7 @@ export const globalIndicators = [
             // dissolved individual bands as layers
             protocol: 'cog',
             sources: [
-              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG.tif' },
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_4.tif' },
             ],
             name: 'Indicator 2: Vegetation health indicator',
             visible: false,
@@ -770,8 +766,8 @@ export const globalIndicators = [
             variables: {
               wildlifeMin: 0.25,
               wildlifeMax: 5,
-              biodiversity_connectivity_quintileMin: -1,
-              biodiversity_connectivity_quintileMax: 5,
+              road_pressure_indicatorMin: -1,
+              road_pressure_indicatorMax: 5,
               species_count_quintileMin: 0,
               species_count_quintileMax: 5,
               vegetationMin: 0,
@@ -782,7 +778,7 @@ export const globalIndicators = [
               [
                 'all',
                 ['between', ['band', 1], ['var', 'wildlifeMin'], ['var', 'wildlifeMax']],
-                ['between', ['band', 2], ['var', 'biodiversity_connectivity_quintileMin'], ['var', 'biodiversity_connectivity_quintileMax']],
+                ['between', ['band', 2], ['var', 'road_pressure_indicatorMin'], ['var', 'road_pressure_indicatorMax']],
                 ['between', ['band', 3], ['var', 'species_count_quintileMin'], ['var', 'species_count_quintileMax']],
                 ['between', ['band', 4], ['var', 'vegetationMin'], ['var', 'vegetationMax']],
               ],
@@ -824,57 +820,29 @@ export const globalIndicators = [
             size: 20,
             geotiff: {
               projection: 'EPSG:4326',
-              url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1_t_final.tif',
+              url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_1.tif',
             },
-            selectedLocationIndex: 1,
-            locations: [{
-              name: 'Dordogne Valley',
-              bbox: [-1.3289, 44.4393, 1.944, 45.6092],
-              /// How wide the bounding box should be as a longitudinal extent.
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Atlantic Pyrenees / Landes',
-              bbox: [0.3274, 43.2202, 1.8998, 44.4389],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Jura / Savoie',
-              bbox: [4.7013, 45.7953, 7.0053, 47.036],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Cote d Azur / Southern Alps',
-              bbox: [5.046, 42.9342, 7.2733, 44.1586],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Bretagne',
-              bbox: [-5.0509, 47.22481, -1.6697, 49.0046],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Paris',
-              bbox: [1.2304, 48.1871, 3.8054, 49.4386],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }, {
-              name: 'Ardennes',
-              bbox: [3.6041, 48.8881, 6.179, 50.1222],
-              horizontalExtent: 0.8,
-              isMineCondition: (val) => val >= 3,
-            }],
+            selectedLocationIndex: 0,
+            locations: [
+              {
+                name: 'Global Coverage',
+                bbox: [-28, 33, 42, 71],
+                /// How wide the bounding box should be as a longitudinal extent.
+                horizontalExtent: 5,
+                isMineCondition: (val) => val >= 3.5,
+              },
+            ],
           },
           protocol: 'cog',
           id: 'IND2_1',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/ideas_data/AR2_wildlife_simplify_COG_b1_t_final.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_1.tif' },
           ],
           name: 'Indicator 2: Wildlife Game Enabled',
           style: {
             color: [
               'case',
-              ['between', ['band', 1], 1, 5],
+              ['between', ['band', 1], 0.25, 5],
               [
                 'interpolate',
                 ['linear'],
