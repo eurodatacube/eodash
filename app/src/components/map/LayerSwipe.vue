@@ -143,7 +143,7 @@ export default {
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = dataGroup.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (this.mergedConfigsData.protocol === 'geoserverTileLayer' && swipeLayer) {
+        if (config.protocol === 'geoserverTileLayer' && swipeLayer) {
           loadIndicatorExternalData(
             time, config,
           ).then((data) => {
