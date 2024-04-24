@@ -49,9 +49,14 @@ export default {
         // Check if the species with this index already exists in the accumulator
         if (accumulator[species.index]) {
           // If it exists, increment the count
+          //
+          // We have no choice but to mutate the function argument. (no-param-reassign)
+          // eslint-disable-next-line
           accumulator[species.index].count++;
         } else {
           // If it does not exist, create a new entry with count initialized to 1
+          //
+          // eslint-disable-next-line
           accumulator[species.index] = { ...species, count: 1 };
         }
         return accumulator;
