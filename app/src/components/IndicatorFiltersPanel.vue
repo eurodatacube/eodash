@@ -195,7 +195,8 @@ export default {
               */
             ],
             aggregateResults: 'group',
-            autoSpreadSingle: false,
+            expandResults: false,
+            autoSpreadSingle: true,
             enableHighlighting: false,
             onSelect: (item) => {
               this.toggleSelectedItem(item);

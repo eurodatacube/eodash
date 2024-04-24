@@ -3,8 +3,8 @@ import colormap from 'colormap';
 import {
   baseLayers, overlayLayers,
 } from '@/config/layers';
-import shTimeFunction from '../shTimeFunction';
 import { Wkt } from 'wicket';
+import shTimeFunction from '../shTimeFunction';
 
 export const dataPath = './data/polar/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/polar/catalog.json';
