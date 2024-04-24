@@ -136,7 +136,6 @@
             :game="minesweeper.game"
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
-            :species="minesweeper.discoveredSpecies"
             :bbox="minesweeper.bbox"
             @close="minesweeper.isDialogEnabled = false"
           />
@@ -299,8 +298,6 @@ export default {
         game: null,
         timer: null,
         bbox: [],
-        /// Contains names of species native to the area, which are displayed in the dialog.
-        discoveredSpecies: [],
         elapsedSeconds: 0,
       },
     };
