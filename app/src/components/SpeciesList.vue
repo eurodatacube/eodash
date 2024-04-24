@@ -1,7 +1,7 @@
 <template>
   <dl>
-    <div v-for="s in species" :key="s.species" style="margin-bottom: 20px;">
-      <dt><b>{{ s.species }}</b></dt>
+    <div v-for="s in aggregatedSpecies" :key="s.species" style="margin-bottom: 20px;">
+      <dt><b>{{ s.species }}</b><span v-if="s.count > 1" class="count">{{ s.count }}</span></dt>
       <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
     </div>
   </dl>
@@ -23,6 +23,8 @@ export default {
   data() {
     return {
       species: [],
+      /// Processed species with duplicates removed
+      aggregatedSpecies: [],
     };
   },
   async mounted() {
@@ -42,10 +44,32 @@ export default {
       .filter((point) => isWithinBounds(point.geometry.coordinates, this.bbox))
       .flatMap((point) => point.properties.species_indices)
       .map((index) => speciesIndex.find((species) => species.index === index))
-      .filter((species) => species != null); // Filter out any undefined or null values
+      .filter((species) => species != null)
+      .reduce((accumulator, species) => {
+        // Check if the species with this index already exists in the accumulator
+        if (accumulator[species.index]) {
+          // If it exists, increment the count
+          accumulator[species.index].count++;
+        } else {
+          // If it does not exist, create a new entry with count initialized to 1
+          accumulator[species.index] = { ...species, count: 1 };
+        }
+        return accumulator;
+      }, {});
+
+    this.aggregatedSpecies = Object.values(this.species);
+    console.log(this.aggregatedSpecies);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.count {
+  height:22px;
+  padding: 0 9px;
+  border-radius: 11px;
+  margin-left: 9px;
+  background: #00417044;
+  color: #004170;
+}
 </style>
