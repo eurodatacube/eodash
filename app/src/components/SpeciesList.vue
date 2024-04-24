@@ -1,6 +1,6 @@
 <template>
   <dl>
-    <div v-for="s in aggregatedSpecies" :key="s.species" style="margin-bottom: 20px;">
+    <div v-for="s in aggregatedSpecies" :key="s.species" style="margin-bottom: 16px;">
       <dt><b>{{ s.species }}</b><span v-if="s.count > 1" class="count">{{ s.count }}</span></dt>
       <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
     </div>
