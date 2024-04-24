@@ -55,7 +55,7 @@ module.exports = [
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
     uiText: {
-      indicatorPanelheader: 'Explore indicators',
+      indicatorPanelheader: 'Choose an indicator to explore',
     },
     demoMode: {
       egu2023: [
@@ -193,7 +193,7 @@ module.exports = [
       }
     },
     uiText: {
-      indicatorPanelheader: 'Explore indicators',
+      indicatorPanelheader: 'Choose an indicator to explore',
     },
     demoMode: {
       cop28: [
