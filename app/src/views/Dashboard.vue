@@ -82,18 +82,6 @@
         :key="panelKey"
         :newsBanner="$refs.newsBanner"
         :expanded="dataPanelFullWidth" class="px-5 py-2" />
-
-      <v-card v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'" class="ma-5">
-        <h1 class="ml-5">Species Info</h1>
-
-        <v-col>
-          <SpeciesList v-if="selectedArea" :bbox="[
-            ...selectedArea.coordinates[0][0],
-            ...selectedArea.coordinates[0][2],
-          ]" />
-          <div v-else>Select an area on the map using the rectangle or polygon buttons.</div>
-        </v-col>
-      </v-card>
     </v-navigation-drawer>
     <v-tooltip
       v-if="$vuetify.breakpoint.mdAndUp && indicatorSelected"
@@ -231,7 +219,6 @@ import IndicatorFilters from '@/components/IndicatorFilters.vue';
 import IndicatorFiltersSidebar from '@/components/IndicatorFiltersSidebar.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
 import CustomAlert from '@/components/CustomAlert.vue';
-import SpeciesList from '@/components/SpeciesList.vue';
 import closeMixin from '@/mixins/close';
 import dialogMixin from '@/mixins/dialogMixin';
 import { mapState, mapGetters } from 'vuex';
@@ -256,7 +243,6 @@ export default {
     IndicatorFiltersSidebar,
     IndicatorFiltersDemo,
     CustomAlert,
-    SpeciesList,
   },
   props: {
     source: String,
