@@ -162,7 +162,7 @@ export default {
       if (this.$refs.container) {
         const ctx = evt.context;
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
-        ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
+          ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
             : document.querySelector('.data-panel').scrollWidth * window.devicePixelRatio
           : 0;
@@ -176,10 +176,10 @@ export default {
         const isRightLayer = !evt.target.get('name').includes('_compare');
         if (isRightLayer) {
           if (ctx instanceof WebGLRenderingContext) {
-            if (this._time != evt.frameState.time) {
+            if (this._time !== evt.frameState.time) {
               ctx.clearColor(0, 0, 0, 0);
               ctx.clear(ctx.COLOR_BUFFER_BIT);
-              this._time = evt.frameState.time
+              this._time = evt.frameState.time;
             }
             ctx.enable(ctx.SCISSOR_TEST);
             ctx.scissor(
@@ -194,10 +194,10 @@ export default {
             ctx.clip();
           }
         } else if (ctx instanceof WebGLRenderingContext) {
-          if (this._time != evt.frameState.time) {
+          if (this._time !== evt.frameState.time) {
             ctx.clearColor(0, 0, 0, 0);
             ctx.clear(ctx.COLOR_BUFFER_BIT);
-            this._time = evt.frameState.time
+            this._time = evt.frameState.time;
           }
           ctx.clearColor(0, 0, 0, 0);
           ctx.enable(ctx.SCISSOR_TEST);
