@@ -49,6 +49,8 @@
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
+
+            <SpeciesList v-if="mode === 'gameover'" :species="species" :bbox="bbox" />
           </div>
         </v-card-text>
 
@@ -153,9 +155,6 @@ export default {
 🌟  TOTAL ELAPSED TIME: ${this.elapsedSeconds} seconds
 🔳  NUMBER OF CELLS:    ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:    ${this.game.game.mineCount}`;
-
-        string += '\n\nDiscovered species:\n';
-        string += this.species.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
       } else if (this.mode === 'gameover') {
         string = `✨ #EOxMinesweeper Challenge ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}
 
@@ -163,6 +162,9 @@ export default {
 🔳  NUMBER OF CELLS:      ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
       }
+
+      string += '\n\nDiscovered species:\n';
+      string += this.species.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
 
       navigator.clipboard.writeText(string);
       this.$refs['copy-btn'].$el.innerText = 'Copied!';
