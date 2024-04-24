@@ -7,6 +7,17 @@
     <v-row>
       <v-col>
         <h3>
+          2024-04-12: New biomass story published!
+        </h3>
+        <p><b>Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes</b></p>
+        <p>
+          Explore the interactive story <a href="./story?id=forests-on-the-brink">here</a>!
+        </p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2024-02-08: Challenge announcement!!
         </h3>
         <h4>

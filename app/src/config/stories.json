@@ -7,6 +7,13 @@
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
+      },
+      "new-storytelling-demo": {
+        "storyMarkdown": "./data/storytelling-md/new-storytelling-demo.md",
+        "title": "New Storytelling Demo",
+        "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
+        "image": "./data/story-images/Agriculture.jpeg",
+        "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
       }
     },
     "atmosphere": {
@@ -62,6 +69,13 @@
         "subtitle": "Read more about taking stock of global biomass maps",
         "image": "./data/story-images/Biomass.jpeg",
         "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+      },
+      "forests-on-the-brink": {
+        "storyMarkdown": "./data/storytelling-md/Earth Observing Dashboard-3.md",
+        "title": "Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes",
+        "subtitle": "Forest Loss and Degradation worldwide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
       }
     },
     "cryosphere": {

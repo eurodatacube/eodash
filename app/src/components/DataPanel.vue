@@ -424,9 +424,13 @@ export default {
       return Array.isArray(this.indicatorObject?.queryParameters);
     },
     showVisualAnalysisAddons() {
-      const showVar = this.indicatorHasMapData;
-      const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
-      return showVar && !hideVar;
+      let show = false;
+      if (['polar', 'gtif'].includes(this.appConfig.id)) {
+        const showVar = this.indicatorHasMapData;
+        const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
+        show = showVar && !hideVar;
+      }
+      return show;
     },
     showMap() {
       // show map means that only information on the map is shown and no indicator data is expected

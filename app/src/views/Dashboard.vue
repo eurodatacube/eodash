@@ -35,7 +35,7 @@
                    <IndicatorFiltersDemo v-if="$route.name === 'demo' && ['Domains & Tools'].includes(panel.title)"/>
                    <IndicatorFiltersPanel v-else-if="indicatorPanelheader === panel.title" />
                    <eox-layercontrol
-                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
@@ -58,7 +58,7 @@
                     || $store.state.features.featureFilters.indicators.length > 0"
                     :key="panelKey" />
                     <eox-layercontrol
-                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
@@ -165,9 +165,6 @@ export default {
     }),
   },
   created() {
-    // if (this.$route.path === '/') { // TODO: polar
-    //   this.$router.push('/demo?event=polartep');
-    // }
   },
   mounted() {
     // only show when nothing is selected

@@ -1323,4 +1323,21 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Lakes_WQ_TURB',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((16.99585 46.55886, 16.99585 47.182246, 18.308716 47.182246, 18.308716 46.55886, 16.99585 46.55886))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
 ];

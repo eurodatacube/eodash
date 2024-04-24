@@ -357,6 +357,7 @@ export default {
     toggleSelectedItem(item) {
       if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
         this.setSelectedIndicator(null);
+        // this does not reset the UI (the radiobutton is still checked...)
         this.itemfilter.selectedResult = null;
         this.itemfilter.requestUpdate();
       } else {
@@ -365,6 +366,14 @@ export default {
         // pick an indicator based on match of unique collection link instead
         const match = this.indicators.find((indicator) => item.link === indicator.link);
         this.setSelectedIndicator(match);
+
+        const uiPanels = this.$parent.$parent.$parent.$parent.$children;
+        // programatically open Layer Panel it exists and not open yet
+        if (!uiPanels[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanels[1].$refs.header.$emit('click', {
+            currentTarget: uiPanels[1].$refs.header.$el,
+          });
+        }
       }
     },
   },

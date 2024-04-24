@@ -319,11 +319,11 @@ module.exports = [
         src: './data/trilateral/new-precipitation-jaxa.png',
       },
       {
-        poi: 'ThwaitesLandsat-ADD',
+        poi: 'ADD_L2_Thwaites-ADD_Landsat_L2_Antarctica',
         src: './data/trilateral/landsat-antarctica.png',
       },
       {
-        poi: 'S1GRD-ADD',
+        poi: 'World-ADD_West_Antarctica_S1',
         src: './data/trilateral/s-1-antarctica.png',
       },
     ],
