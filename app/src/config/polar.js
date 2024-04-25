@@ -350,6 +350,19 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Meltmap',
+        time: getDailyDates('2007-01-02', '2021-12-28'),
+        display: {
+          ...polarStereoDatasetsConfigs,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
   createTOPAZ4Config('TOPAZ4_P1D_SICONC'),
   createTOPAZ4Config('TOPAZ4_P1D_SISNTHICK'),
   createTOPAZ4Config('TOPAZ4_P1D_SITHICK'),
@@ -365,4 +378,7 @@ export const globalIndicators = [
   createTOPAZ5Config('TOPAZ5_P1D_VXSI'),
   createTOPAZ5Config('TOPAZ5_P1D_VYO'),
   createTOPAZ5Config('TOPAZ5_P1D_VYSI'),
+  createTOPAZ5Config('4D_Greenland_Melt_Season_End'),
+  createTOPAZ5Config('4D_Greenland_Melt_Duration'),
+  createTOPAZ5Config('4D_Greenland_Melt_Onset'),
 ];
