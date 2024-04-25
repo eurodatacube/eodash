@@ -19,7 +19,7 @@
   <div v-else class="flex-column">
     <span
       v-if="hasPanel"
-      class="elevation-1 pa-2 d-flex justify-center
+      class="panel-tab elevation-1 pa-2 d-flex justify-center
        align-center fill-height"
       :style="`
         background: ${isSelected ? $vuetify.theme.currentTheme.primary
@@ -35,7 +35,7 @@
       class="overlay"
       :style="`
         background: ${$vuetify.theme.currentTheme.background};
-        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 176.5}px);
+        height: calc(100% - ${ gtif ? ($store.state.gtif.toolsToggle ? 184 : 160) : 200}px);
       `">
       <!-- close btn -->
       <v-btn icon @click="$emit('panel-selected',0)" class="close-btn" >&#x2715;</v-btn>
@@ -166,9 +166,13 @@ div {
   z-index: 4;
   display: flex;
   flex-direction: column;
+  padding-top: 36px;
 }
 .close-btn{
-  align-self: end;
+  position: fixed;
+  top: 64px;
+  right: 0;
+  z-index: 6;
 }
 
 ::v-deep .v-expansion-panel-content__wrap {
@@ -181,5 +185,9 @@ div {
 .gtif.v-expansion-panel-header--active{
   background: #8197a6;
   color: #ffffff;
+}
+
+.panel-tab {
+  height: 88px;
 }
 </style>
