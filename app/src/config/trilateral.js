@@ -150,6 +150,26 @@ const antarcticDatasets = Object.freeze({
   overlayLayers: antarcticOverlayMaps,
 });
 
+const polarSHDatasets = Object.freeze({
+  // projection and layers overrides
+  baseLayers: arcticBaseMaps,
+  overlayLayers: arcticOverlayMaps,
+  dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+  mapProjection: {
+    name: 'EPSG:3413',
+    def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+  },
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+    }],
+  },
+  projection: 'EPSG:3413',
+});
 export const indicatorsDefinition = Object.freeze({
   E13c: {
     features: {
@@ -581,27 +601,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'SIE',
-        display: {
-          // projection and layers overrides
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-          projection: 'EPSG:3413',
-        },
+        display: polarSHDatasets,
       },
     },
   },
@@ -625,27 +625,7 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SIC',
         showGlobe: true,
-        display: {
-          // projection and layers overrides
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
-          projection: 'EPSG:3413',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-        },
+        display: polarSHDatasets,
       },
     },
   },
@@ -1253,10 +1233,9 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Duration',
-        time: getYearlyDates('2007-01-01', '2021-06-30'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
       },
     },
@@ -1266,10 +1245,9 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Season_End',
-        time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
       },
     },
@@ -1279,11 +1257,47 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Onset',
-        time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Meltmap',
+        time: getDailyDates('2007-01-02', '2021-12-28'),
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Duration',
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Season_End',
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Onset',
+        display: polarSHDatasets,
       },
     },
   },
