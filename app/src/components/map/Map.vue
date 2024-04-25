@@ -129,7 +129,11 @@
           mapControl
         />
 
-        <div v-if="isMinesweeperConfigured && !!this.minesweeper.game">
+        <v-btn
+          v-if="isMinesweeperConfigured && !!minesweeper.game"
+        >{{ minesweeper.game.coveredMineCount }} 💣 remaining</v-btn>
+
+        <div v-if="isMinesweeperConfigured && !!minesweeper.game">
           <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"

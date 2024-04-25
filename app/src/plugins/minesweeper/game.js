@@ -44,7 +44,7 @@ export default class Minesweeper {
     );
   }
 
-  get isGameCompleted() {
+  get coveredMineCount() {
     // If this value remains zero, i.e. there are no more covered mines, the user has won the game.
     let coveredMineCount = 0;
 
@@ -57,7 +57,11 @@ export default class Minesweeper {
       }
     }
 
-    return coveredMineCount === 0;
+    return coveredMineCount;
+  }
+
+  get isGameCompleted() {
+    return this.coveredMineCount === 0;
   }
 
   revealAllTiles() {
