@@ -1,5 +1,5 @@
 **Spatial coverage**: Global          
-**Temporal coverage**: Daily prediction starting from year 2024from 2020 till 2150           
+**Temporal coverage**: Daily prediction starting from year 2024           
 **Spatial resolution**: 9 km           
 
 
