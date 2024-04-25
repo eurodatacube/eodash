@@ -425,7 +425,7 @@ export default {
     },
     showVisualAnalysisAddons() {
       let show = false;
-      if (this.appConfig.id === 'gtif' || this.appConfig.id === 'polar') {
+      if (['polar', 'gtif'].includes(this.appConfig.id)) {
         const showVar = this.indicatorHasMapData;
         const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
         show = showVar && !hideVar;

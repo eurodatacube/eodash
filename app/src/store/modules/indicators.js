@@ -190,6 +190,7 @@ const actions = {
         esa: 'RACE',
         trilateral: 'trilateral',
         gtif: 'GTIF',
+        polar: 'polar',
       };
       url = `${bucket}${catalogBranch}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
     }

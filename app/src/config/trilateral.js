@@ -547,32 +547,6 @@ const createRECCAP2Config = (indicatorCode, time) => ({
 });
 
 export const globalIndicators = [
-  // updating next 3 indicators missing theme
-  // TODO: remove once catalog has been updated
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'EPA_Forest_fire_Methane_Yearly',
-        themes: ['biomass'],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'EPA_Forest_fire_Methane_Daily',
-        themes: ['biomass'],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'EPA_Field_burning_Monthly',
-        themes: ['biomass'],
-      },
-    },
-  },
   createRECCAP2Config('RECCAP2_1'),
   createRECCAP2Config('RECCAP2_2'),
   createRECCAP2Config('RECCAP2_3'),
