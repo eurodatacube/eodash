@@ -1,7 +1,6 @@
 module.exports = [
   {
     id: 'esa',
-    catalogUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-catalog/collection_definition/build/RACE/catalog.json',
     mailingList: {
       development: 2,
       staging: 2,
@@ -392,6 +391,128 @@ module.exports = [
     enableStories: false,
     enableESALayout: true,
     enableScrollyTelling: true,
+  },
+  {
+    id: 'polar',
+    mailingList: {
+      development: 3,
+      staging: 3,
+      production: 5,
+    },
+    demoMode: {
+      polartep: [
+        {
+          poi: 'World-TOPAZ5_P1D_SIAGE',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SICONC',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SISNTHICK',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_SITHICK',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VXO',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VXSI',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VYO',
+        },
+        {
+          poi: 'World-TOPAZ5_P1D_VYSI',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SICONC',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SISNTHICK',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_SITHICK',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VXO',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VXSI',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VYO',
+        },
+        {
+          poi: 'World-TOPAZ4_P1D_VYSI',
+        },
+        {
+          poi: 'World-SITI',
+        },
+        {
+          poi: 'World-N12_1_sea_ice_concentration_arctic',
+        },
+        {
+          poi: 'World-CDS3',
+        },
+        {
+          poi: 'World-CDS4',
+        },
+        {
+          poi: 'World-CDS1_temperature',
+        },
+        {
+          poi: 'World-Polartep_SeaIceDetection_tif_demo',
+        },
+        {
+          poi: 'World-Polartep_Snowgrain_diameter_demo',
+        },
+        {
+          poi: 'World-Polartep_Snow_specific_surface_area_demo',
+        },
+        {
+          poi: 'World-Polartep_S1_demo',
+        },
+        {
+          poi: 'World-Polartep_SeaIce_demo',
+        },
+      ],
+    },
+    match: ['polardashboard.org', 'polar.eox.world', 'polar.localhost', 'polar.eox.home', 'eodash-polar.eox.at', 'eodash-polar-testing.eox.at'],
+    branding: {
+      appName: 'Polar Dashboard',
+      primaryColor: '#003247',
+      secondaryColor: '#00ae9d',
+      headerLogo: './eodash-data/general/RACE_Logo.png',
+      faviconPath: './public/img/ESA/favicon.ico',
+    },
+    pageMeta: {
+      rootPath: 'https://polardashboard.org',
+      googleSiteVerification: '',
+      shortDescription: 'Polar Dashboard', // TODO: polar
+      twitterCardImagePath: '/img/ESA/twitter_card.jpg', // TODO: polar
+      imagePath: '/img/ESA', // TODO: polar
+    },
+    showNewsletterButton: false,
+    customCSS: 'esa',
+    newsBanner: {},
+    aboutText: '/eodash-data/general/about',
+    welcomeText: '/eodash-data/general/welcome',
+    tutorialText: '/eodash-data/general/tutorials',
+    showNewsCarousel: false,
+    newsCarouselitems: [
+    ],
+    privacyText: '/eodash-data/general/privacy',
+    termsText: '/eodash-data/general/terms',
+    challengesText: '/eodash-data/general/challenges',
+    feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],
+    refColors: [
+      '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
+      '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
+    ],
+    enableStories: false,
+    enableESALayout: false,
+    enableScrollyTelling: false,
     enableIndicatorSidebar: true,
     uiText: {
 

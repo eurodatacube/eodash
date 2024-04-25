@@ -103,7 +103,7 @@ export default {
       'appConfig',
     ]),
     indicatorPanelheader() {
-      if ('indicatorPanelheader' in this.appConfig.uiText) {
+      if (this.appConfig.uiText && 'indicatorPanelheader' in this.appConfig.uiText) {
         return this.appConfig.uiText.indicatorPanelheader;
       }
       return 'Domains & Tools';
