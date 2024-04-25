@@ -131,7 +131,7 @@
 
         <v-btn
           v-if="isMinesweeperConfigured && !!minesweeper.game"
-        >{{ minesweeper.game.coveredMineCount }} 💣 remaining</v-btn>
+        >{{ minesweeper.game.mineCount - minesweeper.game.flagCount }} 💣 remaining</v-btn>
 
         <div v-if="isMinesweeperConfigured && !!minesweeper.game">
           <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
