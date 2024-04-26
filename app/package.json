@@ -17,9 +17,9 @@
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
     "@eox/layercontrol": "^0.14.0",
+    "@turf/bbox-polygon": "^6.5.0",
+    "@turf/boolean-intersects": "^6.5.0",
     "@turf/difference": "^6.5.0",
-    "@turf/intersect": "^6.5.0",
-    "@turf/turf": "^6.5.0",
     "axios": "^0.21.1",
     "chart.js": "2.9.3",
     "chartjs-adapter-luxon": "^0.2.1",
