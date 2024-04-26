@@ -1165,8 +1165,6 @@ export default {
       ];
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       this.minesweeper.bbox = bbox;
-      console.log(`Generated bounding box (Seed: "${seedString}"): ${bbox}`);
-      console.log('Checking generated bounding box for land intersections...');
 
       const res = await fetch('/data/europe_and_iceland_country_borders_fixed.geojson');
       const geojson = await res.json();
@@ -1178,7 +1176,6 @@ export default {
       while (!wasIntersectionFound) {
         const i = 0;
         seedString += `${i}`;
-        console.log(`Trying seed string "${seedString}"`);
         new URLSearchParams(window.location.search).set('seed', seedString);
         const newBbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
 
