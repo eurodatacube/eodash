@@ -310,10 +310,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     };
     featuresSource.set('updateTime', featuresUpdateFn);
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    let style;
+    if (config.features?.flatStyle) {
+      style = config.features?.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config.features, options);
+    }
     layer = new VectorLayer({
       source: featuresSource,
-      style: dynamicStyleFunction,
+      style,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;

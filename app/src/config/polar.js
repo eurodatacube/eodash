@@ -329,6 +329,47 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'Polartep_SeaIceCharts_demo',
+        display: {
+          baseUrl: null,
+          layerControlHide: true,
+          features: {
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cape_farewell_{featuresTime}.geojson',
+            name: 'Sea Ice Charts',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/Polartep_SeaIceCharts_demo/legend.png',
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+            allowedParameters: ['CT'],
+            flatStyle: [
+              {
+                style: {
+                  'fill-color': [
+                    'case',
+                    ['<', ['get', 'CT'], 0],
+                    'rgba(0,0,0,0)',
+                    ['<', ['get', 'CT'], 10],
+                    'rgba(150,200,255,1)',
+                    ['<=', ['get', 'CT'], 30],
+                    'rgba(140,255,160,1)',
+                    ['<=', ['get', 'CT'], 60],
+                    'rgba(255,255,0,1)',
+                    ['<=', ['get', 'CT'], 80],
+                    'rgba(255,125,7,1)',
+                    ['<=', ['get', 'CT'], 100],
+                    'rgba(255,0,0,1)',
+                    'rgba(0,0,0,0)',
+                  ],
+                  'stroke-color': 'rgba(0,0,0,0)',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'SITI',
         display: {
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
