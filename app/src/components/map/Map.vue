@@ -1166,7 +1166,7 @@ export default {
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       this.minesweeper.bbox = bbox;
 
-      const res = await fetch('/data/europe_and_iceland_country_borders_fixed.geojson');
+      const res = await fetch('./data/europe_and_iceland_country_borders_fixed.geojson');
       const geojson = await res.json();
 
       const intersections = await findIntersections(bbox, geojson);
