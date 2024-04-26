@@ -1176,18 +1176,19 @@ export default {
       let wasIntersectionFound = intersections.length > 0;
 
       while (!wasIntersectionFound) {
-        let i = 0;
+        const i = 0;
         seedString += `${i}`;
         console.log(`Trying seed string "${seedString}"`);
         new URLSearchParams(window.location.search).set('seed', seedString);
         const newBbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
 
+        // eslint-disable-next-line
         const newIntersections = await findIntersections(newBbox, geojson);
 
         if (newIntersections.length > 0) {
           wasIntersectionFound = true;
           this.minesweeper.bbox = newBbox;
-        };
+        }
       }
 
       this.minesweeper.game = new Minesweeper(map, {

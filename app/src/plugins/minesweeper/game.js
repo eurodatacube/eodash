@@ -49,20 +49,24 @@ export default class Minesweeper {
       // Flatten the 2D array of tiles
       .reduce((acc, row) => [...acc, ...row], [])
       // Count all the mines in our board
-      .reduce((count, tile) => tile.isMine ? count + 1 : count, 0);
+      .reduce((count, tile) => (tile.isMine ? count + 1 : count), 0);
   }
 
   get flagCount() {
     return this.game.board
       .reduce((acc, row) => [...acc, ...row], [])
-      .reduce((count, tile) => tile.isFlagged ? count + 1 : count, 0);
+      .reduce((count, tile) => (tile.isFlagged ? count + 1 : count), 0);
   }
 
   get coveredMineCount() {
-    // If the returned value is zero, i.e. there are no more covered mines, the user has won the game.
+    // If the returned value is zero, i.e. there are no more
+    // covered mines, the user has won the game.
     return this.game.board
       .reduce((acc, row) => [...acc, ...row], [])
-      .reduce((count, tile) => tile.isMine && (!tile.isRevealed && !tile.isFlagged) ? count + 1 : count, 0);
+      .reduce((count, tile) => (tile.isMine && (!tile.isRevealed && !tile.isFlagged)
+        ? count + 1
+        : count),
+      0);
   }
 
   get isGameCompleted() {

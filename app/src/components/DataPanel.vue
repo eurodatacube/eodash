@@ -319,7 +319,10 @@
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
 
-              <v-card v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'" class="ma-5">
+              <v-card
+                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                class="ma-5"
+              >
                 <h1 class="ml-5">Species Info</h1>
 
                 <v-col>
@@ -327,7 +330,9 @@
                     ...selectedArea.coordinates[0][0],
                     ...selectedArea.coordinates[0][2],
                   ]" />
-                  <div v-else>Select an area on the map using the rectangle or polygon buttons.</div>
+                  <div v-else>
+                    Select an area on the map using the rectangle or polygon buttons.
+                  </div>
                 </v-col>
               </v-card>
             </v-col>
@@ -379,7 +384,10 @@ Select a point of interest on the map to see the data for a specific location!
                 class="md-body"
               ></div>
 
-              <v-card v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'" class="ma-5">
+              <v-card
+                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                class="ma-5"
+              >
                 <h1 class="ml-5">Species Info</h1>
 
                 <v-col>
@@ -387,7 +395,9 @@ Select a point of interest on the map to see the data for a specific location!
                     ...selectedArea.coordinates[0][0],
                     ...selectedArea.coordinates[0][2],
                   ]" />
-                  <div v-else>Select an area on the map using the rectangle or polygon buttons.</div>
+                  <div v-else>
+                    Select an area on the map using the rectangle or polygon buttons.
+                  </div>
                 </v-col>
               </v-card>
             </v-col>
