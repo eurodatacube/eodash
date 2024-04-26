@@ -129,13 +129,18 @@
           mapControl
         />
 
-        <div v-if="isMinesweeperConfigured && !!this.minesweeper.game">
+        <v-btn
+          v-if="isMinesweeperConfigured && !!minesweeper.game"
+        >{{ minesweeper.game.mineCount - minesweeper.game.flagCount }} 💣 remaining</v-btn>
+
+        <div v-if="isMinesweeperConfigured && !!minesweeper.game">
           <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
+            :bbox="minesweeper.bbox"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -207,7 +212,7 @@ import {
 } from '@/utils';
 
 import Minesweeper from '@/plugins/minesweeper/game';
-import { getRandomBoundingBox } from '@/plugins/minesweeper';
+import { getRandomBoundingBox, findIntersections } from '@/plugins/minesweeper';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -296,6 +301,7 @@ export default {
         mode: 'start',
         game: null,
         timer: null,
+        bbox: [],
         elapsedSeconds: 0,
       },
     };
@@ -820,7 +826,7 @@ export default {
         document.dispatchEvent(new Event('minesweeper:win'));
       }
     },
-    winMineSweep() {
+    async winMineSweep() {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'win';
       this.minesweeper.isDialogEnabled = true;
@@ -1158,20 +1164,43 @@ export default {
         this.selectedLocationIndex
       ];
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
-      console.log(`Generated bounding box (Seed: "${seedString}"): ${bbox}`);
+      this.minesweeper.bbox = bbox;
+
+      const res = await fetch('./data/europe_and_iceland_country_borders_fixed.geojson');
+      const geojson = await res.json();
+
+      const intersections = await findIntersections(bbox, geojson);
+
+      let wasIntersectionFound = intersections.length > 0;
+
+      while (!wasIntersectionFound) {
+        const i = 0;
+        seedString += `${i}`;
+        new URLSearchParams(window.location.search).set('seed', seedString);
+        const newBbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
+
+        // eslint-disable-next-line
+        const newIntersections = await findIntersections(newBbox, geojson);
+
+        if (newIntersections.length > 0) {
+          wasIntersectionFound = true;
+          this.minesweeper.bbox = newBbox;
+        }
+      }
 
       this.minesweeper.game = new Minesweeper(map, {
         ...this.mergedConfigsData[0].minesweeperOptions,
-        bbox,
+        bbox: this.minesweeper.bbox,
         selectedLocationIndex: this.selectedLocationIndex,
       });
       this.minesweeper.isEnabled = true;
       this.minesweeper.isDialogEnabled = true;
       // take currently selectedLocation for Minesweep and at set extent to match location bbox
+
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
-        bbox,
+        this.minesweeper.bbox,
         'EPSG:4326',
         map.getView().getProjection(),
       );

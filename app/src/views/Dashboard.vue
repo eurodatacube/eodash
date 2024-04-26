@@ -261,6 +261,9 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
+    ...mapState('features', [
+      'selectedArea',
+    ]),
     showMap() {
       const indicatorObject = this.$store.state.indicators.selectedIndicator;
       // if returns true, we are showing map, if false we show chart

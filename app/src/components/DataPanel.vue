@@ -318,6 +318,23 @@
                 class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
+
+              <v-card
+                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                class="ma-5"
+              >
+                <h1 class="ml-5">Species Info</h1>
+
+                <v-col>
+                  <SpeciesList v-if="selectedArea" :bbox="[
+                    ...selectedArea.coordinates[0][0],
+                    ...selectedArea.coordinates[0][2],
+                  ]" />
+                  <div v-else>
+                    Select an area on the map using the rectangle or polygon buttons.
+                  </div>
+                </v-col>
+              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -366,6 +383,23 @@ Select a point of interest on the map to see the data for a specific location!
                 v-html="story"
                 class="md-body"
               ></div>
+
+              <v-card
+                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                class="ma-5"
+              >
+                <h1 class="ml-5">Species Info</h1>
+
+                <v-col>
+                  <SpeciesList v-if="selectedArea" :bbox="[
+                    ...selectedArea.coordinates[0][0],
+                    ...selectedArea.coordinates[0][2],
+                  ]" />
+                  <div v-else>
+                    Select an area on the map using the rectangle or polygon buttons.
+                  </div>
+                </v-col>
+              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -395,6 +429,7 @@ import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue'
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import LocationsDropdown from '@/components/LocationsDropdown.vue';
 import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
+import SpeciesList from '@/components/SpeciesList.vue';
 
 export default {
   props: [
@@ -415,6 +450,7 @@ export default {
     SelectionInfoBar,
     LocationsDropdown,
     FeatureQueryParams,
+    SpeciesList,
   },
   data: () => ({
     overlay: false,
@@ -618,6 +654,10 @@ export default {
     },
     selectableLayerConfigs() {
       return this.mergedConfigsData.filter((l) => l?.selection || l?.features?.selection);
+    },
+    indicatorSelected() {
+      return this.$store.state.indicators.selectedIndicator
+        || this.$store.state.features.featureFilters.indicators.length > 0;
     },
   },
   mounted() {

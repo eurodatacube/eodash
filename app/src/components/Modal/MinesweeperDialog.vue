@@ -12,11 +12,31 @@
 
       <!-- Default Slot for Dialog Content -->
       <v-card v-show="mode === 'start'">
-        <v-card-title style="text-align: center" class="py-6">💣 Minesweeper Game</v-card-title>
+        <v-card-title style="text-align: center" class="py-6">
+          💣 Hexagonal Minesweeper Game
+        </v-card-title>
         <v-card-text>
-          Try to uncover all fields while carefully avoiding mines and learn about
-          Earth Observation data along the way. The amount of uncovered area at the
+          <p>Try to uncover all fields while carefully
+          avoiding mines and learn about
+          Earth Observation data along the way.
+          The amount of uncovered area at the
           end of the game determines your score!
+          When the game finishes, a summary of
+          significant wildlife species which
+          live on the chosen area is shown.
+          </p>
+          <p>
+          Game is played like a standard minesweeper:
+          <br>
+          Left mouse click to search a hex.
+          Right mouse click to flag a mine.</p>
+          <p>A random game location is chosen every day.
+            To explore new locations, add query parameter
+            seed with any value e.g. &seed=SeedString.
+            To explore past (or future) locations,
+            use seed parameter in JS format Date.toDateString()
+            - e.g. "Thu Apr 18 2024".
+          </p>
         </v-card-text>
 
         <v-card-actions>
@@ -49,6 +69,8 @@
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
+            <h1 class="pa-2" v-if="mode === 'gameover'">Species Info</h1>
+            <SpeciesList v-if="mode === 'gameover'" :species="species" :bbox="bbox" />
           </div>
         </v-card-text>
 
@@ -78,6 +100,10 @@
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
 
+            <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
+
+            <SpeciesList v-if="mode === 'win'" :species="species" :bbox="bbox" />
+
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
@@ -93,7 +119,12 @@
 </template>
 
 <script>
+import SpeciesList from '../SpeciesList.vue';
+
 export default {
+  components: {
+    SpeciesList,
+  },
   props: {
     /**
      * The context in which this modal is used. One of 'dashboard' or 'newsletter'.
@@ -115,6 +146,14 @@ export default {
     elapsedSeconds: {
       type: Number,
       required: true,
+    },
+    bbox: {
+      type: Array,
+      default: () => [],
+    },
+    species: {
+      type: Array,
+      default: () => [],
     },
   },
   methods: {
@@ -144,8 +183,10 @@ export default {
 💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
       }
 
-      navigator.clipboard.writeText(string);
+      string += '\n\nDiscovered species:\n';
+      string += this.species.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
 
+      navigator.clipboard.writeText(string);
       this.$refs['copy-btn'].$el.innerText = 'Copied!';
     },
   },
