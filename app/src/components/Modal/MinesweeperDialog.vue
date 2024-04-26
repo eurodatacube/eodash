@@ -12,11 +12,31 @@
 
       <!-- Default Slot for Dialog Content -->
       <v-card v-show="mode === 'start'">
-        <v-card-title style="text-align: center" class="py-6">💣 Minesweeper Game</v-card-title>
+        <v-card-title style="text-align: center" class="py-6">
+          💣 Hexagonal Minesweeper Game
+        </v-card-title>
         <v-card-text>
-          Try to uncover all fields while carefully avoiding mines and learn about
-          Earth Observation data along the way. The amount of uncovered area at the
+          <p>Try to uncover all fields while carefully
+          avoiding mines and learn about
+          Earth Observation data along the way.
+          The amount of uncovered area at the
           end of the game determines your score!
+          When the game finishes, a summary of
+          significant wildlife species which
+          live on the chosen area is shown.
+          </p>
+          <p>
+          Game is played like a standard minesweeper:
+          <br>
+          Left mouse click to search a hex.
+          Right mouse click to flag a mine.</p>
+          <p>A random game location is chosen every day.
+            To explore new locations, add query parameter
+            seed with any value e.g. &seed=SeedString.
+            To explore past (or future) locations,
+            use seed parameter in JS format Date.toDateString()
+            - e.g. "Thu Apr 18 2024".
+          </p>
         </v-card-text>
 
         <v-card-actions>
