@@ -28,42 +28,51 @@ export default {
     };
   },
   async mounted() {
-    if (this.bbox.length !== 4) {
-      console.error('Bounding box must be in format [minLong, minLat, maxLong, maxLat]!');
-      return;
-    }
-    // Get wildlife species index
-    const r1 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/species_index.json');
-    const speciesIndex = await r1.json();
+    this.populateSpeciesList();
+  },
+  watch: {
+    bbox() {
+      this.populateSpeciesList();
+    },
+  },
+  methods: {
+    async populateSpeciesList() {
+      if (this.bbox.length !== 4) {
+        console.error('Bounding box must be in format [minLong, minLat, maxLong, maxLat]!');
+        return;
+      }
+      // Get wildlife species index
+      const r1 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/species_index.json');
+      const speciesIndex = await r1.json();
 
-    // Get locations of species
-    const r2 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Europe_characteristic_species.geojson');
-    const speciesLocations = await r2.json();
+      // Get locations of species
+      const r2 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Europe_characteristic_species.geojson');
+      const speciesLocations = await r2.json();
 
-    this.species = speciesLocations.features
-      .filter((point) => isWithinBounds(point.geometry.coordinates, this.bbox))
-      .flatMap((point) => point.properties.species_indices)
-      .map((index) => speciesIndex.find((species) => species.index === index))
-      .filter((species) => species != null)
-      .reduce((accumulator, species) => {
-        // Check if the species with this index already exists in the accumulator
-        if (accumulator[species.index]) {
-          // If it exists, increment the count
-          //
-          // We have no choice but to mutate the function argument. (no-param-reassign)
-          // eslint-disable-next-line
-          accumulator[species.index].count++;
-        } else {
-          // If it does not exist, create a new entry with count initialized to 1
-          //
-          // eslint-disable-next-line
-          accumulator[species.index] = { ...species, count: 1 };
-        }
-        return accumulator;
-      }, {});
+      this.species = speciesLocations.features
+        .filter((point) => isWithinBounds(point.geometry.coordinates, this.bbox))
+        .flatMap((point) => point.properties.species_indices)
+        .map((index) => speciesIndex.find((species) => species.index === index))
+        .filter((species) => species != null)
+        .reduce((accumulator, species) => {
+          // Check if the species with this index already exists in the accumulator
+          if (accumulator[species.index]) {
+            // If it exists, increment the count
+            //
+            // We have no choice but to mutate the function argument. (no-param-reassign)
+            // eslint-disable-next-line
+            accumulator[species.index].count++;
+          } else {
+            // If it does not exist, create a new entry with count initialized to 1
+            //
+            // eslint-disable-next-line
+            accumulator[species.index] = { ...species, count: 1 };
+          }
+          return accumulator;
+        }, {});
 
-    this.aggregatedSpecies = Object.values(this.species);
-    console.log(this.aggregatedSpecies);
+      this.aggregatedSpecies = Object.values(this.species);
+    },
   },
 };
 </script>

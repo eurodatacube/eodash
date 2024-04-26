@@ -49,7 +49,7 @@
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
-
+            <h1 class="pa-2" v-if="mode === 'gameover'">Species Info</h1>
             <SpeciesList v-if="mode === 'gameover'" :species="species" :bbox="bbox" />
           </div>
         </v-card-text>
