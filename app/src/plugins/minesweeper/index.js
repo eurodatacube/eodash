@@ -7,6 +7,10 @@ import {
 } from 'ol/style';
 import HexGrid from 'ol-ext/render/HexGrid';
 
+import bboxPolygon from '@turf/bbox-polygon';
+import intersect from '@turf/intersect';
+import booleanIntersects from '@turf/boolean-intersects';
+
 // eslint-disable-next-line
 import HexSweeperGame from './board';
 
@@ -313,6 +317,17 @@ const drawGameBoard = (game, grid, vectorSource) => {
   }
 };
 
+const findIntersections = async (bbox, geojson) => {
+  // Create polygon from the provided bounding box
+  let gameBounds = bboxPolygon(bbox);
+
+  // The standard `intersects` function provided by Turf only works with polygons and not GeoJSON features.
+  const intersectingCountries = geojson.features
+    .filter((feature) => booleanIntersects(gameBounds.geometry, feature));
+
+  return intersectingCountries;
+}
+
 export {
   setupGrid,
   updateTileVisuals,
@@ -322,4 +337,5 @@ export {
   getTileStyle,
   drawGameBoard,
   getRandomBoundingBox,
+  findIntersections,
 };
