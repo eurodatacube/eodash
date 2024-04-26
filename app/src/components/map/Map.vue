@@ -212,7 +212,7 @@ import {
 } from '@/utils';
 
 import Minesweeper from '@/plugins/minesweeper/game';
-import { getRandomBoundingBox } from '@/plugins/minesweeper';
+import { getRandomBoundingBox, findIntersections } from '@/plugins/minesweeper';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 import getLocationCode from '../../mixins/getLocationCode';
 
@@ -1166,10 +1166,33 @@ export default {
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       this.minesweeper.bbox = bbox;
       console.log(`Generated bounding box (Seed: "${seedString}"): ${bbox}`);
+      console.log('Checking generated bounding box for land intersections...');
+
+      const res = await fetch('/data/europe_and_iceland_country_borders_fixed.geojson');
+      const geojson = await res.json();
+
+      const intersections = await findIntersections(bbox, geojson);
+
+      let wasIntersectionFound = intersections.length > 0;
+
+      while (!wasIntersectionFound) {
+        let i = 0;
+        seedString += `${i}`;
+        console.log(`Trying seed string "${seedString}"`);
+        new URLSearchParams(window.location.search).set('seed', seedString);
+        const newBbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
+
+        const newIntersections = await findIntersections(newBbox, geojson);
+
+        if (newIntersections.length > 0) {
+          wasIntersectionFound = true;
+          this.minesweeper.bbox = newBbox;
+        };
+      }
 
       this.minesweeper.game = new Minesweeper(map, {
         ...this.mergedConfigsData[0].minesweeperOptions,
-        bbox,
+        bbox: this.minesweeper.bbox,
         selectedLocationIndex: this.selectedLocationIndex,
       });
       this.minesweeper.isEnabled = true;
@@ -1179,7 +1202,7 @@ export default {
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
-        bbox,
+        this.minesweeper.bbox,
         'EPSG:4326',
         map.getView().getProjection(),
       );
