@@ -4,8 +4,10 @@
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
+    <FullScreenControl class="ml-2" selector="#data-panel" />
     <div
       class="pt-0 pb-0"
+      id="data-panel"
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''">
       <v-row v-if="
         indicatorObject
@@ -290,6 +292,7 @@ import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue'
 import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
+import FullScreenControl from '@/components/map/FullScreenControl.vue';
 
 export default {
   components: {
@@ -304,6 +307,7 @@ export default {
     SelectionInfoBar,
     GTIFProcessingButtons,
     VectorStyleControl,
+    FullScreenControl,
   },
   data: () => ({
     mounted: false,
