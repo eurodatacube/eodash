@@ -1,5 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 import shTimeFunction from '@/shTimeFunction';
+import countriesJSON from '@/assets/countries.json';
 
 const state = {
   indicators: null,
@@ -114,20 +115,60 @@ async function loadIndicator(link, url, rootState) {
   }
   return results;
 }
-
-async function loadAllIndicators(data, url, rootState) {
-  const indicators = [];
-  const promises = data.links.map(link => loadIndicator(link, url, rootState));
-  Promise.all(promises).then(results => {
-    // results is an array of all the resolved values
-    results.forEach(result => {
-      if (result && result.length > 0) {
-        indicators.push(...result);
+function sanitizeData(indicator) {
+  if (indicator.themes?.length === 0) {
+    indicator.themes.push('others');
+  }
+  if (indicator.cities?.length > 0) {
+    const sanitizedCities = [];
+    indicator.cities.forEach((c) => {
+      if (c !== '/' && c !== undefined) {
+        sanitizedCities.push(c);
       }
     });
-  }).catch(error => {
+    // eslint-disable-next-line no-param-reassign
+    indicator.cities = sanitizedCities;
+  }
+  const sanitizedCountries = [];
+  if (indicator.countries?.length > 0) {
+    indicator.countries.forEach((cntr) => {
+      const match = countriesJSON.features.find((it) => it.properties.alpha2 === cntr || it.is === cntr);
+      if (match) {
+        if (match.properties.name === 'Czechia') {
+          sanitizedCountries.push('Czech Republic');
+        } else {
+          sanitizedCountries.push(match.properties.name);
+        }
+      } else if (cntr === 'UK') {
+        sanitizedCountries.push('United Kingdom');
+      } else if (cntr === 'Czechia') {
+        sanitizedCountries.push('Czech Republic');
+      } else if (!(cntr === '/' || cntr === undefined)) {
+        sanitizedCountries.push(cntr);
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+    indicator.countries = sanitizedCountries;
+  }
+  return indicator;
+}
+async function loadAllIndicators(data, url, rootState, commit) {
+  const indicators = [];
+  const promises = data.links.map((link) => loadIndicator(link, url, rootState));
+  await Promise.all(promises).then((results) => {
+    // results is an array of all the resolved values
+    results.forEach((result) => {
+      if (result && result.length > 0) {
+        for (let r = 0; r < result.length; r++) {
+          sanitizeData(result[r]);
+          indicators.push(result[r]);
+        }
+      }
+    });
+  }).catch((error) => {
     console.error('Error loading datasets:', error);
   });
+  commit('SET_INDICATORS', indicators);
   return indicators;
 }
 
@@ -153,15 +194,13 @@ const actions = {
       };
       url = `${bucket}${catalogBranch}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
     }
-    const indicators = await this.dispatch( // eslint-disable-line
-      'indicators/loadSTACEndpoint', { url, rootState },
+    this.dispatch( // eslint-disable-line
+      'indicators/loadSTACEndpoint', { url, commit, rootState },
     );
-    commit('SET_INDICATORS', indicators);
   },
-  loadSTACEndpoint(_, { url, rootState }) {
-    return fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
-      .then((data) => loadAllIndicators(data, url, rootState))
-      .then((indicators) => indicators);
+  async loadSTACEndpoint(_, { url, commit, rootState }) {
+    fetch(url, { credentials: 'same-origin' }).then((r) => r.json())
+      .then((data) => loadAllIndicators(data, url, rootState, commit));
   },
 };
 

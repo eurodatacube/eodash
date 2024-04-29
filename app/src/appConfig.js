@@ -53,6 +53,9 @@ module.exports = [
       '#22aa99', '#a37', '#47a', '#a67', '#283', '#302f2f',
       '#6ce', '#994499', '#bbb', '#6633cc', '#e67300',
     ],
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
+    },
     demoMode: {
       egu2023: [
         // custom story is not supported yet for new demo mode
@@ -188,6 +191,9 @@ module.exports = [
         collectionLink.themes[j] = 'oceans';
       }
     },
+    uiText: {
+      indicatorPanelheader: 'Choose an indicator to explore',
+    },
     demoMode: {
       cop28: [
         {
@@ -313,11 +319,11 @@ module.exports = [
         src: './data/trilateral/new-precipitation-jaxa.png',
       },
       {
-        poi: 'ThwaitesLandsat-ADD',
+        poi: 'ADD_L2_Thwaites-ADD_Landsat_L2_Antarctica',
         src: './data/trilateral/landsat-antarctica.png',
       },
       {
-        poi: 'S1GRD-ADD',
+        poi: 'World-ADD_West_Antarctica_S1',
         src: './data/trilateral/s-1-antarctica.png',
       },
     ],
@@ -507,5 +513,9 @@ module.exports = [
     enableStories: false,
     enableESALayout: false,
     enableScrollyTelling: false,
+    enableIndicatorSidebar: true,
+    uiText: {
+
+    },
   },
 ];

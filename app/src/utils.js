@@ -14,10 +14,7 @@ import {
   nasaStatisticsConfig,
   xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
-import {
-  xcubeViewerColormaps,
-  // marineDataStoreDepths,
-} from '@/config/layers';
+// import { xcubeViewerColormaps, marineDataStoreDepths } from '@/config/layers';
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
@@ -116,9 +113,9 @@ function createXYZDisplay(config, jsonData) {
 }
 
 function createXYZTilesXcubeDisplay(config, name) {
-  const searchParams = new URLSearchParams(config.href);
-  const vmin = searchParams.get('vmin') || 0;
-  const vmax = searchParams.get('vmax') || 1;
+  // const searchParams = new URLSearchParams(config.href);
+  // const vmin = searchParams.get('vmin') || 0;
+  // const vmax = searchParams.get('vmax') || 1;
   const display = {
     protocol: 'xyz',
     tileSize: 256,
@@ -127,37 +124,37 @@ function createXYZTilesXcubeDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `${date}`,
     labelFormatFunction: (date) => date,
-    layerConfig: {
-      schema: {
-        type: 'object',
-        properties: {
-          vminmax: {
-            title: 'Value stretch',
-            type: 'object',
-            properties: {
-              vmin: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-              vmax: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-            },
-            format: 'minmax',
-          },
-          cbar: {
-            title: 'Colorbar',
-            type: 'string',
-            enum: xcubeViewerColormaps,
-          },
-        },
-      },
-    },
+    // layerConfig: {
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       vminmax: {
+    //         title: 'Value stretch',
+    //         type: 'object',
+    //         properties: {
+    //           vmin: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //           vmax: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //         },
+    //         format: 'minmax',
+    //       },
+    //       cbar: {
+    //         title: 'Colorbar',
+    //         type: 'string',
+    //         enum: xcubeViewerColormaps,
+    //       },
+    //     },
+    //   },
+    // },
   };
   return display;
 }
@@ -171,6 +168,7 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
     url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:4326&tilematrix={z-1}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
     name,
     dateFormatFunction: (date) => `${date}`,
+    // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
     // layerConfig: {
     //   schema: {
     //     type: 'object',
@@ -554,7 +552,6 @@ export async function loadIndicatorData(baseConfig, payload) {
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     } else if (xyzEndpoint) {
       if (xyzEndpoint.type === 'image/png' && !xyzEndpoint.title.includes('xcube tiles')) {
-        // VEDA
         display = createXYZDisplay(
           xyzEndpoint, jsonData,
         );
@@ -644,12 +641,13 @@ export async function loadIndicatorData(baseConfig, payload) {
           },
         };
       } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        const rescale = exampleEndpoint.rescale || 1;
         display = {
           ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
-              (value) => value,
+              (value) => rescale * value,
             ),
           },
         };

@@ -132,7 +132,6 @@ function contspace(v, varOffset, varSpacing) {
 
 const wkt = new Wkt();
 
-export const dataPath = './data/gtif/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',

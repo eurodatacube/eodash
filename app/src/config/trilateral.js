@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Wkt } from 'wicket';
 import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -16,7 +17,6 @@ const wkt = new Wkt();
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
-export const dataPath = './data/internal/';
 export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
 
 const geodbFeatures = {
@@ -61,7 +61,7 @@ const geodbFeatures = {
 const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
-}, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const antarcticBaseMaps = [
   baseLayers.terrainLightStereoSouth,
@@ -150,6 +150,26 @@ const antarcticDatasets = Object.freeze({
   overlayLayers: antarcticOverlayMaps,
 });
 
+const polarSHDatasets = Object.freeze({
+  // projection and layers overrides
+  baseLayers: arcticBaseMaps,
+  overlayLayers: arcticOverlayMaps,
+  dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+  mapProjection: {
+    name: 'EPSG:3413',
+    def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
+  },
+  presetView: {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
+    }],
+  },
+  projection: 'EPSG:3413',
+});
 export const indicatorsDefinition = Object.freeze({
   E13c: {
     features: {
@@ -502,12 +522,21 @@ const getYearlyDates = (start, end) => {
   return dateArray;
 };
 
-const getDailyDates = (start, end, interval = 1) => {
+const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
   const stopDate = DateTime.fromISO(end);
   const dateArray = [];
   while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    if (s3Path) {
+      const t = DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd');
+      let evaluated = s3Path.replace('{time}', t);
+      if (formatFunction) {
+        evaluated = s3Path.replace('{time}', formatFunction(t));
+      }
+      dateArray.push([t, evaluated]);
+    } else {
+      dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+    }
     currentDate = DateTime.fromISO(currentDate).plus({ days: interval });
   }
   return dateArray;
@@ -572,27 +601,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'SIE',
-        display: {
-          // projection and layers overrides
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-          projection: 'EPSG:3413',
-        },
+        display: polarSHDatasets,
       },
     },
   },
@@ -616,27 +625,7 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SIC',
         showGlobe: true,
-        display: {
-          // projection and layers overrides
-          baseLayers: arcticBaseMaps,
-          overlayLayers: arcticOverlayMaps,
-          projection: 'EPSG:3413',
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('LLL yyyy'),
-          mapProjection: {
-            name: 'EPSG:3413',
-            def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
-            extent: [-3314693.24, -3314693.24, 3314693.24, 3314693.24],
-          },
-          presetView: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: {},
-              geometry: wkt.read('POLYGON((-20 83,50 83,50 77,-20 77,-20 83))').toJson(),
-            }],
-          },
-        },
+        display: polarSHDatasets,
       },
     },
   },
@@ -1244,10 +1233,9 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Duration',
-        time: getYearlyDates('2007-01-01', '2021-06-30'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
       },
     },
@@ -1257,10 +1245,9 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Season_End',
-        time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
       },
     },
@@ -1270,11 +1257,47 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Melt_Onset',
-        time: getYearlyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
-          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy'),
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Meltmap',
+        time: getDailyDates('2007-01-02', '2021-12-28'),
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Duration',
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Season_End',
+        display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Melt_Onset',
+        display: polarSHDatasets,
       },
     },
   },
@@ -1286,6 +1309,47 @@ export const globalIndicators = [
         display: {
           ...antarcticDatasets,
           projection: 'EPSG:3857',
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'sen4ama',
+        display: {
+          baseLayers: cloudlessBaseLayerDefault,
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          name: 'Sentinel-1 for Science Amazonas area of forest loss',
+          layers: 'ID-AMAZONAS_PROJECT',
+          minZoom: 5,
+          maxZoom: 16,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ months: 1 }).minus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((-58.193359 -5.652236, -58.193359 -1.537901, -52.625 -1.537901, -52.625 -5.652236, -58.193359 -5.652236))').toJson(),
+            }],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Lakes_WQ_TURB',
+        display: {
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((16.99585 46.55886, 16.99585 47.182246, 18.308716 47.182246, 18.308716 46.55886, 16.99585 46.55886))').toJson(),
+            }],
+          },
         },
       },
     },

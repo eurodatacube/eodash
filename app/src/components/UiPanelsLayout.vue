@@ -5,12 +5,12 @@
     <v-row class="d-flex justify-space-between fill-height"
      v-if="$vuetify.breakpoint.smAndUp">
       <v-col :cols="3" style="max-height: 100%;max-width: min(25%, 500px);" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="left" :panels="panels.left" ></slot>
         </v-expansion-panels>
       </v-col>
       <v-col :cols="3" style="max-height: 100%;max-width: min(25%, 500px);" >
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <slot name="right" :panels="panels.right" ></slot>
         </v-expansion-panels>
       </v-col>
@@ -27,6 +27,10 @@
 </template>
 
 <script>
+import {
+  mapState,
+} from 'vuex';
+
 export default {
   props: {
     gtif: {
@@ -49,7 +53,7 @@ export default {
           this.panels.left = [
             {
               id: 1,
-              title: 'Domains',
+              title: this.indicatorPanelheader,
               heightPercentage: 100,
             },
           ];
@@ -58,25 +62,29 @@ export default {
           const leftPanels = [
             {
               id: 1,
-              title: 'Domains & Tools',
+              title: this.indicatorPanelheader,
               heightPercentage: 100,
+              heightPercentageBothOpen: 75,
             },
           ];
           const layersTool = {
             id: 2,
             title: 'Layers',
-            heightPercentage: 100,
+            heightPercentage: 99,
+            heightPercentageBothOpen: 25,
           };
           const rightPanels = [
             {
               id: 3,
               title: 'Information',
               heightPercentage: 100,
+              heightPercentageBothOpen: 50,
             },
             {
               id: 4,
               title: 'Analysis',
               heightPercentage: 100,
+              heightPercentageBothOpen: 50,
             },
           ];
           if (this.$route.name === 'demo') {
@@ -91,6 +99,15 @@ export default {
     },
   },
   computed: {
+    ...mapState('config', [
+      'appConfig',
+    ]),
+    indicatorPanelheader() {
+      if ('indicatorPanelheader' in this.appConfig.uiText) {
+        return this.appConfig.uiText.indicatorPanelheader;
+      }
+      return 'Domains & Tools';
+    },
     inToolMode() {
       return this.$store.state.gtif.toolsToggle;
     },

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="fill-height d-flex flex-column pa-0"
-    style="z-index: 11; pointer-events: all"
+    class="fill-height d-flex flex-column pa-3"
+    style="height: calc(var(--vh, 1vh) * 100); z-index: 11; pointer-events: all"
   >
     <v-btn
       color="primary"
