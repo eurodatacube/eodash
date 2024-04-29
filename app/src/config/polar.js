@@ -255,6 +255,40 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'Polartep_S1_dedl_demo',
+        time: [
+          ['20230524T17:52:21Z', 's1a-iw-grd-vv-20230524t175221-20230524t175248-048679-05dad0-001_COG.tiff', 'Sentinel-1 IW VV'],
+          ['20230524T17:52:21Z', 's1a-iw-grd-vh-20230524t175221-20230524t175248-048679-05dad0-002_COG.tiff', 'Sentinel-1 IW VH'],
+        ],
+        display: {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/{time}' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => `${DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss')} -${date[2]}`,
+          style: {
+            color: [
+              'case',
+              ['>', ['band', 1], 0],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 0, 400, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'Polartep_Snowgrain_diameter_demo',
         time: [],
         display: {
@@ -323,6 +357,27 @@ export const globalIndicators = [
             fillColor: 'rgba(0,0,0,0.0)',
           },
         },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Polartep_RCM_demo',
+        time: ['2021-05-01', '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-08', '2021-05-09', '2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-17', '2021-05-18', '2021-05-22', '2021-05-23', '2021-05-25'],
+        display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '1-HH-LINEAR-SIGMA0',
+          name: 'HH Linear Sigma0',
+        }, {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '3-HV-LINEAR-SIGMA0',
+          name: 'HV Linear Sigma0',
+        }, {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '5-HH-HV-RATIO-RGB-SIGMA0',
+          name: 'HH HV Ratio RGB Sigma0',
+        }],
       },
     },
   },

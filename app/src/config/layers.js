@@ -142,13 +142,6 @@ export const baseLayers = Object.freeze({
     visible: false,
     minZoom: 6,
   },
-  // mapboxHighReso: {
-  //   name: 'Mapbox high resolution',
-  //   url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-  //   attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-  //   visible: false,
-  //   protocol: 'xyz',
-  // },
   s2AT2021: {
     name: 'Sentinel-2 Austrian mosaic 2021',
     attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
