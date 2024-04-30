@@ -200,7 +200,12 @@
             :vectorStyles="indicatorObject.vectorStyles"
           >
           </StyleControls>
-          <vector-tile-style-control v-if="indicatorObject.queryParameters"
+          <VectorStyleControl v-if="useVectorStyleControl"
+            :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
+            >
+          </VectorStyleControl>
+          <vector-tile-style-control v-if="indicatorObject.queryParameters && !Array.isArray(indicatorObject.queryParameters)"
             :queryParameters="indicatorObject.queryParameters"
             @updatequeryparameter="updateQueryParameters"
           >
@@ -243,7 +248,7 @@
           Select a point of interest on the map to see more information
         </p>
       </div>
-      <v-col v-if="indicatorHasMapData"
+      <v-col v-if="showVisualAnalysisAddons"
         :style="`height: auto`"
       >
         <v-card class="pa-2" >
@@ -282,6 +287,7 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
+import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
 
@@ -297,6 +303,7 @@ export default {
     DataMockupView,
     SelectionInfoBar,
     GTIFProcessingButtons,
+    VectorStyleControl,
   },
   data: () => ({
     mounted: false,
@@ -316,6 +323,9 @@ export default {
     ...mapState('indicators', [
       'customAreaIndicator',
     ]),
+    showingChart() {
+      return this.customAreaIndicator || this.customAreaIndicator || this.dataObject?.time;
+    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
@@ -410,6 +420,18 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
+    useVectorStyleControl() {
+      return Array.isArray(this.indicatorObject?.queryParameters);
+    },
+    showVisualAnalysisAddons() {
+      let show = false;
+      if (['polar', 'gtif'].includes(this.appConfig.id)) {
+        const showVar = this.indicatorHasMapData;
+        const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
+        show = showVar && !hideVar;
+      }
+      return show;
+    },
     showMap() {
       // show map means that only information on the map is shown and no indicator data is expected
       // currently this seems to be only the case for indicatorobjects with no features
@@ -489,6 +511,16 @@ export default {
     },
   },
   watch: {
+    showingChart() {
+      if (this.showingChart) {
+        // we only want to open if it is closed
+        if (!this.$parent.$parent.$el.classList.contains('v-expansion-panel--active')) {
+          this.$parent.$parent.$parent.$refs.header.$emit('click', {
+            currentTarget: this.$parent.$parent.$parent.$refs.header.$el,
+          });
+        }
+      }
+    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },

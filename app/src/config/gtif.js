@@ -132,7 +132,6 @@ function contspace(v, varOffset, varSpacing) {
 
 const wkt = new Wkt();
 
-export const dataPath = './data/gtif/internal/';
 export const dataEndpoints = [
   {
     type: 'eox',
@@ -247,9 +246,9 @@ const solarAndGreenRoofDefaults = [
   baseLayers.s1EodcBackscattervh,
   baseLayers.geolandbasemap,
   {
-    ...baseLayers.bmapgelaende, visible: true,
+    ...baseLayers.bmaporthofoto30cm, visible: true,
   },
-  baseLayers.bmaporthofoto30cm,
+  baseLayers.bmapgelaende,
   baseLayers.eoxosm,
   baseLayers.cloudless,
   baseLayers.terrainLight,

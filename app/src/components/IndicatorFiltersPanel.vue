@@ -1,10 +1,7 @@
 <template>
-  <eox-itemfilter class="pa-2" ref="itemFilterEl" style="height: max-content;">
-    <h4 v-if="appConfig.id !== 'gtif'" slot="filterstitle">
-      Filter
-    </h4>
-    <span v-else slot="filterstitle"></span>
-    <h4 slot="resultstitle">
+  <eox-itemfilter class="px-4" ref="itemFilterEl" style="height: max-content;">
+    <span slot="filterstitle"></span>
+    <h4 slot="resultstitle" style="margin-bottom: 4px;">
       {{this.appConfig.id === "gtif" ? (toolsToggle ? "Tools" : "Narratives") : "Indicators"}}
     </h4>
   </eox-itemfilter>
@@ -138,12 +135,15 @@ export default {
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Satellite sensor' },
+              /*
               { key: 'insituSources', title: 'In situ sources' },
               { key: 'otherSources', title: 'Other sources' },
+              */
               { key: 'countries', title: 'Country' },
-              { key: 'cities', title: 'City' },
+              { key: 'cities', title: 'City/Location' },
             ],
             aggregateResults: 'group',
+            autoSpreadSingle: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
@@ -159,15 +159,45 @@ export default {
                 expanded: true,
                 featured: true,
               },
+              /*
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
               { key: 'sensor', title: 'Sensor' },
               { key: 'countries', title: 'Country' },
               { key: 'cities', title: 'City' },
               { key: 'themes', title: 'Theme', ...themesPresetState },
+              */
             ],
             aggregateResults: 'themes',
+            autoSpreadSingle: false,
             enableHighlighting: true,
+            onSelect: (item) => {
+              this.toggleSelectedItem(item);
+            },
+          },
+          polar: {
+            titleProperty: 'name',
+            filterProperties: [
+              // {
+              //   keys: ['name', 'description'],
+              //   title: 'Search',
+              //   type: 'text',
+              //   expanded: true,
+              //   featured: true,
+              // },
+              /*
+              { key: 'tags', title: 'Tag' },
+              { key: 'satellite', title: 'Satellite' },
+              { key: 'sensor', title: 'Sensor' },
+              { key: 'countries', title: 'Country' },
+              { key: 'cities', title: 'City' },
+              { key: 'themes', title: 'Theme', ...themesPresetState },
+              */
+            ],
+            aggregateResults: 'group',
+            expandResults: false,
+            autoSpreadSingle: true,
+            enableHighlighting: false,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
             },
@@ -277,25 +307,57 @@ export default {
         //   `;
         // });
         const flags = '';
-        this.itemfilter.styleOverride = `
+        let newStyle = `
           ${this.itemFilterStyleOverride}
           ${flags}
           ${configs[this.appConfig.id].styleOverride}
           #container-results{
-             overflow:hidden;
-           }
-           form#itemfilter{
-             overflow: auto;
-           }
-           * {
-            font-family: 'NotesESA' !important;
-           }
+            overflow:hidden;
+          }
+          form#itemfilter{
+            overflow: auto;
+          }
+          /* to fix strange double scroll bar in filters*/
+          eox-itemfilter-multiselect {
+            overflow-y: hidden!important;
+          }
+          /* to fix cutting of text in result names*/
+          label span {
+            height: 15px;
+          }
+          /* to have indicator results closer together */
+          #results li {
+            padding-top: 2px!important;
+            padding-bottom: 2px!important;
+          }
+          /* making reset button small and changing position */
+          #filter-reset {
+            height: 16px;
+            top: 39px!important;
+            right: 1px!important;
+            padding: 5px;
+            margin: 0px;
+          }
+          /* ading more indentation to summarized items */
+          details div ul li {
+            margin-left: 9px;
+          }
+          #filters>li:first-child {
+            margin-bottom: 10px!important;
+          }
         `;
+        if (this.appConfig.id === 'gtif') {
+          newStyle = `${newStyle} * {
+            font-family: 'NotesESA' !important;
+           }`;
+        }
+        this.itemfilter.styleOverride = newStyle;
       });
     },
     toggleSelectedItem(item) {
       if (this.selectedIndicator && item.indicator === this.selectedIndicator.indicator) {
         this.setSelectedIndicator(null);
+        // this does not reset the UI (the radiobutton is still checked...)
         this.itemfilter.selectedResult = null;
         this.itemfilter.requestUpdate();
       } else {
@@ -304,6 +366,14 @@ export default {
         // pick an indicator based on match of unique collection link instead
         const match = this.indicators.find((indicator) => item.link === indicator.link);
         this.setSelectedIndicator(match);
+
+        const uiPanels = this.$parent.$parent.$parent.$parent.$children;
+        // programatically open Layer Panel it exists and not open yet
+        if (!uiPanels[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanels[1].$refs.header.$emit('click', {
+            currentTarget: uiPanels[1].$refs.header.$el,
+          });
+        }
       }
     },
   },

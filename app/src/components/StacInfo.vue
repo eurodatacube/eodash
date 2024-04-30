@@ -6,7 +6,11 @@
           @loaded="onStacInfoLoad"
           :for="getLink"
           :allowHtml.prop="true"
-          :styleOverride.prop="`#properties li > .value {
+          :styleOverride.prop="`
+          .single-property {
+            word-break: break-word
+          }
+          #properties li > .value {
               font-weight: normal !important;
           }
           #properties li {
@@ -20,7 +24,58 @@
           properties='["description"]'
           featured="[]"
           footer="[]"
-          style="margin-left: -30px; margin-right: -30px;word-wrap: break-word;"
+          :style="`
+            margin-left: -30px;
+            margin-right: -30px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}`"
+        ></eox-stacinfo>
+      </v-col>
+      <v-col v-else-if="appConfig.id === 'trilateral'">
+        <eox-stacinfo ref="stacInfo"
+          @loaded="onStacInfoLoad"
+          :for="getLink"
+          :allowHtml.prop="true"
+          :styleOverride.prop="`
+          .single-property {columns: 1!important;}
+          h1 {margin:0px!important;font-size:16px!important;}
+          h1:after {
+            content:' ';
+            display:block;
+            border:1px solid #d0d0d0;
+          }
+          h2 {font-size:15px}
+          h3 {font-size:14px}
+          summary {cursor: pointer;}
+          #tags ul {margin:0px!important;}
+          .description > h1 {
+            display: none;
+          }
+          #properties {
+            margin-top: -20px!important;
+          }
+          #properties li > .value {
+              font-weight: normal !important;
+          }
+          #properties li {
+              width: 100%;
+          }
+          #properties ul {
+              width: 100%;
+          }
+          main {
+            padding: 0px 30px;
+          }`"
+          header='["title"]'
+          subheader='[]'
+          properties='["description"]'
+          featured='[]'
+          footer="[]"
+          :style="`
+            margin-left: -20px;
+            margin-right: -20px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}`"
         ></eox-stacinfo>
       </v-col>
       <v-col v-else>
@@ -31,25 +86,49 @@
           :for="getLink"
           @loaded="onStacInfoLoad"
           header='["title"]'
-          subheader='["keywords"]'
-          properties='["themes", "satellite", "sensor", "agency", "links"]'
-          featured='["description", "providers", "extent", "sci:publications", "assets"]'
+          tags='["themes"]'
+          properties='["satellite","sensor","agency","extent","license"]'
+          featured='["description","providers","assets","links"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
-          style="margin-left: -30px; margin-right: -30px;"
-          :styleOverride.prop="'#properties li > .value { font-weight: normal !important;}'"
+          :style="`
+            margin-left: -20px;
+            margin-right: -20px;
+            word-wrap: break-word;
+            --color-primary: ${$vuetify.theme.currentTheme.main}!important;
+            --color-primary-lighter: white;`"
+          :styleOverride.prop="`
+          .single-property {columns: 1!important;}
+          h1 {margin:0px!important;font-size:16px!important;}
+          header h1:after {
+            content:' ';
+            display:block;
+            border:1px solid #d0d0d0;
+          }
+          h2 {font-size:15px}
+          h3 {font-size:14px}
+          summary {cursor: pointer;}
+          #properties li > .value { font-weight: normal !important;}
+          main {padding-bottom: 10px;}
+          .footer-container {line-height:1;}
+          .footer-container button {margin-top: -10px;}
+          .footer-container small {font-size:10px;line-height:1;}
+          `"
         >
           <div slot="themes"
           v-if="stacInfoLoaded">
             <ul>
               <v-chip
-                v-for="theme in $refs.stacInfo.stacProperties.themes.value"
+                v-for="theme in themesInStacInfo"
                 :key="theme"
                 :color="$store.state.themes.themes.find(t => t.slug === theme)?.color"
+                style="height: 22px"
                 text-color="white"
               >
               <v-avatar left>
-                <v-icon>{{ $store.state.config.baseConfig.indicatorClassesIcons[theme] }}</v-icon>
+                <v-icon style="font-size: 14px;">
+                  {{ $store.state.config.baseConfig.indicatorClassesIcons[theme] }}
+                </v-icon>
               </v-avatar>
                 {{ theme }}
               </v-chip>
@@ -59,9 +138,7 @@
           v-if="stacInfoLoaded">
             Code examples:
             <li
-              v-for="link in $refs.stacInfo.stacProperties.links.value.filter(
-                (l) => l.rel === 'example' || l.rel === 'license'
-              )"
+              v-for="link in linksInStacInfo"
               :key="link.rel"
             >
               <v-btn color="primary" :href="link.href">{{ link.rel }}</v-btn>
@@ -73,7 +150,7 @@
     </v-row>
     <v-expansion-panels
     style="justify-content: left;"
-    v-if="additionalGTIFDataInfos.length > 0"
+    v-if="appConfig.id === 'gtif' && additionalGTIFDataInfos.length > 0"
     >
     <h4>
       Dataset metadata
@@ -112,6 +189,8 @@ export default {
   data: () => ({
     additionalGtifDataInfoContent: [],
     stacInfoLoaded: null,
+    themesInStacInfo: [],
+    linksInStacInfo: [],
   }),
   computed: {
     ...mapState('config', [
@@ -172,6 +251,11 @@ export default {
         } else {
           this.$parent.$parent.$el.style.display = '';
         }
+        this.themesInStacInfo = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        const links = this.$refs.stacInfo?.stacProperties?.links?.value || [];
+        this.linksInStacInfo = links.filter(
+          (l) => l.rel === 'example' || l.rel === 'license',
+        );
         this.stacInfoLoaded = true;
       });
     },
@@ -203,12 +287,15 @@ export default {
 
 <style scoped lang="scss">
 ::v-deep th {
-    text-align: left;
-  }
+  text-align: left;
+}
+.col {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 </style>
 <style>
 eox-stacinfo::part(header) {
-  position: sticky;
   top: 0;
   z-index: 1;
 }
@@ -232,4 +319,9 @@ eox-stacinfo::part(footer) {
   padding: 2px 10px;
   margin-right: 4px;
 }
+.v-expansion-panel-header{
+  margin-bottom: 0px;
+  min-height: 50px!important;
+}
+
 </style>

@@ -4,11 +4,26 @@ import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
+import colormap from 'colormap';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
 } from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
+
+function getColormap(name, reverse, nshades = 16) {
+  const colors = colormap({
+    colormap: name, nshades, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  return colors;
+}
+
+function clamp(value, low, high) {
+  return Math.max(low, Math.min(value, high));
+}
 
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
@@ -26,6 +41,11 @@ const getDailyDates = (start, end) => {
   }
   return dateArray;
 };
+
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const geodbFeatures = {
   name: 'Ship detections',
@@ -126,8 +146,7 @@ export const indicatorsDefinition = Object.freeze({
   E13c: {
     features: {
       name: 'Ship detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-      url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/E13c/E13c_UK9_20200829.geojson',
     },
   },
   E13d: {
@@ -284,7 +303,6 @@ export const globalIndicators = [
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
-        aoiID: 'World',
         indicator: 'WSF',
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
@@ -298,6 +316,162 @@ export const globalIndicators = [
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Copyright DLR (2021);|Contains modified Copernicus Sentinel-1 and Sentinel-2 data [2019]}',
         },
         ],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CROPOM',
+        queryParameters: [{
+          sourceLayer: 'cropom',
+          title: 'Forecast parameter',
+          selected: 'yield',
+          items: [
+            {
+              id: 'yield',
+              description: 'Yield',
+              yAxis: 't/ha',
+            },
+            {
+              id: 'water_need',
+              description: 'Water need',
+              yAxis: 'mm',
+            },
+          ],
+        }, {
+          title: 'Crop type',
+          selected: 'Wheat',
+          items: [
+            {
+              id: 'Wheat',
+              description: 'Wheat',
+              areaIndicator: 'WheatGDD',
+              min_y: 5,
+              max_y: 10,
+              min_w: 0,
+              max_w: 200,
+            },
+            {
+              id: 'Maize',
+              description: 'Maize',
+              areaIndicator: 'MaizeGDD',
+              min_y: 0,
+              max_y: 12,
+              min_w: 100,
+              max_w: 650,
+            },
+            {
+              id: 'Sunflower',
+              description: 'Sunflower',
+              areaIndicator: 'SunflowerGDD',
+              min_y: 0,
+              max_y: 6,
+              min_w: 100,
+              max_w: 650,
+            },
+            {
+              id: 'Soybean',
+              description: 'Soybean',
+              areaIndicator: 'Soybean',
+              min_y: 0,
+              max_y: 5,
+              min_w: 100,
+              max_w: 650,
+            },
+          ],
+        }, {
+          title: 'Scenario',
+          selected: 'average',
+          items: [
+            {
+              id: 'worst',
+              description: 'Worst',
+            },
+            {
+              id: 'average',
+              description: 'Average',
+            },
+            {
+              id: 'best',
+              description: 'Best',
+            },
+          ],
+        }],
+        display: {
+          baseUrl: null,
+          customAreaIndicator: true,
+          disableVisualAnalysisAddons: true,
+          tooltip: {
+            tooltipFormatFunction: (feature, _, store) => {
+              const ind = store.state.indicators.selectedIndicator;
+              const selectedParameter = ind.queryParameters[0].items.find((item) => item.id === ind.queryParameters[0].selected);
+
+              const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
+              const selectedScenario = ind.queryParameters[2].selected;
+              const value = feature.get(selectedParameter.id)[selectedCrop.id][selectedScenario];
+              return [
+                `Region: ${feature.get('NUTS_NAME')}`,
+                `${selectedCrop.description} ${selectedParameter.description}, scenario ${selectedScenario}: ${value}`,
+              ];
+            },
+          },
+          layerControlHide: true,
+          areaIndicator: {
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
+            adminZoneKey: 'FID',
+            requestMethod: 'GET',
+            callbackFunction: (responseJson, indicator) => {
+              const data = responseJson.growth;
+              const newData = {
+                time: [],
+                measurement: [],
+                referenceValue: [],
+              };
+              Object.entries(data).forEach(([key, value]) => {
+                newData.time.push(DateTime.fromISO(key));
+                newData.measurement.push(value.yield_);
+                newData.referenceValue.push(value.biomass);
+              });
+              newData.yAxis = ['t/ha', 'g/m2'];
+              const ind = {
+                ...indicator,
+                ...newData,
+              };
+              return ind;
+            },
+          },
+          features: {
+            name: 'CropModel API ',
+            id: 'cropom',
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?country_code=HU',
+            projection: {
+              name: 'EPSG:3035',
+              def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
+            },
+            layerControlHide: false,
+            style: {
+              strokeColor: 'rgba(0,0,0,0)',
+              getColor: (feature, store) => {
+                let color = '#00000000';
+                const ind = store.state.indicators.selectedIndicator;
+                const selectedParameter = ind.queryParameters[0].selected;
+                const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
+                const selectedScenario = ind.queryParameters[2].selected;
+                const colormapUsed = selectedParameter === 'yield' ? getColormap('chlorophyll', true, 64) : getColormap('jet', false, 64);
+                const min = selectedParameter === 'yield' ? selectedCrop.min_y : selectedCrop.min_w;
+                const max = selectedParameter === 'yield' ? selectedCrop.max_y : selectedCrop.max_w;
+                const value = feature.get(selectedParameter)[selectedCrop.id][selectedScenario];
+                const f = clamp((value - min) / (max - min), 0, 1);
+                color = colormapUsed[Math.round(f * (colormapUsed.length - 1))];
+                return color;
+              },
+            },
+            selection: {
+              mode: 'single',
+            },
+          },
+        },
       },
     },
   },
@@ -329,6 +503,52 @@ export const globalIndicators = [
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           maxZoom: 14,
           opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'E13c_ship_detections',
+        display: [{
+          baseLayers: cloudlessBaseLayerDefault,
+          disableCompare: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          // 2500 pixel SH limit * 10 m resolution of S2 RGB bands
+          // and multiplied by 4/5 to cater for slowness of algorithm and data transfer
+          maxDrawnAreaSide: 20000,
+          minZoom: 7,
+          maxZoom: 18,
+          mapTimeDatepicker: true,
+          sliderConfig: {
+            title: 'Detection Threshold',
+            min: 0,
+            max: 1,
+            step: 0.01,
+            default: 0.5,
+          },
+          drawnAreaLimitExtent: true,
+          // areaIndicator: trucksAreaIndicator,
+          features: {
+            url: 'https://gtif-backend.hub.eox.at/ship_detection?{area}&{featuresTime}&threshold={sliderValue}',
+            name: 'Ship detections on-the-fly',
+            style: {
+              strokeColor: '#00c3ff',
+              width: 2,
+            },
+            dateFormatFunction: (date) => `start_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}&end_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+            areaFormatFunction: (area) => {
+              const extent = geojsonFormat.readGeometry(area).getExtent();
+              const formattedArea = `lon_min=${extent[0]}&lat_min=${extent[1]}&lon_max=${extent[2]}&lat_max=${extent[3]}`;
+              return {
+                area: formattedArea,
+              };
+            },
+          },
+          customAreaFeatures: true,
         }],
       },
     },
