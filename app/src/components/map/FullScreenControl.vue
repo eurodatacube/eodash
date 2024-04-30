@@ -35,7 +35,7 @@ export default {
   mounted() {},
   methods: {
     setFullScreen() {
-      var elem;
+      let elem;
       if (this.selector) {
         elem = document.querySelector(this.selector);
       } else {
