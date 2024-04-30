@@ -26,14 +26,16 @@
             >
               <template #left="{panels,handleSelection, activePanel}">
                  <UiPanel v-for="panel in panels " :key="panel.id"
-                 :height-percentage="panel.heightPercentage" :id="panel.id"
+                 :height-percentage="panel.heightPercentage"
+                 :height-percentage-both-open="panel.heightPercentageBothOpen"
+                 :id="panel.id"
                  @panel-selected="function(id){ handleSelection(id) }"
                  :activeID="activePanel" :title="panel.title"
                  >
                    <IndicatorFiltersDemo v-if="$route.name === 'demo' && ['Domains & Tools'].includes(panel.title)"/>
-                   <IndicatorFiltersPanel v-else-if="['Domains & Tools','Domains'].includes(panel.title)" />
+                   <IndicatorFiltersPanel v-else-if="indicatorPanelheader === panel.title" />
                    <eox-layercontrol
-                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
@@ -56,7 +58,7 @@
                     || $store.state.features.featureFilters.indicators.length > 0"
                     :key="panelKey" />
                     <eox-layercontrol
-                    v-if="panel.title == 'Layers' && indicatorSelected"
+                    v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
                     :tools.prop="['info', 'config', 'opacity', 'sort']"
@@ -129,6 +131,12 @@ export default {
     indicatorSelected() {
       return this.indicatorObject
         || this.$store.state.features.featureFilters.indicators.length > 0;
+    },
+    indicatorPanelheader() {
+      if (this.appConfig.uiText && 'indicatorPanelheader' in this.appConfig.uiText) {
+        return this.appConfig.uiText.indicatorPanelheader;
+      }
+      return 'Domains & Tools';
     },
     currentNews() {
       let currentNews;

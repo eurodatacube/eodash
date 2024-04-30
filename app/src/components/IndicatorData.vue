@@ -125,12 +125,12 @@ export default {
       dataLayerTimeFromMap: null,
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
-        'E12', 'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
-        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX-EU',
+        'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX_EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
-        'Lakes_SWT',
+        'Lakes_SWT', 'CROPOM',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
@@ -876,6 +876,34 @@ export default {
             borderWidth: 2,
           });
         }
+        if (['CROPOM'].includes(indicatorCode)) {
+          const data = [];
+          const refData = [];
+          featureData.time.forEach((t, i) => {
+            data.push({ t, y: featureData.measurement[i] });
+            refData.push({ t, y: featureData.referenceValue[i] });
+          });
+          datasets.push({
+            label: `Yield ${featureData.yAxis[0]}`,
+            yAxisID: 'y-axis-0',
+            data,
+            fill: false,
+            borderColor: refColors[0],
+            backgroundColor: refColors[0],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
+          datasets.push({
+            label: `Biomass ${featureData.yAxis[1]}`,
+            yAxisID: 'y-axis-1',
+            data: refData,
+            fill: false,
+            borderColor: refColors[1],
+            backgroundColor: refColors[1],
+            borderWidth: 2,
+            pointRadius: 2,
+          });
+        }
 
         if (['N3b_tsm', 'N3b_chl'].includes(indicatorCode)) {
           const sensors = Array.from(new Set(featureData.eoSensor)).sort();
@@ -1010,7 +1038,7 @@ export default {
             }
             datasets.push(ds);
           });
-        } else if (['OX', 'OX-EU'].includes(indicatorCode)) {
+        } else if (['OX', 'OX_EU'].includes(indicatorCode)) {
           const data = [];
           const average = [];
           let counter = 0;
@@ -1376,10 +1404,10 @@ export default {
       if (this.enableMapTimeInteraction) {
         // set listener to highlight points for selected time on map via annotations
         if (event.data.command === 'chart:setTime') {
-          this.dataLayerTimeFromMap = event.data.time;
+          this.dataLayerTimeFromMap = event?.data?.time;
         }
         if (event.data.command === 'chart:setCompareTime') {
-          this.compareLayerTimeFromMap = event.data.time;
+          this.compareLayerTimeFromMap = event?.data?.time;
         }
         this.$nextTick(() => {
           const chart = this.getChartObject();
@@ -1497,6 +1525,8 @@ export default {
           }.bind(this),
         },
       };
+      // just one default yAxis
+      customSettings.yAxis = [this.indicatorObject.yAxis];
 
       if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
@@ -1590,7 +1620,7 @@ export default {
         customSettings.yAxisRange = [0, 8];
       }
 
-      if (['E13d', 'E13n', 'OX', 'OX-EU'].includes(indicatorCode)) {
+      if (['E13d', 'E13n', 'OX', 'OX_EU'].includes(indicatorCode)) {
         customSettings.timeConfig = {
           unit: 'month',
           displayFormats: { month: 'MMM yy' },
@@ -1753,7 +1783,7 @@ export default {
       }
 
       // Special chart display for oilx data
-      if (['OX', 'OX-EU'].includes(indicatorCode)) {
+      if (['OX', 'OX_EU'].includes(indicatorCode)) {
         customSettings.hover = {
           mode: 'nearest',
         };
@@ -1911,6 +1941,10 @@ export default {
         };
       }
 
+      if (['CROPOM'].includes(indicatorCode)) {
+        customSettings.yAxis = ['t/ha', 'g/m2'];
+      }
+
       if (['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3'].includes(indicatorCode)) {
         customSettings.tooltips = {
           callbacks: {
@@ -1989,7 +2023,6 @@ export default {
         animation: {
           duration: 0,
         },
-        yAxis: this.indicatorObject.yAxis,
         xAxis: this.indicatorObject.xAxis,
         country: this.indicatorObject.country,
       };

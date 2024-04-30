@@ -1,7 +1,6 @@
 const shConfig = {
   shInstanceId: '$SH_INSTANCE_ID',
-  shInstanceIdGtif: '$SH_INSTANCE_ID_GTIF',
-  mbAccessToken: '$MAPBOX_ACCESS_TOKEN',
+  shInstanceIdPolar: '$SH_INSTANCE_ID_POLAR',
   geodbInstanceId: '$GEODB_INSTANCE_ID',
   listmonkApiKey: '$LISTMONK_API_KEY',
   statApiClientId: '$STAT_API_CLIENT_ID',

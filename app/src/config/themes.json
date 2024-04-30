@@ -132,5 +132,30 @@
       "color": "#6D00C5",
       "description": "Food production, ecosystems & biodiversity"
     }
+  ],
+  "polar": [
+    {
+      "name": "Air",
+      "slug": "air",
+      "color": "#4059AD",
+      "description": "Tracking Changes in the Atmosphere",
+      "longDescription": "Air pollution and climate change are some of the biggest environmental challenges of our time.",
+      "datasetsImage": "/data/story-images/Datasets-theme.jpg"
+    },
+    {
+      "name": "Oceans",
+      "slug": "oceans",
+      "color": "#6DA2C5",
+      "description": "Keeping Current with Earth’s Largest Natural Resource",
+      "longDescription": "Satellite images reveal a view of the ocean that is as rich and complex as that of land.",
+      "datasetsImage": "/data/story-images/wq-explore-datasets-image.png"
+    },
+    {
+      "name": "Cryosphere",
+      "slug": "cryosphere",
+      "color": "#42C7B8",
+      "description": "Tracking Ice and Snow’s Relationship to Climate",
+      "longDescription": "The Arctic region shows changes most characteristic of global warming."
+    }
   ]
 }

@@ -60,8 +60,9 @@ export async function fetchData({
     );
     source.clear();
     if (custom?.features && custom.features.length) {
+      const projection = config?.features?.projection ? getProjectionOl(config.features.projection) : 'EPSG:4326';
       const features = geoJsonFormat.readFeatures(custom, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       });
       features.forEach((ftr) => {
@@ -75,7 +76,7 @@ export async function fetchData({
         }
         if (ftr.geometry) {
           ftr.setGeometry(geoJsonFormat.readGeometry(ftr.geometry, {
-            dataProjection: 'EPSG:4326',
+            dataProjection: projection,
             featureProjection: map.getView().getProjection(),
           }));
         }
@@ -210,7 +211,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
-async function createWMTSSourceFromCapabilities(config, layer) {
+async function createWMTSSourceFromCapabilities(config, layer, options) {
   const s = await fetch(config.url)
     .then((response) => response.text())
     .then((text) => {
@@ -225,6 +226,14 @@ async function createWMTSSourceFromCapabilities(config, layer) {
         crossOrigin: config.crossOrigin,
       };
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      if (config.usedTimes?.time?.length) {
+        const updatedDimensions = {
+          ...optsFromCapabilities.dimensions,
+          ...config.dimensions || {},
+          time: options.time,
+        };
+        optsFromCapabilities.dimensions = updatedDimensions;
+      }
       const source = new WMTS({
         attributions: config.attribution,
         ...optsFromCapabilities,
@@ -233,8 +242,11 @@ async function createWMTSSourceFromCapabilities(config, layer) {
       return source;
     });
   s.set('updateTime', (updatedTime, area, configUpdate) => {
-    const newSource = createWMTSSourceFromCapabilities(configUpdate, layer);
-    layer.setSource(newSource);
+    const updatedDimensions = {
+      ...layer.getSource().getDimensions(),
+      time: configUpdate.dateFormatFunction(updatedTime),
+    };
+    layer.getSource().updateDimensions(updatedDimensions);
   });
   return s;
 }
@@ -298,10 +310,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     };
     featuresSource.set('updateTime', featuresUpdateFn);
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    let style;
+    if (config.features?.flatStyle) {
+      style = config.features?.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config.features, options);
+    }
     layer = new VectorLayer({
       source: featuresSource,
-      style: dynamicStyleFunction,
+      style,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
@@ -321,10 +338,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       source: wgSource,
       style: config.style,
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
     layer = new VectorTileLayer({});
-    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
@@ -340,7 +355,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
   } else if (config.protocol === 'WMTSCapabilities') {
     layer = new TileLayer({});
-    createWMTSSourceFromCapabilities(config, layer);
+    createWMTSSourceFromCapabilities(config, layer, options);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
@@ -353,21 +368,21 @@ export function createLayerFromConfig(config, map, _options = {}) {
         url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
+    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     } : {
       features: geoJsonFormat.readFeatures(config.data, {
-        dataProjection: 'EPSG:4326',
+        dataProjection: projection,
         featureProjection: map.getView().getProjection(),
       }),
     };
@@ -540,11 +555,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.setExtent(drawnAreaExtent);
   }
   const layerProperties = {
+    id: config?.features?.id ? config.features.id : config.id,
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
     minZoom: typeof config.minZoom !== 'undefined' ? config.minZoom : 1,
     visible: config.visible,
+    layerControlHide: config?.features ? config.features.layerControlHide : config.layerControlHide,
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   };
