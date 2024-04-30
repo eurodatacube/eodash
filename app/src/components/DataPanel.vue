@@ -1,10 +1,11 @@
 <template>
   <div
+    id="data-panel-parent"
     :style="`${$vuetify.breakpoint.mdAndDown ? ''
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
-    <FullScreenControl class="ml-2" selector="#data-panel" />
+    <span class="ml-5"><FullScreenControl selector="#data-panel-parent" /></span>
     <div
       class="pt-0 pb-0"
       id="data-panel"
