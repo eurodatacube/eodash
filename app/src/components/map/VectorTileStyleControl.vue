@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row align="center"
-    v-if="queryParameters.items.length > 1">
+    v-if="queryParameters.items?.length > 1">
       <v-col cols="6">
         <v-subheader>
           Data properties
@@ -42,7 +42,7 @@ export default {
     const selected = this.queryParameters?.selected;
     if (this.queryParameters?.selected && this.queryParameters?.items?.length > 1) {
       this.select = this.queryParameters?.items.find((item) => item.id === selected);
-    } else {
+    } else if (this.queryParameters?.items) {
       [this.select] = this.queryParameters?.items;
     }
   },
