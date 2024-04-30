@@ -107,16 +107,7 @@ export default {
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = dataGroup.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (config.protocol === 'geoserverTileLayer' && swipeLayer) {
-          loadIndicatorExternalData(
-            time, config,
-          ).then((data) => {
-            this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.changed();
-          });
-        } else if (swipeLayer) {
-          swipeLayer.changed();
-        }
+        swipeLayer.changed();
       });
     },
     time(time) {
