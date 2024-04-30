@@ -5,7 +5,12 @@
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
-    <span class="ml-5"><FullScreenControl selector="#data-panel-parent" /></span>
+    <span
+      v-if="customAreaIndicator && !customAreaIndicator.isEmpty || dataObject && dataObject.time"
+      class="ml-5"
+    >
+      <FullScreenControl selector="#data-panel-parent" />
+    </span>
     <div
       class="pt-0 pb-0"
       id="data-panel"
