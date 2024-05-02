@@ -1,8 +1,8 @@
-name: GTIF Staging deployment
+name: Polar deployment
 
 on:
   push:
-    branches: [ gtif_staging ]
+    branches: [ polar ]
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -30,23 +30,23 @@ jobs:
       run: |
         cd app/
         npm ci --ignore-scripts
-        npm run build -- --mode staging
+        npm run build
 
     # Inject SH Config file
     - name: replace instance ID
       uses: datamonsters/replace-action@v2
       with:
         files: 'app/dist/shConfig.js'
-        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_POLAR=${{ secrets.SH_INSTANCE_ID_POLAR }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }},$STAT_API_CLIENT_SECRET=${{ secrets.STAT_API_CLIENT_SECRET }},$STAT_API_CLIENT_ID=${{ secrets.STAT_API_CLIENT_ID }},$SH_INSTANCE_ID_GTIF=${{ secrets.SH_INSTANCE_ID_GTIF }}'
+        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_POLAR=${{ secrets.SH_INSTANCE_ID_POLAR }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }},$STAT_API_CLIENT_SECRET=${{ secrets.STAT_API_CLIENT_SECRET }},$STAT_API_CLIENT_ID=${{ secrets.STAT_API_CLIENT_ID }}'
 
     # Upload build client to S3
     - name: sync client s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks  --exclude 'data/*'  --exclude 'eodash-data/*'
+        args: --delete --follow-symlinks --exclude 'data/*'  --exclude 'eodash-data/*'
       env:
         SOURCE_DIR: 'app/dist'
-        DEST_DIR: 'gtif-staging'
+        DEST_DIR: 'polar'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -56,10 +56,10 @@ jobs:
     - name: sync data s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks --size-only
+        args: --delete --follow-symlinks
       env:
         SOURCE_DIR: 'app/dist/data'
-        DEST_DIR: 'gtif-staging/data'
+        DEST_DIR: 'polar/data'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -69,10 +69,10 @@ jobs:
     - name: sync eodashdata s3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --delete --follow-symlinks --size-only
+        args: --delete --follow-symlinks
       env:
         SOURCE_DIR: 'app/dist/eodash-data'
-        DEST_DIR: 'gtif-staging/eodash-data'
+        DEST_DIR: 'polar/eodash-data'
         AWS_REGION: 'eu-central-1'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -82,7 +82,7 @@ jobs:
     - name: invalidate
       uses: chetan/invalidate-cloudfront-action@v1.2
       env:
-        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_GTIF_STAGING }}
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_POLAR }}
         PATHS: '/*'
         AWS_REGION: 'eu-central-1'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -90,7 +90,7 @@ jobs:
 
     # Send notification
     - name: action-slack
-      uses: 8398a7/action-slack@v3.0.3
+      uses: 8398a7/action-slack@v3.15.1
       with:
         status: ${{ job.status }}
         author_name: eodash_deploy

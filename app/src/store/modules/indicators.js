@@ -183,13 +183,14 @@ const actions = {
     // only for testing and staging environments
     const currUrl = new URL(window.location.href);
     const catalogBranch = currUrl.searchParams.get('catalog');
-    const testenv = window.location.href.search('test|staging|localhost|eox.world');
+    const testenv = window.location.href.search('polar|test|staging|localhost|eox.world');
     if (catalogBranch !== null && testenv !== -1) {
       const bucket = 'https://eodashcatalog.eox.at/';
       const mapping = {
         esa: 'RACE',
         trilateral: 'trilateral',
         gtif: 'GTIF',
+        polar: 'polar',
       };
       url = `${bucket}${catalogBranch}/${mapping[rootState.config.appConfig.id]}/catalog.json`;
     }

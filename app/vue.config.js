@@ -58,6 +58,7 @@ module.exports = {
     '@eox/map',
     '@eox/jsonform',
     '@eox/storytelling',
+    'color-parse',
   ],
   configureWebpack: {
     devServer: {

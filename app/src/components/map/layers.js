@@ -196,12 +196,12 @@ function createFromTemplate(templateStr, tileCoord) {
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
-  const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
-  const aoiID = options.aoiID || store.state.indicators.selectedIndicator.aoiID;
+  const indicator = options.indicator || store.state.indicators.selectedIndicator?.indicator;
+  const aoiID = options.aoiID || store.state.indicators.selectedIndicator?.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiID);
-  if (config.features && config.features.dateFormatFunction) {
+  if (config?.features?.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
@@ -211,7 +211,7 @@ function replaceUrlPlaceholders(baseUrl, config, options) {
   return url;
 }
 
-async function createWMTSSourceFromCapabilities(config, layer) {
+async function createWMTSSourceFromCapabilities(config, layer, options) {
   const s = await fetch(config.url)
     .then((response) => response.text())
     .then((text) => {
@@ -226,6 +226,14 @@ async function createWMTSSourceFromCapabilities(config, layer) {
         crossOrigin: config.crossOrigin,
       };
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      if (config.usedTimes?.time?.length) {
+        const updatedDimensions = {
+          ...optsFromCapabilities.dimensions,
+          ...config.dimensions || {},
+          time: options.time,
+        };
+        optsFromCapabilities.dimensions = updatedDimensions;
+      }
       const source = new WMTS({
         attributions: config.attribution,
         ...optsFromCapabilities,
@@ -234,8 +242,11 @@ async function createWMTSSourceFromCapabilities(config, layer) {
       return source;
     });
   s.set('updateTime', (updatedTime, area, configUpdate) => {
-    const newSource = createWMTSSourceFromCapabilities(configUpdate, layer);
-    layer.setSource(newSource);
+    const updatedDimensions = {
+      ...layer.getSource().getDimensions(),
+      time: configUpdate.dateFormatFunction(updatedTime),
+    };
+    layer.getSource().updateDimensions(updatedDimensions);
   });
   return s;
 }
@@ -299,10 +310,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     };
     featuresSource.set('updateTime', featuresUpdateFn);
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    let style;
+    if (config.features?.flatStyle) {
+      style = config.features?.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config.features, options);
+    }
     layer = new VectorLayer({
       source: featuresSource,
-      style: dynamicStyleFunction,
+      style,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
@@ -339,7 +355,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
   } else if (config.protocol === 'WMTSCapabilities') {
     layer = new TileLayer({});
-    createWMTSSourceFromCapabilities(config, layer);
+    createWMTSSourceFromCapabilities(config, layer, options);
   } else if (config.protocol === 'geoserverTileLayer') {
     const dynamicStyleFunction = createVectorLayerStyle(config, options);
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';

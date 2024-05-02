@@ -246,9 +246,9 @@ const solarAndGreenRoofDefaults = [
   baseLayers.s1EodcBackscattervh,
   baseLayers.geolandbasemap,
   {
-    ...baseLayers.bmapgelaende, visible: true,
+    ...baseLayers.bmaporthofoto30cm, visible: true,
   },
-  baseLayers.bmaporthofoto30cm,
+  baseLayers.bmapgelaende,
   baseLayers.eoxosm,
   baseLayers.cloudless,
   baseLayers.terrainLight,

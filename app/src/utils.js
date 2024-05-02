@@ -14,13 +14,23 @@ import {
   nasaStatisticsConfig,
   xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
-// import { xcubeViewerColormaps } from '@/config/layers';
+// import { xcubeViewerColormaps, marineDataStoreDepths } from '@/config/layers';
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
+}
+
+function sanitizeBbox(bbox) {
+  const [x1, y1, x2, y2] = bbox;
+  // Calculate the minimum and maximum values for x and y
+  const xmin = Math.min(x1, x2);
+  const xmax = Math.max(x1, x2);
+  const ymin = Math.min(y1, y2);
+  const ymax = Math.max(y1, y2);
+  return [xmin, ymin, xmax, ymax];
 }
 
 export function simplifiedshTimeFunction(date) {
@@ -124,7 +134,6 @@ function createXYZTilesXcubeDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `${date}`,
     labelFormatFunction: (date) => date,
-    // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
     // layerConfig: {
     //   schema: {
     //     type: 'object',
@@ -153,6 +162,56 @@ function createXYZTilesXcubeDisplay(config, name) {
     //         type: 'string',
     //         enum: xcubeViewerColormaps,
     //       },
+    //     },
+    //   },
+    // },
+  };
+  return display;
+}
+
+function createXYZTilesMarineDatastoreDisplay(config, name) {
+  // const searchParams = new URLSearchParams(config.href);
+  // const vmin = searchParams.get('vmin') || 0;
+  // const vmax = searchParams.get('vmax') || 1;
+  const display = {
+    protocol: 'xyz',
+    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:4326&tilematrix={z-1}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    name,
+    dateFormatFunction: (date) => `${date}`,
+    // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
+    // layerConfig: {
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       // vminmax: {
+    //       //   title: 'Value stretch',
+    //       //   type: 'object',
+    //       //   properties: {
+    //       //     vmin: {
+    //       //       type: 'number',
+    //       //       minimum: parseFloat(vmin),
+    //       //       maximum: parseFloat(vmax),
+    //       //       format: 'range',
+    //       //     },
+    //       //     vmax: {
+    //       //       type: 'number',
+    //       //       minimum: parseFloat(vmin),
+    //       //       maximum: parseFloat(vmax),
+    //       //       format: 'range',
+    //       //     },
+    //       //   },
+    //       //   format: 'minmax',
+    //       // },
+    //       elevation: {
+    //         title: 'Elevation',
+    //         type: 'string',
+    //         enum: marineDataStoreDepths,
+    //       },
+    //       // style: {
+    //       //   title: 'Style',
+    //       //   type: 'string',
+    //       //   enum: ['cmap:viridis,range:1/1400,noClamp', 'cmap:speed,range:1/400,noClamp'],
+    //       // },
     //     },
     //   },
     // },
@@ -310,8 +369,10 @@ export async function loadFeatureData(baseConfig, feature) {
         };
       }
     }
+    // if coordinates of bbox are switched in source, client breaks in OL part
+    const bbox = sanitizeBbox(jsonData.extent.spatial.bbox[0]);
     // Add collection extent as subaoi
-    const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
+    const coords = fromExtent(bbox).getCoordinates();
     const features = {
       type: 'MultiPolygon',
       coordinates: [coords],
@@ -475,8 +536,19 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    const wmtsEndpoint = jsonData.links.find((item) => item.rel === 'wmts');
     let display = {};
-    if (wmsEndpoint) {
+    if (wmtsEndpoint && wmtsEndpoint.href.includes('wmts.marine.copernicus.eu/teroWmts')) {
+      display = createXYZTilesMarineDatastoreDisplay(
+        wmtsEndpoint, jsonData.id,
+      );
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          times.push(link.datetime);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+    } else if (wmsEndpoint) {
       display = createWMSDisplay(
         wmsEndpoint, jsonData.id,
       );

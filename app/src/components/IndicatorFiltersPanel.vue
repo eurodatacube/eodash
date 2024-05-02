@@ -175,6 +175,33 @@ export default {
               this.toggleSelectedItem(item);
             },
           },
+          polar: {
+            titleProperty: 'name',
+            filterProperties: [
+              // {
+              //   keys: ['name', 'description'],
+              //   title: 'Search',
+              //   type: 'text',
+              //   expanded: true,
+              //   featured: true,
+              // },
+              /*
+              { key: 'tags', title: 'Tag' },
+              { key: 'satellite', title: 'Satellite' },
+              { key: 'sensor', title: 'Sensor' },
+              { key: 'countries', title: 'Country' },
+              { key: 'cities', title: 'City' },
+              { key: 'themes', title: 'Theme', ...themesPresetState },
+              */
+            ],
+            aggregateResults: 'group',
+            expandResults: false,
+            autoSpreadSingle: true,
+            enableHighlighting: false,
+            onSelect: (item) => {
+              this.toggleSelectedItem(item);
+            },
+          },
           gtif: {
             titleProperty: 'name',
             filterProperties: [

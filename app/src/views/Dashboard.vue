@@ -133,7 +133,7 @@ export default {
         || this.$store.state.features.featureFilters.indicators.length > 0;
     },
     indicatorPanelheader() {
-      if ('indicatorPanelheader' in this.appConfig.uiText) {
+      if (this.appConfig.uiText && 'indicatorPanelheader' in this.appConfig.uiText) {
         return this.appConfig.uiText.indicatorPanelheader;
       }
       return 'Domains & Tools';
