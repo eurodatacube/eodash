@@ -255,6 +255,40 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'Polartep_S1_dedl_demo',
+        time: [
+          ['20230524T17:52:21Z', 's1a-iw-grd-vv-20230524t175221-20230524t175248-048679-05dad0-001_COG.tiff', 'Sentinel-1 IW VV'],
+          ['20230524T17:52:21Z', 's1a-iw-grd-vh-20230524t175221-20230524t175248-048679-05dad0-002_COG.tiff', 'Sentinel-1 IW VH'],
+        ],
+        display: {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/{time}' },
+          ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => `${DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd HH:mm:ss')} -${date[2]}`,
+          style: {
+            color: [
+              'case',
+              ['>', ['band', 1], 0],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('greys', 0, 400, 50, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'Polartep_Snowgrain_diameter_demo',
         time: [],
         display: {
@@ -329,6 +363,68 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'Polartep_RCM_demo',
+        time: ['2021-05-01', '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-08', '2021-05-09', '2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-17', '2021-05-18', '2021-05-22', '2021-05-23', '2021-05-25'],
+        display: [{
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '1-HH-LINEAR-SIGMA0',
+          name: 'HH Linear Sigma0',
+        }, {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '3-HV-LINEAR-SIGMA0',
+          name: 'HV Linear Sigma0',
+        }, {
+          baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdPolar}`,
+          layers: '5-HH-HV-RATIO-RGB-SIGMA0',
+          name: 'HH HV Ratio RGB Sigma0',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Polartep_SeaIceCharts_demo',
+        display: {
+          baseUrl: null,
+          layerControlHide: true,
+          features: {
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/cape_farewell_{featuresTime}.geojson',
+            name: 'Sea Ice Charts',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/Polartep_SeaIceCharts_demo/legend.png',
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
+            allowedParameters: ['CT'],
+            flatStyle: [
+              {
+                style: {
+                  'fill-color': [
+                    'case',
+                    ['<', ['get', 'CT'], 0],
+                    'rgba(0,0,0,0)',
+                    ['<', ['get', 'CT'], 10],
+                    'rgba(150,200,255,1)',
+                    ['<=', ['get', 'CT'], 30],
+                    'rgba(140,255,160,1)',
+                    ['<=', ['get', 'CT'], 60],
+                    'rgba(255,255,0,1)',
+                    ['<=', ['get', 'CT'], 80],
+                    'rgba(255,125,7,1)',
+                    ['<=', ['get', 'CT'], 100],
+                    'rgba(255,0,0,1)',
+                    'rgba(0,0,0,0)',
+                  ],
+                  'stroke-color': 'rgba(0,0,0,0)',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'SITI',
         display: {
           url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
@@ -350,6 +446,19 @@ export const globalIndicators = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        // updating times and additional layers
+        indicator: '4D_Greenland_Meltmap',
+        time: getDailyDates('2007-01-02', '2021-12-28'),
+        display: {
+          ...polarStereoDatasetsConfigs,
+          dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
   createTOPAZ4Config('TOPAZ4_P1D_SICONC'),
   createTOPAZ4Config('TOPAZ4_P1D_SISNTHICK'),
   createTOPAZ4Config('TOPAZ4_P1D_SITHICK'),
@@ -365,4 +474,7 @@ export const globalIndicators = [
   createTOPAZ5Config('TOPAZ5_P1D_VXSI'),
   createTOPAZ5Config('TOPAZ5_P1D_VYO'),
   createTOPAZ5Config('TOPAZ5_P1D_VYSI'),
+  createTOPAZ5Config('4D_Greenland_Melt_Season_End'),
+  createTOPAZ5Config('4D_Greenland_Melt_Duration'),
+  createTOPAZ5Config('4D_Greenland_Melt_Onset'),
 ];

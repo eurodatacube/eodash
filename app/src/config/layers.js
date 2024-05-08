@@ -142,13 +142,6 @@ export const baseLayers = Object.freeze({
     visible: false,
     minZoom: 6,
   },
-  // mapboxHighReso: {
-  //   name: 'Mapbox high resolution',
-  //   url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-  //   attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-  //   visible: false,
-  //   protocol: 'xyz',
-  // },
   s2AT2021: {
     name: 'Sentinel-2 Austrian mosaic 2021',
     attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
@@ -195,7 +188,7 @@ export const baseLayers = Object.freeze({
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
     visible: false,
-    minZoom: 2,
+    minNativeZoom: 2,
     projection: {
       name: 'ORTHO:680500',
       def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
@@ -211,7 +204,7 @@ export const baseLayers = Object.freeze({
     name: 'Terrain Light Stereographic South',
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
-    minZoom: 2,
+    minNativeZoom: 2,
     visible: false,
     projection: {
       name: 'ORTHO:320500',

@@ -196,12 +196,12 @@ function createFromTemplate(templateStr, tileCoord) {
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
-  const indicator = options.indicator || store.state.indicators.selectedIndicator.indicator;
-  const aoiID = options.aoiID || store.state.indicators.selectedIndicator.aoiID;
+  const indicator = options.indicator || store.state.indicators.selectedIndicator?.indicator;
+  const aoiID = options.aoiID || store.state.indicators.selectedIndicator?.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
   url = url.replace(/{indicator}/gi, indicator);
   url = url.replace(/{aoiID}/gi, aoiID);
-  if (config.features && config.features.dateFormatFunction) {
+  if (config?.features?.dateFormatFunction) {
     url = url.replace(/{featuresTime}/i, config.features.dateFormatFunction(time));
   }
   if (config.siteMapping) {
@@ -310,10 +310,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
       });
     };
     featuresSource.set('updateTime', featuresUpdateFn);
-    const dynamicStyleFunction = createVectorLayerStyle(config.features, options);
+    let style;
+    if (config.features?.flatStyle) {
+      style = config.features?.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config.features, options);
+    }
     layer = new VectorLayer({
       source: featuresSource,
-      style: dynamicStyleFunction,
+      style,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
