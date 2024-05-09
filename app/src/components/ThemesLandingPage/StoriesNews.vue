@@ -7,6 +7,26 @@
     <v-row>
       <v-col>
         <h3>
+          2024-05-10: 3rd Earth System Science Challenge on EO data analysis and storytelling
+        </h3>
+        <p>
+          ESA’s Science Hub hosts the 3rd edition of the Earth System Science Challenges from 13-17 May 2024 in ESRIN, Frascati, Italy. PhD students from University of Edinburgh and University of Leeds will solve EO data science challenges to address impactful topics. <br>Their stories will be featured on EO Dashboard.
+        </p>
+        <p>Read more here: <a href="https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/" target="_blank" >https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge</a>
+        </p>
+        <div style="width: 100%; text-align: center;">
+          <a href="https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge" target="_blank">
+            <img
+              :src="`${publicPath}data/trilateral/Science-Hub_Challenge2_240502.png`"
+              style="max-width: 100%; max-height: 500px;"
+            />
+          </a>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2024-04-12: New biomass story published!
         </h3>
         <p><b>Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes</b></p>
