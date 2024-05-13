@@ -828,6 +828,15 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
               max: 4000,
               range: [0, 4000],
             },
+            albedo: {
+              display: true,
+              label: 'Filter for albedo',
+              id: 'albedo',
+              dataInfo: 'Albedo',
+              min: 0,
+              max: 1,
+              range: [0, 1],
+            },
             protectedZones: {
               display: true,
               type: 'boolfilter',
@@ -848,6 +857,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_10m_DSM_COG_Slope_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerLineHigh_EucDist_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Austria_Full_Energy_Increase_Water_Masked_COG_nodata.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
           ],
           style: {
@@ -863,6 +873,8 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
               energyGridDistance: 25000,
               elevationMin: 0,
               elevationMax: 4000,
+              albedoMin: 0,
+              albedoMax: 1,
               protected: 0,
             },
             color: [
@@ -886,9 +898,10 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
                 ['between', ['band', 3], ['var', 'slopeMin'], ['var', 'slopeMax']],
                 ['<', ['band', 4], ['var', 'energyGridDistance']],
                 ['between', ['band', 5], ['var', 'elevationMin'], ['var', 'elevationMax']],
+                ['between', ['band', 6], ['var', 'albedoMin'], ['var', 'albedoMax']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
-                  ['==', ['band', 6], 0],
+                  ['==', ['band', 7], 0],
                 ],
               ],
               [
