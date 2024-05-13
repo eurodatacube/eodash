@@ -107,6 +107,9 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
+      const mapConfig = JSON.stringify(this.$parent.$refs.mapContainer.config);
+      return mapConfig;
+      /*
       let indObj = this.indicatorObject;
       if (this.featureObject) {
         // Merge with parent indicator object to have all necessary information
@@ -124,6 +127,7 @@ export default {
         }
       }
       return `<iframe class="item" src="${window.location.origin}/iframe?${queryParams}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
+      */
     },
   },
   methods: {
