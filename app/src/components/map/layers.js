@@ -226,6 +226,7 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
         crossOrigin: config.crossOrigin,
       };
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
+      console.log(optsFromCapabilities);
       if (config.usedTimes?.time?.length) {
         const updatedDimensions = {
           ...optsFromCapabilities.dimensions,
@@ -449,7 +450,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
       projection: getProjectionOl(config.projection),
       transition: 0,
-      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+      url: config.url,
+      // tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
     };
     source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {

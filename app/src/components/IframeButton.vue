@@ -107,7 +107,10 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
-      const mapConfig = JSON.stringify(this.$parent.$refs.mapContainer.config);
+      const exportConfig = this.$parent.$refs.mapContainer.config;
+      // remove internal layer group
+      exportConfig.layers.splice(-1);
+      const mapConfig = JSON.stringify(exportConfig);
       return mapConfig;
       /*
       let indObj = this.indicatorObject;
