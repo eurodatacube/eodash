@@ -175,23 +175,6 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-function createFromTemplate(templateStr, tileCoord) {
-  const zwgs84OffsetRegEx = /\{z-1\}/g;
-  const zRegEx = /\{z\}/g;
-  const xRegEx = /\{x\}/g;
-  const yRegEx = /\{y\}/g;
-  const dashYRegEx = /\{-y\}/g;
-  return templateStr
-    .replace(zwgs84OffsetRegEx, (tileCoord[0] - 1).toString())
-    .replace(zRegEx, (tileCoord[0]).toString())
-    .replace(xRegEx, tileCoord[1].toString())
-    .replace(yRegEx, tileCoord[2].toString())
-    .replace(dashYRegEx, () => {
-      // eslint-disable-next-line no-bitwise
-      const y = (1 << tileCoord[0]) - tileCoord[2] - 1;
-      return y.toString();
-    });
-}
 
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
@@ -454,13 +437,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
     };
     source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
-      // for layers with time entries, use a tileUrl function that
-      // gets the current time entry from the store
-      source.setTileUrlFunction((tileCoord) => {
-        const url = replaceUrlPlaceholders(config.url, config, options);
-        return createFromTemplate(url, tileCoord);
-      });
-      source.url = config.url;
+      const url = replaceUrlPlaceholders(config.url, config, options);
+      source.setUrl(url);
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
           ...options,
@@ -468,7 +446,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         };
         updatedOptions.time = time;
         const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
-        source.url = url;
+        source.setUrl(url);
       });
     }
     layer = new TileLayer({
