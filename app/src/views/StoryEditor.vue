@@ -7,7 +7,7 @@
     >
       <!-- <global-header /> -->
       <eox-storytelling
-        show-editor
+        show-editor="open"
         markdown-url="./data/storytelling-md/new-storytelling-demo.md"
         style="overflow-y: auto; height: calc(var(--vh, 1vh) * 100);"
       ></eox-storytelling>

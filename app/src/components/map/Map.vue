@@ -187,6 +187,23 @@
             mapControl
           />
         </div>
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px; margin-top: 2px;"
+        >
+          <OLExportButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && appConfig.id !== 'gtif'"
+            :featureObject="featureObject"
+            :indicatorObject="indicator"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            mapControl
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -213,6 +230,7 @@ import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import OLExportButton from '@/components/OLExportButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
@@ -258,6 +276,7 @@ export default {
     SubaoiLayer,
     MapOverlay,
     IframeButton,
+    OLExportButton,
     AddToDashboardButton,
     DarkOverlayLayer,
     CustomFeaturesFetchButton,

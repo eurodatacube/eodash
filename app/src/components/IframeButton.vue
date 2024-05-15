@@ -107,12 +107,6 @@ export default {
       'appConfig',
     ]),
     iframeCode() {
-      const exportConfig = this.$parent.$refs.mapContainer.config;
-      // remove internal layer group
-      exportConfig.layers.splice(-1);
-      const mapConfig = JSON.stringify(exportConfig);
-      return mapConfig;
-      /*
       let indObj = this.indicatorObject;
       if (this.featureObject) {
         // Merge with parent indicator object to have all necessary information
@@ -130,7 +124,6 @@ export default {
         }
       }
       return `<iframe class="item" src="${window.location.origin}/iframe?${queryParams}" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>`;
-      */
     },
   },
   methods: {
