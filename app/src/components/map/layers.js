@@ -451,7 +451,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       projection: getProjectionOl(config.projection),
       transition: 0,
       url: config.url,
-      // tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
     };
     source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
@@ -461,16 +460,15 @@ export function createLayerFromConfig(config, map, _options = {}) {
         const url = replaceUrlPlaceholders(config.url, config, options);
         return createFromTemplate(url, tileCoord);
       });
+      source.url = config.url;
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
           ...options,
           ...configUpdate,
         };
         updatedOptions.time = time;
-        source.setTileUrlFunction((tileCoord) => {
-          const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
-          return createFromTemplate(url, tileCoord);
-        });
+        const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+        source.url = url;
       });
     }
     layer = new TileLayer({
