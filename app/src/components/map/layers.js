@@ -175,7 +175,6 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
@@ -437,7 +436,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     };
     source = new XYZSource(sourceOptions);
     if (config.usedTimes?.time?.length) {
-      const url = replaceUrlPlaceholders(config.url, config, options);
+      let url = replaceUrlPlaceholders(config.url, config, options);
       source.setUrl(url);
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
@@ -445,7 +444,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
           ...configUpdate,
         };
         updatedOptions.time = time;
-        const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+        url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
         source.setUrl(url);
       });
     }
