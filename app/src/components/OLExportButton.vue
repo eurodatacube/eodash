@@ -20,7 +20,7 @@
               </v-icon>
             </v-btn>
           </template>
-          <span>Embed this map into a storytelling section</span>
+          <span>Embed this map into a story</span>
         </v-tooltip>
       </template>
       <v-btn
@@ -39,14 +39,19 @@
 
     <v-card>
       <v-card-title class="headline primary white--text">
-        Embed this element into  a storytelling section
+        Storytelling map configuration
       </v-card-title>
 
       <v-card-text class="py-5">
-        Copy and paste this code into the map section tool of the storytelling editor:
-        <code class="pa-3">{{ iframeCode }}
-        </code>
-        <div class="d-flex align-center justify-end pt-3">
+        <div>
+          Copy and paste this code into the map layers field of the storytelling editor:
+        </div>
+        <div
+          class="pa-3"
+          style="background-color: #ddd;font-family: monospace;font-size: 11px;">
+            {{ layersConfig }}
+        </div>
+        <div style="position: absolute; bottom: 15px;">
           <v-expand-transition>
             <div v-if="copySuccess" class="success--text mr-3">
             <v-icon
@@ -56,13 +61,35 @@
               <small>copied!</small>
             </div>
           </v-expand-transition>
+        </div>
+        <div class="d-flex align-center justify-end pt-3">
           <v-btn
             small
             text
-            @click="copy(iframeCode)"
+            @click="copy(layersConfig)"
           >
             <v-icon left>mdi-content-copy</v-icon>
-            copy to clipboard
+            copy as layers config
+          </v-btn>
+        </div>
+        <div class="d-flex align-center justify-end pt-3">
+          <v-btn
+            small
+            text
+            @click="copy(mapEntryCode)"
+          >
+            <v-icon left>mdi-content-copy</v-icon>
+            copy as simple map
+          </v-btn>
+        </div>
+        <div class="d-flex align-center justify-end pt-3">
+          <v-btn
+            small
+            text
+            @click="copy(mapStepCode)"
+          >
+            <v-icon left>mdi-content-copy</v-icon>
+            copy as map tour section
           </v-btn>
         </div>
       </v-card-text>
@@ -89,6 +116,7 @@ import {
   mapState,
 } from 'vuex';
 import { getUid } from 'ol/util';
+import { toLonLat } from 'ol/proj';
 
 export default {
   mixins: [dialogMixin],
@@ -107,14 +135,34 @@ export default {
     ...mapState('config', [
       'appConfig',
     ]),
-    iframeCode() {
+    layersConfig() {
       const layerConfig = this.extractLayerConfig(
         this.$parent.$refs.mapContainer.map.getLayers().getArray(),
       );
-      console.log(layerConfig);
       // remove internal layer group
       layerConfig.splice(-1);
+      // reverse to use same order as eox-map config
+      layerConfig.reverse();
       return JSON.stringify(layerConfig);
+    },
+    mapStepCode() {
+      const mapView = this.$parent.$refs.mapContainer.map.getView();
+      const origCoords = mapView.get('center');
+      const lonlat = toLonLat(origCoords, mapView.getProjection());
+      const preTag = '### <!--{ layers=';
+      const endTag = `zoom="${mapView.get('zoom')}" center=[${[lonlat]}] animationOptions={duration:500}}-->
+#### Tour step title
+Text describing the current step of the tour and why it is interesting what the map shows currently
+      `;
+      return `${preTag}'${this.layersConfig}' ${endTag}`;
+    },
+    mapEntryCode() {
+      const mapView = this.$parent.$refs.mapContainer.map.getView();
+      const origCoords = mapView.get('center');
+      const lonlat = toLonLat(origCoords, mapView.getProjection());
+      const preTag = '## Map Example <!--{as="eox-map" style="width: 100%; height: 500px;" layers=';
+      const endTag = `zoom="${mapView.get('zoom')}" center=[${[lonlat]}] }-->`;
+      return `${preTag}'${this.layersConfig}' ${endTag}`;
     },
   },
   methods: {
