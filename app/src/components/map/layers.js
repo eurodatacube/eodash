@@ -436,6 +436,23 @@ export function createLayerFromConfig(config, map, _options = {}) {
         },
       });
     } else {
+      // Check if source has times and if yes set to latest
+      if (config.usedTimes?.time?.length) {
+        debugger;
+        const updateUrl = replaceUrlPlaceholders(config.url, config, options);
+        vectorSource.setUrl(updateUrl);
+        vectorSource.set('updateTime', (time, area, configUpdate) => {
+          debugger;
+          const updatedOptions = {
+            ...options,
+            ...configUpdate,
+          };
+          updatedOptions.time = time;
+          const updurl = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+          vectorSource.setUrl(updurl);
+        });
+      }
+      debugger;
       layer = new VectorLayer({
         source: vectorSource,
         style: dynamicStyleFunction,

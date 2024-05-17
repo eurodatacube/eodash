@@ -219,6 +219,25 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   return display;
 }
 
+function createVectorDisplay(config) {
+  const display = {
+    baseUrl: '{time}',
+    url: '{time}',
+    protocol: 'GeoJSON',
+    style: {
+      'stroke-color': 'red',
+      'stroke-width': 2,
+    },
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+    tooltip: true,
+    // allowedParameters: ['name'],
+  };
+  return display;
+}
+
 function createVectorTileDisplay(config) {
   // TODO, not finished and used yet
   const display = {
@@ -617,6 +636,23 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else if (jsonData.endpointtype === 'GeoJSON source') {
+      display = createVectorDisplay(jsonData);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.vector_data,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
