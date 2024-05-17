@@ -121,6 +121,10 @@ function dynamicWidth(feature, defaultWidth) {
 }
 
 function createVectorLayerStyle(config, options) {
+  if (config?.flatStyle) {
+    // pass back flat style if contained in config
+    return config.flatStyle;
+  }
   if (typeof config?.styleFunction === 'function') {
     // pass down the style function from config accepting a possible feature
     return config.styleFunction;
@@ -438,11 +442,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
     } else {
       // Check if source has times and if yes set to latest
       if (config.usedTimes?.time?.length) {
-        debugger;
         const updateUrl = replaceUrlPlaceholders(config.url, config, options);
         vectorSource.setUrl(updateUrl);
         vectorSource.set('updateTime', (time, area, configUpdate) => {
-          debugger;
           const updatedOptions = {
             ...options,
             ...configUpdate,
@@ -452,7 +454,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
           vectorSource.setUrl(updurl);
         });
       }
-      debugger;
       layer = new VectorLayer({
         source: vectorSource,
         style: dynamicStyleFunction,

@@ -219,15 +219,21 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   return display;
 }
 
-function createVectorDisplay(config) {
+function createVectorDisplay(config, sourceStyle) {
+  let flatStyle = {
+    'stroke-color': 'blue',
+    'stroke-width': 2,
+  };
+  if (sourceStyle) {
+    flatStyle = sourceStyle;
+  } else {
+    console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
+  }
   const display = {
     baseUrl: '{time}',
     url: '{time}',
     protocol: 'GeoJSON',
-    style: {
-      'stroke-color': 'red',
-      'stroke-width': 2,
-    },
+    flatStyle,
     id: config.id,
     name: config.title,
     dateFormatFunction: (date) => date[1],
@@ -637,7 +643,12 @@ export async function loadIndicatorData(baseConfig, payload) {
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
     } else if (jsonData.endpointtype === 'GeoJSON source') {
-      display = createVectorDisplay(jsonData);
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createVectorDisplay(jsonData, flatStyle);
       jsonData.links.forEach((link) => {
         if (link && link.rel === 'item') {
           let time;
