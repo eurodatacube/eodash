@@ -230,6 +230,7 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
       time: configUpdate.dateFormatFunction(updatedTime),
     };
     layer.getSource().updateDimensions(updatedDimensions);
+    layer.set('configId', `${configUpdate.name}-${updatedTime}`);
   });
   return s;
 }
@@ -435,6 +436,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
       url: config.url,
     };
     source = new XYZSource(sourceOptions);
+    layer = new TileLayer({
+      source,
+    });
     if (config.usedTimes?.time?.length) {
       let url = replaceUrlPlaceholders(config.url, config, options);
       source.setUrl(url);
@@ -446,11 +450,13 @@ export function createLayerFromConfig(config, map, _options = {}) {
         updatedOptions.time = time;
         url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
         source.setUrl(url);
+        let timeId = time;
+        if (Array.isArray(time) && time.length > 0) {
+          [timeId] = time;
+        }
+        layer.set('configId', `${configUpdate.name}-${timeId}`);
       });
     }
-    layer = new TileLayer({
-      source,
-    });
   } else if (config.protocol === 'WMS') {
     const { tileSize } = config;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -499,6 +505,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         newParams.env = `year:${updatedTime}`;
       }
       source.updateParams(newParams);
+      layer.set('configId', `${configUpdate.name}-${updatedTime}`);
     });
     layer = new TileLayer({
       source,
@@ -576,5 +583,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     };
     layer.getSource().set('updateArea', areaUpdate);
   }
+  layer.set('configId', config.name);
   return layer;
 }
