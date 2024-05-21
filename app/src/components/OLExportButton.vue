@@ -143,7 +143,7 @@ export default {
       layerConfig.splice(-1);
       // reverse to use same order as eox-map config
       layerConfig.reverse();
-      return JSON.stringify(layerConfig);
+      return JSON.stringify(layerConfig.flat());
     },
     mapStepCode() {
       const mapView = this.$parent.$refs.mapContainer.map.getView();
@@ -153,7 +153,7 @@ export default {
       const endTag = `zoom="${mapView.get('zoom')}" center=[${[lonlat]}] animationOptions={duration:500}}-->
 #### Tour step title
 Text describing the current step of the tour and why it is interesting what the map shows currently
-      `;
+`;
       return `${preTag}'${this.layersConfig}' ${endTag}`;
     },
     mapEntryCode() {
@@ -167,23 +167,18 @@ Text describing the current step of the tour and why it is interesting what the 
   },
   methods: {
     extractLayerConfig(layerArray) {
+      // Extract completely flat layers array without groups
       const layers = [];
       layerArray.map((l) => {
         if (l.constructor.name.includes('Group')) {
-          layers.push({
-            type: 'Group',
-            properties: {
-              id: l.get('id') ? l.get('id') : getUid(l),
-            },
-            layers: this.extractLayerConfig(l.getLayersArray()),
-          });
+          layers.push(this.extractLayerConfig(l.getLayersArray()));
         } else if (l.constructor.name.includes('STACLayer')) {
           layers.push(l.get('_jsonDefinition'));
         } else {
           const layerConfig = {
             type: l.constructor.name.replace('Layer', ''),
             properties: {
-              id: l.get('id') ? l.get('id') : getUid(l),
+              id: l.get('configId') ? l.get('configId') : getUid(l),
             },
           };
           // Evaluate what other information we need to extract for different source types
