@@ -92,7 +92,6 @@ const polarStereoDatasetsConfigs = {
   baseLayers: arcticBaseMaps,
   overlayLayers: arcticOverlayMaps,
   mapProjection: polarStereographicProjection,
-  projection: 'EPSG:4326',
   presetView: {
     type: 'FeatureCollection',
     features: [{
@@ -124,6 +123,7 @@ function createTOPAZ5Config(indicatorCode) {
         indicator: indicatorCode,
         display: {
           ...polarStereoDatasetsConfigs,
+          projection: 'EPSG:4326',
         },
       },
     },
@@ -427,7 +427,6 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SITI',
         display: {
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
           ...polarStereoDatasetsConfigs,
         },
       },
@@ -454,6 +453,7 @@ export const globalIndicators = [
         time: getDailyDates('2007-01-02', '2021-12-28'),
         display: {
           ...polarStereoDatasetsConfigs,
+          projection: 'EPSG:3411',
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
         },
       },
