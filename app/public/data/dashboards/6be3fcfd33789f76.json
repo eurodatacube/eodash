@@ -23,7 +23,7 @@
         },
         "dataLayerTime": null
       },
-      "id": "W10-SITI",
+      "id": "World-SITI",
       "title": "World, Sea Ice Thickness (ICESat-2)"
     },
     {
@@ -32,24 +32,6 @@
       "id": "Cryosat-1652251780072",
       "title": "Cryosat",
       "__generatedText__": "<h3>ESA&#39;s CryoSat-2 and Envisat</h3>\n<p>&nbsp;<br>While measurements from ICESat-2 can be used to determine the height and freeboard of polar sea ice, scientists also rely on ESA and the CryoSat-2 mission to measure sea ice thickness. Researchers at ESA provide monthly measurements of sea ice thickness from the CryoSat-2 and Envisat radar altimeters and other supporting missions. </p>\n<p>Watch this video to learn how ESA measures sea ice thickness from space.</p>\n&lt;iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/9einyMSOmHE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen&gt;&lt;/iframe&gt;\n"
-    },
-    {
-      "width": 3,
-      "mapInfo": {
-        "position": null,
-        "right": null,
-        "up": null,
-        "direction": null
-      },
-      "id": "W9-SIC",
-      "title": "World, Sea Ice Thickness (Cryosat)"
-    },
-    {
-      "width": 1,
-      "text": " ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.\n \nResearchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.\n\n\n## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=W9-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=W8-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=W10-SITI)\n&nbsp;   \n[Sea Ice Concentration Antarctic from GCOM-W](https://www.eodashboard.org/explore?poi=World-N12_sea_ice_concentration_arctic)",
-      "id": "Envisat-1652251767198",
-      "title": "Envisat",
-      "__generatedText__": "<p> ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.</p>\n<p>Researchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.</p>\n<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=W9-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W8-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=W10-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-N12_sea_ice_concentration_arctic\">Sea Ice Concentration Antarctic from GCOM-W</a></p>\n"
     },
     {
       "width": 3,
@@ -75,7 +57,41 @@
           -0.9436592286897083
         ]
       },
-      "id": "W8-SIE",
+      "id": "World-SIC",
+      "title": "World, Sea Ice Thickness (Cryosat)"
+    },
+    {
+      "width": 1,
+      "text": " ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.\n \nResearchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.\n\n\n## Explore Datasets \n &nbsp;   \nThis **EO Dashboard** provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the **[EXPLORE DATASETS](https://www.eodashboard.org/explore)** button at the top of the page or directly from the links below:\n\n[Sea Ice Thickness from Cryosat](https://www.eodashboard.org/explore?poi=World-SIC) &nbsp;   \n[Sea Ice Thickness from Envisat](https://www.eodashboard.org/explore?poi=World-SIE)  &nbsp;   \n[Sea Ice Thickness from IceSAT-2](https://www.eodashboard.org/explore?poi=World-SITI)\n&nbsp;   \n[Sea Ice Concentration Antarctic from GCOM-W](https://www.eodashboard.org/explore?poi=World-N12_1_sea_ice_concentration_arctic)",
+      "id": "Envisat-1652251767198",
+      "title": "Envisat",
+      "__generatedText__": "<p> ESA has been building radar altimeters since the early 1990s. Radar altimeters use a microwave signal to measure sea ice freeboard. In this frequency band, the signal can penetrate further into snow that lies on sea ice. To better understand how far the microwaves can penetrate the snowpack, complementary field or airborne campaigns are needed to validate the satellite data. Researchers are comparing altimeter signals at different frequencies to calculate how much snow lies on top of the sea ice. This is important as the amount of snow can also impact the freeboard\u2014for instance a heavy snow-load can weigh the sea ice down and may even push it under water.</p>\n<p>Researchers can calculate sea ice thickness once the freeboard has been established. The ESA Climate Change Initiative Sea Ice Thickness data set presented here shows the decrease in winter sea ice thickness over the past 15 years using information from ESA\u2019s Envisat and CryoSat-2 satellite missions.</p>\n<h2>Explore Datasets</h2>\n<p> &nbsp;<br>This <strong>EO Dashboard</strong> provides access to interactive maps of Sea Ice Thickness and Sea Ice Concentration. Access these datasets by clicking on the <strong><a href=\"https://www.eodashboard.org/explore\">EXPLORE DATASETS</a></strong> button at the top of the page or directly from the links below:</p>\n<p><a href=\"https://www.eodashboard.org/explore?poi=World-SIC\">Sea Ice Thickness from Cryosat</a> &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-SIE\">Sea Ice Thickness from Envisat</a>  &nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-SITI\">Sea Ice Thickness from IceSAT-2</a>\n&nbsp;<br><a href=\"https://www.eodashboard.org/explore?poi=World-N12_1_sea_ice_concentration_arctic\">Sea Ice Concentration Antarctic from GCOM-W</a></p>\n"
+    },
+    {
+      "width": 3,
+      "mapInfo": {
+        "position": [
+          1231034.0739326647,
+          -6122683.800696974,
+          17717773.571757164
+        ],
+        "right": [
+          0.9803800948855829,
+          0.19711638580324986,
+          3.122502256758253e-16
+        ],
+        "up": [
+          -0.1860106965891978,
+          0.9251447241624721,
+          0.33091881195958767
+        ],
+        "direction": [
+          -0.06522952020777888,
+          0.32442621626836493,
+          -0.9436592286897083
+        ]
+      },
+      "id": "World-SIE",
       "title": "World, Sea Ice Thickness (Envisat)"
     }
   ],
