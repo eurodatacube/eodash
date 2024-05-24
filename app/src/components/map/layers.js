@@ -208,7 +208,6 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
         crossOrigin: config.crossOrigin,
       };
       const optsFromCapabilities = optionsFromCapabilities(result, selectionOpts);
-      console.log(optsFromCapabilities);
       if (config.usedTimes?.time?.length) {
         const updatedDimensions = {
           ...optsFromCapabilities.dimensions,
