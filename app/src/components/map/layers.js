@@ -120,10 +120,28 @@ function dynamicWidth(feature, defaultWidth) {
   return defaultWidth;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 function createVectorLayerStyle(config, options) {
   if (config?.flatStyle) {
     // pass back flat style if contained in config
-    return config.flatStyle;
+    let returnStyle = config.flatStyle;
+    // Check if variables are defined and need to be "burned in" first
+    if ('variables' in config.flatStyle) {
+      let rawStyle = JSON.stringify(config.flatStyle);
+      const { variables } = config.flatStyle;
+      Object.keys(variables).forEach((key) => {
+        rawStyle = replaceAll(rawStyle, `"{${key}}"`, variables[key]);
+      });
+      returnStyle = JSON.parse(rawStyle);
+      console.log(returnStyle);
+    }
+    return returnStyle;
   }
   if (typeof config?.styleFunction === 'function') {
     // pass down the style function from config accepting a possible feature
