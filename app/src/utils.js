@@ -221,6 +221,31 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   return display;
 }
 
+function createVectorDisplay(config, sourceStyle) {
+  let flatStyle = {
+    'stroke-color': 'blue',
+    'stroke-width': 2,
+  };
+  if (sourceStyle) {
+    flatStyle = sourceStyle;
+  } else {
+    console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
+  }
+  const display = {
+    baseUrl: '{time}',
+    url: '{time}',
+    protocol: 'GeoJSON',
+    flatStyle,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+    tooltip: true,
+    // allowedParameters: ['name'],
+  };
+  return display;
+}
+
 function createVectorTileDisplay(config) {
   // TODO, not finished and used yet
   const display = {
@@ -619,6 +644,28 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else if (jsonData.endpointtype === 'GeoJSON source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createVectorDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.vector_data,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
