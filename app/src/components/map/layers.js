@@ -22,7 +22,7 @@ import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
-import { replaceAll } from '../../utils';
+import { replaceAll, PROJDICT } from '../../utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -377,7 +377,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
-    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
+    let projObj = config.projection;
+    if (typeof config.projection === 'string' && PROJDICT[config.projection]) {
+      projObj = PROJDICT[config.projection];
+    }
+    const projection = projObj ? getProjectionOl(projObj) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
