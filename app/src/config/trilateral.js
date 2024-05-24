@@ -589,9 +589,6 @@ export const globalIndicators = [
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
-          // WGS1984Quad as a workaround for EPSG:3857 crashing on z=0 default view for polar areas
-          url: 'https://staging-raster.delta-backend.com/cog/tiles/WGS1984Quad/{z-1}/{x}/{y}?&resampling_method=nearest&bidx=1&colormap_name=plasma&rescale=0.0,4.0&{time}',
-          projection: 'EPSG:4326',
           mapProjection: polarStereographicProjection,
         },
       },

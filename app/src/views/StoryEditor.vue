@@ -7,9 +7,9 @@
     >
       <!-- <global-header /> -->
       <eox-storytelling
-        show-editor
-        markdown-url="./data/storytelling-md/new-storytelling-demo.md"
-        style="overflow-y: auto; height: calc(var(--vh, 1vh) * 100);"
+        show-editor="open"
+        markdown="## Welcome to the story editor "
+        style="overflow-y: auto; height: calc(var(--vh, 2vh) * 100);"
       ></eox-storytelling>
       <global-footer />
     </div>

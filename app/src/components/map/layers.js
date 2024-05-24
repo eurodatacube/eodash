@@ -175,24 +175,6 @@ function createVectorLayerStyle(config, options) {
   return dynamicStyleFunction;
 }
 
-function createFromTemplate(templateStr, tileCoord) {
-  const zwgs84OffsetRegEx = /\{z-1\}/g;
-  const zRegEx = /\{z\}/g;
-  const xRegEx = /\{x\}/g;
-  const yRegEx = /\{y\}/g;
-  const dashYRegEx = /\{-y\}/g;
-  return templateStr
-    .replace(zwgs84OffsetRegEx, (tileCoord[0] - 1).toString())
-    .replace(zRegEx, (tileCoord[0]).toString())
-    .replace(xRegEx, tileCoord[1].toString())
-    .replace(yRegEx, tileCoord[2].toString())
-    .replace(dashYRegEx, () => {
-      // eslint-disable-next-line no-bitwise
-      const y = (1 << tileCoord[0]) - tileCoord[2] - 1;
-      return y.toString();
-    });
-}
-
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
   const time = options.time || store.state.indicators.selectedTime;
@@ -247,6 +229,7 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
       time: configUpdate.dateFormatFunction(updatedTime),
     };
     layer.getSource().updateDimensions(updatedDimensions);
+    layer.set('configId', `${configUpdate.name}-${updatedTime}`);
   });
   return s;
 }
@@ -449,31 +432,30 @@ export function createLayerFromConfig(config, map, _options = {}) {
       crossOrigin: typeof config.crossOrigin !== 'undefined' ? config.crossOrigin : 'anonymous',
       projection: getProjectionOl(config.projection),
       transition: 0,
-      tileUrlFunction: (tileCoord) => createFromTemplate(config.url, tileCoord),
+      url: config.url,
     };
     source = new XYZSource(sourceOptions);
+    layer = new TileLayer({
+      source,
+    });
     if (config.usedTimes?.time?.length) {
-      // for layers with time entries, use a tileUrl function that
-      // gets the current time entry from the store
-      source.setTileUrlFunction((tileCoord) => {
-        const url = replaceUrlPlaceholders(config.url, config, options);
-        return createFromTemplate(url, tileCoord);
-      });
+      let url = replaceUrlPlaceholders(config.url, config, options);
+      source.setUrl(url);
       source.set('updateTime', (time, area, configUpdate) => {
         const updatedOptions = {
           ...options,
           ...configUpdate,
         };
         updatedOptions.time = time;
-        source.setTileUrlFunction((tileCoord) => {
-          const url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
-          return createFromTemplate(url, tileCoord);
-        });
+        url = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+        source.setUrl(url);
+        let timeId = time;
+        if (Array.isArray(time) && time.length > 0) {
+          [timeId] = time;
+        }
+        layer.set('configId', `${configUpdate.name}-${timeId}`);
       });
     }
-    layer = new TileLayer({
-      source,
-    });
   } else if (config.protocol === 'WMS') {
     const { tileSize } = config;
     const tileGrid = tileSize === 512 ? new TileGrid({
@@ -522,6 +504,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         newParams.env = `year:${updatedTime}`;
       }
       source.updateParams(newParams);
+      layer.set('configId', `${configUpdate.name}-${updatedTime}`);
     });
     layer = new TileLayer({
       source,
@@ -599,5 +582,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     };
     layer.getSource().set('updateArea', areaUpdate);
   }
+  layer.set('configId', config.name);
   return layer;
 }

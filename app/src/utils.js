@@ -175,7 +175,9 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   // const vmax = searchParams.get('vmax') || 1;
   const display = {
     protocol: 'xyz',
-    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:4326&tilematrix={z-1}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    // TODO FIXME - change to 4326 and z-1 offset
+    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:3857&tilematrix={z}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    tileSize: 512,
     name,
     dateFormatFunction: (date) => `${date}`,
     // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
