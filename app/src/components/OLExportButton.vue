@@ -208,6 +208,9 @@ Text describing the current step of the tour and why it is interesting what the 
               // TODO: the getStyle function does not return the applied style as described in OL docs
               layerConfig.style = ''; // l.getStyle();
             }
+            if (l.getOpacity() !== 1) {
+              layerConfig.opacity = l.getOpacity();
+            }
             layerConfig.source = source;
             layers.push(layerConfig);
           }
