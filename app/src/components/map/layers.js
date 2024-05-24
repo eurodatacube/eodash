@@ -22,6 +22,7 @@ import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
+import { replaceAll } from '../../utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -120,13 +121,6 @@ function dynamicWidth(feature, defaultWidth) {
   return defaultWidth;
 }
 
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
 function createVectorLayerStyle(config, options) {
   if (config?.flatStyle) {
     // pass back flat style if contained in config
@@ -135,11 +129,15 @@ function createVectorLayerStyle(config, options) {
     if ('variables' in config.flatStyle) {
       let rawStyle = JSON.stringify(config.flatStyle);
       const { variables } = config.flatStyle;
+      console.log(rawStyle);
       Object.keys(variables).forEach((key) => {
-        rawStyle = replaceAll(rawStyle, `"{${key}}"`, variables[key]);
+        if (typeof variables[key] === 'number') {
+          rawStyle = replaceAll(rawStyle, `["var","${key}"]`, variables[key]);
+        } else {
+          rawStyle = replaceAll(rawStyle, `["var","${key}"]`, `"${variables[key]}"`);
+        }
       });
       returnStyle = JSON.parse(rawStyle);
-      console.log(returnStyle);
     }
     return returnStyle;
   }
@@ -322,6 +320,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       style = createVectorLayerStyle(config.features, options);
     }
     layer = new VectorLayer({
+      id: config.id,
       source: featuresSource,
       style,
     });

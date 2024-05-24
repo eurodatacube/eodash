@@ -90,6 +90,14 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
   return dataObject;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+export function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
   const styles = config['wms:styles'] ? config['wms:styles'].join(',') : '';
@@ -228,6 +236,7 @@ function createVectorDisplay(config, sourceStyle) {
   };
   if (sourceStyle) {
     flatStyle = sourceStyle;
+    flatStyle.layerId = config.id;
   } else {
     console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
   }
