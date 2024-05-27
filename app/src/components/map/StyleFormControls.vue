@@ -7,7 +7,7 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
-import { replaceAll } from '../../utils';
+import { replaceAll, flattenObject } from '../../utils';
 
 export default {
   name: 'StyleFormControls',
@@ -22,7 +22,9 @@ export default {
     this.$refs.jsonform.schema = this.flatStyle.jsonform;
     this.$refs.jsonform.addEventListener('change', () => {
       if (this.$refs.jsonform.value) {
-        this.flatStyle.variables = this.$refs.jsonform.value;
+        // We assume unique keys for nested values
+        const values = flattenObject(this.$refs.jsonform.value);
+        this.flatStyle.variables = values;
         this.updateMap();
       }
     });

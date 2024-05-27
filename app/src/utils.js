@@ -257,7 +257,21 @@ function createVectorDisplay(config, sourceStyle) {
   }
   return display;
 }
-
+export function flattenObject(ob) {
+  const toReturn = {};
+  Object.keys(ob).forEach((i) => {
+    if ((typeof ob[i]) === 'object' && ob[i] !== null) {
+      const flatObject = flattenObject(ob[i]);
+      Object.keys(flatObject).forEach((fi) => {
+        // Assumes unique keys, overwrites non unique keys
+        toReturn[fi] = flatObject[fi];
+      });
+    } else {
+      toReturn[i] = ob[i];
+    }
+  });
+  return toReturn;
+}
 export const PROJDICT = {
   'EPSG:3035': {
     name: 'EPSG:3035',
