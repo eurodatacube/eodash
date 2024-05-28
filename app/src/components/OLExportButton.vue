@@ -121,7 +121,7 @@ import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import { TileWMS, WMTS, XYZ } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
-import { JSONFeature, MVT, WKB } from 'ol/format';
+import { GeoJSON, MVT, WKB } from 'ol/format';
 
 export default {
   mixins: [dialogMixin],
@@ -216,8 +216,8 @@ Text describing the current step of the tour and why it is interesting what the 
               source.url = olsource.getUrl();
               let vsf;
               const olformat = olsource.getFormat();
-              if (olformat instanceof JSONFeature) {
-                vsf = 'JSONFeature';
+              if (olformat instanceof GeoJSON) {
+                vsf = 'GeoJSON';
               }
               if (olformat instanceof MVT) {
                 vsf = 'MVT';

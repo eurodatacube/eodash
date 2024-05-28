@@ -61,7 +61,7 @@ export default {
     // the solution that seemed to work best right now
     const style = document.createElement('style');
     style.innerHTML = `.tooltip {
-      padding: 0px 10px 0px 10px;
+      padding: 1px 10px 1px 10px;
       margin: 0px;
       border-radius: 5px;
       position: relative;
