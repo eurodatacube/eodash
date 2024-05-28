@@ -57,6 +57,33 @@ export default {
     });
     map.addOverlay(overlay);
     this.overlay = overlay;
+    // TODO: i imagine we don't really want to be injecting the style but this is
+    // the solution that seemed to work best right now
+    const style = document.createElement('style');
+    style.innerHTML = `.tooltip {
+      padding: 0px 10px 0px 10px;
+      margin: 0px;
+      border-radius: 5px;
+      position: relative;
+      font-size: 14px;
+      box-shadow: none !important;
+      background: rgba(0, 0, 0, 0.8) !important;
+      color: #FFFFFF !important;
+    }
+    .tooltip:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-top-color: rgba(0, 0, 0, 0.6);
+      border-bottom: 0;
+      margin-left: -10px;
+      margin-bottom: -10px;
+    }`;
+    this.$parent.$refs.mapContainer.shadowRoot.appendChild(style);
   },
   methods: {},
   beforeDestroy() {
