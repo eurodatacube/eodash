@@ -129,7 +129,6 @@ function createVectorLayerStyle(config, options) {
     if ('variables' in config.flatStyle) {
       let rawStyle = JSON.stringify(config.flatStyle);
       const { variables } = config.flatStyle;
-      console.log(rawStyle);
       Object.keys(variables).forEach((key) => {
         if (typeof variables[key] === 'number') {
           rawStyle = replaceAll(rawStyle, `["var","${key}"]`, variables[key]);
