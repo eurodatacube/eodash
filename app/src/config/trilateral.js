@@ -315,16 +315,9 @@ export const layerNameMapping = Object.freeze({
       };
       return mapping[eoID];
     },
-    features: {
-      name: 'Ship detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/{site}/{featuresTime}.geojson',
-      allowedParameters: ['verified'],
-    },
   },
   airports: {
     url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site={site}',
-    name: 'Throughput at principal hub airports',
     protocol: 'xyz',
     tileSize: 256,
     dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
@@ -347,12 +340,6 @@ export const layerNameMapping = Object.freeze({
         JP012: 'tk',
       };
       return mapping[eoID];
-    },
-    features: {
-      name: 'Plane detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-      url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/plane/{site}/{featuresTime}.geojson',
-      allowedParameters: ['Country', 'label', 'score'],
     },
   },
   water_quality_chl: {
@@ -1313,7 +1300,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        indicator: 'sen4ama',
+        indicator: 'MCD',
         display: {
           baseLayers: cloudlessBaseLayerDefault,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
