@@ -1313,7 +1313,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        indicator: 'sen4ama',
+        indicator: 'MCD',
         display: {
           baseLayers: cloudlessBaseLayerDefault,
           baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
