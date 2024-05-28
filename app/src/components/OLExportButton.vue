@@ -117,6 +117,11 @@ import {
 } from 'vuex';
 import { getUid } from 'ol/util';
 import { toLonLat } from 'ol/proj';
+import LayerGroup from 'ol/layer/Group';
+import TileLayer from 'ol/layer/Tile';
+import { TileWMS, WMTS, XYZ } from 'ol/source';
+import VectorSource from 'ol/source/Vector';
+import { GeoJSON, MVT, WKB } from 'ol/format';
 
 export default {
   mixins: [dialogMixin],
@@ -170,13 +175,11 @@ Text describing the current step of the tour and why it is interesting what the 
       // Extract completely flat layers array without groups
       const layers = [];
       layerArray.map((l) => {
-        if (l.constructor.name.includes('Group')) {
+        if (l instanceof LayerGroup) {
           layers.push(this.extractLayerConfig(l.getLayersArray()));
-        } else if (l.constructor.name.includes('STACLayer')) {
-          layers.push(l.get('_jsonDefinition'));
-        } else {
+        } else if (l instanceof TileLayer) {
           const layerConfig = {
-            type: l.constructor.name.replace('Layer', ''),
+            type: 'Tile',
             properties: {
               id: l.get('configId') ? l.get('configId') : getUid(l),
             },
@@ -185,26 +188,59 @@ Text describing the current step of the tour and why it is interesting what the 
           const olsource = l.getSource();
           // only export visible layers
           if (olsource && l.isVisible()) {
+            // Find correct type
+            let foundType;
+            if (olsource instanceof XYZ) {
+              foundType = 'XYZ';
+            }
+            if (olsource instanceof TileWMS) {
+              foundType = 'TileWMS';
+            }
+            if (olsource instanceof VectorSource) {
+              foundType = 'VectorSource';
+            }
+            if (olsource instanceof WMTS) {
+              foundType = 'WMTS';
+            }
             // Extract source config
             const source = {
-              type: l.getSource().constructor.name.replace('Source', ''),
+              type: foundType,
             };
-            if (['XYZ', 'TileWMS', 'WMS'].includes(olsource.constructor.name)) {
+            if (['XYZ', 'TileWMS', 'WMTS'].includes(foundType)) {
               if ('url' in olsource) {
                 source.url = olsource.url;
               } else if ('urls' in olsource) {
                 source.urls = olsource.urls;
               }
-            } else if (olsource.constructor.name === 'VectorSource') {
+            } else if (foundType === 'VectorSource') {
               source.url = olsource.getUrl();
-              source.format = olsource.getFormat()?.constructor.name;
+              let vsf;
+              const olformat = olsource.getFormat();
+              if (olformat instanceof GeoJSON) {
+                vsf = 'GeoJSON';
+              }
+              if (olformat instanceof MVT) {
+                vsf = 'MVT';
+              }
+              if (olformat instanceof WKB) {
+                vsf = 'WKB';
+              }
+              if (vsf) {
+                source.format = vsf;
+              }
             }
             // Extract possible other configuration options
-            if (['TileWMS', 'WMS'].includes(olsource.constructor.name)) {
+            if (['TileWMS'].includes(foundType)) {
               source.params = olsource.getParams();
               source.serverType = olsource.serverType_;
             }
-            if (olsource.constructor.name === 'VectorSource') {
+            if (['WMTS'].includes(foundType)) {
+              source.layer = olsource.getLayer();
+              source.format = olsource.getFormat();
+              source.matrixSet = olsource.getMatrixSet();
+              // TODO: i think we also need to have information on tilegrid here
+            }
+            if (foundType === 'VectorSource') {
               layerConfig.style = l.getStyle();
             }
             if (l.getOpacity() !== 1) {
