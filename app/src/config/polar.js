@@ -79,7 +79,7 @@ export const overlayLayersMap = [{
 const polarStereographicProjection = {
   name: 'EPSG:3411',
   def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
-  extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+  extent: [-4500000.00, -4500000.00, 4500000.00, 4500000.00],
 };
 
 // const polarStereographicProjectionSH = {
