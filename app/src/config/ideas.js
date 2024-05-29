@@ -266,63 +266,77 @@ export const globalIndicators = [
             sourceLayer: 'Indicator 4: Flood risk',
             title: 'Model configuration',
             variables: {
-              scenario: {
-                description: 'Climate scenario',
-                selected: '119',
+              ssp: {
+                description: 'Shared Socioeconomic Pathway scenario',
+                selected: 'ssp119',
                 items: [
                   {
-                    id: '119',
+                    id: 'ssp119',
                     description: 'Scenario 119',
                   },
                   {
-                    id: '126',
+                    id: 'ssp126',
                     description: 'Scenario 126',
                   },
                   {
-                    id: '245',
+                    id: 'ssp245',
                     description: 'Scenario 245',
                   },
                   {
-                    id: '370',
+                    id: 'ssp370',
                     description: 'Scenario 370',
                   },
                   {
-                    id: '585',
+                    id: 'ssp585',
                     description: 'Scenario 585',
                   },
                 ],
               },
-              height: {
-                description: 'Storm surge height in m',
-                selected: '00',
+              stormSurge: {
+                description: 'Storm surge level in m',
+                selected: '0_0',
                 items: [
                   {
-                    id: '00',
+                    id: '0_0',
                     description: '0',
                   },
                   {
-                    id: '05',
+                    id: '0_5',
                     description: '05',
                   },
                   {
-                    id: '10',
+                    id: '1_0',
                     description: '10',
                   },
                   {
-                    id: '15',
+                    id: '1_5',
                     description: '15',
                   },
                   {
-                    id: '20',
+                    id: '2_0',
                     description: '20',
                   },
                   {
-                    id: '30',
+                    id: '3_0',
                     description: '30',
                   },
                   {
-                    id: '50',
+                    id: '5_0',
                     description: '50',
+                  },
+                ],
+              },
+              confidence: {
+                description: 'Confidence level of the data',
+                selected: 'medium',
+                items: [
+                  {
+                    id: 'medium',
+                    description: 'Medium',
+                  },
+                  {
+                    id: 'low',
+                    description: 'Low',
                   },
                 ],
               },
@@ -330,10 +344,6 @@ export const globalIndicators = [
                 description: 'Model year (baseline 2020)',
                 selected: '2150',
                 items: [
-                  {
-                    id: '2020',
-                    description: '2020',
-                  },
                   {
                     id: '2040',
                     description: '2040',
@@ -364,11 +374,23 @@ export const globalIndicators = [
           },
           disableTimeSelection: true,
           specialEnvScenario4: true,
-          baseUrl: 'https://ideas.adamplatform.eu/cgi-bin/mapserv/',
-          layers: 'INUNDATION',
+          baseUrl: 'https://hulk.adamplatform.eu/wmts',
+          layers: 'InundationMap',
+          styles: 'InundationMap;colorrange=(1,4);nodata=4',
+          token: '4aa4e7b13ca553ad21de06c05cff3724',
+          projection: 'EPSG:4326',
           crossOrigin: null,
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
+          minZoom: 7,
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((11.99707 36.385913, 11.99707 38.719805, 16.303711 38.719805, 16.303711 36.385913, 11.99707 36.385913))').toJson(),
+            }],
+          },
           features: {
             legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
             name: 'OpenStreetMap selected features',
