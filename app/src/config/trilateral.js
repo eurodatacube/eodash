@@ -240,11 +240,11 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'LANDSAT-8-TRUE-COLOUR': {
     layers: 'LANDSAT-8-TRUE-COLOUR',
