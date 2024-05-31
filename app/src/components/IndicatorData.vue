@@ -126,7 +126,7 @@ export default {
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
         'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
-        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX_EU',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'E10a10_2', 'OX', 'OX_EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
@@ -929,7 +929,7 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           }
-        } else if (['E10a10'].includes(indicatorCode)) {
+        } else if (['E10a10', 'E10a10_2'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
           featureData.time.forEach((t, i) => {
