@@ -124,6 +124,15 @@
           :key="dataLayerName  + '_customArea'"
           :drawnArea.sync="drawnArea"
         />
+        <eox-geosearch
+          style="pointer-events: auto; margin-right: 4px"
+          label="Search"
+          button
+          small
+          list-direction="left"
+          results-direction="down"
+          endpoint="./temp_geosearch/opencage-mock-data.json"
+        ></eox-geosearch>
         <v-btn
           v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
           :color="$vuetify.theme.currentTheme.background"
@@ -351,6 +360,7 @@ export default {
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
       appRightPanelsOpened: null,
+      geosearchExtent: null
     };
   },
   computed: {
@@ -647,6 +657,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       };
+      if (this.geosearchExtent) return this.geosearchExtent;
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
@@ -1031,6 +1042,8 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    window.addEventListener('geosearchSelect', (e) => this.geosearchExtent = e.detail);
   },
   methods: {
     ...mapMutations('indicators', {

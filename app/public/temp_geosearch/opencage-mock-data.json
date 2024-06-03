@@ -1,0 +1,574 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+    {
+      "name": "see attribution guide",
+      "url": "https://opencagedata.com/credits"
+    }
+  ],
+  "rate": { "limit": 2500, "remaining": 2497, "reset": 1715126400 },
+  "results": [
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "17\u00b0 47' 21.07320'' N",
+          "lng": "64\u00b0 42' 29.00664'' W"
+        },
+        "FIPS": { "state": "78" },
+        "MGRS": "20QLE1894467686",
+        "Maidenhead": "FK77ps59aj",
+        "Mercator": { "x": -7203268.0, "y": 1999840.413 },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=286898#map=17/17.78919/-64.70806",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/17.78919/-64.70806&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=17.78919&mlon=-64.70806#map=17/17.78919/-64.70806"
+        },
+        "UN_M49": {
+          "regions": {
+            "AMERICAS": "019",
+            "CARIBBEAN": "029",
+            "LATIN_AMERICA": "419",
+            "VI": "850",
+            "WORLD": "001"
+          },
+          "statistical_groupings": ["LEDC", "SIDS"]
+        },
+        "callingcode": 1,
+        "currency": {
+          "alternate_symbols": ["US$"],
+          "decimal_mark": ".",
+          "disambiguate_symbol": "US$",
+          "html_entity": "$",
+          "iso_code": "USD",
+          "iso_numeric": "840",
+          "name": "United States Dollar",
+          "smallest_denomination": 1,
+          "subunit": "Cent",
+          "subunit_to_unit": 100,
+          "symbol": "$",
+          "symbol_first": 1,
+          "thousands_separator": ","
+        },
+        "flag": "\ud83c\uddfb\ud83c\uddee",
+        "geohash": "de1vpw3j8bz3c7fs36uy",
+        "qibla": 65.05,
+        "roadinfo": { "drive_on": "left", "speed_in": "mph" },
+        "sun": {
+          "rise": {
+            "apparent": 1715075400,
+            "astronomical": 1715070780,
+            "civil": 1715074020,
+            "nautical": 1715072400
+          },
+          "set": {
+            "apparent": 1715121660,
+            "astronomical": 1715126280,
+            "civil": 1715123040,
+            "nautical": 1715124660
+          }
+        },
+        "timezone": {
+          "name": "America/St_Thomas",
+          "now_in_dst": 0,
+          "offset_sec": -14400,
+          "offset_string": "-0400",
+          "short_name": "AST"
+        },
+        "what3words": { "words": "freckle.impatiently.tiller" },
+        "wikidata": "Q11703"
+      },
+      "bounds": {
+        "northeast": { "lat": 18.464984, "lng": -64.512674 },
+        "southwest": { "lat": 17.623468, "lng": -65.1541175 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "VI",
+        "ISO_3166-1_alpha-3": "VIR",
+        "ISO_3166-2": ["US-VI"],
+        "_category": "place",
+        "_type": "state",
+        "continent": "North America",
+        "country": "United States",
+        "country_code": "us",
+        "state": "US Virgin Islands",
+        "state_code": "VI"
+      },
+      "confidence": 1,
+      "formatted": "US Virgin Islands, United States of America",
+      "geometry": { "lat": 17.789187, "lng": -64.7080574 }
+    },
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "45\u00b0 38' 5.49276'' N",
+          "lng": "11\u00b0 24' 22.87548'' E"
+        },
+        "MGRS": "32TPR8755056295",
+        "Maidenhead": "JN55qp82si",
+        "Mercator": { "x": 1269749.548, "y": 5691467.592 },
+        "NUTS": {
+          "NUTS0": { "code": "IT" },
+          "NUTS1": { "code": "ITH" },
+          "NUTS2": { "code": "ITH3" },
+          "NUTS3": { "code": "ITH32" }
+        },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=44580#map=17/45.63486/11.40635",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/45.63486/11.40635&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=45.63486&mlon=11.40635#map=17/45.63486/11.40635"
+        },
+        "UN_M49": {
+          "regions": {
+            "EUROPE": "150",
+            "IT": "380",
+            "SOUTHERN_EUROPE": "039",
+            "WORLD": "001"
+          },
+          "statistical_groupings": ["MEDC"]
+        },
+        "callingcode": 39,
+        "currency": {
+          "alternate_symbols": [],
+          "decimal_mark": ",",
+          "html_entity": "\u20ac",
+          "iso_code": "EUR",
+          "iso_numeric": "978",
+          "name": "Euro",
+          "smallest_denomination": 1,
+          "subunit": "Cent",
+          "subunit_to_unit": 100,
+          "symbol": "\u20ac",
+          "symbol_first": 0,
+          "thousands_separator": "."
+        },
+        "flag": "\ud83c\uddee\ud83c\uddf9",
+        "geohash": "u205ee9f7661tzuhny18",
+        "qibla": 126.67,
+        "roadinfo": { "drive_on": "right", "speed_in": "km/h" },
+        "sun": {
+          "rise": {
+            "apparent": 1715054040,
+            "astronomical": 1715046600,
+            "civil": 1715052060,
+            "nautical": 1715049540
+          },
+          "set": {
+            "apparent": 1715106480,
+            "astronomical": 1715113980,
+            "civil": 1715108520,
+            "nautical": 1715111040
+          }
+        },
+        "timezone": {
+          "name": "Europe/Rome",
+          "now_in_dst": 1,
+          "offset_sec": 7200,
+          "offset_string": "+0200",
+          "short_name": "CEST"
+        },
+        "what3words": { "words": "coconut.trades.serve" },
+        "wikidata": "Q16316"
+      },
+      "bounds": {
+        "northeast": { "lat": 46.0144637, "lng": 11.8362709 },
+        "southwest": { "lat": 45.2551958, "lng": 11.1361942 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "IT",
+        "ISO_3166-1_alpha-3": "ITA",
+        "ISO_3166-2": ["IT-34", "IT-VI"],
+        "_category": "place",
+        "_type": "county",
+        "continent": "Europe",
+        "country": "Italy",
+        "country_code": "it",
+        "county": "Vicenza",
+        "county_code": "VI",
+        "political_union": "European Union",
+        "state": "Veneto",
+        "state_code": "VEN"
+      },
+      "confidence": 1,
+      "formatted": "Vicenza, Italy",
+      "geometry": { "lat": 45.6348591, "lng": 11.4063543 }
+    },
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "62\u00b0 25' 42.00024'' N",
+          "lng": "17\u00b0 25' 6.37320'' E"
+        },
+        "MGRS": "33VXK2486824234",
+        "Maidenhead": "JP82rk02ft",
+        "Mercator": { "x": 1939011.537, "y": 8923514.297 },
+        "NUTS": {
+          "NUTS0": { "code": "SE" },
+          "NUTS1": { "code": "SE3" },
+          "NUTS2": { "code": "SE32" },
+          "NUTS3": { "code": "SE321" }
+        },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=2743653#map=17/62.42833/17.41844",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/62.42833/17.41844&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=62.42833&mlon=17.41844#map=17/62.42833/17.41844"
+        },
+        "UN_M49": {
+          "regions": {
+            "EUROPE": "150",
+            "NORTHERN_EUROPE": "154",
+            "SE": "752",
+            "WORLD": "001"
+          },
+          "statistical_groupings": ["MEDC"]
+        },
+        "callingcode": 46,
+        "currency": {
+          "alternate_symbols": [":-"],
+          "decimal_mark": ",",
+          "disambiguate_symbol": "SEK",
+          "format": "%n %u",
+          "html_entity": "",
+          "iso_code": "SEK",
+          "iso_numeric": "752",
+          "name": "Swedish Krona",
+          "smallest_denomination": 100,
+          "subunit": "\u00d6re",
+          "subunit_to_unit": 100,
+          "symbol": "kr",
+          "symbol_first": 0,
+          "thousands_separator": " "
+        },
+        "flag": "\ud83c\uddf8\ud83c\uddea",
+        "geohash": "u7h7hkexquzfrcsuk44e",
+        "qibla": 149.14,
+        "roadinfo": { "drive_on": "right", "speed_in": "km/h" },
+        "sun": {
+          "rise": {
+            "apparent": 1715048160,
+            "astronomical": 0,
+            "civil": 1715044140,
+            "nautical": 0
+          },
+          "set": {
+            "apparent": 1715109540,
+            "astronomical": 0,
+            "civil": 1715113680,
+            "nautical": 0
+          }
+        },
+        "timezone": {
+          "name": "Europe/Stockholm",
+          "now_in_dst": 1,
+          "offset_sec": 7200,
+          "offset_string": "+0200",
+          "short_name": "CEST"
+        },
+        "what3words": { "words": "details.vendetta.blot" },
+        "wikidata": "Q1193840"
+      },
+      "bounds": {
+        "northeast": { "lat": 62.4534087, "lng": 17.4393459 },
+        "southwest": { "lat": 62.3958963, "lng": 17.3883024 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "SE",
+        "ISO_3166-1_alpha-3": "SWE",
+        "ISO_3166-2": ["SE-Y"],
+        "_category": "place",
+        "_normalized_city": "Aln\u00f6 District",
+        "_type": "village",
+        "city": "Aln\u00f6 District",
+        "continent": "Europe",
+        "country": "Sweden",
+        "country_code": "se",
+        "county": "V\u00e4sternorrland County",
+        "municipality": "Sundsvall Municipality",
+        "political_union": "European Union",
+        "village": "Vi"
+      },
+      "confidence": 7,
+      "formatted": "Aln\u00f6 District, V\u00e4sternorrland County, Sweden",
+      "geometry": { "lat": 62.4283334, "lng": 17.418437 }
+    },
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "17\u00b0 0' 0.00000'' N",
+          "lng": "51\u00b0 30' 0.00000'' E"
+        },
+        "MGRS": "39QWU5322279622",
+        "Maidenhead": "LK57sa00aa",
+        "Mercator": { "x": 5732953.776, "y": 1908339.067 },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=383908#map=17/17.00000/51.50000",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/17.00000/51.50000&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=17.00000&mlon=51.50000#map=17/17.00000/51.50000"
+        },
+        "UN_M49": {
+          "regions": {
+            "ASIA": "142",
+            "WESTERN_ASIA": "145",
+            "WORLD": "001",
+            "YE": "887"
+          },
+          "statistical_groupings": ["LEDC", "LDC"]
+        },
+        "callingcode": 967,
+        "currency": {
+          "alternate_symbols": [],
+          "decimal_mark": ".",
+          "format": "%n %u",
+          "html_entity": "&#xFDFC;",
+          "iso_code": "YER",
+          "iso_numeric": "886",
+          "name": "Yemeni Rial",
+          "smallest_denomination": 100,
+          "subunit": "Fils",
+          "subunit_to_unit": 100,
+          "symbol": "\ufdfc",
+          "symbol_first": 0,
+          "thousands_separator": ","
+        },
+        "flag": "\ud83c\uddfe\ud83c\uddea",
+        "geohash": "t5h8eyv0hvxq11rvd23g",
+        "qibla": 293.71,
+        "roadinfo": { "drive_on": "right", "speed_in": "km/h" },
+        "sun": {
+          "rise": {
+            "apparent": 1715047620,
+            "astronomical": 1715043000,
+            "civil": 1715046240,
+            "nautical": 1715044620
+          },
+          "set": {
+            "apparent": 1715093700,
+            "astronomical": 1715098320,
+            "civil": 1715095020,
+            "nautical": 1715096640
+          }
+        },
+        "timezone": {
+          "name": "Asia/Aden",
+          "now_in_dst": 0,
+          "offset_sec": 10800,
+          "offset_string": "+0300",
+          "short_name": "+03"
+        },
+        "what3words": { "words": "herein.intolerance.lemon" },
+        "wikidata": "Q275752"
+      },
+      "bounds": {
+        "northeast": { "lat": 19.0, "lng": 53.1888457 },
+        "southwest": { "lat": 14.8865746, "lng": 50.1288039 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "YE",
+        "ISO_3166-1_alpha-3": "YEM",
+        "ISO_3166-2": ["YE-MR"],
+        "_category": "place",
+        "_type": "state",
+        "continent": "Asia",
+        "country": "Yemen",
+        "country_code": "ye",
+        "state": "Al Mahrah Governorate",
+        "state_code": "MR"
+      },
+      "confidence": 1,
+      "formatted": "Al Mahrah Governorate, Yemen",
+      "geometry": { "lat": 17.0, "lng": 51.5 }
+    },
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "46\u00b0 37' 0.22224'' N",
+          "lng": "13\u00b0 51' 0.09648'' E"
+        },
+        "MGRS": "33TVM1194963216",
+        "Maidenhead": "JN66wo28aa",
+        "Mercator": { "x": 1541777.931, "y": 5848668.982 },
+        "NUTS": {
+          "NUTS0": { "code": "AT" },
+          "NUTS1": { "code": "AT2" },
+          "NUTS2": { "code": "AT21" },
+          "NUTS3": { "code": "AT211" }
+        },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=106163#map=17/46.61673/13.85003",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/46.61673/13.85003&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=46.61673&mlon=13.85003#map=17/46.61673/13.85003"
+        },
+        "UN_M49": {
+          "regions": {
+            "AT": "040",
+            "EUROPE": "150",
+            "WESTERN_EUROPE": "155",
+            "WORLD": "001"
+          },
+          "statistical_groupings": ["MEDC"]
+        },
+        "callingcode": 43,
+        "currency": {
+          "alternate_symbols": [],
+          "decimal_mark": ",",
+          "html_entity": "\u20ac",
+          "iso_code": "EUR",
+          "iso_numeric": "978",
+          "name": "Euro",
+          "smallest_denomination": 1,
+          "subunit": "Cent",
+          "subunit_to_unit": 100,
+          "symbol": "\u20ac",
+          "symbol_first": 1,
+          "thousands_separator": "."
+        },
+        "flag": "\ud83c\udde6\ud83c\uddf9",
+        "geohash": "u23c5nm61h02xczp3czk",
+        "qibla": 131.23,
+        "roadinfo": { "drive_on": "right", "speed_in": "km/h" },
+        "sun": {
+          "rise": {
+            "apparent": 1715053320,
+            "astronomical": 1715045580,
+            "civil": 1715051220,
+            "nautical": 1715048640
+          },
+          "set": {
+            "apparent": 1715106060,
+            "astronomical": 1715113860,
+            "civil": 1715108160,
+            "nautical": 1715110800
+          }
+        },
+        "timezone": {
+          "name": "Europe/Vienna",
+          "now_in_dst": 1,
+          "offset_sec": 7200,
+          "offset_string": "+0200",
+          "short_name": "CEST"
+        },
+        "what3words": { "words": "earful.strut.rashers" },
+        "wikidata": "Q483522"
+      },
+      "bounds": {
+        "northeast": { "lat": 46.6683641, "lng": 13.9792304 },
+        "southwest": { "lat": 46.5584933, "lng": 13.6936945 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "AT",
+        "ISO_3166-1_alpha-3": "AUT",
+        "ISO_3166-2": ["AT-2"],
+        "_category": "place",
+        "_normalized_city": "Villach",
+        "_type": "city",
+        "continent": "Europe",
+        "country": "Austria",
+        "country_code": "at",
+        "political_union": "European Union",
+        "state": "Carinthia",
+        "state_code": "2",
+        "town": "Villach"
+      },
+      "confidence": 5,
+      "formatted": "Villach, Carinthia, Austria",
+      "geometry": { "lat": 46.6167284, "lng": 13.8500268 }
+    },
+    {
+      "annotations": {
+        "DMS": {
+          "lat": "34\u00b0 32' 4.33680'' S",
+          "lng": "71\u00b0 2' 7.73592'' W"
+        },
+        "MGRS": "19HCB1319976691",
+        "Maidenhead": "FF45ll51rr",
+        "Mercator": { "x": -7907633.707, "y": -4076582.438 },
+        "OSM": {
+          "edit_url": "https://www.openstreetmap.org/edit?relation=206487#map=17/-34.53454/-71.03548",
+          "note_url": "https://www.openstreetmap.org/note/new#map=17/-34.53454/-71.03548&layers=N",
+          "url": "https://www.openstreetmap.org/?mlat=-34.53454&mlon=-71.03548#map=17/-34.53454/-71.03548"
+        },
+        "UN_M49": {
+          "regions": {
+            "AMERICAS": "019",
+            "CL": "152",
+            "LATIN_AMERICA": "419",
+            "SOUTH_AMERICA": "005",
+            "WORLD": "001"
+          },
+          "statistical_groupings": ["LEDC"]
+        },
+        "callingcode": 56,
+        "currency": {
+          "alternate_symbols": [],
+          "decimal_mark": ",",
+          "disambiguate_symbol": "CLP",
+          "html_entity": "&#36;",
+          "iso_code": "CLP",
+          "iso_numeric": "152",
+          "name": "Chilean Peso",
+          "smallest_denomination": 1,
+          "subunit": "Peso",
+          "subunit_to_unit": 1,
+          "symbol": "$",
+          "symbol_first": 1,
+          "thousands_separator": "."
+        },
+        "flag": "\ud83c\udde8\ud83c\uddf1",
+        "geohash": "63v7x91t9r92sc0p4kfw",
+        "qibla": 82.6,
+        "roadinfo": { "drive_on": "right", "speed_in": "km/h" },
+        "sun": {
+          "rise": {
+            "apparent": 1715081160,
+            "astronomical": 1715076000,
+            "civil": 1715079600,
+            "nautical": 1715077800
+          },
+          "set": {
+            "apparent": 1715118900,
+            "astronomical": 1715124060,
+            "civil": 1715120460,
+            "nautical": 1715122260
+          }
+        },
+        "timezone": {
+          "name": "America/Santiago",
+          "now_in_dst": 0,
+          "offset_sec": -14400,
+          "offset_string": "-0400",
+          "short_name": "-04"
+        },
+        "what3words": { "words": "pinewood.cathode.desperately" },
+        "wikidata": "Q2133"
+      },
+      "bounds": {
+        "northeast": { "lat": -33.850566, "lng": -70.0096881 },
+        "southwest": { "lat": -35.0059157, "lng": -72.0559225 }
+      },
+      "components": {
+        "ISO_3166-1_alpha-2": "CL",
+        "ISO_3166-1_alpha-3": "CHL",
+        "ISO_3166-2": ["CL-LI"],
+        "_category": "place",
+        "_type": "state",
+        "continent": "South America",
+        "country": "Chile",
+        "country_code": "cl",
+        "state": "O'Higgins Region"
+      },
+      "confidence": 1,
+      "formatted": "O'Higgins Region, Chile",
+      "geometry": { "lat": -34.534538, "lng": -71.0354822 }
+    }
+  ],
+  "status": { "code": 200, "message": "OK" },
+  "stay_informed": {
+    "blog": "https://blog.opencagedata.com",
+    "mastodon": "https://en.osm.town/@opencage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+    "created_http": "Tue, 07 May 2024 08:10:26 GMT",
+    "created_unix": 1715069426
+  },
+  "total_results": 6
+}
