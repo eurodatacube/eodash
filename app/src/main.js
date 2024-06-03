@@ -50,6 +50,7 @@ Vue.config.ignoredElements = [
   'eox-map',
   'eox-jsonform',
   'eox-storytelling',
+  'eox-geosearch',
 ];
 
 Vue.use(VuePapaParse);
