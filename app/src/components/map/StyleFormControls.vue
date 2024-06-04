@@ -26,6 +26,8 @@ export default {
         const values = flattenObject(this.$refs.jsonform.value);
         this.flatStyle.variables = values;
         this.updateMap();
+        // save to store to be reusable by other parts of the app
+        this.$store.state.features.selectedJsonformParameters = this.$refs.jsonform.value;
       }
     });
   },

@@ -241,7 +241,6 @@ function createVectorDisplay(config, sourceStyle) {
     console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
   }
   const display = {
-    baseUrl: '{time}',
     url: '{time}',
     protocol: 'GeoJSON',
     flatStyle,

@@ -196,7 +196,7 @@ function createVectorLayerStyle(config, options) {
 
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
-  const time = options.time || store.state.indicators.selectedTime;
+  const { time } = options;
   const indicator = options.indicator || store.state.indicators.selectedIndicator?.indicator;
   const aoiID = options.aoiID || store.state.indicators.selectedIndicator?.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
