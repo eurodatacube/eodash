@@ -679,7 +679,7 @@ export const globalIndicators = [
         indicator: 'N6',
         display: {
           // manually adding administrative features
-          maxZoom: 6,
+          maxNativeZoom: 6,
           features: {
             name: 'Administrative zones ADM0',
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
