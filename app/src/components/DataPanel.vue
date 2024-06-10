@@ -320,7 +320,9 @@
               </v-btn>
 
               <v-card
-                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                v-if="indicatorSelected
+                  && indicatorSelected.indicator === 'IND2_1'
+                  && !mergedConfigsData[0].minesweeperOptions"
                 class="ma-5"
               >
                 <h1 class="ml-5">Species Info</h1>
