@@ -133,7 +133,7 @@ const getTileStyle = (tile) => {
         stroke: new Stroke({ color: '#000', width: 1 }),
         fill: new Fill({ color: 'red' }),
         text: new Text({
-          text: '💣',
+          text: '🌸',
           font: '16px Calibri,sans-serif',
           fill: new Fill({ color: '#fff' }),
           stroke: new Stroke({ color: '#000', width: 3 }),
@@ -266,6 +266,9 @@ const handleMapClick = (
 
   if (hasUncoveredMine) {
     document.dispatchEvent(new Event('minesweeper:gameover'));
+    console.log('stepped on a mine');
+    game.revealAllTiles();
+    game.updateAllTiles();
   } else {
     document.dispatchEvent(new Event('minesweeper:continue'));
   }
