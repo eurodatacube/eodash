@@ -71,7 +71,10 @@ export default {
           return accumulator;
         }, {});
 
-      this.aggregatedSpecies = Object.values(this.species);
+      // Sort the species by count of appearance and take the top 5
+      this.aggregatedSpecies = Object.values(this.species)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
     },
   },
 };
