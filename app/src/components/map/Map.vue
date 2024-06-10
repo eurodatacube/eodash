@@ -134,7 +134,10 @@
         >{{ minesweeper.game.mineCount - minesweeper.game.flagCount }} 💣 remaining</v-btn>
 
         <div v-if="isMinesweeperConfigured && !!minesweeper.game">
-          <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
+          <v-btn
+            v-if="isMinesweeperDebugEnabled"
+            @click="minesweeper.game.revealAllTiles()"
+          >GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
@@ -519,6 +522,10 @@ export default {
     selectedLocationIndex() {
       return this.isMinesweeperConfigured
         && this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex;
+    },
+    isMinesweeperDebugEnabled() {
+      return this.isMinesweeperConfigured
+        && new URLSearchParams(document.location.search).get('debug') === 'true'
     },
   },
   watch: {
