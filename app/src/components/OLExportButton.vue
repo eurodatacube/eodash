@@ -221,7 +221,13 @@ Text describing the current step of the tour and why it is interesting what the 
               let vsf;
               const olformat = olsource.getFormat();
               if (olformat instanceof GeoJSON) {
-                vsf = 'GeoJSON';
+                vsf = {
+                  type: 'GeoJSON',
+                };
+                const pcode = olformat.dataProjection.getCode();
+                if (pcode) {
+                  vsf.dataProjection = pcode;
+                }
               }
               if (olformat instanceof MVT) {
                 vsf = 'MVT';
