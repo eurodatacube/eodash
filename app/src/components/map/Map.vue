@@ -125,7 +125,11 @@
           :drawnArea.sync="drawnArea"
         />
         <eox-geosearch
-          style="pointer-events: auto; margin-right: 4px"
+          style="
+            pointer-events: auto;
+            margin-right: 4px;
+            --button-size: 36px;
+          "
           label="Search"
           button
           small
