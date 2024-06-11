@@ -834,8 +834,12 @@ export const globalIndicators = [
           },
           id: 'IND2_1',
           ...baseLayers.CORINE_LAND_COVER,
+          opacity: 0.7,
+        }, {
+          ...baseLayers.ESA_WORLD_COVER,
           visible: true,
-        }, baseLayers.ESA_WORLD_COVER],
+          opacity: 0.7,
+        }],
       },
     },
   },

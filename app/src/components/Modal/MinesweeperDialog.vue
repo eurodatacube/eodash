@@ -16,28 +16,30 @@
           💣 Hexagonal Minesweeper Game
         </v-card-title>
         <v-card-text>
-          <p>Try to find locations with very high diversity
-          and mark them with a flower (right click) and learn about
+          <p>Try to find locations with <b>very high diversity</b>
+          and mark them with a <b>flower (right click)</b> and learn about
           Earth Observation data along the way.
-          The amount of uncovered area at the
-          end of the game determines your score!
-          When the game finishes, a summary of
-          significant wildlife species which
-          live on the chosen area is shown.
           </p>
           <p>
-          Game is played like a standard minesweeper:
+          The percentage of uncovered area at the
+          end of the game determines your <b>score</b>!
           <br>
-          Left mouse click to uncover a field.
-          Right mouse click to flag it with a flower.</p>
-          <br>A random game location is chosen every day. Come back to explore more tomorrow!
+          When the game finishes, a summary of
+          significant wildlife species which
+          live there is shown.
+          </p>
+          <p>
+          Game is played like a minesweeper:
+          <br>
+          <b>Left mouse click</b> to uncover a <b>field.</b>
+          <b>Right mouse click</b> to flag it with a <b>flower.</b></p>
+          <br>A random game location is chosen every day. <b>Come back to explore more </b>tomorrow!
             <!-- To explore new locations, add query parameter
             seed with any value e.g. &seed=SeedString.
             To explore past (or future) locations,
             use seed parameter in JS format Date.toDateString()
             - e.g. "Thu Apr 18 2024". -->
         </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn class="green white--text" text @click="start()">Start Game</v-btn>
