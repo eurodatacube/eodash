@@ -16,8 +16,8 @@
           💣 Hexagonal Minesweeper Game
         </v-card-title>
         <v-card-text>
-          <p>Try to uncover all fields while carefully
-          avoiding mines and learn about
+          <p>Try to find locations with very high diversity
+          and mark them with a flower (right click) and learn about
           Earth Observation data along the way.
           The amount of uncovered area at the
           end of the game determines your score!
@@ -28,15 +28,14 @@
           <p>
           Game is played like a standard minesweeper:
           <br>
-          Left mouse click to search a hex.
-          Right mouse click to flag a mine.</p>
-          <p>A random game location is chosen every day.
-            To explore new locations, add query parameter
+          Left mouse click to uncover a field.
+          Right mouse click to flag it with a flower.</p>
+          <br>A random game location is chosen every day. Come back to explore more tomorrow!
+            <!-- To explore new locations, add query parameter
             seed with any value e.g. &seed=SeedString.
             To explore past (or future) locations,
             use seed parameter in JS format Date.toDateString()
-            - e.g. "Thu Apr 18 2024".
-          </p>
+            - e.g. "Thu Apr 18 2024". -->
         </v-card-text>
 
         <v-card-actions>
