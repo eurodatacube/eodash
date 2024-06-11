@@ -125,6 +125,28 @@ const setupGrid = (game) => {
   };
 };
 
+function getColorFromValue(value, min = 1, max = 8) {
+  // Ensure the value is within the expected range
+  value = Math.max(min, Math.min(max, value));
+
+  // Calculate the interpolation factor
+  const factor = (value - min) / (max - min);
+
+  // Interpolate between dark green (#006400) and light green (#00FF00)
+  const darkGreen = 0x001100;
+  const lightGreen = 0x00FF00;
+
+  // Interpolate each channel separately
+  const r = Math.round(((lightGreen >> 16) & 0xFF) * factor + ((darkGreen >> 16) & 0xFF) * (1 - factor));
+  const g = Math.round(((lightGreen >> 8) & 0xFF) * factor + ((darkGreen >> 8) & 0xFF) * (1 - factor));
+  const b = Math.round((lightGreen & 0xFF) * factor + (darkGreen & 0xFF) * (1 - factor));
+
+  const alphaHex = '99';
+
+  // Convert to hex and return
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}${alphaHex}`;
+}
+
 const getTileStyle = (tile) => {
   let style;
   if (tile.isRevealed === true) {
@@ -142,7 +164,7 @@ const getTileStyle = (tile) => {
     } else {
       style = new Style({
         stroke: new Stroke({ color: '#000', width: 1 }),
-        fill: new Fill({ color: '#fff0' }),
+        fill: new Fill({ color: getColorFromValue(tile.value) }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
           font: '16px Calibri,sans-serif',
@@ -165,7 +187,7 @@ const getTileStyle = (tile) => {
   } else {
     style = new Style({
       stroke: new Stroke({ color: '#000', width: 0.5 }),
-      fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
+      fill: new Fill({ color: '#AAAAAA4D' }), // Unrevealed tile color
       text: new Text({
         text: '',
         font: '16px Calibri,sans-serif',
@@ -268,7 +290,6 @@ const handleMapClick = (
     document.dispatchEvent(new Event('minesweeper:gameover'));
     console.log('stepped on a mine');
     game.revealAllTiles();
-    game.updateAllTiles();
   } else {
     document.dispatchEvent(new Event('minesweeper:continue'));
   }

@@ -139,6 +139,7 @@ export default class HexSweeperGame {
             isRevealed: false,
             isFlagged: false,
             element: null,
+            value,
           });
         }
 
