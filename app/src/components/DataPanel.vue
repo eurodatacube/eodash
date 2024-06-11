@@ -422,7 +422,6 @@ import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
-import LocationsDropdown from '@/components/LocationsDropdown.vue';
 import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
 import SpeciesList from '@/components/SpeciesList.vue';
 
@@ -443,7 +442,6 @@ export default {
     // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
-    LocationsDropdown,
     FeatureQueryParams,
     SpeciesList,
   },

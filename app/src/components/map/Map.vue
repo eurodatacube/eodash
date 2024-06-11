@@ -525,7 +525,7 @@ export default {
     },
     isMinesweeperDebugEnabled() {
       return this.isMinesweeperConfigured
-        && new URLSearchParams(document.location.search).get('debug') === 'true'
+        && new URLSearchParams(document.location.search).get('debug') === 'true';
     },
   },
   watch: {
@@ -1202,16 +1202,20 @@ export default {
       });
       this.minesweeper.isEnabled = true;
       this.minesweeper.isDialogEnabled = true;
-      // take currently selectedLocation for Minesweep and at set extent to match location bbox
 
+      /* COMMENTING OUT FOR NOW
+      // take currently selectedLocation for Minesweep and at set extent to match location bbox
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
+      const layer = dataGroup.getLayers().getArray().find(
+        (l) => l.get('name') === this.mergedConfigsData[0].name
+      );
       const extent = transformExtent(
         this.minesweeper.bbox,
         'EPSG:4326',
         map.getView().getProjection(),
       );
       layer.setExtent(extent);
+      */
     },
     tearDownMinesweeper() {
       if (this.minesweeper.game?.vectorLayer) {

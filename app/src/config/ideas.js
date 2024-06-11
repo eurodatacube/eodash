@@ -804,7 +804,6 @@ export const globalIndicators = [
         country: 'all',
         city: 'World',
         siteName: 'global',
-        description: '',
         indicator: 'IND2_1',
         indicatorName: 'Wildlife Minesweeper',
         subAoi: {
@@ -814,7 +813,7 @@ export const globalIndicators = [
         aoiID: 'Game',
         time: [],
         inputData: [''],
-        display: {
+        display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells
             size: 20,
@@ -833,28 +832,10 @@ export const globalIndicators = [
               },
             ],
           },
-          protocol: 'cog',
           id: 'IND2_1',
-          sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_1.tif' },
-          ],
-          name: 'Indicator 2: Wildlife Game Enabled',
-          style: {
-            color: [
-              'case',
-              ['between', ['band', 1], 0.25, 5],
-              [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('chlorophyll', 1, 5, 27, true),
-              ],
-              [
-                'color', 0, 0, 0, 0,
-              ],
-            ],
-          },
-        },
+          ...baseLayers.CORINE_LAND_COVER,
+          visible: true,
+        }, baseLayers.ESA_WORLD_COVER],
       },
     },
   },
