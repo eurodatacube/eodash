@@ -135,7 +135,7 @@
           small
           list-direction="left"
           results-direction="down"
-          endpoint="./temp_geosearch/opencage-mock-data.json"
+          :endpoint="searchEndpoint"
         ></eox-geosearch>
         <v-btn
           v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
@@ -744,6 +744,9 @@ export default {
     controlsContainerStyle() {
       return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
+    searchEndpoint() {
+      return `https://api.opencagedata.com/geocode/v1/json?key=${shConfig.opencageApiKey}&limit=5`;
+    }
   },
   watch: {
     baseLayerConfigs() {
