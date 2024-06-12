@@ -180,19 +180,23 @@ export const fetchCustomAreaObjects = async (
       : { area: JSON.stringify(drawnArea) };
   }
 
-  const { selectedFeatures } = store.state.features;
+  const { selectedFeatures, selectedJsonformParameters } = store.state.features;
   if (selectedFeatures.length === 1) {
     const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
     if (adminZoneKey) {
       options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
     }
     // special custom handling of cropom dataset
-    const queryParameters = indicatorObject?.queryParameters;
-    if (indicator.indicator === 'CROPOM' && Array.isArray(queryParameters)) {
-      const selectedCrop = queryParameters[1].items.find((item) => item.id === queryParameters[1].selected);
-      const selectedScenario = queryParameters[2].selected;
-      options.crop = selectedCrop.areaIndicator; // eslint-disable-line
-      options.scenario = selectedScenario; // eslint-disable-line
+    if (indicator.indicator === 'CROPOM' && selectedJsonformParameters) {
+      const { crop, vstat } = selectedJsonformParameters;
+      const mappingCropToAreaindicatorCrop = {
+        Maize: 'MaizeGDD',
+        Soybean: 'Soybean',
+        Sunflower: 'SunflowerGDD',
+        Wheat: 'WheatGDD',
+      };
+      options.crop = mappingCropToAreaindicatorCrop[crop]; // eslint-disable-line
+      options.scenario = vstat; // eslint-disable-line
     }
   }
   const templateSubst = {
