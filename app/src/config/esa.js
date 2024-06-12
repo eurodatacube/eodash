@@ -32,6 +32,51 @@ const cloudlessBaseLayerDefault = [{
   visible: true,
 }, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
+const cropomdefaults = {
+  baseUrl: null,
+  customAreaIndicator: true,
+  disableVisualAnalysisAddons: true,
+  tooltip: {
+    tooltipFormatFunction: (feature, _, store) => {
+      const selectedParams = store.state.features.selectedJsonformParameters;
+      const { crop, vstat, parameter } = selectedParams;
+      const value = feature.get(parameter)[crop][vstat];
+      const unit = parameter === 'yield' ? 't/ha' : 'mm';
+      return [
+        `Region: ${feature.get('NUTS_NAME')}`,
+        `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
+      ];
+    },
+  },
+  areaIndicator: {
+    url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
+    adminZoneKey: 'FID',
+    requestMethod: 'GET',
+    callbackFunction: (responseJson, indicator) => {
+      const data = responseJson.growth;
+      const newData = {
+        time: [],
+        measurement: [],
+        referenceValue: [],
+      };
+      Object.entries(data).forEach(([key, value]) => {
+        newData.time.push(DateTime.fromISO(key));
+        newData.measurement.push(value.yield_);
+        newData.referenceValue.push(value.biomass);
+      });
+      newData.yAxis = ['t/ha', 'g/m2'];
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    },
+  },
+  selection: {
+    mode: 'single',
+  },
+};
+
 const geodbFeatures = {
   name: 'Ship detections',
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -308,51 +353,20 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'CROPOM',
-        display: [{
-          baseUrl: null,
-          customAreaIndicator: true,
-          disableVisualAnalysisAddons: true,
-          tooltip: {
-            tooltipFormatFunction: (feature, _, store) => {
-              const selectedParams = store.state.features.selectedJsonformParameters;
-              const { crop, vstat, parameter } = selectedParams;
-              const value = feature.get(parameter)[crop][vstat];
-              const unit = parameter === 'yield' ? 't/ha' : 'mm';
-              return [
-                `Region: ${feature.get('NUTS_NAME')}`,
-                `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
-              ];
-            },
+        display: [{ ...cropomdefaults },
+          {
+            ...cropomdefaults,
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={adminZone}',
+            name: 'CropModel Forecast API sub-county',
+            id: 'CropModel Forecast API sub-county',
           },
-          layerControlHide: true,
-          areaIndicator: {
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
-            adminZoneKey: 'FID',
-            requestMethod: 'GET',
-            callbackFunction: (responseJson, indicator) => {
-              const data = responseJson.growth;
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-              };
-              Object.entries(data).forEach(([key, value]) => {
-                newData.time.push(DateTime.fromISO(key));
-                newData.measurement.push(value.yield_);
-                newData.referenceValue.push(value.biomass);
-              });
-              newData.yAxis = ['t/ha', 'g/m2'];
-              const ind = {
-                ...indicator,
-                ...newData,
-              };
-              return ind;
-            },
+          {
+            ...cropomdefaults,
+            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={adminZone}',
+            name: 'CropModel Forecast API micro-region',
+            id: 'CropModel Forecast API micro-region',
           },
-          selection: {
-            mode: 'single',
-          },
-        }],
+        ],
       },
     },
   },

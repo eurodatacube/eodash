@@ -2,8 +2,8 @@
   <MapOverlay
     :mapId='mapId'
     :overlayId='mergedConfigs[0].name'
-    :overlayHeaders='overlayHeaders'
-    :overlayRows='overlayRows'
+    :overlayHeaders='(Object.values(this.overlayHeaders)).flat()'
+    :overlayRows='(Object.values(this.overlayRows)).flat()'
     :overlayCoordinate='overlayCoordinate'
   />
 </template>
@@ -54,8 +54,8 @@ export default {
   },
   data() {
     return {
-      overlayHeaders: [],
-      overlayRows: [],
+      overlayHeaders: {},
+      overlayRows: {},
       overlayCoordinate: null,
       pointerMoveHandlers: [],
       singleClickHandlers: [],
@@ -94,6 +94,7 @@ export default {
             ? (!this.compare && this.swipePixelX < e.pixel[0])
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
+          const layerName = layer.get('name');
           if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
@@ -105,7 +106,7 @@ export default {
               coordinate = getCenter(geom.getExtent());
             }
             if (config.selection) {
-              this.overlayHeaders = [layer.get('name')];
+              this.overlayHeaders[layerName] = [layerName];
             }
             this.overlayCoordinate = coordinate;
             let rows = [];
@@ -123,11 +124,16 @@ export default {
                 }
               });
             }
-            this.overlayRows = rows;
+            this.overlayRows[layerName] = rows;
           } else {
-            this.overlayHeaders = null;
-            this.overlayCoordinate = null;
-            this.overlayContent = null;
+            this.overlayRows[layerName] = '';
+            this.overlayHeaders[layerName] = '';
+            // some layer has actual tooltip content, show it
+            if ((Object.values(this.overlayRows)).flat().some((item) => item !== '')) {
+              this.overlayCoordinate = coordinate;
+            } else {
+              this.overlayCoordinate = null;
+            }
           }
         };
         if (config?.tooltip?.trigger === 'singleclick') {

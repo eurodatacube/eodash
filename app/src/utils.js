@@ -808,7 +808,16 @@ export async function loadIndicatorData(baseConfig, payload) {
     // We need the information on features directly once loaded for the custom dashboard loading
     // TODO: probably there is a better way of managing this information
     indicatorObject.features = features;
-    if (Array.isArray(indicatorObject.display)) {
+    if (jsonData.subcode === 'CROPOM') {
+      // special handling of CROPOM data being 3 nested layers...
+      display = [{ ...display }, { ...display }, { ...display }];
+      indicatorObject.display.forEach((displayObj, i) => {
+        indicatorObject.display[i] = {
+          ...display[i],
+          ...displayObj,
+        };
+      });
+    } else if (Array.isArray(indicatorObject.display)) {
       // merge display with first entry of original array of displays
       indicatorObject.display[0] = {
         ...display,
