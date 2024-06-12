@@ -20,6 +20,7 @@
 <script>
 // import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
+import { PROJDICT } from '../utils';
 
 export default {
   components: {
@@ -27,19 +28,13 @@ export default {
     GlobalFooter,
   },
   methods: {
-    initWidgets(element) {
-      // debugger;
+    initWidgets({ detail }) {
+      const element = detail;
       if (element?.tagName === 'EOX-MAP') {
         element.registerProjection(
-          'ESRI:53009',
-          '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +a=6371000 '
-            + '+b=6371000 +units=m +no_defs',
+          'EPSG:3035',
+          PROJDICT['EPSG:3035'].def,
         );
-        const projection = element.getAttribute('projection');
-        if (projection) {
-          console.log('SETTING PROJECTION!!!!!');
-          element.setAttribute('projection', projection);
-        }
       }
     },
   },
