@@ -128,10 +128,8 @@ export default {
           } else {
             this.overlayRows[layerName] = '';
             this.overlayHeaders[layerName] = '';
-            // some layer has actual tooltip content, show it
-            if ((Object.values(this.overlayRows)).flat().some((item) => item !== '')) {
-              this.overlayCoordinate = coordinate;
-            } else {
+            // no layer has actual tooltip content, hide it
+            if (!(Object.values(this.overlayRows)).flat().some((item) => item !== '')) {
               this.overlayCoordinate = null;
             }
           }

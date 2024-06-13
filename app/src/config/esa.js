@@ -42,8 +42,9 @@ const cropomdefaults = {
       const { crop, vstat, parameter } = selectedParams;
       const value = feature.get(parameter)[crop][vstat];
       const unit = parameter === 'yield' ? 't/ha' : 'mm';
+      const name = feature.get('NUTS_NAME') || feature.get('NAME');
       return [
-        `Region: ${feature.get('NUTS_NAME')}`,
+        `Region: ${name}`,
         `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
       ];
     },
@@ -353,16 +354,19 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'CROPOM',
-        display: [{ ...cropomdefaults },
+        display: [
           {
             ...cropomdefaults,
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={adminZone}',
+          },
+          {
+            ...cropomdefaults,
+            urlTemplateSelectedFeature: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={FID}',
             name: 'CropModel Forecast API sub-county',
             id: 'CropModel Forecast API sub-county',
           },
           {
             ...cropomdefaults,
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={adminZone}',
+            urlTemplateSelectedFeature: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={FID}',
             name: 'CropModel Forecast API micro-region',
             id: 'CropModel Forecast API micro-region',
           },
