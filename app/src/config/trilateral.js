@@ -390,6 +390,7 @@ export const indicatorClassesIcons = Object.freeze({
   biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
+  'extreme-events': 'mdi-lightning-bolt',
 });
 
 export const geoDBFeatureParameters = Object.freeze({

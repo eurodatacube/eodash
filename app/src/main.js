@@ -244,6 +244,7 @@ const renderVue = async () => {
         { path: '/biomass', name: 'biomass', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/extreme-events', name: 'extreme-events', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
         { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
         { path: '/energy', name: 'energy', component: ThemeSinglePage },
