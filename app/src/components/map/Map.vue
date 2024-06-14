@@ -964,7 +964,7 @@ export default {
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_SELECTED_FEATURES') {
-        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+        if (this.indicator && ['CROPOM_HU', 'CROPOM_AT', 'CROPOM_RO', 'CROPOM_HU_Microregion_Mezohegyes', 'CROPOM_HU_Subcounty_Bekes'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
           if (mutation.payload?.length > 0) {
             window.dispatchEvent(new Event('fetch-custom-area-chart'));
           } else {
