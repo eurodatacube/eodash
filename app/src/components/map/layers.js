@@ -326,11 +326,19 @@ export function createLayerFromConfig(config, map, _options = {}) {
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
     if (config.usedTimes?.time?.length) {
+      // Check to see if sources are comming from time assets
       const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
-      updatedSources = config.sources.map((item) => {
-        const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
-        return { url };
-      });
+      if (Array.isArray(currentTime) && Array.isArray(currentTime[1])) {
+        updatedSources = [];
+        currentTime[1].forEach((te) => {
+          updatedSources.push({url: te})
+        })
+      } else {
+        updatedSources = config.sources.map((item) => {
+          const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
+          return { url };
+        });
+      }
     }
     const wgSource = new GeoTIFF({
       sources: updatedSources,

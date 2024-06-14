@@ -8,6 +8,8 @@
 
 import { getMapInstance } from '@/components/map/map';
 import { replaceAll, flattenObject } from '../../utils';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
+import { VectorTile } from 'ol/layer';
 
 export default {
   name: 'StyleFormControls',
@@ -40,8 +42,8 @@ export default {
     },
     updateMap() {
       const { map } = getMapInstance('centerMap');
-      const vLayer = map.getAllLayers().find((l) => l.get('id') === this.flatStyle.layerId);
-      if (vLayer) {
+      const layer = map.getAllLayers().find((l) => l.get('id') === this.flatStyle.layerId);
+      if (layer instanceof VectorTile) {
         if ('variables' in this.flatStyle) {
           let rawStyle = JSON.stringify(this.flatStyle);
           const { variables } = this.flatStyle;
@@ -52,8 +54,10 @@ export default {
               rawStyle = replaceAll(rawStyle, `["var","${key}"]`, `"${variables[key]}"`);
             }
           });
-          vLayer.setStyle(JSON.parse(rawStyle));
+          layer.setStyle(JSON.parse(rawStyle));
         }
+      } else if (layer instanceof WebGLTileLayer) {
+        layer.updateStyleVariables(this.flatStyle.variables);
       }
     },
   },

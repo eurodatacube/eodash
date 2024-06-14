@@ -256,6 +256,26 @@ function createVectorDisplay(config, sourceStyle) {
   }
   return display;
 }
+
+function createCOGDisplay(config, sourceStyle) {
+  let style = {};
+  if (sourceStyle) {
+    style = sourceStyle;
+    style.layerId = config.id;
+  } else {
+    console.log('Info: no flatstyle provided for rendering COG dataset, using default style');
+  }
+  const display = {
+    protocol: 'cog',
+    style,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+  };
+  return display;
+}
+
 export function flattenObject(ob) {
   const toReturn = {};
   Object.keys(ob).forEach((i) => {
@@ -694,6 +714,28 @@ export async function loadIndicatorData(baseConfig, payload) {
           times.push([
             time,
             link.vector_data,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+    }  else if (jsonData.endpointtype === 'COG source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createCOGDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.assets,
           ]);
         }
       });

@@ -10,6 +10,11 @@
       :flatStyle="mergedConfigsData[0].flatStyle"
       >
     </style-form-controls>
+    <style-form-controls
+      v-if="mergedConfigsData[0].style && mergedConfigsData[0].style.jsonform"
+      :flatStyle="mergedConfigsData[0].style"
+      >
+    </style-form-controls>
     <span
       v-if="customAreaIndicator && !customAreaIndicator.isEmpty || dataObject && dataObject.time"
       class="ml-5"
