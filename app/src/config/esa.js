@@ -14,8 +14,7 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
-// export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
-export const STACEndpoint = 'http://localhost:8000/RACE/catalog.json';
+export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
 
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);

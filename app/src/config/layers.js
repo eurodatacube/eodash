@@ -441,45 +441,43 @@ const cropomdefaults = {
   },
 };
 
-export function createCropomDatasetConfigs() {
-  return [{
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_AT',
-        display: cropomdefaults,
-      },
+export const createCropomDatasetConfigs = () => [{
+  properties: {
+    indicatorObject: {
+      indicator: 'CROPOM_AT',
+      display: cropomdefaults,
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU',
-        display: cropomdefaults,
-      },
+},
+{
+  properties: {
+    indicatorObject: {
+      indicator: 'CROPOM_HU',
+      display: cropomdefaults,
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_RO',
-        display: cropomdefaults,
-      },
+},
+{
+  properties: {
+    indicatorObject: {
+      indicator: 'CROPOM_RO',
+      display: cropomdefaults,
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU_Microregion_Mezohegyes',
-        display: cropomdefaults,
-      },
+},
+{
+  properties: {
+    indicatorObject: {
+      indicator: 'CROPOM_HU_Microregion_Mezohegyes',
+      display: cropomdefaults,
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU_Subcounty_Bekes',
-        display: cropomdefaults,
-      },
+},
+{
+  properties: {
+    indicatorObject: {
+      indicator: 'CROPOM_HU_Subcounty_Bekes',
+      display: cropomdefaults,
     },
-  }];
-}
+  },
+}];
