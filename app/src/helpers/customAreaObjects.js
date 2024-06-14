@@ -187,7 +187,7 @@ export const fetchCustomAreaObjects = async (
       options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
     }
     // special custom handling of cropom dataset
-    if (indicator.indicator === 'CROPOM' && selectedJsonformParameters) {
+    if (['CROPOM_HU', 'CROPOM_AT', 'CROPOM_RO', 'CROPOM_HU_Microregion_Mezohegyes', 'CROPOM_HU_Subcounty_Bekes'].includes(indicator.indicator) && selectedJsonformParameters) {
       const { crop, vstat } = selectedJsonformParameters;
       const mappingCropToAreaindicatorCrop = {
         Maize: 'MaizeGDD',

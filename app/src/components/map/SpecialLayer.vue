@@ -178,9 +178,16 @@ export default {
             // crosscheck with store
             let { selectedFeatures } = this.$store.state.features;
             finalFeatures.every((f) => {
-              const foundIndex = selectedFeatures.findIndex(
-                (selectedFtr) => f.getId() === selectedFtr.getId(),
-              );
+              let foundIndex = -1;
+              if (typeof f.getId() !== 'undefined') {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.getId() === selectedFtr.getId(),
+                );
+              } else if (config.adminZoneKey) {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.get(config.adminZoneKey) === selectedFtr.get(config.adminZoneKey),
+                );
+              }
               if (foundIndex !== -1) {
                 // was in selection, remove from selection
                 selectedFeatures = selectedFeatures.toSpliced(foundIndex, 1);

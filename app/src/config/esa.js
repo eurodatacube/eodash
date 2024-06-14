@@ -51,7 +51,7 @@ const cropomdefaults = {
   },
   areaIndicator: {
     url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
-    adminZoneKey: 'FID',
+    adminZoneKey: 'NUTS_ID',
     requestMethod: 'GET',
     callbackFunction: (responseJson, indicator) => {
       const data = responseJson.growth;
@@ -353,24 +353,40 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        indicator: 'CROPOM',
-        display: [
-          {
-            ...cropomdefaults,
-          },
-          {
-            ...cropomdefaults,
-            urlTemplateSelectedFeature: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={FID}',
-            name: 'CropModel Forecast API sub-county',
-            id: 'CropModel Forecast API sub-county',
-          },
-          {
-            ...cropomdefaults,
-            urlTemplateSelectedFeature: 'https://api.cropom-dev.com/crop_model/regional_forecast?region_code={FID}',
-            name: 'CropModel Forecast API micro-region',
-            id: 'CropModel Forecast API micro-region',
-          },
-        ],
+        indicator: 'CROPOM_AT',
+        display: cropomdefaults,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CROPOM_HU',
+        display: cropomdefaults,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CROPOM_RO',
+        display: cropomdefaults,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CROPOM_HU_Microregion_Mezohegyes',
+        display: cropomdefaults,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CROPOM_HU_Subcounty_Bekes',
+        display: cropomdefaults,
       },
     },
   },
