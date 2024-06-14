@@ -5,7 +5,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
 import {
-  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
@@ -14,7 +14,8 @@ const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
 export const dataPath = './eodash-data/internal/';
-export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
+// export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
+export const STACEndpoint = 'http://localhost:8000/RACE/catalog.json';
 
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
@@ -31,52 +32,6 @@ const cloudlessBaseLayerDefault = [{
   ...baseLayers.cloudless,
   visible: true,
 }, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
-
-const cropomdefaults = {
-  baseUrl: null,
-  customAreaIndicator: true,
-  disableVisualAnalysisAddons: true,
-  tooltip: {
-    tooltipFormatFunction: (feature, _, store) => {
-      const selectedParams = store.state.features.selectedJsonformParameters;
-      const { crop, vstat, parameter } = selectedParams;
-      const value = feature.get(parameter)[crop][vstat];
-      const unit = parameter === 'yield' ? 't/ha' : 'mm';
-      const name = feature.get('NUTS_NAME') || feature.get('NAME');
-      return [
-        `Region: ${name}`,
-        `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
-      ];
-    },
-  },
-  areaIndicator: {
-    url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
-    adminZoneKey: 'NUTS_ID',
-    requestMethod: 'GET',
-    callbackFunction: (responseJson, indicator) => {
-      const data = responseJson.growth;
-      const newData = {
-        time: [],
-        measurement: [],
-        referenceValue: [],
-      };
-      Object.entries(data).forEach(([key, value]) => {
-        newData.time.push(DateTime.fromISO(key));
-        newData.measurement.push(value.yield_);
-        newData.referenceValue.push(value.biomass);
-      });
-      newData.yAxis = ['t/ha', 'g/m2'];
-      const ind = {
-        ...indicator,
-        ...newData,
-      };
-      return ind;
-    },
-  },
-  selection: {
-    mode: 'single',
-  },
-};
 
 const geodbFeatures = {
   name: 'Ship detections',
@@ -350,46 +305,7 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_AT',
-        display: cropomdefaults,
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU',
-        display: cropomdefaults,
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_RO',
-        display: cropomdefaults,
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU_Microregion_Mezohegyes',
-        display: cropomdefaults,
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM_HU_Subcounty_Bekes',
-        display: cropomdefaults,
-      },
-    },
-  },
+  ...createCropomDatasetConfigs(),
   {
     properties: {
       indicatorObject: {
