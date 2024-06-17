@@ -843,6 +843,16 @@ export default {
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
     },
+    restartMineSweep() {
+      console.log('Minesweeper::Restart');
+      this.tearDownMinesweeper();
+
+      this.minesweeper.mode = 'start';
+
+      window.setTimeout(() => {
+        this.setupMinesweeper();
+      }, 1000);
+    },
     convertDateForMsg(time) {
       let timeConverted = null;
       if (Array.isArray(time)) {
@@ -1160,6 +1170,7 @@ export default {
       document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
       document.addEventListener('minesweeper:win', this.winMineSweep);
       document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.addEventListener('minesweeper:restart', this.restartMineSweep);
 
       const { map } = getMapInstance(this.mapId);
       let seedString = new URLSearchParams(window.location.search).get('seed');
@@ -1232,6 +1243,7 @@ export default {
       document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
       document.removeEventListener('minesweeper:win', this.winMineSweep);
       document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.removeEventListener('minesweeper:restart', this.restartMineSweep);
     },
   },
   beforeDestroy() {
