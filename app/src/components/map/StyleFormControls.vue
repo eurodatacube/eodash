@@ -7,9 +7,9 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
-import { replaceAll, flattenObject } from '../../utils';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
-import { VectorTile } from 'ol/layer';
+import VectorLayer from 'ol/layer/Vector';
+import { replaceAll, flattenObject } from '../../utils';
 
 export default {
   name: 'StyleFormControls',
@@ -43,7 +43,7 @@ export default {
     updateMap() {
       const { map } = getMapInstance('centerMap');
       const layer = map.getAllLayers().find((l) => l.get('id') === this.flatStyle.layerId);
-      if (layer instanceof VectorTile) {
+      if (layer instanceof VectorLayer) {
         if ('variables' in this.flatStyle) {
           let rawStyle = JSON.stringify(this.flatStyle);
           const { variables } = this.flatStyle;

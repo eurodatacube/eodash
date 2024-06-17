@@ -241,7 +241,9 @@ function createVectorDisplay(config, sourceStyle) {
     console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
   }
   const display = {
-    url: '{time}',
+    // placeholder needed because url is used to differentiate
+    // between pure features and source in layers.js
+    url: 'placeholder',
     protocol: 'GeoJSON',
     flatStyle,
     id: config.id,
@@ -713,12 +715,12 @@ export async function loadIndicatorData(baseConfig, payload) {
           }
           times.push([
             time,
-            link.vector_data,
+            link.assets,
           ]);
         }
       });
       times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
-    }  else if (jsonData.endpointtype === 'COG source') {
+    } else if (jsonData.endpointtype === 'COG source') {
       const styleLink = jsonData.links.find((item) => item.rel === 'style');
       let flatStyle;
       if (styleLink) {

@@ -330,9 +330,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
       const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
       if (Array.isArray(currentTime) && Array.isArray(currentTime[1])) {
         updatedSources = [];
-        currentTime[1].forEach((te) => {
-          updatedSources.push({url: te})
-        })
+        currentTime[1].forEach((te) => updatedSources.push({ url: te }));
       } else {
         updatedSources = config.sources.map((item) => {
           const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
@@ -453,17 +451,28 @@ export function createLayerFromConfig(config, map, _options = {}) {
     } else {
       // Check if source has times and if yes set to latest
       if (config.usedTimes?.time?.length) {
-        const updateUrl = replaceUrlPlaceholders(config.url, config, options);
-        vectorSource.setUrl(updateUrl);
-        vectorSource.set('updateTime', (time, area, configUpdate) => {
-          const updatedOptions = {
-            ...options,
-            ...configUpdate,
-          };
-          updatedOptions.time = time;
-          const updurl = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
-          vectorSource.setUrl(updurl);
-        });
+        const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+        if (Array.isArray(currentTime) && Array.isArray(currentTime[1])) {
+          // TODO: Currently we support only one vector source
+          // if more assets are defined we will need to create multiple sources?
+          vectorSource.setUrl(currentTime[1][0]);
+
+          vectorSource.set('updateTime', (time) => {
+            vectorSource.setUrl(time[1][0]);
+          });
+        } else {
+          const updateUrl = replaceUrlPlaceholders(config.url, config, options);
+          vectorSource.setUrl(updateUrl);
+          vectorSource.set('updateTime', (time, area, configUpdate) => {
+            const updatedOptions = {
+              ...options,
+              ...configUpdate,
+            };
+            updatedOptions.time = time;
+            const updurl = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+            vectorSource.setUrl(updurl);
+          });
+        }
       }
       layer = new VectorLayer({
         source: vectorSource,
