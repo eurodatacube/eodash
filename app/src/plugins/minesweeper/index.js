@@ -128,7 +128,7 @@ const setupGrid = (game) => {
 function getColorFromValue(v, min = 1, max = 8) {
   let value;
 
-  if (value.isNaN) {
+  if (v.isNaN) {
     value = 0.0;
   } else {
     value = v;
@@ -324,8 +324,10 @@ const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
   const tile = game.get(x, y);
-  tile.isFlagged = !tile.isFlagged; // Toggle flag
-  updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
+  if (tile) {
+    tile.isFlagged = !tile.isFlagged; // Toggle flag
+    updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
+  }
   document.dispatchEvent(new Event('minesweeper:continue'));
 };
 
