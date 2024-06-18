@@ -125,9 +125,13 @@ const setupGrid = (game) => {
   };
 };
 
-function getColorFromValue(value, min = 1, max = 8) {
-  if (isNaN(value)) {
+function getColorFromValue(v, min = 1, max = 8) {
+  let value;
+
+  if (value.isNaN) {
     value = 0.0;
+  } else {
+    value = v;
   }
 
   // Ensure the value is within the expected range
@@ -137,8 +141,12 @@ function getColorFromValue(value, min = 1, max = 8) {
   const factor = (value - min) / (max - min);
 
   // Interpolate between dark green (rgba(0, 100, 0, 0.6)) and light green (rgba(0, 255, 0, 0.6))
-  const darkGreen = { r: 0, g: 100, b: 0, a: 0.6 };
-  const lightGreen = { r: 0, g: 255, b: 0, a: 0.6 };
+  const darkGreen = {
+    r: 0, g: 100, b: 0, a: 0.6,
+  };
+  const lightGreen = {
+    r: 0, g: 255, b: 0, a: 0.6,
+  };
 
   // Interpolate each channel separately
   const r = Math.round(lightGreen.r * factor + darkGreen.r * (1 - factor));
