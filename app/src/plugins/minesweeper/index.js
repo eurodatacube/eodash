@@ -125,6 +125,41 @@ const setupGrid = (game) => {
   };
 };
 
+function getColorFromValue(v, min = 1, max = 8) {
+  let value;
+
+  if (v.isNaN) {
+    value = 0.0;
+  } else {
+    value = v;
+  }
+
+  // Ensure the value is within the expected range
+  value = Math.max(min, Math.min(max, value));
+
+  // Calculate the interpolation factor
+  const factor = (value - min) / (max - min);
+
+  // Interpolate between dark green (rgba(0, 100, 0, 0.6)) and light green (rgba(0, 255, 0, 0.6))
+  const darkGreen = {
+    r: 0, g: 100, b: 0, a: 0.6,
+  };
+  const lightGreen = {
+    r: 0, g: 255, b: 0, a: 0.6,
+  };
+
+  // Interpolate each channel separately
+  const r = Math.round(lightGreen.r * factor + darkGreen.r * (1 - factor));
+  const g = Math.round(lightGreen.g * factor + darkGreen.g * (1 - factor));
+  const b = Math.round(lightGreen.b * factor + darkGreen.b * (1 - factor));
+  const a = lightGreen.a * factor + darkGreen.a * (1 - factor);
+
+  // Construct the rgba color string
+  const color = `rgba(${r}, ${g}, ${b}, ${a})`;
+
+  return color;
+}
+
 const getTileStyle = (tile) => {
   let style;
   if (tile.isRevealed === true) {
@@ -133,7 +168,7 @@ const getTileStyle = (tile) => {
         stroke: new Stroke({ color: '#000', width: 1 }),
         fill: new Fill({ color: 'red' }),
         text: new Text({
-          text: '💣',
+          text: '🌸',
           font: '16px Calibri,sans-serif',
           fill: new Fill({ color: '#fff' }),
           stroke: new Stroke({ color: '#000', width: 3 }),
@@ -142,7 +177,7 @@ const getTileStyle = (tile) => {
     } else {
       style = new Style({
         stroke: new Stroke({ color: '#000', width: 1 }),
-        fill: new Fill({ color: '#fff0' }),
+        fill: new Fill({ color: getColorFromValue(tile.value) }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
           font: '16px Calibri,sans-serif',
@@ -165,7 +200,7 @@ const getTileStyle = (tile) => {
   } else {
     style = new Style({
       stroke: new Stroke({ color: '#000', width: 0.5 }),
-      fill: new Fill({ color: '#aaa' }), // Unrevealed tile color
+      fill: new Fill({ color: '#AAAAAA4D' }), // Unrevealed tile color
       text: new Text({
         text: '',
         font: '16px Calibri,sans-serif',
@@ -266,6 +301,13 @@ const handleMapClick = (
 
   if (hasUncoveredMine) {
     document.dispatchEvent(new Event('minesweeper:gameover'));
+    game.revealAllTiles();
+
+    for (let yy = 0; yy < game.height; yy++) {
+      for (let xx = 0; xx < game.width; xx++) {
+        updateTileVisualsCallback(xx, yy, grid, vectorSource, game);
+      }
+    }
   } else {
     document.dispatchEvent(new Event('minesweeper:continue'));
   }
@@ -282,8 +324,10 @@ const handleMapRightClick = (e, game, grid, vectorSource, vectorLayer) => {
   const [x, y] = [gameCoords.x - 1, gameCoords.y];
 
   const tile = game.get(x, y);
-  tile.isFlagged = !tile.isFlagged; // Toggle flag
-  updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
+  if (tile) {
+    tile.isFlagged = !tile.isFlagged; // Toggle flag
+    updateTileVisuals(x, y, grid, vectorSource, vectorLayer, game);
+  }
   document.dispatchEvent(new Event('minesweeper:continue'));
 };
 

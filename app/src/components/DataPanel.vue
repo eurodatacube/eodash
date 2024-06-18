@@ -11,13 +11,6 @@
     ">
       <v-row v-if="indicatorObject" class="d-flex">
         <v-col
-          v-if="mergedConfigsData[0].minesweeperOptions"
-          class="pa-0"
-        >
-          <LocationsDropdown :options="mergedConfigsData[0].minesweeperOptions">
-          </LocationsDropdown>
-        </v-col>
-        <v-col
           v-if="!showMap
             || (showMap && mergedConfigsData[0].customAreaIndicator)
             || appConfig.id === 'esa'
@@ -320,7 +313,9 @@
               </v-btn>
 
               <v-card
-                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
+                v-if="indicatorSelected
+                  && indicatorSelected.indicator === 'IND2_1'
+                  && !mergedConfigsData[0].minesweeperOptions"
                 class="ma-5"
               >
                 <h1 class="ml-5">Species Info</h1>
@@ -427,7 +422,6 @@ import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
-import LocationsDropdown from '@/components/LocationsDropdown.vue';
 import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
 import SpeciesList from '@/components/SpeciesList.vue';
 
@@ -448,7 +442,6 @@ export default {
     // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
-    LocationsDropdown,
     FeatureQueryParams,
     SpeciesList,
   },

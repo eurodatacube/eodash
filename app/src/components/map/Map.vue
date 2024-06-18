@@ -134,7 +134,10 @@
         >{{ minesweeper.game.mineCount - minesweeper.game.flagCount }} 💣 remaining</v-btn>
 
         <div v-if="isMinesweeperConfigured && !!minesweeper.game">
-          <v-btn @click="minesweeper.game.revealAllTiles()">GAME: Reveal all</v-btn>
+          <v-btn
+            v-if="isMinesweeperDebugEnabled"
+            @click="minesweeper.game.revealAllTiles()"
+          >GAME: Reveal all</v-btn>
           <MinesweeperDialog
             :mode="minesweeper.mode"
             :game="minesweeper.game"
@@ -520,6 +523,10 @@ export default {
       return this.isMinesweeperConfigured
         && this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex;
     },
+    isMinesweeperDebugEnabled() {
+      return this.isMinesweeperConfigured
+        && new URLSearchParams(document.location.search).get('debug') === 'true';
+    },
   },
   watch: {
     getFeatures(features) {
@@ -835,6 +842,16 @@ export default {
       clearInterval(this.minesweeper.timer);
       this.minesweeper.mode = 'gameover';
       this.minesweeper.isDialogEnabled = true;
+    },
+    restartMineSweep() {
+      console.log('Minesweeper::Restart');
+      this.tearDownMinesweeper();
+
+      this.minesweeper.mode = 'start';
+
+      window.setTimeout(() => {
+        this.setupMinesweeper();
+      }, 1000);
     },
     convertDateForMsg(time) {
       let timeConverted = null;
@@ -1153,6 +1170,7 @@ export default {
       document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
       document.addEventListener('minesweeper:win', this.winMineSweep);
       document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.addEventListener('minesweeper:restart', this.restartMineSweep);
 
       const { map } = getMapInstance(this.mapId);
       let seedString = new URLSearchParams(window.location.search).get('seed');
@@ -1195,16 +1213,16 @@ export default {
       });
       this.minesweeper.isEnabled = true;
       this.minesweeper.isDialogEnabled = true;
-      // take currently selectedLocation for Minesweep and at set extent to match location bbox
-
-      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData[0].name);
       const extent = transformExtent(
         this.minesweeper.bbox,
         'EPSG:4326',
         map.getView().getProjection(),
       );
-      layer.setExtent(extent);
+      const padding = calculatePadding();
+      map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
     },
     tearDownMinesweeper() {
       if (this.minesweeper.game?.vectorLayer) {
@@ -1221,6 +1239,7 @@ export default {
       document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
       document.removeEventListener('minesweeper:win', this.winMineSweep);
       document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.removeEventListener('minesweeper:restart', this.restartMineSweep);
     },
   },
   beforeDestroy() {
