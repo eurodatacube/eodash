@@ -395,14 +395,14 @@ export const xcubeViewerColormaps = [
   'magma', 'inferno', 'plasma', 'viridis', 'cividis', 'Blues', 'BuGn', 'BuPu', 'GnBu', 'Greens', 'Greys', 'OrRd', 'Oranges', 'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu', 'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd', 'Wistia', 'afmhot', 'autumn', 'binary', 'bone', 'cool', 'copper', 'gist_gray', 'gist_heat', 'gist_yarg', 'gray', 'hot', 'pink', 'spring', 'summer', 'winter', 'BrBG', 'PRGn', 'PiYG', 'PuOr', 'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral', 'bwr', 'coolwarm', 'seismic', 'Accent', 'Dark2', 'Paired', 'Pastel1', 'Pastel2', 'Set1', 'Set2', 'Set3', 'tab10', 'tab20', 'tab20b', 'tab20c', 'twilight', 'twilight_shifted', 'hsv', 'reg_map', 'thermal', 'haline', 'solar', 'ice', 'gray', 'oxy', 'deep', 'dense', 'algae', 'matter', 'turbid', 'speed', 'amp', 'tempo', 'rain', 'phase', 'topo', 'balance', 'delta', 'curl', 'diff', 'tarn', 'turbo', 'CMRmap', 'brg', 'cubehelix', 'flag', 'gist_earth', 'gist_ncar', 'gist_rainbow', 'gist_stern', 'gnuplot', 'gnuplot2', 'jet', 'nipy_spectral', 'ocean', 'prism', 'rainbow', 'terrain',
 ];
 
-const cropomdefaults = {
+const cropomdefaults = (parameter) => ({
   baseUrl: null,
   customAreaIndicator: true,
   disableVisualAnalysisAddons: true,
   tooltip: {
     tooltipFormatFunction: (feature, _, store) => {
       const selectedParams = store.state.features.selectedJsonformParameters;
-      const { crop, vstat, parameter } = selectedParams;
+      const { crop, vstat } = selectedParams;
       const value = feature.get(parameter)[crop][vstat];
       const unit = parameter === 'yield' ? 't/ha' : 'mm';
       const name = feature.get('NUTS_NAME') || feature.get('NAME');
@@ -439,45 +439,24 @@ const cropomdefaults = {
   selection: {
     mode: 'single',
   },
-};
+});
 
-export const createCropomDatasetConfigs = () => [{
+export const createCropomDatasetConfigs = () => [
+  'CROPOMHU1', 'CROPOMAT1', 'CROPOMHUMR1', 'CROPOMHUSC1', 'CROPOMRO1',
+].map((n) => ({
   properties: {
     indicatorObject: {
-      indicator: 'CROPOM_AT',
-      display: cropomdefaults,
+      indicator: n,
+      display: cropomdefaults('yield'),
     },
   },
-},
-{
+})).concat([
+  'CROPOMHU2', 'CROPOMAT2', 'CROPOMHUMR2', 'CROPOMHUSC2', 'CROPOMRO2',
+].map((n) => ({
   properties: {
     indicatorObject: {
-      indicator: 'CROPOM_HU',
-      display: cropomdefaults,
+      indicator: n,
+      display: cropomdefaults('water_need'),
     },
   },
-},
-{
-  properties: {
-    indicatorObject: {
-      indicator: 'CROPOM_RO',
-      display: cropomdefaults,
-    },
-  },
-},
-{
-  properties: {
-    indicatorObject: {
-      indicator: 'CROPOM_HU_Microregion_Mezohegyes',
-      display: cropomdefaults,
-    },
-  },
-},
-{
-  properties: {
-    indicatorObject: {
-      indicator: 'CROPOM_HU_Subcounty_Bekes',
-      display: cropomdefaults,
-    },
-  },
-}];
+})));
