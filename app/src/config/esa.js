@@ -5,7 +5,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
 import {
-  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
@@ -304,58 +304,7 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM',
-        display: [{
-          baseUrl: null,
-          customAreaIndicator: true,
-          disableVisualAnalysisAddons: true,
-          tooltip: {
-            tooltipFormatFunction: (feature, _, store) => {
-              const selectedParams = store.state.features.selectedJsonformParameters;
-              const { crop, vstat, parameter } = selectedParams;
-              const value = feature.get(parameter)[crop][vstat];
-              const unit = parameter === 'yield' ? 't/ha' : 'mm';
-              return [
-                `Region: ${feature.get('NUTS_NAME')}`,
-                `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
-              ];
-            },
-          },
-          layerControlHide: true,
-          areaIndicator: {
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
-            adminZoneKey: 'FID',
-            requestMethod: 'GET',
-            callbackFunction: (responseJson, indicator) => {
-              const data = responseJson.growth;
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-              };
-              Object.entries(data).forEach(([key, value]) => {
-                newData.time.push(DateTime.fromISO(key));
-                newData.measurement.push(value.yield_);
-                newData.referenceValue.push(value.biomass);
-              });
-              newData.yAxis = ['t/ha', 'g/m2'];
-              const ind = {
-                ...indicator,
-                ...newData,
-              };
-              return ind;
-            },
-          },
-          selection: {
-            mode: 'single',
-          },
-        }],
-      },
-    },
-  },
+  ...createCropomDatasetConfigs(),
   {
     properties: {
       indicatorObject: {
