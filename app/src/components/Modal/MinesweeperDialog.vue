@@ -77,7 +77,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="newGame()">New Game</v-btn>
+          <v-btn text @click="newGame()">Restart Game</v-btn>
           <v-btn class="primary" text @click="close()">Continue</v-btn>
         </v-card-actions>
       </v-card>
@@ -113,6 +113,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn text @click="newGame()">Restart Game</v-btn>
           <v-btn class="primary" text @click="close()">Continue</v-btn>
         </v-card-actions>
       </v-card>
