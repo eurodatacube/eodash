@@ -17,8 +17,7 @@ const wkt = new Wkt();
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 
-export const STACEndpoint = 'http://0.0.0.0:8000/trilateral/catalog.json';
-//export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json';
+export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json';
 
 const geodbFeatures = {
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_{indicator}-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
