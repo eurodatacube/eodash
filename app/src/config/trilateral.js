@@ -570,6 +570,15 @@ export const globalIndicators = [
   createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
   {
     properties: {
+      // override dates for precipitation
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_Precipitation',
+        time: getDailyDates('2015-01-01', '2021-12-31'),
+      },
+    },
+  },
+  {
+    properties: {
       indicatorObject: {
         indicator: 'SITI',
         display: {
