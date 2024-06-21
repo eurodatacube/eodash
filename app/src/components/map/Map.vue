@@ -129,6 +129,8 @@
             pointer-events: auto;
             margin-right: 4px;
             --button-size: 36px;
+            --button-bg: #fff;
+            --button-fg: #000;
           "
           label="Search"
           button
@@ -364,7 +366,7 @@ export default {
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
       appRightPanelsOpened: null,
-      geosearchExtent: null
+      geosearchExtent: null,
     };
   },
   computed: {
@@ -746,7 +748,7 @@ export default {
     },
     searchEndpoint() {
       return `https://api.opencagedata.com/geocode/v1/json?key=${shConfig.opencageApiKey}&limit=5`;
-    }
+    },
   },
   watch: {
     baseLayerConfigs() {
@@ -1050,7 +1052,7 @@ export default {
       map.addInteraction(this.queryLink);
     }
 
-    window.addEventListener('geosearchSelect', (e) => this.geosearchExtent = e.detail);
+    window.addEventListener('geosearchSelect', (e) => { this.geosearchExtent = e.detail; });
   },
   methods: {
     ...mapMutations('indicators', {
