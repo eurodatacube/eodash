@@ -580,6 +580,16 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'ESDL_Hydrology_SM',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'SITI',
         display: {
           baseLayers: arcticBaseMaps,
