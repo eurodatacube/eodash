@@ -1,3 +1,5 @@
+const shConfig = require('../public/shConfig');
+
 module.exports = [
   {
     id: 'esa',
