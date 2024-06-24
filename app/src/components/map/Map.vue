@@ -125,6 +125,7 @@
           :drawnArea.sync="drawnArea"
         />
         <eox-geosearch
+          v-if="searchEndpoint"
           style="
             pointer-events: auto;
             margin-right: 4px;
@@ -137,6 +138,7 @@
           small
           list-direction="left"
           results-direction="down"
+          interval="1000"
           :endpoint="searchEndpoint"
         ></eox-geosearch>
         <v-btn
@@ -747,7 +749,11 @@ export default {
       return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
     searchEndpoint() {
-      return `https://api.opencagedata.com/geocode/v1/json?key=${shConfig.opencageApiKey}&limit=5`;
+      let endpoint = false;
+      if ('geosearchEndpoint' in this.appConfig) {
+        endpoint = this.appConfig.geosearchEndpoint;
+      }
+      return endpoint;
     },
   },
   watch: {
