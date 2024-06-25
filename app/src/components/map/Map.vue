@@ -753,6 +753,14 @@ export default {
       if ('geosearchEndpoint' in this.appConfig) {
         endpoint = this.appConfig.geosearchEndpoint;
       }
+      // Apply key based on endpoint (seems i can't do this within appConfig because of linting)
+      if (this.appConfig.id === 'esa') {
+        endpoint += `&key=${shConfig.opencageRACE}`;
+      } else if (this.appConfig.id === 'trilateral') {
+        endpoint += `&key=${shConfig.opencageTrilateral}`;
+      } else if (this.appConfig.id === 'gtif') {
+        endpoint += `&key=${globalThis.shConfig.opencageGTIF}`;
+      }
       return endpoint;
     },
   },
