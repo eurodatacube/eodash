@@ -2,8 +2,8 @@
   <MapOverlay
     :mapId='mapId'
     :overlayId='mergedConfigs[0].name'
-    :overlayHeaders='overlayHeaders'
-    :overlayRows='overlayRows'
+    :overlayHeaders='(Object.values(this.overlayHeaders)).flat()'
+    :overlayRows='(Object.values(this.overlayRows)).flat()'
     :overlayCoordinate='overlayCoordinate'
   />
 </template>
@@ -54,8 +54,8 @@ export default {
   },
   data() {
     return {
-      overlayHeaders: [],
-      overlayRows: [],
+      overlayHeaders: {},
+      overlayRows: {},
       overlayCoordinate: null,
       pointerMoveHandlers: [],
       singleClickHandlers: [],
@@ -94,6 +94,7 @@ export default {
             ? (!this.compare && this.swipePixelX < e.pixel[0])
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
+          const layerName = layer.get('name');
           if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
@@ -105,7 +106,7 @@ export default {
               coordinate = getCenter(geom.getExtent());
             }
             if (config.selection) {
-              this.overlayHeaders = [layer.get('name')];
+              this.overlayHeaders[layerName] = [layerName];
             }
             this.overlayCoordinate = coordinate;
             let rows = [];
@@ -123,11 +124,14 @@ export default {
                 }
               });
             }
-            this.overlayRows = rows;
+            this.overlayRows[layerName] = rows;
           } else {
-            this.overlayHeaders = null;
-            this.overlayCoordinate = null;
-            this.overlayContent = null;
+            this.overlayRows[layerName] = '';
+            this.overlayHeaders[layerName] = '';
+            // no layer has actual tooltip content, hide it
+            if (!(Object.values(this.overlayRows)).flat().some((item) => item !== '')) {
+              this.overlayCoordinate = null;
+            }
           }
         };
         if (config?.tooltip?.trigger === 'singleclick') {
@@ -174,9 +178,16 @@ export default {
             // crosscheck with store
             let { selectedFeatures } = this.$store.state.features;
             finalFeatures.every((f) => {
-              const foundIndex = selectedFeatures.findIndex(
-                (selectedFtr) => f.getId() === selectedFtr.getId(),
-              );
+              let foundIndex = -1;
+              if (typeof f.getId() !== 'undefined') {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.getId() === selectedFtr.getId(),
+                );
+              } else if (config.adminZoneKey) {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.get(config.adminZoneKey) === selectedFtr.get(config.adminZoneKey),
+                );
+              }
               if (foundIndex !== -1) {
                 // was in selection, remove from selection
                 selectedFeatures = selectedFeatures.toSpliced(foundIndex, 1);

@@ -15,7 +15,7 @@
           color="primary"
         >
           <v-list-item
-            v-for="(item, i) in selectableLayerConfigs"
+            v-for="(item, i) in [selectableLayerConfigs[0]]"
             :key="i"
             class="pa-0"
             :disabled="getLayerBtn(item).disabled"

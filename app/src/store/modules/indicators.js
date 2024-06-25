@@ -5,7 +5,6 @@ import countriesJSON from '@/assets/countries.json';
 const state = {
   indicators: null,
   selectedIndicator: null,
-  selectedTime: null,
   customAreaIndicator: null,
   frozenIndicator: null,
 };

@@ -13,6 +13,7 @@ const state = {
   selectedCalendarDate: null,
   sliderValue: null,
   selectedFeatures: [],
+  selectedJsonformParameters: null,
 };
 
 const getters = {

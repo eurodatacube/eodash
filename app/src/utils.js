@@ -90,6 +90,14 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
   return dataObject;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+export function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
   const styles = config['wms:styles'] ? config['wms:styles'].join(',') : '';
@@ -220,6 +228,77 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   };
   return display;
 }
+
+function createVectorDisplay(config, sourceStyle) {
+  let flatStyle = {
+    'stroke-color': 'blue',
+    'stroke-width': 2,
+  };
+  if (sourceStyle) {
+    flatStyle = sourceStyle;
+    flatStyle.layerId = config.id;
+  } else {
+    console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
+  }
+  const display = {
+    // placeholder needed because url is used to differentiate
+    // between pure features and source in layers.js
+    url: 'placeholder',
+    protocol: 'GeoJSON',
+    flatStyle,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+    tooltip: true,
+    // allowedParameters: ['name'],
+  };
+  if ('proj:epsg' in config) {
+    display.projection = `EPSG:${config['proj:epsg']}`;
+  }
+  return display;
+}
+
+function createCOGDisplay(config, sourceStyle) {
+  let style = {};
+  if (sourceStyle) {
+    style = sourceStyle;
+    style.layerId = config.id;
+  } else {
+    console.log('Info: no flatstyle provided for rendering COG dataset, using default style');
+  }
+  const display = {
+    protocol: 'cog',
+    style,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+  };
+  return display;
+}
+
+export function flattenObject(ob) {
+  const toReturn = {};
+  Object.keys(ob).forEach((i) => {
+    if ((typeof ob[i]) === 'object' && ob[i] !== null) {
+      const flatObject = flattenObject(ob[i]);
+      Object.keys(flatObject).forEach((fi) => {
+        // Assumes unique keys, overwrites non unique keys
+        toReturn[fi] = flatObject[fi];
+      });
+    } else {
+      toReturn[i] = ob[i];
+    }
+  });
+  return toReturn;
+}
+export const PROJDICT = {
+  'EPSG:3035': {
+    name: 'EPSG:3035',
+    def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
+  },
+};
 
 function createVectorTileDisplay(config) {
   // TODO, not finished and used yet
@@ -619,6 +698,50 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else if (jsonData.endpointtype === 'GeoJSON source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createVectorDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.assets,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+    } else if (jsonData.endpointtype === 'COG source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createCOGDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.assets,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
