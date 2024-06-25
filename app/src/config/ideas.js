@@ -376,7 +376,7 @@ export const globalIndicators = [
           specialEnvScenario4: true,
           baseUrl: 'https://hulk.adamplatform.eu/wmts',
           layers: 'InundationMap',
-          styles: 'InundationMap;colorrange=(1,4);nodata=4',
+          styles: 'InundationMap;colorrange=(0,2)',
           token: '4aa4e7b13ca553ad21de06c05cff3724',
           projection: 'EPSG:4326',
           crossOrigin: null,
