@@ -18,10 +18,9 @@
             :items="wmsVariables.variables[key].items"
             item-text="description"
             item-value="id"
-            label="Select"
+            label="."
             persistent-hint
             return-object
-            single-line
             @change="updateMapLayer"
           ></v-select>
         </v-col>
