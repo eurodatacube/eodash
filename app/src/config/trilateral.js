@@ -614,13 +614,30 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'Modis_SNPP_2023',
-        display: {
+        display: [{
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          layerControlHide: false,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
-          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
-          name: 'Daily Sentinel 2 L2A',
-          minZoom: 1,
-          customAreaIndicator: true,
-          customAreaFeatures: true,
+          layers: 'TESTING_CO_FROM_SENTINELHUB',
+          name: 'S5P L2 Tropomi CO',
+          opacity: 0.6,
+          features: {
+            ...trucksFeatures,
+            opacity: 1,
+            layerControlHide: false,
+            drawnAreaLimitExtent: true,
+            name: 'Modis fire detections',
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'brightness,geometry,date_time,confidence,frp,daynight,type,bright_t31',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND date_time LIKE \'{featuresTime}%\'',
+            },
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+            style: {
+              strokeColor: '#ff0000',
+              width: 4,
+            },
+          },
           areaIndicator: {
             ...trucksAreaIndicator(false, 'date_time'),
             requestBody: {
@@ -630,20 +647,16 @@ export const globalIndicators = [
               where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
             },
           },
-          features: {
-            ...trucksFeatures,
-            minZoom: 1,
-            layerControlHide: false,
-            drawnAreaLimitExtent: true,
-            name: 'Fire detections',
-            requestBody: {
-              collection: 'eodash_MODIS_timeseries',
-              select: 'brightness,geometry,date_time,confidence,frp,daynight,type,bright_t31',
-              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND date_time LIKE \'{featuresTime}%\'',
-            },
-            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
-          },
-        },
+          drawnAreaLimitExtent: true,
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+        }, {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 1,
+          drawnAreaLimitExtent: true,
+        }],
       },
     },
   },
