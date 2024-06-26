@@ -613,7 +613,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        indicator: 'VIIRS_SNPP_2023',
+        indicator: 'Modis_SNPP_2023',
         display: {
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
