@@ -23,6 +23,16 @@ function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
 }
 
+function sanitizeBbox(bbox) {
+  const [x1, y1, x2, y2] = bbox;
+  // Calculate the minimum and maximum values for x and y
+  const xmin = Math.min(x1, x2);
+  const xmax = Math.max(x1, x2);
+  const ymin = Math.min(y1, y2);
+  const ymax = Math.max(y1, y2);
+  return [xmin, ymin, xmax, ymax];
+}
+
 export function simplifiedshTimeFunction(date) {
   let tempDate = date;
   if (!Array.isArray(tempDate)) {
@@ -165,7 +175,9 @@ function createXYZTilesMarineDatastoreDisplay(config, name) {
   // const vmax = searchParams.get('vmax') || 1;
   const display = {
     protocol: 'xyz',
-    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:4326&tilematrix={z-1}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    // TODO FIXME - change to 4326 and z-1 offset
+    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:3857&tilematrix={z}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    tileSize: 512,
     name,
     dateFormatFunction: (date) => `${date}`,
     // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
@@ -359,8 +371,10 @@ export async function loadFeatureData(baseConfig, feature) {
         };
       }
     }
+    // if coordinates of bbox are switched in source, client breaks in OL part
+    const bbox = sanitizeBbox(jsonData.extent.spatial.bbox[0]);
     // Add collection extent as subaoi
-    const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
+    const coords = fromExtent(bbox).getCoordinates();
     const features = {
       type: 'MultiPolygon',
       coordinates: [coords],
