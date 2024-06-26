@@ -7,7 +7,9 @@ import {
   shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
 import shTimeFunction from '@/shTimeFunction';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import {
+  baseLayers, overlayLayers, trucksAreaIndicator, trucksFeatures,
+} from '@/config/layers';
 import {
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
@@ -604,6 +606,43 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SIE',
         display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'VIIRS_SNPP_2023',
+        display: {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          minZoom: 6,
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+          areaIndicator: {
+            ...trucksAreaIndicator(false, 'date_time'),
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'date_time,geometry',
+              order: 'date_time',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+            },
+          },
+          features: {
+            ...trucksFeatures,
+            minZoom: 1,
+            layerControlHide: false,
+            drawnAreaLimitExtent: true,
+            name: 'Fire detections',
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'brightness,geometry,date_time,confidence,frp,daynight,type,bright_t31',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND date_time LIKE \'{featuresTime}%\'',
+            },
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+          },
+        },
       },
     },
   },
