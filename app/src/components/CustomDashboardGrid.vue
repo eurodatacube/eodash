@@ -659,8 +659,8 @@ export default {
     ]),
     onMapReady(poi) {
       setTimeout(() => {
-        this.localCenter[poi].lat = this.serverCenter[poi].lat;
-        this.localCenter[poi].lng = this.serverCenter[poi].lng;
+        this.localCenter[poi].lat = this.serverCenter[poi]?.lat;
+        this.localCenter[poi].lng = this.serverCenter[poi]?.lng;
         this.localZoom[poi] = this.serverZoom[poi];
         this.localDirection[poi] = this.serverDirection[poi];
         this.localPosition[poi] = this.serverPosition[poi];

@@ -1,188 +1,226 @@
 <template>
-  <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
-    z-index: 1" class="d-flex justify-center" :id="mapId">
-    <!-- a layer adding a (potential) dark overlay, z-index 4 -->
-    <DarkOverlayLayer
-      :mapId="mapId"
-      :configs="darkOverlayLayers"
-      v-if="darkOverlayLayers.length > 0"
-    />
-    <!-- a layer adding a (potential) subaoi, z-index 5 -->
-    <SubaoiLayer
-      :mapId="mapId"
-      :indicator="indicator"
-      :mergedConfigsData="mergedConfigsData[0]"
-      :isGlobal="!featureObject"
-      v-if="dataLayerName"
-      :key="dataLayerKey + '_subAoi'"
-    />
-    <!-- a layer displaying a selected global poi
-     these layers will have z-Index 3 -->
-    <SpecialLayer
-      v-if="showSpecialLayer"
-      :mapId="mapId"
-      :mergedConfigs="mergedConfigsData"
-      :options="specialLayerOptions"
-      :key="dataLayerKey  + '_specialLayer'"
-      :swipePixelX="swipePixelX"
-      :resetProjectionOnDestroy='true'
-      @updatecenter="handleSpecialLayerCenter"
-      @updatezoom="handleSpecialLayerZoom"
-      @setMapTime="(time) => dataLayerTime = {value: time}"
-      @setTimeArray="handleSetTimeArray"
-    />
-    <!-- additional special layer showing frozen indicator-->
-    <SpecialLayer
-      v-if="showFrozenLayer"
-      :mapId="mapId"
-      :mergedConfigs="mergedConfigsFrozenData"
-      :options="frozenLayerOptions"
-      :key="frozenLayerName + '_specialLayer'"
-    />
-    <div
-      class="d-flex justify-center fill-height"
-      style="position: absolute; bottom: 0; left: 0;
-      transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: 100%"
-    >
-      <LayerSwipe
-        v-if="compareLayerTime"
+  <div ref="totalContainer" style="height: 100%; width: 100%;">
+    <eox-map ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1" class="d-flex justify-center" :id="mapId">
+    </eox-map>
+    <div ref="toolContainer" style="height: 100%; width: 100%;" class="d-flex justify-center">
+      <!-- a layer adding a (potential) dark overlay, z-index 4 -->
+      <DarkOverlayLayer
         :mapId="mapId"
-        :time="compareLayerTime.value"
-        :mergedConfigsData="mergedConfigsLayerSwipe"
-        :specialLayerOptionProps="specialLayerOptions"
-        :enable="enableCompare"
-        :drawnArea="drawnArea"
-        @updateSwipePosition="updateSwipePosition"
-        :key="dataLayerName + '_layerSwipe'"
+        :configs="darkOverlayLayers"
+        v-if="darkOverlayLayers.length > 0"
       />
-      <indicator-time-selection
-        ref="timeSelection"
-        v-if="displayTimeSelection && !enableScrollyMode
-          && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
-        :autofocus="!disableAutoFocus && !isInIframe"
-        :available-values="availableTimeEntries"
-        :indicator="mergedConfigsData[0]"
-        :compare-active.sync="enableCompare"
-        :compare-time.sync="compareLayerTime"
-        :original-time.sync="dataLayerTime"
-        :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
-        :large-time-duration="indicator.largeTimeDuration"
-        :key="dataLayerName + '_timeSelection'"
-        @focusSelect="focusSelect"
-        :style="calculatePosition"
-      />
-    </div>
-    <!-- an overlay for showing information when hovering over clusters -->
-    <MapOverlay
-      :mapId="mapId"
-      overlayId="clusterOverlay"
-      :overlayHeaders="overlayHeaders"
-      :overlayRows="overlayRows"
-      :overlayCoordinate="overlayCoordinate"
-    />
-    <div
-      ref="bottomControlsContainer"
-      class="bottomControlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'hidden': enableScrollyMode}"
-      :style="calculatePadding"
-    >
-    <div class="mouse-container"
-      :style="mousePosConStyle"
-       ref="mousePositionContainer"/>
-    </div>
-    <!-- Container for all controls. Will move when map is resizing -->
-    <div
-      ref="controlsContainer"
-      class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'hidden': enableScrollyMode}"
-      :style="`margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
-    >
-      <FullScreenControl
-        v-if="mapId !== 'centerMap'"
-        :mapId="mapId" class="pointerEvents"
-      />
-      <ZoomControl
-        v-show="!enableScrollyMode"
+      <!-- a layer adding a (potential) subaoi, z-index 5 -->
+      <SubaoiLayer
         :mapId="mapId"
-        class="pointerEvents"
+        :indicator="indicator"
+        :mergedConfigsData="mergedConfigsData[0]"
+        :isGlobal="!featureObject"
+        v-if="dataLayerName"
+        :key="dataLayerKey + '_subAoi'"
       />
-      <LayerControl
-        v-if="loaded && mapId !== 'centerMap'"
-        class="pointerEvents"
+      <!-- a layer displaying a selected global poi
+      these layers will have z-Index 3 -->
+      <SpecialLayer
+        v-if="showSpecialLayer"
         :mapId="mapId"
+        :mergedConfigs="mergedConfigsData"
+        :options="specialLayerOptions"
+        :key="dataLayerKey  + '_specialLayer'"
+        :swipePixelX="swipePixelX"
+        :resetProjectionOnDestroy='true'
+        @updatecenter="handleSpecialLayerCenter"
+        @updatezoom="handleSpecialLayerZoom"
+        @setMapTime="(time) => dataLayerTime = {value: time}"
+        @setTimeArray="handleSetTimeArray"
       />
-      <!-- will add a drawing layer to the map (z-index 3) -->
-      <CustomAreaButtons
-        v-if="loaded && mapId === 'centerMap'"
-        class="pointerEvents"
+      <!-- additional special layer showing frozen indicator-->
+      <SpecialLayer
+        v-if="showFrozenLayer"
         :mapId="mapId"
-        :mergedConfigsData="mergedConfigsData"
-        :key="dataLayerName  + '_customArea'"
-        :drawnArea.sync="drawnArea"
-      />
-      <v-btn
-        v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
-        :color="$vuetify.theme.currentTheme.background"
-        class="pointerEvents"
-        style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
-        @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
-      >
-        <v-icon>mdi-map-clock-outline</v-icon>
-      </v-btn>
-      <DatePickerControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
-        @selectedDate="setDateFromDatePicker"
-        class="pointerEvents"
-        :mapId="mapId"
-      />
-      <SliderControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
-        class="pointerEvents"
-        :mapId="mapId"
-        :config="mergedConfigsData[0].sliderConfig"
-      />
-      <CustomFeaturesFetchButton
-      v-if="loaded && mergedConfigsData.length
-        && mergedConfigsData[0].mapTimeDatepicker"
-        class="pointerEvents"
-        v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+        :mergedConfigs="mergedConfigsFrozenData"
+        :options="frozenLayerOptions"
+        :key="frozenLayerName + '_specialLayer'"
       />
       <div
-        v-if="$route.name !== 'demo'"
-        class="pointerEvents mb-2"
-        style="padding-right: 4px; margin-top: 5px;"
+        class="d-flex justify-center fill-height"
+        style="position: absolute; bottom: 0; left: 0; pointer-events: none;
+        transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%"
       >
-        <IframeButton
-          v-if="mapId === 'centerMap'
-            && indicator
-            && indicatorHasMapData()
-            && appConfig.id !== 'gtif'"
-          :featureObject="featureObject"
-          :indicatorObject="indicator"
-          :zoom.sync="currentZoom"
-          :center.sync="currentCenter"
-          mapControl
+        <LayerSwipe
+          v-if="compareLayerTime"
+          :mapId="mapId"
+          :time="compareLayerTime.value"
+          :mergedConfigsData="mergedConfigsLayerSwipe"
+          :specialLayerOptionProps="specialLayerOptions"
+          :enable="enableCompare"
+          :drawnArea="drawnArea"
+          @updateSwipePosition="updateSwipePosition"
+          :key="dataLayerName + '_layerSwipe'"
+        />
+        <indicator-time-selection
+          ref="timeSelection"
+          style="pointer-events: all;"
+          v-if="displayTimeSelection && !enableScrollyMode
+            && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
+          :autofocus="!disableAutoFocus && !isInIframe"
+          :available-values="availableTimeEntries"
+          :indicator="mergedConfigsData[0]"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
+          :large-time-duration="indicator.largeTimeDuration"
+          :key="dataLayerName + '_timeSelection'"
+          @focusSelect="focusSelect"
+          :style="calculatePosition"
         />
       </div>
+      <!-- an overlay for showing information when hovering over clusters -->
+      <MapOverlay
+        :mapId="mapId"
+        overlayId="clusterOverlay"
+        :overlayHeaders="overlayHeaders"
+        :overlayRows="overlayRows"
+        :overlayCoordinate="overlayCoordinate"
+      />
       <div
-        v-if="$route.name !== 'demo'"
-        class="pointerEvents mb-2"
-        style="padding-right: 4px;"
+        ref="bottomControlsContainer"
+        class="bottomControlsContainer pa-2 d-flex flex-column align-end"
+        :class="{'hidden': enableScrollyMode}"
+        :style="calculatePadding"
       >
-        <AddToDashboardButton
-          v-if="mapId === 'centerMap'
-            && indicator
-            && indicatorHasMapData()
-            && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
-          :indicatorObject="indicator"
-          :featureObject="featureObject"
-          :zoom.sync="currentZoom"
-          :center.sync="currentCenter"
-          :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-          :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
-          mapControl
+      <div class="mouse-container"
+        :style="mousePosConStyle"
+        ref="mousePositionContainer"/>
+      </div>
+      <!-- Container for all controls. Will move when map is resizing -->
+      <div
+        ref="controlsContainer"
+        class="controlsContainer pa-2 d-flex flex-column align-end"
+        :class="{'hidden': enableScrollyMode}"
+        :style="`margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
+      >
+        <FullScreenControl
+          v-if="mapId !== 'centerMap'"
+          :mapId="mapId" class="pointerEvents"
         />
+        <ZoomControl
+          v-show="!enableScrollyMode"
+          :mapId="mapId"
+          class="pointerEvents"
+        />
+        <LayerControl
+          v-if="loaded && mapId !== 'centerMap'"
+          class="pointerEvents"
+          :mapId="mapId"
+        />
+        <!-- will add a drawing layer to the map (z-index 3) -->
+        <CustomAreaButtons
+          v-if="loaded && mapId === 'centerMap'"
+          class="pointerEvents"
+          :mapId="mapId"
+          :mergedConfigsData="mergedConfigsData"
+          :key="dataLayerName  + '_customArea'"
+          :drawnArea.sync="drawnArea"
+        />
+        <eox-geosearch
+          v-if="searchEndpoint"
+          style="
+            pointer-events: auto;
+            margin-right: 4px;
+            --button-size: 36px;
+            --button-bg: #fff;
+            --button-fg: #000;
+          "
+          label="Search"
+          button
+          small
+          list-direction="left"
+          results-direction="down"
+          interval="1000"
+          :endpoint="searchEndpoint"
+        ></eox-geosearch>
+        <v-btn
+          v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
+          :color="$vuetify.theme.currentTheme.background"
+          class="pointerEvents"
+          style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
+          @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
+        >
+          <v-icon>mdi-map-clock-outline</v-icon>
+        </v-btn>
+        <DatePickerControl
+          v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+          @selectedDate="setDateFromDatePicker"
+          class="pointerEvents"
+          :mapId="mapId"
+        />
+        <SliderControl
+          v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
+          class="pointerEvents"
+          :mapId="mapId"
+          :config="mergedConfigsData[0].sliderConfig"
+        />
+        <CustomFeaturesFetchButton
+        v-if="loaded && mergedConfigsData.length
+          && mergedConfigsData[0].mapTimeDatepicker"
+          class="pointerEvents"
+          v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+        />
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px; margin-top: 5px;"
+        >
+          <IframeButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && appConfig.id !== 'gtif'"
+            :featureObject="featureObject"
+            :indicatorObject="indicator"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            mapControl
+          />
+        </div>
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px;"
+        >
+          <AddToDashboardButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
+            :indicatorObject="indicator"
+            :featureObject="featureObject"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+            :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+            mapControl
+          />
+        </div>
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px; margin-top: 2px;"
+        >
+          <OLExportButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && appConfig.id !== 'gtif'"
+            :featureObject="featureObject"
+            :indicatorObject="indicator"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            mapControl
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -209,6 +247,7 @@ import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import OLExportButton from '@/components/OLExportButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
@@ -235,6 +274,7 @@ import {
   findClosest,
   getFilteredInputData,
 } from '@/utils';
+import '@eox/map';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -253,6 +293,7 @@ export default {
     SubaoiLayer,
     MapOverlay,
     IframeButton,
+    OLExportButton,
     AddToDashboardButton,
     DarkOverlayLayer,
     CustomFeaturesFetchButton,
@@ -327,6 +368,7 @@ export default {
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
       appRightPanelsOpened: null,
+      geosearchExtent: null,
     };
   },
   computed: {
@@ -623,6 +665,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       };
+      if (this.geosearchExtent) return this.geosearchExtent;
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
@@ -704,6 +747,21 @@ export default {
     },
     controlsContainerStyle() {
       return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
+    },
+    searchEndpoint() {
+      let endpoint = false;
+      if ('geosearchEndpoint' in this.appConfig) {
+        endpoint = this.appConfig.geosearchEndpoint;
+      }
+      // Apply key based on endpoint (seems i can't do this within appConfig because of linting)
+      if (this.appConfig.id === 'esa') {
+        endpoint += `&key=${shConfig.opencageRACE}`;
+      } else if (this.appConfig.id === 'trilateral') {
+        endpoint += `&key=${shConfig.opencageTrilateral}`;
+      } else if (this.appConfig.id === 'gtif') {
+        endpoint += `&key=${shConfig.opencageGTIF}`;
+      }
+      return endpoint;
     },
   },
   watch: {
@@ -1007,6 +1065,8 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    window.addEventListener('geosearchSelect', (e) => { this.geosearchExtent = e.detail; });
   },
   methods: {
     ...mapMutations('indicators', {
@@ -1430,6 +1490,7 @@ export default {
   }
 
   .controlsContainer {
+    top: 0px;
     position: absolute;
     right: 0px;
     min-width: 50px;

@@ -35,6 +35,7 @@ import '@eox/map';
 import '@eox/map/dist/eox-map-advanced-layers-and-sources';
 import '@eox/jsonform';
 import '@eox/storytelling';
+import '@eox/geosearch';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -50,6 +51,7 @@ Vue.config.ignoredElements = [
   'eox-map',
   'eox-jsonform',
   'eox-storytelling',
+  'eox-geosearch',
 ];
 
 Vue.use(VuePapaParse);

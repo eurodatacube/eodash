@@ -151,6 +151,7 @@
     <v-expansion-panels
     style="justify-content: left;"
     v-if="appConfig.id === 'gtif' && additionalGTIFDataInfos.length > 0"
+    :key="refreshKey"
     >
     <h4>
       Dataset metadata
@@ -191,6 +192,7 @@ export default {
     stacInfoLoaded: null,
     themesInStacInfo: [],
     linksInStacInfo: [],
+    refreshKey: 0,
   }),
   computed: {
     ...mapState('config', [
@@ -259,27 +261,30 @@ export default {
         this.stacInfoLoaded = true;
       });
     },
-    getAdditionalGTIFDataInfos() {
-      this.additionalGtifDataInfoContent = [];
-      for (let i = 0; i < this.additionalGTIFDataInfos.length; i++) {
-        try {
-          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGTIFDataInfos[i].dataInfo}.md`;
-          fetch(markdownUrl)
-            .then((response) => {
-              if (!response.ok) {
-                console.error('Fetching DataInfo failed');
-              }
-              return response.text();
-            })
-            .then((text) => {
-              const markdown = { default: text };
-              this.additionalGtifDataInfoContent.push(this.$marked(markdown.default));
-            });
-        } catch {
-          // just an empty catch to "fill in empty content"
-          this.additionalGtifDataInfoContent.push('');
-        }
+    async fetchDataInfo(dataInfoObject, i) {
+      try {
+        const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${dataInfoObject.dataInfo}.md`;
+        await fetch(markdownUrl)
+          .then((response) => {
+            if (!response.ok) {
+              console.error('Fetching DataInfo failed');
+            }
+            return response.text();
+          })
+          .then((text) => {
+            const markdown = { default: text };
+            this.additionalGtifDataInfoContent[i] = this.$marked(markdown.default);
+          });
+      } catch {
+        // just an empty catch
       }
+    },
+    getAdditionalGTIFDataInfos() {
+      this.additionalGtifDataInfoContent = Array(this.additionalGTIFDataInfos.length).fill('');
+      Promise.all(this.additionalGTIFDataInfos.map((item, i) => this.fetchDataInfo(item, i)))
+        .then(() => {
+          this.refreshKey = Math.random();
+        });
     },
   },
 };
