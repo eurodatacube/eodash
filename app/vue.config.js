@@ -59,6 +59,7 @@ module.exports = {
     '@eox/jsonform',
     '@eox/storytelling',
     'color-parse',
+    '@eox/geosearch',
   ],
   configureWebpack: {
     devServer: {
