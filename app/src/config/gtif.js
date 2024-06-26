@@ -1195,24 +1195,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
         queryParameters: {
           selected: 'lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,grexisting',
         },
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
         wmsStyles: {
           sourceLayer: 'Green Roofs',
           items: [
@@ -1263,24 +1245,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
         queryParameters: {
           selected: 'pvusearea,pvexisting,pvpotentl,pveppmwhhp,pveppmwhrp,pveppmwhlp',
         },
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
         wmsStyles: {
           sourceLayer: 'Solar Roofs',
           items: [
@@ -1902,16 +1866,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM2',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
-            name: 'Mariazell',
-            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
-          },
-        ],
         display: {
           protocol: 'cog',
           id: 'FCM2',
@@ -1978,12 +1932,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'VTT',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-        ],
         cogFilters: {
           sourceLayer: 'VTT',
           filters: {
@@ -2135,20 +2083,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM1',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
-            name: 'Oberhaag',
-            location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
-          },
-          {
-            name: 'Bruck an der Mur',
-            location: wkt.read('POLYGON((15.158 47.440, 15.312 47.440, 15.312 47.368, 15.158 47.368, 15.158 47.440))').toJson(),
-          },
-        ],
         time: [
           ['2021-09-01', 'NRT_FCM_Changes-2021-09_epsg3857.tif'],
           ['2021-10-01', 'NRT_FCM_Changes-2021-10_epsg3857.tif'],
