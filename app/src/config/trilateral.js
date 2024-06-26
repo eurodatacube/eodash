@@ -617,7 +617,7 @@ export const globalIndicators = [
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
-          minZoom: 6,
+          minZoom: 1,
           customAreaIndicator: true,
           customAreaFeatures: true,
           areaIndicator: {
