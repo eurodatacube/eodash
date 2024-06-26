@@ -4,5 +4,8 @@ const shConfig = {
   geodbInstanceId: '$GEODB_INSTANCE_ID',
   listmonkApiKey: '$LISTMONK_API_KEY',
   statApiClientId: '$STAT_API_CLIENT_ID',
-  statApiClientSecret: '$STAT_API_CLIENT_SECRET'
+  statApiClientSecret: '$STAT_API_CLIENT_SECRET',
+  opencageRACE: '$OPENCAGE_RACE',
+  opencageGTIF: '$OPENCAGE_GTIF',
+  opencageTrilateral: '$OPENCAGE_TRILATERAL',
 };
