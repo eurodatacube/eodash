@@ -6,6 +6,8 @@ module.exports = [
       staging: 2,
       production: 4,
     },
+
+    geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5&bounds=-27.42188,24.20689,53.08594,71.46912',
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost', 'race.eox.home'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',
@@ -146,6 +148,7 @@ module.exports = [
       staging: 3,
       production: 5,
     },
+    geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5',
     match: ['eodashboard.org', 'www.eodashboard.org', 'eodash-trilateral.eox.at', 'eodash-trilateral-staging.eox.at', 'eodash-trilateral-testing.eox.at', 'trilateral.eox.world', 'trilateral.localhost', 'trilateral.eox.home'],
     branding: {
       appName: 'Earth Observing Dashboard',
@@ -345,6 +348,7 @@ module.exports = [
       staging: 6,
       production: 7,
     },
+    geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5&countrycode=AT',
     match: ['gtif.esa.int', 'gtif.eox.at', 'gtif-demo.eox.at', 'gtif-staging.eox.at', 'gtif-testing.eox.at', 'gtif.eox.world', 'gtif.localhost', 'gtif.eox.home'],
     branding: {
       appName: 'Green Transition Information Factory',

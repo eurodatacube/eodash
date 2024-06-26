@@ -300,6 +300,25 @@ export const globalIndicators = [
     },
   },
   {
+    properties: {
+      // override dates for precipitation
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_Precipitation',
+        time: getDailyDates('2015-01-01', '2021-12-31'),
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_SM',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
