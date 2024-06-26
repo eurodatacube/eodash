@@ -83,7 +83,7 @@ export default {
       margin-left: -10px;
       margin-bottom: -10px;
     }`;
-    if (this.$parent.$refs.mapContainer?.shadowRoot) {
+    if ('mapContainer' in this.$parent.$refs && this.$parent.$refs.mapContainer.shadowRoot) {
       this.$parent.$refs.mapContainer.shadowRoot.appendChild(style);
     }
   },
