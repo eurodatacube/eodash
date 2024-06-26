@@ -55,6 +55,7 @@ export default {
               id: 1,
               title: this.indicatorPanelheader,
               heightPercentage: 100,
+              heightPercentageBothOpen: 70,
             },
           ];
           this.panels.right = [];
