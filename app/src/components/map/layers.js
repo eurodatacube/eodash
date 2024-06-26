@@ -260,7 +260,7 @@ async function createWMTSSourceFromCapabilities(config, layer) {
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   const paramsToPassThrough = [
-    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
+    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions', 'token',
   ];
   // layer created by this config, function always returns a single layer
   let layer = null;
@@ -491,10 +491,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     if (config.specialEnvScenario4) {
       const configUsed = options.dataProp === 'compareMapData' ? config.wmsVariablesCompare : config.wmsVariables;
-      const scenario = configUsed.variables.scenario.selected;
-      const height = configUsed.variables.height.selected;
+      const ssp = configUsed.variables.ssp.selected;
+      const stormSurge = configUsed.variables.stormSurge.selected;
+      const confidence = configUsed.variables.confidence.selected;
       const time = configUsed.variables.time.selected;
-      params.map = `SSP${scenario}_${height}Y${time}.map`;
+      params.ssp = ssp;
+      params.stormSurge = stormSurge;
+      params.confidence = confidence;
+      params.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
     }
     source = new TileWMS({
       attributions: config.attribution,
@@ -522,10 +526,14 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }
       if (configUpdate.specialEnvScenario4) {
         const configUsed = options.dataProp === 'compareMapData' ? configUpdate.wmsVariablesCompare : configUpdate.wmsVariables;
-        const scenario = configUsed.variables.scenario.selected;
-        const height = configUsed.variables.height.selected;
+        const ssp = configUsed.variables.ssp.selected;
+        const stormSurge = configUsed.variables.stormSurge.selected;
+        const confidence = configUsed.variables.confidence.selected;
         const time = configUsed.variables.time.selected;
-        newParams.map = `SSP${scenario}_${height}Y${time}.map`;
+        newParams.ssp = ssp;
+        newParams.stormSurge = stormSurge;
+        newParams.confidence = confidence;
+        newParams.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
       }
       source.updateParams(newParams);
     });
