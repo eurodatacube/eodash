@@ -759,7 +759,7 @@ export default {
       } else if (this.appConfig.id === 'trilateral') {
         endpoint += `&key=${shConfig.opencageTrilateral}`;
       } else if (this.appConfig.id === 'gtif') {
-        endpoint += `&key=${globalThis.shConfig.opencageGTIF}`;
+        endpoint += `&key=${shConfig.opencageGTIF}`;
       }
       return endpoint;
     },
