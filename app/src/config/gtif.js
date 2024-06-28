@@ -91,6 +91,14 @@ const whitered = [
   { index: stp * 7, rgb: [127, 39, 4] },
 ];
 
+const heatadaptCM = [
+  { index: 0, rgb: [43, 131, 186] },
+  { index: 0.25, rgb: [171, 221, 164] },
+  { index: 0.5, rgb: [255, 255, 191] },
+  { index: 0.75, rgb: [253, 174, 97] },
+  { index: 1, rgb: [215, 25, 28] },
+];
+
 const blgrrd = {
   steps: 32,
   colors: colormap({
@@ -516,6 +524,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQ1: {
     customAreaIndicator: true,
+  },
+  HAUC1: {
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC2: {
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC3: {
+    baseLayers: solarAndGreenRoofDefaults,
   },
   // commented out so that selection is disabled
   // AQ1_1: {
@@ -1287,6 +1304,62 @@ function createSOL2Config(indicatorCode, selectedVariable) {
 }
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC1',
+        cogFilters: {
+          sourceLayer: 'HAUC1',
+          filters: {
+            imperviousness: {
+              display: true,
+              label: 'Imperviousness',
+              id: 'imperviousness',
+              min: 0,
+              max: 100,
+              step: 1,
+              header: true,
+              range: [0, 100],
+            },
+          },
+        },
+        display: [{
+          dataInfo: 'HeatAdapt_LST',
+          processingEnabled: true,
+          protocol: 'cog',
+          id: 'HAUC1',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/01_AT_LST_composite/AT_LST_mean_composite_S2022_2023_R70m_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/02_AT_imperviousness/CLMS_HRLNVLCC_IMD_S2021_R70m_AT_3857_V1_R0_20230731.tif' },
+          ],
+          style: {
+            variables: {
+              imperviousnessMin: 0,
+              imperviousnessMax: 100,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 2], ['var', 'imperviousnessMin'], ['var', 'imperviousnessMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops(heatadaptCM, 0, 40, 32, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Land surface temperature',
+        }],
+      },
+    },
+  },
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif'),
