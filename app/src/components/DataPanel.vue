@@ -222,6 +222,10 @@
             :wmsStyles="indicatorObject.wmsStyles"
           >
           </wms-style-controls>
+          <cog-overwrite-controls
+            v-if="indicatorObject.cogOverwrite"
+            :cogOverwrite="indicatorObject.cogOverwrite"
+          ></cog-overwrite-controls>
         </v-col>
         <v-col
           :cols="12"
@@ -294,6 +298,7 @@ import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
+import CogOverwriteControls from '@/components/map/CogOverwriteControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
@@ -308,6 +313,7 @@ export default {
     FilterControls,
     StyleControls,
     WmsStyleControls,
+    CogOverwriteControls,
     VectorTileStyleControl,
     DataMockupView,
     SelectionInfoBar,

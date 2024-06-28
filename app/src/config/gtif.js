@@ -91,6 +91,25 @@ const whitered = [
   { index: stp * 7, rgb: [127, 39, 4] },
 ];
 
+const heatadaptCM = [
+  { index: 0, rgb: [43, 131, 186] },
+  { index: 0.25, rgb: [171, 221, 164] },
+  { index: 0.5, rgb: [255, 255, 191] },
+  { index: 0.75, rgb: [253, 174, 97] },
+  { index: 1, rgb: [215, 25, 28] },
+];
+
+stp = 1 / 6;
+const heatadaptReds = [
+  { index: 0, rgb: [255, 245, 240] },
+  { index: stp * 1, rgb: [254, 224, 210] },
+  { index: stp * 2, rgb: [252, 187, 161] },
+  { index: stp * 3, rgb: [252, 146, 114] },
+  { index: stp * 4, rgb: [251, 106, 74] },
+  { index: stp * 5, rgb: [165, 15, 21] },
+  { index: stp * 6, rgb: [103, 0, 13] },
+];
+
 const blgrrd = {
   steps: 32,
   colors: colormap({
@@ -516,6 +535,15 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQ1: {
     customAreaIndicator: true,
+  },
+  HAUC1: {
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC2: {
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC3: {
+    baseLayers: solarAndGreenRoofDefaults,
   },
   // commented out so that selection is disabled
   // AQ1_1: {
@@ -1195,24 +1223,6 @@ function createSOL1Config(indicatorCode, selectedVariable) {
         queryParameters: {
           selected: 'lst30mme,grpotare5,grpotare20,grpotare45,co2red_05,co2red_20,co2red_45,grexisting',
         },
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
         wmsStyles: {
           sourceLayer: 'Green Roofs',
           items: [
@@ -1263,24 +1273,6 @@ function createSOL2Config(indicatorCode, selectedVariable) {
         queryParameters: {
           selected: 'pvusearea,pvexisting,pvpotentl,pveppmwhhp,pveppmwhrp,pveppmwhlp',
         },
-        highlights: [
-          {
-            name: 'Graz',
-            location: wkt.read('POLYGON((15.24 47, 15.555 47, 15.555 47.11, 15.24 47.11, 15.24 47 ))').toJson(),
-          },
-          {
-            name: 'Innsbruck',
-            location: wkt.read('POLYGON((11.2 47.2, 11.2 47.3, 11.6 47.3, 11.6 47.2, 11.2 47.2 ))').toJson(),
-          },
-          {
-            name: 'St. Pölten',
-            location: wkt.read('POLYGON((15.55 48.16, 15.7 48.16, 15.7 48.23, 15.55 48.23, 15.55 48.16 ))').toJson(),
-          },
-          {
-            name: 'Vienna',
-            location: wkt.read('POLYGON((16.19 48.12, 16.55 48.12, 16.55 48.295, 16.19 48.295, 16.19 48.12 ))').toJson(),
-          },
-        ],
         wmsStyles: {
           sourceLayer: 'Solar Roofs',
           items: [
@@ -1323,6 +1315,113 @@ function createSOL2Config(indicatorCode, selectedVariable) {
 }
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC1',
+        cogFilters: {
+          sourceLayer: 'HAUC1',
+          filters: {
+            imperviousness: {
+              display: true,
+              label: 'Imperviousness',
+              id: 'imperviousness',
+              min: 0,
+              max: 100,
+              step: 1,
+              header: true,
+              range: [0, 100],
+            },
+          },
+        },
+        display: [{
+          dataInfo: 'HeatAdapt_LST',
+          protocol: 'cog',
+          id: 'HAUC1',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/01_AT_LST_composite/AT_LST_mean_composite_S2022_2023_R70m_3857.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/02_AT_imperviousness/CLMS_HRLNVLCC_IMD_S2021_R70m_AT_3857_V1_R0_20230731.tif' },
+          ],
+          style: {
+            variables: {
+              imperviousnessMin: 0,
+              imperviousnessMax: 100,
+            },
+            color: [
+              'case',
+              [
+                'all',
+                ['>', ['band', 1], 0],
+                ['between', ['band', 2], ['var', 'imperviousnessMin'], ['var', 'imperviousnessMax']],
+              ],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops(heatadaptCM, 0, 40, 32, false),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Land surface temperature',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC2',
+        cogOverwrite: {
+          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/03_IPCC_scenarios/{City}/{city}_33TWN_{scenario}_avg_{year}_heat_index_R10m_3857.tif',
+          sourceLayer: 'HAUC2',
+          selected: 'ihr',
+          queryParameters: [
+            {
+              selected: 'rcp45',
+              label: 'Scenario',
+              id: 'scenario',
+              items: [
+                { id: 'rcp45', label: 'rcp45' },
+                { id: 'rcp85', label: 'rcp85' },
+              ],
+            },
+            {
+              selected: '2025_2034',
+              label: 'Year',
+              id: 'year',
+              items: [
+                { id: '2025_2034', label: '2025 to 2034' },
+                { id: '2035_2044', label: '2035 to 2044' },
+                { id: '2045_2054', label: '2045 to 2054' },
+                { id: '2055_2064', label: '2055 to 2064' },
+                { id: '2065_2074', label: '2065 to 2074' },
+                { id: '2075_2084', label: '2075 to 2084' },
+                { id: '2085_2094', label: '2085 to 2094' },
+              ],
+            },
+          ],
+        },
+        display: [{
+          dataInfo: 'HeatAdapt_LST',
+          protocol: 'cog',
+          id: 'HAUC2',
+          sources: [],
+          style: {
+            color: [
+              'interpolate',
+              ['linear'],
+              ['band', 1],
+              ...getColorStops(heatadaptReds, 0, 20, 32, false),
+            ],
+          },
+          name: 'IPCC Scenarios',
+        }],
+      },
+    },
+  },
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif'),
@@ -1902,16 +2001,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM2',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
-            name: 'Mariazell',
-            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
-          },
-        ],
         display: {
           protocol: 'cog',
           id: 'FCM2',
@@ -1978,12 +2067,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'VTT',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-        ],
         cogFilters: {
           sourceLayer: 'VTT',
           filters: {
@@ -2135,20 +2218,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM1',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
-            name: 'Oberhaag',
-            location: wkt.read('POLYGON((15.290 46.707, 15.427 46.707, 15.427 46.640, 15.290 46.640, 15.290 46.707))').toJson(),
-          },
-          {
-            name: 'Bruck an der Mur',
-            location: wkt.read('POLYGON((15.158 47.440, 15.312 47.440, 15.312 47.368, 15.158 47.368, 15.158 47.440))').toJson(),
-          },
-        ],
         time: [
           ['2021-09-01', 'NRT_FCM_Changes-2021-09_epsg3857.tif'],
           ['2021-10-01', 'NRT_FCM_Changes-2021-10_epsg3857.tif'],
