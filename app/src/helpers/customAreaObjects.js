@@ -503,7 +503,7 @@ export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
   indicatorCode = 'NASACustomLineChart',
 ) => ({
-  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  url: 'https://openveda.cloud/api/raster/cog/statistics',
   requestMethod: 'POST',
   requestHeaders: {
     'Content-Type': 'application/json',

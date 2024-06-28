@@ -321,10 +321,8 @@ export function createLayerFromConfig(config, map, _options = {}) {
       source: wgSource,
       style: config.style,
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'vectortile') {
     layer = new VectorTileLayer({});
-    layer.set('id', config.id);
     let layerSelector = '';
     if (Array.isArray(config.selectedStyleLayer) && config.selectedStyleLayer.length > 0) {
       layerSelector = config.selectedStyleLayer;
@@ -353,7 +351,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
         url: `${geoserverUrl}${config.layerName}@${projString}@pbf/{z}/{x}/{-y}.pbf`,
       }),
     });
-    layer.set('id', config.id);
   } else if (config.protocol === 'GeoJSON') {
     // mutually exclusive options, either direct features or url to fetch
     const url = config.urlTemplateSelectedFeature

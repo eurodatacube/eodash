@@ -83,7 +83,9 @@ export default {
       margin-left: -10px;
       margin-bottom: -10px;
     }`;
-    this.$parent.$refs.mapContainer.shadowRoot.appendChild(style);
+    if ('mapContainer' in this.$parent.$refs && this.$parent.$refs.mapContainer.shadowRoot) {
+      this.$parent.$refs.mapContainer.shadowRoot.appendChild(style);
+    }
   },
   methods: {},
   beforeDestroy() {
