@@ -149,6 +149,31 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'Polartep_SeaIceDetection_tif_demo',
         display: [{
+          name: 'Sea Ice Concentration',
+          protocol: 'cog',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/Polartep_SeaIceCharts_demo/legend.png',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_SIC_3857.tif' },
+          ],
+          style: {
+            color: [
+              'case',
+              ['<=', ['band', 1], 0],
+              ['color', 0, 0, 0, 0],
+              ['<=', ['band', 1], 1],
+              ['color', 150, 200, 255, 1],
+              ['<=', ['band', 1], 3],
+              ['color', 140, 255, 160, 1],
+              ['<=', ['band', 1], 6],
+              ['color', 255, 255, 0, 1],
+              ['<=', ['band', 1], 8],
+              ['color', 255, 125, 7, 1],
+              ['<=', ['band', 1], 10],
+              ['color', 255, 0, 0, 1],
+              ['color', 0, 0, 0, 0],
+            ],
+          },
+        }, {
           name: 'Sea Ice Stage of Development',
           protocol: 'cog',
           sources: [
@@ -163,27 +188,6 @@ export const globalIndicators = [
                 ['linear'],
                 ['band', 1],
                 ...getColorStops('greys', 2, 5, 30, false),
-              ],
-              [
-                'color', 0, 0, 0, 0,
-              ],
-            ],
-          },
-        }, {
-          name: 'Sea Ice Concentration',
-          protocol: 'cog',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_SIC_3857.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['>', ['band', 1], 1],
-              [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('greys', 2, 10, 30, false),
               ],
               [
                 'color', 0, 0, 0, 0,
