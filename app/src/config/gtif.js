@@ -99,6 +99,17 @@ const heatadaptCM = [
   { index: 1, rgb: [215, 25, 28] },
 ];
 
+stp = 1 / 6;
+const heatadaptReds = [
+  { index: 0, rgb: [255, 245, 240] },
+  { index: stp * 1, rgb: [254, 224, 210] },
+  { index: stp * 2, rgb: [252, 187, 161] },
+  { index: stp * 3, rgb: [252, 146, 114] },
+  { index: stp * 4, rgb: [251, 106, 74] },
+  { index: stp * 5, rgb: [165, 15, 21] },
+  { index: stp * 6, rgb: [103, 0, 13] },
+];
+
 const blgrrd = {
   steps: 32,
   colors: colormap({
@@ -1325,7 +1336,6 @@ export const globalIndicators = [
         },
         display: [{
           dataInfo: 'HeatAdapt_LST',
-          processingEnabled: true,
           protocol: 'cog',
           id: 'HAUC1',
           sources: [
@@ -1356,6 +1366,58 @@ export const globalIndicators = [
             ],
           },
           name: 'Land surface temperature',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC2',
+        cogOverwrite: {
+          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/03_IPCC_scenarios/{City}/{city}_33TWN_{scenario}_avg_{year}_heat_index_R10m_3857.tif',
+          sourceLayer: 'HAUC2',
+          selected: 'ihr',
+          queryParameters: [
+            {
+              selected: 'rcp45',
+              label: 'Scenario',
+              id: 'scenario',
+              items: [
+                { id: 'rcp45', label: 'rcp45' },
+                { id: 'rcp85', label: 'rcp85' },
+              ],
+            },
+            {
+              selected: '2025_2034',
+              label: 'Year',
+              id: 'year',
+              items: [
+                { id: '2025_2034', label: '2025 to 2034' },
+                { id: '2035_2044', label: '2035 to 2044' },
+                { id: '2045_2054', label: '2045 to 2054' },
+                { id: '2055_2064', label: '2055 to 2064' },
+                { id: '2065_2074', label: '2065 to 2074' },
+                { id: '2075_2084', label: '2075 to 2084' },
+                { id: '2085_2094', label: '2085 to 2094' },
+              ],
+            },
+          ],
+        },
+        display: [{
+          dataInfo: 'HeatAdapt_LST',
+          protocol: 'cog',
+          id: 'HAUC2',
+          sources: [],
+          style: {
+            color: [
+              'interpolate',
+              ['linear'],
+              ['band', 1],
+              ...getColorStops(heatadaptReds, 0, 20, 32, false),
+            ],
+          },
+          name: 'IPCC Scenarios',
         }],
       },
     },
