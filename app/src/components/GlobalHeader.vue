@@ -453,6 +453,7 @@ export default {
         case 'atmosphere':
         case 'water-quality':
         case 'agriculture':
+        case 'extreme-events':
         case 'cryosphere':
           return true;
 

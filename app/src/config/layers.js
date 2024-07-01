@@ -266,7 +266,7 @@ export const overlayLayers = Object.freeze({
   },
 });
 
-export const trucksAreaIndicator = (gtifAustria = false) => ({
+export const trucksAreaIndicator = (gtifAustria = false, timeParameter = 'time') => ({
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',
   requestHeaders: {
@@ -307,13 +307,20 @@ export const trucksAreaIndicator = (gtifAustria = false) => ({
               intersectingFtrs += 1;
             }
           });
+        } else {
+          const intersects = areaAsGeom.intersectsCoordinate(geom.coordinates);
+          if (intersects) {
+            intersectingFtrs += 1;
+          }
         }
         if (intersectingFtrs > 0) {
           // as data is structured one entry per country, we need to aggregate on date
-          if (row.time in datesObj) {
-            datesObj[row.time] += intersectingFtrs;
-          } else {
-            datesObj[row.time] = intersectingFtrs;
+          if (row[timeParameter]) {
+            if (row[timeParameter] in datesObj) {
+              datesObj[row[timeParameter]] += intersectingFtrs;
+            } else {
+              datesObj[row[timeParameter]] = intersectingFtrs;
+            }
           }
         }
       });
@@ -370,6 +377,13 @@ export const trucksFeatures = {
                 geometry: singleGeometry,
               });
             }
+          });
+        } else {
+          const { geometry, ...properties } = ftr;
+          ftrs.push({
+            type: 'Feature',
+            properties,
+            geometry: geom,
           });
         }
       });
