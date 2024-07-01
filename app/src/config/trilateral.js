@@ -649,6 +649,16 @@ export const globalIndicators = [
         }, {
           baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
           dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          visible: false,
+          layers: 'S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE',
+          name: 'Sentinel-3 SLSTR F1 Brightness temperature',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE/cm_legend.png',
+          opacity: 1,
+          drawnAreaLimitExtent: true,
+        }, {
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/TESTING_CO_FROM_SENTINELHUB/cm_legend.png',
           layers: 'TESTING_CO_FROM_SENTINELHUB',
           name: 'Daily S5P L2 Tropomi CO',
           opacity: 0.45,
