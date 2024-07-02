@@ -93,7 +93,7 @@ const E1bConfigInputDataAsc = [{
   name: 'Daily Sentinel 1 VV Asc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
   features: {
     ...geodbFeatures,
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -116,7 +116,7 @@ const E1bConfigInputDataDes = [{
   name: 'Daily Sentinel 1 VV Desc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })

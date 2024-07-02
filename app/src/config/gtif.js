@@ -1418,7 +1418,7 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E12c_truck_detections_motorways/E12c_legend.png',
           areaIndicator: trucksAreaIndicator(true),
           features: trucksFeatures,
           style: {
@@ -1450,7 +1450,7 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E12c_truck_detections_motorways/E12c_legend.png',
           areaIndicator: trucksAreaIndicator(true),
           features: trucksFeatures,
           style: {
