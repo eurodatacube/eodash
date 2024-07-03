@@ -118,26 +118,73 @@ export const baseLayers = Object.freeze({
     protocol: 'vectortile',
   },
   CORINE_LAND_COVER: {
-    baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
+    baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,
     name: 'CORINE Land cover',
     layers: 'CORINE_LAND_COVER',
-    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-    visible: false,
-    minZoom: 7,
-  },
-  ESA_WORLD_COVER: {
-    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdGtif}`,
-    protocol: 'WMS',
-    format: 'image/png',
-    tileSize: 512,
-    name: 'ESA World cover',
-    layers: 'ESA_WORLD_COVER',
+    legendUrl: 'https://www.eea.europa.eu/data-and-maps/figures/corine-land-cover-2000-by-country-3/legend/image_large',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
     minZoom: 6,
+  },
+  ESA_WORLD_COVER: {
+    baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+    protocol: 'WMS',
+    format: 'image/png',
+    tileSize: 512,
+    name: 'ESA World cover 2020',
+    layers: 'ESA_WORLD_COVER',
+    attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+    visible: false,
+    minZoom: 3,
+    layerAdditionalDescription: `<table>
+          <tbody><tr>
+              <td style="width: 20px; background: rgb(0, 100, 0)"></td>
+              <td><span>Tree cover</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(255, 187, 34)"></td>
+              <td><span>Shrubland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(255, 255, 76)"></td>
+              <td><span>Grassland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(240, 150, 255)"></td>
+              <td><span>Cropland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(250, 0, 0)"></td>
+              <td><span>Built-up</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(180, 180, 180)"></td>
+              <td><span>Bare / sparse vegetation</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(240, 240, 240)"></td>
+              <td><span>Snow and ice</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 100, 200)"></td>
+              <td><span>Permanent water bodies</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 150, 160)"></td>
+              <td><span>Herbaceous wetland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 207, 117)"></td>
+              <td><span>Mangroves</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(250, 230, 160)"></td>
+              <td><span>Moss and lichen</span></td>
+          </tr>
+      </tbody></table>`,
   },
   mapboxHighReso: {
     name: 'Mapbox high resolution',
