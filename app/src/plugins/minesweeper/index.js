@@ -128,11 +128,11 @@ const setupGrid = (game) => {
 function getColorFromValue(v, min = 1, max = 8) {
   let value;
 
-  if (v.isNaN) {
-    value = 0.0;
-  } else {
-    value = v;
+  if (Number.isNaN(v)) {
+    return 'rgba(0, 0, 0, 0)';
   }
+
+  value = v;
 
   // Ensure the value is within the expected range
   value = Math.max(min, Math.min(max, value));
