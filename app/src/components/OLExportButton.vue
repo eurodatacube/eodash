@@ -122,6 +122,7 @@ import TileLayer from 'ol/layer/Tile';
 import { TileWMS, WMTS, XYZ } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import { GeoJSON, MVT, WKB } from 'ol/format';
+import VectorLayer from 'ol/layer/Vector';
 
 export default {
   mixins: [dialogMixin],
@@ -177,13 +178,16 @@ Text describing the current step of the tour and why it is interesting what the 
       layerArray.map((l) => {
         if (l instanceof LayerGroup) {
           layers.push(this.extractLayerConfig(l.getLayersArray()));
-        } else if (l instanceof TileLayer) {
+        } else if (l instanceof TileLayer || l instanceof VectorLayer) {
           const layerConfig = {
             type: 'Tile',
             properties: {
               id: l.get('configId') ? l.get('configId') : getUid(l),
             },
           };
+          if (l instanceof VectorLayer) {
+            layerConfig.type = 'Vector';
+          }
           // Evaluate what other information we need to extract for different source types
           const olsource = l.getSource();
           // only export visible layers
@@ -197,7 +201,7 @@ Text describing the current step of the tour and why it is interesting what the 
               foundType = 'TileWMS';
             }
             if (olsource instanceof VectorSource) {
-              foundType = 'VectorSource';
+              foundType = 'Vector';
             }
             if (olsource instanceof WMTS) {
               foundType = 'WMTS';
@@ -212,12 +216,18 @@ Text describing the current step of the tour and why it is interesting what the 
               } else if ('urls' in olsource) {
                 source.urls = olsource.urls;
               }
-            } else if (foundType === 'VectorSource') {
+            } else if (foundType === 'Vector') {
               source.url = olsource.getUrl();
               let vsf;
               const olformat = olsource.getFormat();
               if (olformat instanceof GeoJSON) {
-                vsf = 'GeoJSON';
+                vsf = {
+                  type: 'GeoJSON',
+                };
+                const pcode = olformat.dataProjection.getCode();
+                if (pcode) {
+                  vsf.dataProjection = pcode;
+                }
               }
               if (olformat instanceof MVT) {
                 vsf = 'MVT';
@@ -246,7 +256,7 @@ Text describing the current step of the tour and why it is interesting what the 
                 origin: tileGrid.getOrigin(0),
               };
             }
-            if (foundType === 'VectorSource') {
+            if (foundType === 'Vector') {
               layerConfig.style = l.getStyle();
             }
             if (l.getOpacity() !== 1) {

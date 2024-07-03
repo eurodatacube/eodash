@@ -5,6 +5,16 @@
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
+    <style-form-controls
+      v-if="mergedConfigsData[0].flatStyle && mergedConfigsData[0].flatStyle.jsonform"
+      :flatStyle="mergedConfigsData[0].flatStyle"
+      >
+    </style-form-controls>
+    <style-form-controls
+      v-if="mergedConfigsData[0].style && mergedConfigsData[0].style.jsonform"
+      :flatStyle="mergedConfigsData[0].style"
+      >
+    </style-form-controls>
     <span
       v-if="customAreaIndicator && !customAreaIndicator.isEmpty || dataObject && dataObject.time"
       class="ml-5"
@@ -299,6 +309,7 @@ import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
+import StyleFormControls from '@/components/map/StyleFormControls.vue';
 
 export default {
   components: {
@@ -314,6 +325,7 @@ export default {
     GTIFProcessingButtons,
     VectorStyleControl,
     FullScreenControl,
+    StyleFormControls,
   },
   data: () => ({
     mounted: false,
