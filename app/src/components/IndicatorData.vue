@@ -132,7 +132,7 @@ export default {
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT', 'CROPOM',
         // Year overlap comparison
-        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'Modis_SNPP_2023',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
@@ -684,6 +684,7 @@ export default {
         referenceDecompose.E12b = referenceDecompose.N1a;
         // Special legend for E8
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.Modis_SNPP_2023 = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
         referenceDecompose.SHCustomLineChart = referenceDecompose.N1;
