@@ -35,6 +35,7 @@ import '@eox/map';
 import '@eox/map/dist/eox-map-advanced-layers-and-sources';
 import '@eox/jsonform';
 import '@eox/storytelling';
+import '@eox/geosearch';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -50,6 +51,7 @@ Vue.config.ignoredElements = [
   'eox-map',
   'eox-jsonform',
   'eox-storytelling',
+  'eox-geosearch',
 ];
 
 Vue.use(VuePapaParse);
@@ -244,6 +246,7 @@ const renderVue = async () => {
         { path: '/biomass', name: 'biomass', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/extreme-events', name: 'extreme-events', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
         { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
         { path: '/energy', name: 'energy', component: ThemeSinglePage },

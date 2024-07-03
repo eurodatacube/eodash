@@ -248,7 +248,13 @@ Text describing the current step of the tour and why it is interesting what the 
               source.layer = olsource.getLayer();
               source.format = olsource.getFormat();
               source.matrixSet = olsource.getMatrixSet();
-              // TODO: i think we also need to have information on tilegrid here
+              const tileGrid = olsource.getTileGrid();
+              source.tileGrid = {
+                resolutions: tileGrid.getResolutions(),
+                projection: olsource.getProjection().getCode(),
+                matrixIds: tileGrid.getMatrixIds(),
+                origin: tileGrid.getOrigin(0),
+              };
             }
             if (foundType === 'Vector') {
               layerConfig.style = l.getStyle();

@@ -153,23 +153,23 @@ export default {
             titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['name', 'description'],
+                keys: ['name', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
                 featured: true,
               },
-              /*
+              { key: 'themes', title: 'Theme', ...themesPresetState },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
-              { key: 'sensor', title: 'Sensor' },
+              { key: 'sensor', title: 'Satellite sensor' },
+              // { key: 'insituSources', title: 'In situ sources' },
+              // { key: 'otherSources', title: 'Other sources' },
               { key: 'countries', title: 'Country' },
-              { key: 'cities', title: 'City' },
-              { key: 'themes', title: 'Theme', ...themesPresetState },
-              */
+              { key: 'cities', title: 'City/Location' },
             ],
             aggregateResults: 'themes',
-            autoSpreadSingle: false,
+            autoSpreadSingle: true,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);

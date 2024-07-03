@@ -126,13 +126,13 @@ export default {
       compareLayerTimeFromMap: null,
       lineChartIndicators: [
         'E12b', 'E8', 'N1b', 'N1', 'N1_NO2_city_trilateral', 'NASACustomLineChart', 'XCubeCustomLineChart', 'SHCustomLineChart', 'N3', 'N3b_tsm', 'N3b_chl', 'SST',
-        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'OX', 'OX_EU',
+        'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'E10a10_2', 'OX', 'OX_EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT', 'CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2',
         // Year overlap comparison
-        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'Modis_SNPP_2023',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
@@ -684,6 +684,7 @@ export default {
         referenceDecompose.E12b = referenceDecompose.N1a;
         // Special legend for E8
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.Modis_SNPP_2023 = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
         referenceDecompose.SHCustomLineChart = referenceDecompose.N1;
@@ -929,7 +930,7 @@ export default {
               cubicInterpolationMode: 'monotone',
             });
           }
-        } else if (['E10a10'].includes(indicatorCode)) {
+        } else if (['E10a10', 'E10a10_2'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
           featureData.time.forEach((t, i) => {

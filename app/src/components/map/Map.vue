@@ -124,6 +124,23 @@
           :key="dataLayerName  + '_customArea'"
           :drawnArea.sync="drawnArea"
         />
+        <eox-geosearch
+          v-if="searchEndpoint"
+          style="
+            pointer-events: auto;
+            margin-right: 4px;
+            --button-size: 36px;
+            --button-bg: #fff;
+            --button-fg: #000;
+          "
+          label="Search"
+          button
+          small
+          list-direction="left"
+          results-direction="down"
+          interval="1000"
+          :endpoint="searchEndpoint"
+        ></eox-geosearch>
         <v-btn
           v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
           :color="$vuetify.theme.currentTheme.background"
@@ -351,6 +368,7 @@ export default {
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
       appRightPanelsOpened: null,
+      geosearchExtent: null,
     };
   },
   computed: {
@@ -647,6 +665,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       };
+      if (this.geosearchExtent) return this.geosearchExtent;
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
@@ -728,6 +747,21 @@ export default {
     },
     controlsContainerStyle() {
       return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
+    },
+    searchEndpoint() {
+      let endpoint = false;
+      if ('geosearchEndpoint' in this.appConfig) {
+        endpoint = this.appConfig.geosearchEndpoint;
+      }
+      // Apply key based on endpoint (seems i can't do this within appConfig because of linting)
+      if (this.appConfig.id === 'esa') {
+        endpoint += `&key=${shConfig.opencageRACE}`;
+      } else if (this.appConfig.id === 'trilateral') {
+        endpoint += `&key=${shConfig.opencageTrilateral}`;
+      } else if (this.appConfig.id === 'gtif') {
+        endpoint += `&key=${shConfig.opencageGTIF}`;
+      }
+      return endpoint;
     },
   },
   watch: {
@@ -1031,6 +1065,8 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    window.addEventListener('geosearchSelect', (e) => { this.geosearchExtent = e.detail; });
   },
   methods: {
     ...mapMutations('indicators', {

@@ -7,8 +7,9 @@ import {
   shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
 import shTimeFunction from '@/shTimeFunction';
-import { baseLayers, overlayLayers } from '@/config/layers';
-// import locations from '@/config/locations.json';
+import {
+  baseLayers, overlayLayers, trucksAreaIndicator, trucksFeatures,
+} from '@/config/layers';
 import {
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
@@ -240,11 +241,11 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'LANDSAT-8-TRUE-COLOUR': {
     layers: 'LANDSAT-8-TRUE-COLOUR',
@@ -391,6 +392,7 @@ export const indicatorClassesIcons = Object.freeze({
   biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
+  'extreme-events': 'mdi-lightning-bolt',
 });
 
 export const geoDBFeatureParameters = Object.freeze({
@@ -571,6 +573,25 @@ export const globalIndicators = [
   createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
   {
     properties: {
+      // override dates for precipitation
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_Precipitation',
+        time: getDailyDates('2015-01-01', '2021-12-31'),
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_SM',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
+    properties: {
       indicatorObject: {
         indicator: 'SITI',
         display: {
@@ -586,6 +607,62 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SIE',
         display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Modis_SNPP_2023',
+        display: [{
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE',
+          name: 'Sentinel-3 SLSTR F1 Brightness temperature',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE/cm_legend.png',
+          opacity: 1,
+          drawnAreaLimitExtent: true,
+          features: {
+            ...trucksFeatures,
+            drawnAreaLimitExtent: true,
+            name: 'Modis fire detections',
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'brightness,geometry,date_time,confidence,frp,daynight,type,bright_t31',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND date_time LIKE \'{featuresTime}%\'',
+            },
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+            style: {
+              strokeColor: '#ff0000',
+              width: 4,
+            },
+          },
+          areaIndicator: {
+            ...trucksAreaIndicator(false, 'date_time'),
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'date_time,geometry',
+              order: 'date_time',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+            },
+          },
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+        }, {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).minus({ days: 1 }).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A +-1 day',
+          minZoom: 1,
+          drawnAreaLimitExtent: true,
+        }, {
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/TESTING_CO_FROM_SENTINELHUB/cm_legend.png',
+          layers: 'TESTING_CO_FROM_SENTINELHUB',
+          name: 'Daily S5P L2 Tropomi CO',
+          opacity: 0.45,
+          drawnAreaLimitExtent: true,
+        }],
       },
     },
   },
@@ -679,7 +756,7 @@ export const globalIndicators = [
         indicator: 'N6',
         display: {
           // manually adding administrative features
-          maxZoom: 6,
+          maxNativeZoom: 6,
           features: {
             name: 'Administrative zones ADM0',
             url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
@@ -693,489 +770,6 @@ export const globalIndicators = [
       },
     },
   },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([33.94, -118.41]),
-  //       aoiID: 'US021',
-  //       country: ['US'],
-  //       city: 'Los Angeles',
-  //       siteName: 'Los Angeles International Airport - LAX',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Los Angeles International Airport - LAX, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-118.44 33.93, -118.38 33.93, -118.38 33.95, -118.44 33.95, -118.44 33.93))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-10'], ['2020-02-01'], ['2020-04-21'], ['2020-05-05'], ['2020-05-17'], ['2020-05-20'], ['2020-06-08'], ['2020-06-15'], ['2020-07-04'], ['2020-07-10'], ['2020-08-18'], ['2020-08-28'], ['2020-09-22'], ['2020-09-30'], ['2020-10-02'], ['2020-10-15']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([34.057, -117.6]),
-  //       aoiID: 'US022',
-  //       country: ['US'],
-  //       city: 'Ontario',
-  //       siteName: 'Ontario International Airport - ONT',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Ontario International Airport - ONT, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-117.575 34.048, -117.63 34.048, -117.63 34.065, -117.575 34.065, -117.575 34.048))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-14'], ['2020-02-03'], ['2020-03-22'], ['2020-04-15'], ['2020-05-04'], ['2020-05-23'], ['2020-05-24'], ['2020-06-11'], ['2020-07-06'], ['2020-07-21'], ['2020-08-01'], ['2020-08-16'], ['2020-09-01'], ['2020-09-19'], ['2020-10-04'], ['2020-10-27']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.622, -122.378]),
-  //       aoiID: 'US031',
-  //       country: ['US'],
-  //       city: 'San Francisco',
-  //       siteName: 'San Francisco International Airport - SFO',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'San Francisco International Airport - SFO, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.4 37.605, -122.355 37.605, -122.355 37.64, -122.4 37.64, -122.4 37.605))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-11'], ['2020-02-20'], ['2020-03-09'], ['2020-04-03'], ['2020-05-05'], ['2020-05-19'], ['2020-05-26'], ['2020-06-04'], ['2020-06-23'], ['2020-07-06'], ['2020-07-14'], ['2020-08-07'], ['2020-08-13'], ['2020-09-23'], ['2020-09-30'], ['2020-10-12'], ['2020-10-26']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.363, -121.93]),
-  //       aoiID: 'US032',
-  //       country: ['US'],
-  //       city: 'San Jose',
-  //       siteName: 'Norman Y. Mineta San Jose International Airport - SJC',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Norman Y. Mineta San Jose International Airport - SJC, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-121.945 37.35, -121.912 37.35, -121.912 37.377, -121.945 37.377, -121.945 37.35))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-12'], ['2020-02-10'], ['2020-03-12'], ['2020-04-07'], ['2020-05-07'], ['2020-05-16'], ['2020-05-29'], ['2020-06-21'], ['2020-06-29'], ['2020-07-22'], ['2020-07-31'], ['2020-08-03'], ['2020-08-08'], ['2020-10-20'], ['2020-10-31']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.722, -122.226]),
-  //       aoiID: 'US033',
-  //       country: ['US'],
-  //       city: 'Oakland',
-  //       siteName: 'Oakland International Airport - OAK',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Oakland International Airport - OAK, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.252 37.7, -122.2 37.7, -122.2 37.745, -122.252 37.745, -122.252 37.7))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-13'], ['2020-02-15'], ['2020-03-19'], ['2020-04-15'], ['2020-05-04'], ['2020-05-27'], ['2020-06-11'], ['2020-06-18'], ['2020-07-07'], ['2020-07-27'], ['2020-08-04'], ['2020-09-22'], ['2020-09-24'], ['2020-10-15']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.6585, -122.121]),
-  //       aoiID: 'US034',
-  //       country: ['US'],
-  //       city: 'Hayward',
-  //       siteName: 'Hayward Executive Airport - HWD',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Hayward Executive Airport - HWD, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.132 37.653, -122.11 37.653, -122.11 37.664, -122.132 37.664, -122.132 37.653))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-13'], ['2020-02-18'], ['2020-03-12'], ['2020-04-22'], ['2020-05-19']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([38.216, -122.276]),
-  //       aoiID: 'US035',
-  //       country: ['US'],
-  //       city: 'Napa',
-  //       siteName: 'Napa County Airport - APC',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Napa County Airport - APC, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.286 38.206, -122.266 38.206, -122.266 38.226, -122.286 38.226, -122.286 38.206))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-13'], ['2020-02-06'], ['2020-03-10'], ['2020-04-07'], ['2020-06-28'], ['2020-07-17'], ['2020-07-25'], ['2020-08-09'], ['2020-09-04'], ['2020-10-21'], ['2020-10-28']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([38.144, -122.557]),
-  //       aoiID: 'US036',
-  //       country: ['US'],
-  //       city: 'Marin',
-  //       siteName: 'Marin County Airport - NOT',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Marin County Airport - NOT, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.565 38.137, -122.55 38.137, -122.55 38.150, -122.565 38.150, -122.565 38.137))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-02-07'], ['2020-03-12'], ['2020-04-02']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.99, -122.057]),
-  //       aoiID: 'US037',
-  //       country: ['US'],
-  //       city: 'Buchannan',
-  //       siteName: 'Buchannan Field Airport - CCR',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Buchannan Field Airport - CCR, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.064 37.98, -122.05 37.98, -122.05 38.0, -122.064 38.0, -122.064 37.98))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-03-12']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([40.642, -73.788]),
-  //       aoiID: 'US041',
-  //       country: ['US'],
-  //       city: 'New York',
-  //       siteName: 'John F. Kennedy International Airport - JFK',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'John F. Kennedy International Airport - JFK, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-73.825 40.62, -73.753 40.62, -73.753 40.664, -73.825 40.664, -73.825 40.62))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-16'], ['2020-02-17'], ['2020-03-15'], ['2020-04-15'], ['2020-05-14'], ['2020-05-27'], ['2020-05-30'], ['2020-06-04'], ['2020-06-10'], ['2020-07-02'], ['2020-07-06'], ['2020-08-10'], ['2020-08-26'], ['2020-09-16'], ['2020-09-25'], ['2020-10-06']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([40.689, -74.172]),
-  //       aoiID: 'US042',
-  //       country: ['US'],
-  //       city: 'Newark',
-  //       siteName: 'Newark Liberty International Airport - EWR',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Newark Liberty International Airport - EWR, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-74.19 40.67, -74.155 40.67, -74.155 40.708, -74.19 40.708, -74.19 40.67))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-20'], ['2020-02-19'], ['2020-03-09'], ['2020-04-06'], ['2020-05-05'], ['2020-05-20'], ['2020-05-31'], ['2020-06-01'], ['2020-06-09'], ['2020-07-19'], ['2020-07-21'], ['2020-08-03'], ['2020-08-17'], ['2020-09-13'], ['2020-09-21'], ['2020-10-08'], ['2020-10-15']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([40.072, 116.593]),
-  //       aoiID: 'CN011',
-  //       country: ['CN'],
-  //       city: 'Beijing',
-  //       siteName: 'Beijing Capital International Airport - PEK',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Beijing Capital International Airport - PEK, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((116.566 40.05, 116.621 40.05, 116.621 40.105, 116.566 40.105, 116.566 40.05))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-12'], ['2020-02-10'], ['2020-03-12'], ['2020-04-11'], ['2020-05-05']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([39.495, 116.419]),
-  //       aoiID: 'CN012',
-  //       country: ['CN'],
-  //       city: 'Beijing Daxing',
-  //       siteName: 'Beijing Daxing International Airport - PKX',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Beijing Daxing International Airport - PKX, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((116.362 39.466, 116.476 39.466, 116.476 39.524, 116.362 39.524, 116.362 39.466))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-09'], ['2020-01-12'], ['2020-01-14'], ['2020-02-18'], ['2020-03-13'], ['2020-03-19'], ['2020-04-11'], ['2020-05-14']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([35.774, 140.385]),
-  //       aoiID: 'JP012',
-  //       country: ['JP'],
-  //       city: 'Narita',
-  //       siteName: 'Narita International Airport - NRT',
-  //       description: 'Airports: throughput',
-  //       indicator: 'E13b',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Narita International Airport - NRT, Throughput at principal hub airports',
-  //       lastColorCode: 'BLUE',
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((140.364 35.742, 140.406 35.742, 140.406 35.806, 140.364 35.806, 140.364 35.742))').toJson(),
-  //         }],
-  //       },
-  //       time: [['2020-01-19'], ['2020-02-05'], ['2020-03-19'], ['2020-04-10'], ['2020-05-16'], ['2020-08-11'], ['2020-08-11'], ['2020-08-14'], ['2020-09-02'], ['2020-09-09'], ['2020-09-10'], ['2020-10-02'], ['2020-10-22'], ['2020-10-25']],
-  //       inputData: ['airports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([34.05, -118.251]),
-  //       aoiID: 'US02',
-  //       country: ['US'],
-  //       city: 'Los Angeles',
-  //       siteName: 'Los Angeles',
-  //       description: 'Ports: Ship throughput',
-  //       indicator: 'E13c',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Number of Ships in Port',
-  //       lastColorCode: 'BLUE',
-  //       eoSensor: ['Planet Labs/NASA (PlanetScope)'],
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-118.78075 33.42020,-118.78075 33.95016,-117.92406 33.95016,-117.92406 33.42020,-118.78075 33.42020))').toJson(),
-  //         }],
-  //       },
-  //       time: ['2020-01-01', '2020-01-06', '2020-01-07', '2020-01-09', '2020-01-10', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-19', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-27', '2020-01-28', '2020-01-29', '2020-01-30', '2020-01-31', '2020-02-02', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-03-15', '2020-03-21', '2020-03-22', '2020-03-27', '2020-04-23', '2020-04-24', '2020-05-01', '2020-05-02', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-05-09', '2020-05-11', '2020-05-12', '2020-05-13', '2020-05-14', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21', '2021-06-23', '2021-08-27', '2021-10-09', '2021-10-15'],
-  //       inputData: ['ports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([40.6, -74.05]),
-  //       aoiID: 'US01',
-  //       country: ['US'],
-  //       city: 'New York',
-  //       siteName: 'New York',
-  //       description: 'Ports: Ship throughput',
-  //       indicator: 'E13c',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Number of Ships in Port',
-  //       lastColorCode: 'BLUE',
-  //       eoSensor: ['Planet Labs/NASA (PlanetScope)'],
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-73.97302 40.77222,-74.03550 40.76234,-74.11241 40.66345,-74.19480 40.64366,-74.30329 40.50440,-74.22639 40.44643,-73.99087 40.40461,-73.79311 40.39520,-73.64617 40.44695,-73.61665 40.58319,-73.75123 40.59519,-73.79174 40.66033,-73.87895 40.65720,-73.97576 40.61187,-74.00117 40.66189,-73.93868 40.74830,-73.97302 40.77222))').toJson(),
-  //         }],
-  //       },
-  //       time: ['2020-01-02', '2020-01-09', '2020-01-11', '2020-01-16', '2020-01-17', '2020-01-19', '2020-01-20', '2020-01-21', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-30', '2020-02-02', '2020-02-03', '2020-02-29', '2020-03-08', '2020-03-18', '2020-03-22', '2020-03-27', '2020-05-02', '2020-05-05', '2020-05-09', '2020-05-10', '2020-05-13', '2020-05-14', '2020-05-16', '2020-05-19', '2020-05-20', '2020-05-21'],
-  //       inputData: ['ports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([37.7775, -122.41638]),
-  //       aoiID: 'US03',
-  //       country: ['US'],
-  //       city: 'San Francisco',
-  //       siteName: 'San Francisco',
-  //       description: 'Ports: Ship throughput',
-  //       indicator: 'E13c',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Number of Ships in Port',
-  //       lastColorCode: 'BLUE',
-  //       eoSensor: ['Planet Labs/NASA (PlanetScope)'],
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((-122.63488 37.61314, -122.25654 37.61314, -122.25654 37.88081, -122.63488 37.88081, -122.63488 37.61314))').toJson(),
-  //         }],
-  //       },
-  //       time: ['2020-01-02', '2020-01-03', '2020-01-05', '2020-01-07', '2020-01-10', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-17', '2020-01-18', '2020-01-22', '2020-01-23', '2020-01-27', '2020-01-30', '2020-01-31', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-03-10', '2020-03-11', '2020-04-21', '2020-05-01', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-07', '2020-05-08', '2020-05-09', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21'],
-  //       inputData: ['ports'],
-  //     },
-  //   },
-  // },
-  // {
-  //   properties: {
-  //     indicatorObject: {
-  //       aoi: latLng([30.05, 32.56]),
-  //       aoiID: 'EG01',
-  //       country: ['EG'],
-  //       city: 'Suez',
-  //       siteName: 'Suez Canal',
-  //       description: 'Ports: Ship throughput',
-  //       indicator: 'E13c',
-  //       lastIndicatorValue: 'normal',
-  //       indicatorName: 'Number of Ships in Port',
-  //       lastColorCode: 'BLUE',
-  //       eoSensor: ['Planet Labs/NASA (PlanetScope)'],
-  //       subAoi: {
-  //         type: 'FeatureCollection',
-  //         features: [{
-  //           type: 'Feature',
-  //           properties: {},
-  //           geometry: wkt.read('POLYGON((32.11595 30.28275,31.88249 31.09994,31.95115 31.72112,32.73942 31.67906,32.78062 31.56211,32.59111 30.32306,32.65428 29.99058,32.64878 29.81916,32.44554 29.84060,32.39335 30.15221,32.11595 30.28275))').toJson(),
-  //         }],
-  //       },
-  //       time: ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05', '2020-01-06', '2020-01-07', '2020-01-08', '2020-01-09', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-15', '2020-01-17', '2020-01-18', '2020-01-19', '2020-01-21', '2020-01-22', '2020-01-23', '2020-01-24', '2020-01-25', '2020-01-26', '2020-01-27', '2020-01-28', '2020-01-29', '2020-01-30', '2020-01-31', '2020-02-02', '2020-02-03', '2020-02-27', '2020-02-29', '2020-03-03', '2020-03-08', '2020-04-21', '2020-04-23', '2020-04-24', '2020-05-01', '2020-05-02', '2020-05-03', '2020-05-04', '2020-05-05', '2020-05-06', '2020-05-08', '2020-05-09', '2020-05-10', '2020-05-11', '2020-05-12', '2020-05-13', '2020-05-14', '2020-05-15', '2020-05-16', '2020-05-17', '2020-05-19', '2020-05-20', '2020-05-21', '2020-08-06', '2020-08-07', '2020-08-08', '2020-08-09', '2020-08-10'],
-  //       inputData: [''],
-  //       display: {
-  //         url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/planet/{z}/{x}/{y}?date={time}&site=sc',
-  //         protocol: 'xyz',
-  //         tileSize: 256,
-  //         dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-  //         features: {
-  //           name: 'Ship detections',
-  //           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy_MM_dd'),
-  //           url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/detections/ship/sc/{featuresTime}.geojson',
-  //         },
-  //       },
-  //     },
-  //   },
-  // },
   {
     properties: {
       // nonstandard way that each layer is different time
