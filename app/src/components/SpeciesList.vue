@@ -9,7 +9,7 @@
       <img :src="s.image_url" />
 
       <a :href="s.image_url" class="names" target="_blank">
-        <dt><b>{{ s.species }}</b></dt>
+        <dt><b>{{ s.species.replace(/(?:^|\s)\S/g, (match) => match.toUpperCase()) }}</b></dt>
         <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
       </a>
 
@@ -48,6 +48,7 @@ export default {
 
   .names {
     width: 200px;
+    font-size: 15px;
   }
 }
 
