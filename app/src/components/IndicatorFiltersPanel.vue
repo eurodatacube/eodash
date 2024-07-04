@@ -169,7 +169,7 @@ export default {
               { key: 'cities', title: 'City/Location' },
             ],
             aggregateResults: 'themes',
-            autoSpreadSingle: true,
+            autoSpreadSingle: false,
             enableHighlighting: true,
             onSelect: (item) => {
               this.toggleSelectedItem(item);
