@@ -10,7 +10,7 @@ At COP26, 100 countries endorsed the "Glasgow Leaders’s Declaration on Forests
 ##
 <figcaption>Animation: Above ground biomass 2020. ESA (Data source: CCI Biomass project) While deforestation refers to the entire removal of forest, degradation means that the forest still exists but with reduced functions</figcaption>
 
-## <!--{as="eox-map" id="palsar" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/FNF_Palsar/FNF_Palsar/FNF_Palsar/2020/2020.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]'}-->
+## <!--{as="eox-map" id="palsar" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/FNF_Palsar/FNF_Palsar/FNF_Palsar/2020/2020.json","displayWebMapLink":true,"displayFootprint":false,"properties":{"id":"Palsar"}},{"type":"Tile","properties":{"id":"cloudless"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]'}-->
 
 ###
 
@@ -28,7 +28,7 @@ Data delivered by these missions provides the essential information used in glob
 
 ### Tipping points <!--{style="font-size: 4rem"}-->
 
-## <!--{ as="eox-map" id="tipping-points-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
+## <!--{ as="eox-map" id="tipping-points-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false,"properties":{"id":"NDVI"}},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
 
 ### <!--{ center="[15,60]" zoom="3" }-->
 
@@ -177,7 +177,7 @@ Another article also published in the same journal estimated a global decline in
 
 ### Restoration and conservation <!--{style="font-size: 4rem"}-->
 
-## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
+## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false,"properties":{"id":"RECCAP_biomass_growth"}},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
 
 ### <!--{ center=[-74,-3] zoom="5" }-->
 
