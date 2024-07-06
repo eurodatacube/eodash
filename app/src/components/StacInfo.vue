@@ -40,7 +40,7 @@
           @loaded="onStacInfoLoad"
           header='["title"]'
           tags='["themes"]'
-          properties='["satellite","sensor","agency","extent","license"]'
+          properties='["satellite","sensor","agency","extent"]'
           featured='["description","providers","assets","links"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
@@ -87,9 +87,9 @@
               </v-chip>
             </ul>
           </div>
-          <div slot="links"
+          <div slot="featured-links"
           v-if="stacInfoLoaded">
-            Code examples:
+            Additional links:
             <li
               v-for="link in linksInStacInfo"
               :key="link.rel"
@@ -208,9 +208,17 @@ export default {
         }
         this.themesInStacInfo = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
         const links = this.$refs.stacInfo?.stacProperties?.links?.value || [];
-        this.linksInStacInfo = links.filter(
-          (l) => l.rel === 'example' || l.rel === 'license',
-        );
+        const linksFiltered = links.filter(
+          (l) => l.rel === 'example',
+        ).map((ll) => {
+          if (ll.title.includes('VEDA Statistics')) {
+            // only use the stac catalog URL for VEDA example
+            ll.href = 'https://openveda.cloud/'; // eslint-disable-line
+            ll.rel = 'openveda.cloud STAC Browser'; // eslint-disable-line
+          }
+          return ll;
+        });
+        this.linksInStacInfo = linksFiltered;
         this.stacInfoLoaded = true;
       });
     },
