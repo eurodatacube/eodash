@@ -206,7 +206,18 @@ export default {
         } else {
           this.$parent.$parent.$el.style.display = '';
         }
-        this.themesInStacInfo = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        const themes = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        if (this.appConfig.id === 'trilateral') {
+          const i = themes.findIndex((theme) => theme === 'air');
+          if (i !== -1) {
+            themes[i] = 'atmosphere';
+          }
+          const j = themes.findIndex((theme) => theme === 'water');
+          if (j !== -1) {
+            themes[j] = 'oceans';
+          }
+        }
+        this.themesInStacInfo = themes;
         const links = this.$refs.stacInfo?.stacProperties?.links?.value || [];
         const linksFiltered = links.filter(
           (l) => l.rel === 'example',
