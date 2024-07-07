@@ -129,14 +129,14 @@ export default {
         'GG', 'E10a', 'E10a9', 'CV', 'OW', 'E10c', 'E10a10', 'E10a10_2', 'OX', 'OX_EU',
         'N1a', 'N1c', 'N1d', 'LWE', 'LWL',
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
-        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
-        'Lakes_SWT', 'CROPOM',
+        'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'E13c', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
+        'Lakes_SWT', 'CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2',
         // Year overlap comparison
-        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
+        'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'Modis_SNPP_2023',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
-        'E11', 'E13b', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
+        'E11', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
@@ -684,6 +684,8 @@ export default {
         referenceDecompose.E12b = referenceDecompose.N1a;
         // Special legend for E8
         referenceDecompose.E12d = referenceDecompose.E12c;
+        referenceDecompose.E13c = referenceDecompose.E12c;
+        referenceDecompose.Modis_SNPP_2023 = referenceDecompose.E12c;
         referenceDecompose.LWL = referenceDecompose.E12c;
         referenceDecompose.LWE = referenceDecompose.E12c;
         referenceDecompose.SHCustomLineChart = referenceDecompose.N1;
@@ -876,7 +878,7 @@ export default {
             borderWidth: 2,
           });
         }
-        if (['CROPOM'].includes(indicatorCode)) {
+        if (['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(indicatorCode)) {
           const data = [];
           const refData = [];
           featureData.time.forEach((t, i) => {
@@ -1941,7 +1943,7 @@ export default {
         };
       }
 
-      if (['CROPOM'].includes(indicatorCode)) {
+      if (['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(indicatorCode)) {
         customSettings.yAxis = ['t/ha', 'g/m2'];
       }
 

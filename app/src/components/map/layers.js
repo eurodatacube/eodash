@@ -22,6 +22,7 @@ import { applyStyle } from 'ol-mapbox-style';
 import { transformExtent } from 'ol/proj';
 import { fetchCustomDataOptions, fetchCustomAreaObjects, template } from '@/helpers/customAreaObjects';
 import getProjectionOl from '@/helpers/projutils';
+import { replaceAll, PROJDICT } from '../../utils';
 
 const geoJsonFormat = new GeoJSON({});
 const wkb = new WKB({});
@@ -121,6 +122,24 @@ function dynamicWidth(feature, defaultWidth) {
 }
 
 function createVectorLayerStyle(config, options) {
+  if (config?.flatStyle) {
+    // pass back flat style if contained in config
+    let returnStyle = config.flatStyle;
+    // Check if variables are defined and need to be "burned in" first
+    if ('variables' in config.flatStyle) {
+      let rawStyle = JSON.stringify(config.flatStyle);
+      const { variables } = config.flatStyle;
+      Object.keys(variables).forEach((key) => {
+        if (typeof variables[key] === 'number') {
+          rawStyle = replaceAll(rawStyle, `["var","${key}"]`, variables[key]);
+        } else {
+          rawStyle = replaceAll(rawStyle, `["var","${key}"]`, `"${variables[key]}"`);
+        }
+      });
+      returnStyle = JSON.parse(rawStyle);
+    }
+    return returnStyle;
+  }
   if (typeof config?.styleFunction === 'function') {
     // pass down the style function from config accepting a possible feature
     return config.styleFunction;
@@ -177,7 +196,7 @@ function createVectorLayerStyle(config, options) {
 
 function replaceUrlPlaceholders(baseUrl, config, options) {
   let url = baseUrl;
-  const time = options.time || store.state.indicators.selectedTime;
+  const { time } = options;
   const indicator = options.indicator || store.state.indicators.selectedIndicator?.indicator;
   const aoiID = options.aoiID || store.state.indicators.selectedIndicator?.aoiID;
   url = url.replace(/{time}/i, config.dateFormatFunction(time));
@@ -300,17 +319,24 @@ export function createLayerFromConfig(config, map, _options = {}) {
       style = createVectorLayerStyle(config.features, options);
     }
     layer = new VectorLayer({
+      id: config.id,
       source: featuresSource,
       style,
     });
   } else if (config.protocol === 'cog') {
     let updatedSources = config.sources;
     if (config.usedTimes?.time?.length) {
+      // Check to see if sources are comming from time assets
       const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
-      updatedSources = config.sources.map((item) => {
-        const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
-        return { url };
-      });
+      if (Array.isArray(currentTime) && Array.isArray(currentTime[1])) {
+        updatedSources = [];
+        currentTime[1].forEach((te) => updatedSources.push({ url: te }));
+      } else {
+        updatedSources = config.sources.map((item) => {
+          const url = item.url.replace(/{time}/i, config.dateFormatFunction(currentTime));
+          return { url };
+        });
+      }
     }
     const wgSource = new GeoTIFF({
       sources: updatedSources,
@@ -356,7 +382,11 @@ export function createLayerFromConfig(config, map, _options = {}) {
     const url = config.urlTemplateSelectedFeature
       ? renderTemplateSelectedFeature(config.urlTemplateSelectedFeature)
       : config.url;
-    const projection = config.projection ? getProjectionOl(config.projection) : 'EPSG:4326';
+    let projObj = config.projection;
+    if (typeof config.projection === 'string' && PROJDICT[config.projection]) {
+      projObj = PROJDICT[config.projection];
+    }
+    const projection = projObj ? getProjectionOl(projObj) : 'EPSG:4326';
     const vectorSourceOpts = url ? {
       url,
       format: new GeoJSON({
@@ -419,6 +449,31 @@ export function createLayerFromConfig(config, map, _options = {}) {
         },
       });
     } else {
+      // Check if source has times and if yes set to latest
+      if (config.usedTimes?.time?.length) {
+        const currentTime = config.usedTimes.time[config.usedTimes.time.length - 1];
+        if (Array.isArray(currentTime) && Array.isArray(currentTime[1])) {
+          // TODO: Currently we support only one vector source
+          // if more assets are defined we will need to create multiple sources?
+          vectorSource.setUrl(currentTime[1][0]);
+
+          vectorSource.set('updateTime', (time) => {
+            vectorSource.setUrl(time[1][0]);
+          });
+        } else {
+          const updateUrl = replaceUrlPlaceholders(config.url, config, options);
+          vectorSource.setUrl(updateUrl);
+          vectorSource.set('updateTime', (time, area, configUpdate) => {
+            const updatedOptions = {
+              ...options,
+              ...configUpdate,
+            };
+            updatedOptions.time = time;
+            const updurl = replaceUrlPlaceholders(configUpdate.url, configUpdate, updatedOptions);
+            vectorSource.setUrl(updurl);
+          });
+        }
+      }
       layer = new VectorLayer({
         source: vectorSource,
         style: dynamicStyleFunction,

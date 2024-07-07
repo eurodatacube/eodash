@@ -998,7 +998,7 @@ export default {
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_SELECTED_FEATURES') {
-        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+        if (this.indicator && ['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
           if (mutation.payload?.length > 0) {
             window.dispatchEvent(new Event('fetch-custom-area-chart'));
           } else {

@@ -94,6 +94,13 @@
       "description": "Economy",
       "longDescription": "Observing Earth's social and economic systems",
       "datasetsImage": "/data/story-images/econ-explore-datasets-image.png"
+    },
+    {
+      "name": "Extremes",
+      "slug": "extreme-events",
+      "color": "#a1280a",
+      "description": "Extremes",
+      "longDescription": "Tracking the Effects of Extreme Events"
     }
   ],
   "gtif": [
