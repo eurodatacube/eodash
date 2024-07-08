@@ -1375,7 +1375,7 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'HAUC2',
         cogOverwrite: {
-          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/03_IPCC_scenarios/{City}/{city}_33TWN_{scenario}_avg_{year}_heat_index_R10m_3857.tif',
+          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/03_IPCC_scenarios/{City}/{city}_{scenario}_avg_{year}_heat_index_R10m_3857.tif',
           sourceLayer: 'HAUC2',
           selected: 'ihr',
           queryParameters: [
@@ -1415,6 +1415,48 @@ export const globalIndicators = [
               ['linear'],
               ['band', 1],
               ...getColorStops(heatadaptReds, 0, 20, 32, false),
+            ],
+          },
+          name: 'IPCC Scenarios',
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC3',
+        cogOverwrite: {
+          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/04_sealing_impact/{City}/{city}_composite_median_modified_IMD_p={median}_3857.tif',
+          sourceLayer: 'HAUC3',
+          queryParameters: [
+            {
+              selected: '0.8',
+              label: 'Median modified IMD',
+              id: 'median',
+              items: [
+                { id: '0.8', label: '0.8' },
+                { id: '1.0', label: '1.0' },
+                { id: '1.2', label: '1.2' },
+                { id: '1.4', label: '1.4' },
+                { id: '1.6', label: '1.6' },
+                { id: '1.8', label: '1.8' },
+                { id: '2.0', label: '2.0' },
+              ],
+            },
+          ],
+        },
+        display: [{
+          dataInfo: 'HeatAdapt_LST',
+          protocol: 'cog',
+          id: 'HAUC3',
+          sources: [],
+          style: {
+            color: [
+              'interpolate',
+              ['linear'],
+              ['band', 1],
+              ...getColorStops(heatadaptCM, 23, 35, 32, false),
             ],
           },
           name: 'IPCC Scenarios',

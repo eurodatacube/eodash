@@ -69,9 +69,15 @@ export default {
         // TODO: this is not really stable, but we can get the location from the selected feature
         // This expects the name to match exactly
         const city = this.$store.state.features.selectedFeature.indicatorObject.aoiID;
+        // Additional special mapping
+        const extraMapping = {
+          Graz: '33TWN',
+          Innsbruck: '32TPT',
+          Klagenfurt: '33TVM',
+        };
         if (city) {
           ts = ts.replace('{City}', city);
-          ts = ts.replace('{city}', city.toLowerCase());
+          ts = ts.replace('{city}', `${city.toLowerCase()}_${extraMapping[city]}`);
         }
         const updatedSources = [
           { url: ts },
