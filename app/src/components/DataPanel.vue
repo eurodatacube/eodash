@@ -260,6 +260,7 @@
             :mergedConfigsData="mergedConfigsData[0]"
           >
           </custom-wms-variables>
+          <AreaStatistics />
           <FeatureQueryParams
             v-if="indicatorObject.display.features
               && indicatorObject.display.features.featureQueryParams"
@@ -424,6 +425,7 @@ import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue'
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
 import SpeciesList from '@/components/SpeciesList.vue';
+import AreaStatistics from '@/components/AreaStatistics.vue';
 
 export default {
   props: [
@@ -444,6 +446,7 @@ export default {
     SelectionInfoBar,
     FeatureQueryParams,
     SpeciesList,
+    AreaStatistics,
   },
   data: () => ({
     overlay: false,
