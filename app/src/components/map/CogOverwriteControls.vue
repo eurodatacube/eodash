@@ -51,7 +51,7 @@ export default {
       if (mutation.type === 'features/SET_SELECTED_FEATURE') {
         setTimeout(() => {
           this.updateMap();
-        }, 300);
+        }, 500);
       }
     });
   },
@@ -74,6 +74,8 @@ export default {
           Graz: '33TWN',
           Innsbruck: '32TPT',
           Klagenfurt: '33TVM',
+          Salzburg: '33TUN',
+          Linz: '33UVP',
         };
         if (city) {
           ts = ts.replace('{City}', city);

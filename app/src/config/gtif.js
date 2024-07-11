@@ -91,24 +91,24 @@ const whitered = [
   { index: stp * 7, rgb: [127, 39, 4] },
 ];
 
-const heatadaptCM = [
-  { index: 0, rgb: [43, 131, 186] },
-  { index: 0.25, rgb: [171, 221, 164] },
-  { index: 0.5, rgb: [255, 255, 191] },
-  { index: 0.75, rgb: [253, 174, 97] },
-  { index: 1, rgb: [215, 25, 28] },
-];
+// const heatadaptCM = [
+//   { index: 0, rgb: [43, 131, 186] },
+//   { index: 0.25, rgb: [171, 221, 164] },
+//   { index: 0.5, rgb: [255, 255, 191] },
+//   { index: 0.75, rgb: [253, 174, 97] },
+//   { index: 1, rgb: [215, 25, 28] },
+// ];
 
-stp = 1 / 6;
-const heatadaptReds = [
-  { index: 0, rgb: [255, 245, 240] },
-  { index: stp * 1, rgb: [254, 224, 210] },
-  { index: stp * 2, rgb: [252, 187, 161] },
-  { index: stp * 3, rgb: [252, 146, 114] },
-  { index: stp * 4, rgb: [251, 106, 74] },
-  { index: stp * 5, rgb: [165, 15, 21] },
-  { index: stp * 6, rgb: [103, 0, 13] },
-];
+// stp = 1 / 6;
+// const heatadaptReds = [
+//   { index: 0, rgb: [255, 245, 240] },
+//   { index: stp * 1, rgb: [254, 224, 210] },
+//   { index: stp * 2, rgb: [252, 187, 161] },
+//   { index: stp * 3, rgb: [252, 146, 114] },
+//   { index: stp * 4, rgb: [251, 106, 74] },
+//   { index: stp * 5, rgb: [165, 15, 21] },
+//   { index: stp * 6, rgb: [103, 0, 13] },
+// ];
 
 const blgrrd = {
   steps: 32,
@@ -1358,7 +1358,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops(heatadaptCM, 0, 40, 32, false),
+                ...getColorStops('viridis', 4, 32, 32, false),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -1406,6 +1406,7 @@ export const globalIndicators = [
         },
         display: [{
           dataInfo: 'HeatAdapt_LST',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/cm_legend.png',
           protocol: 'cog',
           id: 'HAUC2',
           sources: [],
@@ -1414,7 +1415,7 @@ export const globalIndicators = [
               'interpolate',
               ['linear'],
               ['band', 1],
-              ...getColorStops(heatadaptReds, 0, 20, 32, false),
+              ...getColorStops('viridis', 4, 32, 32, false),
             ],
           },
           name: 'IPCC Scenarios',
@@ -1447,6 +1448,7 @@ export const globalIndicators = [
           ],
         },
         display: [{
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/cm_legend.png',
           dataInfo: 'HeatAdapt_LST',
           protocol: 'cog',
           id: 'HAUC3',
@@ -1456,7 +1458,7 @@ export const globalIndicators = [
               'interpolate',
               ['linear'],
               ['band', 1],
-              ...getColorStops(heatadaptCM, 23, 35, 32, false),
+              ...getColorStops('viridis', 4, 32, 32, false),
             ],
           },
           name: 'IPCC Scenarios',
