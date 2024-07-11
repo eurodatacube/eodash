@@ -7,7 +7,7 @@ import { Wkt } from 'wicket';
 import shTimeFunction from '../shTimeFunction';
 
 export const dataPath = './data/polar/internal/';
-export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/polar/catalog.json';
+export const STACEndpoint = 'https://eodashcatalog.eox.at/polardashboard_s2_segmentation/polar/catalog.json';
 
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
@@ -182,12 +182,25 @@ export const globalIndicators = [
           style: {
             color: [
               'case',
-              ['>', ['band', 1], 1],
+              ['==', ['band', 1], 1],
               [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('greys', 2, 5, 30, false),
+                'color', 255, 255, 255, 1,
+              ],
+              ['==', ['band', 1], 2],
+              [
+                'color', 201, 98, 222, 1,
+              ],
+              ['==', ['band', 1], 3],
+              [
+                'color', 124, 219, 103, 1,
+              ],
+              ['==', ['band', 1], 4],
+              [
+                'color', 42, 230, 199, 1,
+              ],
+              ['==', ['band', 1], 5],
+              [
+                'color', 14, 51, 236, 1,
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -203,12 +216,25 @@ export const globalIndicators = [
           style: {
             color: [
               'case',
-              ['>', ['band', 1], 1],
+              ['==', ['band', 1], 1],
               [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops('greys', 2, 5, 30, false),
+                'color', 255, 255, 255, 1,
+              ],
+              ['==', ['band', 1], 2],
+              [
+                'color', 74, 36, 210, 1,
+              ],
+              ['==', ['band', 1], 3],
+              [
+                'color', 20, 171, 213, 1,
+              ],
+              ['==', ['band', 1], 4],
+              [
+                'color', 38, 233, 81, 1,
+              ],
+              ['==', ['band', 1], 5],
+              [
+                'color', 229, 66, 191, 1,
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -367,6 +393,41 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'Polartep_S2_segmentation_demo',
+        display: [{
+          protocol: 'cog',
+          name: 'Sentinel-2 source image',
+          legendUrl: null,
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/input-cog.tif' },
+          ],
+          normalize: true,
+        }, {
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/inference-cog.tif' },
+          ],
+          opacity: 0.7,
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/Polartep_S2_segmentation_demo/cm_legend.png',
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], 1],
+              [
+                'color', 255, 255, 255, 1,
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'Polartep_RCM_demo',
         time: ['2021-05-01', '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-08', '2021-05-09', '2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-17', '2021-05-18', '2021-05-22', '2021-05-23', '2021-05-25'],
         display: [{
@@ -441,7 +502,7 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'N12_1_sea_ice_concentration_arctic',
-        time: getDailyDates('1978-11-01', '2023-12-31'),
+        time: getDailyDates('1978-11-01', '2024-06-30'),
         display: {
           ...polarStereoDatasetsConfigs,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat("yyyy-MM-dd'T11:59:30.000Z'"),

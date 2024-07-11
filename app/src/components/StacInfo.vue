@@ -87,7 +87,7 @@
           @loaded="onStacInfoLoad"
           header='["title"]'
           tags='["themes"]'
-          properties='["satellite","sensor","agency","extent","license"]'
+          properties='["satellite","sensor","agency","extent"]'
           featured='["description","providers","assets","links"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
