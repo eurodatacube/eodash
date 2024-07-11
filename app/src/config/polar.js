@@ -208,7 +208,7 @@ export const globalIndicators = [
             ],
           },
         }, {
-          name: 'Sea Ice floe',
+          name: 'Floe size',
           protocol: 'cog',
           sources: [
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/test_data_polartep/S1A_EW_GRDM_1SDH_20180325T194759_20180325T194859_021176_024676_449C.tif_FLOE_3857.tif' },
