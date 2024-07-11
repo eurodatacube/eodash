@@ -267,6 +267,7 @@ export const globalIndicators = [
             title: 'Model configuration',
             variables: {
               ssp: {
+                dataInfo: 'i4_ssp',
                 description: 'Shared Socioeconomic Pathway scenario',
                 selected: 'ssp119',
                 items: [
@@ -293,6 +294,7 @@ export const globalIndicators = [
                 ],
               },
               stormSurge: {
+                dataInfo: 'i4_storm_surge',
                 description: 'Storm surge level in m',
                 selected: '0_0',
                 items: [
@@ -327,6 +329,7 @@ export const globalIndicators = [
                 ],
               },
               confidence: {
+                dataInfo: 'i4_confidence',
                 description: 'Confidence level of the data',
                 selected: 'medium',
                 items: [
@@ -377,7 +380,7 @@ export const globalIndicators = [
           baseUrl: 'https://hulk.adamplatform.eu/wmts',
           layers: 'InundationMap',
           styles: 'InundationMap;colorrange=(0,2)',
-          token: '4aa4e7b13ca553ad21de06c05cff3724',
+          token: 'bf12d6193efa667283ee9643951acfaa',
           projection: 'EPSG:4326',
           crossOrigin: null,
           name: 'Indicator 4: Flood risk',

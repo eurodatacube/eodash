@@ -10,6 +10,10 @@
         <v-col class="pa-0">
           <v-subheader class="pa-0">
             {{ wmsVariables.variables[key].description }}
+            <info-dialog
+              v-if="wmsVariables.variables[key].dataInfo"
+              :infoSource="wmsVariables.variables[key].dataInfo"
+            />
           </v-subheader>
         </v-col>
         <v-col class="pa-0">
@@ -18,7 +22,6 @@
             :items="wmsVariables.variables[key].items"
             item-text="description"
             item-value="id"
-            label="."
             persistent-hint
             return-object
             @change="updateMapLayer"
@@ -68,10 +71,13 @@
 <script>
 
 import { getMapInstance } from '@/components/map/map';
+import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'CustomWMSVariables',
-  components: {},
+  components: {
+    InfoDialog,
+  },
   props: {
     wmsVariables: Object,
     mergedConfigsData: Object,
