@@ -1045,12 +1045,14 @@ export default {
       this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
-      view.setCenter(
-        fromLonLat(
-          [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
-        ),
-      );
-      view.setZoom(this.zoomProp);
+      setTimeout(() => {
+        view.setCenter(
+          fromLonLat(
+            [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
+          ),
+        );
+        view.setZoom(this.zoomProp);
+      }, 20);
     }
     this.$emit('ready', true);
 
