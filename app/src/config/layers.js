@@ -252,6 +252,8 @@ export const overlayLayers = Object.freeze({
       fillColor: '#99cc3388',
       strokeColor: '#339900',
     },
+    tooltip: true,
+    allowedParameters: ['sitename'],
   },
   protectionZonesNatura: {
     name: 'Protected areas (Natura 2000)',
@@ -263,6 +265,8 @@ export const overlayLayers = Object.freeze({
       fillColor: '#99cc3388',
       strokeColor: '#339900',
     },
+    tooltip: true,
+    allowedParameters: ['sitename'],
   },
 });
 
