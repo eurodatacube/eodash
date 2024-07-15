@@ -6,6 +6,7 @@
       <v-btn
         @click="fetchData"
         color="primary"
+        :disabled="!selectedArea || !selectedIndicator"
         small
       >Generate</v-btn>
     </v-row>
@@ -43,6 +44,11 @@
 
       </v-row>
     </v-radio-group>
+    <v-row class="charts">
+      <canvas id="PopulationBarChart" />
+      <canvas id="UrbanBarChart" />
+      <canvas id="AgricultureBarChart" />
+    </v-row>
   </v-col>
 </template>
 
@@ -51,11 +57,30 @@ import {
   mapState,
 } from 'vuex';
 
+import Chart from 'chart.js';
+
 export default {
   name: 'AreaStatistics',
   data () {
     return {
+      ctx: {},
+      data: {},
+      aggregatedData: {},
       selectedIndex: 'scenarios',
+      scenarioLabels: ['ssp119', 'ssp126', 'ssp245', 'ssp370', 'ssp585'],
+      chartKeys: {
+        population: 'GHS_POP_E2020_GLOBE',
+        urban: 'GHS_BUILT_S_E2020_GLOBE',
+        agriculture: [
+          'ESA_WORLD_CEREAL_SECOND_MAIZE_CLASSIFICATION',
+          'ESA_WORLD_CEREAL_SPRINGCEREALS',
+          'ESA_WORLD_CEREAL_WINTERCEREALS',
+        ],
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     }
   },
   computed: {
@@ -65,6 +90,49 @@ export default {
     ...mapState('indicators', [
       'selectedIndicator',
     ]),
+
+    charts() {
+      return [
+        {
+          type: 'bar',
+          //id: 'population',
+          data: {
+            labels: this.scenarioLabels,
+            datasets: [{
+              label: 'Population',
+              data: this.aggregatedData.population,
+              borderWidth: 1,
+            }]
+          },
+        },
+
+        {
+          type: 'bar',
+          //id: 'urban',
+          data: {
+            labels: this.scenarioLabels,
+            datasets: [{
+              label: 'Urban',
+              data: this.aggregatedData.urban,
+              borderWidth: 1,
+            }]
+          },
+        },
+
+        {
+          type: 'bar',
+          //id: 'agriculture',
+          data: {
+            labels: this.scenarioLabels,
+            datasets: [{
+              label: 'Agriculture',
+              data: this.aggregatedData.agriculture,
+              borderWidth: 1,
+            }]
+          },
+        },
+      ];
+    },
   },
   watch: {
     selectedIndex: function (val) {
@@ -77,33 +145,70 @@ export default {
     },
 
     async fetchData() {
-      const url = 'https://api.ideas.adamplatform.eu/areas';
+      //const url = 'https://api.ideas.adamplatform.eu/areas';
+      //const url = 'https%3A%2F%2Fapi.ideas.adamplatform.eu%2Fareas';
 
       console.log(this.selectedIndicator.display.wmsVariables);
 
-      try {
-        const response = await fetch(url, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-          body: JSON.stringify({
-            geometry: [[[-79.6884731,0.9742484],[-79.6887841,0.9132887],[-79.5805495,0.9139107],[-79.5836597,0.9739374],[-79.6884731,0.9742484]]],
-            ssp: 'ssp119',
-            confidence: 'medium',
-            storm_surge: '1_0',
-            year: 2040
-          }),
-        });
+      const response = await fetch('https://api.ideas.adamplatform.eu/areas', {
+        //mode: 'no-cors',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          geometry: this.selectedArea,
+          ssp: 'ssp119',
+          confidence: 'medium',
+          storm_surge: '1_0',
+          year: 2040
+        }),
+      });
+
+      console.log(response.json);
+
+      const fetchPromises = this.scenarioLabels.map(async (label) => {
+        const response = await fetch(`./TEMP/${label}.json`);
 
         if (!response.ok) {
           throw new Error(`Response status: ${response.status}`);
         }
 
-        const json = await response.json();
-        console.log(json);
-      } catch (error) {
-        console.error(error.message);
+        this.data[label] = await response.json();
+      });
+
+      // Wait for all fetch requests to complete
+      await Promise.all(fetchPromises);
+
+      const scenarios = Object.keys(this.data);
+
+      const aggregatedData = scenarios.reduce((acc, scenario) => {
+        const scenarioData = this.data[scenario];
+
+        acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
+        acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
+        acc.agriculture.push(
+          ['ESA_WORLD_CEREAL_SECOND_MAIZE_CLASSIFICATION', 'ESA_WORLD_CEREAL_SPRINGCEREALS', 'ESA_WORLD_CEREAL_WINTERCEREALS']
+            .map(key => scenarioData[key])
+            .reduce((sum, value) => sum + value, 0)
+        );
+
+        return acc;
+      }, { population: [], urban: [], agriculture: [] });
+
+      this.aggregatedData = aggregatedData;
+      console.log(this.aggregatedData);
+
+      console.log(this.charts);
+
+      console.log(document.getElementById('PopulationBarChart'));
+      console.log(document.getElementById('UrbanBarChart'));
+      console.log(document.getElementById('AgricultureBarChart'));
+
+      if (this.charts.length !== 0) {
+        new Chart(document.getElementById('PopulationBarChart'), this.charts[0]);
+        new Chart(document.getElementById('UrbanBarChart'), this.charts[1]);
+        new Chart(document.getElementById('AgricultureBarChart'), this.charts[2]);
       }
     },
   },
@@ -111,5 +216,7 @@ export default {
 </script>
 
 <style>
-
+.charts canvas {
+  max-width: 33%;
+}
 </style>
