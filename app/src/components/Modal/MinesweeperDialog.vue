@@ -17,7 +17,7 @@
         </v-card-title>
         <v-card-text>
           <p>Try to find locations with <b>very high diversity</b>
-          and mark them with a <b>flower (right click)</b> and learn about
+          and mark them with a <b>flag (right click)</b> and learn about
           Earth Observation data along the way.
           </p>
           <p>
@@ -31,8 +31,8 @@
           <p>
           Game is played like a minesweeper:
           <br>
-          <b>Left mouse click</b> to uncover a <b>field.</b>
-          <b>Right mouse click</b> to flag it with a <b>flower.</b></p>
+          <b>Left mouse click</b> to uncover a <b>field. </b>
+          <b>Right mouse click</b> to flag it with a <b>flag.</b></p>
           <br>A random game location is chosen every day. <b>Come back to explore more </b>tomorrow!
             <!-- To explore new locations, add query parameter
             seed with any value e.g. &seed=SeedString.
