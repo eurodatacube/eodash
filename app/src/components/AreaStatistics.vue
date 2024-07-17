@@ -101,7 +101,9 @@ export default {
             datasets: [{
               label: 'Population',
               data: this.aggregatedData.population,
-              borderWidth: 1,
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
             }]
           },
         },
@@ -114,7 +116,9 @@ export default {
             datasets: [{
               label: 'Urban',
               data: this.aggregatedData.urban,
-              borderWidth: 1,
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
             }]
           },
         },
@@ -127,7 +131,9 @@ export default {
             datasets: [{
               label: 'Agriculture',
               data: this.aggregatedData.agriculture,
-              borderWidth: 1,
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
             }]
           },
         },
@@ -150,6 +156,14 @@ export default {
 
       console.log(this.selectedIndicator.display.wmsVariables);
 
+      console.log(JSON.stringify({
+        geometry: this.selectedArea,
+        ssp: 'ssp119',
+        confidence: 'medium',
+        storm_surge: '1_0',
+        year: 2040
+      }));
+
       const response = await fetch('https://api.ideas.adamplatform.eu/areas', {
         //mode: 'no-cors',
         headers: {
@@ -164,8 +178,6 @@ export default {
           year: 2040
         }),
       });
-
-      console.log(response.json);
 
       const fetchPromises = this.scenarioLabels.map(async (label) => {
         const response = await fetch(`./TEMP/${label}.json`);
