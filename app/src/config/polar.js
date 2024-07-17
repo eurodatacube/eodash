@@ -7,7 +7,7 @@ import { Wkt } from 'wicket';
 import shTimeFunction from '../shTimeFunction';
 
 export const dataPath = './data/polar/internal/';
-export const STACEndpoint = 'https://eodashcatalog.eox.at/polardashboard_s2_segmentation/polar/catalog.json';
+export const STACEndpoint = 'https://eurodatacube.github.io/eodash-catalog/polar/catalog.json';
 
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
