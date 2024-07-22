@@ -11,81 +11,62 @@
         small
       >Generate</v-btn>
     </v-row>
-    
-    <v-radio-group v-model="selectedIndex">
-      <v-row v-if="$vuetify.breakpoint.mdAndUp" class="ml-1 mt-2">
-        <v-col>
-          <v-radio
-            label="Scenarios"
-            value="scenario"
-          />
-        </v-col>
 
-        <v-col>
-          <v-radio
-            label="Storm surge"
-            value="height"
-          />
-        </v-col>
-
-        <v-col>
-          <v-radio
-            label="Years"
-            value="time"
-          />
-        </v-col>
-
-        <v-col>
-          <v-radio
-            label="Confidence"
-            value="confidence"
-          />
-        </v-col>
-      </v-row>
-
-      <v-col v-else class="ml-1 mt-2">
-        <v-row class="mb-1">
-          <v-radio
-            label="Scenarios"
-            value="scenario"
-          />
-        </v-row>
-
-        <v-row class="mb-1">
-          <v-radio
-            label="Storm surge"
-            value="height"
-          />
-        </v-row>
-
-        <v-row class="mb-1">
-          <v-radio
-            label="Years"
-            value="time"
-          />
-        </v-row>
-
-        <v-row class="mb-1">
-          <v-radio
-            label="Confidence"
-            value="confidence"
-          />
-        </v-row>
-      </v-col>
-    </v-radio-group>
-    <v-row
-      v-if="!hasAggregatedBefore"
-      class="py-3 mx-2 mt-1 px-10 rounded text-center"
-      style="background: #00417033"
-      justify="center"
+    <div
+      class="d-flex justify-space-around mt-3"
+      :class="{'flex-column': $vuetify.breakpoint.mdAndUp}"
     >
-      Select an area on the map to generate area statistics.
-    </v-row>
-    <v-row class="charts">
-      <canvas id="PopulationBarChart" />
-      <canvas id="UrbanBarChart" />
-      <canvas id="AgricultureBarChart" />
-    </v-row>
+      <v-radio-group v-model="selectedIndex">
+        <v-col
+          class="d-flex justify-space-between ml-1 mt-2"
+          :class="{
+            'flex-column': $vuetify.breakpoint.smAndDown,
+            'align-end': $vuetify.breakpoint.mdAndUp,
+          }"
+        >
+          <v-row class="mb-1">
+            <v-radio
+              label="Scenarios"
+              value="scenario"
+            />
+          </v-row>
+
+          <v-row class="mb-1">
+            <v-radio
+              label="Storm surge"
+              value="height"
+            />
+          </v-row>
+
+          <v-row class="mb-1">
+            <v-radio
+              label="Years"
+              value="time"
+            />
+          </v-row>
+
+          <v-row class="mb-1">
+            <v-radio
+              label="Confidence"
+              value="confidence"
+            />
+          </v-row>
+        </v-col>
+      </v-radio-group>
+      <v-col
+        class="py-3 mx-2 mt-1 px-10 rounded text-center"
+        style="background: #00417033"
+        justify="center"
+      >
+        <v-row v-if="hasAggregatedBefore" class="charts">
+          <canvas id="PopulationBarChart" />
+          <canvas id="UrbanBarChart" />
+          <canvas id="AgricultureBarChart" />
+        </v-row>
+
+        <span v-else>Select an area on the map to generate area statistics.</span>
+      </v-col>
+    </div>
   </v-col>
 </template>
 
@@ -125,13 +106,13 @@ export default {
 
       switch (this.selectedIndex) {
         case 'scenario':
-          return vars.scenario.items.map(item => `ssp${item.id}`);
+          return vars.ssp.items.map(item => item.id);
         case 'height':
-          return vars.height.items.map(item => `${item.id[0]}_${item.id[1]}`);
+          return vars.stormSurge.items.map(item => item.id);
         case 'time':
           return vars.time.items.map(item => item.id);
         case 'confidence':
-          return ['medium', 'high'];
+          return vars.confidence.items.map(item => item.id);
         default:
           return [];
       };
@@ -142,14 +123,14 @@ export default {
 
       switch (this.selectedIndex) {
         case 'scenario':
-          return `ssp${vars.scenario.selected}`;
+          return `ssp${vars.ssp.selected}`;
         case 'height':
-          return `${vars.height.selected[0]}_${vars.height.selected[1]}`
+          return vars.stormSurge.selected;
         case 'time':
           return vars.time.selected;
         // TODO: Should there be a dropdown for confidence?
         case 'confidence':
-          return 'high';
+          return vars.confidence.selected;
         default:
           return [];
       };
