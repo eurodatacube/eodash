@@ -855,7 +855,7 @@ export const globalIndicators = [
             locations: [
               {
                 name: 'Global Coverage',
-                bbox: [-28, 33, 42, 71],
+                bbox: [-24, 33, 42, 71],
                 /// How wide the bounding box should be as a longitudinal extent.
                 horizontalExtent: 5,
                 isMineCondition: (val) => val >= 3.5,
@@ -911,7 +911,7 @@ export const globalIndicators = [
                 name: 'Global Coverage',
                 bbox: [-24, 33, 42, 71],
                 /// How wide the bounding box should be as a longitudinal extent.
-                horizontalExtent: 10,
+                horizontalExtent: 5,
                 isMineCondition: 80, // 80th percentile mine threshold
               },
             ],
