@@ -13,7 +13,7 @@
     </v-row>
     
     <v-radio-group v-model="selectedIndex">
-      <v-row>
+      <v-row class="ml-1 mt-2">
         <v-col>
           <v-radio
             label="Scenarios"
@@ -45,6 +45,14 @@
 
       </v-row>
     </v-radio-group>
+    <v-row
+      v-if="!hasAggregatedBefore"
+      class="py-3 mx-2 mt-1 px-10 rounded text-center"
+      style="background: #00417033"
+      justify="center"
+    >
+      Select an area on the map to generate area statistics.
+    </v-row>
     <v-row class="charts">
       <canvas id="PopulationBarChart" />
       <canvas id="UrbanBarChart" />
@@ -73,6 +81,7 @@ export default {
         maintainAspectRatio: false,
       },
       isLoading: false,
+      hasAggregatedBefore: false,
     }
   },
   computed: {
@@ -166,6 +175,9 @@ export default {
   },
   methods: {
     async doRequests(labels) {
+      if (!this.hasAggregatedBefore) {
+        this.hasAggregatedBefore = true;
+      }
       const fetchPromises = labels.map(label => {
         let scenario = '119', confidence = 'low', height = '1', time = '2020'; // default values
 
