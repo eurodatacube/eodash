@@ -67,8 +67,7 @@ export default {
       ctx: {},
       data: {},
       aggregatedData: {},
-      selectedIndex: 'scenarios',
-      scenarioLabels: ['ssp119', 'ssp126', 'ssp245', 'ssp370', 'ssp585'],
+      selectedIndex: 'scenario',
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -123,9 +122,8 @@ export default {
       return [
         {
           type: 'bar',
-          //id: 'population',
           data: {
-            labels: this.scenarioLabels,
+            labels: this.labels,
             datasets: [{
               label: 'Population',
               data: this.aggregatedData.population,
@@ -138,9 +136,8 @@ export default {
 
         {
           type: 'bar',
-          //id: 'urban',
           data: {
-            labels: this.scenarioLabels,
+            labels: this.labels,
             datasets: [{
               label: 'Urban',
               data: this.aggregatedData.urban,
@@ -153,9 +150,8 @@ export default {
 
         {
           type: 'bar',
-          //id: 'agriculture',
           data: {
-            labels: this.scenarioLabels,
+            labels: this.labels,
             datasets: [{
               label: 'Agriculture',
               data: this.aggregatedData.agriculture,
@@ -168,16 +164,7 @@ export default {
       ];
     },
   },
-  watch: {
-    selectedIndex: function (val) {
-      console.log(`new selected index: ${val}`);
-    },
-  },
   methods: {
-    generateStatistics() {
-      console.log('Generating statistics...');
-    },
-
     async doRequests(labels) {
       const fetchPromises = labels.map(label => {
         let scenario = '119', confidence = 'low', height = '1', time = '2020'; // default values
