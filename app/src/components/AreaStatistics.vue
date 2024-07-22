@@ -1,6 +1,6 @@
 <template>
   <v-col>
-    <v-row class="area-statistics justify-space-between align-center mx-2">
+    <v-row class="pt-4 area-statistics justify-space-between align-center mx-2">
       <h2>Area Statistics</h2>
 
       <v-btn
@@ -13,7 +13,7 @@
     </v-row>
     
     <v-radio-group v-model="selectedIndex">
-      <v-row class="ml-1 mt-2">
+      <v-row v-if="$vuetify.breakpoint.mdAndUp" class="ml-1 mt-2">
         <v-col>
           <v-radio
             label="Scenarios"
@@ -41,9 +41,37 @@
             value="confidence"
           />
         </v-col>
-
-
       </v-row>
+
+      <v-col v-else class="ml-1 mt-2">
+        <v-row class="mb-1">
+          <v-radio
+            label="Scenarios"
+            value="scenario"
+          />
+        </v-row>
+
+        <v-row class="mb-1">
+          <v-radio
+            label="Storm surge"
+            value="height"
+          />
+        </v-row>
+
+        <v-row class="mb-1">
+          <v-radio
+            label="Years"
+            value="time"
+          />
+        </v-row>
+
+        <v-row class="mb-1">
+          <v-radio
+            label="Confidence"
+            value="confidence"
+          />
+        </v-row>
+      </v-col>
     </v-radio-group>
     <v-row
       v-if="!hasAggregatedBefore"
