@@ -2,11 +2,10 @@
 
 V1 - 2024/04/12
 
-- **Spatial coverage:** Occitanie region
+- **Spatial coverage:** Europe
 - **Temporal coverage:** 3 years (2021 – 2023)
-- **Spatial resolution:** 300m
+- **Spatial resolution:** 6 km
 - **Temporal resolution** : seasonally
-- **Format:** COG product
 
 
 Includes the following layers
