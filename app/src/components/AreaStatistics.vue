@@ -1,12 +1,13 @@
 <template>
   <v-col>
-    <v-row class="justify-space-between align-center mx-2">
+    <v-row class="area-statistics justify-space-between align-center mx-2">
       <h2>Area Statistics</h2>
 
       <v-btn
         @click="fetchData"
         color="primary"
         :disabled="!selectedArea || !selectedIndicator"
+        :loading="isLoading"
         small
       >Generate</v-btn>
     </v-row>
@@ -16,21 +17,21 @@
         <v-col>
           <v-radio
             label="Scenarios"
-            value="scenarios"
+            value="scenario"
           />
         </v-col>
 
         <v-col>
           <v-radio
             label="Storm surge"
-            value="storm-surge"
+            value="height"
           />
         </v-col>
 
         <v-col>
           <v-radio
             label="Years"
-            value="years"
+            value="time"
           />
         </v-col>
 
@@ -68,19 +69,11 @@ export default {
       aggregatedData: {},
       selectedIndex: 'scenarios',
       scenarioLabels: ['ssp119', 'ssp126', 'ssp245', 'ssp370', 'ssp585'],
-      chartKeys: {
-        population: 'GHS_POP_E2020_GLOBE',
-        urban: 'GHS_BUILT_S_E2020_GLOBE',
-        agriculture: [
-          'ESA_WORLD_CEREAL_SECOND_MAIZE_CLASSIFICATION',
-          'ESA_WORLD_CEREAL_SPRINGCEREALS',
-          'ESA_WORLD_CEREAL_WINTERCEREALS',
-        ],
-      },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
       },
+      isLoading: false,
     }
   },
   computed: {
@@ -90,6 +83,41 @@ export default {
     ...mapState('indicators', [
       'selectedIndicator',
     ]),
+
+    labels() {
+      let vars = this.selectedIndicator.display.wmsVariables.variables;
+
+      switch (this.selectedIndex) {
+        case 'scenario':
+          return vars.scenario.items.map(item => `ssp${item.id}`);
+        case 'height':
+          return vars.height.items.map(item => `${item.id[0]}_${item.id[1]}`);
+        case 'time':
+          return vars.time.items.map(item => item.id);
+        case 'confidence':
+          return ['medium', 'high'];
+        default:
+          return [];
+      };
+    },
+
+    selectedLabel() {
+      let vars = this.selectedIndicator.display.wmsVariables.variables;
+
+      switch (this.selectedIndex) {
+        case 'scenario':
+          return `ssp${vars.scenario.selected}`;
+        case 'height':
+          return `${vars.height.selected[0]}_${vars.height.selected[1]}`
+        case 'time':
+          return vars.time.selected;
+        // TODO: Should there be a dropdown for confidence?
+        case 'confidence':
+          return 'high';
+        default:
+          return [];
+      };
+    },
 
     charts() {
       return [
@@ -150,78 +178,86 @@ export default {
       console.log('Generating statistics...');
     },
 
-    async fetchData() {
-      //const url = 'https://api.ideas.adamplatform.eu/areas';
-      //const url = 'https%3A%2F%2Fapi.ideas.adamplatform.eu%2Fareas';
+    async doRequests(labels) {
+      const fetchPromises = labels.map(label => {
+        let scenario = '119', confidence = 'low', height = '1', time = '2020'; // default values
 
-      console.log(this.selectedIndicator.display.wmsVariables);
-
-      console.log(JSON.stringify({
-        geometry: this.selectedArea,
-        ssp: 'ssp119',
-        confidence: 'medium',
-        storm_surge: '1_0',
-        year: 2040
-      }));
-
-      const response = await fetch('https://api.ideas.adamplatform.eu/areas', {
-        //mode: 'no-cors',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          geometry: this.selectedArea,
-          ssp: 'ssp119',
-          confidence: 'medium',
-          storm_surge: '1_0',
-          year: 2040
-        }),
-      });
-
-      const fetchPromises = this.scenarioLabels.map(async (label) => {
-        const response = await fetch(`./TEMP/${label}.json`);
-
-        if (!response.ok) {
-          throw new Error(`Response status: ${response.status}`);
+        switch (this.selectedIndex) {
+          case 'scenario':
+            scenario = label.replace('ssp', '');
+            break;
+          case 'height':
+            height = label;
+            break;
+          case 'time':
+            time = label;
+            break;
+          case 'confidence':
+            confidence = label;
+            break;
         }
 
-        this.data[label] = await response.json();
+        this.isLoading = true;
+
+        return fetch('https://api.ideas.adamplatform.eu/', {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            geometry: this.selectedArea,
+            ssp: `ssp${scenario}`,
+            confidence,
+            storm_surge: height,
+            year: time,
+          }),
+        }).then(response => {
+          this.isLoading = false;
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+          return response.json().then(data => ({ label, data }));
+        });
       });
 
-      // Wait for all fetch requests to complete
-      await Promise.all(fetchPromises);
+      return Promise.all(fetchPromises);
+    },
 
-      const scenarios = Object.keys(this.data);
+    async fetchData() {
+      try {
+        const results = await this.doRequests(this.labels);
+        results.forEach(result => {
+          this.data[result.label] = result.data;
+        });
 
-      const aggregatedData = scenarios.reduce((acc, scenario) => {
-        const scenarioData = this.data[scenario];
+        this.aggregatedData = labels.reduce((acc, label) => {
+          const scenarioData = this.data[label];
+          acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
+          acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
+          acc.agriculture.push(scenarioData.cereals);
+          return acc;
+        }, { population: [], urban: [], agriculture: [] });
 
-        acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
-        acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
-        acc.agriculture.push(
-          ['ESA_WORLD_CEREAL_SECOND_MAIZE_CLASSIFICATION', 'ESA_WORLD_CEREAL_SPRINGCEREALS', 'ESA_WORLD_CEREAL_WINTERCEREALS']
-            .map(key => scenarioData[key])
-            .reduce((sum, value) => sum + value, 0)
-        );
-
-        return acc;
-      }, { population: [], urban: [], agriculture: [] });
-
-      this.aggregatedData = aggregatedData;
-      console.log(this.aggregatedData);
-
-      console.log(this.charts);
-
-      console.log(document.getElementById('PopulationBarChart'));
-      console.log(document.getElementById('UrbanBarChart'));
-      console.log(document.getElementById('AgricultureBarChart'));
-
-      if (this.charts.length !== 0) {
-        new Chart(document.getElementById('PopulationBarChart'), this.charts[0]);
-        new Chart(document.getElementById('UrbanBarChart'), this.charts[1]);
-        new Chart(document.getElementById('AgricultureBarChart'), this.charts[2]);
+        this.updateCharts();
+      } catch (error) {
+        console.error(error);
       }
+
+      this.updateCharts();
+    },
+
+    updateCharts() {
+      const chartElements = [
+        document.getElementById('PopulationBarChart'),
+        document.getElementById('UrbanBarChart'),
+        document.getElementById('AgricultureBarChart'),
+      ];
+
+      chartElements.forEach((element, index) => {
+        if (element) {
+          new Chart(element, this.charts[index]);
+        }
+      });
     },
   },
 };
