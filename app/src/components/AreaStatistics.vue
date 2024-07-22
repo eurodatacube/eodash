@@ -79,9 +79,8 @@ import Chart from 'chart.js';
 
 export default {
   name: 'AreaStatistics',
-  data () {
+  data() {
     return {
-      ctx: {},
       data: {},
       aggregatedData: {},
       selectedIndex: 'scenario',
@@ -89,9 +88,10 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
       },
+      chartElements: [],
       isLoading: false,
       hasAggregatedBefore: false,
-    }
+    };
   },
   computed: {
     ...mapState('features', [
@@ -102,24 +102,24 @@ export default {
     ]),
 
     labels() {
-      let vars = this.selectedIndicator.display.wmsVariables.variables;
+      const vars = this.selectedIndicator.display.wmsVariables.variables;
 
       switch (this.selectedIndex) {
         case 'scenario':
-          return vars.ssp.items.map(item => item.id);
+          return vars.ssp.items.map((item) => item.id);
         case 'height':
-          return vars.stormSurge.items.map(item => item.id);
+          return vars.stormSurge.items.map((item) => item.id);
         case 'time':
-          return vars.time.items.map(item => item.id);
+          return vars.time.items.map((item) => item.id);
         case 'confidence':
-          return vars.confidence.items.map(item => item.id);
+          return vars.confidence.items.map((item) => item.id);
         default:
           return [];
-      };
+      }
     },
 
     selectedLabel() {
-      let vars = this.selectedIndicator.display.wmsVariables.variables;
+      const vars = this.selectedIndicator.display.wmsVariables.variables;
 
       switch (this.selectedIndex) {
         case 'scenario':
@@ -133,7 +133,7 @@ export default {
           return vars.confidence.selected;
         default:
           return [];
-      };
+      }
     },
 
     charts() {
@@ -148,7 +148,7 @@ export default {
               borderWidth: 0,
               borderColor: '#FFF0',
               backgroundColor: '#004170',
-            }]
+            }],
           },
         },
 
@@ -162,7 +162,7 @@ export default {
               borderWidth: 0,
               borderColor: '#FFF0',
               backgroundColor: '#004170',
-            }]
+            }],
           },
         },
 
@@ -176,7 +176,7 @@ export default {
               borderWidth: 0,
               borderColor: '#FFF0',
               backgroundColor: '#004170',
-            }]
+            }],
           },
         },
       ];
@@ -187,12 +187,13 @@ export default {
       if (!this.hasAggregatedBefore) {
         this.hasAggregatedBefore = true;
       }
-      const fetchPromises = labels.map(label => {
-        let scenario = '119', confidence = 'low', height = '1', time = '2020'; // default values
+      const fetchPromises = labels.map((label) => {
+        let ssp = 'ssp119'; let confidence = 'low'; let height = '1_0'; let
+          time = '2020'; // default values
 
         switch (this.selectedIndex) {
           case 'scenario':
-            scenario = label.replace('ssp', '');
+            ssp = label;
             break;
           case 'height':
             height = label;
@@ -203,28 +204,30 @@ export default {
           case 'confidence':
             confidence = label;
             break;
+          default:
+            break;
         }
 
         this.isLoading = true;
 
         return fetch('https://api.ideas.adamplatform.eu/', {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             geometry: this.selectedArea,
-            ssp: `ssp${scenario}`,
+            ssp,
             confidence,
             storm_surge: height,
             year: time,
           }),
-        }).then(response => {
+        }).then((response) => {
           this.isLoading = false;
           if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
           }
-          return response.json().then(data => ({ label, data }));
+          return response.json().then((data) => ({ label, data }));
         });
       });
 
@@ -234,7 +237,7 @@ export default {
     async fetchData() {
       try {
         const results = await this.doRequests(this.labels);
-        results.forEach(result => {
+        results.forEach((result) => {
           this.data[result.label] = result.data;
         });
 
@@ -263,7 +266,7 @@ export default {
 
       chartElements.forEach((element, index) => {
         if (element) {
-          new Chart(element, this.charts[index]);
+          this.chartElements.push(new Chart(element, this.charts[index]));
         }
       });
     },
