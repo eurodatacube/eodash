@@ -128,7 +128,6 @@ export default {
           return vars.stormSurge.selected;
         case 'time':
           return vars.time.selected;
-        // TODO: Should there be a dropdown for confidence?
         case 'confidence':
           return vars.confidence.selected;
         default:
