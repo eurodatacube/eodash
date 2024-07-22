@@ -452,14 +452,10 @@ export const globalIndicators = [
         siteName: 'global',
         description: 'Health-Oriented Urban Heat and Pollution Index (HOUHPI)',
         indicator: 'IND1_1',
-        indicatorName: 'Indicator 1: Air pollution',
+        indicatorName: 'Indicator 1: Air polution',
         subAoi: {
           type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON ((-0.3259722 42.3334722, -0.3259722 45.0445833, 4.84625 45.0445833, 4.84625 42.3334722, -0.3259722 42.3334722))').toJson(),
-          }],
+          features: [],
         },
         aoiID: 'World',
         time: [['2021-01-01', 'Spring'], ['2021-04-01', 'Summer'], ['2021-07-01', 'Autumn'], ['2021-10-01', 'Winter']],
@@ -469,12 +465,12 @@ export const globalIndicators = [
           filters: {
             houhpi: {
               display: true,
-              label: 'Health risk due to air pollution (0 being no risk on health and 2 extreme risk on health)',
+              label: 'Health risk due to urban heat and pollution (0 being no risk on health and 2 extreme risk on health)',
               id: 'houhpi',
               min: 0,
-              max: 0.65,
+              max: 2,
               step: 0.005,
-              range: [0, 0.65],
+              range: [0, 1],
             },
           },
         },
@@ -483,14 +479,14 @@ export const globalIndicators = [
           id: 'IND1_1',
           protocol: 'cog',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_occitanie_3857_1.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_europe_3857_b1.tif' },
           ],
           dateFormatFunction: ((date) => date[1]),
           labelFormatFunction: ((date) => date[1]),
           style: {
             variables: {
               houhpiMin: 0,
-              houhpiMax: 0.65,
+              houhpiMax: 1,
             },
             color: [
               'case',
@@ -503,7 +499,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', 0, 0.2, 40, true),
+                ...getColorStops('hot', 0, 1, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -518,19 +514,19 @@ export const globalIndicators = [
           protocol: 'cog',
           dateFormatFunction: ((date) => date[1]),
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_2.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Winter_europe_3857_b2.tif' },
           ],
           name: 'Number of people of age > 60 or <5',
           visible: false,
           style: {
             color: [
               'case',
-              ['between', ['band', 1], 0.01, 220],
+              ['>', ['band', 1], 0],
               [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', 0, 25, 40, true),
+                ...getColorStops('hot', 0, 10000, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -543,19 +539,19 @@ export const globalIndicators = [
           dateFormatFunction: ((date) => date[1]),
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b3/cm_legend.png',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_3.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Winter_europe_3857_b3.tif' },
           ],
           name: 'Distance to nearest hospital or clinic [km]',
           visible: false,
           style: {
             color: [
               'case',
-              ['between', ['band', 1], 0.01, 50],
+              ['>', ['band', 1], 0],
               [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', 0, 50, 40, true),
+                ...getColorStops('hot', 0, 200, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -568,19 +564,19 @@ export const globalIndicators = [
           dateFormatFunction: ((date) => date[1]),
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b4/cm_legend.png',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Autumn_occitanie_3857_4.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Winter_europe_3857_b4.tif' },
           ],
           name: 'Number of days where air pollution exceeded WHO threshold',
           visible: false,
           style: {
             color: [
               'case',
-              ['between', ['band', 1], 0.01, 36],
+              ['>', ['band', 1], 0],
               [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', 0, 15, 40, true),
+                ...getColorStops('hot', 0, 90, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -593,7 +589,7 @@ export const globalIndicators = [
           dateFormatFunction: ((date) => date[1]),
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b5/cm_legend.png',
           sources: [
-            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_occitanie_3857_5.tif' },
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_{time}_europe_3857_b5.tif' },
           ],
           name: 'Land Surface Temperature',
           visible: false,
@@ -605,7 +601,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', -10, 30, 40, true),
+                ...getColorStops('hot', -10, 50, 40, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -841,12 +837,21 @@ export const globalIndicators = [
         display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells
+            enableSpeciesDisplay: true,
             size: 20,
             geotiff: {
               projection: 'EPSG:4326',
               url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_1.tif',
             },
             selectedLocationIndex: 0,
+            minColor: { // dark green
+              r: 0, g: 100, b: 0, a: 0.6,
+            },
+            maxColor: { // light green
+              r: 0, g: 255, b: 0, a: 0.6,
+            },
+            minValue: 1,
+            maxValue: 8,
             locations: [
               {
                 name: 'Global Coverage',
@@ -858,6 +863,60 @@ export const globalIndicators = [
             ],
           },
           id: 'IND2_1',
+          ...baseLayers.CORINE_LAND_COVER,
+          opacity: 0.7,
+        }, {
+          ...baseLayers.ESA_WORLD_COVER,
+          visible: true,
+          opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        dataLoadFinished: true,
+        country: 'all',
+        city: 'World',
+        siteName: 'global',
+        indicator: 'IND1_1',
+        indicatorName: 'HOUHPI Minesweeper',
+        subAoi: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        aoiID: 'Game',
+        time: [],
+        inputData: [''],
+        display: [{
+          minesweeperOptions: {
+            // Board dimensions in number of hex cells
+            size: 20,
+            minColor: { // light yellow
+              r: 255, g: 255, b: 170, a: 0.5,
+            },
+            maxColor: { // orange
+              r: 255, g: 100, b: 0, a: 0.6,
+            },
+            minValue: 0,
+            maxValue: 0.5,
+            geotiff: {
+              projection: 'EPSG:4326',
+              url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Summer_europe_4326_b1.tif',
+            },
+            selectedLocationIndex: 0,
+            locations: [
+              {
+                name: 'Global Coverage',
+                bbox: [-24, 33, 42, 71],
+                /// How wide the bounding box should be as a longitudinal extent.
+                horizontalExtent: 10,
+                isMineCondition: 80, // 80th percentile mine threshold
+              },
+            ],
+          },
+          id: 'IND1_1',
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
         }, {

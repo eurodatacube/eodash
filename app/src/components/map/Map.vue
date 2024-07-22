@@ -144,6 +144,7 @@
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
             :bbox="minesweeper.bbox"
+            :enableSpeciesDisplay="minesweeper.spDisplay"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -1181,6 +1182,7 @@ export default {
       const location = this.mergedConfigsData[0].minesweeperOptions.locations[
         this.selectedLocationIndex
       ];
+      this.minesweeper.spDisplay = this.mergedConfigsData[0].minesweeperOptions.enableSpeciesDisplay;
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       this.minesweeper.bbox = bbox;
 

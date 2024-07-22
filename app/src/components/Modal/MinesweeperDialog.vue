@@ -16,7 +16,10 @@
           💣 Hexagonal Minesweeper Game
         </v-card-title>
         <v-card-text>
-          <p>Try to find locations with <b>very high diversity</b>
+          <p>Try to find locations with <b>very high
+            <span v-if="enableSpeciesDisplay">biodiversity</span>
+            <span v-else>health risk</span>
+          </b>
           and mark them with a <b>flag (right click)</b> and learn about
           Earth Observation data along the way.
           </p>
@@ -24,9 +27,11 @@
           The percentage of uncovered area at the
           end of the game determines your <b>score</b>!
           <br>
+          <span v-if="enableSpeciesDisplay">
           When the game finishes, a summary of
           significant wildlife species which
           live there is shown.
+          </span>
           </p>
           <p>
           Game is played like a minesweeper:
@@ -67,8 +72,10 @@
               <span class="name">💣 NUMBER OF MINES</span>
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
-            <h1 class="pa-2" v-if="mode === 'gameover'">Species Info</h1>
-            <SpeciesList v-if="mode === 'gameover'" :species="sortedSpecies" :bbox="bbox" />
+            <div v-if="enableSpeciesDisplay">
+              <h1 class="pa-2" v-if="mode === 'gameover'">Species Info</h1>
+              <SpeciesList v-if="mode === 'gameover'" :species="sortedSpecies" :bbox="bbox" />
+            </div>
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
@@ -101,11 +108,11 @@
               <span class="name">💣 NUMBER OF MINES</span>
               <span class="value">{{ game.game.mineCount }}</span>
             </div>
+            <div v-if="enableSpeciesDisplay">
+              <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
 
-            <h2 style="margin-top: 24px; margin-bottom: 18px;">Discovered species:</h2>
-
-            <SpeciesList v-if="mode === 'win'" :species="sortedSpecies" />
-
+              <SpeciesList v-if="mode === 'win'" :species="sortedSpecies" />
+            </div>
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
@@ -159,9 +166,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    species: {
-      type: Array,
-      default: () => [],
+    enableSpeciesDisplay: {
+      type: Boolean,
+      default: false,
     },
   },
   async mounted() {
@@ -185,6 +192,9 @@ export default {
       this.close();
     },
     async populateSpeciesList() {
+      if (!this.enableSpeciesDisplay) {
+        return;
+      }
       if (this.bbox.length !== 4) {
         console.error('Bounding box must be in format [minLong, minLat, maxLong, maxLat]!');
         return;
@@ -242,9 +252,10 @@ export default {
 🔳  NUMBER OF CELLS:      ${this.game.game.fieldCount}
 💣  NUMBER OF MINES:      ${this.game.game.mineCount}`;
       }
-
-      string += '\n\nDiscovered species:\n';
-      string += this.sortedSpecies.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
+      if (this.enableSpeciesDisplay) {
+        string += '\n\nDiscovered species:\n';
+        string += this.sortedSpecies.reduce((accumulator, s) => `${accumulator}${s.species}${s.common_name === 'Unknown' ? '' : ` - ${s.common_name}`}\n`, '');
+      }
       navigator.clipboard.writeText(string);
       this.$refs['copy-btn'].$el.innerText = 'Copied!';
     },
