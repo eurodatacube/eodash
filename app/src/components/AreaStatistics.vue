@@ -139,6 +139,14 @@ export default {
       return [
         {
           type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
           data: {
             labels: this.labels,
             datasets: [{
@@ -153,6 +161,14 @@ export default {
 
         {
           type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
           data: {
             labels: this.labels,
             datasets: [{
@@ -167,6 +183,14 @@ export default {
 
         {
           type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
           data: {
             labels: this.labels,
             datasets: [{
