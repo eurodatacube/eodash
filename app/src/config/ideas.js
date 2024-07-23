@@ -381,7 +381,7 @@ export const globalIndicators = [
           layers: 'InundationMap',
           styles: 'InundationMap;colorrange=(0,2)',
           token: 'bf12d6193efa667283ee9643951acfaa',
-          projection: 'EPSG:4326',
+          projection: 'EPSG:3857',
           crossOrigin: null,
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
@@ -397,6 +397,7 @@ export const globalIndicators = [
           features: {
             legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_osm.png',
             name: 'OpenStreetMap selected features',
+            projection: 'EPSG:4326',
             styleFunction: (feature) => {
               const colormapping = {
                 amenity: {

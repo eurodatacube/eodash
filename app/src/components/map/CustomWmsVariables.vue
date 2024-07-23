@@ -88,7 +88,7 @@ export default {
     enableCompare: false,
     wmsVariablesCompare: null,
   }),
-  mounted() {
+  created() {
     this.wmsVariablesCompare = JSON.parse(JSON.stringify(this.wmsVariables));
     Object.keys(this.wmsVariables.variables).forEach((key) => {
       const value = this.wmsVariables.variables[key].items.find(
