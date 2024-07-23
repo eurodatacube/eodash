@@ -7,7 +7,7 @@
         @click="fetchData"
         color="primary"
         :disabled="!selectedArea || !selectedIndicator"
-        :loading="isLoading"
+        :loading="contentStatus === 'loading'"
         small
       >Generate</v-btn>
     </v-row>
@@ -58,13 +58,17 @@
         style="background: #00417033"
         justify="center"
       >
-        <v-row v-if="hasAggregatedBefore" class="charts">
+        <v-row v-if="areChartsVisible" class="charts">
           <canvas id="PopulationBarChart" />
           <canvas id="UrbanBarChart" />
           <canvas id="AgricultureBarChart" />
         </v-row>
 
-        <span v-else>Select an area on the map to generate area statistics.</span>
+        <span v-if="contentStatus === 'nocontent'">No data available for the selected area.</span>
+        <span v-if="contentStatus === 'loading'">Loading...</span>
+        <span v-if="contentStatus === 'idle'">
+          Select an area on the map to generate area statistics.
+        </span>
       </v-col>
     </div>
   </v-col>
@@ -76,6 +80,24 @@ import {
 } from 'vuex';
 
 import Chart from 'chart.js';
+
+function getContentStatus(promises) {
+  // Map the results to their status codes
+  const statusCodes = promises.map((entry) => entry.value.status);
+
+  // Check if all status codes are 204
+  const noContent = statusCodes.every((status) => status >= 300);
+  if (noContent) {
+    return 'none';
+  }
+
+  // Check if all status codes are successful (200-299)
+  const allSuccess = statusCodes.every((status) => status >= 200 && status < 300);
+  if (allSuccess) {
+    return 'success';
+  }
+  return 'partial';
+}
 
 export default {
   name: 'AreaStatistics',
@@ -91,6 +113,8 @@ export default {
       chartElements: [],
       isLoading: false,
       hasAggregatedBefore: false,
+      // One of 'idle', 'loading', 'nocontent', 'partial', 'success'
+      contentStatus: 'idle',
     };
   },
   computed: {
@@ -100,6 +124,11 @@ export default {
     ...mapState('indicators', [
       'selectedIndicator',
     ]),
+
+    areChartsVisible() {
+      return this.contentStatus === 'success'
+        || this.contentStatus === 'partial';
+    },
 
     labels() {
       const vars = this.selectedIndicator.display.wmsVariables.variables;
@@ -206,11 +235,12 @@ export default {
     },
   },
   methods: {
-    async doRequests(labels) {
+    async fetchData() {
+      this.contentStatus = 'loading';
       if (!this.hasAggregatedBefore) {
         this.hasAggregatedBefore = true;
       }
-      const fetchPromises = labels.map((label) => {
+      const fetchPromises = this.labels.map((label) => {
         let ssp = 'ssp119'; let confidence = 'low'; let height = '1_0'; let
           time = '2020'; // default values
 
@@ -245,26 +275,60 @@ export default {
             storm_surge: height,
             year: time,
           }),
-        }).then((response) => {
-          this.isLoading = false;
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-          }
-          return response.json().then((data) => ({ label, data }));
         });
       });
 
-      return Promise.all(fetchPromises);
-    },
+      console.log(fetchPromises);
 
-    async fetchData() {
-      try {
-        const results = await this.doRequests(this.labels);
-        results.forEach((result) => {
-          this.data[result.label] = result.data;
+      await Promise.allSettled(fetchPromises)
+        .then((promiseCollection) => {
+          // Merge them together, for parsing
+          // TODO: Add check to see if partial result was returned as status
+          const status = 'OK';
+          const data = promiseCollection.map((entry) => {
+            let d = [];
+            // We take here fulfilled datasets, rejected status is probably from timeout
+            if (entry.status === 'fulfilled') {
+              if (entry.value.status >= 400) {
+                entry.status = 'rejected';
+              }
+              d = entry.value.data;
+            }
+            return d;
+          }).flat();
+
+          this.contentStatus = getContentStatus(promiseCollection);
+
+          // Check to see if there were rejected requests due to timeout
+          const timeoutDetected = promiseCollection.find((entry) => entry.status === 'rejected' || entry.value.status >= 400);
+          if (timeoutDetected) {
+            this.$store.commit('sendAlert', {
+              message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+              type: 'warning',
+            });
+          }
+          const mergedData = {
+            status,
+            data,
+          };
+
+          return this.aggregate(mergedData);
         });
 
-        this.aggregatedData = labels.reduce((acc, label) => {
+      return fetchPromises;
+    },
+
+    aggregate(mergedData) {
+      console.log(mergedData);
+      try {
+        mergedData.data
+          .forEach((m) => {
+            console.log(m);
+            console.log(m.data);
+            this.data[m.label] = m.data;
+          });
+
+        this.aggregatedData = this.labels.reduce((acc, label) => {
           const scenarioData = this.data[label];
           acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
           acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
