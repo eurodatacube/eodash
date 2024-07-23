@@ -1,6 +1,6 @@
 # Air pollution Indicator
 
-V1 - 2024/04/12
+V2 - 2024/07/19
 
 - **Spatial coverage:** Europe
 - **Temporal coverage:** 3 years (2021 – 2023)
