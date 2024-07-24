@@ -264,8 +264,6 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
-    { ...overlayLayers.protectionZones },
-    { ...overlayLayers.protectionZonesNatura },
     {
       protocol: 'GeoJSON',
       visible: false,
@@ -765,6 +763,10 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           },
           tooltip: true,
           allowedParameters: ['name'],
+        }, {
+          ...overlayLayers.protectionZones,
+        }, {
+          ...overlayLayers.protectionZonesNatura,
         }],
       },
     },
@@ -838,7 +840,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
           },
         },
-        display: {
+        display: [{
           dataInfo: 'GlobalHorizontalIrradiation',
           protocol: 'cog',
           id: 'REP2',
@@ -904,7 +906,11 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             ],
           },
           name: 'Solar Energy',
-        },
+        }, {
+          ...overlayLayers.protectionZones,
+        }, {
+          ...overlayLayers.protectionZonesNatura,
+        }],
       },
     },
   };

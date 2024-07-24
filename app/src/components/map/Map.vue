@@ -260,6 +260,7 @@ import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
+import ScaleLine from 'ol/control/ScaleLine';
 import { toStringXY } from 'ol/coordinate';
 import { DateTime } from 'luxon';
 
@@ -1031,6 +1032,7 @@ export default {
       className: 'ol-control ol-mouse-position',
       placeholder: '',
     }));
+    map.addControl(new ScaleLine());
 
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
@@ -1043,12 +1045,14 @@ export default {
       this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
-      view.setCenter(
-        fromLonLat(
-          [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
-        ),
-      );
-      view.setZoom(this.zoomProp);
+      setTimeout(() => {
+        view.setCenter(
+          fromLonLat(
+            [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
+          ),
+        );
+        view.setZoom(this.zoomProp);
+      }, 20);
     }
     this.$emit('ready', true);
 
