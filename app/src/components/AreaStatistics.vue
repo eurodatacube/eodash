@@ -237,12 +237,18 @@ export default {
   methods: {
     async fetchData() {
       this.contentStatus = 'loading';
+
       if (!this.hasAggregatedBefore) {
         this.hasAggregatedBefore = true;
       }
+
       const fetchPromises = this.labels.map((label) => {
-        let ssp = 'ssp119'; let confidence = 'low'; let height = '1_0'; let
-          time = '2020'; // default values
+        var vars = this.selectedIndicator.display.wmsVariables.variables;
+
+        var ssp = vars.ssp.selected;
+        var height = vars.stormSurge.selected;
+        var time = vars.time.selected;
+        var confidence = 'medium';
 
         switch (this.selectedIndex) {
           case 'scenario':
@@ -263,57 +269,93 @@ export default {
 
         this.isLoading = true;
 
-        return fetch('https://api.ideas.adamplatform.eu/', {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          body: JSON.stringify({
-            geometry: this.selectedArea,
-            ssp,
-            confidence,
-            storm_surge: height,
-            year: time,
+        return {
+          label,
+          promise: fetch('https://api.ideas.adamplatform.eu/', {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              geometry: this.selectedArea,
+              ssp,
+              // NOTE: Sistema's API has problems with low confidence, so this is is hardcoded for now. 
+              confidence,
+              storm_surge: height,
+              year: time,
+            }),
           }),
-        });
+        };
       });
 
       console.log(fetchPromises);
 
-      await Promise.allSettled(fetchPromises)
-        .then((promiseCollection) => {
-          // Merge them together, for parsing
-          // TODO: Add check to see if partial result was returned as status
-          const status = 'OK';
-          const data = promiseCollection.map((entry) => {
-            let d = [];
-            // We take here fulfilled datasets, rejected status is probably from timeout
-            if (entry.status === 'fulfilled') {
-              if (entry.value.status >= 400) {
-                entry.status = 'rejected';
-              }
-              d = entry.value.data;
-            }
-            return d;
-          }).flat();
+      const promiseCollection = await Promise.allSettled(fetchPromises);
 
-          this.contentStatus = getContentStatus(promiseCollection);
+      // Wait for all child promises to resolve
+      for (const item of promiseCollection) {
+        await item.value.promise;
+      }
+      //await Promise.allSettled(promiseCollection.map(item => item.value.promise));
 
-          // Check to see if there were rejected requests due to timeout
-          const timeoutDetected = promiseCollection.find((entry) => entry.status === 'rejected' || entry.value.status >= 400);
-          if (timeoutDetected) {
-            this.$store.commit('sendAlert', {
-              message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
-              type: 'warning',
-            });
-          }
-          const mergedData = {
-            status,
-            data,
+      var data = [];
+
+      for (const entry of promiseCollection) {
+        console.log(entry);
+      
+        let response = await entry.value.promise;
+
+        // We take here only fulfilled datasets
+        if (response.status == 200) {
+          const d = {
+            label: entry.value.label,
+            data: await response.json(),
           };
+          console.log(d);
+          data.push(d);
+        }
+      }
 
-          return this.aggregate(mergedData);
+      /*const data = promiseCollection.map((entry) => {
+        //
+      }).flat();*/
+
+      this.contentStatus = getContentStatus(promiseCollection);
+
+      // Check to see if there were rejected requests due to timeout
+      const timeoutDetected = promiseCollection.find((entry) => entry.status === 'rejected' || entry.value.status >= 400);
+      if (timeoutDetected) {
+        this.$store.commit('sendAlert', {
+          message: 'There were some issues retrieving the data, possibly only partial results are shown. Please try the request again.',
+          type: 'warning',
         });
+      }
+      const mergedData = {
+        status,
+        data,
+      };
+
+      console.log(mergedData);
+      try {
+        mergedData.data
+          .forEach((m) => {
+            this.data[m.label] = m;
+          });
+
+        this.aggregatedData = this.labels.reduce((acc, label) => {
+          const scenarioData = this.data[label];
+          acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
+          acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
+          acc.agriculture.push(scenarioData.cereals);
+          return acc;
+        }, { population: [], urban: [], agriculture: [] });
+
+        this.updateCharts();
+      } catch (error) {
+        console.error(error);
+      }
+
+      this.updateCharts();
 
       return fetchPromises;
     },
