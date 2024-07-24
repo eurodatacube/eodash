@@ -58,7 +58,7 @@
         style="background: #00417033"
         justify="center"
       >
-        <v-row v-if="areChartsVisible" class="charts">
+        <v-row class="charts">
           <canvas id="PopulationBarChart" />
           <canvas id="UrbanBarChart" />
           <canvas id="AgricultureBarChart" />
@@ -103,14 +103,86 @@ export default {
   name: 'AreaStatistics',
   data() {
     return {
+      charts: {
+        population: {
+          type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
+          data: {
+            labels: this.labels,
+            datasets: [{
+              label: 'Population',
+              data: [],
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
+            }],
+          },
+        },
+
+        urban: {
+          type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
+          data: {
+            labels: this.labels,
+            datasets: [{
+              label: 'Urban',
+              data: [],
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
+            }],
+          },
+        },
+
+        agriculture: {
+          type: 'bar',
+          options: {
+            legend: {
+              labels: {
+                // Disable colored boxes in legend
+                boxWidth: 0,
+              },
+            },
+          },
+          data: {
+            labels: this.labels,
+            datasets: [{
+              label: 'Agriculture',
+              data: [],
+              borderWidth: 0,
+              borderColor: '#FFF0',
+              backgroundColor: '#004170',
+            }],
+          },
+        },
+      },
       data: {},
-      aggregatedData: {},
+      aggregatedData: {
+        population: [],
+        urban: [],
+        agriculture: [],
+      },
       selectedIndex: 'scenario',
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
       },
       chartElements: [],
+      chartInstances: {},
       isLoading: false,
       hasAggregatedBefore: false,
       // One of 'idle', 'loading', 'nocontent', 'partial', 'success'
@@ -162,76 +234,6 @@ export default {
         default:
           return [];
       }
-    },
-
-    charts() {
-      return [
-        {
-          type: 'bar',
-          options: {
-            legend: {
-              labels: {
-                // Disable colored boxes in legend
-                boxWidth: 0,
-              },
-            },
-          },
-          data: {
-            labels: this.labels,
-            datasets: [{
-              label: 'Population',
-              data: this.aggregatedData.population,
-              borderWidth: 0,
-              borderColor: '#FFF0',
-              backgroundColor: '#004170',
-            }],
-          },
-        },
-
-        {
-          type: 'bar',
-          options: {
-            legend: {
-              labels: {
-                // Disable colored boxes in legend
-                boxWidth: 0,
-              },
-            },
-          },
-          data: {
-            labels: this.labels,
-            datasets: [{
-              label: 'Urban',
-              data: this.aggregatedData.urban,
-              borderWidth: 0,
-              borderColor: '#FFF0',
-              backgroundColor: '#004170',
-            }],
-          },
-        },
-
-        {
-          type: 'bar',
-          options: {
-            legend: {
-              labels: {
-                // Disable colored boxes in legend
-                boxWidth: 0,
-              },
-            },
-          },
-          data: {
-            labels: this.labels,
-            datasets: [{
-              label: 'Agriculture',
-              data: this.aggregatedData.agriculture,
-              borderWidth: 0,
-              borderColor: '#FFF0',
-              backgroundColor: '#004170',
-            }],
-          },
-        },
-      ];
     },
   },
   methods: {
@@ -290,6 +292,7 @@ export default {
 
       console.log(fetchPromises);
 
+      this.data = {};
       const promiseCollection = await Promise.allSettled(fetchPromises);
 
       // Wait for all child promises to resolve
@@ -298,27 +301,20 @@ export default {
       }
       //await Promise.allSettled(promiseCollection.map(item => item.value.promise));
 
-      var data = [];
+      var data = {};
 
       for (const entry of promiseCollection) {
         console.log(entry);
-      
+
         let response = await entry.value.promise;
 
         // We take here only fulfilled datasets
         if (response.status == 200) {
-          const d = {
-            label: entry.value.label,
-            data: await response.json(),
-          };
-          console.log(d);
-          data.push(d);
+          this.data[entry.value.label] = await response.json();
         }
       }
 
-      /*const data = promiseCollection.map((entry) => {
-        //
-      }).flat();*/
+      console.log(this.data);
 
       this.contentStatus = getContentStatus(promiseCollection);
 
@@ -330,30 +326,21 @@ export default {
           type: 'warning',
         });
       }
-      const mergedData = {
-        status,
-        data,
-      };
 
-      console.log(mergedData);
-      try {
-        mergedData.data
-          .forEach((m) => {
-            this.data[m.label] = m;
-          });
-
-        this.aggregatedData = this.labels.reduce((acc, label) => {
-          const scenarioData = this.data[label];
-          acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
-          acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
-          acc.agriculture.push(scenarioData.cereals);
-          return acc;
-        }, { population: [], urban: [], agriculture: [] });
-
-        this.updateCharts();
-      } catch (error) {
-        console.error(error);
+      for (const [label, values] of Object.entries(this.data)) {
+        this.aggregatedData.population.push(values.GHS_POP_E2020_GLOBE);
+        this.aggregatedData.urban.push(values.GHS_BUILT_S_E2020_GLOBE);
+        this.aggregatedData.agriculture.push(values.cereals);
       }
+/*
+      this.aggregatedData = this.labels.reduce((acc, label) => {
+        const scenarioData = this.data[label];
+        acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
+        acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
+        acc.agriculture.push(scenarioData.cereals);
+        return acc;
+      }, { population: [], urban: [], agriculture: [] });
+*/
 
       this.updateCharts();
 
@@ -370,15 +357,10 @@ export default {
             this.data[m.label] = m.data;
           });
 
-        this.aggregatedData = this.labels.reduce((acc, label) => {
-          const scenarioData = this.data[label];
-          acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
-          acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
-          acc.agriculture.push(scenarioData.cereals);
-          return acc;
-        }, { population: [], urban: [], agriculture: [] });
-
-        this.updateCharts();
+        const scenarioData = this.data[label];
+        this.aggregatedData.population.push(scenarioData.GHS_POP_E2020_GLOBE);
+        this.aggregatedData.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
+        this.aggregatedData.agriculture.push(scenarioData.cereals);
       } catch (error) {
         console.error(error);
       }
@@ -387,17 +369,21 @@ export default {
     },
 
     updateCharts() {
-      const chartElements = [
-        document.getElementById('PopulationBarChart'),
-        document.getElementById('UrbanBarChart'),
-        document.getElementById('AgricultureBarChart'),
-      ];
+      this.contentStatus = 'success';
+      console.log('Updating charts');
+      console.log(this.aggregatedData);
 
-      chartElements.forEach((element, index) => {
-        if (element) {
-          this.chartElements.push(new Chart(element, this.charts[index]));
-        }
-      });
+      this.charts.population.data.datasets[0].data  = this.aggregatedData.population;
+      this.charts.urban.data.datasets[0].data       = this.aggregatedData.urban;
+      this.charts.agriculture.data.datasets[0].data = this.aggregatedData.agriculture;
+
+      this.charts.population.data.labels  = Object.keys(this.data);
+      this.charts.urban.data.labels  = Object.keys(this.data);
+      this.charts.agriculture.data.labels  = Object.keys(this.data);
+
+      this.chartInstances.population  = new Chart(document.getElementById('PopulationBarChart'),  this.charts.population);
+      this.chartInstances.urban       = new Chart(document.getElementById('UrbanBarChart'),       this.charts.urban);
+      this.chartInstances.agriculture = new Chart(document.getElementById('AgricultureBarChart'), this.charts.agriculture);
     },
   },
 };
