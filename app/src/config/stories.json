@@ -99,7 +99,38 @@
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
       }
     },
-    "extreme-events": {},
+    "extreme-events": {
+      "el-nino-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
+        "title": "El Niño 2023-2024 and extreme temperatures",
+        "subtitle": "Read more about record-breaking temperatures",
+        "image": "https://placehold.co/1024x860?text=extreme temperatures",
+        "imagePlaceholder": "https://placehold.co/512x256?text=extreme temperatures"
+      },
+      "hunga-tonga-aerosols": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_HUNGA_ERUPTION_2.md",
+        "title": "Tracking aerosol plumes from Hunga eruption of 2022",
+        "subtitle": "Community story from ESA Earth System Challenge",
+        "image": "https://placehold.co/1024x860?text=hunga tonga aerosols",
+        "imagePlaceholder": "https://placehold.co/512x256?text=hunga tonga aerosols",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/science_hub_logos.png"
+      },
+      "air-pollution-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_POLLUTION_2.md",
+        "title": "Extreme air pollution episodes in Northern India and Pakistan",
+        "subtitle": "Community story from ESA Earth System Challenge",
+        "image": "https://placehold.co/1024x860?text=air pollution extremes",
+        "imagePlaceholder": "https://placehold.co/512x256?text=air pollution extremes",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/science_hub_logos.png"
+      },
+      "sea-surface-temperature-rise": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_SST.md",
+        "title": "El Niño 2023-2024 impacts: rise in global sea surface temperatures",
+        "subtitle": "Read more about record-breaking sea surface temperatures",
+        "image": "https://placehold.co/1024x860?text=sea surface temperature rise",
+        "imagePlaceholder": "https://placehold.co/512x256?text=sea surface temperature rise"
+      }
+    },
     "cryosphere": {
       "thwaites-intro": {
         "originalDashboardId": "e7bc4529a0c4a581",
