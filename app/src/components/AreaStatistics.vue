@@ -14,7 +14,10 @@
     </v-row>
     <v-row>
       <div class="pa-2">
-        Select storm surge, years, or scenarios and additional parameters from the drop-down menu to generate charts representing predictions on population, build-up areas and agriculture areas.
+        Select storm surge, years, or scenarios and additional
+        parameters from the drop-down menu to
+        generate charts representing predictions
+        on population, build-up areas and agriculture areas.
       </div>
     </v-row>
     <div
