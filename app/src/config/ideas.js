@@ -917,9 +917,30 @@ export const globalIndicators = [
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
         }, {
-          ...baseLayers.ESA_WORLD_COVER,
-          visible: true,
-          opacity: 0.7,
+            // dissolved individual bands as layers
+            protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS1_hopi_b4/cm_legend.png',
+            sources: [
+              { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator1/indicator1_v1_houhpi_Winter_europe_3857_b4.tif' },
+            ],
+            name: 'Number of days where air pollution exceeded WHO threshold',
+            visible: true,
+            opacity: 0.5,
+            style: {
+              color: [
+                'case',
+                ['>', ['band', 1], 0],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops('hot', 0, 90, 40, true),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
         }],
       },
     },
