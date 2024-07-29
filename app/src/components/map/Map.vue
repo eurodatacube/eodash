@@ -144,6 +144,7 @@
             :elapsedSeconds="minesweeper.elapsedSeconds"
             :is-enabled="this.minesweeper.isDialogEnabled"
             :bbox="minesweeper.bbox"
+            :enableSpeciesDisplay="minesweeper.spDisplay"
             @close="minesweeper.isDialogEnabled = false"
           />
         </div>
@@ -376,6 +377,9 @@ export default {
         area: this.initialDrawnArea || this.$store.state.features.selectedArea,
       };
     },
+    minesweeperOptions() {
+      return this?.mergedConfigsData[0]?.minesweeperOptions;
+    },
     mergedConfigsData() {
       // only display the "special layers" for global indicators
       if (!this.indicator) {
@@ -485,8 +489,8 @@ export default {
         // geoJsonFormat
         return [];
       }
-      if (this.mergedConfigsData[0]?.minesweeperOptions?.locations) {
-        const location = this.mergedConfigsData[0].minesweeperOptions.locations[
+      if (this?.minesweeperOptions?.locations) {
+        const location = this.minesweeperOptions.locations[
           this.selectedLocationIndex
         ];
         return transformExtent(location.bbox,
@@ -517,11 +521,11 @@ export default {
       return position;
     },
     isMinesweeperConfigured() {
-      return this.indicator && this.mergedConfigsData[0].minesweeperOptions;
+      return this.indicator && this?.minesweeperOptions;
     },
     selectedLocationIndex() {
       return this.isMinesweeperConfigured
-        && this.mergedConfigsData[0].minesweeperOptions.selectedLocationIndex;
+        && this?.minesweeperOptions.selectedLocationIndex;
     },
     isMinesweeperDebugEnabled() {
       return this.isMinesweeperConfigured
@@ -529,6 +533,14 @@ export default {
     },
   },
   watch: {
+    async minesweeperOptions() {
+      if (this.isMinesweeperConfigured) {
+        await this.tearDownMinesweeper();
+        await this.setupMinesweeper();
+      } else {
+        this.tearDownMinesweeper();
+      }
+    },
     getFeatures(features) {
       if (this.appConfig.id === 'gtif' || this.$route.name === 'demo') {
         return;
@@ -620,15 +632,6 @@ export default {
           });
         }
       },
-    },
-    async selectedLocationIndex() {
-      // Initialize Minesweeper game if options are present in the config.
-      if (this.isMinesweeperConfigured) {
-        await this.tearDownMinesweeper();
-        await this.setupMinesweeper();
-      } else {
-        this.tearDownMinesweeper();
-      }
     },
     enableCompare(enabled) {
       // Make sure compare data is loaded if required
@@ -1178,9 +1181,10 @@ export default {
         const date = new Date();
         seedString = date.toDateString();
       }
-      const location = this.mergedConfigsData[0].minesweeperOptions.locations[
+      const location = this?.minesweeperOptions.locations[
         this.selectedLocationIndex
       ];
+      this.minesweeper.spDisplay = this?.minesweeperOptions.enableSpeciesDisplay;
       const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
       this.minesweeper.bbox = bbox;
 
@@ -1207,7 +1211,7 @@ export default {
       }
 
       this.minesweeper.game = new Minesweeper(map, {
-        ...this.mergedConfigsData[0].minesweeperOptions,
+        ...this.minesweeperOptions,
         bbox: this.minesweeper.bbox,
         selectedLocationIndex: this.selectedLocationIndex,
       });

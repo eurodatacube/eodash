@@ -125,7 +125,15 @@ const setupGrid = (game) => {
   };
 };
 
-function getColorFromValue(v, min = 1, max = 8) {
+function getColorFromValue(
+  v, minValue = 1, maxValue = 8,
+  minColor = {
+    r: 255, g: 255, b: 255, a: 0.0,
+  },
+  maxColor = {
+    r: 0, g: 0, b: 0, a: 1.0,
+  },
+) {
   let value;
 
   if (Number.isNaN(v)) {
@@ -135,24 +143,16 @@ function getColorFromValue(v, min = 1, max = 8) {
   value = v;
 
   // Ensure the value is within the expected range
-  value = Math.max(min, Math.min(max, value));
+  value = Math.max(minValue, Math.min(maxValue, value));
 
   // Calculate the interpolation factor
-  const factor = (value - min) / (max - min);
+  const factor = (value - minValue) / (maxValue - minValue);
 
-  // Interpolate between dark green (rgba(0, 100, 0, 0.6)) and light green (rgba(0, 255, 0, 0.6))
-  const darkGreen = {
-    r: 0, g: 100, b: 0, a: 0.6,
-  };
-  const lightGreen = {
-    r: 0, g: 255, b: 0, a: 0.6,
-  };
-
-  // Interpolate each channel separately
-  const r = Math.round(lightGreen.r * factor + darkGreen.r * (1 - factor));
-  const g = Math.round(lightGreen.g * factor + darkGreen.g * (1 - factor));
-  const b = Math.round(lightGreen.b * factor + darkGreen.b * (1 - factor));
-  const a = lightGreen.a * factor + darkGreen.a * (1 - factor);
+  // Interpolate between minColor and maxColor each channel separately
+  const r = Math.round(maxColor.r * factor + minColor.r * (1 - factor));
+  const g = Math.round(maxColor.g * factor + minColor.g * (1 - factor));
+  const b = Math.round(maxColor.b * factor + minColor.b * (1 - factor));
+  const a = maxColor.a * factor + minColor.a * (1 - factor);
 
   // Construct the rgba color string
   const color = `rgba(${r}, ${g}, ${b}, ${a})`;
@@ -160,7 +160,7 @@ function getColorFromValue(v, min = 1, max = 8) {
   return color;
 }
 
-const getTileStyle = (tile) => {
+const getTileStyle = (tile, minValue, maxValue, minColor, maxColor) => {
   let style;
   if (tile.isRevealed === true) {
     if (tile.isMine) {
@@ -177,7 +177,11 @@ const getTileStyle = (tile) => {
     } else {
       style = new Style({
         stroke: new Stroke({ color: '#000', width: 1 }),
-        fill: new Fill({ color: getColorFromValue(tile.value) }),
+        fill: new Fill({
+          color: getColorFromValue(
+            tile.value, minValue, maxValue, minColor, maxColor,
+          ),
+        }),
         text: new Text({
           text: tile.adjacentMines ? tile.adjacentMines.toString() : '0',
           font: '16px Calibri,sans-serif',
@@ -234,7 +238,7 @@ const updateTileVisuals = (
     vectorSource.removeFeature(existingFeature);
   }
   // Apply tile styling for mines, count, unexplored and flagged tiles.
-  feature.setStyle(getTileStyle(tile));
+  feature.setStyle(getTileStyle(tile, game.minValue, game.maxValue, game.minColor, game.maxColor));
   vectorSource.addFeature(feature);
 
   // Force redraw
@@ -353,7 +357,7 @@ const drawGameBoard = (game, grid, vectorSource) => {
       const hexCoords = grid.getHexagon([x + xOffset, y]);
       const feature = new Feature(new Polygon([hexCoords]));
 
-      const style = getTileStyle(tile);
+      const style = getTileStyle(tile, game.minValue, game.maxValue, game.minColor, game.maxColor);
       feature.setStyle(style);
       vectorSource.addFeature(feature);
     }

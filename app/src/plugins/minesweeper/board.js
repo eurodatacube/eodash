@@ -1,5 +1,6 @@
 import { fromUrl } from 'geotiff';
 import proj4 from 'proj4';
+import getPercentile from './utils';
 
 const EVEN_NEIGHBOR_OFFSETS = [[-1, -1], [0, -1], [-1, 0], [1, 0], [-1, 1], [0, 1]];
 const ODD_NEIGHBOR_OFFSETS = [[0, -1], [1, -1], [-1, 0], [1, 0], [0, 1], [1, 1]];
@@ -24,6 +25,10 @@ export default class HexSweeperGame {
     this.gameSize = null;
     this.fieldCount = 0;
     this.mineCount = 0;
+    this.minColor = options.minColor;
+    this.maxColor = options.maxColor;
+    this.minValue = options.minValue;
+    this.maxValue = options.maxValue;
   }
 
   getUncoveredAreaPercent() {
@@ -121,15 +126,21 @@ export default class HexSweeperGame {
       const center = proj4(options.geotiff.projection, 'EPSG:3857', centerInLonLat);
       // not actually center but left bottom corner of start of board but subtract ~1.5 hex
       this.center = [center[0] - 1.0 * this.gameSize, center[1] + 0.5 * this.gameSize];
-
+      let threshold = 0;
+      if (typeof location.isMineCondition === 'number') {
+        threshold = getPercentile(data, location.isMineCondition);
+      }
       // Assuming the data is a single band and the size matches the game board
       for (let y = 0; y < this.height; y++) {
         const row = [];
         for (let x = 0; x < this.width; x++) {
           const value = data[y * this.width + x];
           let isMine;
-          if (location.isMineCondition) {
+          if (typeof location.isMineCondition === 'function') {
             isMine = !Number.isNaN(value) && location.isMineCondition(value);
+          } else if (typeof location.isMineCondition === 'number') {
+            // mines are above threshold based on percentage of values
+            isMine = !Number.isNaN(value) && (value > threshold);
           } else {
             isMine = Math.round(Math.random());
           }
