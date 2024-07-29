@@ -304,7 +304,7 @@ export const globalIndicators = [
                   },
                   {
                     id: '0_5',
-                    description: '05',
+                    description: '5',
                   },
                   {
                     id: '1_0',
@@ -336,10 +336,6 @@ export const globalIndicators = [
                   {
                     id: 'medium',
                     description: 'Medium',
-                  },
-                  {
-                    id: 'low',
-                    description: 'Low',
                   },
                 ],
               },

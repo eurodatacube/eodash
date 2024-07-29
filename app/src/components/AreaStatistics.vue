@@ -1,7 +1,8 @@
 <template>
+<v-card>
   <v-col>
     <v-row class="pt-4 area-statistics justify-space-between align-center mx-2">
-      <h2>Area Statistics</h2>
+      <h3>Custom Area Statistics</h3>
 
       <v-btn
         @click="fetchData"
@@ -26,52 +27,57 @@
         >
           <v-row class="mb-1">
             <v-radio
-              label="Scenarios"
+              label="SSP Scenarios"
               value="scenario"
             />
           </v-row>
 
           <v-row class="mb-1">
             <v-radio
-              label="Storm surge"
+              label="Storm surge in m"
               value="height"
             />
           </v-row>
 
           <v-row class="mb-1">
             <v-radio
-              label="Years"
+              label="Model years"
               value="time"
             />
           </v-row>
 
-          <v-row class="mb-1">
+          <!-- <v-row class="mb-1">
             <v-radio
               label="Confidence"
               value="confidence"
             />
-          </v-row>
+          </v-row> -->
         </v-col>
       </v-radio-group>
+      <span v-if="contentStatus === 'nocontent'">No data available for the selected area.</span>
+      <span v-if="contentStatus === 'loading'">Loading...</span>
+      <span v-if="contentStatus === 'idle'">
+            Draw an area on the map using rectangle/polygon buttons to generate area statistics.
+      </span>
       <v-col
         class="py-3 mx-2 mt-1 px-10 rounded text-center"
         style="background: #00417033"
         justify="center"
+        v-if="contentStatus !== 'idle'"
       >
         <v-row class="charts">
           <canvas id="PopulationBarChart" />
+        </v-row>
+        <v-row class="charts">
           <canvas id="UrbanBarChart" />
+        </v-row>
+        <v-row class="charts">
           <canvas id="AgricultureBarChart" />
         </v-row>
-
-        <span v-if="contentStatus === 'nocontent'">No data available for the selected area.</span>
-        <span v-if="contentStatus === 'loading'">Loading...</span>
-        <span v-if="contentStatus === 'idle'">
-          Select an area on the map to generate area statistics.
-        </span>
       </v-col>
     </div>
   </v-col>
+</v-card>
 </template>
 
 <script>
@@ -107,11 +113,24 @@ export default {
         population: {
           type: 'bar',
           options: {
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            },
             legend: {
               labels: {
                 // Disable colored boxes in legend
                 boxWidth: 0,
               },
+            },
+            scales: {
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'people',
+                },
+              }],
             },
           },
           data: {
@@ -129,11 +148,24 @@ export default {
         urban: {
           type: 'bar',
           options: {
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            },
             legend: {
               labels: {
                 // Disable colored boxes in legend
                 boxWidth: 0,
               },
+            },
+            scales: {
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'm²',
+                },
+              }],
             },
           },
           data: {
@@ -151,11 +183,24 @@ export default {
         agriculture: {
           type: 'bar',
           options: {
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            },
             legend: {
               labels: {
                 // Disable colored boxes in legend
                 boxWidth: 0,
               },
+            },
+            scales: {
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'ha',
+                },
+              }],
             },
           },
           data: {
@@ -184,7 +229,6 @@ export default {
       chartElements: [],
       chartInstances: {},
       isLoading: false,
-      hasAggregatedBefore: false,
       // One of 'idle', 'loading', 'nocontent', 'partial', 'success'
       contentStatus: 'idle',
     };
@@ -238,19 +282,27 @@ export default {
   },
   methods: {
     async fetchData() {
+      this.aggregatedData.population = [];
+      this.aggregatedData.urban = [];
+      this.aggregatedData.agriculture = [];
+      if (this.chartInstances.population) {
+        this.chartInstances.population.destroy();
+      }
+      if (this.chartInstances.urban) {
+        this.chartInstances.urban.destroy();
+      }
+      if (this.chartInstances.agriculture) {
+        this.chartInstances.agriculture.destroy();
+      }
       this.contentStatus = 'loading';
 
-      if (!this.hasAggregatedBefore) {
-        this.hasAggregatedBefore = true;
-      }
-
       const fetchPromises = this.labels.map((label) => {
-        var vars = this.selectedIndicator.display.wmsVariables.variables;
+        const vars = this.selectedIndicator.display.wmsVariables.variables;
 
-        var ssp = vars.ssp.selected;
-        var height = vars.stormSurge.selected;
-        var time = vars.time.selected;
-        var confidence = 'medium';
+        let ssp = vars.ssp.selected;
+        let height = vars.stormSurge.selected;
+        let time = vars.time.selected;
+        let confidence = 'medium';
 
         switch (this.selectedIndex) {
           case 'scenario':
@@ -281,7 +333,8 @@ export default {
             body: JSON.stringify({
               geometry: this.selectedArea,
               ssp,
-              // NOTE: Sistema's API has problems with low confidence, so this is is hardcoded for now. 
+              // NOTE: Sistema's API has problems with low confidence,
+              // so this is is hardcoded for now.
               confidence,
               storm_surge: height,
               year: time,
@@ -290,31 +343,26 @@ export default {
         };
       });
 
-      console.log(fetchPromises);
-
       this.data = {};
       const promiseCollection = await Promise.allSettled(fetchPromises);
 
       // Wait for all child promises to resolve
-      for (const item of promiseCollection) {
-        await item.value.promise;
+      for (const item of promiseCollection) {  // eslint-disable-line
+        await item.value.promise;  // eslint-disable-line
       }
-      //await Promise.allSettled(promiseCollection.map(item => item.value.promise));
 
-      var data = {};
-
-      for (const entry of promiseCollection) {
-        console.log(entry);
-
-        let response = await entry.value.promise;
-
+      for (const entry of promiseCollection) {  // eslint-disable-line
+        const response = await entry.value.promise;  // eslint-disable-line
+        let sanitizedKey = entry.value.label;
+        if (this.selectedIndex === 'height') {
+          // special mapping for storm_surge labels, replacing '_' with ''
+          sanitizedKey = parseInt(sanitizedKey.replace('_', '').replace('00', '0').replace('05', '5'), 10);
+        }
         // We take here only fulfilled datasets
-        if (response.status == 200) {
-          this.data[entry.value.label] = await response.json();
+        if (response.status === 200) {
+          this.data[sanitizedKey] = await response.json();  // eslint-disable-line
         }
       }
-
-      console.log(this.data);
 
       this.contentStatus = getContentStatus(promiseCollection);
 
@@ -327,62 +375,30 @@ export default {
         });
       }
 
-      for (const [label, values] of Object.entries(this.data)) {
+      for (const [_, values] of Object.entries(this.data)) {  // eslint-disable-line
         this.aggregatedData.population.push(values.GHS_POP_E2020_GLOBE);
         this.aggregatedData.urban.push(values.GHS_BUILT_S_E2020_GLOBE);
-        this.aggregatedData.agriculture.push(values.cereals);
+        this.aggregatedData.agriculture.push(Math.round(values.cereals * 100) / 100);
       }
-/*
-      this.aggregatedData = this.labels.reduce((acc, label) => {
-        const scenarioData = this.data[label];
-        acc.population.push(scenarioData.GHS_POP_E2020_GLOBE);
-        acc.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
-        acc.agriculture.push(scenarioData.cereals);
-        return acc;
-      }, { population: [], urban: [], agriculture: [] });
-*/
 
       this.updateCharts();
 
       return fetchPromises;
     },
 
-    aggregate(mergedData) {
-      console.log(mergedData);
-      try {
-        mergedData.data
-          .forEach((m) => {
-            console.log(m);
-            console.log(m.data);
-            this.data[m.label] = m.data;
-          });
-
-        const scenarioData = this.data[label];
-        this.aggregatedData.population.push(scenarioData.GHS_POP_E2020_GLOBE);
-        this.aggregatedData.urban.push(scenarioData.GHS_BUILT_S_E2020_GLOBE);
-        this.aggregatedData.agriculture.push(scenarioData.cereals);
-      } catch (error) {
-        console.error(error);
-      }
-
-      this.updateCharts();
-    },
-
     updateCharts() {
       this.contentStatus = 'success';
-      console.log('Updating charts');
-      console.log(this.aggregatedData);
 
-      this.charts.population.data.datasets[0].data  = this.aggregatedData.population;
-      this.charts.urban.data.datasets[0].data       = this.aggregatedData.urban;
+      this.charts.population.data.datasets[0].data = this.aggregatedData.population;
+      this.charts.urban.data.datasets[0].data = this.aggregatedData.urban;
       this.charts.agriculture.data.datasets[0].data = this.aggregatedData.agriculture;
 
-      this.charts.population.data.labels  = Object.keys(this.data);
-      this.charts.urban.data.labels  = Object.keys(this.data);
-      this.charts.agriculture.data.labels  = Object.keys(this.data);
+      this.charts.population.data.labels = Object.keys(this.data);
+      this.charts.urban.data.labels = Object.keys(this.data);
+      this.charts.agriculture.data.labels = Object.keys(this.data);
 
-      this.chartInstances.population  = new Chart(document.getElementById('PopulationBarChart'),  this.charts.population);
-      this.chartInstances.urban       = new Chart(document.getElementById('UrbanBarChart'),       this.charts.urban);
+      this.chartInstances.population = new Chart(document.getElementById('PopulationBarChart'), this.charts.population);
+      this.chartInstances.urban = new Chart(document.getElementById('UrbanBarChart'), this.charts.urban);
       this.chartInstances.agriculture = new Chart(document.getElementById('AgricultureBarChart'), this.charts.agriculture);
     },
   },
@@ -391,6 +407,6 @@ export default {
 
 <style>
 .charts canvas {
-  max-width: 33%;
+  max-width: 100%;
 }
 </style>

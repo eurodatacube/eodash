@@ -1,7 +1,7 @@
 // Function to calculate the xx th percentile
 export default function getPercentile(arr, percentile) {
   // Create a copy of the array and sort the copy
-  const sortedArr = [...arr].filter((item) => item != 0).sort((a, b) => a - b);
+  const sortedArr = [...arr].filter((item) => item !== 0).sort((a, b) => a - b);
   // Calculate the index for the given percentile
   const index = (percentile / 100) * (sortedArr.length - 1);
   // If the index is an integer, return the value at that index
