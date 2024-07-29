@@ -2,11 +2,9 @@
   <v-container>
     <v-row align="center">
       <v-col cols="12" class="pa-0">
-        <v-subheader v-if="featureQueryParamsData.title" class="pa-0">
-          <b>{{ featureQueryParamsData.title }}</b>
-        </v-subheader>
-      </v-col>
-      <v-row class="ma-0" cols="6"
+        <h3 v-if="featureQueryParamsData.title">{{ featureQueryParamsData.title }}</h3>
+    </v-col>
+    <v-row class="ma-0" cols="6"
         v-for="configItem in featureQueryParamsData.items"
         :key="getConfigItemLabel(configItem)">
         <v-checkbox class="ma-0"
