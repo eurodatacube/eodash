@@ -260,7 +260,9 @@
             :mergedConfigsData="mergedConfigsData[0]"
           >
           </custom-wms-variables>
-          <AreaStatistics />
+          <AreaStatistics v-if="mergedConfigsData
+            && mergedConfigsData[0].enableCustomAreaStatistics">
+          </AreaStatistics>
           <FeatureQueryParams
             v-if="indicatorObject.display.features
               && indicatorObject.display.features.featureQueryParams"
