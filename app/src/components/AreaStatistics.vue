@@ -12,9 +12,13 @@
         small
       >Generate</v-btn>
     </v-row>
-
+    <v-row>
+      <div class="pa-2">
+        Select storm surge, years, or scenarios and additional parameters from the drop-down menu to generate charts representing predictions on population, build-up areas and agriculture areas.
+      </div>
+    </v-row>
     <div
-      class="d-flex justify-space-around mt-3"
+      class="d-flex justify-space-around"
       :class="{'flex-column': $vuetify.breakpoint.mdAndUp}"
     >
       <v-radio-group v-model="selectedIndex">
