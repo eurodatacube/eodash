@@ -2,6 +2,7 @@
 
 The strength and frequency of La Niña and El Niño were once determined entirely by natural factors, but now the climate patterns are evidencing the contribution of human actions.  A [new study](https://www.nature.com/articles/s43017-023-00427-8 ) set out to determine the impact of greenhouse gases emissions on the major climate driver ENSO, suggesting that climate change is making La Niña and El Niño [more frequent and more extreme]https://www.nature.com/articles/s41586-023-06236-9 ). Around 40 to 50 million people are currently [affected in 16 countries](https://wmo.int/media/news/un-el-nino-debate-emphasizes-need-integrated-action ), in particular in the regions of eastern and southern Africa, the Horn of Africa, Latin America and the Caribbean as well as the Asia-Pacific region. Severe drought and associated food security, flooding, heavy rains, and high temperatures caused by [El Niño caused a wide range of health problems](https://www.esa.int/Applications/Observing_the_Earth/Our_oceans_are_in_hot_water ), including disease outbreaks, malnutrition and heat stress.
 
+## Simple Image Example <!--{as="img" src="https://www.climate.gov/sites/default/files/ENSO-states-viz_0.jpg" style="width: 100%; height: 600px;"}-->
 
 ## Sea surface temperatures (SST) and Europe’s Marine Heatwave
 The unprecedented sea surface temperatures have been associated with marine heatwaves: periods of unusual high ocean temperatures. These can have significant and sometimes devastating impacts on ocean ecosystems, and biodiversity, potentially leading to socio-economic impacts due to their impact on industry such as fisheries, tourism or aquaculture. Sea surface temperatures and marine heatwaves affected various regions in the summer of 2023, as reported by the Copernicus Climate Change Service during June-July-August. The North Atlantic and the Mediterranean basin were particularly impacted by these heatwaves, leading to [significant sea surface temperature anomalies](https://marine.copernicus.eu/news/2023-northern-hemisphere-summer-record-breaking-oceanic-events ) and severe marine heatwaves . 
@@ -13,16 +14,16 @@ Regarding this year, in January 2024 global sea surface temperature [was the hig
 
 *Ocean heat content anomalies (0-300 metres deep) for June 2023. Credits: Copernicus Marine Service / Mercator Ocean International *
 
-## High SSTs near Japan
+## 
 
 ## Map Tour Example <!--{ as="eox-map" mode="tour" }-->
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[15,48] zoom="5" animationOptions="{duration:500}" }-->
-#### High SSTs near Japan
+### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[160,35] zoom="5" animationOptions="{duration:500}" }-->
+#### High Sea Surface Temperatures near Japan
 Overall, SSTs tend to be higher than normal, especially in the Pacific Ocean off the coast of Tohoku and Hokkaido, where they are more than 5°C higher than normal.
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[15,48] zoom="5" animationOptions="{duration:500}" }-->
-#### Tour Title
+### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[140,38] zoom="6" animationOptions="{duration:500}" }-->
+#### The Kuroshio extension
  The Kuroshio extension, which normally flows eastward from Joban-oki, moved northward to Sanriku-oki this season, bringing high water temperatures. 
 
 ## 
