@@ -531,16 +531,16 @@ const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction =
   return dateArray;
 };
 
-const getWeeklyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
+// const getWeeklyDates = (start, end) => {
+//   let currentDate = DateTime.fromISO(start);
+//   const stopDate = DateTime.fromISO(end);
+//   const dateArray = [];
+//   while (currentDate <= stopDate) {
+//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+//     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
+//   }
+//   return dateArray;
+// };
 
 const createRECCAP2Config = (indicatorCode, time) => ({
   properties: {
@@ -715,7 +715,6 @@ export const globalIndicators = [
       // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_1_sea_ice_concentration_arctic',
-        time: getDailyDates('1978-11-01', '2024-01-30'),
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
@@ -735,7 +734,6 @@ export const globalIndicators = [
       // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_sea_ice_concentration_antarctic',
-        time: getDailyDates('1978-11-01', '2024-01-30'),
         display: {
           baseLayers: antarcticBaseMaps,
           overlayLayers: antarcticOverlayMaps,
@@ -784,7 +782,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_West_Antarctica_S1',
-        time: getWeeklyDates('2017-05-18', '2022-01-15'),
         display: {
           ...antarcticDatasets,
           dateFormatFunction: shWeeklyTimeFunction,
@@ -798,7 +795,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Meltmap',
-        time: getDailyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -847,7 +843,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: '4D_Greenland_Meltmap',
-        time: getDailyDates('2007-01-02', '2021-12-28'),
         display: polarSHDatasets,
       },
     },
