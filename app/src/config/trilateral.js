@@ -560,26 +560,17 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_2'),
   createRECCAP2Config('RECCAP2_3'),
   createRECCAP2Config('RECCAP2_4'),
-  createRECCAP2Config('RECCAP2_5', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_6', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_7', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_8', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_9', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_10', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_11', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_12', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_5'),
+  createRECCAP2Config('RECCAP2_6'),
+  createRECCAP2Config('RECCAP2_7'),
+  createRECCAP2Config('RECCAP2_8'),
+  createRECCAP2Config('RECCAP2_9'),
+  createRECCAP2Config('RECCAP2_10'),
+  createRECCAP2Config('RECCAP2_11'),
+  createRECCAP2Config('RECCAP2_12'),
   createRECCAP2Config('ESDC_gross_primary_productivity', getDailyDates('2001-01-05', '2018-12-23', 8)),
   createRECCAP2Config('ESDC_net_ecosystem_exchange', getDailyDates('2001-01-05', '2018-12-23', 8)),
   createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
-  {
-    properties: {
-      // override dates for precipitation
-      indicatorObject: {
-        indicator: 'ESDL_Hydrology_Precipitation',
-        time: getDailyDates('2015-01-01', '2021-12-31'),
-      },
-    },
-  },
   {
     properties: {
       indicatorObject: {
