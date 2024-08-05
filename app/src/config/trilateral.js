@@ -500,16 +500,16 @@ export const replaceMapTimes = {
   'US05-E10c': e10cDates,
 };
 
-const getYearlyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
-    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
-  }
-  return dateArray;
-};
+// const getYearlyDates = (start, end) => {
+//   let currentDate = DateTime.fromISO(start);
+//   const stopDate = DateTime.fromISO(end);
+//   const dateArray = [];
+//   while (currentDate <= stopDate) {
+//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+//     currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+//   }
+//   return dateArray;
+// };
 
 const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
