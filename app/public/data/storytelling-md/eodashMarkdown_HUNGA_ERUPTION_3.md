@@ -126,6 +126,7 @@ Other precursor information about volcanic activity comes from below the Earth�
 5.	Legras, B., Duchamp, C., Sellitto, P., Podglajen, A., Carboni, E., Siddans, R., et al. (2022). The evolution and dynamics of the Hunga Tonga–Hunga Ha'apai sulfate aerosol plume in the stratosphere. Atmospheric Chemistry and Physics, 22(22), 14957–14970. https://doi.org/10.5194/acp-22-14957-2022
 6.	Parker, D.E., Wilson, H., Jones, P.D., Christy, J.R. & Folland, C.K. (1996). The Impact of Mount Pinatubo on World-Wide Temperatures. Int. J. Climatol., 16: 487-497. https://doi.org/10.1002/(SICI)1097-0088(199605)16:5<487::AID-JOC39>3.0.CO;2-J
 7.	Sellitto, P., Podglajen, A., Belhadji, R., Boichu, M., Carboni, E., Cuesta, J., Duchamp, C., et al. (2022). The unexpected radiative impact of the Hunga Tonga eruption of 15th January 2022. Communications Earth & Environment, 3(1), 288. https://doi.org/10.1038/s43247-022-00618-z
+8.	Siddans, R., Carboni, E., Sellitto, P., & Legras, B. (2022). RAL IMS retrieval of SO2 and sulphates (January to April 2022) (1.0.0). Zenodo [data set]. https://doi.org/10.5281/zenodo.7102472
 
 
 
