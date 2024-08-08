@@ -136,7 +136,7 @@ export default {
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
       ],
       barChartIndicators: [
-        'E11', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2',
+        'E11', 'E13d', 'E200', 'E9', 'E1', 'E13b2', 'E1_S2', 'E13b',
         'E1a_S2', 'E2_S2', 'E4', 'E5', 'C1', 'C2', 'C3', 'E13n',
         'E1b', 'GGI_CO2', 'GGI_CH4', 'GGI_N2O',
         // Year group comparison
