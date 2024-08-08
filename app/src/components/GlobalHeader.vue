@@ -6,7 +6,7 @@
     clipped-left
     clipped-right
     flat
-    :color="currentTheme ? currentTheme.color : 'primary'"
+    :color="currentTheme && appConfig.id !== 'esa' ? currentTheme.color : 'primary'"
     class="white--text"
     :style="`z-index: 8; ${appConfig.id === 'esa'
       ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
@@ -170,7 +170,7 @@
       </v-btn>
     </v-toolbar-title>
 
-    <template v-if="currentTheme">
+    <template v-if="currentTheme && appConfig.id !== 'esa'">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
 
       <v-tooltip right close-delay="1000" nudge-left="20">
