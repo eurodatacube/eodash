@@ -74,7 +74,7 @@
       </v-container>
     </v-main>
     <global-footer
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      :color="getCurrentTheme && appConfig.id !== 'esa' ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>

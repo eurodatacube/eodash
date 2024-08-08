@@ -430,7 +430,7 @@
       :color="$vuetify.theme.dark ? '#212121' : '#fff'"
     ></v-overlay>
     <global-footer
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      :color="getCurrentTheme && appConfig.id !== 'esa' ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>
