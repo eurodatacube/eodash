@@ -119,13 +119,16 @@ function createXYZDisplay(config, jsonData) {
   const display = {
     protocol: 'xyz',
     tileSize: 256,
-    url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
+    // we add a time placeholder to the url (veda cog endpoint)
+    url: `${config.href}${'&{time}'}`,
     name: jsonData.id,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
   };
   if (jsonData.endpointtype === 'VEDA_tiles') {
-    display.dateFormatFunction = (date) => `item=${date[1]}`;
+    display.url = config.href.replace('{item}', '{time}');
+    // will actually replace the placeholder with actual STAC Item name
+    display.dateFormatFunction = (date) => `${date[1]}`;
   }
   return display;
 }
