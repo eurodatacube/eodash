@@ -110,19 +110,63 @@ export default {
             }
             this.overlayCoordinate = coordinate;
             let rows = [];
-            if (config?.tooltip?.tooltipFormatFunction) {
-              // has to return a list of rows
-              rows = config?.tooltip?.tooltipFormatFunction(feature, config, this.$store);
-            } else {
-              const props = feature.getProperties();
-              // some indicators have 'allowedParameters', which define the keys to display
-              const keys = config.features?.allowedParameters || config?.allowedParameters
-                || Object.keys(props).filter((k) => k !== 'geometry');
-              keys.forEach((key) => {
-                if (props[key]) {
-                  rows.push(`${key}: ${props[key]}`);
+            // We implement special handler for only returning property being rendered
+            // if a dynamic style is being used
+            const layerStyle = layer.getStyle();
+            let dynamicStyleFound = false;
+            if (layerStyle && 'fill-color' in layerStyle
+                && layerStyle['fill-color'] && Array.isArray(layerStyle['fill-color'])) {
+              let found;
+              const findGet = (styleArray) => {
+                styleArray.forEach((arrEntry)=>{
+                  if (Array.isArray(arrEntry)) {
+                    if (arrEntry.length > 0 && arrEntry[0] === 'get') {
+                      found = arrEntry;
+                    } else {
+                      return findGet(arrEntry);
+                    }
+                  }
+                });
+              };
+              findGet(layerStyle['fill-color']);
+              if (typeof found !== 'undefined') {
+                const featProps = feature.getProperties();
+                let currentSubObj = featProps;
+                found.slice(1).forEach((item) => {
+                  if (item in currentSubObj) {
+                    currentSubObj = currentSubObj[item];
+                  }
+                });
+                let row = currentSubObj;
+                if (typeof row === 'number') {
+                  row = row.toFixed(2);
                 }
-              });
+                if ("units" in featProps) {
+                  row += (' ' + featProps.units);
+                }
+                rows = [row];
+                dynamicStyleFound = true;
+                this.overlayRows[layerName] = rows;
+                if ('NUTS_NAME' in featProps) {
+                  this.overlayHeaders[layerName] = featProps['NUTS_NAME'];
+                }
+              }
+            }
+            if (!dynamicStyleFound) {
+              if (config?.tooltip?.tooltipFormatFunction) {
+                // has to return a list of rows
+                rows = config?.tooltip?.tooltipFormatFunction(feature, config, this.$store);
+              } else {
+                const props = feature.getProperties();
+                // some indicators have 'allowedParameters', which define the keys to display
+                const keys = config.features?.allowedParameters || config?.allowedParameters
+                  || Object.keys(props).filter((k) => k !== 'geometry');
+                keys.forEach((key) => {
+                  if (props[key]) {
+                    rows.push(`${key}: ${props[key]}`);
+                  }
+                });
+              }
             }
             this.overlayRows[layerName] = rows;
           } else {

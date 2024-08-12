@@ -301,6 +301,10 @@ export const PROJDICT = {
     name: 'EPSG:3035',
     def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
   },
+  'EPSG:32631': {
+    name: 'EPSG:32631',
+    def: '+proj=utm +zone=31 +datum=WGS84 +units=m +no_defs +type=crs',
+  },
 };
 
 function createVectorTileDisplay(config) {
