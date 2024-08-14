@@ -147,6 +147,12 @@ export default {
       );
       // remove internal layer group
       layerConfig.splice(-1);
+      // We want also to inverse the layers within the analysis group
+      // else they will be reversed in the config
+      // Check to make sure we have the expected overlay, baselayer and analysis groups
+      if (layerConfig.length === 3) {
+        layerConfig[1].reverse();
+      }
       // reverse to use same order as eox-map config
       layerConfig.reverse();
       return JSON.stringify(layerConfig.flat());
