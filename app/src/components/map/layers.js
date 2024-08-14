@@ -638,5 +638,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.getSource().set('updateArea', areaUpdate);
   }
   layer.set('configId', config.name);
+  layer.set('id', config.name);
   return layer;
 }
