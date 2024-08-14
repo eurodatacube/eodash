@@ -44,11 +44,11 @@
 
       <v-card-text class="py-5">
         <div>
-          Copy and paste this code into the map layers field of the storytelling editor:
+          Copy and paste this code into the map <b>layers</b> field of the storytelling editor:
         </div>
         <div
           class="pa-3"
-          style="background-color: #ddd;font-family: monospace;font-size: 11px;">
+          style="background-color: #ddd;font-family: monospace;font-size: 11px;max-height: 300px; overflow-y: auto;">
             {{ layersConfig }}
         </div>
         <div style="position: absolute; bottom: 15px;">
@@ -218,6 +218,24 @@ Text describing the current step of the tour and why it is interesting what the 
               }
             } else if (foundType === 'Vector') {
               source.url = olsource.getUrl();
+              if (typeof source.url === 'undefined') {
+                // features were loaded directly so it is a custom area indicator
+                // we want to export the features with the configuration
+                const format = new GeoJSON();
+                const features = olsource.getFeatures();
+                if (features && features.length > 0) {
+                  const geoJsonStr = format.writeFeatures(features, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+                  source.url = `data:application/json;,${encodeURI(geoJsonStr)}`;
+                  source.format = 'GeoJSON';
+                  layerConfig.style = {
+                    'stroke-color': 'red',
+                    'stroke-width': 2,
+                    'circle-radius': 4,
+                    'circle-stroke-color': 'red',
+                    'circle-stroke-width': 3,
+                  };
+                }
+              }
               let vsf;
               const olformat = olsource.getFormat();
               if (olformat instanceof GeoJSON) {
@@ -257,7 +275,11 @@ Text describing the current step of the tour and why it is interesting what the 
               };
             }
             if (foundType === 'Vector') {
-              layerConfig.style = l.getStyle();
+              // We can't export a function style function
+              // only flat styles, for now we ignore this case
+              if (typeof l.getStyle !== 'function') {
+                layerConfig.style = l.getStyle();
+              }
             }
             if (l.getOpacity() !== 1) {
               layerConfig.opacity = l.getOpacity();
