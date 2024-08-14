@@ -1,6 +1,6 @@
 ## Extreme air pollution episodes in Northern India and Pakistan in 2023
 
-######  [This story is based on results from the [3RD EARTH SYSTEM SCIENCE CHALLENGE ]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/). The notebook can be acceed on [GitHub]().]
+######  [This story is based on results from the [3RD EARTH SYSTEM SCIENCE CHALLENGE ]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/). The notebook can be acceed on [GitHub](https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/3_OpenChallengeNotebook[RMSH]-[Challenge1]Sinnathamby_Kaminski_Zoghbi.ipynb).]
 
 The research presented in this story was developed in the frame of the Earth System Science Challenge organised by the European Space Agency and hosted at ESRIN’s Science Hub in February 2024. The scope of this challenge was to identify the days on which severe air pollution episodes occured in northern India and Pakistan, using the percentile technique. To do this, they studied the evolution of carbon monoxide (CO) concentrations measured by TROPOMI, an atmospheric sounding instrument on board Copernicus Sentinel-5p, widely used to study air quality from space. 
 
@@ -31,7 +31,7 @@ Measurable air pollutants include:
 
 In this challenge, the authors aimed at studying the number of extreme air pollution episodes for the year of 2023 for one pollutant in 3 major cities of the IGP region in India. The pollutant studied was carbon monoxide (CO) measured by TROPOMI. The TROPOMI instrument onboard of Copernicus Sentinel-5P. has a global coverage of 1 day, which can help us to study the daily variation of CO anywhere on the globe. (TROPOMI.eu).
 
-<img src="https://github.com/eurodatacube/eodash-assets/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/tropomi_above-earth.png" width="400">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/tropomi_above-earth.png" width="400">
 
 TROPOMI Instrument. Source: ESA
 
@@ -48,7 +48,7 @@ The animation below shows the location of fires detected by Visible Infrared Ima
 We see that the number of fires increases over this period, explaining the observed rise of CO. The VIIRS Active Fires data has some limitations: it give only a hint on the fire location and not their lifetime and their size (i.e., a small temporary fire is counted in the same way as a large fire lasting over time), and is based on optical data which is affected by clouds.
 
 <video width="400" autoplay>
-  <source src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/fires-animation.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/fires-animation.mp4" type="video/mp4">
 </video>
 
 Explore [MODIS active fire data on EO Dashboard over the IGP]( https://www.eodashboard.org/explore?indicator=Modis_SNPP_2023&x=8415682.56522&y=3510441.28382&z=4.93607).
@@ -83,7 +83,7 @@ Furthermore, when these extreme episodes were quantified, the number of days whi
 * **Map**: CO concentration measured on 2023-11-09
 * **Chart**: CO daily variation for 2023
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/Lahore.png">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/Lahore.png">
 
 
 A first sharp increase in carbon monoxide concentration can be observed at the end of October.  The emissions seem to be spontaneous, suggesting they can be linked to unusual antropogenic activities or vegetation fires.
@@ -98,7 +98,7 @@ A second peak in CO was detected in Lahore on 11/07. This can be explained by th
 
 Similar to Lahore, the peak observed in New Delhi on 11/04 indicates spontaneous emissions, potentially from fires. Once CO had accumulated, the wind generally blew towards the southeast from where the fires were detected. Being the closest city to the fires (in the southeast direction), New Delhi experiences the first peak in CO concentration.
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/NewDelhi.png">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/NewDelhi.png">
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-10"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-10"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.410109959839149" center=[80.84415782159175,26.927303711507136] animationOptions={duration:500}}-->
 #### Lucknow
@@ -107,7 +107,7 @@ Similar to Lahore, the peak observed in New Delhi on 11/04 indicates spontaneous
 
 The last peak in CO was detected in Lucknow. This city is far from the region where agricultural waste was burned, yet it is impacted by these episodes of extreme pollution. So, the presence of fires may not be the only contributor to this pollution event, another parameter must be taken into account, especially local meteorology. 
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/Lucknow.png">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/Lucknow.png">
 
 ###
 #### Why Lucknow, which is quite a distance from the fires detected by VIIRS, is experiencing high concentrations of CO, like those detected in New Delhi or Lahore?
@@ -115,7 +115,7 @@ The last peak in CO was detected in Lucknow. This city is far from the region wh
 Hypothesising that the high concentrations could be explained by the transport by the winds, the team looked at meteorological data. To this end they used use ERA5 reanalyses. By averaging the horizontal winds at 100m for each day, at UTC+05, it was possible to analize the evolution of wind direction and speed from October 25th to November 14th. 
 
 <video width="400" autoplay>
-  <source src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/winds.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/hunga-tonga/stories/ScienceHub-Challenge-February-2024/winds.mp4" type="video/mp4">
 </video>
 
 Video: ERA5 reanalyses, averaged horizontal winds at 100m for each day, at UTC+05. The animation shows the evolution of wind direction and speed from October 25th to November 14th. 
