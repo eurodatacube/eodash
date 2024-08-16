@@ -1,4 +1,4 @@
-## Extreme air pollution episodes in Northern India and Pakistan in 2023
+# Extreme air pollution episodes in Northern India and Pakistan in 2023
 
 ###### *This story is based on results from the [3<sup>rd</sup> Earth System Science Challenge]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organised and hosted by ESA's ESRIN Science Hub in February 2024*
 
