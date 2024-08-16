@@ -118,18 +118,18 @@
       "hunga-tonga-aerosols": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_HUNGA_ERUPTION_2.md",
         "title": "Tracking aerosol plumes from Hunga eruption of 2022",
-        "subtitle": "Community story from ESA Earth System Challenge",
-        "image": "https://placehold.co/1024x860?text=hunga tonga aerosols",
-        "imagePlaceholder": "https://placehold.co/512x256?text=hunga tonga aerosols",
-        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/science_hub_logos.png"
+        "subtitle": "By: Clair Duchamp, Aude Barton & Aiten Alava Baldazo, [ScienceHub Challenge 2024](https://sciencehub.esa.int/2024/03/10/esrin-science-hub-challenge-to-unveil-the-secrets-of-earth-dynamic-systems/)",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/hunga-tongacover-hunga.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/hunga-tongacover-hunga-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/sorbonne-logos.png"
       },
       "air-pollution-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_POLLUTION_2.md",
         "title": "Extreme air pollution episodes in Northern India and Pakistan",
-        "subtitle": "Community story from ESA Earth System Challenge",
-        "image": "https://placehold.co/1024x860?text=air pollution extremes",
-        "imagePlaceholder": "https://placehold.co/512x256?text=air pollution extremes",
-        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/science_hub_logos.png"
+        "subtitle": "By: Selviga Sinnathamby, Natacha Kaminski, Ellie Zoghbi, [ScienceHub Challenge 2024](https://sciencehub.esa.int/2024/03/10/esrin-science-hub-challenge-to-unveil-the-secrets-of-earth-dynamic-systems/)",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/logos/sorbonne-logos.png"
       },
       "sea-surface-temperature-rise": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_SST.md",
