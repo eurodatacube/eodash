@@ -203,18 +203,21 @@ export const globalIndicators = [
               name: 'WorldCereal - Maize',
               layers: 'MAIZE_WORLDCEREAL',
               visible: false,
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/MAIZE_WORLDCEREAL_IDEAS/legend.png',
             },
             {
               ...defaultLayersDisplay,
               name: 'WorldCereal - Winter Cereals',
               layers: 'WINTER_WORLDCEREAL',
               visible: false,
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/WINTER_WORLDCEREAL_IDEAS/legend.png',
             },
             {
               ...defaultLayersDisplay,
               name: 'WorldCereal - Spring Cereals',
               layers: 'SPRING_WORLDCEREAL',
               visible: false,
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/SPRING_WORLDCEREAL_IDEAS/legend.png',
             },
             {
               ...defaultLayersDisplay,
@@ -243,7 +246,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2020-01-01`,
               name: 'GHS built up area 2020',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/GHS-BUILT-S-R2023A_legend.png',
             },
             {
               ...defaultLayersDisplay,
@@ -251,7 +254,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2025-01-01`,
               name: 'GHS built up area 2025',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/GHS-BUILT-S-R2023A_legend.png',
             },
             {
               ...defaultLayersDisplay,
@@ -259,7 +262,7 @@ export const globalIndicators = [
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2030-01-01`,
               name: 'GHS built up area 2030',
               layers: 'GHS_BUILT_S',
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/cm_legend.png',
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/GHS-BUILT-S-R2023A_legend.png',
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS4_flood_risk/legend_flood_risk.png',
@@ -375,6 +378,7 @@ export const globalIndicators = [
           disableTimeSelection: true,
           specialEnvScenario4: true,
           baseUrl: 'https://hulk.adamplatform.eu/wmts',
+          format: 'IMAGE/PNG',
           layers: 'InundationMap',
           styles: 'InundationMap;colorrange=(0,2)',
           token: 'bf12d6193efa667283ee9643951acfaa',
@@ -679,10 +683,12 @@ export const globalIndicators = [
           sources: [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife.tif' },
           ],
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS2_wildlife/cm_legend.png',
           name: 'Indicator 2: Wildlife',
           customAreaFeatures: true,
           overlayLayers: [{
             // dissolved individual bands as layers
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS2_wildlife/cm_legend.png',
             protocol: 'cog',
             sources: [
               { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_2.tif' },
@@ -692,22 +698,12 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
-                [
-                  'all',
-                  ['==', ['band', 1], 0],
-                  ['==', ['band', 2], 0],
-                  ['==', ['band', 3], 0],
-                  ['==', ['band', 4], 0],
-                ],
-                [
-                  'color', 0, 0, 0, 0,
-                ],
-                ['between', ['band', 2], 0, 5],
+                ['between', ['band', 1], 0.1, 5],
                 [
                   'interpolate',
                   ['linear'],
-                  ['band', 2],
-                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                  ['band', 1],
+                  ...getColorStops('viridis', 0, 5, 27, true),
                 ],
                 [
                   'color', 0, 0, 0, 0,
@@ -717,6 +713,7 @@ export const globalIndicators = [
           }, {
             // dissolved individual bands as layers
             protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS2_wildlife/cm_legend.png',
             sources: [
               { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_3.tif' },
             ],
@@ -725,22 +722,12 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
-                [
-                  'all',
-                  ['==', ['band', 1], 0],
-                  ['==', ['band', 2], 0],
-                  ['==', ['band', 3], 0],
-                  ['==', ['band', 4], 0],
-                ],
-                [
-                  'color', 0, 0, 0, 0,
-                ],
-                ['between', ['band', 3], 0, 5],
+                ['between', ['band', 1], 0.1, 5],
                 [
                   'interpolate',
                   ['linear'],
-                  ['band', 3],
-                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                  ['band', 1],
+                  ...getColorStops('viridis', 0, 5, 27, true),
                 ],
                 [
                   'color', 0, 0, 0, 0,
@@ -750,6 +737,7 @@ export const globalIndicators = [
           }, {
             // dissolved individual bands as layers
             protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS2_wildlife/cm_legend.png',
             sources: [
               { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife_4.tif' },
             ],
@@ -758,22 +746,12 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
-                [
-                  'all',
-                  ['==', ['band', 1], 0],
-                  ['==', ['band', 2], 0],
-                  ['==', ['band', 3], 0],
-                  ['==', ['band', 4], 0],
-                ],
-                [
-                  'color', 0, 0, 0, 0,
-                ],
-                ['between', ['band', 4], 0, 5],
+                ['between', ['band', 1], 0.1, 5],
                 [
                   'interpolate',
                   ['linear'],
-                  ['band', 4],
-                  ...getColorStops('chlorophyll', 0, 5, 27, true),
+                  ['band', 1],
+                  ...getColorStops('viridis', 0, 5, 27, true),
                 ],
                 [
                   'color', 0, 0, 0, 0,
@@ -805,7 +783,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('chlorophyll', 0, 5, 27, true),
+                ...getColorStops('viridis', 0, 5, 27, true),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -917,6 +895,13 @@ export const globalIndicators = [
           id: 'IND1_1',
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
+          baseLayers: [
+            baseLayers.eoxosm,
+            baseLayers.terrainLight,
+            {
+              ...baseLayers.cloudless, visible: true,
+            },
+          ],
         }, {
           // dissolved individual bands as layers
           protocol: 'cog',
@@ -968,6 +953,7 @@ export const globalIndicators = [
         time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
         inputData: [''],
         display: {
+          showTimeSlider: true,
           overlayLayers: [
             {
               ...overlayLayers.eoxOverlay, visible: true,

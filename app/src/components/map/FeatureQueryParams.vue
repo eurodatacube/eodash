@@ -3,6 +3,10 @@
     <v-row align="center">
       <v-col cols="12" class="pa-0">
         <h3 v-if="featureQueryParamsData.title">{{ featureQueryParamsData.title }}</h3>
+        <p>
+          Toggle any combination of OpenStreetMap features to check how crop fields can be affected by locust danger.
+          <br>Note: Availability of OSM data for crops differs for different parts of the world.
+        </p>
     </v-col>
     <v-row class="ma-0" cols="6"
         v-for="configItem in featureQueryParamsData.items"

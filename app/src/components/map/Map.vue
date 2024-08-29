@@ -146,6 +146,7 @@
             :bbox="minesweeper.bbox"
             :enableSpeciesDisplay="minesweeper.spDisplay"
             @close="minesweeper.isDialogEnabled = false"
+            :indicatorObject="indicator"
           />
         </div>
       </div>
