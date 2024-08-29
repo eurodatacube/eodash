@@ -35,13 +35,8 @@ Regarding this year, in January 2024 global sea surface temperature [was the hig
 
 
 ## High SSTs in Asia: the Coasts of Tohoku and Hokkaido (Japan)
-Figure below shows a map of SST anomalies for July 2023. Overall, SSTs tend to be higher than normal, especially in the Pacific Ocean off the coast of Tohoku and Hokkaido, where they are more than 5°C higher than normal. The Kuroshio extension, which normally flows eastward from Joban-oki, moved northward to Sanriku-oki this season, bringing high water temperatures. In a recent report of Japan Meteorological Agency (JMA), it was pointed out that this high SST may have been one of the factors that brought record high temperatures to northern Japan this summer.
 
-
-
-
-
-## Map Tour fffExample <!--{ as="eox-map" mode="tour" }-->
+## Map Tour Example <!--{ as="eox-map" mode="tour" }-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[160,35] zoom="5" animationOptions="{duration:500}" }-->
 #### High Sea Surface Temperatures near Japan
