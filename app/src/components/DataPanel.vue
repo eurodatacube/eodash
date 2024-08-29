@@ -316,18 +316,15 @@
               </v-btn>
 
               <v-card
-                v-if="indicatorSelected
-                  && indicatorSelected.indicator === 'IND2_1'
-                  && !mergedConfigsData[0].minesweeperOptions"
                 class="ma-5"
+                v-if="indicatorSelected
+                  && indicatorSelected.indicator === 'IND2_1'"
               >
                 <h1 class="ml-5">Species Info</h1>
-
                 <v-col>
-                  <SpeciesList v-if="selectedArea" :bbox="[
-                    ...selectedArea.coordinates[0][0],
-                    ...selectedArea.coordinates[0][2],
-                  ]" />
+                  <SpeciesList v-if="selectedArea && sortedSpecies.length > 0"
+                    :species=sortedSpecies />
+                    <div v-else-if="selectedArea">No species in this area.</div>
                   <div v-else>
                     Select an area on the map using the rectangle or polygon buttons.
                   </div>
@@ -381,23 +378,6 @@ Select a point of interest on the map to see the data for a specific location!
                 v-html="story"
                 class="md-body"
               ></div>
-
-              <v-card
-                v-if="indicatorSelected && indicatorSelected.indicator === 'IND2_1'"
-                class="ma-5"
-              >
-                <h1 class="ml-5">Species Info</h1>
-
-                <v-col>
-                  <SpeciesList v-if="selectedArea" :bbox="[
-                    ...selectedArea.coordinates[0][0],
-                    ...selectedArea.coordinates[0][2],
-                  ]" />
-                  <div v-else>
-                    Select an area on the map using the rectangle or polygon buttons.
-                  </div>
-                </v-col>
-              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -428,6 +408,7 @@ import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import FeatureQueryParams from '@/components/map/FeatureQueryParams.vue';
 import SpeciesList from '@/components/SpeciesList.vue';
 import AreaStatistics from '@/components/AreaStatistics.vue';
+import { getSpeciesList } from '@/plugins/minesweeper/utils';
 
 export default {
   props: [
@@ -466,6 +447,7 @@ export default {
     showRegenerateButton: null,
     showScatterplot: null,
     updateQueryParametersTrigger: null,
+    sortedSpecies: [],
   }),
   computed: {
     ...mapGetters('features', [
@@ -678,11 +660,31 @@ export default {
       // just passing a signal from one sibling to another, ideally would be done via store
       this.updateQueryParametersTrigger = Math.random();
     },
+    async refreshSpeciesInfo() {
+      if (this.selectedArea
+        && this.indicatorSelected
+        && this.indicatorSelected.indicator === 'IND2_1'
+        && !this.mergedConfigsData[0].minesweeperOptions
+      ) {
+        const bbox = [
+          ...this.selectedArea.coordinates[0][0],
+          ...this.selectedArea.coordinates[0][2],
+        ];
+        const sortedSpecies = await getSpeciesList(bbox);
+        this.sortedSpecies = sortedSpecies;
+      } else {
+        this.sortedSpecies = [];
+      }
+    },
   },
   watch: {
-    selectedArea(area) {
+    async selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
+      this.refreshSpeciesInfo();
     },
+  },
+  async indicatorSelected() {
+    this.refreshSpeciesInfo();
   },
 };
 </script>

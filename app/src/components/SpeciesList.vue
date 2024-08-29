@@ -1,5 +1,10 @@
 <template>
   <div class="species-list mt-3">
+    <p>
+      These are the species found in biodiversity hotspots for the chosen area.
+      <br>
+      Click on the images to enlarge them and learn more about each species.
+    </p>
     <dl>
       <div
         class="species v-row"
@@ -19,9 +24,8 @@
 
         <a :href="s.image_url" class="names" target="_blank">
           <dt><b>{{ s.species.replace(/(?:^|\s)\S/g, (match) => match.toUpperCase()) }}</b></dt>
-          <dd v-if="s.common_name !== 'Unknown'">({{ s.common_name }})</dd>
+          <dd>({{ s.common_name }})</dd>
         </a>
-
         <div class="d-flex row align-center" style="max-width: 80px">
           <div
             :title="s.conservation_status"
@@ -38,6 +42,7 @@
         </div>
       </div>
     </dl>
+    <p>The conservation status indicates how endangered each species is.</p>
     <img
       style="max-width: 60%; margin: 0 20%;"
       src="iucn_status.svg"

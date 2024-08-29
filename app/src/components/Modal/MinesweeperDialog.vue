@@ -16,34 +16,28 @@
           💣 Hexagonal Minesweeper Game
         </v-card-title>
         <v-card-text>
-          <p>Try to find locations with <b>very high
-            <span v-if="enableSpeciesDisplay">biodiversity</span>
-            <span v-else>health risk</span>
-          </b>
-          and mark them with a <b>flag (right click)</b> and learn about
-          Earth Observation data along the way.
+          <p>
+            Identify and flag <b>(right-click)</b> areas with very high
+            <b><span v-if="indicatorObject.indicator === 'IND2_1'">
+              health risks
+            </span>
+            <span v-else-if="indicatorObject.indicator === 'IND1_1'">
+              biodiversity
+            </span>
+          </b> using Earth Observation data.
           </p>
           <p>
-          The percentage of uncovered area at the
-          end of the game determines your <b>score</b>!
-          <br>
-          <span v-if="enableSpeciesDisplay">
-          When the game finishes, a summary of
-          significant wildlife species which
-          live there is shown.
-          </span>
+            Use visible layers to guide your exploration and uncover new tiles (<b>left-click</b>).
+          </p>
+          <p>Your <b>score</b> is based on the percentage of uncovered area at the end of the game.
+          </p>
+          <p v-if="indicatorObject.indicator === 'IND2_1'">
+          After you finish the game, a summary of significant
+          wildlife species which live there is shown.
           </p>
           <p>
-          Game is played like a minesweeper:
-          <br>
-          <b>Left mouse click</b> to uncover a <b>field. </b>
-          <b>Right mouse click</b> to flag it with a <b>flag.</b></p>
-          <br>A random game location is chosen every day. <b>Come back to explore more </b>tomorrow!
-            <!-- To explore new locations, add query parameter
-            seed with any value e.g. &seed=SeedString.
-            To explore past (or future) locations,
-            use seed parameter in JS format Date.toDateString()
-            - e.g. "Thu Apr 18 2024". -->
+            A new location is <b>available daily</b> — come back tomorrow to explore more!
+          </p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -54,7 +48,6 @@
       <v-card v-show="mode === 'gameover'">
         <v-card-title style="text-align: center" class="py-6">Oh no!</v-card-title>
         <v-card-text>
-          You stepped on a mine and lost the game. Try again and beat your high score!
           <div class="game-stats">
             <div class="item">
               <span class="name">🌟 TOTAL UNCOVERED AREA</span>
@@ -74,11 +67,17 @@
             </div>
             <div v-if="enableSpeciesDisplay">
               <h1 class="pa-2" v-if="mode === 'gameover'">Species Info</h1>
-              <SpeciesList v-if="mode === 'gameover'" :species="sortedSpecies" :bbox="bbox" />
+              <SpeciesList v-if="mode === 'gameover'" :species="sortedSpecies" />
             </div>
 
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
-              text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
+              text @click="copyStatsToClipboard()">COPY RESULTS</v-btn>
+              <p>
+                Share your score on social media!
+              </p>
+              <p>
+                <b>Come back tomorrow</b> for a new challenge and explore a fresh location!
+              </p>
           </div>
         </v-card-text>
 
@@ -129,12 +128,8 @@
 </template>
 
 <script>
+import { getSpeciesList } from '@/plugins/minesweeper/utils';
 import SpeciesList from '../SpeciesList.vue';
-
-function isWithinBounds(point, bbox) {
-  const [minX, minY, maxX, maxY] = bbox;
-  return point[0] >= minX && point[0] <= maxX && point[1] >= minY && point[1] <= maxY;
-}
 
 export default {
   components: {
@@ -170,6 +165,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    indicatorObject: Object,
   },
   async mounted() {
     this.populateSpeciesList();
@@ -199,40 +195,8 @@ export default {
         console.error('Bounding box must be in format [minLong, minLat, maxLong, maxLat]!');
         return;
       }
-      // Get wildlife species index
-      const r1 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Species_Index_Images_v2.json');
-      const speciesIndex = await r1.json();
-
-      // Get locations of species
-      const r2 = await fetch('https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/Europe_characteristic_species.geojson');
-      const speciesLocations = await r2.json();
-
-      this.accumulatedSpecies = speciesLocations.features
-        .filter((point) => isWithinBounds(point.geometry.coordinates, this.bbox))
-        .flatMap((point) => point.properties.species_indices)
-        .map((index) => speciesIndex.find((species) => species.index === index))
-        .filter((species) => species != null)
-        .reduce((accumulator, species) => {
-          // Check if the species with this index already exists in the accumulator
-          if (accumulator[species.index]) {
-            // If it exists, increment the count
-            //
-            // We have no choice but to mutate the function argument. (no-param-reassign)
-            // eslint-disable-next-line
-            accumulator[species.index].count++;
-          } else {
-            // If it does not exist, create a new entry with count initialized to 1
-            //
-            // eslint-disable-next-line
-            accumulator[species.index] = { ...species, count: 1 };
-          }
-          return accumulator;
-        }, {});
-
-      // Sort the species by count of appearance and take the top 5
-      this.sortedSpecies = Object.values(this.accumulatedSpecies)
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
+      const sortedSpecies = await getSpeciesList(this.bbox);
+      this.sortedSpecies = sortedSpecies;
     },
     copyStatsToClipboard() {
       const date = new Date();
