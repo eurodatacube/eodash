@@ -1,8 +1,5 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
-import { DateTime } from 'luxon';
-import lockdownTimes from '@/assets/lockdown_data.json';
-import countries from '@/assets/countries.json';
 
 const { reactiveProp } = mixins;
 
@@ -26,6 +23,14 @@ export default {
     }
   },
   data() {
+    const yAxes = this.options.yAxis.map((value) => (
+      {
+        scaleLabel: {
+          display: true,
+          labelString: value,
+          padding: 2,
+        },
+      }));
     return {
       defaultOptions: {
         responsive: true,
@@ -74,28 +79,6 @@ export default {
                   datasetIndex: meta.index,
                 };
               }, this);
-              if (
-                !this.options.sameYearComparison
-                && this.options.country !== 'all'
-                && !this.options.hideRestrictions
-              ) {
-                labelObjects.push({
-                  text: 'Low Restrictions',
-                  fillStyle: 'rgba(204, 143, 143, 0.24)',
-                  hidden: false,
-                  lineWidth: 0,
-                  datasetIndex: -1,
-                  pointStyle: 'rect',
-                });
-                labelObjects.push({
-                  text: 'High Restrictions',
-                  fillStyle: 'rgba(207, 109, 109, 0.54)',
-                  hidden: false,
-                  lineWidth: 0,
-                  datasetIndex: -1,
-                  pointStyle: 'rect',
-                });
-              }
               return labelObjects;
             },
             ...this.options.labelsExtend,
@@ -115,13 +98,7 @@ export default {
             distribution: this.options.distribution ? this.options.distribution : 'linear',
             ticks: {},
           }],
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: this.options.yAxis,
-              padding: 2,
-            },
-          }],
+          yAxes,
         },
         pan: {
           enabled: true,
@@ -151,12 +128,6 @@ export default {
     },
     render() {
       const extendedSettings = Object.assign(this.defaultOptions, this.options);
-      if (
-        !extendedSettings.sameYearComparison
-        && !this.options.hideRestrictions
-      ) {
-        extendedSettings.annotation.annotations.push(...this.movementRestrictions);
-      }
       if ('yAxisOverwrite' in extendedSettings) {
         extendedSettings.scales.yAxes[0] = {
           ...extendedSettings.scales.yAxes[0],
@@ -185,43 +156,6 @@ export default {
       return [timeMin, timeMax];
     },
   },
-  computed: {
-    movementRestrictions() {
-      // Find country based on alpha-3 code
-      const currCountry = countries.features.find(
-        (cntr) => cntr.properties.alpha2 === this.options.country,
-      );
-      const annotations = [];
-      if (typeof currCountry !== 'undefined'
-        && Object.prototype.hasOwnProperty.call(lockdownTimes, currCountry.id)) {
-        const lckTs = lockdownTimes[currCountry.id]['C6M_Stay at home requirements'];
-        for (let i = 0; i < lckTs.length; i++) {
-          let areaColor = 'rgba(0, 0, 0, 0.0)';
-          if (lckTs[i].value === 1) {
-            areaColor = 'rgba(204, 143, 143, 0.24)';
-          } else if (lckTs[i].value === 2) {
-            areaColor = 'rgba(207, 109, 109, 0.54)';
-          }
-
-          const start = DateTime.fromISO(lckTs[i].start);
-          const end = DateTime.fromISO(lckTs[i].end);
-
-          if (lckTs[i].value !== 0) {
-            annotations.push({
-              drawTime: 'beforeDatasetsDraw',
-              type: 'box',
-              xScaleID: 'x-axis-0',
-              xMin: start.toISODate(),
-              xMax: end.toISODate(),
-              borderColor: areaColor,
-              borderWidth: 0,
-              backgroundColor: areaColor,
-            });
-          }
-        }
-      }
-      return annotations;
-    },
-  },
+  computed: {},
 };
 </script>

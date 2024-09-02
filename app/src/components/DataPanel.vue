@@ -1,11 +1,29 @@
 <template>
   <div
+    id="data-panel-parent"
     :style="`${$vuetify.breakpoint.mdAndDown ? ''
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
+    <style-form-controls
+      v-if="mergedConfigsData[0].flatStyle && mergedConfigsData[0].flatStyle.jsonform"
+      :flatStyle="mergedConfigsData[0].flatStyle"
+      >
+    </style-form-controls>
+    <style-form-controls
+      v-if="mergedConfigsData[0].style && mergedConfigsData[0].style.jsonform"
+      :flatStyle="mergedConfigsData[0].style"
+      >
+    </style-form-controls>
+    <span
+      v-if="customAreaIndicator && !customAreaIndicator.isEmpty || dataObject && dataObject.time"
+      class="ml-5"
+    >
+      <FullScreenControl selector="#data-panel-parent" />
+    </span>
     <div
       class="pt-0 pb-0"
+      id="data-panel"
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''">
       <v-row v-if="
         indicatorObject
@@ -157,8 +175,7 @@
                   :download="downloadFileName"
                   target="_blank"
                   v-if="dataObject && dataObject.time
-                    && !showMap
-                    && !dataObject.disableCSV"
+                    && !showMap"
                 >
                   <v-icon left>mdi-download</v-icon>
                   download csv
@@ -188,14 +205,6 @@
                   v-else-if="!showMap && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
                   :indicatorObject="indicatorObject"
                   :featureObject="featureObject"
-                  :zoom="zoom"
-                  :center="center"
-                  :direction="direction"
-                  :position="position"
-                  :right="right"
-                  :up="up"
-                  :datalayertime="datalayertime"
-                  :comparelayertime="compareEnabled ? comparelayertime : undefined"
                 />
               </div>
             </v-col>
@@ -216,7 +225,12 @@
             :vectorStyles="indicatorObject.vectorStyles"
           >
           </StyleControls>
-          <vector-tile-style-control v-if="indicatorObject.queryParameters"
+          <VectorStyleControl v-if="useVectorStyleControl"
+            :queryParameters="indicatorObject.queryParameters"
+            @updatequeryparameter="updateQueryParameters"
+            >
+          </VectorStyleControl>
+          <vector-tile-style-control v-if="indicatorObject.queryParameters && !Array.isArray(indicatorObject.queryParameters)"
             :queryParameters="indicatorObject.queryParameters"
             @updatequeryparameter="updateQueryParameters"
           >
@@ -259,7 +273,7 @@
           Select a point of interest on the map to see more information
         </p>
       </div>
-      <v-col v-if="indicatorHasMapData"
+      <v-col v-if="showVisualAnalysisAddons"
         :style="`height: auto`"
       >
         <v-card class="pa-2" >
@@ -276,6 +290,9 @@
           </v-text-field>
         </v-card>
       </v-col>
+      <GTIFProcessingButtons
+      v-if="mergedConfigsData[0].processingEnabled">
+      </GTIFProcessingButtons>
     </div>
   </div>
 </template>
@@ -294,10 +311,13 @@ import FeatureFilters from '@/components/map/FeatureFilters.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
-// import ScatterPlot from '@/components/ScatterPlot.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
+import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
+import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
+import FullScreenControl from '@/components/map/FullScreenControl.vue';
+import StyleFormControls from '@/components/map/StyleFormControls.vue';
 
 export default {
   components: {
@@ -309,26 +329,18 @@ export default {
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
-    // ScatterPlot,
     DataMockupView,
     SelectionInfoBar,
+    GTIFProcessingButtons,
+    VectorStyleControl,
+    FullScreenControl,
+    StyleFormControls,
   },
   data: () => ({
-    overlay: false,
     mounted: false,
-    zoom: null,
-    center: null,
-    direction: null,
-    position: null,
-    right: null,
-    up: null,
     frozenLayerName: null,
-    datalayertime: null,
-    comparelayertime: null,
-    compareEnabled: false,
     isLoadingCustomAreaIndicator: false,
     showRegenerateButton: null,
-    showScatterplot: null,
     updateQueryParametersTrigger: null,
   }),
   computed: {
@@ -342,11 +354,17 @@ export default {
     ...mapState('indicators', [
       'customAreaIndicator',
     ]),
+    showingChart() {
+      return this.customAreaIndicator || this.customAreaIndicator || this.dataObject?.time;
+    },
     indicatorObject() {
       return this.$store.state.indicators.selectedIndicator;
     },
     showCustomAreaCard() {
       if (this.hasSelectionEnabled && !this.customAreaIndicator) {
+        return false;
+      }
+      if (this.dataObject && ['N3a2_chl_nasa', 'N3a2_tsm_nasa'].includes(this.featureObject.indicator)) {
         return false;
       }
       return !this.showMap || (this.showMap && this.mergedConfigsData[0].customAreaIndicator);
@@ -433,6 +451,18 @@ export default {
       const currDate = DateTime.utc().toFormat('yyyy-LL-dd');
       return `user_AOI_${currDate}_${this.indicatorObject.indicator}.csv`;
     },
+    useVectorStyleControl() {
+      return Array.isArray(this.indicatorObject?.queryParameters);
+    },
+    showVisualAnalysisAddons() {
+      let show = false;
+      if (['polar', 'gtif'].includes(this.appConfig.id)) {
+        const showVar = this.indicatorHasMapData;
+        const hideVar = this.mergedConfigsData[0].disableVisualAnalysisAddons;
+        show = showVar && !hideVar;
+      }
+      return show;
+    },
     showMap() {
       // show map means that only information on the map is shown and no indicator data is expected
       // currently this seems to be only the case for indicatorobjects with no features
@@ -512,6 +542,16 @@ export default {
     },
   },
   watch: {
+    showingChart() {
+      if (this.showingChart) {
+        // we only want to open if it is closed
+        if (!this.$parent.$parent.$el.classList.contains('v-expansion-panel--active')) {
+          this.$parent.$parent.$parent.$refs.header.$emit('click', {
+            currentTarget: this.$parent.$parent.$parent.$refs.header.$el,
+          });
+        }
+      }
+    },
     selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
     },

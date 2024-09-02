@@ -5,7 +5,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
 import {
-  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
@@ -26,6 +26,11 @@ const getDailyDates = (start, end) => {
   }
   return dateArray;
 };
+
+const cloudlessBaseLayerDefault = [{
+  ...baseLayers.cloudless,
+  visible: true,
+}, baseLayers.cloudless2020, baseLayers.cloudless2019, baseLayers.cloudless2018, baseLayers.eoxosm, baseLayers.terrainLight];
 
 const geodbFeatures = {
   name: 'Ship detections',
@@ -73,7 +78,7 @@ const E1bConfigInputDataAsc = [{
   name: 'Daily Sentinel 1 VV Asc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
   features: {
     ...geodbFeatures,
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -96,7 +101,7 @@ const E1bConfigInputDataDes = [{
   name: 'Daily Sentinel 1 VV Desc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -126,8 +131,7 @@ export const indicatorsDefinition = Object.freeze({
   E13c: {
     features: {
       name: 'Ship detections',
-      dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyyMMdd'),
-      url: './eodash-data/features/E13c/E13c_{aoiID}_{featuresTime}.geojson',
+      url: './eodash-data/features/E13c/E13c_UK9_20200829.geojson',
     },
   },
   E13d: {
@@ -188,15 +192,15 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1B - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'Sentinel-2 L1C': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
@@ -265,10 +269,44 @@ export const replaceMapTimes = {
 
 export const globalIndicators = [
   {
+    properties: {
+      indicatorObject: {
+        indicator: 'E10a3',
+        disableTimeSelection: true,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'E10a8',
+        disableTimeSelection: true,
+      },
+    },
+  },
+  {
+    properties: {
+      // override dates for precipitation
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_Precipitation',
+        time: getDailyDates('2015-01-01', '2021-12-31'),
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_SM',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
-        aoiID: 'World',
         indicator: 'WSF',
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
@@ -285,6 +323,7 @@ export const globalIndicators = [
       },
     },
   },
+  ...createCropomDatasetConfigs(),
   {
     properties: {
       indicatorObject: {
@@ -313,6 +352,52 @@ export const globalIndicators = [
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           maxZoom: 14,
           opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'E13c_ship_detections',
+        display: [{
+          baseLayers: cloudlessBaseLayerDefault,
+          disableCompare: true,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A',
+          // 2500 pixel SH limit * 10 m resolution of S2 RGB bands
+          // and multiplied by 4/5 to cater for slowness of algorithm and data transfer
+          maxDrawnAreaSide: 20000,
+          minZoom: 7,
+          maxZoom: 18,
+          mapTimeDatepicker: true,
+          sliderConfig: {
+            title: 'Detection Threshold',
+            min: 0,
+            max: 1,
+            step: 0.01,
+            default: 0.5,
+          },
+          drawnAreaLimitExtent: true,
+          // areaIndicator: trucksAreaIndicator,
+          features: {
+            url: 'https://gtif-backend.hub.eox.at/ship_detection?{area}&{featuresTime}&threshold={sliderValue}',
+            name: 'Ship detections on-the-fly',
+            style: {
+              strokeColor: '#00c3ff',
+              width: 2,
+            },
+            dateFormatFunction: (date) => `start_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}&end_date=${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+            areaFormatFunction: (area) => {
+              const extent = geojsonFormat.readGeometry(area).getExtent();
+              const formattedArea = `lon_min=${extent[0]}&lat_min=${extent[1]}&lon_max=${extent[2]}&lat_max=${extent[3]}`;
+              return {
+                area: formattedArea,
+              };
+            },
+          },
+          customAreaFeatures: true,
         }],
       },
     },

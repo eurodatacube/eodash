@@ -26,6 +26,22 @@ export const baseLayers = Object.freeze({
     maxNativeZoom: 17,
     protocol: 'xyz',
   },
+  cloudless2019: {
+    name: 'EOxCloudless 2019',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ EOxCloudless 2018: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2019) }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
+  cloudless2020: {
+    name: 'EOxCloudless 2020',
+    url: '//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg',
+    attribution: '{ EOxCloudless 2018: <a xmlns:dct="http://purl.org/dc/terms/" href="//s2maps.eu" target="_blank" property="dct:title">Sentinel-2 cloudless - s2maps.eu</a> by <a xmlns:cc="http://creativecommons.org/ns#" href="//eox.at" target="_blank" property="cc:attributionName" rel="cc:attributionURL">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2020) }',
+    visible: false,
+    maxZoom: 17,
+    protocol: 'xyz',
+  },
   terrainLight: {
     name: 'Terrain light',
     url: '//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg',
@@ -126,13 +142,6 @@ export const baseLayers = Object.freeze({
     visible: false,
     minZoom: 6,
   },
-  mapboxHighReso: {
-    name: 'Mapbox high resolution',
-    url: `//api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=${shConfig.mbAccessToken}`,
-    attribution: '{ <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>, <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>, <a href="https://www.maxar.com/" target="_blank">© Maxar</a> }',
-    visible: false,
-    protocol: 'xyz',
-  },
   s2AT2021: {
     name: 'Sentinel-2 Austrian mosaic 2021',
     attribution: '{ Contains modified Copernicus Sentinel data 2021 }',
@@ -179,7 +188,7 @@ export const baseLayers = Object.freeze({
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
     visible: false,
-    minZoom: 2,
+    minNativeZoom: 2,
     projection: {
       name: 'ORTHO:680500',
       def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
@@ -195,7 +204,7 @@ export const baseLayers = Object.freeze({
     name: 'Terrain Light Stereographic South',
     attribution: '{ Terrain light: Data &copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors and <a href="//maps.eox.at/#data" target="_blank">others</a>, Rendering &copy; <a href="http://eox.at" target="_blank">EOX</a> }',
     maxZoom: 16,
-    minZoom: 2,
+    minNativeZoom: 2,
     visible: false,
     projection: {
       name: 'ORTHO:320500',
@@ -233,9 +242,35 @@ export const overlayLayers = Object.freeze({
       },
     },
   },
+  protectionZones: {
+    name: 'Protected areas (CDDA 2022)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_cdda_2022',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
+    },
+    tooltip: true,
+    allowedParameters: ['sitename'],
+  },
+  protectionZonesNatura: {
+    name: 'Protected areas (Natura 2000)',
+    protocol: 'geoserverTileLayer',
+    visible: false,
+    selection: 'single',
+    layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_protected_areas_natura_2000',
+    style: {
+      fillColor: '#99cc3388',
+      strokeColor: '#339900',
+    },
+    tooltip: true,
+    allowedParameters: ['sitename'],
+  },
 });
 
-export const trucksAreaIndicator = (gtifAustria = false) => ({
+export const trucksAreaIndicator = (gtifAustria = false, timeParameter = 'time') => ({
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',
   requestHeaders: {
@@ -276,13 +311,20 @@ export const trucksAreaIndicator = (gtifAustria = false) => ({
               intersectingFtrs += 1;
             }
           });
+        } else {
+          const intersects = areaAsGeom.intersectsCoordinate(geom.coordinates);
+          if (intersects) {
+            intersectingFtrs += 1;
+          }
         }
         if (intersectingFtrs > 0) {
           // as data is structured one entry per country, we need to aggregate on date
-          if (row.time in datesObj) {
-            datesObj[row.time] += intersectingFtrs;
-          } else {
-            datesObj[row.time] = intersectingFtrs;
+          if (row[timeParameter]) {
+            if (row[timeParameter] in datesObj) {
+              datesObj[row[timeParameter]] += intersectingFtrs;
+            } else {
+              datesObj[row[timeParameter]] = intersectingFtrs;
+            }
           }
         }
       });
@@ -340,6 +382,13 @@ export const trucksFeatures = {
               });
             }
           });
+        } else {
+          const { geometry, ...properties } = ftr;
+          ftrs.push({
+            type: 'Feature',
+            properties,
+            geometry: geom,
+          });
         }
       });
     }
@@ -353,111 +402,79 @@ export const trucksFeatures = {
   areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
 };
 
-export const xcubeViewerColormaps = [
-  'magma',
-  'inferno',
-  'plasma',
-  'viridis',
-  'cividis',
-  'Blues',
-  'BuGn',
-  'BuPu',
-  'GnBu',
-  'Greens',
-  'Greys',
-  'OrRd',
-  'Oranges',
-  'PuBu',
-  'PuBuGn',
-  'PuRd',
-  'Purples',
-  'RdPu',
-  'Reds',
-  'YlGn',
-  'YlGnBu',
-  'YlOrBr',
-  'YlOrRd',
-  'Wistia',
-  'afmhot',
-  'autumn',
-  'binary',
-  'bone',
-  'cool',
-  'copper',
-  'gist_gray',
-  'gist_heat',
-  'gist_yarg',
-  'gray',
-  'hot',
-  'pink',
-  'spring',
-  'summer',
-  'winter',
-  'BrBG',
-  'PRGn',
-  'PiYG',
-  'PuOr',
-  'RdBu',
-  'RdGy',
-  'RdYlBu',
-  'RdYlGn',
-  'Spectral',
-  'bwr',
-  'coolwarm',
-  'seismic',
-  'Accent',
-  'Dark2',
-  'Paired',
-  'Pastel1',
-  'Pastel2',
-  'Set1',
-  'Set2',
-  'Set3',
-  'tab10',
-  'tab20',
-  'tab20b',
-  'tab20c',
-  'twilight',
-  'twilight_shifted',
-  'hsv',
-  'reg_map',
-  'thermal',
-  'haline',
-  'solar',
-  'ice',
-  'gray',
-  'oxy',
-  'deep',
-  'dense',
-  'algae',
-  'matter',
-  'turbid',
-  'speed',
-  'amp',
-  'tempo',
-  'rain',
-  'phase',
-  'topo',
-  'balance',
-  'delta',
-  'curl',
-  'diff',
-  'tarn',
-  'turbo',
-  'CMRmap',
-  'brg',
-  'cubehelix',
-  'flag',
-  'gist_earth',
-  'gist_ncar',
-  'gist_rainbow',
-  'gist_stern',
-  'gnuplot',
-  'gnuplot2',
-  'jet',
-  'nipy_spectral',
-  'ocean',
-  'prism',
-  'rainbow',
-  'terrain',
+export const marineDataStoreDepths = [
+  '-4000', '-3500', '-3000', '-2500', '-2000', '-1800', '-1600', '-1400', '-1200', '-1000', '-900', '-800', '-700', '-600', '-500', '-450', '-400', '-350', '-300', '-250', '-200', '-175', '-150', '-125', '-100', '-90', '-80', '-70', '-60', '-50', '-40', '-30', '-25', '-20', '-15', '-10', '-6', '-4', '-2', '0'].reverse();
+
+export const marineDataStoreColorscales = [
+  'algae', 'amp', 'balance', 'cividis', 'cyclic', 'delta', 'dense', 'gray', 'haline', 'ice', 'inferno', 'magma', 'matter', 'phase', 'plasma', 'rainbow', 'solar', 'speed', 'tempo', 'thermal', 'viridis',
 ];
+
+export const xcubeViewerColormaps = [
+  'magma', 'inferno', 'plasma', 'viridis', 'cividis', 'Blues', 'BuGn', 'BuPu', 'GnBu', 'Greens', 'Greys', 'OrRd', 'Oranges', 'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu', 'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd', 'Wistia', 'afmhot', 'autumn', 'binary', 'bone', 'cool', 'copper', 'gist_gray', 'gist_heat', 'gist_yarg', 'gray', 'hot', 'pink', 'spring', 'summer', 'winter', 'BrBG', 'PRGn', 'PiYG', 'PuOr', 'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral', 'bwr', 'coolwarm', 'seismic', 'Accent', 'Dark2', 'Paired', 'Pastel1', 'Pastel2', 'Set1', 'Set2', 'Set3', 'tab10', 'tab20', 'tab20b', 'tab20c', 'twilight', 'twilight_shifted', 'hsv', 'reg_map', 'thermal', 'haline', 'solar', 'ice', 'gray', 'oxy', 'deep', 'dense', 'algae', 'matter', 'turbid', 'speed', 'amp', 'tempo', 'rain', 'phase', 'topo', 'balance', 'delta', 'curl', 'diff', 'tarn', 'turbo', 'CMRmap', 'brg', 'cubehelix', 'flag', 'gist_earth', 'gist_ncar', 'gist_rainbow', 'gist_stern', 'gnuplot', 'gnuplot2', 'jet', 'nipy_spectral', 'ocean', 'prism', 'rainbow', 'terrain',
+];
+
+const cropomdefaults = (parameter) => ({
+  baseUrl: null,
+  customAreaIndicator: true,
+  disableVisualAnalysisAddons: true,
+  tooltip: {
+    tooltipFormatFunction: (feature, _, store) => {
+      const selectedParams = store.state.features.selectedJsonformParameters;
+      const { crop, vstat } = selectedParams;
+      const value = feature.get(parameter)[crop][vstat];
+      const unit = parameter === 'yield' ? 't/ha' : 'mm';
+      const name = feature.get('NUTS_NAME') || feature.get('NAME');
+      return [
+        `Region: ${name}`,
+        `${crop} ${parameter}, scenario ${vstat}: ${value} ${unit}`,
+      ];
+    },
+  },
+  areaIndicator: {
+    url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
+    adminZoneKey: 'NUTS_ID',
+    requestMethod: 'GET',
+    callbackFunction: (responseJson, indicator) => {
+      const data = responseJson.growth;
+      const newData = {
+        time: [],
+        measurement: [],
+        referenceValue: [],
+      };
+      Object.entries(data).forEach(([key, value]) => {
+        newData.time.push(DateTime.fromISO(key));
+        newData.measurement.push(value.yield_);
+        newData.referenceValue.push(value.biomass);
+      });
+      newData.yAxis = ['t/ha', 'g/m2'];
+      const ind = {
+        ...indicator,
+        ...newData,
+      };
+      return ind;
+    },
+  },
+  selection: {
+    mode: 'single',
+  },
+});
+
+export const createCropomDatasetConfigs = () => [
+  'CROPOMHU1', 'CROPOMAT1', 'CROPOMHUMR1', 'CROPOMHUSC1', 'CROPOMRO1',
+].map((n) => ({
+  properties: {
+    indicatorObject: {
+      indicator: n,
+      display: cropomdefaults('yield'),
+    },
+  },
+})).concat([
+  'CROPOMHU2', 'CROPOMAT2', 'CROPOMHUMR2', 'CROPOMHUSC2', 'CROPOMRO2',
+].map((n) => ({
+  properties: {
+    indicatorObject: {
+      indicator: n,
+      display: cropomdefaults('water_need'),
+    },
+  },
+})));

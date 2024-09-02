@@ -52,6 +52,7 @@ export default {
     swipeLayerObject: null,
     swipe: 0,
     swipePixelX: null,
+    _time: null,
   }),
   computed: {
     specialLayerOptions() {
@@ -106,16 +107,7 @@ export default {
       const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
       this.mergedConfigsData.forEach((config) => {
         const swipeLayer = dataGroup.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
-        if (config.protocol === 'geoserverTileLayer' && swipeLayer) {
-          loadIndicatorExternalData(
-            time, config,
-          ).then((data) => {
-            this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            swipeLayer.changed();
-          });
-        } else if (swipeLayer) {
-          swipeLayer.changed();
-        }
+        swipeLayer.changed();
       });
     },
     time(time) {
@@ -160,7 +152,6 @@ export default {
       // clip the originalLayer from right, the comparing layer from left
       if (this.$refs.container) {
         const ctx = evt.context;
-
         const sidePadding = document.querySelector('.data-panel') !== null // eslint-disable-line
           ? !document.querySelector('.data-panel').className.includes('v-navigation-drawer--open')
             ? 0
@@ -176,10 +167,17 @@ export default {
         const isRightLayer = !evt.target.get('name').includes('_compare');
         if (isRightLayer) {
           if (ctx instanceof WebGLRenderingContext) {
+            if (this._time !== evt.frameState.time) {
+              ctx.clearColor(0, 0, 0, 0);
+              ctx.clear(ctx.COLOR_BUFFER_BIT);
+              this._time = evt.frameState.time;
+            }
             ctx.enable(ctx.SCISSOR_TEST);
             ctx.scissor(
               this.swipePixelX, 0, actualWidth - this.swipePixelX, actualHeight,
             );
+            ctx.clearColor(0, 0, 0, 0);
+            ctx.clear(ctx.COLOR_BUFFER_BIT);
           } else {
             ctx.save();
             ctx.beginPath();
@@ -187,8 +185,16 @@ export default {
             ctx.clip();
           }
         } else if (ctx instanceof WebGLRenderingContext) {
+          if (this._time !== evt.frameState.time) {
+            ctx.clearColor(0, 0, 0, 0);
+            ctx.clear(ctx.COLOR_BUFFER_BIT);
+            this._time = evt.frameState.time;
+          }
+          ctx.clearColor(0, 0, 0, 0);
           ctx.enable(ctx.SCISSOR_TEST);
           ctx.scissor(0, 0, this.swipePixelX, actualHeight);
+          ctx.clearColor(0, 0, 0, 0);
+          ctx.clear(ctx.COLOR_BUFFER_BIT);
         } else {
           ctx.save();
           ctx.beginPath();

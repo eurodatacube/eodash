@@ -28,9 +28,7 @@
         <v-img
           height="100"
           class="flex-shrink-1"
-          :src="`./data/${appConfig.id}/globalDataLayerImages/${getLocationCode(
-            demoItem
-          )}.png`"
+          :src="getThumbnailImage(demoItem)"
         >
         </v-img>
         <v-card-title
@@ -143,6 +141,7 @@ export default {
         if (currentFeatureObject) {
           const test = {
             indicatorObject,
+            geoDBID: currentFeatureObject.properties.indicatorObject.geoDBID,
           };
           this.loadIndicatorFinished(indicatorObject);
           // manually select the feature
@@ -170,6 +169,9 @@ export default {
     resetMapView() {
       // this is very fragile, we should use events or "iframe" commands
       this.centerMapVueComponent.resetView();
+    },
+    getThumbnailImage(demoItem) {
+      return `./data/${this.appConfig.id}/globalDataLayerImages/${this.getLocationCode(demoItem)}.png`;
     },
     scroll(direction) {
       const scrollElement = this.$refs.scrollContainer;

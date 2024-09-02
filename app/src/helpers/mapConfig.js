@@ -228,13 +228,17 @@ const createAvailableTimeEntries = (indicatorObject, config) => {
 };
 
 const indicatorHasMapData = (indicatorObject, featureObject) => {
+  if (indicatorObject?.indicator === 'E13d' && featureObject) {
+    // custom overload for extra hassle with replaceMapTimes from config
+    return true;
+  }
   baseConfig = store.state.config.baseConfig;
   let hasMapData = false;
-  if (indicatorObject && indicatorObject.display) {
+  if (indicatorObject) {
     let matchingInputDataAgainstConfig = [];
     if (indicatorObject?.locations && featureObject) {
       hasMapData = true;
-    } else if (!indicatorObject?.locations && indicatorObject.features && featureObject) {
+    } else if (!indicatorObject?.locations && featureObject) {
       const { inputData } = generateUsedTimes(featureObject);
       if (inputData) {
         matchingInputDataAgainstConfig = inputData

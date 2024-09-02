@@ -102,15 +102,20 @@ export default {
   computed: {
     ...mapState('dashboard', ['dashboardConfig']),
   },
+  watch: {
+    indicatorObject: {
+      async handler() {
+        this.title = this.getItemTitle();
+      },
+    },
+    featureObject: {
+      async handler() {
+        this.title = this.getItemTitle();
+      },
+    },
+  },
   created() {
-    if (this.indicatorObject) {
-      let indObj = this.indicatorObject;
-      if (this.featureObject) {
-        // Merge with parent indicator object to have all necessary information
-        indObj = { ...indObj, ...this.featureObject };
-      }
-      this.title = `${indObj?.city?.trim()}: ${indObj?.description?.trim()}`;
-    }
+    this.title = this.getItemTitle();
   },
   methods: {
     ...mapActions('dashboard', [
@@ -118,6 +123,25 @@ export default {
       'addFeature',
       'removeFeature',
     ]),
+    getItemTitle() {
+      let title = '';
+      if (this.indicatorObject) {
+        let indObj = this.indicatorObject;
+        if (this.featureObject) {
+          // Merge with parent indicator object to have all necessary information
+          indObj = { ...indObj, ...this.featureObject };
+        }
+        // features
+        if (indObj?.city) {
+          title = `${indObj?.city?.trim()}: `;
+        } else if (indObj?.country) {
+          title = `${indObj?.country?.trim()}: `;
+        }
+        // global indicator has neither city nor country
+        title += `${indObj?.description?.trim()}`;
+      }
+      return title;
+    },
     async toggle() {
       let indObj = this.indicatorObject;
       if (this.featureObject) {
@@ -131,9 +155,7 @@ export default {
           // dashboard entries
           || poiValue,
         width: 4,
-        includesIndicator: this.indicatorObject.includesIndicator,
-        ...(this.indicatorObject.includesIndicator
-          && { indicatorObject: this.indicatorObject }),
+        ...{ indicatorObject: this.indicatorObject },
         title: this.title,
         ...(this.indicatorObject.showGlobe && {
           mapInfo: {

@@ -10,7 +10,10 @@ const state = {
     custom: [],
   },
   selectedArea: null,
+  selectedCalendarDate: null,
+  sliderValue: null,
   selectedFeatures: [],
+  selectedJsonformParameters: null,
 };
 
 const getters = {
@@ -70,15 +73,18 @@ const mutations = {
     if (hasFeature('indicators')) {
       state.featureFilters.indicators = options.indicators;
     }
-    if (hasFeature('themes')) {
-      state.featureFilters.themes = options.themes;
-    }
   },
   SET_SELECTED_FEATURES(state, features) {
     state.selectedFeatures = features;
   },
   SET_SELECTED_AREA(state, area) {
     state.selectedArea = area;
+  },
+  SET_SELECTED_DATE(state, date) {
+    state.selectedCalendarDate = date;
+  },
+  SET_SLIDER_VALUE(state, sliderValue) {
+    state.sliderValue = sliderValue;
   },
   SET_ADMIN_BORDER_FEATURE_SELECTED(state, feature) {
     state.adminBorderFeatureSelected = feature;

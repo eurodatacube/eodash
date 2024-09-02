@@ -14,13 +14,23 @@ import {
   nasaStatisticsConfig,
   xcubeAnalyticsConfig,
 } from '@/helpers/customAreaObjects';
-import { xcubeViewerColormaps } from '@/config/layers';
+// import { xcubeViewerColormaps, marineDataStoreDepths } from '@/config/layers';
 import { getMapInstance } from './components/map/map';
 
 const wkt = new Wkt();
 
 function clamp(value, low, high) {
   return Math.max(low, Math.min(value, high));
+}
+
+function sanitizeBbox(bbox) {
+  const [x1, y1, x2, y2] = bbox;
+  // Calculate the minimum and maximum values for x and y
+  const xmin = Math.min(x1, x2);
+  const xmax = Math.max(x1, x2);
+  const ymin = Math.min(y1, y2);
+  const ymax = Math.max(y1, y2);
+  return [xmin, ymin, xmax, ymax];
 }
 
 export function simplifiedshTimeFunction(date) {
@@ -80,6 +90,14 @@ export async function loadIndicatorExternalData(time, mergedConfig) {
   return dataObject;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+export function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 function createWMSDisplay(config, name) {
   const layers = config['wms:layers'].join(',');
   const styles = config['wms:styles'] ? config['wms:styles'].join(',') : '';
@@ -101,21 +119,24 @@ function createXYZDisplay(config, jsonData) {
   const display = {
     protocol: 'xyz',
     tileSize: 256,
-    url: `${config.href}${'&{time}'}`, // we add a time placeholder to the url
+    // we add a time placeholder to the url (veda cog endpoint)
+    url: `${config.href}${'&{time}'}`,
     name: jsonData.id,
     dateFormatFunction: (date) => `url=${date[1]}`,
     labelFormatFunction: (date) => date[0],
   };
   if (jsonData.endpointtype === 'VEDA_tiles') {
-    display.dateFormatFunction = (date) => `item=${date[1]}`;
+    display.url = config.href.replace('{item}', '{time}');
+    // will actually replace the placeholder with actual STAC Item name
+    display.dateFormatFunction = (date) => `${date[1]}`;
   }
   return display;
 }
 
 function createXYZTilesXcubeDisplay(config, name) {
-  const searchParams = new URLSearchParams(config.href);
-  const vmin = searchParams.get('vmin') || 0;
-  const vmax = searchParams.get('vmax') || 1;
+  // const searchParams = new URLSearchParams(config.href);
+  // const vmin = searchParams.get('vmin') || 0;
+  // const vmax = searchParams.get('vmax') || 1;
   const display = {
     protocol: 'xyz',
     tileSize: 256,
@@ -124,40 +145,163 @@ function createXYZTilesXcubeDisplay(config, name) {
     name,
     dateFormatFunction: (date) => `${date}`,
     labelFormatFunction: (date) => date,
-    layerConfig: {
-      schema: {
-        type: 'object',
-        properties: {
-          vminmax: {
-            title: 'Value stretch',
-            type: 'object',
-            properties: {
-              vmin: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-              vmax: {
-                type: 'number',
-                minimum: parseFloat(vmin),
-                maximum: parseFloat(vmax),
-                format: 'range',
-              },
-            },
-            format: 'minmax',
-          },
-          cbar: {
-            title: 'Colorbar',
-            type: 'string',
-            enum: xcubeViewerColormaps,
-          },
-        },
-      },
-    },
+    // layerConfig: {
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       vminmax: {
+    //         title: 'Value stretch',
+    //         type: 'object',
+    //         properties: {
+    //           vmin: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //           vmax: {
+    //             type: 'number',
+    //             minimum: parseFloat(vmin),
+    //             maximum: parseFloat(vmax),
+    //             format: 'range',
+    //           },
+    //         },
+    //         format: 'minmax',
+    //       },
+    //       cbar: {
+    //         title: 'Colorbar',
+    //         type: 'string',
+    //         enum: xcubeViewerColormaps,
+    //       },
+    //     },
+    //   },
+    // },
   };
   return display;
 }
+
+function createXYZTilesMarineDatastoreDisplay(config, name) {
+  // const searchParams = new URLSearchParams(config.href);
+  // const vmin = searchParams.get('vmin') || 0;
+  // const vmax = searchParams.get('vmax') || 1;
+  const display = {
+    protocol: 'xyz',
+    // TODO FIXME - change to 4326 and z-1 offset
+    url: `https://wmts.marine.copernicus.eu/teroWmts?service=WMTS&version=1.0.0&request=GetTile&tilematrixset=EPSG:3857&tilematrix={z}&tilerow={y}&tilecol={x}&layer=${config['wmts:layer']}&elevation=${config['wmts:dimensions'].elevation}&time={time}&style=${config['wmts:dimensions'].style}`,
+    tileSize: 512,
+    name,
+    dateFormatFunction: (date) => `${date}`,
+    // commenting out for now due to a endless loop of fetching tiles (something triggers layercontrol xyz source update) and that fetches tiles, which triggers layercontrol xyz "slider" update
+    // layerConfig: {
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       // vminmax: {
+    //       //   title: 'Value stretch',
+    //       //   type: 'object',
+    //       //   properties: {
+    //       //     vmin: {
+    //       //       type: 'number',
+    //       //       minimum: parseFloat(vmin),
+    //       //       maximum: parseFloat(vmax),
+    //       //       format: 'range',
+    //       //     },
+    //       //     vmax: {
+    //       //       type: 'number',
+    //       //       minimum: parseFloat(vmin),
+    //       //       maximum: parseFloat(vmax),
+    //       //       format: 'range',
+    //       //     },
+    //       //   },
+    //       //   format: 'minmax',
+    //       // },
+    //       elevation: {
+    //         title: 'Elevation',
+    //         type: 'string',
+    //         enum: marineDataStoreDepths,
+    //       },
+    //       // style: {
+    //       //   title: 'Style',
+    //       //   type: 'string',
+    //       //   enum: ['cmap:viridis,range:1/1400,noClamp', 'cmap:speed,range:1/400,noClamp'],
+    //       // },
+    //     },
+    //   },
+    // },
+  };
+  return display;
+}
+
+function createVectorDisplay(config, sourceStyle) {
+  let flatStyle = {
+    'stroke-color': 'blue',
+    'stroke-width': 2,
+  };
+  if (sourceStyle) {
+    flatStyle = sourceStyle;
+    flatStyle.layerId = config.id;
+  } else {
+    console.log('Info: no flatstyle provided for rendering vector dataset, using default style');
+  }
+  const display = {
+    // placeholder needed because url is used to differentiate
+    // between pure features and source in layers.js
+    url: 'placeholder',
+    protocol: 'GeoJSON',
+    flatStyle,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+    tooltip: true,
+    // allowedParameters: ['name'],
+  };
+  if ('proj:epsg' in config) {
+    display.projection = `EPSG:${config['proj:epsg']}`;
+  }
+  return display;
+}
+
+function createCOGDisplay(config, sourceStyle) {
+  let style = {};
+  if (sourceStyle) {
+    style = sourceStyle;
+    style.layerId = config.id;
+  } else {
+    console.log('Info: no flatstyle provided for rendering COG dataset, using default style');
+  }
+  const display = {
+    protocol: 'cog',
+    style,
+    id: config.id,
+    name: config.title,
+    dateFormatFunction: (date) => date[1],
+    labelFormatFunction: (date) => date[0],
+  };
+  return display;
+}
+
+export function flattenObject(ob) {
+  const toReturn = {};
+  Object.keys(ob).forEach((i) => {
+    if ((typeof ob[i]) === 'object' && ob[i] !== null) {
+      const flatObject = flattenObject(ob[i]);
+      Object.keys(flatObject).forEach((fi) => {
+        // Assumes unique keys, overwrites non unique keys
+        toReturn[fi] = flatObject[fi];
+      });
+    } else {
+      toReturn[i] = ob[i];
+    }
+  });
+  return toReturn;
+}
+export const PROJDICT = {
+  'EPSG:3035': {
+    name: 'EPSG:3035',
+    def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
+  },
+};
 
 function createVectorTileDisplay(config) {
   // TODO, not finished and used yet
@@ -209,6 +353,8 @@ function createVectorTileDisplay(config) {
 export async function loadFeatureData(baseConfig, feature) {
   const parsedData = {};
   const { indicatorObject } = feature;
+  const indicatorObjectWorkingWith = store.state.indicators.selectedIndicator
+    || indicatorObject;
   let display = {};
   if (indicatorObject.locations) {
     const response = await fetch(indicatorObject.link);
@@ -222,51 +368,49 @@ export async function loadFeatureData(baseConfig, feature) {
     times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     // We set the times and display configuration for the indicators
     // Items can have display configurations when the Locations config was used in the catalog
-    if (store.state.indicators.selectedIndicator) {
-      store.state.indicators.selectedIndicator.time = times;
-      const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
-      const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
-      if (wmsEndpoint) {
-        display = createWMSDisplay(
-          wmsEndpoint, jsonData.id,
+    indicatorObjectWorkingWith.time = times;
+    const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
+    const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    if (wmsEndpoint) {
+      display = createWMSDisplay(
+        wmsEndpoint, jsonData.id,
+      );
+      if (jsonData.endpointtype === 'Sentinel Hub'
+        || jsonData.endpointtype === 'Sentinel Hub WMS') {
+        display.dateFormatFunction = shTimeFunction;
+      }
+      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+        display.legendUrl = jsonData.assets.legend.href;
+      }
+    } else if (xyzEndpoint) {
+      if (xyzEndpoint.type === 'image/png') {
+        display = createXYZDisplay(
+          xyzEndpoint, jsonData,
         );
-        if (jsonData.endpointtype === 'Sentinel Hub'
-          || jsonData.endpointtype === 'Sentinel Hub WMS') {
-          display.dateFormatFunction = shTimeFunction;
-        }
-        if ('assets' in jsonData && 'legend' in jsonData.assets) {
-          display.legendUrl = jsonData.assets.legend.href;
-        }
-      } else if (xyzEndpoint) {
-        if (xyzEndpoint.type === 'image/png') {
-          display = createXYZDisplay(
-            xyzEndpoint, jsonData,
-          );
-          const cogTimes = [];
-          jsonData.links.forEach((link) => {
-            if (link.rel === 'item') {
-              let time;
-              if (link.datetime) {
-                time = link.datetime;
-              } else if (link.start_datetime) {
-                time = link.start_datetime;
-              }
-              if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
-                cogTimes.push([
-                  time,
-                  link.item,
-                ]);
-              } else {
-                cogTimes.push([
-                  time,
-                  link.cog_href,
-                ]);
-              }
+        const cogTimes = [];
+        jsonData.links.forEach((link) => {
+          if (link.rel === 'item') {
+            let time;
+            if (link.datetime) {
+              time = link.datetime;
+            } else if (link.start_datetime) {
+              time = link.start_datetime;
             }
-          });
-          cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
-          store.state.indicators.selectedIndicator.time = cogTimes;
-        }
+            if (jsonData.endpointtype && jsonData.endpointtype === 'VEDA_tiles') {
+              cogTimes.push([
+                time,
+                link.item,
+              ]);
+            } else {
+              cogTimes.push([
+                time,
+                link.cog_href,
+              ]);
+            }
+          }
+        });
+        cogTimes.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+        indicatorObjectWorkingWith.time = cogTimes;
       }
     }
     // Check for possible processing configuration in examples
@@ -309,8 +453,10 @@ export async function loadFeatureData(baseConfig, feature) {
         };
       }
     }
+    // if coordinates of bbox are switched in source, client breaks in OL part
+    const bbox = sanitizeBbox(jsonData.extent.spatial.bbox[0]);
     // Add collection extent as subaoi
-    const coords = fromExtent(jsonData.extent.spatial.bbox[0]).getCoordinates();
+    const coords = fromExtent(bbox).getCoordinates();
     const features = {
       type: 'MultiPolygon',
       coordinates: [coords],
@@ -319,7 +465,19 @@ export async function loadFeatureData(baseConfig, feature) {
       type: 'FeatureCollection',
       features: [features],
     };
-    store.state.indicators.selectedIndicator.display = display;
+    if (Array.isArray(indicatorObjectWorkingWith.display)) {
+      // merge display with first entry of original array of displays
+      indicatorObjectWorkingWith.display[0] = {
+        ...display,
+        ...indicatorObjectWorkingWith.display[0],
+      };
+    } else {
+      // merge object properties
+      indicatorObjectWorkingWith.display = {
+        ...display,
+        ...indicatorObjectWorkingWith.display,
+      };
+    }
   } else {
     // Fetch data from geodb
     const geodbUrl = baseConfig.geoDBFeatureParameters.url;
@@ -445,6 +603,9 @@ export async function loadFeatureData(baseConfig, feature) {
       }
     });
   }
+  if (!store.state.indicators.selectedIndicator) {
+    parsedData.indicatorObject = indicatorObject;
+  }
   return parsedData;
 }
 
@@ -459,8 +620,19 @@ export async function loadIndicatorData(baseConfig, payload) {
     // Configure display based on type
     const wmsEndpoint = jsonData.links.find((item) => item.rel === 'wms');
     const xyzEndpoint = jsonData.links.find((item) => item.rel === 'xyz');
+    const wmtsEndpoint = jsonData.links.find((item) => item.rel === 'wmts');
     let display = {};
-    if (wmsEndpoint) {
+    if (wmtsEndpoint && wmtsEndpoint.href.includes('wmts.marine.copernicus.eu/teroWmts')) {
+      display = createXYZTilesMarineDatastoreDisplay(
+        wmtsEndpoint, jsonData.id,
+      );
+      jsonData.links.forEach((link) => {
+        if (link.rel === 'item') {
+          times.push(link.datetime);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
+    } else if (wmsEndpoint) {
       display = createWMSDisplay(
         wmsEndpoint, jsonData.id,
       );
@@ -529,6 +701,50 @@ export async function loadIndicatorData(baseConfig, payload) {
         });
         times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
       }
+    } else if (jsonData.endpointtype === 'GeoJSON source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createVectorDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.assets,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
+    } else if (jsonData.endpointtype === 'COG source') {
+      const styleLink = jsonData.links.find((item) => item.rel === 'style');
+      let flatStyle;
+      if (styleLink) {
+        flatStyle = await (await fetch(styleLink.href)).json();
+      }
+      display = createCOGDisplay(jsonData, flatStyle);
+      jsonData.links.forEach((link) => {
+        if (link && link.rel === 'item') {
+          let time;
+          if (link.datetime) {
+            time = link.datetime;
+          } else if (link.start_datetime) {
+            time = link.start_datetime;
+          }
+          times.push([
+            time,
+            link.assets,
+          ]);
+        }
+      });
+      times.sort((a, b) => ((DateTime.fromISO(a[0]) > DateTime.fromISO(b[0])) ? 1 : -1));
     } else {
       // try extracting dates from items for "collection-only placeholder collections"
       jsonData.links.forEach((link) => {
@@ -565,12 +781,13 @@ export async function loadIndicatorData(baseConfig, payload) {
           },
         };
       } else if (exampleEndpoint.title === 'VEDA Statistics') {
+        const rescale = exampleEndpoint.rescale || 1;
         display = {
           ...display,
           ...{
             customAreaIndicator: true,
             areaIndicator: nasaStatisticsConfig(
-              (value) => value,
+              (value) => rescale * value,
             ),
           },
         };
@@ -584,6 +801,9 @@ export async function loadIndicatorData(baseConfig, payload) {
         };
       }
     }
+    // add yAxis from collection
+    indicatorObject.yAxis = jsonData.yAxis;
+
     // Add markdown from description
     indicatorObject.markdown = jsonData.description;
     // Check for stac story asset
@@ -608,8 +828,9 @@ export async function loadIndicatorData(baseConfig, payload) {
           const featureObject = {};
           const coordinates = link.latlng.split(',').map(Number);
           featureObject.aoiID = link.id;
+          featureObject.name = link.name;
           // Sometimes geodb id is different to eodash id
-          featureObject.geoDBID = jsonData.id;
+          featureObject.geoDBID = jsonData.geoDBID;
           featureObject.isFeature = true;
           featureObject.aoi = latLng([coordinates[0], coordinates[1]]);
           featureObject.indicator = indicatorObject.indicator;

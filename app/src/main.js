@@ -21,6 +21,7 @@ import EmbedIframe from './views/EmbedIframe.vue';
 import ThemesLandingPage from './views/ThemesLandingPage.vue';
 import ThemeSinglePage from './views/ThemeSinglePage.vue';
 import ScrollyFrame from './views/ScrollyFrame.vue';
+import StoryEditor from './views/StoryEditor.vue';
 import store from './store';
 import charts from './plugins/charts'; // eslint-disable-line no-unused-vars
 import customDashboardApiFactory from './custom-dashboard';
@@ -30,6 +31,11 @@ import getLocationCode from './mixins/getLocationCode';
 import '@eox/itemfilter';
 import '@eox/layercontrol';
 import '@eox/stacinfo';
+import '@eox/map';
+import '@eox/map/dist/eox-map-advanced-layers-and-sources';
+import '@eox/jsonform';
+import '@eox/storytelling';
+import '@eox/geosearch';
 
 // Set UTC as default time zone behavior for whole client
 Settings.defaultZoneName = 'utc';
@@ -42,6 +48,10 @@ Vue.config.ignoredElements = [
   'eox-itemfilter',
   'eox-layercontrol',
   'eox-stacinfo',
+  'eox-map',
+  'eox-jsonform',
+  'eox-storytelling',
+  'eox-geosearch',
 ];
 
 Vue.use(VuePapaParse);
@@ -219,6 +229,7 @@ const renderVue = async () => {
       ] : []
     ),
     { path: '/story', component: DashboardCustom },
+    { path: '/story-editor', component: StoryEditor },
     { path: '/privacy', name: 'privacy', component: Privacy },
     { path: '/terms_and_conditions', name: 'terms_and_conditions', component: Terms },
     { path: '/challenges', component: Challenges },
@@ -235,6 +246,7 @@ const renderVue = async () => {
         { path: '/biomass', name: 'biomass', component: ThemeSinglePage },
         { path: '/covid-19', name: 'covid-19', component: ThemeSinglePage },
         { path: '/cryosphere', name: 'cryosphere', component: ThemeSinglePage },
+        { path: '/extreme-events', name: 'extreme-events', component: ThemeSinglePage },
         { path: '/economy', name: 'economy', component: ThemeSinglePage },
         { path: '/oceans', name: 'oceans', component: ThemeSinglePage },
         { path: '/energy', name: 'energy', component: ThemeSinglePage },
