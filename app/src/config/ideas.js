@@ -378,7 +378,6 @@ export const globalIndicators = [
           disableTimeSelection: true,
           specialEnvScenario4: true,
           baseUrl: 'https://hulk.adamplatform.eu/wmts',
-          format: 'IMAGE/PNG',
           layers: 'InundationMap',
           styles: 'InundationMap;colorrange=(0,2)',
           token: 'bf12d6193efa667283ee9643951acfaa',
