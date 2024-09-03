@@ -34,9 +34,14 @@ Regarding this year, in January 2024 global sea surface temperature [was the hig
 
 
 
-## High SSTs in Asia: the Coasts of Tohoku and Hokkaido (Japan)
+## High SSTs in Japan
+Figure below shows a map of SST anomalies for July 2023. Overall, SSTs tend to be higher than normal, especially in the Pacific Ocean off the coast of Tohoku and Hokkaido, where they are more than 5°C higher than normal. The Kuroshio extension, which normally flows eastward from Joban-oki, moved northward to Sanriku-oki this season, bringing high water temperatures. In a recent report of Japan Meteorological Agency (JMA), it was pointed out that this high SST may have been one of the factors that brought record high temperatures to northern Japan this summer.
 
-## Map Tour Example <!--{ as="eox-map" mode="tour" }-->
+
+
+
+
+## The Coasts of Tohoku and Hokkaido  <!--{ as="eox-map" mode="tour" }-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"osm"},"source":{"type":"OSM"}}]' center=[160,35] zoom="5" animationOptions="{duration:500}" }-->
 #### High Sea Surface Temperatures near Japan
@@ -70,6 +75,48 @@ In addition to global warming, SSTs in the ocean around Japan are changing under
        Time series of monthly mean SST anomalies in the seas around Japan (20-50°N, 120-160°E).Credit: JAXA
     </figcaption>
 </figure>
+
+## Open Science 
+
+For research purposes, ESA is offering this resources under a sponsorship scheme through the Network of Resources.
+* [DeepESDL website](https://earthsystemdatalab.net)  
+* [Network of Resources website](https://nor-discover.org/en/portfolio/)
+* [Apply for sponsorsed access to DeepESDL](https://portfolio.nor-discover.org/?textSearch=DeepESDL)
+
+<p>Here are some key types of variables and datasets from Earth observation satellite missions that can be used to track El Niño and La Niña events, with special attention to ocean-related surface temperatures. This summary focuses on missions from ESA, NASA, and JAXA:</p>
+
+ <ul>
+        <li><strong><a href="https://www.eumetsat.int/website/home/Data/DataOverview/SeaSurfaceTemperature/index.html">Sea Surface Temperature (SST)</a></strong> from satellites like:
+            <ul>
+                <li><a href="https://climate.esa.int/en/overview/sea-surface-temperature/">ESA's Climate Change Initiative (CCI) SST</a></li>
+                <li><a href="https://modis.gsfc.nasa.gov/data/dataprod/mod28.php">NASA's Aqua/MODIS and Terra/MODIS</a></li>
+                <li><a href="https://www.jaxa.jp/projects/sat/gcom_w1">JAXA's GCOM-W/AMSR2</a></li>
+            </ul>
+        </li>
+        <li><strong><a href="https://earth.esa.int/eogateway/missions/cryosat">Sea Surface Height (SSH)</a></strong> from altimeter missions like:
+            <ul>
+                <li><a href="https://earth.esa.int/eogateway/missions/cryosat">ESA's CryoSat-2</a> and <a href="https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-3">Sentinel-3</a></li>
+                <li><a href="https://sealevel.jpl.nasa.gov/missions/jason-3/">NASA/CNES's Jason-3</a></li>
+            </ul>
+        </li>
+     </li>
+            </ul>
+        </li>
+
+
+
+
+
+# References 
+1. Cai, W., Ng, B., Geng, T. et al. Anthropogenic impacts on twentieth-century ENSO variability changes. Nat Rev Earth Environ 4, 407–418 (2023). [doi.org/10.1038/s43017-023-00427-8](https://www.nature.com/articles/s43017-023-00427-8#citeas)
+2. Geng, T., Jia, F., Cai, W. et al. Increased occurrences of consecutive La Niña events under global warming. Nature 619, 774–781 (2023).[doi.org/10.1038/s41586-023-06236-9](https://www.nature.com/articles/s41586-023-06236-9#citeas)
+3. UN El Niño debate emphasizes need for integrated action [World Meterological Organization](https://wmo.int/media/news/un-el-nino-debate-emphasizes-need-integrated-action)
+4. Our oceans are in hot water [ESA](https://www.esa.int/Applications/Observing_the_Earth/Our_oceans_are_in_hot_water)
+5. The 2023 Northern Hemisphere Summer Marks Record-Breaking Oceanic Events [Copernicus Marine Service](https://marine.copernicus.eu/news/2023-northern-hemisphere-summer-record-breaking-oceanic-events)
+6. Global sea surface temperature reaches a record high [Copernicus Climate Change Service](https://climate.copernicus.eu/global-sea-surface-temperature-reaches-record-high)
+7. At peak value of 2°C above average sea surface temperature, 2023-24 El Nino among strongest on record [Down To Earth](https://www.downtoearth.org.in/climate-change/at-peak-value-of-2-c-above-average-sea-surface-temperature-2023-24-el-nino-among-strongest-on-record-94825)
+8. ENSO: Recent Evolution, Current Status and Predictions [NOOA](https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/lanina/enso_evolution-status-fcsts-web.pdf)
+
 
 
 
