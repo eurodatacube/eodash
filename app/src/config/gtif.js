@@ -1971,7 +1971,7 @@ export const globalIndicators = [
             ],
             id: 'biomass_power_plants',
             tooltip: true,
-            allowedParameters: ['0', '2'],
+            allowedParameters: ['0'],
             visible: true,
             selection: {
               mode: 'single',
