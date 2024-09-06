@@ -1908,16 +1908,6 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM2',
-        highlights: [
-          {
-            name: 'Styria overview',
-            location: wkt.read('POLYGON((13.234 48, 13.234 46.5, 16.5 46.5, 16.5 48, 13.234 48))').toJson(),
-          },
-          {
-            name: 'Mariazell',
-            location: wkt.read('POLYGON((15.200 47.800, 15.200 47.772, 15.262 47.772, 15.262 47.800, 15.200 47.800))').toJson(),
-          },
-        ],
         featureFilters: {
           sourceLayer: 'sawmill_features',
           hint: ' Select sawmill capabilities',
@@ -1952,18 +1942,41 @@ export const globalIndicators = [
           ],
         },
         display: [
-          /*
+          {
+            id: 'truck_roads',
+            legendUrl: '',
+            baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+            layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_beetle4tech_roads_austria_3857',
+            attribution: '{}',
+            // sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v3.sld',
+            protocol: 'WMS',
+            exceptions: 'application/vnd.ogc.se_inimage',
+            name: 'Truck appropiate roads',
+          },
           {
             protocol: 'GeoJSON',
+            projection: 'EPSG:4326',
             url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/biomass_powerplants.geojson',
             name: 'Biomass power plants',
             legendUrl: '',
-            style: {
-              strokeColor: 'rgba(0,0,0,0.9)',
-              fillColor: 'rgba(0,0,0,0.0001)',
+            flatStyle: [
+              {
+                style: {
+                  'circle-radius': 5,
+                  'circle-stroke-width': 2,
+                  'circle-stroke-color': '#c396fe',
+                  'circle-fill-color': '#c396fe55',
+                }
+              },
+            ],
+            id: 'biomass_power_plants',
+            tooltip: true,
+            allowedParameters: ['0', '2'],
+            visible: true,
+            selection: {
+              mode: 'single',
             },
           },
-          */
           {
             id: 'sawmill_features',
             legendUrl: '',
@@ -1980,7 +1993,7 @@ export const globalIndicators = [
                   'circle-radius': 5,
                   'circle-stroke-width': 2,
                   'circle-stroke-color': '#ee903d',
-                  'circle-fill-color': '#00324755',
+                  'circle-fill-color': '#ee903d55',
                 },
               },
             ],
@@ -2039,23 +2052,88 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM3',
-        display: {
-          protocol: 'cog',
-          id: 'FCM3',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['==', ['band', 1], 1],
-              ['color', 147, 220, 0],
-              ['==', ['band', 1], 2],
-              ['color', 0, 107, 0],
-              ['color', 0, 0, 0, 0],
-            ],
+        featureFilters: {
+          sourceLayer: 'sawmill_features',
+          hint: ' Select sawmill capabilities',
+          baseStyle: {
+            'circle-radius': 5,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ee903d',
+            'circle-fill-color': '#00324755',
           },
+          filters: [
+            { id: 'al', description: 'other glued wood products (dou or trilam)', category: 'Glued wood products' },
+            { id: 'bsh', description: 'laminated wood', category: 'Glued wood products' },
+            { id: 'bu', description: 'production of beech', category: 'Hardwood' },
+            { id: 'ei', description: 'production of oak ', category: 'Hardwood' },
+            { id: 's', description: 'other', category: 'Hardwood' },
+            { id: 'b', description: 'log band saw', category: 'Machinery ' },
+            { id: 'g', description: 'frame saw ', category: 'Machinery ' },
+            { id: 'i', description: 'impregnation ', category: 'Machinery ' },
+            { id: 'l', description: 'laminating line', category: 'Machinery ' },
+            { id: 'k', description: 'finger jointing', category: 'Machinery ' },
+            { id: 'n', description: 'double cutting circular saw', category: 'Machinery ' },
+            { id: 'p', description: 'profiler', category: 'Machinery ' },
+            { id: 't', description: 'drying chamber', category: 'Machinery ' },
+            { id: 'tb', description: 'band re-saw', category: 'Machinery ' },
+            { id: 'hw', description: 'produces planed goods', category: 'Planed goods' },
+            { id: 'veh', description: 'ordinary member of the Association of the European Planing Mill Industry', category: 'Planed goods' },
+            { id: 'fi_ta', description: 'production of spruce/fir', category: 'Softwood' },
+            { id: 'la', description: 'production of larch', category: 'Softwood' },
+            { id: 'ki', description: 'production of pine', category: 'Softwood' },
+            { id: 'mh', description: 'CE certified sawmills which manufacture high-quality construction solid timber without gluing and finger joint ', category: 'Solid wood' },
+            { id: 'ls', description: 'this sawmill also takes subcontracting orders ', category: 'Subcontracting' },
+          ],
         },
+        display: [
+          {
+            protocol: 'cog',
+            id: 'FCM3',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
+            ],
+            style: {
+              color: [
+                'case',
+                ['==', ['band', 1], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 1], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+          {
+            id: 'sawmill_features',
+            legendUrl: '',
+            flatStyle: [
+              {
+                /*
+                filter: [
+                  'all',
+                  ['==', ['get', 'al'], 1],
+                  ['==', ['get', 'b'], 1],
+                ],
+                */
+                style: {
+                  'circle-radius': 5,
+                  'circle-stroke-width': 2,
+                  'circle-stroke-color': '#ee903d',
+                  'circle-fill-color': '#ee903d55',
+                },
+              },
+            ],
+            layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_sawmills_v1',
+            protocol: 'geoserverTileLayer',
+            name: 'Sawmills',
+            visible: true,
+            selection: {
+              mode: 'single',
+            },
+            tooltip: true,
+            allowedParameters: ['name'],
+          },
+        ],
       },
     },
   },
