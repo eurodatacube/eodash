@@ -7,6 +7,16 @@
     <v-row>
       <v-col>
         <h3>
+          2024-07-05: EO Dashboard at IGARSS 2024
+        </h3>
+        <p>
+          The joint ESA, NASA and JAXA team will present the tutorial HD-12: Exploring Environmental Changes with EO: a hands-on journey from data analysis to scientific communication with ESA-NASA-JAXA EO Dashboard. <a href="https://www.2024.ieeeigarss.org/tutorials.php#tut10" target="_blank">https://www.2024.ieeeigarss.org/tutorials.php#tut10</a>
+        </p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2024-05-10: 3rd Earth System Science Challenge on EO data analysis and storytelling
         </h3>
         <p>
@@ -33,46 +43,6 @@
         <p>
           Explore the interactive story <a href="./story?id=forests-on-the-brink">here</a>!
         </p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2024-02-08: Challenge announcement!!
-        </h3>
-        <h4>
-          Unveil the secrets of Earth’s Dynamic Systems: Join the Open Challenge!
-        </h4>
-        <p>
-          Only 20 spots available! Register before 15 February! Go to <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank" >
-            https://eo4society.esa.int/event/sciencehubchallengefeb2024/
-          </a> for more information.
-        </p>
-        <div style="width: 100%; text-align: center;">
-          <a href="https://eo4society.esa.int/event/sciencehubchallengefeb2024/" target="_blank">
-            <img
-              :src="`${publicPath}data/trilateral/Science-Hub_Challenge-240202_v2.jpg`"
-              style="max-width: 100%; max-height: 500px;"
-            />
-          </a>
-        </div>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          2023-11-29: Several new datasets added to theme BIOMASS
-        </h3>
-        <ul>
-          <li>Datasets contributed by ESA CCI RECCAP-2 project
-            <a href="explore?search=Biomass">
-            View Datasets
-          </a></li>
-          <li>EO Dashboard participates to the United Nations Climate Change Conference COP28
-            <a href="//www.cop28.com/">
-            COP28 UAE - United Nations Climate Change Conference
-          </a></li>
-        </ul>
       </v-col>
     </v-row>
   </v-container>

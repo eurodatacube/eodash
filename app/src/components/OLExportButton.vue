@@ -44,11 +44,11 @@
 
       <v-card-text class="py-5">
         <div>
-          Copy and paste this code into the map layers field of the storytelling editor:
+          Copy and paste this code into the map <b>layers</b> field of the storytelling editor:
         </div>
         <div
           class="pa-3"
-          style="background-color: #ddd;font-family: monospace;font-size: 11px;">
+          style="background-color: #ddd;font-family: monospace;font-size: 11px;max-height: 300px; overflow-y: auto;">
             {{ layersConfig }}
         </div>
         <div style="position: absolute; bottom: 15px;">
@@ -122,6 +122,7 @@ import TileLayer from 'ol/layer/Tile';
 import { TileWMS, WMTS, XYZ } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import { GeoJSON, MVT, WKB } from 'ol/format';
+import VectorLayer from 'ol/layer/Vector';
 
 export default {
   mixins: [dialogMixin],
@@ -146,6 +147,12 @@ export default {
       );
       // remove internal layer group
       layerConfig.splice(-1);
+      // We want also to inverse the layers within the analysis group
+      // else they will be reversed in the config
+      // Check to make sure we have the expected overlay, baselayer and analysis groups
+      if (layerConfig.length === 3) {
+        layerConfig[1].reverse();
+      }
       // reverse to use same order as eox-map config
       layerConfig.reverse();
       return JSON.stringify(layerConfig.flat());
@@ -177,13 +184,16 @@ Text describing the current step of the tour and why it is interesting what the 
       layerArray.map((l) => {
         if (l instanceof LayerGroup) {
           layers.push(this.extractLayerConfig(l.getLayersArray()));
-        } else if (l instanceof TileLayer) {
+        } else if (l instanceof TileLayer || l instanceof VectorLayer) {
           const layerConfig = {
             type: 'Tile',
             properties: {
               id: l.get('configId') ? l.get('configId') : getUid(l),
             },
           };
+          if (l instanceof VectorLayer) {
+            layerConfig.type = 'Vector';
+          }
           // Evaluate what other information we need to extract for different source types
           const olsource = l.getSource();
           // only export visible layers
@@ -197,7 +207,7 @@ Text describing the current step of the tour and why it is interesting what the 
               foundType = 'TileWMS';
             }
             if (olsource instanceof VectorSource) {
-              foundType = 'VectorSource';
+              foundType = 'Vector';
             }
             if (olsource instanceof WMTS) {
               foundType = 'WMTS';
@@ -212,12 +222,36 @@ Text describing the current step of the tour and why it is interesting what the 
               } else if ('urls' in olsource) {
                 source.urls = olsource.urls;
               }
-            } else if (foundType === 'VectorSource') {
+            } else if (foundType === 'Vector') {
               source.url = olsource.getUrl();
+              if (typeof source.url === 'undefined') {
+                // features were loaded directly so it is a custom area indicator
+                // we want to export the features with the configuration
+                const format = new GeoJSON();
+                const features = olsource.getFeatures();
+                if (features && features.length > 0) {
+                  const geoJsonStr = format.writeFeatures(features, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+                  source.url = `data:application/json;,${encodeURI(geoJsonStr)}`;
+                  source.format = 'GeoJSON';
+                  layerConfig.style = {
+                    'stroke-color': 'red',
+                    'stroke-width': 2,
+                    'circle-radius': 4,
+                    'circle-stroke-color': 'red',
+                    'circle-stroke-width': 3,
+                  };
+                }
+              }
               let vsf;
               const olformat = olsource.getFormat();
               if (olformat instanceof GeoJSON) {
-                vsf = 'GeoJSON';
+                vsf = {
+                  type: 'GeoJSON',
+                };
+                const pcode = olformat.dataProjection.getCode();
+                if (pcode) {
+                  vsf.dataProjection = pcode;
+                }
               }
               if (olformat instanceof MVT) {
                 vsf = 'MVT';
@@ -238,10 +272,20 @@ Text describing the current step of the tour and why it is interesting what the 
               source.layer = olsource.getLayer();
               source.format = olsource.getFormat();
               source.matrixSet = olsource.getMatrixSet();
-              // TODO: i think we also need to have information on tilegrid here
+              const tileGrid = olsource.getTileGrid();
+              source.tileGrid = {
+                resolutions: tileGrid.getResolutions(),
+                projection: olsource.getProjection().getCode(),
+                matrixIds: tileGrid.getMatrixIds(),
+                origin: tileGrid.getOrigin(0),
+              };
             }
-            if (foundType === 'VectorSource') {
-              layerConfig.style = l.getStyle();
+            if (foundType === 'Vector') {
+              // We can't export a function style function
+              // only flat styles, for now we ignore this case
+              if (typeof l.getStyle !== 'function') {
+                layerConfig.style = l.getStyle();
+              }
             }
             if (l.getOpacity() !== 1) {
               layerConfig.opacity = l.getOpacity();

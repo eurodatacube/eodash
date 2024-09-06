@@ -7,7 +7,9 @@ import {
   shS2TimeFunction, shWeeklyTimeFunction,
 } from '@/utils';
 import shTimeFunction from '@/shTimeFunction';
-import { baseLayers, overlayLayers } from '@/config/layers';
+import {
+  baseLayers, overlayLayers, trucksAreaIndicator, trucksFeatures,
+} from '@/config/layers';
 import {
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
@@ -390,6 +392,7 @@ export const indicatorClassesIcons = Object.freeze({
   biomass: 'mdi-leaf',
   'covid-19': 'mdi-hospital-box-outline',
   cryosphere: 'mdi-snowflake',
+  'extreme-events': 'mdi-lightning-bolt',
 });
 
 export const geoDBFeatureParameters = Object.freeze({
@@ -497,16 +500,16 @@ export const replaceMapTimes = {
   'US05-E10c': e10cDates,
 };
 
-const getYearlyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
-    currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
-  }
-  return dateArray;
-};
+// const getYearlyDates = (start, end) => {
+//   let currentDate = DateTime.fromISO(start);
+//   const stopDate = DateTime.fromISO(end);
+//   const dateArray = [];
+//   while (currentDate <= stopDate) {
+//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy'));
+//     currentDate = DateTime.fromISO(currentDate).plus({ years: 1 });
+//   }
+//   return dateArray;
+// };
 
 const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction = null) => {
   let currentDate = DateTime.fromISO(start);
@@ -528,16 +531,16 @@ const getDailyDates = (start, end, interval = 1, s3Path = null, formatFunction =
   return dateArray;
 };
 
-const getWeeklyDates = (start, end) => {
-  let currentDate = DateTime.fromISO(start);
-  const stopDate = DateTime.fromISO(end);
-  const dateArray = [];
-  while (currentDate <= stopDate) {
-    dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
-    currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
-  }
-  return dateArray;
-};
+// const getWeeklyDates = (start, end) => {
+//   let currentDate = DateTime.fromISO(start);
+//   const stopDate = DateTime.fromISO(end);
+//   const dateArray = [];
+//   while (currentDate <= stopDate) {
+//     dateArray.push(DateTime.fromISO(currentDate).toFormat('yyyy-MM-dd'));
+//     currentDate = DateTime.fromISO(currentDate).plus({ weeks: 1 });
+//   }
+//   return dateArray;
+// };
 
 const createRECCAP2Config = (indicatorCode, time) => ({
   properties: {
@@ -557,26 +560,17 @@ export const globalIndicators = [
   createRECCAP2Config('RECCAP2_2'),
   createRECCAP2Config('RECCAP2_3'),
   createRECCAP2Config('RECCAP2_4'),
-  createRECCAP2Config('RECCAP2_5', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_6', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_7', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_8', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_9', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_10', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_11', getYearlyDates('2011-01-01', '2018-01-01')),
-  createRECCAP2Config('RECCAP2_12', getYearlyDates('2011-01-01', '2018-01-01')),
+  createRECCAP2Config('RECCAP2_5'),
+  createRECCAP2Config('RECCAP2_6'),
+  createRECCAP2Config('RECCAP2_7'),
+  createRECCAP2Config('RECCAP2_8'),
+  createRECCAP2Config('RECCAP2_9'),
+  createRECCAP2Config('RECCAP2_10'),
+  createRECCAP2Config('RECCAP2_11'),
+  createRECCAP2Config('RECCAP2_12'),
   createRECCAP2Config('ESDC_gross_primary_productivity', getDailyDates('2001-01-05', '2018-12-23', 8)),
   createRECCAP2Config('ESDC_net_ecosystem_exchange', getDailyDates('2001-01-05', '2018-12-23', 8)),
   createRECCAP2Config('ESDC_kndvi', getDailyDates('2000-03-01', '2021-12-31', 8)),
-  {
-    properties: {
-      // override dates for precipitation
-      indicatorObject: {
-        indicator: 'ESDL_Hydrology_Precipitation',
-        time: getDailyDates('2015-01-01', '2021-12-31'),
-      },
-    },
-  },
   {
     properties: {
       indicatorObject: {
@@ -604,6 +598,62 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SIE',
         display: polarSHDatasets,
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'Modis_SNPP_2023',
+        display: [{
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          layers: 'S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE',
+          name: 'Sentinel-3 SLSTR F1 Brightness temperature',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/S3_SLSTR_F1_BRIGHTNESS_TEMPERATURE/cm_legend.png',
+          opacity: 1,
+          drawnAreaLimitExtent: true,
+          features: {
+            ...trucksFeatures,
+            drawnAreaLimitExtent: true,
+            name: 'Modis fire detections',
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'brightness,geometry,date_time,confidence,frp,daynight,type,bright_t31',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry) AND date_time LIKE \'{featuresTime}%\'',
+            },
+            dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+            style: {
+              strokeColor: '#ff0000',
+              width: 4,
+            },
+          },
+          areaIndicator: {
+            ...trucksAreaIndicator(false, 'date_time'),
+            requestBody: {
+              collection: 'eodash_MODIS_timeseries',
+              select: 'date_time,geometry',
+              order: 'date_time',
+              where: 'ST_Intersects(ST_GeomFromText(\'{area}\',4326), geometry)',
+            },
+          },
+          customAreaIndicator: true,
+          customAreaFeatures: true,
+        }, {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).minus({ days: 1 }).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).toFormat('yyyy-MM-dd')}`,
+          layers: 'SENTINEL-2-L2A-TRUE-COLOR',
+          name: 'Daily Sentinel 2 L2A +-1 day',
+          minZoom: 1,
+          drawnAreaLimitExtent: true,
+        }, {
+          baseUrl: `https://creodias.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}`,
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}`,
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/TESTING_CO_FROM_SENTINELHUB/cm_legend.png',
+          layers: 'TESTING_CO_FROM_SENTINELHUB',
+          name: 'Daily S5P L2 Tropomi CO',
+          opacity: 0.45,
+          drawnAreaLimitExtent: true,
+        }],
       },
     },
   },
@@ -656,7 +706,6 @@ export const globalIndicators = [
       // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_1_sea_ice_concentration_arctic',
-        time: getDailyDates('1978-11-01', '2024-01-30'),
         display: {
           baseLayers: arcticBaseMaps,
           overlayLayers: arcticOverlayMaps,
@@ -676,7 +725,6 @@ export const globalIndicators = [
       // projection, time and layers overrides
       indicatorObject: {
         indicator: 'N12_sea_ice_concentration_antarctic',
-        time: getDailyDates('1978-11-01', '2024-01-30'),
         display: {
           baseLayers: antarcticBaseMaps,
           overlayLayers: antarcticOverlayMaps,
@@ -725,7 +773,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_West_Antarctica_S1',
-        time: getWeeklyDates('2017-05-18', '2022-01-15'),
         display: {
           ...antarcticDatasets,
           dateFormatFunction: shWeeklyTimeFunction,
@@ -739,7 +786,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: 'ADD_Meltmap',
-        time: getDailyDates('2007-01-02', '2021-12-31'),
         display: {
           ...antarcticDatasets,
           dateFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
@@ -788,7 +834,6 @@ export const globalIndicators = [
       indicatorObject: {
         // updating times and additional layers
         indicator: '4D_Greenland_Meltmap',
-        time: getDailyDates('2007-01-02', '2021-12-28'),
         display: polarSHDatasets,
       },
     },

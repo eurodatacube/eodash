@@ -7,7 +7,7 @@ module.exports = [
       production: 4,
     },
 
-    geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5&bounds=-27.42188,24.20689,53.08594,71.46912',
+    geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5',
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost', 'race.eox.home'],
     branding: {
       appName: 'Rapid Action for Citizens with Earth Observation',

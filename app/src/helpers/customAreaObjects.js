@@ -180,19 +180,23 @@ export const fetchCustomAreaObjects = async (
       : { area: JSON.stringify(drawnArea) };
   }
 
-  const { selectedFeatures } = store.state.features;
+  const { selectedFeatures, selectedJsonformParameters } = store.state.features;
   if (selectedFeatures.length === 1) {
     const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
     if (adminZoneKey) {
       options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
     }
     // special custom handling of cropom dataset
-    const queryParameters = indicatorObject?.queryParameters;
-    if (indicator.indicator === 'CROPOM' && Array.isArray(queryParameters)) {
-      const selectedCrop = queryParameters[1].items.find((item) => item.id === queryParameters[1].selected);
-      const selectedScenario = queryParameters[2].selected;
-      options.crop = selectedCrop.areaIndicator; // eslint-disable-line
-      options.scenario = selectedScenario; // eslint-disable-line
+    if (['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(indicator.indicator) && selectedJsonformParameters) {
+      const { crop, vstat } = selectedJsonformParameters;
+      const mappingCropToAreaindicatorCrop = {
+        Maize: 'MaizeGDD',
+        Soybean: 'Soybean',
+        Sunflower: 'SunflowerGDD',
+        Wheat: 'WheatGDD',
+      };
+      options.crop = mappingCropToAreaindicatorCrop[crop]; // eslint-disable-line
+      options.scenario = vstat; // eslint-disable-line
     }
   }
   const templateSubst = {
@@ -503,7 +507,7 @@ export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
   indicatorCode = 'NASACustomLineChart',
 ) => ({
-  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  url: 'https://openveda.cloud/api/raster/cog/statistics',
   requestMethod: 'POST',
   requestHeaders: {
     'Content-Type': 'application/json',
