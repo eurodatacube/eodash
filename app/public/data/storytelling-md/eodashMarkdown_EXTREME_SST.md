@@ -98,7 +98,8 @@ In addition to global warming, SSTs in the ocean around Japan are changing under
 
 
 
-# References 
+### References 
+
 1. Cai, W., Ng, B., Geng, T. et al. Anthropogenic impacts on twentieth-century ENSO variability changes. Nat Rev Earth Environ 4, 407–418 (2023). [doi.org/10.1038/s43017-023-00427-8](https://www.nature.com/articles/s43017-023-00427-8#citeas)
 2. Geng, T., Jia, F., Cai, W. et al. Increased occurrences of consecutive La Niña events under global warming. Nature 619, 774–781 (2023).[doi.org/10.1038/s41586-023-06236-9](https://www.nature.com/articles/s41586-023-06236-9#citeas)
 3. UN El Niño debate emphasizes need for integrated action [World Meterological Organization](https://wmo.int/media/news/un-el-nino-debate-emphasizes-need-integrated-action)
