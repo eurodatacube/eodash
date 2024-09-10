@@ -1,4 +1,4 @@
-## Tracking aerosol plumes from Hunga eruption in 2022
+# Tracking aerosol plumes from Hunga eruption in 2022
 
 *This story is based on results from the [3<sup>rd</sup> Earth System Science Challenge]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organised and hosted by ESA's ESRIN Science Hub in February 2024*
 
