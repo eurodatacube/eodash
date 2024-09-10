@@ -465,7 +465,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
           vectorSource.set('updateTime', (time) => {
             vectorSource.setUrl(time[1][0]);
           });
-        } else {
+        // if config.urlTemplateSelectedFeature
+        // then we do not change on time change, but on selected feature change
+        } else if (!config.urlTemplateSelectedFeature) {
           const updateUrl = replaceUrlPlaceholders(config.url, config, options);
           vectorSource.setUrl(updateUrl);
           vectorSource.set('updateTime', (time, area, configUpdate) => {
