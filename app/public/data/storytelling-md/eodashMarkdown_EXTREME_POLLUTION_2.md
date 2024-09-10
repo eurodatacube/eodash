@@ -80,10 +80,9 @@ Furthermore, when these extreme episodes were quantified, the number of days whi
 
 <span style="font-size:15px;">The table indicates the number of days which can be considered as extremes (for 90%, 95%, and 99%). We notice that these number of days are almost the same for the 3 cities, indicating a potential correlation between the extreme pollution events in the 3 cities. Note that the total number of days in 2023 is not 365 since for some days we do not have measurements because of clouds or other factors.</span>
 
-	
-## <!--{ as="eox-map" mode="tour" }-->
+##  CO Variation<!--{ as="eox-map" mode="tour" }-->
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-08"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-08"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.879889469918195" center=[74.28590944565705,31.547289411942756] animationOptions={duration:500}}-->
+###  <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-08"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-08"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.879889469918195" center=[74.28590944565705,31.547289411942756] animationOptions={duration:500}}-->
 #### Lahore 
 * **Map**: CO concentration measured on 2023-11-09 [[view full time series](https://www.eodashboard.org/explore?indicator=N1_CO&x=0&y=-1224599.44035&z=2.35425)]
 * **Chart**: CO daily variation for 2023
@@ -91,7 +90,7 @@ Furthermore, when these extreme episodes were quantified, the number of days whi
 <center>
 <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/Lahore.png" width="400">
 	
-	<span style="font-size:15px;">CO daily variation in 2023 for Lahore</span>
+<span style="font-size:15px;">CO daily variation in 2023 for Lahore</span>
 </center>
 
 A first sharp increase in carbon monoxide concentration can be observed at the end of October.  The emissions seem to be spontaneous, suggesting they can be linked to unusual antropogenic activities or vegetation fires.
@@ -108,7 +107,7 @@ Similar to Lahore, the peak observed in New Delhi on 11/04 indicates spontaneous
 <center>
 <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/NewDelhi.png" width="400">
 	
-	<span style="font-size:15px;">CO daily variation in 2023 for New Delhi</span>
+<span style="font-size:15px;">CO daily variation in 2023 for New Delhi</span>
 </center>
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-10"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-10"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.410109959839149" center=[80.84415782159175,26.927303711507136] animationOptions={duration:500}}-->
@@ -121,7 +120,7 @@ The last peak in CO was detected in Lucknow. This city is far from the region wh
 <center>
 <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/Lucknow.png" width="400">
 	
-	<span style="font-size:15px;">CO daily variation in 2023 for Lucknow</span>
+<span style="font-size:15px;">CO daily variation in 2023 for Lucknow</span>
 </center>
 
 ###
@@ -181,7 +180,6 @@ The analysis was carried out on the [ESA DeepESDL (Deep Earth System Data Lab)](
 14.  [MODIS Fire Detections](https://radiantearth.github.io/stac-browser/#/external/eurodatacube.github.io/eodash-catalog/trilateral/Modis_SNPP_2023/Modis_SNPP_2023/collection.json)
 15.  Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N. (2023): ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS) (Accessed on 02-M07-2024)
 16.  Story Cover image: NASA image courtesy Jeff Schmaltz, MODIS Rapid Response Team. Caption: NASA/Goddard, Lynn,   Jenner, source: [https://www.eurekalert.org/multimedia/575396](https://www.eurekalert.org/multimedia/575396)
-
 
 
 
