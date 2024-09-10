@@ -86,16 +86,6 @@ To reproduce this experiment, the data and code are made openly available.
 
 Visualisation of the plume between 13/01/2022 and 31/01/2022 (after interpolation)
 
-### Open Science 
-
-
-The analysis was carried out on the [ESA DeepESDL (Deep Earth System Data Lab)](https://earthsystemdatalab.net ). For research purposes, ESA is offering this resources under a sponsorship scheme through the Network of Resources.
-* [DeepESDL website](https://earthsystemdatalab.net)  
-* [Network of Resources website](https://nor-discover.org/en/portfolio/)
-* [Apply for sponsorsed access to DeepESDL](https://portfolio.nor-discover.org/?textSearch=DeepESDL)
-* [RAL Dataset](https://zenodo.org/records/7102472)
-* [Jupyter Notebook](https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/5_OpenChallengeNotebook-Hunga-Ch3_Duchamp_Barton_Baldazo.ipynb) (*Note that the polynomial regression is incomplete. However, you are encouraged to expand the notebook to include your own implementation.)*
-
 ## Conclusions
 In this work, the students concluded that relevant interpolation is possible with linear regression, and that gap filling by interpolation allows to improve the precision of the evolution of the plume. This strenghtens the evaluation of the radiative impact of the sulfates (especially for satellite tracks). The method still has a few weaknesses at this stage. From a technical point of view the team suggests further improvements by implementing a 2nd degree interpolation with more points and develop the function to handle 3 or maybe more consecutive gaps, as well as potentially implementing a shift to take into account the rapid horizontal displacement of the plume with the wind angular rotation speed from ERA5 reanalysis.
 
@@ -116,6 +106,15 @@ Other precursor information about volcanic activity comes from below the Earthâ€
 <span style="font-size:15px;">
 Â© Planetary Visions (credit: ESA/Planetary Visions).<a href="https://www.esa.int/Applications/Observing_the_Earth/FutureEO/GOCE/Deep_down_temperature_shifts_give_rise_to_eruptions" style="font-size:15px;">ESA Webstory</a></span>
 </center>
+
+## Open Science 
+
+The analysis was carried out on the [ESA DeepESDL (Deep Earth System Data Lab)](https://earthsystemdatalab.net ). For research purposes, ESA is offering this resources under a sponsorship scheme through the Network of Resources.
+* [DeepESDL website](https://earthsystemdatalab.net)  
+* [Network of Resources website](https://nor-discover.org/en/portfolio/)
+* [Apply for sponsorsed access to DeepESDL](https://portfolio.nor-discover.org/?textSearch=DeepESDL)
+* [RAL Dataset](https://zenodo.org/records/7102472)
+* [Jupyter Notebook](https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/5_OpenChallengeNotebook-Hunga-Ch3_Duchamp_Barton_Baldazo.ipynb) (*Note that the polynomial regression is incomplete. However, you are encouraged to expand the notebook to include your own implementation.)*
 
 ### References
 
