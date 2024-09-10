@@ -1,6 +1,6 @@
 <!-- eslint-disable global-require -->
 <template>
-  <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`">
+  <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`" style="z-index:10">
     <div v-if="comingSoon"
       class="fill-height d-flex justify-center align-center"
       :style="{background: $vuetify.theme.themes[theme].background}"

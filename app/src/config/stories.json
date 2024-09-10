@@ -60,6 +60,34 @@
         "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
+      },
+      "covid-no2": {
+        "storyMarkdown": "./data/storytelling-md/Covid-NO2.md",
+        "title": "Covid-19 Impacts on Air Quality",
+        "subtitle": "Effect of lockdown on Nitrogen Dioxide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-no2/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-no2/hero_small.jpg"
+      },
+      "covid-co2": {
+        "storyMarkdown": "./data/storytelling-md/Covid-CO2.md",
+        "title": "Covid-19 Impacts on Greenhouse Gases",
+        "subtitle": "Effect of lockdown on Carbon Dioxide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-co2/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-co2/hero_small.jpg"
+      },
+      "covid-cars": {
+        "storyMarkdown": "./data/storytelling-md/Covid-cars-containers-nagoya.md",
+        "title": "Covid-19 Impacts on Greenhouse Gases",
+        "subtitle": "Effect of lockdown on Carbon Dioxide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero_small.jpg"
+      },
+      "covid-rice": {
+        "storyMarkdown": "./data/storytelling-md/Earth Observing Dashboard-Agriculture-Rice.md",
+        "title": "Covid-19 Impacts on Rice Planting",
+        "subtitle": "Early Rice Planting in Sacramento (California)",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/Earth Observing Dashboard-Agriculture-Rice/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/Earth Observing Dashboard-Agriculture-Rice/hero_small.jpg"
       }
     },
     "biomass": {
@@ -78,6 +106,7 @@
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
       }
     },
+    "extreme-events": {},
     "cryosphere": {
       "thwaites-intro": {
         "originalDashboardId": "e7bc4529a0c4a581",

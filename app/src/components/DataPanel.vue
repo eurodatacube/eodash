@@ -5,6 +5,16 @@
     : 'height: calc(100% - 64px);'}`"
     ref="wrapper"
   >
+    <style-form-controls
+      v-if="mergedConfigsData[0].flatStyle && mergedConfigsData[0].flatStyle.jsonform"
+      :flatStyle="mergedConfigsData[0].flatStyle"
+      >
+    </style-form-controls>
+    <style-form-controls
+      v-if="mergedConfigsData[0].style && mergedConfigsData[0].style.jsonform"
+      :flatStyle="mergedConfigsData[0].style"
+      >
+    </style-form-controls>
     <span
       v-if="customAreaIndicator && !customAreaIndicator.isEmpty || dataObject && dataObject.time"
       class="ml-5"
@@ -35,8 +45,15 @@
             :adminFeature="$store.state.features.adminBorderFeatureSelected"
             :mergedConfigsData="mergedConfigsData[0]"
             :indicatorCode="indicatorObject.indicator"
-          >
-          </filter-controls>
+        >
+        </filter-controls>
+        <feature-filters v-if="indicatorObject.featureFilters"
+            :featureFilters="indicatorObject.featureFilters"
+            :adminLayer="$store.state.features.adminBorderLayerSelected"
+            :adminFeature="$store.state.features.adminBorderFeatureSelected"
+            :mergedConfigsData="mergedConfigsData[0]"
+            :indicatorCode="indicatorObject.indicator"
+        ></feature-filters>
         <template v-if="selectableLayerConfigs.length > 0">
             <SelectionInfoBar class="pb-2"
             :selectableLayerConfigs="selectableLayerConfigs"/>
@@ -290,6 +307,7 @@ import { DateTime } from 'luxon';
 import IndicatorData from '@/components/IndicatorData.vue';
 import IframeButton from '@/components/IframeButton.vue';
 import FilterControls from '@/components/map/FilterControls.vue';
+import FeatureFilters from '@/components/map/FeatureFilters.vue';
 import StyleControls from '@/components/map/StyleControls.vue';
 import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
@@ -299,6 +317,7 @@ import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
 import GTIFProcessingButtons from '@/components/GTIFProcessingButtons.vue';
 import FullScreenControl from '@/components/map/FullScreenControl.vue';
+import StyleFormControls from '@/components/map/StyleFormControls.vue';
 
 export default {
   components: {
@@ -306,6 +325,7 @@ export default {
     IframeButton,
     AddToDashboardButton,
     FilterControls,
+    FeatureFilters,
     StyleControls,
     WmsStyleControls,
     VectorTileStyleControl,
@@ -314,6 +334,7 @@ export default {
     GTIFProcessingButtons,
     VectorStyleControl,
     FullScreenControl,
+    StyleFormControls,
   },
   data: () => ({
     mounted: false,
