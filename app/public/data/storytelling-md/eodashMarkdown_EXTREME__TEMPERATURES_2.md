@@ -1,4 +1,6 @@
-## Record-breaking temperatures: El Niño 2023-2024
+# Record-breaking temperatures: El Niño 2023-2024
+
+## El Niño 2023-2024
 
 2024 has seen an unprecedented streak of record-breaking global temperatures. The average global surface air temperature in April 2024 - the warmest April on record - [exceeded by 0.67°C](https://climate.copernicus.eu/copernicus-global-temperature-record-streak-continues-april-2024-was-hottest-record)  the 1991-2020 average and by 1.58°C the pre-industrial values. It was the eleventh consecutive month of [record-breaking temperatures](https://wmo.int/media/news/global-temperature-record-streak-continues-climate-change-makes-heatwaves-more-extreme ). Just the year before, 2023 was the warmest year back then on record, surpassing the previous record set in 2016, according to the [Copernicus State of the Climate report](https://climate.copernicus.eu/copernicus-2023-hottest-year-record). Over 200 days had new daily global temperatures records for the time of the year in 2023. Also sea surface temperatures were exceptionally high for much of the year, which are believed to contribute to the [lowest sea ice extension in the Antarctic Ocean](https://wmo.int/media/news/wmo-confirms-2023-smashes-global-temperature-record), both for the end-of-summer minimum in February and end-of-winter maximum in September. 
 
@@ -44,7 +46,6 @@ As intense heat waves gripped regions including the southern USA, Mediterranean,
 <p>
 
 
-
 * <strong>Southern USA</strong>: The Southwest and parts of the southern US have faced extreme heat conditions,[ with temperatures exceeding 50°C](https://www.worldweatherattribution.org/extreme-heat-in-north-america-europe-and-china-in-july-2023-made-much-more-likely-by-climate-change/) in Death Valley and record highs in states like Nevada and Arizona. The heat has resulted in multiple heat-related fatalities, particularly impacting vulnerable populations.
 * <strong>Mediterranean and North Africa</strong>: Countries such as Algeria, Tunisia, and Morocco [have reported unprecedented temperatures](https://crisis24.garda.com/alerts/2023/07/north-africa-heatwave-forecast-to-persist-across-much-of-algeria-morocco-and-tunisia-through-at-least-july-14), with readings reaching up to 50°C. In July, Algeria recorded 48.7°C, while Tunisia saw temperatures of 49°C. These extreme conditions have led to power outages and significant health risks, including heat-related deaths.
 * <strong>Middle East</strong>: The region has also been severely impacted, with temperatures in Mecca reaching 50.5°C. The extreme heat has coincided with the Hajj pilgrimage, [leading to casualties among pilgrims](https://timesofindia.indiatimes.com/travel/travel-news/heatwave-claims-lives-of-550-hajj-pilgrims-in-mecca-temperature-crosses-50-degrees-celsius/articleshow/111111469.cms). In Iran, a staggering heat index of 66.7°C was recorded, illustrating the severity of the situation.
@@ -60,7 +61,7 @@ Living in a city during a heatwave can be particularly difficult as people have 
 </figcaption>
 </figure>
 
- Data from the [Copernicus Sentinel-3 mission](https://sentiwiki.copernicus.eu/web/s3-mission) revealed land surface temperatures exceeding 45°C in several Italian cities on 9-10 July, with some areas, such as the eastern slopes of Mount Etna in Sicily, recording temperatures surpassing 50°C. Such summer heatwaves can have significant impacts on population health. A [study published in Nature Medicine](https://www.nature.com/articles/s41591-023-02419-z ) highlighted the severe impact of 2022's summer heatwaves in Europe, resulting in over 60,000 deaths, with Italy, Greece, Spain, and Portugal having experienced the highest mortality rates. The 2023 European State of the Climate report indicates an increase in the number of “adverse health impacts” [caused by extreme weather and climate events](https://turkiye.un.org/en/266674-heat-related-deaths-increased-across-almost-all-europe-2023-says-un-weather-agency).
+Data from the [Copernicus Sentinel-3 mission](https://sentiwiki.copernicus.eu/web/s3-mission) revealed land surface temperatures exceeding 45°C in several Italian cities on 9-10 July, with some areas, such as the eastern slopes of Mount Etna in Sicily, recording temperatures surpassing 50°C. Such summer heatwaves can have significant impacts on population health. A [study published in Nature Medicine](https://www.nature.com/articles/s41591-023-02419-z ) highlighted the severe impact of 2022's summer heatwaves in Europe, resulting in over 60,000 deaths, with Italy, Greece, Spain, and Portugal having experienced the highest mortality rates. The 2023 European State of the Climate report indicates an increase in the number of “adverse health impacts” [caused by extreme weather and climate events](https://turkiye.un.org/en/266674-heat-related-deaths-increased-across-almost-all-europe-2023-says-un-weather-agency).
 
 ### Night time temperatures
 During heatwaves the temperature of the surface tends to be hotter than the temperature of the air. Images of night-time surface temperatures, taken in July by an instrument called ECOSTRESS showed the land-surface temperature over several European capitals in the evening or night-time on different dates in July 2023.
@@ -90,11 +91,6 @@ In Rome, the urban heat island effect was also prominent. On July 17, 2023, at 2
 
 
 ## Open Science 
-
-For research purposes, ESA is offering this resources under a sponsorship scheme through the Network of Resources.
-* [DeepESDL website](https://earthsystemdatalab.net)  
-* [Network of Resources website](https://nor-discover.org/en/portfolio/)
-* [Apply for sponsorsed access to DeepESDL](https://portfolio.nor-discover.org/?textSearch=DeepESDL)
 
 <p>Here are some key types of variables and datasets from Earth observation satellite missions that can be used to track El Niño and La Niña events, with special attention to land-related surface temperatures. This summary focuses on missions from ESA, NASA, and JAXA:</p>
 
