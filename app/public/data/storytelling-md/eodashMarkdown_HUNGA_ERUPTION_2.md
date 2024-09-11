@@ -52,9 +52,9 @@ This map shows the Hunga Tonga - Hunga Ha'apai island after the eruption observe
 ### 
 In the context of this disaster, [Advanced Land Observing Satellite-2 “DAICHI-2” (ALOS-2)]( https://global.jaxa.jp/projects/sat/alos2/) PALSAR-2 synthetic aperture radar provided emergency observations due to its capability of imaging under clouds and plumes. The images below made available on the [Sentinel-Asia website](https://sentinel-asia.org/EO/2022/article20220115TO.html) show the main island of Tonga before (2020/03/07) and after (2022/01/22) the eruption observed by JAXA’s ALOS-2 PALSAR-2. 
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2312694050-200307-FBDR2.1GUD_sml.jpg">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2312694050-200307-FBDR2.1GUD_sml.jpg">
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2414124050-220122-FBDR2.1GUD_sml.jpg">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2414124050-220122-FBDR2.1GUD_sml.jpg">
 
 
 ## Data and Methods
@@ -65,12 +65,12 @@ In order to precisely monitor the movement of the sulfur dioxide plume from the 
 
 However, because of the satellite geometry, particularly the swath wide, the gaps in their datasets made it hard to follow efficiently the movement of the aerosols. 
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/Plume-before-interpolation.gif">
+<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/Plume-before-interpolation.gif">
 
 Visualisation of the plume between 13/01/2022 and 29/01/2022 (no interpolation)
 
 The students’ idea was to use temporal interpolation techniques to be able to fill in those missing data. 
-To do so they used constructed their research following these four steps:
+To do so they constructed their research following these four steps:
 1. 	Selection of consecutive time series data of days before, during and after the event.
 2. 	Introduction of temporal gaps of different periods
 3. 	Interpolation using different algorithms: namely linear regression and second-degree polynomial regression* methods to fill in the temporal gaps
@@ -82,7 +82,10 @@ The linear interpolation function for one pixel involved looping over the time s
 Finally, new maps were computed by generating interpolated time series and plotting SAOD to visualize the results, aiming to accurately fill temporal gaps in satellite data and produce detailed maps of the aerosol plume's characteristics. By following these steps, the project aimed to effectively fill in temporal gaps in the satellite data and produce accurate interpolated maps of the aerosol plume.
 To reproduce this experiment, the data and code are made openly available. 
 
-<img src="https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/Plume-after-interpolation.mov">
+<video controls autoplay>
+<source src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/Plume-after-interpolation.mov" type="video/mp4">
+</source>
+</video>
 
 Visualisation of the plume between 13/01/2022 and 31/01/2022 (after interpolation)
 
@@ -114,7 +117,7 @@ The analysis was carried out on the [ESA DeepESDL (Deep Earth System Data Lab)](
 * [Network of Resources website](https://nor-discover.org/en/portfolio/)
 * [Apply for sponsorsed access to DeepESDL](https://portfolio.nor-discover.org/?textSearch=DeepESDL)
 * [RAL Dataset](https://zenodo.org/records/7102472)
-* [Jupyter Notebook](https://github.com/eurodatacube/eodash-assets/blob/hunga-tonga/stories/ScienceHub-Challenge-February-2024/hunga-tonga/5_OpenChallengeNotebook-Hunga-Ch3_Duchamp_Barton_Baldazo.ipynb) (*Note that the polynomial regression is incomplete. However, you are encouraged to expand the notebook to include your own implementation.)*
+* [Jupyter Notebook](https://github.com/eurodatacube/eodash-assets/blob/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/5_OpenChallengeNotebook-Hunga-Ch3_Duchamp_Barton_Baldazo.ipynb) (*Note that the polynomial regression is incomplete. However, you are encouraged to expand the notebook to include your own implementation.)*
 
 ### References
 

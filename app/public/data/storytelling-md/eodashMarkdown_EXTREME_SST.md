@@ -4,7 +4,7 @@ The strength and frequency of La Niña and El Niño were once determined entirel
 
 
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/main/stories/stories/el_nino_SST/La_nina_2022_vs_El_nino_2023.png"
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/La_nina_2022_vs_El_nino_2023.png"
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
@@ -50,7 +50,7 @@ Overall, SSTs tend to be higher than normal, especially in the Pacific Ocean off
  The Kuroshio extension, which normally flows eastward from Joban-oki, moved northward to Sanriku-oki this season, bringing high water temperatures. 
  The Kuroshio extension, which normally flows eastward from Joban-oki, moved northward to Sanriku-oki this season, bringing high water temperatures. 
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/temp-difference.png" 
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/temp-difference.png" 
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
@@ -66,7 +66,7 @@ Overall, SSTs tend to be higher than normal, especially in the Pacific Ocean off
 In addition to global warming, SSTs in the ocean around Japan are changing under the influence of complex variations in the ocean current system, which has a significant impact on Japan’s weather, climate, and fisheries. To meet the demand for monitoring and forecasting such oceanic changes, JAXA, in cooperation with the Japan Agency for Marine-Earth Science and Technology, operates the “Ocean Weather Forecast” for the area around Japan, providing forecast results of water temperature and current speed up to about two weeks ahead. The Ocean Weather Forecast uses SST data from the AMSR series to improve forecast accuracy. Figure below shows the monthly mean SST anomalies in the seas around Japan (20-50°N, 120-160°E), which shows the long-term trends of variations, excluding seasonal cycles. 
 
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/sst_anomaly.png" 
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/sst_anomaly.png" 
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
