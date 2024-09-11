@@ -1966,7 +1966,7 @@ export const globalIndicators = [
                   'circle-stroke-width': 2,
                   'circle-stroke-color': '#c396fe',
                   'circle-fill-color': '#c396fe55',
-                }
+                },
               },
             ],
             id: 'biomass_power_plants',
