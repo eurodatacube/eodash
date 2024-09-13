@@ -5,7 +5,7 @@
         <h3 v-if="featureQueryParamsData.title">{{ featureQueryParamsData.title }}</h3>
         <p>
           Toggle any combination of OpenStreetMap features
-          to check how crop fields can be affected by locust danger.
+          to check how different areas can be affected.
           <br>Note: Availability of OSM data for crops
           differs for different parts of the world.
         </p>

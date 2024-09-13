@@ -135,7 +135,7 @@ export default {
               yAxes: [{
                 scaleLabel: {
                   display: true,
-                  labelString: 'people',
+                  labelString: 'number of people',
                 },
               }],
             },
@@ -143,7 +143,7 @@ export default {
           data: {
             labels: this.labels,
             datasets: [{
-              label: 'Population',
+              label: 'Population affected',
               data: [],
               borderWidth: 0,
               borderColor: '#FFF0',
@@ -178,7 +178,7 @@ export default {
           data: {
             labels: this.labels,
             datasets: [{
-              label: 'Urban',
+              label: 'Urban area affected',
               data: [],
               borderWidth: 0,
               borderColor: '#FFF0',
@@ -213,7 +213,7 @@ export default {
           data: {
             labels: this.labels,
             datasets: [{
-              label: 'Agriculture',
+              label: 'Agricultural area affected',
               data: [],
               borderWidth: 0,
               borderColor: '#FFF0',
@@ -363,7 +363,7 @@ export default {
         let sanitizedKey = entry.value.label;
         if (this.selectedIndex === 'height') {
           // special mapping for storm_surge labels, replacing '_' with ''
-          sanitizedKey = parseInt(sanitizedKey.replace('_', '').replace('00', '0').replace('05', '5'), 10);
+          sanitizedKey = (parseInt(sanitizedKey.replace('_', '').replace('00', '0').replace('05', '5'), 10) / 10).toFixed(1);
         }
         // We take here only fulfilled datasets
         if (response.status === 200) {

@@ -304,31 +304,31 @@ export const globalIndicators = [
                 items: [
                   {
                     id: '0_0',
-                    description: '0',
+                    description: '0.0',
                   },
                   {
                     id: '0_5',
-                    description: '5',
+                    description: '0.5',
                   },
                   {
                     id: '1_0',
-                    description: '10',
+                    description: '1.0',
                   },
                   {
                     id: '1_5',
-                    description: '15',
+                    description: '1.5',
                   },
                   {
                     id: '2_0',
-                    description: '20',
+                    description: '2.0',
                   },
                   {
                     id: '3_0',
-                    description: '30',
+                    description: '3.0',
                   },
                   {
                     id: '5_0',
-                    description: '50',
+                    description: '5.0',
                   },
                 ],
               },
@@ -386,6 +386,13 @@ export const globalIndicators = [
           name: 'Indicator 4: Flood risk',
           customAreaFeatures: true,
           minZoom: 7,
+          baseLayers: [
+            baseLayers.eoxosm,
+            baseLayers.terrainLight,
+            {
+              ...baseLayers.cloudless, visible: true,
+            },
+          ],
           presetView: {
             type: 'FeatureCollection',
             features: [{
@@ -459,7 +466,7 @@ export const globalIndicators = [
           features: [],
         },
         aoiID: 'World',
-        time: [['2021-01-01', 'Spring'], ['2021-04-01', 'Summer'], ['2021-07-01', 'Autumn'], ['2021-10-01', 'Winter']],
+        time: [['2021-01-01', 'Autumn'], ['2021-01-02', 'Winter'], ['2021-01-03', 'Spring'], ['2021-01-04', 'Summer']],
         inputData: [''],
         cogFilters: {
           sourceLayer: 'IND1_1',
