@@ -827,6 +827,7 @@ export default {
   },
   methods: {
     startMineSweepCounter() {
+      this.minesweeper.elapsedSeconds = 0;
       console.info('Minesweeper::StartTimer');
       this.minesweeper.timer = setInterval(() => {
         this.minesweeper.elapsedSeconds += 1;

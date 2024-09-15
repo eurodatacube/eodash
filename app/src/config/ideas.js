@@ -609,7 +609,7 @@ export const globalIndicators = [
                 'interpolate',
                 ['linear'],
                 ['band', 1],
-                ...getColorStops('hot', -10, 50, 40, true),
+                ...getColorStops('bluered', -10, 50, 40, false),
               ],
               [
                 'color', 0, 0, 0, 0,
@@ -646,7 +646,7 @@ export const globalIndicators = [
           filters: {
             wildlife: {
               display: true,
-              label: 'Biodiversity indicator',
+              label: 'Biodiversity indicator; 0 is low, 5 is high',
               id: 'wildlife',
               min: 0.25,
               max: 5,
@@ -656,16 +656,16 @@ export const globalIndicators = [
             },
             road_pressure_indicator: {
               display: true,
-              label: 'Road Pressure Indicator',
+              label: 'Road Pressure Indicator; 0 is high, 5 is low',
               id: 'road_pressure_indicator',
-              min: -1,
+              min: 0,
               max: 5,
               step: 0.25,
-              range: [-1, 5],
+              range: [0, 5],
             },
             species_count_quintile: {
               display: true,
-              label: 'Categorized species density',
+              label: 'Categorized species density; 0 is low, 5 is high',
               id: 'species_count_quintile',
               min: 0,
               max: 5,
@@ -674,7 +674,7 @@ export const globalIndicators = [
             },
             vegetation: {
               display: true,
-              label: 'Vegetation health indicator',
+              label: 'Vegetation health indicator; 0 is worst, 5 is best',
               id: 'vegetation',
               min: 0,
               max: 5,
@@ -956,7 +956,8 @@ export const globalIndicators = [
           }],
         },
         aoiID: 'World',
-        time: getDailyDates('2024-04-15', DateTime.utc().toFormat('yyyy-MM-dd')),
+        // - 1 day to ensure that data is already there
+        time: getDailyDates('2024-04-15', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-MM-dd')),
         inputData: [''],
         display: {
           showTimeSlider: true,
@@ -969,12 +970,14 @@ export const globalIndicators = [
               name: 'WorldCereal - Maize',
               layers: 'MAIZE_WORLDCEREAL',
               visible: false,
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/MAIZE_WORLDCEREAL_IDEAS/legend.png',
             },
             {
               ...defaultLayersDisplay,
               name: 'WorldCereal - Winter Cereals',
               layers: 'WINTER_WORLDCEREAL',
               visible: false,
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/WINTER_WORLDCEREAL_IDEAS/legend.png'
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/cm_legend.png',

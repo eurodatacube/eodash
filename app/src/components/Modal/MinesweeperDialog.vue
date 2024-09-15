@@ -18,10 +18,10 @@
         <v-card-text>
           <p>
             Identify and flag <b>(right-click)</b> areas with very high
-            <b><span v-if="indicatorObject.indicator === 'IND2_1'">
+            <b><span v-if="indicatorObject.indicator === 'IND1_1'">
               health risks
             </span>
-            <span v-else-if="indicatorObject.indicator === 'IND1_1'">
+            <span v-else-if="indicatorObject.indicator === 'IND2_1'">
               biodiversity
             </span>
           </b> using Earth Observation data.
@@ -115,6 +115,12 @@
             <v-btn style="font-weight: bold;" ref="copy-btn" color="secondary"
               text @click="copyStatsToClipboard()">Copy to Clipboard</v-btn>
           </div>
+          <p>
+            Share your score on social media!
+          </p>
+          <p>
+            <b>Come back tomorrow</b> for a new challenge and explore a fresh location!
+          </p>
         </v-card-text>
 
         <v-card-actions>
