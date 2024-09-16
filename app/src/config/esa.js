@@ -436,5 +436,5 @@ export const globalIndicators = [
       },
     },
   },
-  ...createIDEASDatasetConfigs(['IDEAS1_hopi_minesweeper', 'IDEAS1_hopi', 'IDEAS2_wildlife_minesweeper', 'IDEAS2_wildlife', 'IDEAS3_locust', 'IDEAS4_flood_risk']),
+  ...createIDEASDatasetConfigs(['IND1_1_minesweeper', 'IND1_1', 'IND2_1_minesweeper', 'IND2_1', 'IND3_1', 'IND4_1']),
 ];

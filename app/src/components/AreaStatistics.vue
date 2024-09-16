@@ -1,9 +1,8 @@
 <template>
 <v-card>
+  <v-card-title class="pa-2">Custom Area Statistics</v-card-title>
   <v-col>
     <v-row class="pt-4 area-statistics justify-space-between align-center mx-2">
-      <h3>Custom Area Statistics</h3>
-
       <v-btn
         @click="fetchData"
         color="primary"

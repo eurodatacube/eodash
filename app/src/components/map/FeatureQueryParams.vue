@@ -1,19 +1,17 @@
 <template>
-  <v-container>
-    <v-row align="center">
-      <v-col cols="12" class="pa-0">
-        <h3 v-if="featureQueryParamsData.title">{{ featureQueryParamsData.title }}</h3>
-        <p>
-          Toggle any combination of OpenStreetMap features
-          to check how different areas can be affected.
-          <br>Note: Availability of OSM data for crops
-          differs for different parts of the world.
-        </p>
-    </v-col>
-    <v-row class="ma-0" cols="6"
+  <v-card>
+    <v-card-title class="pa-2">{{ featureQueryParamsData.title }}</v-card-title>
+    <p class="pa-2 ma-0">
+        Toggle any combination of OpenStreetMap features
+        to check how different areas can be affected.
+        <br>Note: Availability of OSM data for crops
+        differs for different parts of the world.
+      </p>
+    <v-row class="ma-0 pa-2">
+    <v-col class="ma-0 pa-0" cols="6"
         v-for="configItem in featureQueryParamsData.items"
         :key="getConfigItemLabel(configItem)">
-        <v-checkbox class="ma-0"
+        <v-checkbox class="ma-0 pa-0"
           v-bind:false-value="false"
           v-bind:true-value="true"
           v-model="configItem.selected"
@@ -21,9 +19,9 @@
           :value="configItem.value"
           @change="(evt) => updateMapBool(evt, configItem.key, configItem.value)"
         ></v-checkbox>
-      </v-row>
+      </v-col>
     </v-row>
-  </v-container>
+  </v-card>
 </template>
 
 <script>

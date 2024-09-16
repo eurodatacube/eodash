@@ -66,7 +66,7 @@ export const defaultLayersDisplayIdeasSh = {
   projection: 'EPSG:3857',
 };
 
-export const createIDEASDatasetConfigs = (indicatorCodes) => [
+const IDEASConfigs = [
   {
     properties: {
       indicatorObject: {
@@ -874,4 +874,8 @@ export const createIDEASDatasetConfigs = (indicatorCodes) => [
       },
     },
   },
-].filter((item) => (indicatorCodes.includes(item.properties.indicatorObject.indicator)));
+];
+export const createIDEASDatasetConfigs = (indicatorCodes) => {
+  const configsToReturn = IDEASConfigs.filter((item) => (indicatorCodes.includes(item.properties.indicatorObject.indicator)));
+  return configsToReturn;
+};

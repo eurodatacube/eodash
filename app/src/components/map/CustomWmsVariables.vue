@@ -1,11 +1,9 @@
 <template>
-  <v-container>
-    <v-row align="center">
-      <v-col cols="12" class="pa-0">
-        <v-subheader v-if="wmsVariables.title" class="pa-0">
+  <v-card>
+  <v-card-title class="pa-2"><span v-if="wmsVariables.title" class="pa-0">
           <b>{{ compareEnabledDisplay ? 'Right side' : '' }} {{ wmsVariables.title }}</b>
-        </v-subheader>
-      </v-col>
+        </span></v-card-title>
+    <v-row align="center" class="ma-0 pa-2">
       <v-row class="ma-0" cols="6" v-for="key in Object.keys(wmsVariables.variables)" :key="key">
         <v-col class="pa-0">
           <v-subheader class="pa-0">
@@ -36,7 +34,7 @@
       <v-icon color="black">mdi-compare</v-icon>
       {{ compareEnabledDisplay ? 'Stop': 'Start' }} model comparison
     </p>
-    <v-row align="center" v-if="compareEnabledDisplay">
+    <v-row class="ma-0 pa-2" align="center" v-if="compareEnabledDisplay">
       <v-col cols="12" class="pa-0">
         <v-subheader v-if="wmsVariables.title" class="pa-0">
           <b>Left side {{ wmsVariables.title }}</b>
@@ -65,7 +63,7 @@
         </v-col>
       </v-row>
     </v-row>
-  </v-container>
+  </v-card>
 </template>
 
 <script>

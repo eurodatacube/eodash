@@ -278,22 +278,6 @@
                 class="my-1"
               ><span><v-icon left>mdi-open-in-new</v-icon>{{externalData.label}}</span>
               </v-btn>
-
-              <v-card
-                class="ma-5"
-                v-if="indicatorSelected
-                  && indicatorSelected.indicator === 'IND2_1'"
-              >
-                <h1 class="ml-5">Species Info</h1>
-                <v-col>
-                  <SpeciesList v-if="selectedArea && sortedSpecies.length > 0"
-                    :species=sortedSpecies />
-                    <div v-else-if="selectedArea">No species in this area.</div>
-                  <div v-else>
-                    Select an area on the map using the rectangle or polygon buttons.
-                  </div>
-                </v-col>
-              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -321,6 +305,21 @@
           </v-text-field>
         </v-card>
       </v-col>
+      <v-card
+        class="ma-5"
+        v-if="indicatorSelected
+          && indicatorSelected.indicator === 'IND2_1'"
+      >
+        <h1 class="ml-5">Species Info</h1>
+        <v-col>
+          <SpeciesList v-if="selectedArea && sortedSpecies.length > 0"
+            :species=sortedSpecies />
+            <div v-else-if="selectedArea">No species in this area.</div>
+          <div v-else>
+            Select an area on the map using the rectangle or polygon buttons.
+          </div>
+        </v-col>
+      </v-card>
       <GTIFProcessingButtons
       v-if="mergedConfigsData[0].processingEnabled">
       </GTIFProcessingButtons>
@@ -587,9 +586,7 @@ export default {
     },
     async refreshSpeciesInfo() {
       if (this.selectedArea
-        && this.indicatorSelected
-        && this.indicatorSelected.indicator === 'IND2_1_minesweeper'
-        && !this.mergedConfigsData[0].minesweeperOptions
+        && this.indicatorSelected?.indicator === 'IND2_1'
       ) {
         const bbox = [
           ...this.selectedArea.coordinates[0][0],
