@@ -1,14 +1,10 @@
-import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
+import { Wkt } from 'wicket';
+import { overpassApiQueryTags } from '@/config/overpass';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
-import { Wkt } from 'wicket';
-
 import { baseLayers, overlayLayers, getColorStops } from '@/config/layers';
-
-const wkt = new Wkt();
-const osmtogeojson = require('osmtogeojson');
 
 const getDailyDates = (start, end) => {
   let currentDate = DateTime.fromISO(start);
@@ -20,124 +16,7 @@ const getDailyDates = (start, end) => {
   }
   return dateArray;
 };
-
-const geojsonFormat = new GeoJSON();
-export const indicatorsDefinition = Object.freeze({
-  IND4_1: {
-    themes: ['economy'],
-    story: '/eodash-data/stories/IND4_1',
-  },
-  IND1_1: {
-    themes: ['economy'],
-    story: '/eodash-data/stories/IND1_1',
-  },
-  IND2_1: {
-    themes: ['economy'],
-    story: '/eodash-data/stories/IND2_1',
-  },
-  IND3_1: {
-    themes: ['economy'],
-    story: '/eodash-data/stories/IND3_1',
-  },
-});
-
-export const dataPath = './eodash-data/internal/';
-export const dataEndpoints = [];
-
-export const defaultLayersDisplay = {
-  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdIdeas}`,
-  dateFormatFunction: (date) => date,
-  labelFormatFunction: (date) => date,
-  protocol: 'WMS',
-  format: 'image/png',
-  transparent: true,
-  tileSize: 512,
-  opacity: 1,
-  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
-  minZoom: 1,
-  visible: true,
-  mapProjection: 'EPSG:3857',
-  projection: 'EPSG:3857',
-};
-
-export const layerNameMapping = Object.freeze({});
-
-export const indicatorClassesIcons = Object.freeze({
-  agriculture: 'mdi-barley',
-  water: 'mdi-water',
-  land: 'mdi-image-filter-hdr',
-  health: 'mdi-hospital-box-outline',
-  combined: 'mdi-set-center',
-  air: 'mdi-weather-windy',
-  economy: 'mdi-currency-eur',
-});
-
-export const mapDefaults = Object.freeze({
-  bounds: [-10, 35, 33, 70],
-});
-
-export const baseLayersMap = [
-  baseLayers.eoxosm,
-  baseLayers.cloudless,
-  {
-    ...baseLayers.terrainLight, visible: true,
-  },
-];
-
-export const overlayLayersMap = [{
-  ...overlayLayers.eoxOverlay, visible: true,
-}];
-
-function buildOverpassAPIQueryFromParams(urlInit, mergedConfig) {
-  let searchPartOfQuery = '';
-  mergedConfig.features.featureQueryParams.items.forEach((params) => {
-    if (params.selected === true) {
-      const types = params.types || ['node', 'way', 'relation'];
-      types.forEach((type) => {
-        let booleanAndStaticParams = '';
-        if (params.staticParams) {
-          params.staticParams.forEach((staticParam) => {
-            booleanAndStaticParams += `["${staticParam.key}"="${staticParam.value}"]`;
-          });
-        }
-        searchPartOfQuery += `${type}["${params.key}"="${params.value}"]${booleanAndStaticParams}({area});`;
-      });
-    }
-  });
-  const query = `[out:json][timeout:15];(${searchPartOfQuery});out body;>;out skel qt;`;
-  const urlEvaluated = urlInit.replace('{query}', query);
-  return urlEvaluated;
-}
-
-function overpassApiQueryTags(featureQueryParams) {
-  return {
-    drawnAreaLimitExtent: true,
-    areaFormatFunction: (area) => {
-      // overpass api expects lat,lon
-      const extent = geojsonFormat.readGeometry(area).getExtent();
-      return { area: [extent[1], extent[0], extent[3], extent[2]] };
-    },
-    featureQueryParams: {
-      items: featureQueryParams,
-      title: 'OSM Overpass API query parameters',
-    },
-    customFormatFunction: buildOverpassAPIQueryFromParams,
-    url: 'https://overpass-api.de/api/interpreter?data={query}',
-    requestMethod: 'GET',
-    callbackFunction: (responseJson) => {
-      // custom handling of overpass timeout raise alert and throw an exception
-      if (responseJson?.remark && responseJson.remark.includes('error')) {
-        window.dispatchEvent(new CustomEvent('custom-alert-message', { detail: `Request to Overpass API timeouted. Please select a smaller area. Original error: ${responseJson.remark}` }));
-        throw responseJson.remark;
-      }
-      const ftrColl = osmtogeojson(responseJson, {
-        flatProperties: true,
-      });
-      return ftrColl;
-    },
-  };
-}
-
+const wkt = new Wkt();
 const ghsPopulationLegend = `Legend: <br>
   <div style="width:15px;height:15px;margin-right:5px;float:left;background-color: #ffffff"></div>
   <div>
@@ -172,24 +51,27 @@ const ghsPopulationLegend = `Legend: <br>
     1,000 - Max
   </div>`;
 
-export const globalIndicators = [
+export const defaultLayersDisplayIdeasSh = {
+  baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceIdIdeas}`,
+  dateFormatFunction: (date) => date,
+  labelFormatFunction: (date) => date,
+  protocol: 'WMS',
+  format: 'image/png',
+  transparent: true,
+  tileSize: 512,
+  opacity: 1,
+  attribution: '{ <a href="https://race.esa.int/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
+  minZoom: 1,
+  visible: true,
+  projection: 'EPSG:3857',
+};
+
+export const createIDEASDatasetConfigs = (indicatorCodes) => [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: '',
         indicator: 'IND4_1',
-        indicatorName: 'Indicator 4: Flood risk',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
         time: ['2020', '2040', '2060', '2080', '2100', '2120', '2150'],
-        inputData: [''],
         yAxis: 'flooding',
         display: {
           enableCustomAreaStatistics: true,
@@ -199,49 +81,49 @@ export const globalIndicators = [
               ...overlayLayers.eoxOverlay, visible: true,
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'WorldCereal - Maize',
               layers: 'MAIZE_WORLDCEREAL',
               visible: false,
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/MAIZE_WORLDCEREAL_IDEAS/legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'WorldCereal - Winter Cereals',
               layers: 'WINTER_WORLDCEREAL',
               visible: false,
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/WINTER_WORLDCEREAL_IDEAS/legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'WorldCereal - Spring Cereals',
               layers: 'SPRING_WORLDCEREAL',
               visible: false,
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/SPRING_WORLDCEREAL_IDEAS/legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'GHS World population 2020',
               layers: 'GHS_POP_E2020',
               visible: false,
               layerAdditionalDescription: ghsPopulationLegend,
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'GHS World population 2025',
               layers: 'GHS_POP_E2025',
               visible: false,
               layerAdditionalDescription: ghsPopulationLegend,
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'GHS World population 2030',
               layers: 'GHS_POP_E2030',
               visible: false,
               layerAdditionalDescription: ghsPopulationLegend,
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               visible: false,
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2020-01-01`,
               name: 'GHS built up area 2020',
@@ -249,7 +131,7 @@ export const globalIndicators = [
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/GHS-BUILT-S-R2023A_legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               visible: false,
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2025-01-01`,
               name: 'GHS built up area 2025',
@@ -257,7 +139,7 @@ export const globalIndicators = [
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/GHS-BUILT-S-R2023A/GHS-BUILT-S-R2023A_legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               visible: false,
               baseUrl: `https://services.sentinel-hub.com/ogc/wms/${shConfig.shInstanceId}?TIME=2030-01-01`,
               name: 'GHS built up area 2030',
@@ -454,20 +336,8 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: 'Health-Oriented Urban Heat and Pollution Index (HOUHPI)',
         indicator: 'IND1_1',
-        indicatorName: 'Indicator 1: Air polution',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'World',
         time: [['2021-01-01', 'Autumn'], ['2021-01-02', 'Winter'], ['2021-01-03', 'Spring'], ['2021-01-04', 'Summer']],
-        inputData: [''],
         cogFilters: {
           sourceLayer: 'IND1_1',
           filters: {
@@ -623,24 +493,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: '',
         indicator: 'IND2_1',
-        indicatorName: 'Indicator 2: Wildlife',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON ((-28.125 33.72434, -28.125 71.746432, 42.539063 71.746432, 42.539063 33.72434, -28.125 33.72434))').toJson(),
-          }],
-        },
-        aoiID: 'World',
-        time: [],
-        inputData: [''],
         cogFilters: {
           sourceLayer: 'IND2_1',
           filters: {
@@ -803,19 +656,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        indicator: 'IND2_1',
-        indicatorName: 'Wildlife Minesweeper',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Game',
-        time: [],
-        inputData: [''],
+        indicator: 'IND2_1_minesweeper',
         display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells
@@ -844,7 +685,7 @@ export const globalIndicators = [
               },
             ],
           },
-          id: 'IND2_1',
+          id: 'IND2_1_minesweeper',
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
         }, {
@@ -858,19 +699,7 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        indicator: 'IND1_1',
-        indicatorName: 'HOUHPI Minesweeper',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-        aoiID: 'Game',
-        time: [],
-        inputData: [''],
+        indicator: 'IND1_1_minesweeper',
         display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells
@@ -898,7 +727,7 @@ export const globalIndicators = [
               },
             ],
           },
-          id: 'IND1_1',
+          id: 'IND1_1_minesweeper',
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
           baseLayers: [
@@ -940,25 +769,9 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
-        dataLoadFinished: true,
-        country: 'all',
-        city: 'World',
-        siteName: 'global',
-        description: '',
         indicator: 'IND3_1',
-        indicatorName: 'Indicator 3: Food security',
-        subAoi: {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            properties: {},
-            geometry: wkt.read('POLYGON ((-26 -3.3, -26 37, 76 37, 76 -3.3, -26 -3.3))').toJson(),
-          }],
-        },
-        aoiID: 'World',
         // - 1 day to ensure that data is already there
         time: getDailyDates('2024-04-15', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-MM-dd')),
-        inputData: [''],
         display: {
           showTimeSlider: true,
           overlayLayers: [
@@ -966,18 +779,18 @@ export const globalIndicators = [
               ...overlayLayers.eoxOverlay, visible: true,
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'WorldCereal - Maize',
               layers: 'MAIZE_WORLDCEREAL',
               visible: false,
               legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/MAIZE_WORLDCEREAL_IDEAS/legend.png',
             },
             {
-              ...defaultLayersDisplay,
+              ...defaultLayersDisplayIdeasSh,
               name: 'WorldCereal - Winter Cereals',
               layers: 'WINTER_WORLDCEREAL',
               visible: false,
-              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/WINTER_WORLDCEREAL_IDEAS/legend.png'
+              legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/WINTER_WORLDCEREAL_IDEAS/legend.png',
             },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/cm_legend.png',
@@ -1061,4 +874,4 @@ export const globalIndicators = [
       },
     },
   },
-];
+].filter((item) => (indicatorCodes.includes(item.properties.indicatorObject.indicator)));

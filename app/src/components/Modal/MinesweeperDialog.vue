@@ -18,10 +18,10 @@
         <v-card-text>
           <p>
             Identify and flag <b>(right-click)</b> areas with very high
-            <b><span v-if="indicatorObject.indicator === 'IND1_1'">
+            <b><span v-if="indicatorObject.indicator === 'IND1_1_minesweeper'">
               health risks
             </span>
-            <span v-else-if="indicatorObject.indicator === 'IND2_1'">
+            <span v-else-if="indicatorObject.indicator === 'IND2_1_minesweeper'">
               biodiversity
             </span>
           </b> using Earth Observation data.
@@ -31,7 +31,7 @@
           </p>
           <p>Your <b>score</b> is based on the percentage of uncovered area at the end of the game.
           </p>
-          <p v-if="indicatorObject.indicator === 'IND2_1'">
+          <p v-if="indicatorObject.indicator === 'IND2_1_minesweeper'">
           After you finish the game, a summary of significant
           wildlife species which live there is shown.
           </p>

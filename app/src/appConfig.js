@@ -522,5 +522,5 @@ module.exports = [
     uiText: {
 
     },
-  },
+  }
 ];

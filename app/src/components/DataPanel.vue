@@ -34,7 +34,6 @@
         <v-col
           v-if="!showMap
             || mergedConfigsData[0].customAreaIndicator
-            || appConfig.id === 'esa' // TODO CHECK
             || appConfig.id === 'gtif'"
           :cols="12"
           class="pa-0"
@@ -589,7 +588,7 @@ export default {
     async refreshSpeciesInfo() {
       if (this.selectedArea
         && this.indicatorSelected
-        && this.indicatorSelected.indicator === 'IND2_1'
+        && this.indicatorSelected.indicator === 'IND2_1_minesweeper'
         && !this.mergedConfigsData[0].minesweeperOptions
       ) {
         const bbox = [
