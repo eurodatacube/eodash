@@ -141,6 +141,11 @@
           interval="1000"
           :endpoint="searchEndpoint"
         ></eox-geosearch>
+        <eox-drawtools
+          type="Polygon"
+          for="eox-map"
+          style="pointer-events: initial"
+        />
         <v-btn
           v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
           :color="$vuetify.theme.currentTheme.background"
@@ -276,6 +281,7 @@ import {
   getFilteredInputData,
 } from '@/utils';
 import '@eox/map';
+import '@eox/drawtools';
 
 const geoJsonFormat = new GeoJSON({
 });
