@@ -25,16 +25,8 @@
       class="pt-0 pb-0"
       id="data-panel"
       :class="$vuetify.breakpoint.xsOnly ? 'mx-0' : ''">
-      <v-row v-if="
-        indicatorObject
-        && (appConfig.id === 'gtif' || !indicatorObject.features
-        || dataObject || mergedConfigsData[0].customAreaIndicator)
-        " class="d-flex ma-0">
-        <!-- TODO: remove GTIF brand check -->
+      <v-row v-if="indicatorObject" class="d-flex ma-0">
         <v-col
-          v-if="!showMap
-            || mergedConfigsData[0].customAreaIndicator
-            || appConfig.id === 'gtif'"
           :cols="12"
           class="pa-0"
           :style="`height: auto`"
