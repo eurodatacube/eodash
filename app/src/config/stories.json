@@ -1,4 +1,12 @@
-{
+{  
+  "esa": {
+    "agriculture": {},
+    "water": {},
+    "land": {},
+    "health": {},
+    "air": {},
+    "economy": {}
+  },
   "trilateral": {
     "agriculture": {
       "world-cereal-supply-and-demand": {
@@ -45,7 +53,7 @@
         "title": "Travel restrictions interrupted Global Supply chains dependent on cargo shipping",
         "subtitle": "Read more about Covid-19 Impacts on global shipping",
         "image": "./data/story-images/12-ship-traffic.jpg",
-        "imagePlaceholder": ".data/story-images/12-ship-traffic_placeholder.jpeg"
+        "imagePlaceholder": "./data/story-images/12-ship-traffic_placeholder.jpeg"
       },
       "airports": {
         "originalDashboardId": "396af4c32089ffdc",
@@ -53,6 +61,34 @@
         "subtitle": "Read more about Covid-19 Impacts on air travel with EO and AI",
         "image": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3.jpg",
         "imagePlaceholder": "./data/trilateral/Esa_Nasa_jaxa_covid19_cover_V3_placeholder.jpg"
+      },
+      "covid-no2": {
+        "storyMarkdown": "./data/storytelling-md/Covid-NO2.md",
+        "title": "Covid-19 Impacts on Air Quality",
+        "subtitle": "Effect of lockdown on Nitrogen Dioxide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-no2/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-no2/hero_small.jpg"
+      },
+      "covid-co2": {
+        "storyMarkdown": "./data/storytelling-md/Covid-CO2.md",
+        "title": "Covid-19 Impacts on Greenhouse Gases",
+        "subtitle": "Effect of lockdown on Carbon Dioxide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-co2/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-co2/hero_small.jpg"
+      },
+      "covid-cars": {
+        "storyMarkdown": "./data/storytelling-md/Covid-cars-containers-nagoya.md",
+        "title": "Covid-19 Impact on the Automotive Industry",
+        "subtitle": "Effect of lockdown on Automotive Industry",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero_small.jpg"
+      },
+      "covid-rice": {
+        "storyMarkdown": "./data/storytelling-md/Earth Observing Dashboard-Agriculture-Rice.md",
+        "title": "Covid-19 Impacts on Rice Planting",
+        "subtitle": "Early Rice Planting in Sacramento (California)",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/Earth Observing Dashboard-Agriculture-Rice/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/Earth Observing Dashboard-Agriculture-Rice/hero_small.jpg"
       }
     },
     "biomass": {
@@ -62,6 +98,45 @@
         "subtitle": "Read more about taking stock of global biomass maps",
         "image": "./data/story-images/Biomass.jpeg",
         "imagePlaceholder": "./data/story-images/Biomass_placeholder.jpeg"  
+      },
+      "forests-on-the-brink": {
+        "storyMarkdown": "./data/storytelling-md/Earth Observing Dashboard-3.md",
+        "title": "Forests on the Brink: Satellite Imagery unveiling Loss and Shifting Forest Landscapes",
+        "subtitle": "Forest Loss and Degradation worldwide",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
+      }
+    },
+    "extreme-events": {
+      "el-nino-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
+        "title": "El Niño 2023-2024 and extreme temperatures",
+        "subtitle": "Read more about record-breaking temperatures",
+        "image": "https://placehold.co/1024x860?text=extreme temperatures",
+        "imagePlaceholder": "https://placehold.co/512x256?text=extreme temperatures"
+      },
+      "hunga-tonga-aerosols": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_HUNGA_ERUPTION_2.md",
+        "title": "Tracking aerosol plumes from Hunga eruption of 2022",
+        "subtitle": "Authors: Clair Duchamp, Aude Barton & Aiten Alava Baldazo - Sorbonne Universite, Paris, France",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/cover-hunga.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/cover-hunga-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
+      },
+      "air-pollution-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_POLLUTION_2.md",
+        "title": "Extreme air pollution episodes in Northern India and Pakistan",
+        "subtitle": "Authors: Selviga Sinnathamby, Natacha Kaminski, Ellie Zoghbi - Sorbonne Universite, Paris, France",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
+      },
+      "sea-surface-temperature-rise": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_SST.md",
+        "title": "El Niño 2023-2024 impacts: rise in global sea surface temperatures",
+        "subtitle": "Read more about record-breaking sea surface temperatures",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1.png",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1-small.png"
       }
     },
     "cryosphere": {

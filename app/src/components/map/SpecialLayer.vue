@@ -2,8 +2,8 @@
   <MapOverlay
     :mapId='mapId'
     :overlayId='mergedConfigs[0].name'
-    :overlayHeaders='overlayHeaders'
-    :overlayRows='overlayRows'
+    :overlayHeaders='(Object.values(this.overlayHeaders)).flat()'
+    :overlayRows='(Object.values(this.overlayRows)).flat()'
     :overlayCoordinate='overlayCoordinate'
   />
 </template>
@@ -54,8 +54,8 @@ export default {
   },
   data() {
     return {
-      overlayHeaders: [],
-      overlayRows: [],
+      overlayHeaders: {},
+      overlayRows: {},
       overlayCoordinate: null,
       pointerMoveHandlers: [],
       singleClickHandlers: [],
@@ -67,9 +67,17 @@ export default {
     const options = { ...this.options };
     this.mergedConfigs.forEach((config) => {
       const layer = createLayerFromConfig(config, map, options);
-      this.layers.push(layer);
       if (this.compare) {
         layer.set('name', `${layer.get('name')}_compare`);
+      }
+      if (!options.frozenLayer) {
+        layer.set('layerControlToolsExpand', true);
+      }
+      this.layers.push(layer);
+      if (options.frozenLayer) {
+        // exit early and do not bind any handlers
+        map.getLayers().push(layer);
+        return;
       }
       // find first feature layer
       if (config.features || config.tooltip) {
@@ -86,6 +94,7 @@ export default {
             ? (!this.compare && this.swipePixelX < e.pixel[0])
             || (this.compare && this.swipePixelX > e.pixel[0])
             : true;
+          const layerName = layer.get('name');
           if (isCorrectSide && features.length && (config.features || config.tooltip)) {
             const feature = features[0];
             // center coordinate of extent, passable approximation for small or regular features
@@ -97,13 +106,13 @@ export default {
               coordinate = getCenter(geom.getExtent());
             }
             if (config.selection) {
-              this.overlayHeaders = [layer.get('name')];
+              this.overlayHeaders[layerName] = [layerName];
             }
             this.overlayCoordinate = coordinate;
             let rows = [];
             if (config?.tooltip?.tooltipFormatFunction) {
               // has to return a list of rows
-              rows = config?.tooltip?.tooltipFormatFunction(feature, config);
+              rows = config?.tooltip?.tooltipFormatFunction(feature, config, this.$store);
             } else {
               const props = feature.getProperties();
               // some indicators have 'allowedParameters', which define the keys to display
@@ -115,11 +124,14 @@ export default {
                 }
               });
             }
-            this.overlayRows = rows;
+            this.overlayRows[layerName] = rows;
           } else {
-            this.overlayHeaders = null;
-            this.overlayCoordinate = null;
-            this.overlayContent = null;
+            this.overlayRows[layerName] = '';
+            this.overlayHeaders[layerName] = '';
+            // no layer has actual tooltip content, hide it
+            if (!(Object.values(this.overlayRows)).flat().some((item) => item !== '')) {
+              this.overlayCoordinate = null;
+            }
           }
         };
         if (config?.tooltip?.trigger === 'singleclick') {
@@ -166,9 +178,16 @@ export default {
             // crosscheck with store
             let { selectedFeatures } = this.$store.state.features;
             finalFeatures.every((f) => {
-              const foundIndex = selectedFeatures.findIndex(
-                (selectedFtr) => f.getId() === selectedFtr.getId(),
-              );
+              let foundIndex = -1;
+              if (typeof f.getId() !== 'undefined') {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.getId() === selectedFtr.getId(),
+                );
+              } else if (config.adminZoneKey) {
+                foundIndex = selectedFeatures.findIndex(
+                  (selectedFtr) => f.get(config.adminZoneKey) === selectedFtr.get(config.adminZoneKey),
+                );
+              }
               if (foundIndex !== -1) {
                 // was in selection, remove from selection
                 selectedFeatures = selectedFeatures.toSpliced(foundIndex, 1);
@@ -254,7 +273,11 @@ export default {
     const { map } = getMapInstance(this.mapId);
     const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
     this.layers.forEach((layer) => {
-      dataGroup.getLayers().remove(layer);
+      if (this.options.frozenLayer) {
+        map.getLayers().remove(layer);
+      } else {
+        dataGroup.getLayers().remove(layer);
+      }
     });
     this.pointerMoveHandlers.forEach((h) => {
       map.un('pointermove', h);

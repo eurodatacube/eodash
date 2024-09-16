@@ -2,16 +2,6 @@
   <v-container fluid>
     <v-row align="center">
       <v-col cols="6">
-        <v-subheader>
-          Data properties
-          <info-dialog
-            v-if="wmsStyles.dataInfo"
-            :infoSource="wmsStyles.dataInfo"
-          />
-        </v-subheader>
-      </v-col>
-
-      <v-col cols="6">
         <v-select
           v-model="select"
           :items="wmsStyles.items"
@@ -22,29 +12,19 @@
           return-object
           single-line
           @change="updateMap"
-        ></v-select>
+        >
+        </v-select>
       </v-col>
     </v-row>
-     <v-row align="center">
-        <div
-          style="width: 100%"
-          v-html="story"
-          class="md-body"
-        ></div>
-     </v-row>
   </v-container>
 </template>
 
 <script>
 
 import { getMapInstance } from '@/components/map/map';
-import InfoDialog from '@/components/InfoDialog.vue';
 
 export default {
   name: 'FilterControls',
-  components: {
-    InfoDialog,
-  },
   props: {
     wmsStyles: Object,
   },
@@ -53,19 +33,6 @@ export default {
   }),
   mounted() {
     [this.select] = this.wmsStyles.items;
-  },
-  computed: {
-    story() {
-      let markdown;
-      try {
-        markdown = require(`../../../public/data/gtif/markdown/${this.select.markdown}.md`);
-      } catch {
-        markdown = { default: '' };
-      }
-      return this.$marked(markdown.default);
-    },
-  },
-  watch: {
   },
   methods: {
     updateMap(evt) {

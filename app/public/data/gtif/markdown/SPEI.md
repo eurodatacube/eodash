@@ -1,3 +1,0 @@
-The Standardized Precipitation-Evapotranspiration Index (SPEI) represents a standardized measure of what a certain value of surface water balance (precipitation minus potential evapotranspiration) over the selected time period means in relation to expected value of surface water balance for this period. SPEI is calculated on different time scales (1, 2, 3, 6, 12 months).
-
-Click on a feature on the map to see an extended time series.

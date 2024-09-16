@@ -51,11 +51,17 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
     'ol',
-    'ol-ext',
-    '@eox/layercontrol',
-    'color-parse',
     'color-rgba',
     'color-space',
+    '@eox/itemfilter',
+    '@eox/layercontrol',
+    '@eox/stacinfo',
+    'ol-mapbox-style',
+    '@eox/map',
+    '@eox/jsonform',
+    '@eox/storytelling',
+    'color-parse',
+    '@eox/geosearch',
   ],
   configureWebpack: {
     devServer: {

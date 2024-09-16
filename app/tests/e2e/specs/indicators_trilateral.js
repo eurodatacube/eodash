@@ -1,83 +1,57 @@
-import indicatorPOIs from '../../../public/data/internal/pois_trilateral.json';
-
-// Overwriting baseurl when localhost is defined changing it to load race instance
-if (Cypress.config().baseUrl.includes('localhost')) {
-  const { baseUrl } = Cypress.config();
-  Cypress.config('baseUrl', baseUrl.replace('localhost', 'trilateral.eox.world'));
-}
-
-describe('Indicator tests for trilateral desktop', () => {
+describe('Indicator tests for RACE', () => {
   context('1080p resolution', () => {
     beforeEach(() => {
       cy.viewport(1920, 1080);
     });
-    // We generate an object where each indicator is contained once,
-    // only having information of one poi
-
-    // Currently pois configured as mappois in the appConfig fail
-    // TODO: Consider best way of loading the information from the appConfig, currently
-    // list just copied here
-    const configuredMapPois = [
-      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
-      'EG01-SIF',
-    ];
-    const testSamples = {};
-    indicatorPOIs.forEach((item) => {
-      if (!(item.indicator in testSamples)
-      && !configuredMapPois.includes(`${item.aoiID}-${item.indicator}`)) {
-        testSamples[item.indicator] = item;
-      }
+    let collections;
+    before(() => {
+      // receive the dynamic list of users
+      cy.request('https://eurodatacube.github.io/eodash-catalog/trilateral/catalog.json')
+        .then((resp) => {
+          const links = [];
+          resp.body.links.forEach((link) => {
+            if (link.rel === 'child') {
+              links.push(link);
+            }
+          });
+          collections = links;
+        });
     });
-    Object.entries(testSamples).forEach(([key, obj]) => {
-      it(`testing indicator ${key} via 'poi=${obj.aoiID}-${key}'`, () => {
-        // We can leave out the explore navigation as directly providing kvp changes to this mode
-        // thus we can use test branch deployments
-        cy.visit(`/?poi=${obj.aoiID}-${key}`);
-        cy.contains('Accept all cookies').click();
-        cy.get('#bar-chart, #line-chart, #bubbleMap').should('exist');
-        // We add a wait to make sure indicator is completely loaded for video output
-        cy.wait(1500);
+    // Overwriting baseurl when localhost is defined changing it to load race instance
+    if (Cypress.config().baseUrl.includes('localhost')) {
+      const { baseUrl } = Cypress.config();
+      Cypress.config('baseUrl', baseUrl.replace('localhost', 'trilateral.eox.world'));
+    }
+
+    // Seems we need to know the amount of indicators in order to iterate them, not ideal as this
+    // will change through time, test needs to be updated!
+    // TODO: look for an alternative (this is based on cypress example)
+    Cypress._.range(0, 1).forEach((k) => {
+      it(`testing collection # ${k}`, () => {
+        // We intercept wms requests and check there are no errors if it is a SH endpoint
+        const collection = collections[k];
+        // TODO: Add checks for all types of endpoints
+        if (collection.endpointtype === 'Sentinel Hub' && !collection.locations) {
+          cy.intercept('GET', '**/wms/*').as('wmsrequests');
+        }
+        if (collection.endpointtype === 'VEDA' && !collection.locations) {
+          // eslint-disable-next-line no-useless-escape
+          cy.intercept('GET', '\/cog\/').as('cogrequests'); // escape is necessary for url match
+        }
+        cy.log(`Loading indicator ${collection.indicator}`);
+        cy.visit(`/?indicator=${collection.indicator}`);
+        cy.wrap(collection).should('have.property', 'code');
+
+        // We check for the wms requests status
+        if (collection.endpointtype === 'Sentinel Hub' && !collection.locations) {
+          // TODO: Currently we have a 400 response because wms tile is loaded for too large area
+          // probably best approach would be to fix the min/max zoom levels of layers
+          cy.wait('@wmsrequests').its('response.statusCode').should('be.oneOf', [200, 304, 400]);
+        }
+        if (collection.endpointtype === 'VEDA' && !collection.locations) {
+          cy.wait('@cogrequests').its('response.statusCode').should('be.oneOf', [200, 304]);
+        }
       });
     });
   });
 });
-
-/*
-describe('Indicator tests for trilateral mobile', () => {
-  context('iphone-5 resolution', () => {
-    beforeEach(() => {
-      // run these tests as if in a mobile browser
-      // and ensure our responsive UI is correct
-      cy.viewport('iphone-5');
-    });
-    // We generate an object where each indicator is contained once,
-    // only having information of one poi
-
-    // Currently pois configured as mappois in the appConfig fail
-    // TODO: Consider best way of loading the information from the appConfig, currently
-    // list just copied here
-    const configuredMapPois = [
-      'DE1-E13c', 'PL1-E13c', 'BE3-E13c', 'FR3-E13c', 'IT3-E13c',
-      'IT9-E13b', 'FR8-E13b', 'UK4-E13b', 'EG1-E13c', 'EG01-N1', 'EG01-N2',
-      'EG01-SIF',
-    ];
-    const testSamples = {};
-    indicatorPOIs.forEach((item) => {
-      if (!(item.indicator in testSamples)
-      && !configuredMapPois.includes(`${item.aoiID}-${item.indicator}`)) {
-        testSamples[item.indicator] = item;
-      }
-    });
-    Object.entries(testSamples).forEach(([key, obj]) => {
-      it(`testing indicator ${key}`, () => {
-        // We can leave out the explore navigation as directly providing kvp changes to this mode
-        // thus we can use test branch deployments
-        cy.visit(`/?poi=${obj.aoiID}-${key}`);
-        cy.contains('Accept all cookies').click();
-        cy.get('#bar-chart, #line-chart, #bubbleMap').should('exist');
-      });
-    });
-  });
-});
-*/

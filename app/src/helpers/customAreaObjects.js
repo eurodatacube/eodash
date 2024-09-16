@@ -1,9 +1,20 @@
-import { Wkt } from 'wicket';
-import { template } from '@/utils';
 import { DateTime } from 'luxon';
 import axios from 'axios';
 
-const wkt = new Wkt();
+export function template(templateRe, str, data) {
+  // copy of leaflet template function, which does not export it
+  // used for getting areaIndicator URL with properties replacing templates
+  return str.replace(templateRe, (stri, key) => {
+    let value = data[key];
+
+    if (value === undefined) {
+      console.error(`No value provided for variable ${stri}`);
+    } else if (typeof value === 'function') {
+      value = value(data);
+    }
+    return value;
+  });
+}
 
 export const statisticalApiHeaders = {
   url: 'https://services.sentinel-hub.com/api/v1/statistics',
@@ -28,6 +39,9 @@ export const fetchCustomDataOptions = (time, sourceOptionsObj, store) => {
       aoiID,
     );
     outputOptionsObj.site = currSite;
+  }
+  if (store.state.features.sliderValue) {
+    outputOptionsObj.sliderValue = store.state.features.sliderValue;
   }
 
   if (time) {
@@ -87,37 +101,9 @@ export const statisticalApiBody = (evalscript, type, timeinterval) => ({
   },
 });
 
-export const shFisAreaIndicatorStdConfig = Object.freeze({
-  callbackFunction: (responseJson, indicator) => {
-    if (Array.isArray(responseJson.C0)) {
-      const data = responseJson.C0;
-      const newData = {
-        time: [],
-        measurement: [],
-        referenceValue: [],
-        colorCode: [],
-      };
-      data.sort((a, b) => ((DateTime.fromISO(a.date) > DateTime.fromISO(b.date))
-        ? 1
-        : -1));
-      data.forEach((row) => {
-        newData.time.push(DateTime.fromISO(row.date));
-        newData.colorCode.push('');
-        newData.measurement.push(row.basicStats.mean);
-        newData.referenceValue.push(`[${row.basicStats.mean}, ${row.basicStats.stDev}, ${row.basicStats.max}, ${row.basicStats.min}]`);
-      });
-      const ind = {
-        ...indicator,
-        ...newData,
-      };
-      return ind;
-    }
-    return null;
-  },
-  areaFormatFunction: (area) => ({ area: wkt.read(JSON.stringify(area)).write() }),
-});
-
-export const parseStatAPIResponse = (requestJson, indicator) => {
+export const parseStatAPIResponse = (
+  requestJson, indicator, indicatorCode = 'SHCustomLineChart',
+) => {
   // We need to also accept partial responses as it seems some datasets
   // have issues on sinergise side
   if ((requestJson.status === 'OK' || requestJson.status === 'PARTIAL')
@@ -150,6 +136,10 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
         newData.sampleCount.push(stats.sampleCount);
       }
     });
+    if (indicatorCode) {
+      // if we for some reason need to change indicator code of custom chart data
+      newData.indicator = indicatorCode;
+    }
     const ind = {
       ...indicator,
       ...newData,
@@ -158,57 +148,6 @@ export const parseStatAPIResponse = (requestJson, indicator) => {
   }
   return null;
 };
-
-function defaultEvalScriptDef(bandname, maxOutlierFilterOut = 1e20) {
-  return `//VERSION=3
-function setup() {
-  return {
-    input: [{
-      bands: [
-        "${bandname}",
-        "dataMask"
-      ]
-    }],
-    output: [
-      {
-        id: "data",
-        bands: 1,
-        sampleType: "FLOAT32"
-      },
-      {
-        id: "dataMask",
-        bands: 1
-      }
-    ]
-  }
-}
-function evaluatePixel(samples) {
-  let validValue = 1
-  if (samples.${bandname} >= ${maxOutlierFilterOut}){
-      validValue = 0
-  }
-  let index = samples.${bandname};
-  return {
-    data:  [index],
-    dataMask: [samples.dataMask * validValue]
-  }
-}`;
-}
-
-export const evalScriptsDefinitions = Object.freeze({
-  'AWS_NO2-VISUALISATION': defaultEvalScriptDef('tropno2'),
-  AWS_CH4_WEEKLY_DATA: defaultEvalScriptDef('ch4'),
-  AWS_VIS_SO2_DAILY_DATA: defaultEvalScriptDef('so2'),
-  BICEP_NPP_VIS_PP: defaultEvalScriptDef('pp'),
-  AWS_VIS_CO_3DAILY_DATA: defaultEvalScriptDef('co'),
-  AWS_VIS_SST_MAPS: defaultEvalScriptDef('sst'),
-  AWS_VIS_CHL_MAPS: defaultEvalScriptDef('chl', 2e3),
-  AWS_VIS_TSM_MAPS: defaultEvalScriptDef('tsmnn', 2e3),
-  AWS_JAXA_TSM: defaultEvalScriptDef('tsm'),
-  AWS_JAXA_CHLA: defaultEvalScriptDef('chla'),
-  LAKES_SURFACE_WATER_TEMPERATURE: defaultEvalScriptDef('waterTemperature'),
-  'GHS-BUILT-S_GLOBE_R2023A': defaultEvalScriptDef('BUILT'),
-});
 
 // Define custom fetch function with configurable timeout
 async function fetchWithTimeout(resource, options = {}) {
@@ -247,6 +186,25 @@ export const fetchCustomAreaObjects = async (
     );
   }
   indicator.title = 'User defined area of interest';
+  const { selectedFeatures, selectedJsonformParameters } = store.state.features;
+  if (selectedFeatures.length === 1) {
+    const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
+    if (adminZoneKey) {
+      options.adminZone = selectedFeatures[0].get(adminZoneKey); // eslint-disable-line
+    }
+    // special custom handling of cropom dataset
+    if (['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(indicator.indicator) && selectedJsonformParameters) {
+      const { crop, vstat } = selectedJsonformParameters;
+      const mappingCropToAreaindicatorCrop = {
+        Maize: 'MaizeGDD',
+        Soybean: 'Soybean',
+        Sunflower: 'SunflowerGDD',
+        Wheat: 'WheatGDD',
+      };
+      options.crop = mappingCropToAreaindicatorCrop[crop]; // eslint-disable-line
+      options.scenario = vstat; // eslint-disable-line
+    }
+  }
   const templateSubst = {
     ...indicator,
     ...options,
@@ -380,7 +338,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,
@@ -392,11 +349,14 @@ export const fetchCustomAreaObjects = async (
   } else if (mergedConfig[lookup].url.includes('/cog/statistics')) {
     // Here we handle parallel requests to the new statistical api from nasa
     const requests = [];
-    // Add limit on how many requests we can send if there are over 600 time entries
+    // Add limit on how many requests we can send if there are over 365 time entries
     // TODO: Sending more requests overloads server, need to think how to handle this
     let requestTimes = indicator.time;
-    if (indicator.time.length > 600) {
-      requestTimes = indicator.time.slice(-600);
+    if (indicator.time.length > 365) {
+      if (options.currentTimeIndex) {
+        const startIndex = Math.max(0, options.currentTimeIndex - 365);
+        requestTimes = indicator.time.slice(startIndex, options.currentTimeIndex);
+      }
     }
     requestTimes.forEach((entry) => {
       const requestUrl = `${url}?url=${entry[1]}`;
@@ -433,7 +393,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,
@@ -443,6 +402,7 @@ export const fetchCustomAreaObjects = async (
         return custom;
       });
   } else {
+    window.dispatchEvent(new CustomEvent('set-custom-area-features-loading', { detail: true }));
     customObjects = await fetch(url, requestOpts).then((response) => {
       if (!response.ok) {
         return response.text().then((text) => { throw text; });
@@ -462,7 +422,6 @@ export const fetchCustomAreaObjects = async (
         if (newIndicator) {
           if (drawnArea) {
             custom.poi = drawnArea.coordinates.flat(Infinity).join('-');
-            custom.includesIndicator = true;
           }
           custom = {
             ...newIndicator,
@@ -497,69 +456,13 @@ export const fetchCustomAreaObjects = async (
           // If error message is an object it is probably the returned html
           console.log('Possible issue retrieving geoJSON for specified time');
         }
+      })
+      .finally(() => {
+        window.dispatchEvent(new CustomEvent('set-custom-area-features-loading', { detail: false }));
       });
   }
   return customObjects;
 };
-
-export const nasaTimelapseConfig = (
-  datasetId,
-  dateRange = ['201501', DateTime.utc().toFormat('yyyyMM')],
-  rescale = (value) => value / 1e14,
-  dataTimeFormat = 'yyyyMM',
-  indicatorCode = 'NASACustomLineChart',
-) => ({
-  url: 'https://8ib71h0627.execute-api.us-east-1.amazonaws.com/v1/timelapse',
-  requestMethod: 'POST',
-  requestHeaders: {
-    'Content-Type': 'application/json',
-  },
-  requestBody: {
-    datasetId,
-    dateRange,
-    geojson: '{geojson}',
-  },
-  callbackFunction: (responseJson, indicator) => {
-    let ind = null;
-    if (Array.isArray(responseJson)) {
-      const data = responseJson;
-      const newData = {
-        time: [],
-        measurement: [],
-        colorCode: [],
-        referenceValue: [],
-      };
-      data.forEach((row) => {
-        if (!('error' in row)) {
-          newData.time.push(DateTime.fromFormat(row.date, dataTimeFormat));
-          newData.colorCode.push('');
-          newData.measurement.push(rescale(row.mean));
-          newData.referenceValue.push(rescale(row.median));
-        }
-      });
-      if (indicatorCode) {
-        // if we for some reason need to change indicator code of custom chart data
-        newData.indicator = indicatorCode;
-      }
-      ind = {
-        ...indicator,
-        ...newData,
-      };
-    } else if (Object.keys(responseJson).indexOf('detail') !== -1) {
-      console.log(responseJson.detail[0].msg);
-    }
-    return ind;
-  },
-  areaFormatFunction: (area) => (
-    {
-      geojson: JSON.stringify({
-        type: 'Feature',
-        properties: {},
-        geometry: area,
-      }),
-    }
-  ),
-});
 
 export const xcubeAnalyticsConfig = (
   exampleEndpoint,
@@ -610,7 +513,7 @@ export const nasaStatisticsConfig = (
   rescale = (value) => value / 1e14,
   indicatorCode = 'NASACustomLineChart',
 ) => ({
-  url: 'https://staging-raster.delta-backend.com/cog/statistics',
+  url: 'https://openveda.cloud/api/raster/cog/statistics',
   requestMethod: 'POST',
   requestHeaders: {
     'Content-Type': 'application/json',

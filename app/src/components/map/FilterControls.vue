@@ -3,7 +3,8 @@
     :cols="$vuetify.breakpoint.mdAndDown"
     :style="`height: auto`"
   >
-  <v-card class="pa-3">
+  <v-card class="pa-2">
+    <v-card-title class="pa-2">Filters</v-card-title>
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
@@ -12,7 +13,7 @@
       >
         Reset constraints
       </v-btn>
-      <div v-for="key in Object.keys(filters)"
+      <div v-for="[index, key] in Object.keys(filters).entries()"
         :key="key"
       >
         <template v-if="filters[key].display">
@@ -20,12 +21,11 @@
             <v-row class="pl-2 pr-2 ml-14 mr-14" dense x-small>
               <v-col
                 v-if="filters[key].header"
-                cols="7"
+                cols="12"
                 dense x-small
-                style="font-size:16px; color: #000000;">
+                style="font-size:16px; color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 </span>
               </v-col>
               <v-col
@@ -35,7 +35,6 @@
                 style="color: #7a7a7a;">
                 <span>
                 {{filters[key].label}}
-                <info-dialog v-if="filters[key].dataInfo" :infoSource="filters[key].dataInfo"/>
                 <v-btn
                   v-if="!filters[key].header"
                   icon x-small color="primary"
@@ -46,41 +45,17 @@
                 </v-btn>
                 </span>
               </v-col>
-              <v-col
-                v-if="filters[key].changeablaDataset"
-                cols="4"
-                dense
-                x-small
-                >
-                <v-select
-                  v-model="select"
-                  style="margin-top:-5px;"
-                  :items="filters[key].changeablaDataset.items"
-                  item-text="description"
-                  item-value="url"
-                  dense
-                  persistent-hint
-                  return-object
-                  single-line
-                  @change="changeSources"
-                ></v-select>
-              </v-col>
             </v-row>
           </span>
-          <v-col class='d-flex justify-center'
+          <v-col class='d-flex justify-center pa-0'
             v-if="filters[key].type && filters[key].type=='boolfilter'"
           >
             <v-checkbox
               v-model="filters[key].value"
               :label="filters[key].label"
               dense
-              @change="(evt) => updateMapBool(evt, filters[key].id)"
+              @change="(evt) => updateMapBool(evt, filters[key].id, index)"
             ></v-checkbox>
-            <info-dialog
-              v-if="filters[key].dataInfo"
-              style="margin-top:10px; margin-left:5px;"
-              :infoSource="filters[key].dataInfo"
-            />
             <v-btn
               v-if="!filters[key].header"
               icon
@@ -99,7 +74,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="filters[key].step || (filters[key].max-filters[key].min)/100"
-            @input="(evt) => throttledUpdate(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id, index)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;"></div>
@@ -191,9 +166,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id, index);
                   } else {
-                    throttledUpdate([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id, index);
                   }
                 }"
               >
@@ -213,9 +188,9 @@
                   let to = filters[key].range[0] + filters[key].range[1];
 
                   if (to > 360) {
-                    throttledUpdate([from, 360, 0, to - 360], filters[key].id);
+                    throttledUpdate([from, 360, 0, to - 360], filters[key].id, index);
                   } else {
-                    throttledUpdate([from, to, 0, 0], filters[key].id);
+                    throttledUpdate([from, to, 0, 0], filters[key].id, index);
                   }
                 }"
               >
@@ -235,7 +210,7 @@
             :min="filters[key].min"
             :max="filters[key].max"
             :step="filters[key].step || (filters[key].max-filters[key].min)/100"
-            @input="(evt) => throttledUpdate(evt, filters[key].id)"
+            @input="(evt) => throttledUpdate(evt, filters[key].id, index)"
           >
             <template v-slot:prepend>
               <div class="pl-4" style="width:60px; overflow:hidden;">{{filters[key].range[0]}}</div>
@@ -249,15 +224,14 @@
       <div class="text-center" v-if="hiddenFilterKeys.length > 0">
         <v-menu offset-y dense>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              small
-              class="mr-3"
-              color="primary"
+            <p class="justify-self-start px-2 py-0"
+              style="color: #7a7a7a;"
               v-bind="attrs"
               v-on="on"
             >
+              <v-icon color="black">mdi-plus-circle-outline</v-icon>
               Add constraint
-            </v-btn>
+            </p>
           </template>
           <v-list>
             <v-list-item
@@ -271,42 +245,6 @@
           </v-list>
         </v-menu>
       </div>
-      <v-row v-if="processEnabled" class="pa-3 justify-center" style="margin-top:10px;">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                small
-                :disabled="adminSelected"
-                :loading="zonesLoading"
-                color="primary"
-                class="mr-3"
-                @click="fetchData('zones')"
-              >
-                Export best zones
-              </v-btn>
-            </div>
-            </template>
-            <span>{{ this.hoverText() }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <div v-on="on" class="d-inline-block">
-              <v-btn
-                small
-                :disabled="adminSelected"
-                :loading="reportLoading"
-                color="primary"
-                class="mr-3"
-                @click="fetchData('report')"
-              >
-                Create report
-              </v-btn>
-            </div>
-            </template>
-            <span>{{ this.hoverText() }}</span>
-        </v-tooltip>
-      </v-row>
     </v-card>
   </v-col>
 </template>
@@ -314,21 +252,16 @@
 <script>
 import throttle from 'lodash.throttle';
 import { getMapInstance } from '@/components/map/map';
-import GeoTIFF from 'ol/source/GeoTIFF';
-import InfoDialog from '@/components/InfoDialog.vue';
-import WebGLTileLayer from 'ol/layer/WebGLTile';
 import { saveAs } from 'file-saver';
 
 export default {
   name: 'FilterControls',
-  components: {
-    InfoDialog,
-  },
   props: {
     cogFilters: Object,
     mergedConfigsData: Object,
     adminLayer: Object,
     adminFeature: Object,
+    indicatorCode: String,
   },
   data() {
     return {
@@ -336,29 +269,10 @@ export default {
       select: null,
       variables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
       originalVariables: JSON.parse(JSON.stringify(this.mergedConfigsData?.style?.variables || {})),
-      reportLoading: false,
-      zonesLoading: false,
+      layerSourceDidRefresh: false,
     };
   },
   computed: {
-    processEnabled() {
-      return this.mergedConfigsData.processingEnabled;
-    },
-    adminSelected() {
-      let selection = null;
-      if (this.$store.state && this.$store.state.features.selectedFeatures.length > 0) {
-        selection = true;
-      }
-      let disabled = true;
-      if (selection !== null) {
-        disabled = false;
-      }
-      // Check if other button is loading
-      if (this.zonesLoading || this.reportLoading) {
-        disabled = true;
-      }
-      return disabled;
-    },
     filtersChanged() {
       let fchanged = false;
       Object.keys(this.cogFilters.filters).forEach((key) => {
@@ -379,21 +293,22 @@ export default {
     },
   },
   created() {
-    this.throttledUpdate = throttle((evt, filterId) => {
-      this.updateMap(evt, filterId);
+    this.throttledUpdate = throttle((evt, filterId, index) => {
+      this.updateMap(evt, filterId, index);
     }, 150);
+    window.addEventListener(
+      'fetch-data-report',
+      this.handleFetchDataEvent,
+    );
   },
   mounted() {
-    Object.keys(this.filters).forEach((key) => {
-      if ('changeablaDataset' in this.filters[key]) {
-        // [this.dataSourceSelect[key]] = this.filters[key].changeablaDataset.items;
-        // TODO: select only working if one is configured, currently no additional are planned
-        [this.select] = this.filters[key].changeablaDataset.items;
-      }
-    });
   },
   beforeUnmount() {
     this.throttledUpdate.cancel();
+    window.removeEventListener(
+      'fetch-data-report',
+      this.handleFetchDataEvent,
+    );
   },
   watch: {
   },
@@ -409,11 +324,14 @@ export default {
       }
       return text;
     },
+    handleFetchDataEvent(e) {
+      this.fetchData(e.detail);
+    },
     fetchData(process) {
       if (process === 'zones') {
-        this.zonesLoading = true;
+        window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: true }));
       } else {
-        this.reportLoading = true;
+        window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: true }));
       }
       const baseUrl = `https://gtif-backend.hub.eox.at/${process}?`;
       const keyRenaming = {
@@ -443,11 +361,12 @@ export default {
         }
         return p;
       });
-
-      if (Object.keys(this.filters.powerDensity).includes('height')) {
-        pars.push(`height=${this.filters.powerDensity.height}`);
-      } else {
+      if (this.indicatorCode === 'REP1') {
         pars.push('height=200');
+      } else if (this.indicatorCode === 'REP1_1') {
+        pars.push('height=100');
+      } else if (this.indicatorCode === 'REP1_2') {
+        pars.push('height=50');
       }
       const id = this.$store.state.features.selectedFeatures[0].id_;
       const aoi = `aoi=${id}&`;
@@ -460,12 +379,12 @@ export default {
         .then((res) => res.blob())
         .then((blob) => {
           saveAs(blob, `GTIF_${process}_${id}${fileExtension}`);
-          this.zonesLoading = false;
-          this.reportLoading = false;
+          window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: false }));
+          window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: false }));
         })
         .catch((error) => {
-          this.zonesLoading = false;
-          this.reportLoading = false;
+          window.dispatchEvent(new CustomEvent('fetch-data-report-loading', { detail: false }));
+          window.dispatchEvent(new CustomEvent('fetch-data-zones-loading', { detail: false }));
           console.log(error);
         });
     },
@@ -473,57 +392,28 @@ export default {
       this.filters = JSON.parse(JSON.stringify(this.cogFilters.filters));
       this.resetMap();
     },
-    changeSources(evt) {
-      // TODO: I am taking quite a number of shortcuts here, this should be reviewed and better
-      // approaches for getting selected indicator and setting the sources should be considered
-      const { map } = getMapInstance('centerMap');
-      // get layer and recreate it, otherwise the webglcontext has visual glitches, if we
-      // would just replace the source of a layer
-      const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
-      const layer = dataGroup.getLayers().getArray().find((l) => l.get('name') === this.mergedConfigsData.name);
-      dataGroup.getLayers().remove(layer);
-      // TODO hardcoded first item in array, we should match by ID or so
-      const { sources, style } = this.mergedConfigsData;
-      switch (evt.description) {
-        case '200m height':
-          this.filters.powerDensity.height = 200;
-          break;
-        case '100m height':
-          this.filters.powerDensity.height = 100;
-          break;
-        case '50m height':
-          this.filters.powerDensity.height = 50;
-          break;
-        default:
-          break;
-      }
-      sources[0].url = evt.url;
-      const newLayer = new WebGLTileLayer({
-        source: new GeoTIFF({
-          sources,
-          normalize: false,
-          interpolate: false,
-        }),
-        style,
-        name: this.mergedConfigsData.name,
-      });
-      newLayer.set('id', this.cogFilters.sourceLayer);
-      newLayer.updateStyleVariables(this.variables);
-      // forces fixing of webgl context, simply updating layers of layergroup does not work
-      dataGroup.getLayers().push(newLayer);
-    },
     resetMap() {
+      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
+      this.updateLayerStyle();
+    },
+    updateLayerStyle(filterIndex = 0) {
       const { map } = getMapInstance('centerMap');
       const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      this.variables = JSON.parse(JSON.stringify(this.originalVariables));
       if (gtl) {
+        // due to an unknown bug that can not be reproduced outside of eodash
+        // GeoTiff sources with index higher than 4 (start at 1) do behave as binary filter
+        // on the first load of this panel, manual resetting of source solves the issue
+        if (filterIndex > 4 && !this.layerSourceDidRefresh) {
+          const s = gtl.getSource();
+          gtl.setSource(null);
+          gtl.setSource(s);
+          // to refresh once per dataset is enough
+          this.layerSourceDidRefresh = true;
+        }
         gtl.updateStyleVariables(this.variables);
       }
     },
-    updateMap(evt, filterId) {
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-
+    updateMap(evt, filterId, filterIndex) {
       if (evt.length > 2) {
         [
           this.variables[`${filterId}Min`],
@@ -539,18 +429,12 @@ export default {
       } else {
         this.variables[`${filterId}`] = evt;
       }
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle(filterIndex);
     },
-    updateMapBool(evt, filterId) {
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
+    updateMapBool(evt, filterId, filterIndex) {
       // converts to 0/1
       this.variables[filterId] = +evt;
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle(filterIndex);
     },
     updateVisualizationBand(evt, filterId) {
       if (Object.keys(this.filters).includes('visualization')) {
@@ -559,11 +443,7 @@ export default {
       }
       [this.variables.visualizationMin, this.variables.visualizationMax] = evt.range;
       this.variables[filterId] = evt.value;
-      const { map } = getMapInstance('centerMap');
-      const gtl = map.getAllLayers().find((l) => l.get('id') === this.cogFilters.sourceLayer);
-      if (gtl) {
-        gtl.updateStyleVariables(this.variables);
-      }
+      this.updateLayerStyle();
     },
     enableFilter(filterId) {
       this.filters[filterId].display = true;
@@ -590,9 +470,5 @@ export default {
 }
 .v-text-field__details {
   position: absolute;
-}
-
-::v-deep .compass .v-progress-circular__overlay {
-  transition: none !important;
 }
 </style>

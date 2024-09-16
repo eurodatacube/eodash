@@ -1,6 +1,6 @@
 <!-- eslint-disable global-require -->
 <template>
-  <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`">
+  <v-app id="inspire" :class="`fill-height brand-${appConfig.id}`" style="z-index:10">
     <div v-if="comingSoon"
       class="fill-height d-flex justify-center align-center"
       :style="{background: $vuetify.theme.themes[theme].background}"
@@ -66,15 +66,13 @@
 // Utilities
 import {
   mapState,
-  mapGetters,
 } from 'vuex';
 import CookieLaw from 'vue-cookie-law';
-import { loadIndicatorData } from '@/utils';
+import { loadIndicatorData, loadFeatureData } from '@/utils';
 
 import axios from 'axios';
 import { Wkt } from 'wicket';
 
-import { getMapInstance } from '@/components/map/map';
 import Alert from './components/Alert.vue';
 
 const wkt = new Wkt();
@@ -88,15 +86,12 @@ export default {
     showPrivacyDialog: false,
     comingSoon: null,
     countDownTime: null,
+    startupFeatureSelection: null,
   }),
   computed: {
     ...mapState('config', [
       'appConfig',
       'baseConfig',
-    ]),
-    ...mapGetters('features', [
-      'getIndicators',
-      'getCountryItems',
     ]),
     showCookieNotice() {
       return this.$route.path !== '/iframe';
@@ -107,6 +102,11 @@ export default {
   },
   watch: {
     $route(to, from) {
+      // If coming from custom dashboard back to map make sure no indicator/poi is active
+      if (from.path === '/dashboard' && (to.path === '/' || to.path === '/explore')) {
+        this.$store.commit('features/SET_SELECTED_FEATURE', null);
+        this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+      }
       // only show back button if one of these conditions are true
       // TODO: handle case when one of these was directly entered into url at app start
       this.$store.commit('changeBackButtonDisplay', (
@@ -118,28 +118,10 @@ export default {
       || from.query.clusterOpen) {
         if (!to.query.poi && from.query.poi) {
           // clear poi
-          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+          this.$store.commit('features/SET_SELECTED_FEATURE', null);
         }
         if (!to.query.indicator && from.query.indicator) {
-          // clear indicator filter
-          this.$store.commit('features/SET_FEATURE_FILTER', {
-            ...this.$store.state.features.featureFilters,
-            indicators: [],
-          });
-        }
-
-        const currentQuery = to.query;
-        const {
-          x, y, z,
-        } = currentQuery;
-        if (x && y && z && !Number.isNaN(x) && !Number.isNaN(y) && !Number.isNaN(z)) {
-          setTimeout(() => {
-            getMapInstance('centerMap').map.getView().animate({
-              center: [x, y],
-              zoom: z,
-              duration: 300,
-            });
-          }, 0); // TO DO: without this, zooming to AOI causes problems
+          this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
         }
       }
     },
@@ -163,61 +145,49 @@ export default {
     }
   },
   mounted() {
-    // Listen for features added, and select if poi in query
+    // Listen for initial loading of indicators and set possible indicator from url
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'features/ADD_NEW_FEATURES') {
-        // Read route query and set selected poi
-        const { poi, country, indicator } = this.$route.query;
-        const indicatorsFilter = (indicator && indicator.split(',')) || [];
-        if (poi || indicatorsFilter.length > 0) {
-          // poi or indicator was present on app init
-          this.$store.commit('setInitWithQuery', true);
-          this.$store.commit('changeBackButtonDisplay', true);
-        }
-        let selectedFeature = null;
-        if (poi && poi.includes('-')) {
-          const aoiID = poi.split('-')[0];
-          const indicatorCode = poi.split('-')[1];
-          selectedFeature = this.$store.state.features.allFeatures.find((f) => {
-            const { indicatorObject } = f.properties;
-            return indicatorObject.aoiID === aoiID
-              && indicatorObject.indicator === indicatorCode;
+      if (mutation.type === 'features/SET_FEATURES') {
+        if (mutation.payload?.length && this.startupFeatureSelection !== null) {
+          const features = mutation.payload;
+          const selectedFeature = features.find((ft) => {
+            const indObj = ft.properties.indicatorObject;
+            return `${indObj.aoiID}-${indObj.indicator}` === this.startupFeatureSelection;
           });
+          if (selectedFeature) {
+            this.startupFeatureSelection = null;
+            this.$store.commit(
+              'features/SET_SELECTED_FEATURE', {
+                indicatorObject: selectedFeature.properties.indicatorObject,
+                geometry: null,
+              },
+            );
+          }
         }
-        this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        // TODO: Is there a reason why this was called twice?
-        // eslint-disable-next-line
-        // this.$store.commit('indicators/SET_SELECTED_INDICATOR', selectedFeature ? selectedFeature.properties.indicatorObject : null);
-        // validate query for country - need to be among available
-        const selectedCountry = this.getCountryItems
-          .map((item) => item.code).flat().find((f) => f === country);
-        let selectedIndicators = this.getIndicators
-          .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
-        // If selectedIndicator is undefined and indicator has been provided
-        // it could be an archived indicator so we activate
-        if (typeof selectedIndicators !== 'undefined' && indicatorsFilter.length > 0) {
-          this.$store.commit('features/SET_FEATURE_FILTER', { includeArchived: true });
-          selectedIndicators = this.getIndicators
-            .map((item) => item.code).filter((f) => indicatorsFilter.includes(f));
+      }
+
+      if (mutation.type === 'indicators/SET_INDICATORS') {
+        // Read route query and set selected indicator, once indicator loaded set selected feature
+        if (mutation.payload?.length) {
+          const { poi, indicator } = this.$route.query;
+          // For legacy support we need to consider indicator not being set, only poi,
+          // then we need to extract the information from the poi
+          let finalIndicator = indicator;
+          if (typeof finalIndicator === 'undefined' && poi) {
+            [, finalIndicator] = poi.split('-');
+          }
+          const indicators = mutation.payload;
+          const selectedIndicator = indicators.find((ind) => ind.indicator === finalIndicator);
+          if (selectedIndicator) {
+            this.startupFeatureSelection = poi;
+            this.$store.commit(
+              'indicators/SET_SELECTED_INDICATOR', selectedIndicator,
+            );
+          }
         }
-        this.$store.commit('features/INIT_FEATURE_FILTER', {
-          countries: selectedCountry,
-          indicators: selectedIndicators,
-        });
       }
       // Url query replacement
       if (mutation.type === 'features/SET_FEATURE_FILTER') {
-        if (Array.isArray(mutation.payload.countries) && mutation.payload.countries.length === 0) {
-          // Global
-          const query = Object.assign({}, this.$route.query); // eslint-disable-line
-          delete query.country;
-          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', 'Global');
-        } else if (typeof mutation.payload.countries === 'string') {
-          // Country
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { country: mutation.payload.countries }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('filters', 'select_country_filter', mutation.payload.countries);
-        }
         if (Array.isArray(mutation.payload.indicators)) {
           if (mutation.payload.indicators.length === 0) {
             // Reset
@@ -245,20 +215,40 @@ export default {
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
         }
       }
+      if (['features/SET_SELECTED_FEATURE'].includes(mutation.type)) {
+        if (mutation.payload) {
+          this.loadFeatureData(mutation.payload);
+          const indObj = mutation.payload.indicatorObject;
+          const locCode = `${indObj.aoiID}-${indObj.indicator}`;
+          this.$router.replace({
+            query: Object.assign({}, this.$route.query, { poi: locCode }) // eslint-disable-line
+          }).catch(() => {});
+          this.trackEvent('features', 'select_feature', locCode);
+        } else {
+          this.loadFeatureData(mutation.payload);
+          const query = Object.assign({}, this.$route.query); // eslint-disable-line
+          delete query.poi;
+          this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
+        }
+      }
       if (['indicators/SET_SELECTED_INDICATOR'].includes(mutation.type)) {
-        if (mutation.payload && !( // If dummy feature selected ignore
-          Object.prototype.hasOwnProperty.call(mutation.payload, 'dummyFeature')
-          && mutation.payload.dummyFeature)) {
-          this.loadIndicatorData(mutation.payload);
+        // Set features to empty when changing indicator
+        this.$store.commit('features/SET_FEATURES', []);
+        if (mutation.payload) {
+          this.$store.commit('features/SET_SELECTED_FEATURE', null);
+          if (!mutation.payload.disableExtraLoadingData) {
+            this.loadIndicatorData(mutation.payload);
+          }
           const urlSearchParams = new URLSearchParams(window.location.search);
           const params = Object.fromEntries(urlSearchParams.entries());
           this.$router.push({ query: params }).catch(err => {}); // eslint-disable-line
-          this.$router.replace({ query: Object.assign({}, this.$route.query, { poi: this.getLocationCode(mutation.payload) }) }).catch(err => {}); // eslint-disable-line
-          this.trackEvent('indicators', 'select_indicator', this.getLocationCode(mutation.payload));
+          this.$router.replace({ query: Object.assign({}, this.$route.query, { indicator: mutation.payload.indicator }) }).catch(err => {}); // eslint-disable-line
+          this.trackEvent('indicators', 'select_indicator', mutation.payload.indicator);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
         } else {
           const query = Object.assign({}, this.$route.query); // eslint-disable-line
           delete query.poi;
+          delete query.indicator;
           this.$router.replace({ query }).catch(err => {}); // eslint-disable-line
           this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', null);
           this.$store.commit('indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', null);
@@ -283,6 +273,15 @@ export default {
       if (indicatorObject) {
         this.$store.commit('indicators/INDICATOR_LOAD_FINISHED', indicatorObject);
       }
+    },
+    async loadFeatureData(payload) {
+      // TODO: if using eoxchart we dont need to load feature data here
+      //  implement use of eoxchart for these indicators
+      let featureData = null;
+      if (payload !== null) {
+        featureData = await loadFeatureData(this.baseConfig, payload);
+      }
+      this.$store.commit('features/FEATURE_LOAD_FINISHED', featureData);
     },
     acceptCookies() {
       if (this.$matomo) {

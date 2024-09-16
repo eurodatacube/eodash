@@ -15,7 +15,7 @@
   font-family: 'NotesESA', 'Open Sans', sans-serif;
 }
 
-.brand-esa {
+.brand-gtif {
   $body-font-family: 'NotesESA', 'Open Sans', sans-serif;
 
   h1,
@@ -33,7 +33,16 @@
   .v-btn__content,
   .v-toolbar__title,
   .v-card__title,
+  .v-expansion-panel-header,
   .v-tab{
     font-family: 'NotesESABold', sans-serif !important;
   }
+}
+
+.chartareapanel {
+  background-color: #dde3ea!important;
+}
+
+.v-expansion-panel-header {
+  text-transform: uppercase;
 }

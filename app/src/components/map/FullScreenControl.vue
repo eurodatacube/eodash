@@ -21,6 +21,10 @@ export default {
   components: {},
   props: {
     mapId: String,
+    selector: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -31,7 +35,12 @@ export default {
   mounted() {},
   methods: {
     setFullScreen() {
-      const elem = getMapInstance(this.mapId).map.getTargetElement();
+      let elem;
+      if (this.selector) {
+        elem = document.querySelector(this.selector);
+      } else {
+        elem = getMapInstance(this.mapId).map.getTargetElement();
+      }
       if (elem) {
         if (this.fullscreen) {
           if (document.exitFullscreen) {
@@ -69,6 +78,7 @@ export default {
 
 <style lang="scss" scoped>
   .controlButton {
+    right:4px;
     width: 36px;
     min-width: 0px !important;
     height: 36px !important;

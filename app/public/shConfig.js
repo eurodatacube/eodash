@@ -1,10 +1,12 @@
 const shConfig = {
   shInstanceId: '$SH_INSTANCE_ID',
-  shInstanceIdGtif: '$SH_INSTANCE_ID_GTIF',
   shInstanceIdIdeas: '$SH_INSTANCE_ID_IDEAS',
-  mbAccessToken: '$MAPBOX_ACCESS_TOKEN',
+  shInstanceIdPolar: '$SH_INSTANCE_ID_POLAR',
   geodbInstanceId: '$GEODB_INSTANCE_ID',
   listmonkApiKey: '$LISTMONK_API_KEY',
   statApiClientId: '$STAT_API_CLIENT_ID',
-  statApiClientSecret: '$STAT_API_CLIENT_SECRET'
+  statApiClientSecret: '$STAT_API_CLIENT_SECRET',
+  opencageRACE: '$OPENCAGE_RACE',
+  opencageGTIF: '$OPENCAGE_GTIF',
+  opencageTrilateral: '$OPENCAGE_TRILATERAL',
 };

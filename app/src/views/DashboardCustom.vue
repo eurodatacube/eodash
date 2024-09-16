@@ -7,7 +7,8 @@
       : (storyModeEnabled ? 'pa-0' : 'pa-5')"
       :style="`margin-top: ${$vuetify.application.top}px;
         height: calc((var(--vh, 1vh) * 100);
-        overflow-y: ${storyModeEnabled ? 'hidden' : 'auto'}; overflow-x: hidden`"
+        overflow-y: ${storyModeEnabled && !storytellingMarkdownUrl ? 'hidden' : 'auto'};
+        overflow-x: hidden`"
     id="scroll-target"
   >
     <global-header />
@@ -146,7 +147,7 @@
             </div>
             <template v-if="officialDashboard">
               <p v-html="dashboardSubTitle" class="white--text"></p>
-              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+              <img class="header__logo" :src="selectLogo" />
             </template>
             <template v-else>
               <p v-if="newDashboard || hasEditingPrivilege">
@@ -287,9 +288,17 @@
         v-if="$vuetify.breakpoint.smAndDown && !storyModeEnabled"
         class="my-10"
       ></v-divider>
+      <eox-storytelling
+        ref="customDashboardGrid"
+        v-if="storytellingMarkdownUrl"
+        show-nav
+        :markdown-url="storytellingMarkdownUrl"
+        no-shadow
+        style="height: calc(var(--vh, 1vh) * 100); display: block; position: relative; z-index: 0;"
+      ></eox-storytelling>
       <custom-dashboard-grid
         ref="customDashboardGrid"
-        v-if="$store.state.features.allFeatures.length > 0"
+        v-else-if="$store.state.indicators.indicators && $store.state.indicators.indicators.length > 0"
         :enableEditing="!!(newDashboard || hasEditingPrivilege)"
         :popupOpen="popupOpen || !!newFeatureDialog"
         :storyMode="storyModeEnabled"
@@ -421,7 +430,7 @@
       :color="$vuetify.theme.dark ? '#212121' : '#fff'"
     ></v-overlay>
     <global-footer
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      :color="getCurrentTheme && appConfig.id !== 'esa' ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>
@@ -531,6 +540,7 @@ export default {
     localDashboardId: null,
     scrollOverlay: false,
     imageFlag: '<--IMG-->',
+    storytellingMarkdownUrl: null,
   }),
   computed: {
     ...mapState('config', [
@@ -543,6 +553,13 @@ export default {
     ...mapGetters('themes', [
       'getCurrentTheme',
     ]),
+    selectLogo() {
+      let logoUrl = this.appConfig && this.appConfig.branding.headerLogo;
+      if (this.logoAlternative) {
+        logoUrl = this.logoAlternative;
+      }
+      return logoUrl;
+    },
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
         && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo
@@ -589,29 +606,34 @@ export default {
         !editKey
         && existingConfiguration
       ) {
-        // replace with local custom dashboard
-        const localDashboard = await axios
-          .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
-            headers: {
-              'Cache-Control': 'no-cache',
-              Pragma: 'no-cache',
-              Expires: '0',
-            },
-          });
-        const localDashboardContent = localDashboard.data;
         this.officialDashboard = true;
         this.localDashboardId = id;
         this.dashboardTitle = existingConfiguration.title;
         this.dashboardSubTitle = existingConfiguration.subtitle;
         this.dashboardHeaderImage = existingConfiguration.image;
         this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
-        const localFeatures = localDashboardContent.features.map((f) => {
-          const newF = { ...f };
-          delete newF.id;
-          newF.poi = f.id;
-          return newF;
-        });
-        this.localDashboardFeatures = localFeatures;
+        this.logoAlternative = existingConfiguration.logoAlternative;
+        if (existingConfiguration.storyMarkdown) {
+          this.storytellingMarkdownUrl = existingConfiguration.storyMarkdown;
+        } else {
+          // replace with local custom dashboard
+          const localDashboard = await axios
+            .get(`./data/dashboards/${existingConfiguration.originalDashboardId}.json`, {
+              headers: {
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0',
+              },
+            });
+          const localDashboardContent = localDashboard.data;
+          const localFeatures = localDashboardContent.features.map((f) => {
+            const newF = { ...f };
+            delete newF.id;
+            newF.poi = f.id;
+            return newF;
+          });
+          this.localDashboardFeatures = localFeatures;
+        }
       } else {
         this.reconnecting = true;
         this.disconnect();
@@ -788,14 +810,16 @@ export default {
       });
     },
     pageScroll({ target, offset = 0 }) {
-      this.scrollOverlay = true;
+      if (!this.storytellingMarkdownUrl) {
+        this.scrollOverlay = true;
+      }
       setTimeout(async () => {
         await this.$vuetify.goTo(
           target,
           {
             container: document.querySelector('.scrollContainer'),
             offset,
-            duration: 0,
+            duration: this.storytellingMarkdownUrl ? 500 : 0,
           },
         );
         setTimeout(() => {

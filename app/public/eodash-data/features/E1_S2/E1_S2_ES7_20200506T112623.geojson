@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"features": [
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/06 11:26:00", "MMSI": 225424000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Cement Carrier", "STATUS": 5.0, "SPEED (KNOTSx10)": 1.0, "Last Signal": "2020\/05\/06 11:11:00", "LENGTH": 133.0, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.699915, 43.56619 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/06 11:26:00", "MMSI": 255804840, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "Bulk Carrier", "STATUS": 5.0, "SPEED (KNOTSx10)": 3.0, "Last Signal": "2020\/05\/06 11:10:00", "LENGTH": 158.0, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.680805, 43.58138 ] } },
-{ "type": "Feature", "properties": { "TIMESTAMP UTC": "2020\/05\/06 11:26:00", "MMSI": 377739000, "TYPE_SUMMARY": "Cargo", "TYPE_NAME": "General Cargo", "STATUS": 5.0, "SPEED (KNOTSx10)": 0.0, "Last Signal": "2020\/05\/06 11:18:00", "LENGTH": 88.46, "Signal in 3 days": true, "PRESENT SIGNAL": false, "ENGINE ON": false }, "geometry": { "type": "Point", "coordinates": [ -5.690188, 43.57907 ] } }
-]
-}

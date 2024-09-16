@@ -6,7 +6,7 @@
     clipped-left
     clipped-right
     flat
-    :color="currentTheme ? currentTheme.color : 'primary'"
+    :color="currentTheme && appConfig.id !== 'esa' ? currentTheme.color : 'primary'"
     class="white--text"
     :style="`z-index: 8; ${appConfig.id === 'esa'
       ? `box-shadow: 0px 4px var(--v-secondary-base) !important`
@@ -170,7 +170,7 @@
       </v-btn>
     </v-toolbar-title>
 
-    <template v-if="currentTheme">
+    <template v-if="currentTheme && appConfig.id !== 'esa'">
       <v-icon dark class="mx-2">mdi-chevron-right</v-icon>
 
       <v-tooltip right close-delay="1000" nudge-left="20">
@@ -255,6 +255,7 @@
       </v-btn>
 
       <v-badge
+      v-if="!polartepTemp"
         class="mr-6"
         bordered
         color="info"
@@ -265,7 +266,7 @@
         overlap
       >
         <v-btn
-          v-if="$store.state.dashboard.dashboardConfig"
+          v-if="$store.state.dashboard.dashboardConfig && !polartepTemp"
           text
           dark
           small
@@ -291,7 +292,8 @@
       style="z-index: 9999;"
       v-else-if="appConfig
               && appConfig.showNewsletterButton
-              && $vuetify.breakpoint.mdAndUp"
+              && $vuetify.breakpoint.mdAndUp
+              && !polartepTemp"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -368,6 +370,9 @@
       </template>
     </v-dialog>
 
+    <img v-if="polartepTemp"
+      width="111" height="50" :src="'./eodash-data/general/Polar-TEP-Logo-White-300x135.png'"
+      class="mr-2"/>
     <img height="32" :src="appConfig && appConfig.branding.headerLogo" />
   </v-app-bar>
 </template>
@@ -436,6 +441,10 @@ export default {
     ...mapGetters({
       currentTheme: 'themes/getCurrentTheme',
     }),
+    polartepTemp() {
+      // TODO remove when to be merged
+      return this.appConfig.id === 'polar';
+    },
 
     isThemePageActive() {
       switch (this.$route.name) {
@@ -444,6 +453,7 @@ export default {
         case 'atmosphere':
         case 'water-quality':
         case 'agriculture':
+        case 'extreme-events':
         case 'cryosphere':
           return true;
 

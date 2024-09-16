@@ -1,1 +1,0 @@
-<img style="float:right; margin-top:-60px;" alt="Mean value" src="legends/gtif/AQ1_mean_value.png" width="45%" style="vertical-align: middle;"/>
