@@ -300,9 +300,7 @@ import {
 import Minesweeper from '@/plugins/minesweeper/game';
 import { getRandomBoundingBox, findIntersections } from '@/plugins/minesweeper';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
-import getLocationCode from '../../mixins/getLocationCode';
 import '@eox/map';
-
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -1171,7 +1169,7 @@ export default {
       window.setTimeout(() => {
         this.setupMinesweeper();
       }, 1000);
-    }
+    },
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
       loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',

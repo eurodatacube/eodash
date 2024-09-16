@@ -34,8 +34,8 @@
         <v-col
           v-if="!showMap
             || mergedConfigsData[0].customAreaIndicator
-            || appConfig.id === 'gtif'"
             || appConfig.id === 'esa' // TODO CHECK
+            || appConfig.id === 'gtif'"
           :cols="12"
           class="pa-0"
           :style="`height: auto`"
@@ -367,13 +367,11 @@ export default {
     WmsStyleControls,
     VectorTileStyleControl,
     CustomWmsVariables,
-    DataMockupView,
     SelectionInfoBar,
     FeatureQueryParams,
     SpeciesList,
     AreaStatistics,
     DataMockupView,
-    SelectionInfoBar,
     GTIFProcessingButtons,
     VectorStyleControl,
     FullScreenControl,
@@ -606,9 +604,6 @@ export default {
     },
   },
   watch: {
-<<<<<<< HEAD
-    async selectedArea(area) {
-=======
     showingChart() {
       if (this.showingChart) {
         // we only want to open if it is closed
@@ -619,8 +614,7 @@ export default {
         }
       }
     },
-    selectedArea(area) {
->>>>>>> origin/staging
+    async selectedArea(area) {
       this.showRegenerateButton = this.customAreaIndicator && !!area;
       this.refreshSpeciesInfo();
     },
