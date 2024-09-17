@@ -1,3 +1,4 @@
+import colormap from 'colormap';
 // eslint-disable-next-line import/no-named-default
 import { default as powerOpenInsfrastructureStyle } from '@/assets/openinframap/style_oim_power';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -8,6 +9,26 @@ import { Wkt } from 'wicket';
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
 const wkt = new Wkt();
+
+export function normalize(value, varMin, varMax) {
+  return ['/', ['-', value, ['var', varMin]], ['-', ['var', varMax], ['var', varMin]]];
+}
+
+export function getColorStops(name, min, max, steps, reverse) {
+  const delta = (max - min) / (steps - 1);
+  const stops = new Array(steps * 2);
+  const colors = colormap({
+    colormap: name, nshades: steps, format: 'rgba',
+  });
+  if (reverse) {
+    colors.reverse();
+  }
+  for (let i = 0; i < steps; i++) {
+    stops[i * 2] = min + i * delta;
+    stops[i * 2 + 1] = colors[i];
+  }
+  return stops;
+}
 
 export const baseLayers = Object.freeze({
   cloudless: {
@@ -127,6 +148,7 @@ export const baseLayers = Object.freeze({
     tileSize: 512,
     name: 'CORINE Land cover',
     layers: 'CORINE_LAND_COVER',
+    legendUrl: 'https://www.eea.europa.eu/data-and-maps/figures/corine-land-cover-2000-by-country-3/legend/image_large',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
     minZoom: 7,
@@ -136,11 +158,57 @@ export const baseLayers = Object.freeze({
     protocol: 'WMS',
     format: 'image/png',
     tileSize: 512,
-    name: 'ESA World cover',
+    name: 'ESA World cover 2020',
     layers: 'ESA_WORLD_COVER',
     attribution: '{ <a href="https://eodashboard.org/terms_and_conditions" target="_blank">Use of this data is subject to Articles 3 and 8 of the Terms and Conditions</a> }',
     visible: false,
-    minZoom: 6,
+    minZoom: 3,
+    layerAdditionalDescription: `<table>
+          <tbody><tr>
+              <td style="width: 20px; background: rgb(0, 100, 0)"></td>
+              <td><span>Tree cover</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(255, 187, 34)"></td>
+              <td><span>Shrubland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(255, 255, 76)"></td>
+              <td><span>Grassland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(240, 150, 255)"></td>
+              <td><span>Cropland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(250, 0, 0)"></td>
+              <td><span>Built-up</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(180, 180, 180)"></td>
+              <td><span>Bare / sparse vegetation</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(240, 240, 240)"></td>
+              <td><span>Snow and ice</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 100, 200)"></td>
+              <td><span>Permanent water bodies</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 150, 160)"></td>
+              <td><span>Herbaceous wetland</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(0, 207, 117)"></td>
+              <td><span>Mangroves</span></td>
+          </tr>
+          <tr>
+              <td style="width: 20px; background: rgb(250, 230, 160)"></td>
+              <td><span>Moss and lichen</span></td>
+          </tr>
+      </tbody></table>`,
   },
   s2AT2021: {
     name: 'Sentinel-2 Austrian mosaic 2021',

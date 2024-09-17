@@ -69,6 +69,8 @@
             </UiPanelsLayout>
             <HighlightLocation v-if="indicatorSelected"
             :indicator-object="indicatorObject"/>
+            <CustomAlert>
+            </CustomAlert>
           </v-col>
         </v-row>
       </v-container>
@@ -86,6 +88,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import IndicatorFiltersPanel from '@/components/IndicatorFiltersPanel.vue';
 import IndicatorFiltersDemo from '@/components/IndicatorFiltersDemo.vue';
+import CustomAlert from '@/components/CustomAlert.vue';
 import UiPanelsLayout from '@/components/UiPanelsLayout.vue';
 import UiPanel from '@/components/UiPanel.vue';
 import closeMixin from '@/mixins/close';
@@ -111,6 +114,7 @@ export default {
     GlobalFooter,
     IndicatorFiltersPanel,
     IndicatorFiltersDemo,
+    CustomAlert,
     UiPanel,
     UiPanelsLayout,
     StacInfo,
@@ -176,6 +180,7 @@ export default {
   },
   beforeDestroy() {
     this.$store.commit('indicators/SET_SELECTED_INDICATOR', null);
+    window.removeEventListener('customAlert', this.setCustomAlertMessage);
   },
   methods: {
     clickMobileClose() {

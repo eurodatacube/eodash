@@ -275,7 +275,7 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   const paramsToPassThrough = [
-    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
+    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions', 'token',
   ];
   // layer created by this config, function always returns a single layer
   let layer = null;
@@ -283,8 +283,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   let featuresSource = null;
   let featuresUpdateFn = null;
   if (config.features) {
-    // some layers have a baselayer and GeoJSON features above them
-    // e.g. "Ports and Shipping"
     featuresSource = new VectorSource({
       features: [],
     });
@@ -321,6 +319,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new VectorLayer({
       id: config.id,
       source: featuresSource,
+      customFeatureLayer: true,
       style,
     });
   } else if (config.protocol === 'cog') {
@@ -526,7 +525,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }).getResolutions(),
       tileSize: 512,
     }) : undefined;
-
     const params = {};
     paramsToPassThrough.forEach((param) => {
       if (typeof config[param] !== 'undefined') {
@@ -538,6 +536,17 @@ export function createLayerFromConfig(config, map, _options = {}) {
       if (config.specialEnvTime) {
         params.env = `year:${params.time}`;
       }
+    }
+    if (config.specialEnvScenario4) {
+      const configUsed = options.dataProp === 'compareMapData' ? config.wmsVariablesCompare : config.wmsVariables;
+      const ssp = configUsed.variables.ssp.selected;
+      const stormSurge = configUsed.variables.stormSurge.selected;
+      const confidence = configUsed.variables.confidence.selected;
+      const time = configUsed.variables.time.selected;
+      params.ssp = ssp;
+      params.stormSurge = stormSurge;
+      params.confidence = confidence;
+      params.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
     }
     source = new TileWMS({
       attributions: config.attribution,
@@ -562,6 +571,17 @@ export function createLayerFromConfig(config, map, _options = {}) {
       };
       if (configUpdate.specialEnvTime) {
         newParams.env = `year:${updatedTime}`;
+      }
+      if (configUpdate.specialEnvScenario4) {
+        const configUsed = options.dataProp === 'compareMapData' ? configUpdate.wmsVariablesCompare : configUpdate.wmsVariables;
+        const ssp = configUsed.variables.ssp.selected;
+        const stormSurge = configUsed.variables.stormSurge.selected;
+        const confidence = configUsed.variables.confidence.selected;
+        const time = configUsed.variables.time.selected;
+        newParams.ssp = ssp;
+        newParams.stormSurge = stormSurge;
+        newParams.confidence = confidence;
+        newParams.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
       }
       source.updateParams(newParams);
       layer.set('configId', `${configUpdate.name}-${updatedTime}`);

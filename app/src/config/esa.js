@@ -7,6 +7,7 @@ import { shS2TimeFunction } from '@/utils';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
 
@@ -435,4 +436,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND2_1_minesweeper', 'IND2_1', 'IND1_1_minesweeper', 'IND1_1']),
 ];

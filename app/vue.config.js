@@ -51,6 +51,8 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
     'ol',
+    'color-rgba',
+    'color-space',
     '@eox/itemfilter',
     '@eox/layercontrol',
     '@eox/stacinfo',
