@@ -10,6 +10,7 @@ import shTimeFunction from '@/shTimeFunction';
 import {
   baseLayers, overlayLayers, trucksAreaIndicator, trucksFeatures,
 } from '@/config/layers';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import {
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
@@ -918,4 +919,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND1_1', 'IND3_1', 'IND4_1']),
 ];

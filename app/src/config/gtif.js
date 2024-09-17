@@ -6,6 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -2534,4 +2535,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND1_1']),
 ];

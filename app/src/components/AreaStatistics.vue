@@ -2,7 +2,7 @@
 <v-card>
   <v-card-title class="pa-2">Custom Area Statistics</v-card-title>
   <v-col>
-    <v-row class="pt-4 area-statistics justify-space-between align-center mx-2">
+    <v-row class="area-statistics align-center ma-2">
       <v-btn
         @click="fetchData"
         color="primary"
@@ -11,19 +11,17 @@
         small
       >Generate</v-btn>
     </v-row>
-    <v-row>
-      <div class="pa-2">
-        Select storm surge, years, or scenarios and additional
-        parameters from the drop-down menu to
-        generate charts representing predictions
-        on population, build-up areas and agriculture areas.
-      </div>
-    </v-row>
+    <div class="pa-0">
+      Select storm surge, years, or scenarios and additional
+      parameters from the drop-down menu to
+      generate charts representing predictions
+      on population, build-up areas and agriculture areas.
+    </div>
     <div
       class="d-flex justify-space-around"
       :class="{'flex-column': $vuetify.breakpoint.mdAndUp}"
     >
-      <v-radio-group v-model="selectedIndex">
+      <v-radio-group v-model="selectedIndex" hide-details>
         <v-col
           class="d-flex justify-space-between ml-1 mt-2"
           :class="{
@@ -414,5 +412,11 @@ export default {
 <style>
 .charts canvas {
   max-width: 100%;
+}
+.v-label {
+  font-size: 13px;
+}
+.v-input--selection-controls {
+  margin-top: 0;
 }
 </style>

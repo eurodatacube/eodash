@@ -213,7 +213,7 @@
         v-if="indicatorSelected
           && indicatorSelected.indicator === 'IND2_1'"
       >
-        <h1 class="ml-5">Species Info</h1>
+        <v-card-title class="pa-2">Species Info</v-card-title>
         <v-col>
           <SpeciesList v-if="selectedArea && sortedSpecies.length > 0"
             :species=sortedSpecies />

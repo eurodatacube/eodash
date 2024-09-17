@@ -454,6 +454,10 @@ export default {
       };
     },
     displayTimeSelection() {
+      if (this.indicator?.indicator === 'IND4_1') {
+        // custom overload
+        return false;
+      }
       if (this.indicator?.indicator === 'E13d' && this.featureData) {
         // custom overload for extra hassle with replaceMapTimes from config
         return true;

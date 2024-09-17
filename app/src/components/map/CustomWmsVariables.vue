@@ -28,7 +28,7 @@
       </v-row>
     </v-row>
     <p
-      class="compareEnable my-4"
+      class="compareEnable mb-2"
       @click="toggleCompare"
     >
       <v-icon color="black">mdi-compare</v-icon>
