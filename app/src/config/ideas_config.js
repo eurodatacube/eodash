@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import { Wkt } from 'wicket';
-import { overpassApiQueryTags } from '@/config/overpass';
+import overpassApiQueryTags from '@/config/overpass';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -74,6 +74,7 @@ const IDEASConfigs = [
         time: ['2020', '2040', '2060', '2080', '2100', '2120', '2150'],
         yAxis: 'flooding',
         display: {
+          ...defaultLayersDisplayIdeasSh,
           enableCustomAreaStatistics: true,
           overlayLayers: [
             overlayLayers.powerOpenInfrastructure,
@@ -511,10 +512,10 @@ const IDEASConfigs = [
               display: true,
               label: 'Road Pressure Indicator; 0 is high, 5 is low',
               id: 'road_pressure_indicator',
-              min: 0,
+              min: -1,
               max: 5,
               step: 0.25,
-              range: [0, 5],
+              range: [-1, 5],
             },
             species_count_quintile: {
               display: true,
@@ -537,6 +538,7 @@ const IDEASConfigs = [
           },
         },
         display: {
+          ...defaultLayersDisplayIdeasSh,
           protocol: 'cog',
           id: 'IND2_1',
           sources: [
@@ -658,6 +660,7 @@ const IDEASConfigs = [
       indicatorObject: {
         indicator: 'IND2_1_minesweeper',
         display: [{
+          ...defaultLayersDisplayIdeasSh,
           minesweeperOptions: {
             // Board dimensions in number of hex cells
             enableSpeciesDisplay: true,
@@ -689,6 +692,7 @@ const IDEASConfigs = [
           ...baseLayers.CORINE_LAND_COVER,
           opacity: 0.7,
         }, {
+          ...defaultLayersDisplayIdeasSh,
           ...baseLayers.ESA_WORLD_COVER,
           visible: true,
           opacity: 0.7,
@@ -771,8 +775,9 @@ const IDEASConfigs = [
       indicatorObject: {
         indicator: 'IND3_1',
         // - 1 day to ensure that data is already there
-        time: getDailyDates('2024-04-15', DateTime.utc().minus({ days: 1 }).toFormat('yyyy-MM-dd')),
+        time: getDailyDates('2024-04-15', (DateTime.utc().minus({ days: 1 })).toFormat('yyyy-MM-dd')),
         display: {
+          ...defaultLayersDisplayIdeasSh,
           showTimeSlider: true,
           overlayLayers: [
             {
@@ -818,7 +823,7 @@ const IDEASConfigs = [
               ],
             ],
           },
-          name: 'Locusts',
+          name: 'Suitable ecosystem for locust breeding',
           customAreaFeatures: true,
           features: {
             legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS3_locust/osm_legend.png',
