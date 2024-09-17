@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import { Wkt } from 'wicket';
-import { overpassApiQueryTags } from '@/config/overpass';
+import overpassApiQueryTags from '@/config/overpass';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
