@@ -5,7 +5,7 @@ In the past, natural factors were the primary drivers of El Niño and La Niña c
 El Niño brings extreme weather conditions such as severe droughts, heavy rains, flooding, and high temperatures. These events contribute to food insecurity, disease outbreaks, malnutrition, and heat-related illnesses, highlighting the profound impact climate patterns have on human health and well-being [4].
 
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/el_nino_SST/La_nina_2022_vs_El_nino_2023.png"
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/La_nina_2022_vs_El_nino_2023.png"
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
@@ -51,12 +51,12 @@ Since 2023, sea surface temperatures in the North-West Pacific, especially off t
 ## Tohoku and Hokkaido Coasts  <!--{ as="eox-map" mode="tour" }-->
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"ENSST_by_GCOM-W-AMSR_JAXA-2024-08-10T12:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SST_BY_GCOM-W-AMSR_JAXA","styles":"","format":"image/png","time":"2024-08-10T12:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="5.9946848894596" center=[138.60771491711697,43.23525543984803] animationOptions={duration:500}}-->
 #### The Kuroshio extension
- Now, let's focus on the waters around Japan. In July 2023, sea surface temperatures (SST) were generally higher than normal, especially in the Pacific Ocean off the coasts of Tohoku and Hokkaido, where temperatures were more than 5°C above average. The map illustrates the Sea Surface Temperature from JAXA's GCOM-W around Japan on August 10, 2024. [**View more dates**](https://eodashboard.org/explore?catalog=newYAML&indicator=ENSST&x=15431081.54924&y=4747312.96961&z=7.14583).
+ Now, let's focus on the waters around Japan. In July 2023, sea surface temperatures (SST) were generally higher than normal, especially in the Pacific Ocean off the coasts of Tohoku and Hokkaido, where temperatures were more than 5°C above average. The map illustrates the Sea Surface Temperature from JAXA's GCOM-W around Japan on August 10, 2024. [**View more dates**](https://eodashboard.org/explore?indicator=ENSST&x=15431081.54924&y=4747312.96961&z=7.14583).
  
  The Kuroshio Extension, which usually flows eastward from Joban-oki, shifted northward to Sanriku-oki, bringing much warmer waters. According to a report from the Japan Meteorological Agency (JMA), these high sea temperatures likely contributed to the record heat experienced in northern Japan this summer.
  
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/el_nino_SST/temp-difference.png" 
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/temp-difference.png" 
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
@@ -74,7 +74,7 @@ Besides global warming, SSTs around Japan are affected by complex shifts in the 
 The figure below shows the monthly mean SST anomalies in the seas around Japan (20-50°N, 120-160°E), which shows the long-term trends of variations, excluding seasonal cycles.
 
 <figure style="text-align: center;">
-    <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/el_nino_SST/sst_anomaly.png" 
+    <img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/sst_anomaly.png" 
          alt="El Niño and La Nina 2023 Land Temperatures" 
          style="display: block; margin: 0 auto;">
     <figcaption>
