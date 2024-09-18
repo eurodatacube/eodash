@@ -110,10 +110,10 @@
     "extreme-events": {
       "el-nino-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
-        "title": "El Niño 2023-2024 and extreme temperatures",
-        "subtitle": "Read more about record-breaking temperatures",
-        "image": "https://placehold.co/1024x860?text=extreme temperatures",
-        "imagePlaceholder": "https://placehold.co/512x256?text=extreme temperatures"
+        "title": "Record-breaking temperatures: El Niño 2023-2024",
+        "subtitle": "Read more about observing land surface temperature from space",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png"
       },
       "hunga-tonga-aerosols": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_HUNGA_ERUPTION_2.md",
