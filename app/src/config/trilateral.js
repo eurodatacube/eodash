@@ -905,6 +905,16 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'SLSTR1',
+        display: {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy-MM-dd')}/${DateTime.fromISO(date).plus({ days: 1 }).set({ hour: 23 }).toFormat('yyyy-MM-dd')}`
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'Lakes_WQ_TURB',
         display: {
           presetView: {
