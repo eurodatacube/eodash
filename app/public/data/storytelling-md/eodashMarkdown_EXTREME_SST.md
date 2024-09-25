@@ -1,4 +1,4 @@
-# El Niño impacts: Rising Global Sea Surface Temperatures
+# El Niño 2023-2024 (Part 2): Rising Global Sea Surface Temperatures
 
 In the past, natural factors were the primary drivers of El Niño and La Niña cycles. However, human activity, particularly the emission of greenhouse gases, is now influencing these climate patterns. Recent studies [1] suggest that climate change is making both El Niño and La Niña more frequent and more intense [2]. These shifts are already having widespread consequences, affecting an estimated 40 to 50 million people across 16 countries [3], especially in regions like eastern and southern Africa, the Horn of Africa, Latin America, the Caribbean, and the Asia-Pacific.
 	
@@ -13,7 +13,7 @@ El Niño brings extreme weather conditions such as severe droughts, heavy rains,
     </figcaption>
 </figure>
 
-
+ 
 Understanding these changes is crucial for preparing and responding to climate impacts, and this is where Earth observation plays a pivotal role. Satellites and other remote sensing tools provided by space agencies such as JAXA, ESA and NASA provide continuous monitoring of the planet, offering scientists real-time data on sea surface temperatures (SST), weather patterns, and environmental changes. By analysing this data, researchers can detect early signs of El Niño or La Niña and predict their potential impacts, improving disaster preparedness and response efforts. Earth observation systems have become an indispensable tool in climate science, helping us better understand and mitigate the effects of a warming planet.
 
 ## Europe's Marine Heatwave
@@ -43,14 +43,14 @@ By January 2024, global sea surface temperatures set new records for the month, 
 
 The latest World Meteorological Organization (WMO) forecasts indicate a 60% chance of transitioning from the current neutral conditions to La Niña conditions emerging towards the end of this year, bringing yet another shift in global weather patterns [8].
 
-## SST in Japan
+## Japan’s Marine Heatwave
 
 Since 2023, sea surface temperatures in the North-West Pacific, especially off the east coast of Japan, have shown significant increases. Recent studies of atmospheric and ocean conditions revealed that this rise in sea temperatures, both at the surface and below, likely contributed to the record-breaking heatwave in northern Japan during the summer of 2023 [9]. In particular, the east coast of Japan experienced much warmer waters as the cool Oyashio current was replaced by warmer water, due to an unusual northward shift of the Kuroshio Extension that began in spring 2023.
 
 
-## Tohoku and Hokkaido Coasts  <!--{ as="eox-map" mode="tour" }-->
+## The Kuroshio extension  <!--{ as="eox-map" mode="tour" }-->
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"ENSST_by_GCOM-W-AMSR_JAXA-2024-08-10T12:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SST_BY_GCOM-W-AMSR_JAXA","styles":"","format":"image/png","time":"2024-08-10T12:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="5.9946848894596" center=[138.60771491711697,43.23525543984803] animationOptions={duration:500}}-->
-#### The Kuroshio extension
+#### Unusual Shift of the Kuroshio Extension
  Now, let's focus on the waters around Japan. In July 2023, sea surface temperatures (SST) were generally higher than normal, especially in the Pacific Ocean off the coasts of Tohoku and Hokkaido, where temperatures were more than 5°C above average. The map illustrates the Sea Surface Temperature from JAXA's GCOM-W around Japan on August 10, 2024. [**View more dates**](https://eodashboard.org/explore?indicator=ENSST&x=15431081.54924&y=4747312.96961&z=7.14583).
  
  The Kuroshio Extension, which usually flows eastward from Joban-oki, shifted northward to Sanriku-oki, bringing much warmer waters. According to a report from the Japan Meteorological Agency (JMA), these high sea temperatures likely contributed to the record heat experienced in northern Japan this summer.
