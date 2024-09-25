@@ -879,6 +879,112 @@ const IDEASConfigs = [
       },
     },
   },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'IND5_1',
+        cogFilters: {
+          sourceLayer: 'IND5_1',
+          filters: {
+            urban_heat: {
+              display: true,
+              label: 'Highest-risk areas, characterized by poor insulation or LST and a vulnerable population (elderly and economically disadvantaged)',
+              id: 'urban_heat',
+              min: 0,
+              max: 6,
+              step: 1,
+              range: [0, 6],
+            },
+          },
+        },
+        display: [{
+          presetView: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              properties: {},
+              geometry: wkt.read('POLYGON ((1.263428 43.485809, 1.263428 43.678798, 1.601257 43.678798, 1.601257 43.485809, 1.263428 43.485809))').toJson(),
+            }],
+          },
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS5_urban_heat/cm_legend.png',
+          id: 'IND5_1',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator5/final_Real-Estate_output_France_4326.tif' },
+          ],
+          style: {
+            variables: {
+              urban_heatMin: 0,
+              urban_heatMax: 6,
+            },
+            color: [
+              'case',
+              ['between', ['band', 1], ['var', 'urban_heatMin'], ['var', 'urban_heatMax']],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 6, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+          name: 'Heat Risk Indicator',
+        },
+        {
+          // dissolved individual bands as layers
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS5_urban_heat/cm_legend.png',
+          protocol: 'cog',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator5/final_dpe_output_France_4326.tif' },
+          ],
+          name: 'Indicator for population age, social status, and building insulation',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 0, 6],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 6, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }, {
+          // dissolved individual bands as layers
+          protocol: 'cog',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS5_urban_heat/cm_legend.png',
+          sources: [
+            { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator5/final_lst_output_France_4326.tif' },
+          ],
+          name: 'Land Surface Temperature Indicator',
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['between', ['band', 1], 0, 6],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('hot', 0, 6, 40, true),
+              ],
+              [
+                'color', 0, 0, 0, 0,
+              ],
+            ],
+          },
+        }],
+      },
+    },
+  },
 ];
 export const createIDEASDatasetConfigs = (indicatorCodes) => {
   const configsToReturn = IDEASConfigs.filter((item) => (indicatorCodes.includes(item.properties.indicatorObject.indicator)));
