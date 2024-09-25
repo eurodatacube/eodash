@@ -18,9 +18,10 @@ Understanding these changes is crucial for preparing and responding to climate i
 
 ## Europe's Marine Heatwave
 
-Marine heatwaves, characterised by unusually high ocean temperatures, are another pressing concern. These events can severely disrupt marine ecosystems, endangering biodiversity and affecting industries like fisheries, tourism, and aquaculture. In the summer of 2023, regions across Europe and Asia experienced significant marine heatwaves, as reported by the Copernicus Climate Change Service. The North Atlantic and the Mediterranean were hit particularly hard, leading to extreme sea surface temperature anomalies [5].
+Marine heatwaves, characterised as prolonged periods of warm sea surface temperatures (SSTs)], typically lasting days to months, impacting marine ecosystems and climate dynamics, are another pressing concern. These events can severely disrupt marine ecosystems, endangering biodiversity and affecting industries like fisheries, tourism, and aquaculture. In the summer of 2023, regions across Europe and Asia experienced significant marine heatwaves, as reported by the Copernicus Climate Change Service. The North Atlantic and the Mediterranean were hit particularly hard, leading to extreme sea surface temperature anomalies [5].
 
 The situation was especially alarming in the waters around Ireland and the United Kingdom, where sea temperatures soared to 5°C above average in June 2023. Across European waters, 2023 recorded the highest average sea surface temperatures ever documented, with parts of the Mediterranean Sea and northeastern Atlantic reaching unprecedented levels [6].
+
 
 <figure style="text-align: center;">
     <img src="https://marine.copernicus.eu/sites/default/files/media/image/2023-09/Ocean%20heat%20content%20june%202023.png" 
@@ -34,18 +35,18 @@ The situation was especially alarming in the waters around Ireland and the Unite
 ## European Marine Heatwave<!--{ as="eox-map" mode="tour" }-->
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Ocean_Heat_Content_upper_300m-2023-06-01T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"OCEAN_HEAT_CONTENT_UPPER_300M","styles":"","format":"image/png","time":"2023-06-01T00:00:00Z"}}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.98859305729493" center=[4.160473151186208,49.75160424907489] animationOptions={duration:500}}-->
 #### Europe's Marine Heatwave
-This map illustrates the **Ocean Heat Content (OHC300)** for June 2023. This variable, provided by ECMWF, measures the amount of heat stored in the upper 300 meters of the ocean, providing important insights into global warming. This data, from the ORAS5 system, combines models and global observations to offer a detailed view of ocean temperatures from 1958 to today. 
+Marine heat waves are closely related with ocean heat content (OHC), which refers to the total amount of heat stored in the ocean, typically measured across various depths. OHC play a critical role on the development, persistence and intensity of MHWs: as ocean heat content increases due to global warming, the probability and intensity of MHW rise, as warmer subsurface water propagates to the surface, sustaining or intensifying marine heatwaves due to vertical mixing and upwelling processes [7]. This map illustrates the **Ocean Heat Content (OHC300)** for June 2023. This variable, provided by ECMWF, measures the amount of heat stored in the upper 300 meters of the ocean, providing important insights into global warming. This data, from the ORAS5 system, combines models and global observations to offer a detailed view of ocean temperatures from 1958 to today. 
 
 [**Explore this dataset on EO Dashboard**](https://eodashboard.org/explore?indicator=OHC300&x=0&y=1963285.60891&z=2.49185)
 
 ## 
-By January 2024, global sea surface temperatures set new records for the month, reflecting the ongoing warming trend [7]. As of late April 2024, Pacific temperatures began to show signs of cooling, indicating a potential transition to neutral conditions after the recent El Niño.
+By January 2024, global sea surface temperatures set new records for the month, reflecting the ongoing warming trend [8]. As of late April 2024, Pacific temperatures began to show signs of cooling, indicating a potential transition to neutral conditions after the recent El Niño.
 
-The latest World Meteorological Organization (WMO) forecasts indicate a 60% chance of transitioning from the current neutral conditions to La Niña conditions emerging towards the end of this year, bringing yet another shift in global weather patterns [8].
+The latest World Meteorological Organization (WMO) forecasts indicate a 60% chance of transitioning from the current neutral conditions to La Niña conditions emerging towards the end of this year, bringing yet another shift in global weather patterns [9].
 
 ## Japan’s Marine Heatwave
 
-Since 2023, sea surface temperatures in the North-West Pacific, especially off the east coast of Japan, have shown significant increases. Recent studies of atmospheric and ocean conditions revealed that this rise in sea temperatures, both at the surface and below, likely contributed to the record-breaking heatwave in northern Japan during the summer of 2023 [9]. In particular, the east coast of Japan experienced much warmer waters as the cool Oyashio current was replaced by warmer water, due to an unusual northward shift of the Kuroshio Extension that began in spring 2023.
+Since 2023, sea surface temperatures in the North-West Pacific, especially off the east coast of Japan, have shown significant increases. Recent studies of atmospheric and ocean conditions revealed that this rise in sea temperatures, both at the surface and below, likely contributed to the record-breaking heatwave in northern Japan during the summer of 2023 [10]. In particular, the east coast of Japan experienced much warmer waters as the cool Oyashio current was replaced by warmer water, due to an unusual northward shift of the Kuroshio Extension that began in spring 2023.
 
 
 ## The Kuroshio extension  <!--{ as="eox-map" mode="tour" }-->
@@ -114,9 +115,10 @@ Here are some key types of variables and datasets from Earth observation satelli
 4. Our oceans are in hot water [ESA](https://www.esa.int/Applications/Observing_the_Earth/Our_oceans_are_in_hot_water)
 5. The 2023 Northern Hemisphere Summer Marks Record-Breaking Oceanic Events [Copernicus Marine Service](https://marine.copernicus.eu/news/2023-northern-hemisphere-summer-record-breaking-oceanic-events)
 6. Global sea surface temperature reaches a record high [Copernicus Climate Change Service](https://climate.copernicus.eu/global-sea-surface-temperature-reaches-record-high)
-7. At peak value of 2°C above average sea surface temperature, 2023-24 El Nino among strongest on record [Down To Earth](https://www.downtoearth.org.in/climate-change/at-peak-value-of-2-c-above-average-sea-surface-temperature-2023-24-el-nino-among-strongest-on-record-94825)
-8. WMO Update predicts 60% chance of La Niña [WMO 2024](https://wmo.int/news/media-centre/wmo-update-predicts-60-chance-of-la-nina)
-9. Sato, H., Takemura, K., Ito, A. et al. Impact of an unprecedented marine heatwave on extremely hot summer over Northern Japan in 2023. Sci Rep 14, 16100 (2024). [https://doi.org/10.1038/s41598-024-65291-y](https://doi.org/10.1038/s41598-024-65291-y)
+7. Ocean Heat Content [Marine Copernicus](https://marine.copernicus.eu/ocean-climate-portal/ocean-heat-content)
+9. At peak value of 2°C above average sea surface temperature, 2023-24 El Nino among strongest on record [Down To Earth](https://www.downtoearth.org.in/climate-change/at-peak-value-of-2-c-above-average-sea-surface-temperature-2023-24-el-nino-among-strongest-on-record-94825)
+10. WMO Update predicts 60% chance of La Niña [WMO 2024](https://wmo.int/news/media-centre/wmo-update-predicts-60-chance-of-la-nina)
+11. Sato, H., Takemura, K., Ito, A. et al. Impact of an unprecedented marine heatwave on extremely hot summer over Northern Japan in 2023. Sci Rep 14, 16100 (2024). [https://doi.org/10.1038/s41598-024-65291-y](https://doi.org/10.1038/s41598-024-65291-y)
 
 
 
