@@ -892,7 +892,7 @@ const IDEASConfigs = [
               id: 'urban_heat',
               min: 0,
               max: 6,
-              step: 1,
+              step: 0.25,
               range: [0, 6],
             },
           },
