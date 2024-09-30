@@ -1,4 +1,4 @@
-# Record-breaking temperatures: El Niño 2023-2024
+# El Niño 2023-2024 (Part 1): Record-breaking temperatures
 
 ## El Niño 2023-2024
 
@@ -33,11 +33,11 @@ To monitor El Niño and study its impacts on global climate patterns, including 
 
 
 ## Sentinel-3 LST <!--{ as="eox-map" mode="tour" }-->
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Sentinel-3-SLSTR-L2-LST-2023-08-25T23:59:40Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SENTINEL-3-SLSTR-L2-LST","styles":"","format":"image/png","time":"2023-08-25T23:59:40Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.4918530963296748" center=[1.7499999999999838,26.724678453912304] animationOptions={duration:500}}-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Sentinel-3-SLSTR-L2-LST-2023-08-25T23:59:40Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SENTINEL-3-SLSTR-L2-LST","styles":"","format":"image/png","time":"2023-08-25T05:59:40Z/2023-08-25T20:01:40Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.4918530963296748" center=[1.7499999999999838,26.724678453912304] animationOptions={duration:500}}-->
 #### Land Surface Temperature
 This map shows data from Copernicus Sentinel-3, an operational mission part of the Copernicus Programme [10] which plays a key role in tracking El Niño by providing accurate and timely measurements of land and sea surface temperatures. This low Earth orbit misison (800 - 830 km altitude) carries the Sea and Land Surface Temperature Radiometer (SLSTR) [11], a dual-view scanning temperature radiometer. There are currently two instruments in orbit, on board the Sentinel-3A and Sentinel-3B satellites.
 
-[**Sentinel-3 LST data on EO Dashboard**](https://eodashdoard.org/explore?indicator=SLSTR1).
+[**Sentinel-3 LST data on EO Dashboard**](https://eodashboard.org/explore?indicator=SLSTR1).
 
 </p>
 <figure style="text-align: center;">
@@ -83,13 +83,13 @@ During heatwaves the temperature of the surface tends to be hotter than the temp
 #### Rome's Urban Heat Island
 In Rome, the urban heat island effect was particularly noticeable on July 17, 2023. At 10:23 p.m. local time, land-surface temperature readings showed that while the city remained significantly warmer, nearby green spaces helped cool the area, offering some relief compared to the heat trapped in more developed parts of the city.
 <center>
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F3%2F36%2FSaint_Peter%27s_Basilica%252C_Sant%27Angelo_bridge%252C_by_night%252C_Rome%252C_Italy.jpg&f=1&nofb=1&ipt=cf25aaa8509f35c14452bc52a41f31ff88033d35bcc4385ca43725fa7c9a09bf&ipo=images">
+<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F3%2F36%2FSaint_Peter%27s_Basilica%252C_Sant%27Angelo_bridge%252C_by_night%252C_Rome%252C_Italy.jpg&f=1&nofb=1&ipt=cf25aaa8509f35c14452bc52a41f31ff88033d35bcc4385ca43725fa7c9a09bf&ipo=images" width="300">
 </center>
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"NASA_ECOSTRESS_LST-2023-07-16T18:49:30Z"},"opacity":0.73,"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"NASA-ECOSTRESS-LST","styles":"","format":"image/png","time":"2023-07-16T18:49:30Z"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="10.337866280707788" center=[23.45501092623132,37.961393105510595] animationOptions={duration:500}}-->
 #### Athens' Urban Heat Island
 On the same date, in Athens, the land-surface temperature was approximately 35°C at 20:02 CEST. This measurement reflects the intense heat experienced in urban areas, exacerbated by the urban heat island effect, where cities retain heat more than surrounding rural areas due to human activities and infrastructure.
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc2.staticflickr.com%2F4%2F3247%2F2599990431_b682830cf9_b.jpg&f=1&nofb=1&ipt=6331a6d90a538ecbe1ed39423354c22e4e98f5a46e7e76098cd0a65c0c569136&ipo=images">
+<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc2.staticflickr.com%2F4%2F3247%2F2599990431_b682830cf9_b.jpg&f=1&nofb=1&ipt=6331a6d90a538ecbe1ed39423354c22e4e98f5a46e7e76098cd0a65c0c569136&ipo=images" width="300">
 
 ## Datasets 
 
@@ -102,13 +102,13 @@ On the same date, in Athens, the land-surface temperature was approximately 35°
 - Sea Surface Height (SSH) from altimeter missions like:
 	- [ESA's CryoSat-2](https://earth.esa.int/eogateway/missions/cryosat) and [Sentinel-3](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-3)
 	- [NASA/CNES's Jason-3](https://sealevel.jpl.nasa.gov/missions/jason-3/)
-- [Outgoing Longwave Radiation (OLR)](ttps://ceres.larc.nasa.gov/) from NASA's [Aqua/CERES](https://ceres.larc.nasa.gov/products-info/aqua-terra/) and Terra/CERES
+- Outgoing Longwave Radiation (OLR) from NASA's [Aqua/CERES](https://aqua.nasa.gov/ceres) and Terra/CERES
 - Precipitation from:
 	- [NASA's GPM Core Observatory](https://gpm.nasa.gov/missions/GPM)
 	- [JAXA's TRMM](https://global.jaxa.jp/projects/sat/gpm/)
-- [Wind Speed and Direction](https://www.eumetsat.int/scatterometer-winds) from scatterometer missions like:
-	- [ESA's MetOp ASCAT](https://www.eumetsat.int/scatterometer-winds)
-	- [NASA's QuikSCAT](https://winds.jpl.nasa.gov/missions/quikscat)
+- Wind Speed and Direction from scatterometer missions like:
+	- [ESA's MetOp ASCAT](https://www.eoportal.org/satellite-missions/metop#eop-quick-facts-section)
+	- [NASA's QuikSCAT](https://eospso.nasa.gov/missions/quick-scatterometer)
 - Soil Moisture from:
 	- [ESA's SMOS](https://www.esa.int/Applications/Observing_the_Earth/SMOS)
 	- [NASA's SMAP](https://smap.jpl.nasa.gov/)

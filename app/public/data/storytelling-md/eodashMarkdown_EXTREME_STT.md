@@ -23,6 +23,15 @@ Marine heatwaves, characterised as prolonged periods of warm sea surface tempera
 The situation was especially alarming in the waters around Ireland and the United Kingdom, where sea temperatures soared to 5°C above average in June 2023. Across European waters, 2023 recorded the highest average sea surface temperatures ever documented, with parts of the Mediterranean Sea and northeastern Atlantic reaching unprecedented levels [6].
 
 
+
+
+## European Marine Heatwave<!--{ as="eox-map" mode="tour" }-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Ocean_Heat_Content_upper_300m-2023-06-01T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"OCEAN_HEAT_CONTENT_UPPER_300M","styles":"","format":"image/png","time":"2023-06-01T00:00:00Z"}}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.98859305729493" center=[4.160473151186208,49.75160424907489] animationOptions={duration:500}}-->
+#### Ocean's Heat Content
+Marine heat waves are closely related with ocean heat content (OHC), which refers to the total amount of heat stored in the ocean, typically measured across various depths. OHC play a critical role on the development, persistence and intensity of Marine heatwaves: as ocean heat content increases due to global warming, the probability and intensity of marine heatwaves rise, as warmer subsurface water propagates to the surface, sustaining or intensifying marine heatwaves due to vertical mixing and upwelling processes [7]. This map illustrates the **Ocean Heat Content (OHC300)** for June 2023. This variable, provided by ECMWF, measures the amount of heat stored in the upper 300 meters of the ocean, providing important insights into global warming. This data, from the ORAS5 system, combines models and global observations to offer a detailed view of ocean temperatures from 1958 to today. 
+
+[**Explore this dataset on EO Dashboard**](https://eodashboard.org/explore?indicator=OHC300&x=0&y=1963285.60891&z=2.49185)
+
 <figure style="text-align: center;">
     <img src="https://marine.copernicus.eu/sites/default/files/media/image/2023-09/Ocean%20heat%20content%20june%202023.png" 
          alt="El Niño and La Nina 2023 Land Temperatures" 
@@ -31,13 +40,6 @@ The situation was especially alarming in the waters around Ireland and the Unite
      Ocean heat content anomalies (0-300 metres deep) for June 2023. Credits: Copernicus Marine Service / Mercator Ocean International
     </figcaption>
 </figure>
-
-## European Marine Heatwave<!--{ as="eox-map" mode="tour" nav="false" }-->
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Ocean_Heat_Content_upper_300m-2023-06-01T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"OCEAN_HEAT_CONTENT_UPPER_300M","styles":"","format":"image/png","time":"2023-06-01T00:00:00Z"}}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.98859305729493" center=[4.160473151186208,49.75160424907489] animationOptions={duration:500}}-->
-#### Ocean's Heat Content
-Marine heat waves are closely related with ocean heat content (OHC), which refers to the total amount of heat stored in the ocean, typically measured across various depths. OHC play a critical role on the development, persistence and intensity of Marine heatwaves: as ocean heat content increases due to global warming, the probability and intensity of marine heatwaves rise, as warmer subsurface water propagates to the surface, sustaining or intensifying marine heatwaves due to vertical mixing and upwelling processes [7]. This map illustrates the **Ocean Heat Content (OHC300)** for June 2023. This variable, provided by ECMWF, measures the amount of heat stored in the upper 300 meters of the ocean, providing important insights into global warming. This data, from the ORAS5 system, combines models and global observations to offer a detailed view of ocean temperatures from 1958 to today. 
-
-[**Explore this dataset on EO Dashboard**](https://eodashboard.org/explore?indicator=OHC300&x=0&y=1963285.60891&z=2.49185)
 
 ## 
 By January 2024, global sea surface temperatures set new records for the month, reflecting the ongoing warming trend [8]. As of late April 2024, Pacific temperatures began to show signs of cooling, indicating a potential transition to neutral conditions after the recent El Niño.
