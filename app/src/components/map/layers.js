@@ -275,7 +275,7 @@ async function createWMTSSourceFromCapabilities(config, layer, options) {
 export function createLayerFromConfig(config, map, _options = {}) {
   const options = { ..._options };
   const paramsToPassThrough = [
-    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions',
+    'layers', 'STYLES', 'styles', 'format', 'env', 'sld', 'exceptions', 'token',
   ];
   // layer created by this config, function always returns a single layer
   let layer = null;
@@ -283,8 +283,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
   let featuresSource = null;
   let featuresUpdateFn = null;
   if (config.features) {
-    // some layers have a baselayer and GeoJSON features above them
-    // e.g. "Ports and Shipping"
     featuresSource = new VectorSource({
       features: [],
     });
@@ -321,6 +319,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new VectorLayer({
       id: config.id,
       source: featuresSource,
+      customFeatureLayer: true,
       style,
     });
   } else if (config.protocol === 'cog') {
@@ -366,11 +365,16 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer = new TileLayer({});
     createWMTSSourceFromCapabilities(config, layer, options);
   } else if (config.protocol === 'geoserverTileLayer') {
-    const dynamicStyleFunction = createVectorLayerStyle(config, options);
+    let style;
+    if ('flatStyle' in config) {
+      style = config.flatStyle;
+    } else {
+      style = createVectorLayerStyle(config, options);
+    }
     const geoserverUrl = 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/gwc/service/tms/1.0.0/';
     const projString = 'EPSG:3857';
     layer = new VectorTileLayer({
-      style: dynamicStyleFunction,
+      style,
       source: new VectorTileSource({
         projection: projString,
         format: new MVT(),
@@ -460,7 +464,9 @@ export function createLayerFromConfig(config, map, _options = {}) {
           vectorSource.set('updateTime', (time) => {
             vectorSource.setUrl(time[1][0]);
           });
-        } else {
+        // if config.urlTemplateSelectedFeature
+        // then we do not change on time change, but on selected feature change
+        } else if (!config.urlTemplateSelectedFeature) {
           const updateUrl = replaceUrlPlaceholders(config.url, config, options);
           vectorSource.setUrl(updateUrl);
           vectorSource.set('updateTime', (time, area, configUpdate) => {
@@ -521,7 +527,6 @@ export function createLayerFromConfig(config, map, _options = {}) {
       }).getResolutions(),
       tileSize: 512,
     }) : undefined;
-
     const params = {};
     paramsToPassThrough.forEach((param) => {
       if (typeof config[param] !== 'undefined') {
@@ -533,6 +538,17 @@ export function createLayerFromConfig(config, map, _options = {}) {
       if (config.specialEnvTime) {
         params.env = `year:${params.time}`;
       }
+    }
+    if (config.specialEnvScenario4) {
+      const configUsed = options.dataProp === 'compareMapData' ? config.wmsVariablesCompare : config.wmsVariables;
+      const ssp = configUsed.variables.ssp.selected;
+      const stormSurge = configUsed.variables.stormSurge.selected;
+      const confidence = configUsed.variables.confidence.selected;
+      const time = configUsed.variables.time.selected;
+      params.ssp = ssp;
+      params.stormSurge = stormSurge;
+      params.confidence = confidence;
+      params.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
     }
     source = new TileWMS({
       attributions: config.attribution,
@@ -556,7 +572,18 @@ export function createLayerFromConfig(config, map, _options = {}) {
         time: timeString,
       };
       if (configUpdate.specialEnvTime) {
-        newParams.env = `year:${updatedTime}`;
+        newParams.env = `year:${timeString}`;
+      }
+      if (configUpdate.specialEnvScenario4) {
+        const configUsed = options.dataProp === 'compareMapData' ? configUpdate.wmsVariablesCompare : configUpdate.wmsVariables;
+        const ssp = configUsed.variables.ssp.selected;
+        const stormSurge = configUsed.variables.stormSurge.selected;
+        const confidence = configUsed.variables.confidence.selected;
+        const time = configUsed.variables.time.selected;
+        newParams.ssp = ssp;
+        newParams.stormSurge = stormSurge;
+        newParams.confidence = confidence;
+        newParams.time = `${time}-12-31T00:00:00Z,${time}-12-31T23:59:59Z`;
       }
       source.updateParams(newParams);
       layer.set('configId', `${configUpdate.name}-${updatedTime}`);
@@ -638,6 +665,10 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layer.getSource().set('updateArea', areaUpdate);
   }
   layer.set('configId', config.name);
-  layer.set('id', config.name);
+  if ('id' in config) {
+    layer.set('id', config.id);
+  } else {
+    layer.set('id', config.name);
+  }
   return layer;
 }

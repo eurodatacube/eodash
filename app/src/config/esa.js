@@ -7,6 +7,7 @@ import { shS2TimeFunction } from '@/utils';
 import {
   baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
 
@@ -311,6 +312,8 @@ export const globalIndicators = [
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
           specialEnvTime: true,
+          styles: 'wsfevolution',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
         {
@@ -435,4 +438,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND2_1_minesweeper', 'IND2_1', 'IND1_1_minesweeper', 'IND1_1', 'IND5_1']),
 ];

@@ -55,16 +55,6 @@
           class="pa-5 fill-height"
         />
       </div>
-      <v-card-text v-if="selectedIndicator && selectedIndicator.updateFrequency"
-        class="flex-grow-0">
-        <small>
-          <span v-if="selectedIndicator.updateFrequency
-            === 'Retired'">This indicator is no longer updated</span>
-          <span v-else-if="selectedIndicator.updateFrequency
-            === 'EndSeason'">Due to end of season, this indicator is no longer updated</span>
-          <span v-else>This data is updated: {{ selectedIndicator.updateFrequency }}</span>
-        </small>
-      </v-card-text>
       <v-card-actions
         v-if="!enableScrollyMode"
         :style="`background: ${$vuetify.theme.themes.light.primary}`"
