@@ -312,6 +312,8 @@ export const globalIndicators = [
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
           specialEnvTime: true,
+          styles: 'wsfevolution',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
         {

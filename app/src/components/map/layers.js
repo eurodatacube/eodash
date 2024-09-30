@@ -572,7 +572,7 @@ export function createLayerFromConfig(config, map, _options = {}) {
         time: timeString,
       };
       if (configUpdate.specialEnvTime) {
-        newParams.env = `year:${updatedTime}`;
+        newParams.env = `year:${timeString}`;
       }
       if (configUpdate.specialEnvScenario4) {
         const configUsed = options.dataProp === 'compareMapData' ? configUpdate.wmsVariablesCompare : configUpdate.wmsVariables;
