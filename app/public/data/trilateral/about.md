@@ -30,15 +30,17 @@ The EO Dashboard application is based on the [eodash ecosystem](https://eodash.o
 
 ## Hands-on Tutorials and Competitions 
 
-The EO Dashboard is organising and supporting hands-on workshops and global open competitions, including the NASA Space Apps, the [EO Dashboard Hackathon](https://www.eodashboardhackathon.org/) and IGARSS Tutorials, workshops at FOSS4G, and many others.
+The EO Dashboard is organising and supporting hands-on workshops and global open competitions, including the NASA Space Apps, the EO Dashboard Hackathon and IGARSS Tutorials, workshops at FOSS4G, and many others.
 
 <img src="(https://images.eodashboardhackathon.org/images/1YNfd5MM6_AHWXraOeBCU0B9efA=/1/original/)" width="50"/>
+
+[EO Dashboard Hackathon 2021](https://www.eodashboardhackathon.org/)
 
 Tutorials
 - [IGARSS 2024](https://www.2024.ieeeigarss.org/tutorials.php#tut10). Material available on [GitHub](https://github.com/eurodatacube/2024-IGARSS-EODashboard) 
 - [IGARSS 2023](https://2023.ieeeigarss.org/tutorials.php#tut111)
 - [Big Data from Space (BiDS) 2023](https://www.bigdatafromspace2023.org/satellite-events)
-- IGARSS 2022. Notebooks available on [GitHub](https://github.com/eurodatacube/notebooks/tree/master/notebooks/contributions/IGARSS2022)
+- [IGARSS 2022](https://igarss2022.org/tutorials.php#tut14). Notebooks available on [GitHub](https://github.com/eurodatacube/notebooks/tree/master/notebooks/contributions/IGARSS2022)
 
 Workshops
 
