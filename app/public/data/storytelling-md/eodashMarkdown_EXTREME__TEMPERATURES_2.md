@@ -33,11 +33,11 @@ To monitor El Niño and study its impacts on global climate patterns, including 
 
 
 ## Sentinel-3 LST <!--{ as="eox-map" mode="tour" }-->
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Sentinel-3-SLSTR-L2-LST-2023-08-25T23:59:40Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SENTINEL-3-SLSTR-L2-LST","styles":"","format":"image/png","time":"2023-08-25T23:59:40Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.4918530963296748" center=[1.7499999999999838,26.724678453912304] animationOptions={duration:500}}-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Sentinel-3-SLSTR-L2-LST-2023-08-25T23:59:40Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"SENTINEL-3-SLSTR-L2-LST","styles":"","format":"image/png","time":"2023-08-25T23:59:40Z"/"2023-08-25T23:59:40Z"/}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.4918530963296748" center=[1.7499999999999838,26.724678453912304] animationOptions={duration:500}}-->
 #### Land Surface Temperature
 This map shows data from Copernicus Sentinel-3, an operational mission part of the Copernicus Programme [10] which plays a key role in tracking El Niño by providing accurate and timely measurements of land and sea surface temperatures. This low Earth orbit misison (800 - 830 km altitude) carries the Sea and Land Surface Temperature Radiometer (SLSTR) [11], a dual-view scanning temperature radiometer. There are currently two instruments in orbit, on board the Sentinel-3A and Sentinel-3B satellites.
 
-[**Sentinel-3 LST data on EO Dashboard**](https://eodashdoard.org/explore?indicator=SLSTR1).
+[**Sentinel-3 LST data on EO Dashboard**](https://eodashboard.org/explore?indicator=SLSTR1).
 
 </p>
 <figure style="text-align: center;">
@@ -102,13 +102,13 @@ On the same date, in Athens, the land-surface temperature was approximately 35°
 - Sea Surface Height (SSH) from altimeter missions like:
 	- [ESA's CryoSat-2](https://earth.esa.int/eogateway/missions/cryosat) and [Sentinel-3](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-3)
 	- [NASA/CNES's Jason-3](https://sealevel.jpl.nasa.gov/missions/jason-3/)
-- [Outgoing Longwave Radiation (OLR)](ttps://ceres.larc.nasa.gov/) from NASA's [Aqua/CERES](https://ceres.larc.nasa.gov/products-info/aqua-terra/) and Terra/CERES
+- Outgoing Longwave Radiation (OLR)from NASA's [Aqua/CERES](https://aqua.nasa.gov/ceres) and Terra/CERES
 - Precipitation from:
 	- [NASA's GPM Core Observatory](https://gpm.nasa.gov/missions/GPM)
 	- [JAXA's TRMM](https://global.jaxa.jp/projects/sat/gpm/)
-- [Wind Speed and Direction](https://www.eumetsat.int/scatterometer-winds) from scatterometer missions like:
-	- [ESA's MetOp ASCAT](https://www.eumetsat.int/scatterometer-winds)
-	- [NASA's QuikSCAT](https://winds.jpl.nasa.gov/missions/quikscat)
+- Wind Speed and Direction from scatterometer missions like:
+	- [ESA's MetOp](https://www.eoportal.org/satellite-missions/metop#eop-quick-facts-section)
+	- [NASA's QuikSCAT](https://eospso.nasa.gov/missions/quick-scatterometer)
 - Soil Moisture from:
 	- [ESA's SMOS](https://www.esa.int/Applications/Observing_the_Earth/SMOS)
 	- [NASA's SMAP](https://smap.jpl.nasa.gov/)
