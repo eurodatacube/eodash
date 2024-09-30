@@ -78,6 +78,7 @@ FOSS4G (Free and Open Source Software for Geospatial) 2023 – Academic Track, 2
 
 ## Blog Posts
 
+- [Exploring Open Science and Geospatial Innovation: the NASA-ESA-JAXA EO dashboard workshop at FOSS4G 2023](https://eo4society.esa.int/2023/07/03/exploring-open-science-and-geospatial-innovation-the-nasa-esa-jaxa-eo-dashboard-workshop-at-foss4g-2023/)
 - [Creating powerful visuals of COVID-19 impacts on human activities](https://medium.com/euro-data-cube/creating-powerful-visuals-of-covid-19-impacts-on-human-activities-8879fa75121d)
 - [World food supply amid a pandemic-Part 1](https://medium.com/euro-data-cube/world-food-supply-amid-a-pandemic-3940ef855f07)
 - [World food supply amid a pandemic-Part 2](https://medium.com/euro-data-cube/world-food-supply-amid-a-pandemic-87215c8edbdc)
