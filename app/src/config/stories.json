@@ -110,7 +110,7 @@
     "extreme-events": {
       "el-nino-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
-        "title": "Record-breaking temperatures: El Niño 2023-2024",
+        "title": "El Niño 2023-2024 (Part 1): Record-breaking temperatures",
         "subtitle": "Read more about observing land surface temperature from space",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png"
@@ -133,7 +133,7 @@
       },
       "sea-surface-temperature-rise": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_SST.md",
-        "title": "El Niño 2023-2024 impacts: rise in global sea surface temperatures",
+        "title": "El Niño 2023-2024 (Part 2): Rising Global Sea Surface Temperatures",
         "subtitle": "Read more about record-breaking sea surface temperatures",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1.png",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1-small.png"
