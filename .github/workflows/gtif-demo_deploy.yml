@@ -37,7 +37,7 @@ jobs:
       uses: datamonsters/replace-action@v2
       with:
         files: 'app/dist/shConfig.js'
-        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_POLAR=${{ secrets.SH_INSTANCE_ID_POLAR }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }},$STAT_API_CLIENT_SECRET=${{ secrets.STAT_API_CLIENT_SECRET }},$STAT_API_CLIENT_ID=${{ secrets.STAT_API_CLIENT_ID }},$SH_INSTANCE_ID_GTIF=${{ secrets.SH_INSTANCE_ID_GTIF }}'
+        replacements: '$SH_INSTANCE_ID=${{ secrets.SH_INSTANCE_ID }},$SH_INSTANCE_ID_POLAR=${{ secrets.SH_INSTANCE_ID_POLAR }},$GEODB_INSTANCE_ID=${{ secrets.GEODB_INSTANCE_ID }},$LISTMONK_API_KEY=${{ secrets.LISTMONK_API_KEY }},$STAT_API_CLIENT_SECRET=${{ secrets.STAT_API_CLIENT_SECRET }},$STAT_API_CLIENT_ID=${{ secrets.STAT_API_CLIENT_ID }},$SH_INSTANCE_ID_GTIF=${{ secrets.SH_INSTANCE_ID_GTIF }},$OPENCAGE_RACE=${{ secrets.OPENCAGE_RACE }},$OPENCAGE_GTIF=${{ secrets.OPENCAGE_GTIF }},$OPENCAGE_TRILATERAL=${{ secrets.OPENCAGE_TRILATERAL }},$SH_INSTANCE_ID_IDEAS=${{ secrets.SH_INSTANCE_ID_IDEAS }}'
 
     # Upload build client to S3
     - name: sync client s3

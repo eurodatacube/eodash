@@ -51,6 +51,8 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
     'ol',
+    'color-rgba',
+    'color-space',
     '@eox/itemfilter',
     '@eox/layercontrol',
     '@eox/stacinfo',
@@ -59,6 +61,7 @@ module.exports = {
     '@eox/jsonform',
     '@eox/storytelling',
     'color-parse',
+    '@eox/geosearch',
   ],
   configureWebpack: {
     devServer: {

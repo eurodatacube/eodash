@@ -4,26 +4,12 @@ import WKB from 'ol/format/WKB';
 import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
-import colormap from 'colormap';
 import {
-  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator,
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
 } from '@/config/layers';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
 import shTimeFunction from '../shTimeFunction';
-
-function getColormap(name, reverse, nshades = 16) {
-  const colors = colormap({
-    colormap: name, nshades, format: 'rgba',
-  });
-  if (reverse) {
-    colors.reverse();
-  }
-  return colors;
-}
-
-function clamp(value, low, high) {
-  return Math.max(low, Math.min(value, high));
-}
 
 const wkb = new WKB();
 const geojsonFormat = new GeoJSON();
@@ -93,7 +79,7 @@ const E1bConfigInputDataAsc = [{
   name: 'Daily Sentinel 1 VV Asc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
   features: {
     ...geodbFeatures,
     url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/eodash_Sentinel_1_Vessel_Density_Europe-detections?time=eq.{featuresTime}&aoi_id=eq.{aoiID}&select=geometry,time`,
@@ -116,7 +102,7 @@ const E1bConfigInputDataDes = [{
   name: 'Daily Sentinel 1 VV Desc',
   minZoom: 7,
   maxZoom: 18,
-  legendUrl: 'legends/esa/VIS_SENTINEL_1_VESSEL_DENSITY_EUROPE.png',
+  legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E1b_vessel_density_timeseries/cm_legend.png',
 }, {
   // get layer for this month
   dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ days: 1 })
@@ -207,15 +193,15 @@ export const layerNameMapping = Object.freeze({
   },
   S1GRD: {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1A - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'S1B - GRD': {
     layers: 'E8_SENTINEL1',
-    dateFormatFunction: shS2TimeFunction,
+    dateFormatFunction: shTimeFunction,
   },
   'Sentinel-2 L1C': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
@@ -300,6 +286,25 @@ export const globalIndicators = [
     },
   },
   {
+    properties: {
+      // override dates for precipitation
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_Precipitation',
+        time: getDailyDates('2015-01-01', '2021-12-31'),
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'ESDL_Hydrology_SM',
+        display: {
+          labelFormatFunction: (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+        },
+      },
+    },
+  },
+  {
     // custom override of name + specialEnvTime
     properties: {
       indicatorObject: {
@@ -307,6 +312,8 @@ export const globalIndicators = [
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
           specialEnvTime: true,
+          styles: 'wsfevolution',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
         {
@@ -319,162 +326,7 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'CROPOM',
-        queryParameters: [{
-          sourceLayer: 'cropom',
-          title: 'Forecast parameter',
-          selected: 'yield',
-          items: [
-            {
-              id: 'yield',
-              description: 'Yield',
-              yAxis: 't/ha',
-            },
-            {
-              id: 'water_need',
-              description: 'Water need',
-              yAxis: 'mm',
-            },
-          ],
-        }, {
-          title: 'Crop type',
-          selected: 'Wheat',
-          items: [
-            {
-              id: 'Wheat',
-              description: 'Wheat',
-              areaIndicator: 'WheatGDD',
-              min_y: 5,
-              max_y: 10,
-              min_w: 0,
-              max_w: 200,
-            },
-            {
-              id: 'Maize',
-              description: 'Maize',
-              areaIndicator: 'MaizeGDD',
-              min_y: 0,
-              max_y: 12,
-              min_w: 100,
-              max_w: 650,
-            },
-            {
-              id: 'Sunflower',
-              description: 'Sunflower',
-              areaIndicator: 'SunflowerGDD',
-              min_y: 0,
-              max_y: 6,
-              min_w: 100,
-              max_w: 650,
-            },
-            {
-              id: 'Soybean',
-              description: 'Soybean',
-              areaIndicator: 'Soybean',
-              min_y: 0,
-              max_y: 5,
-              min_w: 100,
-              max_w: 650,
-            },
-          ],
-        }, {
-          title: 'Scenario',
-          selected: 'average',
-          items: [
-            {
-              id: 'worst',
-              description: 'Worst',
-            },
-            {
-              id: 'average',
-              description: 'Average',
-            },
-            {
-              id: 'best',
-              description: 'Best',
-            },
-          ],
-        }],
-        display: {
-          baseUrl: null,
-          customAreaIndicator: true,
-          disableVisualAnalysisAddons: true,
-          tooltip: {
-            tooltipFormatFunction: (feature, _, store) => {
-              const ind = store.state.indicators.selectedIndicator;
-              const selectedParameter = ind.queryParameters[0].items.find((item) => item.id === ind.queryParameters[0].selected);
-
-              const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
-              const selectedScenario = ind.queryParameters[2].selected;
-              const value = feature.get(selectedParameter.id)[selectedCrop.id][selectedScenario];
-              return [
-                `Region: ${feature.get('NUTS_NAME')}`,
-                `${selectedCrop.description} ${selectedParameter.description}, scenario ${selectedScenario}: ${value}`,
-              ];
-            },
-          },
-          layerControlHide: true,
-          areaIndicator: {
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?nuts_id={adminZone}&crop={crop}&scenario={scenario}',
-            adminZoneKey: 'FID',
-            requestMethod: 'GET',
-            callbackFunction: (responseJson, indicator) => {
-              const data = responseJson.growth;
-              const newData = {
-                time: [],
-                measurement: [],
-                referenceValue: [],
-              };
-              Object.entries(data).forEach(([key, value]) => {
-                newData.time.push(DateTime.fromISO(key));
-                newData.measurement.push(value.yield_);
-                newData.referenceValue.push(value.biomass);
-              });
-              newData.yAxis = ['t/ha', 'g/m2'];
-              const ind = {
-                ...indicator,
-                ...newData,
-              };
-              return ind;
-            },
-          },
-          features: {
-            name: 'CropModel API ',
-            id: 'cropom',
-            url: 'https://api.cropom-dev.com/crop_model/regional_forecast?country_code=HU',
-            projection: {
-              name: 'EPSG:3035',
-              def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
-            },
-            layerControlHide: false,
-            style: {
-              strokeColor: 'rgba(0,0,0,0)',
-              getColor: (feature, store) => {
-                let color = '#00000000';
-                const ind = store.state.indicators.selectedIndicator;
-                const selectedParameter = ind.queryParameters[0].selected;
-                const selectedCrop = ind.queryParameters[1].items.find((item) => item.id === ind.queryParameters[1].selected);
-                const selectedScenario = ind.queryParameters[2].selected;
-                const colormapUsed = selectedParameter === 'yield' ? getColormap('chlorophyll', true, 64) : getColormap('jet', false, 64);
-                const min = selectedParameter === 'yield' ? selectedCrop.min_y : selectedCrop.min_w;
-                const max = selectedParameter === 'yield' ? selectedCrop.max_y : selectedCrop.max_w;
-                const value = feature.get(selectedParameter)[selectedCrop.id][selectedScenario];
-                const f = clamp((value - min) / (max - min), 0, 1);
-                color = colormapUsed[Math.round(f * (colormapUsed.length - 1))];
-                return color;
-              },
-            },
-            selection: {
-              mode: 'single',
-            },
-          },
-        },
-      },
-    },
-  },
+  ...createCropomDatasetConfigs(),
   {
     properties: {
       indicatorObject: {
@@ -586,4 +438,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND2_1_minesweeper', 'IND2_1', 'IND1_1_minesweeper', 'IND1_1', 'IND5_1']),
 ];

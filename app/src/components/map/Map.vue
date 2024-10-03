@@ -1,188 +1,247 @@
 <template>
-  <div ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3;
-    z-index: 1" class="d-flex justify-center" :id="mapId">
-    <!-- a layer adding a (potential) dark overlay, z-index 4 -->
-    <DarkOverlayLayer
-      :mapId="mapId"
-      :configs="darkOverlayLayers"
-      v-if="darkOverlayLayers.length > 0"
-    />
-    <!-- a layer adding a (potential) subaoi, z-index 5 -->
-    <SubaoiLayer
-      :mapId="mapId"
-      :indicator="indicator"
-      :mergedConfigsData="mergedConfigsData[0]"
-      :isGlobal="!featureObject"
-      v-if="dataLayerName"
-      :key="dataLayerKey + '_subAoi'"
-    />
-    <!-- a layer displaying a selected global poi
-     these layers will have z-Index 3 -->
-    <SpecialLayer
-      v-if="showSpecialLayer"
-      :mapId="mapId"
-      :mergedConfigs="mergedConfigsData"
-      :options="specialLayerOptions"
-      :key="dataLayerKey  + '_specialLayer'"
-      :swipePixelX="swipePixelX"
-      :resetProjectionOnDestroy='true'
-      @updatecenter="handleSpecialLayerCenter"
-      @updatezoom="handleSpecialLayerZoom"
-      @setMapTime="(time) => dataLayerTime = {value: time}"
-      @setTimeArray="handleSetTimeArray"
-    />
-    <!-- additional special layer showing frozen indicator-->
-    <SpecialLayer
-      v-if="showFrozenLayer"
-      :mapId="mapId"
-      :mergedConfigs="mergedConfigsFrozenData"
-      :options="frozenLayerOptions"
-      :key="frozenLayerName + '_specialLayer'"
-    />
-    <div
-      class="d-flex justify-center fill-height"
-      style="position: absolute; bottom: 0; left: 0;
-      transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      width: 100%"
-    >
-      <LayerSwipe
-        v-if="compareLayerTime"
+  <div ref="totalContainer" style="height: 100%; width: 100%;">
+    <eox-map ref="mapContainer" style="height: 100%; width: 100%; background: #cad2d3; z-index: 1" class="d-flex justify-center" :id="mapId">
+    </eox-map>
+    <div ref="toolContainer" style="height: 100%; width: 100%;" class="d-flex justify-center">
+      <!-- a layer adding a (potential) dark overlay, z-index 4 -->
+      <DarkOverlayLayer
         :mapId="mapId"
-        :time="compareLayerTime.value"
-        :mergedConfigsData="mergedConfigsLayerSwipe"
-        :specialLayerOptionProps="specialLayerOptions"
-        :enable="enableCompare"
-        :drawnArea="drawnArea"
-        @updateSwipePosition="updateSwipePosition"
-        :key="dataLayerName + '_layerSwipe'"
+        :configs="darkOverlayLayers"
+        v-if="darkOverlayLayers.length > 0"
       />
-      <indicator-time-selection
-        ref="timeSelection"
-        v-if="displayTimeSelection && !enableScrollyMode
-          && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
-        :autofocus="!disableAutoFocus && !isInIframe"
-        :available-values="availableTimeEntries"
-        :indicator="mergedConfigsData[0]"
-        :compare-active.sync="enableCompare"
-        :compare-time.sync="compareLayerTime"
-        :original-time.sync="dataLayerTime"
-        :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
-        :large-time-duration="indicator.largeTimeDuration"
-        :key="dataLayerName + '_timeSelection'"
-        @focusSelect="focusSelect"
-        :style="calculatePosition"
-      />
-    </div>
-    <!-- an overlay for showing information when hovering over clusters -->
-    <MapOverlay
-      :mapId="mapId"
-      overlayId="clusterOverlay"
-      :overlayHeaders="overlayHeaders"
-      :overlayRows="overlayRows"
-      :overlayCoordinate="overlayCoordinate"
-    />
-    <div
-      ref="bottomControlsContainer"
-      class="bottomControlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'hidden': enableScrollyMode}"
-      :style="calculatePadding"
-    >
-    <div class="mouse-container"
-      :style="mousePosConStyle"
-       ref="mousePositionContainer"/>
-    </div>
-    <!-- Container for all controls. Will move when map is resizing -->
-    <div
-      ref="controlsContainer"
-      class="controlsContainer pa-2 d-flex flex-column align-end"
-      :class="{'hidden': enableScrollyMode}"
-      :style="`margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
-    >
-      <FullScreenControl
-        v-if="mapId !== 'centerMap'"
-        :mapId="mapId" class="pointerEvents"
-      />
-      <ZoomControl
-        v-show="!enableScrollyMode"
+      <!-- a layer adding a (potential) subaoi, z-index 5 -->
+      <SubaoiLayer
         :mapId="mapId"
-        class="pointerEvents"
+        :indicator="indicator"
+        :mergedConfigsData="mergedConfigsData[0]"
+        :isGlobal="!featureObject"
+        v-if="dataLayerName"
+        :key="dataLayerKey + '_subAoi'"
       />
-      <LayerControl
-        v-if="loaded && mapId !== 'centerMap'"
-        class="pointerEvents"
+      <!-- a layer displaying a selected global poi
+      these layers will have z-Index 3 -->
+      <SpecialLayer
+        v-if="showSpecialLayer"
         :mapId="mapId"
+        :mergedConfigs="mergedConfigsData"
+        :options="specialLayerOptions"
+        :key="dataLayerKey  + '_specialLayer'"
+        :swipePixelX="swipePixelX"
+        :resetProjectionOnDestroy='true'
+        @updatecenter="handleSpecialLayerCenter"
+        @updatezoom="handleSpecialLayerZoom"
+        @setMapTime="(time) => dataLayerTime = {value: time}"
+        @setTimeArray="handleSetTimeArray"
       />
-      <!-- will add a drawing layer to the map (z-index 3) -->
-      <CustomAreaButtons
-        v-if="loaded && mapId === 'centerMap'"
-        class="pointerEvents"
+      <!-- additional special layer showing frozen indicator-->
+      <SpecialLayer
+        v-if="showFrozenLayer"
         :mapId="mapId"
-        :mergedConfigsData="mergedConfigsData"
-        :key="dataLayerName  + '_customArea'"
-        :drawnArea.sync="drawnArea"
-      />
-      <v-btn
-        v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
-        :color="$vuetify.theme.currentTheme.background"
-        class="pointerEvents"
-        style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
-        @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
-      >
-        <v-icon>mdi-map-clock-outline</v-icon>
-      </v-btn>
-      <DatePickerControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
-        @selectedDate="setDateFromDatePicker"
-        class="pointerEvents"
-        :mapId="mapId"
-      />
-      <SliderControl
-        v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
-        class="pointerEvents"
-        :mapId="mapId"
-        :config="mergedConfigsData[0].sliderConfig"
-      />
-      <CustomFeaturesFetchButton
-      v-if="loaded && mergedConfigsData.length
-        && mergedConfigsData[0].mapTimeDatepicker"
-        class="pointerEvents"
-        v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+        :mergedConfigs="mergedConfigsFrozenData"
+        :options="frozenLayerOptions"
+        :key="frozenLayerName + '_specialLayer'"
       />
       <div
-        v-if="$route.name !== 'demo'"
-        class="pointerEvents mb-2"
-        style="padding-right: 4px; margin-top: 5px;"
+        class="d-flex justify-center fill-height"
+        style="position: absolute; bottom: 0; left: 0; pointer-events: none;
+        transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%"
       >
-        <IframeButton
-          v-if="mapId === 'centerMap'
-            && indicator
-            && indicatorHasMapData()
-            && appConfig.id !== 'gtif'"
-          :featureObject="featureObject"
-          :indicatorObject="indicator"
-          :zoom.sync="currentZoom"
-          :center.sync="currentCenter"
-          mapControl
+        <LayerSwipe
+          v-if="compareLayerTime"
+          :mapId="mapId"
+          :time="compareLayerTime.value"
+          :mergedConfigsData="mergedConfigsLayerSwipe"
+          :specialLayerOptionProps="specialLayerOptions"
+          :enable="enableCompare"
+          :drawnArea="drawnArea"
+          @updateSwipePosition="updateSwipePosition"
+          :key="dataLayerName + '_layerSwipe'"
         />
+        <indicator-time-selection
+          ref="timeSelection"
+          style="pointer-events: all;"
+          v-if="displayTimeSelection && !enableScrollyMode
+            && ($vuetify.breakpoint.xsOnly ? mobileTimeselectionToggle : true)"
+          :autofocus="!disableAutoFocus && !isInIframe"
+          :available-values="availableTimeEntries"
+          :indicator="mergedConfigsData[0]"
+          :compare-active.sync="enableCompare"
+          :compare-time.sync="compareLayerTime"
+          :original-time.sync="dataLayerTime"
+          :enable-compare="mergedConfigsData[0] && !mergedConfigsData[0].disableCompare"
+          :large-time-duration="indicator.largeTimeDuration"
+          :key="dataLayerName + '_timeSelection'"
+          @focusSelect="focusSelect"
+          :style="calculatePosition"
+        />
+
+        <v-btn
+          v-if="isMinesweeperConfigured && !!minesweeper.game"
+        >{{ minesweeper.game.mineCount - minesweeper.game.flagCount }} 💣 remaining</v-btn>
+
+        <div v-if="isMinesweeperConfigured && !!minesweeper.game">
+          <v-btn
+            v-if="isMinesweeperDebugEnabled"
+            @click="minesweeper.game.revealAllTiles()"
+          >GAME: Reveal all</v-btn>
+          <MinesweeperDialog
+            :mode="minesweeper.mode"
+            :game="minesweeper.game"
+            :elapsedSeconds="minesweeper.elapsedSeconds"
+            :is-enabled="this.minesweeper.isDialogEnabled"
+            :bbox="minesweeper.bbox"
+            :enableSpeciesDisplay="minesweeper.spDisplay"
+            @close="minesweeper.isDialogEnabled = false"
+            :indicatorObject="indicator"
+          />
+        </div>
       </div>
+      <!-- an overlay for showing information when hovering over clusters -->
+      <MapOverlay
+        :mapId="mapId"
+        overlayId="clusterOverlay"
+        :overlayHeaders="overlayHeaders"
+        :overlayRows="overlayRows"
+        :overlayCoordinate="overlayCoordinate"
+      />
       <div
-        v-if="$route.name !== 'demo'"
-        class="pointerEvents mb-2"
-        style="padding-right: 4px;"
+        ref="bottomControlsContainer"
+        class="bottomControlsContainer pa-2 d-flex flex-column align-end"
+        :class="{'hidden': enableScrollyMode}"
+        :style="calculatePadding"
       >
-        <AddToDashboardButton
-          v-if="mapId === 'centerMap'
-            && indicator
-            && indicatorHasMapData()
-            && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
-          :indicatorObject="indicator"
-          :featureObject="featureObject"
-          :zoom.sync="currentZoom"
-          :center.sync="currentCenter"
-          :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
-          :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
-          mapControl
+      <div class="mouse-container"
+        :style="mousePosConStyle"
+        ref="mousePositionContainer"/>
+      </div>
+      <!-- Container for all controls. Will move when map is resizing -->
+      <div
+        ref="controlsContainer"
+        class="controlsContainer pa-2 d-flex flex-column align-end"
+        :class="{'hidden': enableScrollyMode}"
+        :style="`margin-right: ${$vuetify.breakpoint.xsOnly ? 0 : controlsContainerStyle}`"
+      >
+        <FullScreenControl
+          v-if="mapId !== 'centerMap'"
+          :mapId="mapId" class="pointerEvents"
         />
+        <ZoomControl
+          v-show="!enableScrollyMode"
+          :mapId="mapId"
+          class="pointerEvents"
+        />
+        <LayerControl
+          v-if="loaded && mapId !== 'centerMap'"
+          class="pointerEvents"
+          :mapId="mapId"
+        />
+        <!-- will add a drawing layer to the map (z-index 3) -->
+        <CustomAreaButtons
+          v-if="loaded && mapId === 'centerMap'"
+          class="pointerEvents"
+          :mapId="mapId"
+          :mergedConfigsData="mergedConfigsData"
+          :key="dataLayerName  + '_customArea'"
+          :drawnArea.sync="drawnArea"
+        />
+        <eox-geosearch
+          v-if="searchEndpoint"
+          style="
+            pointer-events: auto;
+            margin-right: 4px;
+            --button-size: 36px;
+            --button-bg: #fff;
+            --button-fg: #000;
+          "
+          label="Search"
+          button
+          small
+          list-direction="left"
+          results-direction="down"
+          interval="1000"
+          :endpoint="searchEndpoint"
+        ></eox-geosearch>
+        <v-btn
+          v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
+          :color="$vuetify.theme.currentTheme.background"
+          class="pointerEvents"
+          style="min-width: 36px; width: 36px; height: 36px;right: 4px;"
+          @click="mobileTimeselectionToggle = !mobileTimeselectionToggle"
+        >
+          <v-icon>mdi-map-clock-outline</v-icon>
+        </v-btn>
+        <DatePickerControl
+          v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].mapTimeDatepicker"
+          @selectedDate="setDateFromDatePicker"
+          class="pointerEvents"
+          :mapId="mapId"
+        />
+        <SliderControl
+          v-if="loaded && mergedConfigsData.length && mergedConfigsData[0].sliderConfig"
+          class="pointerEvents"
+          :mapId="mapId"
+          :config="mergedConfigsData[0].sliderConfig"
+        />
+        <CustomFeaturesFetchButton
+        v-if="loaded && mergedConfigsData.length
+          && mergedConfigsData[0].mapTimeDatepicker"
+          class="pointerEvents"
+          v-on:fetchCustomAreaFeatures="updateSelectedAreaFeature(true)"
+        />
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px; margin-top: 5px;"
+        >
+          <IframeButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && appConfig.id !== 'gtif'"
+            :featureObject="featureObject"
+            :indicatorObject="indicator"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            mapControl
+          />
+        </div>
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px;"
+        >
+          <AddToDashboardButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && (appConfig.id !== 'gtif' || $route.query.customDashboard)"
+            :indicatorObject="indicator"
+            :featureObject="featureObject"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            :datalayertime="dataLayerTime ? dataLayerTime.name :  null"
+            :comparelayertime="enableCompare && compareLayerTime ? compareLayerTime.name : null"
+            mapControl
+          />
+        </div>
+        <div
+          v-if="$route.name !== 'demo'"
+          class="pointerEvents mb-2"
+          style="padding-right: 4px; margin-top: 2px;"
+        >
+          <OLExportButton
+            v-if="mapId === 'centerMap'
+              && indicator
+              && indicatorHasMapData()
+              && appConfig.id !== 'gtif'"
+            :featureObject="featureObject"
+            :indicatorObject="indicator"
+            :zoom.sync="currentZoom"
+            :center.sync="currentCenter"
+            mapControl
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -209,6 +268,7 @@ import { createLayerFromConfig } from '@/components/map/layers';
 import MapOverlay from '@/components/map/MapOverlay.vue';
 import IndicatorTimeSelection from '@/components/IndicatorTimeSelection.vue';
 import IframeButton from '@/components/IframeButton.vue';
+import OLExportButton from '@/components/OLExportButton.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import { updateTimeLayer } from '@/components/map/timeLayerUtils';
 import {
@@ -221,6 +281,7 @@ import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import { fetchCustomAreaObjects } from '@/helpers/customAreaObjects';
 import Attribution from 'ol/control/Attribution';
 import MousePosition from 'ol/control/MousePosition';
+import ScaleLine from 'ol/control/ScaleLine';
 import { toStringXY } from 'ol/coordinate';
 import { DateTime } from 'luxon';
 
@@ -235,6 +296,11 @@ import {
   findClosest,
   getFilteredInputData,
 } from '@/utils';
+
+import Minesweeper from '@/plugins/minesweeper/game';
+import { getRandomBoundingBox, findIntersections } from '@/plugins/minesweeper';
+import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
+import '@eox/map';
 
 const geoJsonFormat = new GeoJSON({
 });
@@ -253,8 +319,10 @@ export default {
     SubaoiLayer,
     MapOverlay,
     IframeButton,
+    OLExportButton,
     AddToDashboardButton,
     DarkOverlayLayer,
+    MinesweeperDialog,
     CustomFeaturesFetchButton,
   },
   props: {
@@ -313,7 +381,6 @@ export default {
       dataLayerTime: null,
       compareLayerTime: null,
       enableCompare: false,
-      legendExpanded: false,
       // overlay data
       overlayHeaders: [],
       overlayRows: [],
@@ -324,9 +391,20 @@ export default {
       viewZoomExtentFitId: null,
       enableScrollyMode: false,
       externallySuppliedTimeEntries: null,
+      minesweeper: {
+        isEnabled: false,
+        isDialogEnabled: false,
+        isLoaded: false,
+        mode: 'start',
+        game: null,
+        timer: null,
+        bbox: [],
+        elapsedSeconds: 0,
+      },
       mobileTimeselectionToggle: false,
       frozenLayerKey: null,
       appRightPanelsOpened: null,
+      geosearchExtent: null,
     };
   },
   computed: {
@@ -376,6 +454,10 @@ export default {
       };
     },
     displayTimeSelection() {
+      if (this.indicator?.indicator === 'IND4_1') {
+        // custom overload
+        return false;
+      }
       if (this.indicator?.indicator === 'E13d' && this.featureData) {
         // custom overload for extra hassle with replaceMapTimes from config
         return true;
@@ -425,6 +507,9 @@ export default {
       return {
         area: this.initialDrawnArea || this.$store.state.features.selectedArea,
       };
+    },
+    minesweeperOptions() {
+      return this?.mergedConfigsData[0]?.minesweeperOptions;
     },
     mergedConfigsData() {
       // only display the "special layers" for global indicators
@@ -623,6 +708,7 @@ export default {
         dataProjection: 'EPSG:4326',
         featureProjection: map.getView().getProjection(),
       };
+      if (this.geosearchExtent) return this.geosearchExtent;
       // Check for possible subaoi
       if (this.featureData?.subAoi) {
         const { subAoi } = this.featureData;
@@ -642,6 +728,14 @@ export default {
           presetView.features[0].geometry, readerOptions,
         );
         return presetViewGeom.getExtent();
+      }
+      if (this?.minesweeperOptions?.locations) {
+        const location = this.minesweeperOptions.locations[
+          this.selectedLocationIndex
+        ];
+        return transformExtent(location.bbox,
+          'EPSG:4326',
+          map.getView().getProjection());
       }
       if (this.indicator?.extent) {
         // Try to do some sanitizing
@@ -682,6 +776,17 @@ export default {
       }
       return position;
     },
+    isMinesweeperConfigured() {
+      return this.indicator && this?.minesweeperOptions;
+    },
+    selectedLocationIndex() {
+      return this.isMinesweeperConfigured
+        && this?.minesweeperOptions.selectedLocationIndex;
+    },
+    isMinesweeperDebugEnabled() {
+      return this.isMinesweeperConfigured
+        && new URLSearchParams(document.location.search).get('debug') === 'true';
+    },
     calculatePadding() {
       // It seems that the footer on gtif is somehow not evaluated need to handle it differently
       let style;
@@ -705,8 +810,31 @@ export default {
     controlsContainerStyle() {
       return this.mapId === 'centerMap' && this.appRightPanelsOpened ? 'calc(min(25%, 500px) - 18px)' : '20px';
     },
+    searchEndpoint() {
+      let endpoint = false;
+      if ('geosearchEndpoint' in this.appConfig) {
+        endpoint = this.appConfig.geosearchEndpoint;
+      }
+      // Apply key based on endpoint (seems i can't do this within appConfig because of linting)
+      if (this.appConfig.id === 'esa') {
+        endpoint += `&key=${shConfig.opencageRACE}`;
+      } else if (this.appConfig.id === 'trilateral') {
+        endpoint += `&key=${shConfig.opencageTrilateral}`;
+      } else if (this.appConfig.id === 'gtif') {
+        endpoint += `&key=${shConfig.opencageGTIF}`;
+      }
+      return endpoint;
+    },
   },
   watch: {
+    async minesweeperOptions() {
+      if (this.isMinesweeperConfigured) {
+        await this.tearDownMinesweeper();
+        await this.setupMinesweeper();
+      } else {
+        this.tearDownMinesweeper();
+      }
+    },
     baseLayerConfigs() {
       this.updateBaseLayers();
     },
@@ -807,11 +935,11 @@ export default {
             this.indicator.time[0], config,
           ).then((data) => {
             this.$store.state.indicators.selectedIndicator.compareMapData = data;
-            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+            this.$emit('update:comparelayertime', enabled ? this.compareLayerTime?.name : null);
           });
         });
       } else {
-        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime.name : null);
+        this.$emit('update:comparelayertime', enabled ? this.compareLayerTime?.name : null);
       }
       if (enabled) {
         window.postMessage({
@@ -940,7 +1068,7 @@ export default {
 
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'features/SET_SELECTED_FEATURES') {
-        if (this.indicator && ['CROPOM'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
+        if (this.indicator && ['CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2'].includes(this.indicator.indicator) && this.mapId === 'centerMap') {
           if (mutation.payload?.length > 0) {
             window.dispatchEvent(new Event('fetch-custom-area-chart'));
           } else {
@@ -973,6 +1101,7 @@ export default {
       className: 'ol-control ol-mouse-position',
       placeholder: '',
     }));
+    map.addControl(new ScaleLine());
 
     const view = map.getView();
     view.on(['change:center', 'change:resolution'], (evt) => {
@@ -985,12 +1114,14 @@ export default {
       this.$emit('update:zoom', this.currentZoom);
     });
     if (this.centerProp && this.zoomProp) {
-      view.setCenter(
-        fromLonLat(
-          [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
-        ),
-      );
-      view.setZoom(this.zoomProp);
+      setTimeout(() => {
+        view.setCenter(
+          fromLonLat(
+            [this.centerProp.lng, this.centerProp.lat], map.getView().getProjection(),
+          ),
+        );
+        view.setZoom(this.zoomProp);
+      }, 20);
     }
     this.$emit('ready', true);
 
@@ -1007,8 +1138,42 @@ export default {
       this.queryLink = new Link({ replace: true, params: ['x', 'y', 'z'] });
       map.addInteraction(this.queryLink);
     }
+
+    window.addEventListener('geosearchSelect', (e) => { this.geosearchExtent = e.detail; });
   },
   methods: {
+    startMineSweepCounter() {
+      this.minesweeper.elapsedSeconds = 0;
+      console.info('Minesweeper::StartTimer');
+      this.minesweeper.timer = setInterval(() => {
+        this.minesweeper.elapsedSeconds += 1;
+      }, 1000);
+    },
+    continueMineSweepCounter() {
+      if (this.minesweeper.game.isGameCompleted) {
+        document.dispatchEvent(new Event('minesweeper:win'));
+      }
+    },
+    async winMineSweep() {
+      clearInterval(this.minesweeper.timer);
+      this.minesweeper.mode = 'win';
+      this.minesweeper.isDialogEnabled = true;
+    },
+    gameoverMineSweep() {
+      clearInterval(this.minesweeper.timer);
+      this.minesweeper.mode = 'gameover';
+      this.minesweeper.isDialogEnabled = true;
+    },
+    restartMineSweep() {
+      console.log('Minesweeper::Restart');
+      this.tearDownMinesweeper();
+
+      this.minesweeper.mode = 'start';
+
+      window.setTimeout(() => {
+        this.setupMinesweeper();
+      }, 1000);
+    },
     ...mapMutations('indicators', {
       setSelectedIndicator: 'SET_SELECTED_INDICATOR',
       loadIndicatorFinished: 'INDICATOR_LOAD_FINISHED',
@@ -1154,6 +1319,39 @@ export default {
 
       if (event.data.command === 'map:setCompareTime' && event.data.time) {
         this.scheduleUpdateTime(event.data.time, true);
+      }
+
+      if (event.data.command === 'map:refreshCompareLayer') {
+        const { map } = getMapInstance(this.mapId);
+        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+        const config = createConfigFromIndicator(
+          this.indicator,
+          'compare',
+          0,
+        )[0];
+        const swipeLayer = dataGroup.getLayers().getArray().find((l) => l.get('name') === `${config.name}_compare`);
+        if (swipeLayer) {
+          updateTimeLayer(swipeLayer, config, this.compareLayerTime, this.drawnArea);
+        }
+      }
+
+      if (event.data.command === 'map:refreshFeatures') {
+        const { map } = getMapInstance(this.mapId);
+        const dataGroup = map.getLayers().getArray().find((l) => l.get('id') === 'dataGroup');
+        const config = createConfigFromIndicator(
+          this.indicator,
+          'data',
+          0,
+        );
+        // config with .features will be always the "even" in the array of configs due to
+        const featureLayer = dataGroup.getLayers().getArray().find((l) => l.get('customFeatureLayer'));
+        // destructuring of .features done in createConfigFromIndicator
+        if (featureLayer) {
+          updateTimeLayer(featureLayer, config[1], this.dataLayerTime, this.drawnArea);
+        }
+      }
+      if (event.data.command === 'map:setCompare') {
+        this.enableCompare = event.data.compare;
       }
 
       if (event.data.command === 'map:setPoi' && event.data.poi) {
@@ -1400,6 +1598,83 @@ export default {
         padding,
       });
     },
+    async setupMinesweeper() {
+      document.addEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.addEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.addEventListener('minesweeper:win', this.winMineSweep);
+      document.addEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.addEventListener('minesweeper:restart', this.restartMineSweep);
+
+      const { map } = getMapInstance(this.mapId);
+      let seedString = new URLSearchParams(window.location.search).get('seed');
+      if (!seedString) {
+        const date = new Date();
+        seedString = date.toDateString();
+      }
+      const location = this?.minesweeperOptions.locations[
+        this.selectedLocationIndex
+      ];
+      this.minesweeper.spDisplay = this?.minesweeperOptions.enableSpeciesDisplay;
+      const bbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
+      this.minesweeper.bbox = bbox;
+
+      const res = await fetch('./data/europe_and_iceland_country_borders_fixed.geojson');
+      const geojson = await res.json();
+
+      const intersections = await findIntersections(bbox, geojson);
+
+      let wasIntersectionFound = intersections.length > 0;
+
+      while (!wasIntersectionFound) {
+        const i = 0;
+        seedString += `${i}`;
+        new URLSearchParams(window.location.search).set('seed', seedString);
+        const newBbox = getRandomBoundingBox(location.bbox, location.horizontalExtent, seedString);
+
+        // eslint-disable-next-line
+        const newIntersections = await findIntersections(newBbox, geojson);
+
+        if (newIntersections.length > 0) {
+          wasIntersectionFound = true;
+          this.minesweeper.bbox = newBbox;
+        }
+      }
+
+      this.minesweeper.game = new Minesweeper(map, {
+        ...this.minesweeperOptions,
+        bbox: this.minesweeper.bbox,
+        selectedLocationIndex: this.selectedLocationIndex,
+      });
+      this.minesweeper.isEnabled = true;
+      this.minesweeper.isDialogEnabled = true;
+      const extent = transformExtent(
+        this.minesweeper.bbox,
+        'EPSG:4326',
+        map.getView().getProjection(),
+      );
+      const padding = calculatePadding();
+      map.getView().fit(extent, {
+        duration: 500,
+        padding,
+      });
+    },
+    tearDownMinesweeper() {
+      if (this.minesweeper.game?.vectorLayer) {
+        const { map } = getMapInstance(this.mapId);
+        map.removeLayer(this.minesweeper.game.vectorLayer);
+      }
+      if (this.minesweeper.game) {
+        this.minesweeper.game.removeEventListeners();
+      }
+      this.minesweeper.game = null;
+      this.minesweeper.isEnabled = false;
+      this.minesweeper.isDialogEnabled = false;
+      document.removeEventListener('minesweeper:start', this.startMineSweepCounter);
+      document.removeEventListener('minesweeper:continue', this.continueMineSweepCounter);
+      document.removeEventListener('minesweeper:win', this.winMineSweep);
+      document.removeEventListener('minesweeper:gameover', this.gameoverMineSweep);
+      document.removeEventListener('minesweeper:restart', this.restartMineSweep);
+    },
   },
   beforeDestroy() {
     if (this.mapId === 'centerMap') {
@@ -1413,6 +1688,7 @@ export default {
       this.onFetchCustomAreaIndicator,
     );
     window.removeEventListener('message', this.handleExternalMapMessage);
+    this.tearDownMinesweeper();
   },
 };
 </script>
@@ -1430,6 +1706,7 @@ export default {
   }
 
   .controlsContainer {
+    top: 0px;
     position: absolute;
     right: 0px;
     min-width: 50px;

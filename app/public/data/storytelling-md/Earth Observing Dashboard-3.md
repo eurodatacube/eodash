@@ -7,11 +7,10 @@ At COP26, 100 countries endorsed the "Glasgow Leaders’s Declaration on Forests
 
 ## <!--{ as="iframe" src="https://www.esa.int/content/view/embedjw/559869" width="100%" height="500px" frameBorder="0" scroll="no" style="overflow:hidden" }-->
 
-<sup>Animation: Above ground biomass 2020. ESA (Data source: CCI Biomass project)</sup>
+##
+<figcaption>Animation: Above ground biomass 2020. ESA (Data source: CCI Biomass project) While deforestation refers to the entire removal of forest, degradation means that the forest still exists but with reduced functions</figcaption>
 
-<sup>_1 While deforestation refers to the entire removal of forest, degradation means that the forest still exists but with reduced functions_</sup>
-
-## <!--{as="eox-map" id="palsar" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/FNF_Palsar/FNF_Palsar/FNF_Palsar/2020/2020.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]'}-->
+## <!--{as="eox-map" id="palsar" mode="tour" layers='[{"type":"Tile","properties":{"id":"PALSAR-2/PALSAR Forest/Non-Forest Map"},"source":{"type":"WMTS","urls":["https://ogcpreview1.restecmap.com/examind/api/WS/wmts/JAXA_WMTS_Preview?"],"layer":"FNF-PALSAR2-World-2020-Yearly","format":"image/png","matrixSet":"12d1db38-9354-4569-bbb4-efef0359fa54","tileGrid":{"resolutions":[156543.03392804097,78271.51696402048,39135.75848201024,19567.87924100512,9783.93962050256,4891.96981025128,2445.98490512564,1222.99245256282,611.49622628141,305.748113140705,152.8740565703525,76.43702828517625,38.21851414258813,19.109257071294063],"projection":"EPSG:3857","matrixIds":["156543d03392804097x-20,037,508d343x18,807,214d097","78271d51696402048x-20,037,508d343x18,807,214d097","39135d75848201024x-20,037,508d343x18,807,214d097","19567d87924100512x-20,037,508d343x18,807,214d097","9783d93962050256x-20,037,508d343x18,807,214d097","4891d96981025128x-20,037,508d343x18,807,214d097","2445d98490512564x-20,037,508d343x18,807,214d097","1222d99245256282x-20,037,508d343x18,807,214d097","611d49622628141x-20,037,508d343x18,807,214d097","305d748113140705x-20,037,508d343x18,807,214d097","152d8740565703525x-20,037,508d343x18,807,214d097","76d43702828517625x-20,037,508d343x18,807,214d097","38d21851414258813x-20,037,508d343x18,807,214d097","19d109257071294063x-20,037,508d343x18,807,214d097"],"origin":[-20037508.342789244,18807214.09674771]}}},{"type":"Tile","properties":{"id":"cloudless"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]'}-->
 
 ###
 
@@ -29,7 +28,7 @@ Data delivered by these missions provides the essential information used in glob
 
 ### Tipping points <!--{style="font-size: 4rem"}-->
 
-## <!--{ as="eox-map" id="tipping-points-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
+## <!--{ as="eox-map" id="tipping-points-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/ndvi/ndvi/ndvi/2023/2023-06-15T23:59:30Z.json","displayWebMapLink":true,"displayFootprint":false,"properties":{"id":"NDVI"}},{"type":"Tile","properties":{"id":"cloudless-2"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
 
 ### <!--{ center="[15,60]" zoom="3" }-->
 
@@ -85,7 +84,7 @@ Less trees mean a diminished release of water vapour in the atmosphere, conseque
 
 *Map information: NASA Evapotranspiration - LIS 10km Global DA. [View dataset](https://www.eodashboard.org/explore?search=World%3A+Evapotranspiration%2C+LIS&x=8381574.94156&y=-1001875.41714&z=2.64386&poi=World-LIS_Global_DA_Evap)* 
 
-### <!--{ layers='[{"type":"STAC","properties":{"id":"step-2"},"url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/RECCAP2_6_deforested_biomass/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-75,-5]" zoom="5" }--> 
+### <!--{ layers='[{"type":"Tile","properties":{"id":"RECCAP2_6_deforested_biomass-2018-01-01T00:00:00Z"},"source":{"type":"XYZ","urls":["https://reccap2.api.brockmann-consult.de/api/tiles/cop28~reccap2-9x108x139-0.0.1.zarr/deforested_biomass/{z}/{y}/{x}?crs=EPSG:3857&time=2018-01-01T00:00:00Z&vmin=0&vmax=5&cbar=YlOrRd"]}},{"type":"Tile","properties":{"id":"osm"},"source":{"type":"WMTSCapabilities","url":"https://tiles.maps.eox.at/wmts/1.0.0/WMTSCapabilities.xml","layer":"osm_3857"}}]' center="[-75,-5]" zoom="5" }--> 
 
 Savannas are generally less efficient than tropical forests at sequestering carbon dioxide from the atmosphere, and recent studies indicate that certain areas of the Amazon are now releasing more carbon dioxide than they absorb. However, there remains no definitive agreement on a tipping point leading to widespread rainforest depletion and the proliferation of savanna species (Cerrado) from the biome. Given the intricate interplay between regional land-use alterations and global climate shifts, scientists are working to gain more understanding about this potential 'point of no return' for the Amazon rainforest. The threshold has been estimated to occur when deforestation reaches 20-25%. Currently, the Amazon has already undergone approximately 17% deforestation, which highlights the urgency of conservation efforts to prevent reaching an ecological tiping point.
 
@@ -178,7 +177,7 @@ Another article also published in the same journal estimated a global decline in
 
 ### Restoration and conservation <!--{style="font-size: 4rem"}-->
 
-## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"STAC","url":"https://eurodatacube.github.io/eodash-catalog/trilateral/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/RECCAP2_5_SF_biomass_growth/2018/2018-01-01T00:00:00Z.json","displayWebMapLink":true,"displayFootprint":false},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
+## <!--{ id="restoration-conservation" as="eox-map" mode="tour" layers='[{"type":"Tile","properties":{"id":"RECCAP2_5_SF_biomass_growth-2018-01-01T00:00:00Z"},"source":{"type":"XYZ","urls":["https://reccap2.api.brockmann-consult.de/api/tiles/cop28~reccap2-9x108x139-0.0.1.zarr/SF_biomass_growth/{z}/{y}/{x}?crs=EPSG:3857&time=2018-01-01T00:00:00Z&vmin=0&vmax=2&cbar=YlGn"]}},{"type":"Tile","properties":{"id":"cloudless-4"},"source":{"type":"XYZ","url":"https://s2maps-tiles.eu/wmts?layer=s2cloudless-2022_3857&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"}}]' }-->
 
 ### <!--{ center=[-74,-3] zoom="5" }-->
 
@@ -190,9 +189,12 @@ One of the main drives of degradation in sub/tropical countries is unsustainable
 
 ## <!--{ as="iframe" src="https://www.youtube.com/embed/wF_td3QRBuM" width="100%" height="500px" frameBorder="0" scroll="no" style="overflow:hidden" }-->
 
-<sup>A series of USGS Landsat and Copernicus Sentinel-2 images showing secondary forest regrowth near Rio Capim, in the Brazilian Amazon, from 1985 to 2022.</sup>
+##
 
-<sup>[Read full story]( https://www.esa.int/Applications/Observing_the_Earth/Space_for_our_climate/Recovering_forests_regain_a_quarter_of_carbon_lost_from_deforestation)</sup>
+<figcaption>A series of USGS Landsat and Copernicus Sentinel-2 images showing secondary forest regrowth near Rio Capim, in the Brazilian Amazon, from 1985 to 2022.
+
+[Read full story]( https://www.esa.int/Applications/Observing_the_Earth/Space_for_our_climate/Recovering_forests_regain_a_quarter_of_carbon_lost_from_deforestation)
+</figcaption>
 
 ###
 

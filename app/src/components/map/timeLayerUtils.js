@@ -11,7 +11,7 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
-  if (config.protocol === 'cog') {
+  if (config.protocol === 'cog' && !config.features) {
     const updatedSources = config.sources.map((item) => {
       const url = item.url.replace(/{time}/i, config.dateFormatFunction(time));
       return { url };

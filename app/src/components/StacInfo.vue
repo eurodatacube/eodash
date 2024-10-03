@@ -31,53 +31,6 @@
             --color-primary: ${$vuetify.theme.currentTheme.main}`"
         ></eox-stacinfo>
       </v-col>
-      <v-col v-else-if="appConfig.id === 'trilateral'">
-        <eox-stacinfo ref="stacInfo"
-          @loaded="onStacInfoLoad"
-          :for="getLink"
-          :allowHtml.prop="true"
-          :styleOverride.prop="`
-          .single-property {columns: 1!important;}
-          h1 {margin:0px!important;font-size:16px!important;}
-          h1:after {
-            content:' ';
-            display:block;
-            border:1px solid #d0d0d0;
-          }
-          h2 {font-size:15px}
-          h3 {font-size:14px}
-          summary {cursor: pointer;}
-          #tags ul {margin:0px!important;}
-          .description > h1 {
-            display: none;
-          }
-          #properties {
-            margin-top: -20px!important;
-          }
-          #properties li > .value {
-              font-weight: normal !important;
-          }
-          #properties li {
-              width: 100%;
-          }
-          #properties ul {
-              width: 100%;
-          }
-          main {
-            padding: 0px 30px;
-          }`"
-          header='["title"]'
-          subheader='[]'
-          properties='["description"]'
-          featured='[]'
-          footer="[]"
-          :style="`
-            margin-left: -20px;
-            margin-right: -20px;
-            word-wrap: break-word;
-            --color-primary: ${$vuetify.theme.currentTheme.main}`"
-        ></eox-stacinfo>
-      </v-col>
       <v-col v-else>
         <eox-stacinfo
           v-if="indicatorObject
@@ -87,7 +40,7 @@
           @loaded="onStacInfoLoad"
           header='["title"]'
           tags='["themes"]'
-          properties='["satellite","sensor","agency","extent","license"]'
+          properties='["satellite","sensor","agency","extent"]'
           featured='["description","providers","assets","links"]'
           footer='["sci:citation"]'
           :allowHtml.prop="true"
@@ -134,9 +87,9 @@
               </v-chip>
             </ul>
           </div>
-          <div slot="links"
+          <div slot="featured-links"
           v-if="stacInfoLoaded">
-            Code examples:
+            Additional links:
             <li
               v-for="link in linksInStacInfo"
               :key="link.rel"
@@ -151,6 +104,7 @@
     <v-expansion-panels
     style="justify-content: left;"
     v-if="appConfig.id === 'gtif' && additionalGTIFDataInfos.length > 0"
+    :key="refreshKey"
     >
     <h4>
       Dataset metadata
@@ -191,6 +145,7 @@ export default {
     stacInfoLoaded: null,
     themesInStacInfo: [],
     linksInStacInfo: [],
+    refreshKey: 0,
   }),
   computed: {
     ...mapState('config', [
@@ -251,35 +206,64 @@ export default {
         } else {
           this.$parent.$parent.$el.style.display = '';
         }
-        this.themesInStacInfo = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        const themes = this.$refs.stacInfo?.stacProperties?.themes?.value || [];
+        if (this.appConfig.id === 'trilateral') {
+          const i = themes.findIndex((theme) => theme === 'air');
+          if (i !== -1) {
+            themes[i] = 'atmosphere';
+          }
+          const j = themes.findIndex((theme) => theme === 'water');
+          if (j !== -1) {
+            themes[j] = 'oceans';
+          }
+        }
+        this.themesInStacInfo = themes;
         const links = this.$refs.stacInfo?.stacProperties?.links?.value || [];
-        this.linksInStacInfo = links.filter(
-          (l) => l.rel === 'example' || l.rel === 'license',
-        );
+        const linksFiltered = links.filter(
+          (l) => l.rel === 'example',
+        ).map((ll) => {
+          if (ll.title.includes('VEDA Statistics')) {
+            // only use the stac catalog URL for VEDA example
+            ll.href = 'https://openveda.cloud/'; // eslint-disable-line
+            ll.rel = 'openveda.cloud STAC Browser'; // eslint-disable-line
+          }
+          return ll;
+        });
+        this.linksInStacInfo = linksFiltered;
         this.stacInfoLoaded = true;
+        // programatically open Analysis panel if exists and not open yet
+        const uiPanelsRight = this.$parent.$parent.$parent.$parent.$children;
+        if (!uiPanelsRight[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanelsRight[1].$refs.header.$emit('click', {
+            currentTarget: uiPanelsRight[1].$refs.header.$el,
+          });
+        }
       });
     },
-    getAdditionalGTIFDataInfos() {
-      this.additionalGtifDataInfoContent = [];
-      for (let i = 0; i < this.additionalGTIFDataInfos.length; i++) {
-        try {
-          const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${this.additionalGTIFDataInfos[i].dataInfo}.md`;
-          fetch(markdownUrl)
-            .then((response) => {
-              if (!response.ok) {
-                console.error('Fetching DataInfo failed');
-              }
-              return response.text();
-            })
-            .then((text) => {
-              const markdown = { default: text };
-              this.additionalGtifDataInfoContent.push(this.$marked(markdown.default));
-            });
-        } catch {
-          // just an empty catch to "fill in empty content"
-          this.additionalGtifDataInfoContent.push('');
-        }
+    async fetchDataInfo(dataInfoObject, i) {
+      try {
+        const markdownUrl = `//raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/gtif-datainfo/${dataInfoObject.dataInfo}.md`;
+        await fetch(markdownUrl)
+          .then((response) => {
+            if (!response.ok) {
+              console.error('Fetching DataInfo failed');
+            }
+            return response.text();
+          })
+          .then((text) => {
+            const markdown = { default: text };
+            this.additionalGtifDataInfoContent[i] = this.$marked(markdown.default);
+          });
+      } catch {
+        // just an empty catch
       }
+    },
+    getAdditionalGTIFDataInfos() {
+      this.additionalGtifDataInfoContent = Array(this.additionalGTIFDataInfos.length).fill('');
+      Promise.all(this.additionalGTIFDataInfos.map((item, i) => this.fetchDataInfo(item, i)))
+        .then(() => {
+          this.refreshKey = Math.random();
+        });
     },
   },
 };
