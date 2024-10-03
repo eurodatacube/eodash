@@ -619,7 +619,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             elevation: {
               display: true,
-              label: 'Constraint for terrain elevation [m]',
+              label: 'Terrain elevation [m]',
               metadataLabel: 'Terrain Elevation [m]',
               id: 'elevation',
               dataInfo: 'Elevation',
@@ -630,7 +630,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             slope: {
               display: true,
-              label: 'Constraint for terrain slope [°]',
+              label: 'Terrain slope [°]',
               metadataLabel: 'Terrain slope [°]',
               id: 'slope',
               dataInfo: 'Slope',
@@ -640,7 +640,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             settlementDistance: {
               display: false,
-              label: 'Constraint for distance to settlements (WSF) [m]',
+              label: 'Distance to settlements (WSF) [m]',
               metadataLabel: 'DISTANCE TO SETTLEMENTS (WSF) [m]',
               id: 'settlementDistance',
               dataInfo: 'SettlementDistance',
@@ -653,7 +653,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             cadasterDistance: {
               display: false,
-              label: 'Constraint for distance to settlements (Austrian Cadaster) [m]',
+              label: 'Distance to settlements (Austrian Cadaster) [m]',
               metadataLabel: 'DISTANCE TO SETTLEMENTS (CADASTER) [m]',
               id: 'cadasterDistance',
               dataInfo: 'CadasterDistance',
@@ -666,7 +666,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             energyGridDistance: {
               display: false,
-              label: 'Constraint for distance to energy grid [m]',
+              label: 'Distance to energy grid [m]',
               metadataLabel: 'DISTANCE TO ENERGY GRID [m]',
               id: 'energyGridDistance',
               dataInfo: 'EnergyGridDistance',
@@ -679,7 +679,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             },
             ruggedness: {
               display: false,
-              label: 'Constraint for ruggedness index',
+              label: 'Ruggedness index',
               metadataLabel: 'RUGGEDNESS INDEX',
               id: 'ruggedness',
               type: 'slider',
@@ -801,7 +801,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
             aspect: {
               display: true,
-              label: 'Constraint for aspect',
+              label: 'Aspect',
               metadataLabel: 'Aspect',
               id: 'aspect',
               min: 0,
@@ -811,7 +811,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
             slope: {
               display: true,
-              label: 'Constraint for terrain slope',
+              label: 'Terrain slope',
               metadataLabel: 'Terrain slope',
               id: 'slope',
               dataInfo: 'Slope',
@@ -821,7 +821,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
             energyGridDistance: {
               display: false,
-              label: 'Constraint for distance to energy grid',
+              label: 'Distance to energy grid',
               metadataLabel: 'Energy Grid',
               id: 'energyGridDistance',
               dataInfo: 'EnergyGridDistance',
@@ -834,7 +834,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
             elevation: {
               display: false,
-              label: 'Constraint for terrain elevation',
+              label: 'Terrain elevation',
               metadataLabel: 'Terrain elevation',
               id: 'elevation',
               dataInfo: 'Elevation',
@@ -844,7 +844,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
             albedo: {
               display: true,
-              label: 'Constraint for albedo proxy',
+              label: 'Albedo proxy',
               metadataLabel: 'Albedo proxy',
               id: 'albedo',
               dataInfo: 'Albedo',
