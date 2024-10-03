@@ -677,6 +677,19 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               value: 25000,
               step: 10,
             },
+            transformerDistance: {
+              display: false,
+              label: 'Distance to transformers [m]',
+              metadataLabel: 'DISTANCE TO TRANSFORMERS [m]',
+              id: 'transformerDistance',
+              dataInfo: 'TransformerDistance',
+              type: 'slider',
+              inverted: true,
+              min: 0,
+              max: 50000,
+              value: 50000,
+              step: 10,
+            },
             ruggedness: {
               display: false,
               label: 'Ruggedness index',
@@ -714,6 +727,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/RuggednessIndex_Austria_3857_COG_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/v2/CadasterDistance_COG_v2.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/PLES/Austria_transformer_distance_gt_36KW.tif' },
           ],
           style: {
             variables: {
@@ -728,6 +742,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
               protected: 0,
               ruggedness: 1,
               cadasterDistance: 0,
+              transformerDistance: 50000,
             },
             color: [
               'case',
@@ -741,6 +756,7 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
                 ['<', ['band', 5], ['var', 'energyGridDistance']],
                 ['<', ['band', 7], ['var', 'ruggedness']],
                 ['>=', ['band', 8], ['var', 'cadasterDistance']],
+                ['<', ['band', 9], ['var', 'transformerDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 6], 0],
@@ -832,6 +848,19 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
               step: 20,
               inverted: true,
             },
+            transformerDistance: {
+              display: false,
+              label: 'Distance to transformers [m]',
+              metadataLabel: 'DISTANCE TO TRANSFORMERS',
+              id: 'transformerDistance',
+              dataInfo: 'TransformerDistance',
+              type: 'slider',
+              inverted: true,
+              min: 0,
+              max: 50000,
+              value: 50000,
+              step: 10,
+            },
             elevation: {
               display: false,
               label: 'Terrain elevation',
@@ -875,6 +904,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Copernicus_DSM_COG_10m_3857_fix.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Austria_Full_Energy_Increase_Water_Masked_COG_nodata.tif' },
             { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/Natura2000_Austria_COG_3857_fix.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/PLES/Austria_transformer_distance_gt_36KW.tif' },
           ],
           style: {
             variables: {
@@ -892,6 +922,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
               albedoMin: 0,
               albedoMax: 0.3,
               protected: 0,
+              transformerDistance: 50000,
             },
             color: [
               'case',
@@ -915,6 +946,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
                 ['<', ['band', 4], ['var', 'energyGridDistance']],
                 ['between', ['band', 5], ['var', 'elevationMin'], ['var', 'elevationMax']],
                 ['between', ['band', 6], ['var', 'albedoMin'], ['var', 'albedoMax']],
+                ['<', ['band', 8], ['var', 'transformerDistance']],
                 ['any',
                   ['==', ['var', 'protected'], 0],
                   ['==', ['band', 7], 0],
@@ -937,6 +969,32 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
           ...overlayLayers.protectionZones,
         }, {
           ...overlayLayers.protectionZonesNatura,
+        },{
+          protocol: 'cog',
+          dataInfo: 'Albedo_Single_Product',
+          id: 'albedo_visualization',
+          sources: [
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/PLES/PLES-DP-24-02-Austria_Full_Single_Albedo_watermasked_nodata.tif' },
+          ],
+          visible: false,
+          style: {
+            color: [
+              'case',
+              ['==', ['band', 1], -1],
+              ['color', 0, 0, 0, 0],
+              ['==', ['band', 1], 0],
+              ['color', 25, 25, 200, 0],
+              ['>', ['band', 1], 0],
+              [
+                'interpolate',
+                ['linear'],
+                ['band', 1],
+                ...getColorStops('viridis', 0, 1, 32, false),
+              ],
+              ['color', 0, 0, 0, 0],
+            ]
+          },
+          name: 'Albedo - Single Product',
         }],
       },
     },
