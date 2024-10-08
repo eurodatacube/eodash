@@ -62,6 +62,7 @@ module.exports = {
     '@eox/storytelling',
     'color-parse',
     '@eox/geosearch',
+    '@eox/drawtools',
   ],
   configureWebpack: {
     devServer: {

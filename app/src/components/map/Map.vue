@@ -162,6 +162,11 @@
           interval="1000"
           :endpoint="searchEndpoint"
         ></eox-geosearch>
+        <eox-drawtools
+          type="Polygon"
+          for="eox-map"
+          style="pointer-events: initial"
+        />
         <v-btn
           v-if="$vuetify.breakpoint.xsOnly && displayTimeSelection"
           :color="$vuetify.theme.currentTheme.background"
@@ -301,6 +306,7 @@ import Minesweeper from '@/plugins/minesweeper/game';
 import { getRandomBoundingBox, findIntersections } from '@/plugins/minesweeper';
 import MinesweeperDialog from '@/components/Modal/MinesweeperDialog.vue';
 import '@eox/map';
+import '@eox/drawtools';
 
 const geoJsonFormat = new GeoJSON({
 });
