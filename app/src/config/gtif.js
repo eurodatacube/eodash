@@ -1319,41 +1319,23 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'HAUC1',
-        cogFilters: {
-          sourceLayer: 'HAUC1',
-          filters: {
-            imperviousness: {
-              display: true,
-              label: 'Imperviousness',
-              id: 'imperviousness',
-              min: 0,
-              max: 100,
-              step: 1,
-              header: true,
-              range: [0, 100],
-            },
-          },
-        },
+        time: [
+          ['2022', '2022_LST_AT_merged_composite_mean_70m_3857.tif'],
+          ['2023', '2023_LST_AT_merged_composite_mean_70m_3857.tif'],
+          ['2024', '2024_LST_AT_merged_composite_mean_70m_3857.tif'],
+        ],
         display: [{
-          dataInfo: 'HeatAdapt_LST',
           protocol: 'cog',
-          id: 'HAUC1',
+          id: 'FCM1',
           sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/01_AT_LST_composite/AT_LST_mean_composite_S2022_2023_R70m_3857.tif' },
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/02_AT_imperviousness/CLMS_HRLNVLCC_IMD_S2021_R70m_AT_3857_V1_R0_20230731.tif' },
+            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
           ],
+          dateFormatFunction: (date) => `${date[1]}`,
+          labelFormatFunction: (date) => date[0],
           style: {
-            variables: {
-              imperviousnessMin: 0,
-              imperviousnessMax: 100,
-            },
             color: [
               'case',
-              [
-                'all',
-                ['>', ['band', 1], 0],
-                ['between', ['band', 2], ['var', 'imperviousnessMin'], ['var', 'imperviousnessMax']],
-              ],
+              ['!=', ['band', 2], 0],
               [
                 'interpolate',
                 ['linear'],
@@ -1365,7 +1347,6 @@ export const globalIndicators = [
               ],
             ],
           },
-          name: 'Land surface temperature',
         }],
       },
     },
