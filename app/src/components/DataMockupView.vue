@@ -147,7 +147,7 @@ export default {
     show() {
       return this.selectedFeatures?.length && this.indicatorObject
       && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
-        'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3',
+        'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'HAUC1',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
@@ -377,6 +377,34 @@ export default {
                 .finally(() => {
                   window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
                 });
+            });
+        }
+        if (['HAUC1'].includes(this.indicatorObject.indicator)) {
+          const adminIds = [];
+          features.forEach((ftr) => {
+            adminIds.push(ftr.getId());
+          });
+          const expUrl = 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/2024_stats.json';
+          fetch(expUrl)
+            .then((resp) => resp.json())
+            .then((json) => {
+              // Load only selected gemeinde
+              const dataObj = {};
+              adminIds.forEach((key) => {
+                if (key in json) {
+                  dataObj[key] = json[key];
+                }
+              });
+              const ind = {
+                ...this.indicatorObject,
+                fetchedData: dataObj,
+                xAxis: 'Soil sealing percentage [%]',
+                yAxis: 'Average temperature [°]',
+              };
+              this.$store.commit(
+                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+              );
+              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
             });
         }
         if (['AQ1',

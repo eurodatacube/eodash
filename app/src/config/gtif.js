@@ -537,12 +537,15 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
   },
   HAUC1: {
+    customAreaIndicator: true,
     baseLayers: solarAndGreenRoofDefaults,
   },
   HAUC2: {
+    customAreaIndicator: true,
     baseLayers: solarAndGreenRoofDefaults,
   },
   HAUC3: {
+    customAreaIndicator: true,
     baseLayers: solarAndGreenRoofDefaults,
   },
   // commented out so that selection is disabled
@@ -1324,30 +1327,50 @@ export const globalIndicators = [
           ['2023', '2023_LST_AT_merged_composite_mean_70m_3857.tif'],
           ['2024', '2024_LST_AT_merged_composite_mean_70m_3857.tif'],
         ],
-        display: [{
-          protocol: 'cog',
-          id: 'FCM1',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
-          ],
-          dateFormatFunction: (date) => `${date[1]}`,
-          labelFormatFunction: (date) => date[0],
-          style: {
-            color: [
-              'case',
-              ['!=', ['band', 2], 0],
-              [
-                'interpolate',
-                ['linear'],
-                ['band', 1],
-                ...getColorStops(heatadaptCM, 0, 40, 40, false),
-              ],
-              [
-                'color', 0, 0, 0, 0,
-              ],
+        display: [
+          {
+            protocol: 'cog',
+            id: 'FCM1',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
             ],
+            dateFormatFunction: (date) => `${date[1]}`,
+            labelFormatFunction: (date) => date[0],
+            style: {
+              color: [
+                'case',
+                ['!=', ['band', 2], 0],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops(heatadaptCM, 0, 40, 40, false),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
           },
-        }],
+          {
+            layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+            protocol: 'geoserverTileLayer',
+            style: {
+              strokeColor: 'rgba(50,50,50,0.4)',
+              color: 'rgba(0,0,0,0)',
+              strokeWidth: 0.5,
+            },
+            id: 'air_quality_new_id',
+            name: 'Administrative zone (Gemeinde)',
+            adminZoneKey: 'id_3',
+            parameters: 'pm10,id_3',
+            selection: {
+              mode: 'multiple',
+            },
+            tooltip: true,
+            allowedParameters: ['name'],
+          },
+        ],
       },
     },
   },

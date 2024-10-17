@@ -144,7 +144,7 @@ export default {
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
-        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
+        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'HAUC1',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -1299,6 +1299,33 @@ export default {
             ));
             datasets.push({
               label: featureData.gemIds[gemId].trim(),
+              fill: false,
+              data,
+              backgroundColor: clrs,
+              borderColor: clrs,
+              borderWidth: 1,
+              pointRadius: 2,
+            });
+          });
+        } else if (['HAUC1'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
+            // for each gemeinde group into a dataset
+            const x = [];
+            const y = [];
+            const zsps = [];
+            const clrs = [];
+            featureData.fetchedData[gemId].forEach((value, idx) => {
+              x.push(idx);
+              y.push(value);
+              zsps.push(gemId);
+              clrs.push(refColors[ind]);
+            });
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j], zsp: zsps[j] }
+            ));
+            datasets.push({
+              // label: zsp,
               fill: false,
               data,
               backgroundColor: clrs,
