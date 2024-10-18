@@ -99,6 +99,11 @@ const heatadaptCM = [
   { index: 1, rgb: [215, 25, 28] },
 ];
 
+const heatadaptImperviousness = [
+  { index: 0, rgb: [255, 253, 188] },
+  { index: 1, rgb: [255, 180, 4] },
+];
+
 // stp = 1 / 6;
 // const heatadaptReds = [
 //   { index: 0, rgb: [255, 245, 240] },
@@ -1353,6 +1358,46 @@ export const globalIndicators = [
             },
           },
           {
+            protocol: 'cog',
+            id: 'LULUCF',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857_rendered.tif' },
+            ],
+            name: 'Land Cover',
+            normalize: true,
+            visible: false,
+            style: {},
+          },
+          {
+            protocol: 'cog',
+            id: 'imperviousness',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/IMD_2018_AT_70m_3857.tif' },
+            ],
+            name: 'Imperviousness',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['==', ['band', 4], 255],
+                [
+                  'match',
+                  ['band', 1],
+                  0,
+                  ['color', 0, 0, 0, 1],
+                  [
+                    'interpolate',
+                    ['linear'],
+                    ['band', 1],
+                    ...getColorStops(heatadaptImperviousness, 1, 254, 32),
+                  ],
+                ],
+                // out of bounds color
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+          {
             layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
             protocol: 'geoserverTileLayer',
             style: {
@@ -1360,10 +1405,8 @@ export const globalIndicators = [
               color: 'rgba(0,0,0,0)',
               strokeWidth: 0.5,
             },
-            id: 'air_quality_new_id',
+            id: 'gemeinde_lst',
             name: 'Administrative zone (Gemeinde)',
-            adminZoneKey: 'id_3',
-            parameters: 'pm10,id_3',
             selection: {
               mode: 'multiple',
             },
