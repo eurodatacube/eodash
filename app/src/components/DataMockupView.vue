@@ -389,15 +389,15 @@ export default {
             .then((resp) => resp.json())
             .then((json) => {
               // Load only selected gemeinde
-              const dataObj = {};
+              const dataArray = [];
               adminIds.forEach((key) => {
                 if (key in json) {
-                  dataObj[key] = json[key];
+                  dataArray.push(json[key]);
                 }
               });
               const ind = {
                 ...this.indicatorObject,
-                fetchedData: dataObj,
+                fetchedData: dataArray,
                 xAxis: 'Soil sealing percentage [%]',
                 yAxis: 'Average temperature [°]',
               };

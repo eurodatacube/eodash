@@ -1309,29 +1309,31 @@ export default {
           });
         } else if (['HAUC1'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
-          Object.keys(featureData.fetchedData).forEach((gemId, ind) => {
+          featureData.fetchedData.forEach((valArray, ind) => {
             // for each gemeinde group into a dataset
             const x = [];
             const y = [];
-            const zsps = [];
             const clrs = [];
-            featureData.fetchedData[gemId].forEach((value, idx) => {
+            valArray.forEach((value, idx) => {
               x.push(idx);
               y.push(value);
-              zsps.push(gemId);
               clrs.push(refColors[ind]);
             });
             const data = x.map((mm, j) => (
-              { x: mm, y: y[j], zsp: zsps[j] }
+              { x: mm, y: y[j] }
             ));
             datasets.push({
-              // label: zsp,
               fill: false,
               data,
               backgroundColor: clrs,
               borderColor: clrs,
               borderWidth: 1,
               pointRadius: 2,
+              regressions: {
+                type: 'polynomial',
+                line: { color: refColors[ind], width: 2 },
+                calculation: { precision: 6, order: 3 },
+              },
             });
           });
         } else if (['REP4_5'].includes(indicatorCode)) {
@@ -1555,6 +1557,41 @@ export default {
       // just one default yAxis
       customSettings.yAxis = [this.indicatorObject.yAxis];
 
+      if (['HAUC1'].includes(indicatorCode)) {
+        customSettings.plugins = {
+          regressions: {
+            onCompleteCalculation: (chart) => {
+              // remove potential previous div
+              const preEl = document.getElementById('regressionresult');
+              if (preEl) {
+                preEl.remove();
+              }
+              const parentDiv = document.createElement('div');
+              parentDiv.id = 'regressionresult';
+              parentDiv.style.position = 'absolute';
+              parentDiv.style.top = '105px';
+              parentDiv.style['margin-left'] = '80px';
+              parentDiv.style['font-size'] = '11px';
+              chart.data.datasets.forEach((val, idx) => {
+                // currently we do not use sections so we assume sections with length 1
+                const { sections } = ChartRegressions.getDataset(chart, idx);
+                if (sections && sections.length > 0) {
+                  const { result } = sections[0];
+                  const divEl = document.createElement('div');
+                  divEl.style.color = `${this.appConfig.refColors[idx]}`;
+                  const content = document.createTextNode(`R²: ${result.r2}; ${result.string}`);
+                  divEl.appendChild(content);
+                  parentDiv.appendChild(divEl);
+                }
+              });
+              chart.canvas.parentElement.parentElement.appendChild(parentDiv);
+            },
+          },
+          datalabels: {
+            display: false,
+          },
+        };
+      }
       if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
