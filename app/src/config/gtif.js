@@ -1335,7 +1335,8 @@ export const globalIndicators = [
         display: [
           {
             protocol: 'cog',
-            id: 'FCM1',
+            disableTimeSlider: true,
+            id: 'HAUC1',
             sources: [
               { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
             ],
