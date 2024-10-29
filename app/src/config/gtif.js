@@ -1332,6 +1332,19 @@ export const globalIndicators = [
           ['2023', '2023_LST_AT_merged_composite_mean_70m_3857.tif'],
           ['2024', '2024_LST_AT_merged_composite_mean_70m_3857.tif'],
         ],
+        cogFilters: {
+          sourceLayer: 'HAUC1',
+          filters: {
+            var: {
+              display: true,
+              label: 'Imperviosness [%]',
+              id: 'var',
+              min: 0,
+              max: 100,
+              range: [0, 100],
+            },
+          },
+        },
         display: [
           {
             protocol: 'cog',
@@ -1339,13 +1352,31 @@ export const globalIndicators = [
             id: 'HAUC1',
             sources: [
               { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/IMD_2018_AT_70m_3857.tif' },
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857.tif' },
             ],
             dateFormatFunction: (date) => `${date[1]}`,
             labelFormatFunction: (date) => date[0],
             style: {
+              variables: {
+                varMin: 0,
+                varMax: 100,
+              },
               color: [
                 'case',
-                ['!=', ['band', 2], 0],
+                [
+                  'all',
+                  ['!=', ['band', 4], 0],
+                  ['between',
+                    ['band', 2],
+                    ['var', 'varMin'],
+                    ['var', 'varMax'],
+                    /* assuming a stretch from 0 to 255 but it seems to not be used
+                    ['*', ['var', 'varMin'], 2.55],
+                    ['*', ['var', 'varMax'], 2.55],
+                    */
+                  ],
+                ],
                 [
                   'interpolate',
                   ['linear'],

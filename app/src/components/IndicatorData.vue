@@ -1570,8 +1570,8 @@ export default {
               parentDiv.id = 'regressionresult';
               parentDiv.style.position = 'absolute';
               parentDiv.style.top = '105px';
-              parentDiv.style['margin-left'] = '80px';
-              parentDiv.style['font-size'] = '11px';
+              parentDiv.style['margin-left'] = '60px';
+              parentDiv.style['font-size'] = '12px';
               chart.data.datasets.forEach((val, idx) => {
                 // currently we do not use sections so we assume sections with length 1
                 const { sections } = ChartRegressions.getDataset(chart, idx);
@@ -1579,7 +1579,7 @@ export default {
                   const { result } = sections[0];
                   const divEl = document.createElement('div');
                   divEl.style.color = `${this.appConfig.refColors[idx]}`;
-                  const content = document.createTextNode(`R²: ${result.r2}; ${result.string}`);
+                  const content = document.createTextNode(`R²: ${Number(result.r2).toFixed(3)}`);
                   divEl.appendChild(content);
                   parentDiv.appendChild(divEl);
                 }
