@@ -1342,6 +1342,34 @@ export const globalIndicators = [
               max: 100,
               range: [0, 100],
             },
+            forests: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Forest type coverage',
+              id: 'forests',
+              value: 0,
+            },
+            crops: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Crop type coverage',
+              id: 'crops',
+              value: 0,
+            },
+            grasslands: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Grassland type coverage',
+              id: 'grasslands',
+              value: 0,
+            },
+            settlements: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Settlement type coverage',
+              id: 'settlements',
+              value: 0,
+            },
           },
         },
         display: [
@@ -1360,6 +1388,10 @@ export const globalIndicators = [
               variables: {
                 varMin: 0,
                 varMax: 100,
+                forests: 0,
+                crops: 0,
+                grasslands: 0,
+                settlements: 0,
               },
               color: [
                 'case',
@@ -1374,6 +1406,24 @@ export const globalIndicators = [
                     ['*', ['var', 'varMin'], 2.55],
                     ['*', ['var', 'varMax'], 2.55],
                     */
+                  ],
+                  // if no coverage filter is selected show all data
+                  [
+                    'case',
+                    ['all',
+                      ['==', ['var', 'forests'], 0],
+                      ['==', ['var', 'crops'], 0],
+                      ['==', ['var', 'grasslands'], 0],
+                      ['==', ['var', 'settlements'], 0],
+                    ],
+                    1,
+                    [
+                      'any',
+                      ['all', ['==', ['var', 'forests'], 1], ['between', ['band', 3], 100, 200]],
+                      ['all', ['==', ['var', 'crops'], 1], ['between', ['band', 3], 200, 300]],
+                      ['all', ['==', ['var', 'grasslands'], 1], ['between', ['band', 3], 300, 400]],
+                      ['all', ['==', ['var', 'settlements'], 1], ['between', ['band', 3], 500, 600]],
+                    ],
                   ],
                 ],
                 [
