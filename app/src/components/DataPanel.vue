@@ -246,7 +246,6 @@ import DataMockupView from '@/components/DataMockupView.vue';
 import AddToDashboardButton from '@/components/AddToDashboardButton.vue';
 import WmsStyleControls from '@/components/map/WmsStyleControls.vue';
 import CustomWmsVariables from '@/components/map/CustomWmsVariables.vue';
-import CogOverwriteControls from '@/components/map/CogOverwriteControls.vue';
 import VectorTileStyleControl from '@/components/map/VectorTileStyleControl.vue';
 import VectorStyleControl from '@/components/map/VectorStyleControl.vue';
 import SelectionInfoBar from '@/components/SelectionInfoBar.vue';
@@ -267,7 +266,6 @@ export default {
     FeatureFilters,
     StyleControls,
     WmsStyleControls,
-    CogOverwriteControls,
     VectorTileStyleControl,
     CustomWmsVariables,
     SelectionInfoBar,
@@ -275,7 +273,6 @@ export default {
     SpeciesList,
     AreaStatistics,
     DataMockupView,
-    SelectionInfoBar,
     GTIFProcessingButtons,
     VectorStyleControl,
     FullScreenControl,
