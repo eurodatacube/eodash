@@ -3,7 +3,7 @@ describe('Indicator tests for RACE', () => {
     beforeEach(() => {
       cy.viewport(1920, 1080);
     });
-    let collections;
+    let collections = [];
     before(() => {
       // receive the dynamic list of users
       cy.request('https://eurodatacube.github.io/eodash-catalog/RACE/catalog.json')
@@ -26,7 +26,7 @@ describe('Indicator tests for RACE', () => {
     // Seems we need to know the amount of indicators in order to iterate them, not ideal as this
     // will change through time, test needs to be updated!
     // TODO: look for an alternative (this is based on cypress example)
-    Cypress._.range(0, 43).forEach((k) => {
+    Cypress._.range(0, collections.length).forEach((k) => {
       it(`testing collection # ${k}`, () => {
         // We intercept wms requests and check there are no errors if it is a SH endpoint
         const collection = collections[k];

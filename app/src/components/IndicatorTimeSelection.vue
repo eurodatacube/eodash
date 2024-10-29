@@ -179,7 +179,7 @@ export default {
       return this.compareActive;
     },
     showTimeSlider() {
-      return this.appConfig.id === 'gtif' && !this.indicator.disableTimeSlider;
+      return (this.appConfig.id === 'gtif' && !this.indicator.disableTimeSlider) || this.indicator?.showTimeSlider;
     },
   },
   created() {

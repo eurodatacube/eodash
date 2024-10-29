@@ -7,6 +7,7 @@
         </strong>
       </p>
     </div>
+    <hr>
     <div class="text-center">
       <p v-for="(row, index) in overlayRows" :key="index" class="ma-0">
         {{ row }}

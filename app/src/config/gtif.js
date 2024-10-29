@@ -6,6 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -288,8 +289,6 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
-    { ...overlayLayers.protectionZones },
-    { ...overlayLayers.protectionZonesNatura },
     {
       protocol: 'GeoJSON',
       visible: false,
@@ -545,14 +544,6 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
     baseLayers: solarAndGreenRoofDefaults,
   },
-  HAUC2: {
-    customAreaIndicator: true,
-    baseLayers: solarAndGreenRoofDefaults,
-  },
-  HAUC3: {
-    customAreaIndicator: true,
-    baseLayers: solarAndGreenRoofDefaults,
-  },
   // commented out so that selection is disabled
   // AQ1_1: {
   //   customAreaIndicator: true,
@@ -801,6 +792,10 @@ function createREP1Config(indicatorCode, rasterFileUrl) {
           },
           tooltip: true,
           allowedParameters: ['name'],
+        }, {
+          ...overlayLayers.protectionZones,
+        }, {
+          ...overlayLayers.protectionZonesNatura,
         }],
       },
     },
@@ -874,7 +869,7 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             },
           },
         },
-        display: {
+        display: [{
           dataInfo: 'GlobalHorizontalIrradiation',
           protocol: 'cog',
           id: 'REP2',
@@ -940,7 +935,11 @@ function createREP2Config(indicatorCode, rasterFileUrl, min, max) {
             ],
           },
           name: 'Solar Energy',
-        },
+        }, {
+          ...overlayLayers.protectionZones,
+        }, {
+          ...overlayLayers.protectionZonesNatura,
+        }],
       },
     },
   };
@@ -1449,102 +1448,6 @@ export const globalIndicators = [
       },
     },
   },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'HAUC2',
-        cogOverwrite: {
-          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/03_IPCC_scenarios/{City}/{city}_{scenario}_avg_{year}_heat_index_R10m_3857.tif',
-          sourceLayer: 'HAUC2',
-          selected: 'ihr',
-          queryParameters: [
-            {
-              selected: 'rcp45',
-              label: 'Scenario',
-              id: 'scenario',
-              items: [
-                { id: 'rcp45', label: 'rcp45' },
-                { id: 'rcp85', label: 'rcp85' },
-              ],
-            },
-            {
-              selected: '2025_2034',
-              label: 'Year',
-              id: 'year',
-              items: [
-                { id: '2025_2034', label: '2025 to 2034' },
-                { id: '2035_2044', label: '2035 to 2044' },
-                { id: '2045_2054', label: '2045 to 2054' },
-                { id: '2055_2064', label: '2055 to 2064' },
-                { id: '2065_2074', label: '2065 to 2074' },
-                { id: '2075_2084', label: '2075 to 2084' },
-                { id: '2085_2094', label: '2085 to 2094' },
-              ],
-            },
-          ],
-        },
-        display: [{
-          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC2_ipcc_scenarios_cities/cm_legend.png',
-          dataInfo: 'HeatAdapt_LST',
-          protocol: 'cog',
-          id: 'HAUC2',
-          sources: [],
-          style: {
-            color: [
-              'interpolate',
-              ['linear'],
-              ['band', 1],
-              ...getColorStops(heatadaptCM, 0, 20, 32, false),
-            ],
-          },
-          name: 'IPCC Scenarios',
-        }],
-      },
-    },
-  },
-  {
-    properties: {
-      indicatorObject: {
-        indicator: 'HAUC3',
-        cogOverwrite: {
-          templateUrl: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/04_sealing_impact/{City}/{city}_composite_median_modified_IMD_p={median}_3857.tif',
-          sourceLayer: 'HAUC3',
-          queryParameters: [
-            {
-              selected: '0.8',
-              label: 'Median modified IMD',
-              id: 'median',
-              items: [
-                { id: '0.8', label: '0.8' },
-                { id: '1.0', label: '1.0' },
-                { id: '1.2', label: '1.2' },
-                { id: '1.4', label: '1.4' },
-                { id: '1.6', label: '1.6' },
-                { id: '1.8', label: '1.8' },
-                { id: '2.0', label: '2.0' },
-              ],
-            },
-          ],
-        },
-        display: [{
-          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC3_sealing_impact/cm_legend.png',
-          dataInfo: 'HeatAdapt_LST',
-          protocol: 'cog',
-          id: 'HAUC3',
-          sources: [],
-          style: {
-            color: [
-              'interpolate',
-              ['linear'],
-              ['band', 1],
-              ...getColorStops(heatadaptCM, 23, 35, 32, false),
-            ],
-          },
-          name: 'IPCC Scenarios',
-        }],
-      },
-    },
-  },
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif'),
@@ -1640,7 +1543,7 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E12c_truck_detections_motorways/E12c_legend.png',
           areaIndicator: trucksAreaIndicator(true),
           features: trucksFeatures,
           style: {
@@ -1672,7 +1575,7 @@ export const globalIndicators = [
           layers: 'SENTINEL-2-L2A-TRUE-COLOR',
           name: 'Daily Sentinel 2 L2A',
           minZoom: 7,
-          legendUrl: 'legends/esa/AWS_E12C_NEW_MOTORWAY.png',
+          legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/E12c_truck_detections_motorways/E12c_legend.png',
           areaIndicator: trucksAreaIndicator(true),
           features: trucksFeatures,
           style: {
@@ -2124,41 +2027,143 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM2',
-        display: {
-          protocol: 'cog',
-          id: 'FCM2',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['==', ['band', 1], 1],
-              ['color', 255, 255, 0],
-              ['==', ['band', 1], 2],
-              ['color', 255, 85, 255],
-              ['==', ['band', 1], 3],
-              ['color', 255, 0, 0],
-              ['==', ['band', 1], 4],
-              ['color', 173, 173, 173],
-              ['==', ['band', 1], 5],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 6],
-              ['color', 0, 85, 255],
-              ['==', ['band', 1], 7],
-              ['color', 67, 67, 67],
-              [
-                'case',
-                ['==', ['band', 2], 1],
-                ['color', 147, 220, 0],
-                ['==', ['band', 2], 2],
-                ['color', 0, 107, 0],
-                ['color', 0, 0, 0, 0],
-              ],
-            ],
+        featureFilters: {
+          sourceLayer: 'sawmill_features',
+          hint: ' Select sawmill capabilities',
+          baseStyle: {
+            'circle-radius': 5,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ee903d',
+            'circle-fill-color': '#00324755',
           },
-          name: 'Forest disturbance type',
+          filters: [
+            { id: 'al', description: 'other glued wood products (dou or trilam)', category: 'Glued wood products' },
+            { id: 'bsh', description: 'laminated wood', category: 'Glued wood products' },
+            { id: 'bu', description: 'production of beech', category: 'Hardwood' },
+            { id: 'ei', description: 'production of oak ', category: 'Hardwood' },
+            { id: 's', description: 'other', category: 'Hardwood' },
+            { id: 'b', description: 'log band saw', category: 'Machinery ' },
+            { id: 'g', description: 'frame saw ', category: 'Machinery ' },
+            { id: 'i', description: 'impregnation ', category: 'Machinery ' },
+            { id: 'l', description: 'laminating line', category: 'Machinery ' },
+            { id: 'k', description: 'finger jointing', category: 'Machinery ' },
+            { id: 'n', description: 'double cutting circular saw', category: 'Machinery ' },
+            { id: 'p', description: 'profiler', category: 'Machinery ' },
+            { id: 't', description: 'drying chamber', category: 'Machinery ' },
+            { id: 'tb', description: 'band re-saw', category: 'Machinery ' },
+            { id: 'hw', description: 'produces planed goods', category: 'Planed goods' },
+            { id: 'veh', description: 'ordinary member of the Association of the European Planing Mill Industry', category: 'Planed goods' },
+            { id: 'fi_ta', description: 'production of spruce/fir', category: 'Softwood' },
+            { id: 'la', description: 'production of larch', category: 'Softwood' },
+            { id: 'ki', description: 'production of pine', category: 'Softwood' },
+            { id: 'mh', description: 'CE certified sawmills which manufacture high-quality construction solid timber without gluing and finger joint ', category: 'Solid wood' },
+            { id: 'ls', description: 'this sawmill also takes subcontracting orders ', category: 'Subcontracting' },
+          ],
         },
+        display: [
+          {
+            id: 'truck_roads',
+            legendUrl: '',
+            baseUrl: 'https://xcube-geodb.brockmann-consult.de/geoserver/geodb_debd884d-92f9-4979-87b6-eadef1139394/wms?',
+            layers: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_beetle4tech_roads_austria_3857',
+            attribution: '{}',
+            // sld: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/styles/green_rooftops_v3.sld',
+            protocol: 'WMS',
+            exceptions: 'application/vnd.ogc.se_inimage',
+            name: 'Truck appropiate roads',
+          },
+          {
+            protocol: 'GeoJSON',
+            projection: 'EPSG:4326',
+            url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/Carbon_accounting/biomass_powerplants.geojson',
+            name: 'Biomass power plants',
+            legendUrl: '',
+            flatStyle: [
+              {
+                style: {
+                  'circle-radius': 5,
+                  'circle-stroke-width': 2,
+                  'circle-stroke-color': '#c396fe',
+                  'circle-fill-color': '#c396fe55',
+                },
+              },
+            ],
+            id: 'biomass_power_plants',
+            tooltip: true,
+            allowedParameters: ['0'],
+            visible: true,
+            selection: {
+              mode: 'single',
+            },
+          },
+          {
+            id: 'sawmill_features',
+            legendUrl: '',
+            flatStyle: [
+              {
+                /*
+                filter: [
+                  'all',
+                  ['==', ['get', 'al'], 1],
+                  ['==', ['get', 'b'], 1],
+                ],
+                */
+                style: {
+                  'circle-radius': 5,
+                  'circle-stroke-width': 2,
+                  'circle-stroke-color': '#ee903d',
+                  'circle-fill-color': '#ee903d55',
+                },
+              },
+            ],
+            layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_sawmills_v1',
+            protocol: 'geoserverTileLayer',
+            name: 'Sawmills',
+            visible: true,
+            selection: {
+              mode: 'single',
+            },
+            tooltip: true,
+            allowedParameters: ['name'],
+          },
+          {
+            dataInfo: 'FCM2',
+            protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/FCM2_Forest_disturbance_type/FCM_dist_type.png',
+            id: 'FCM2',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/JR/A_FCMT_AnualForestChangeType_epsg3857.tif' },
+            ],
+            style: {
+              color: [
+                'case',
+                ['==', ['band', 1], 1],
+                ['color', 255, 255, 0],
+                ['==', ['band', 1], 2],
+                ['color', 255, 85, 255],
+                ['==', ['band', 1], 3],
+                ['color', 255, 0, 0],
+                ['==', ['band', 1], 4],
+                ['color', 173, 173, 173],
+                ['==', ['band', 1], 5],
+                ['color', 0, 85, 255],
+                ['==', ['band', 1], 6],
+                ['color', 0, 85, 255],
+                ['==', ['band', 1], 7],
+                ['color', 67, 67, 67],
+                [
+                  'case',
+                  ['==', ['band', 2], 1],
+                  ['color', 147, 220, 0],
+                  ['==', ['band', 2], 2],
+                  ['color', 0, 107, 0],
+                  ['color', 0, 0, 0, 0],
+                ],
+              ],
+            },
+            name: 'Forest disturbance type',
+          },
+        ],
       },
     },
   },
@@ -2166,23 +2171,88 @@ export const globalIndicators = [
     properties: {
       indicatorObject: {
         indicator: 'FCM3',
-        display: {
-          protocol: 'cog',
-          id: 'FCM3',
-          sources: [
-            { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
-          ],
-          style: {
-            color: [
-              'case',
-              ['==', ['band', 1], 1],
-              ['color', 147, 220, 0],
-              ['==', ['band', 1], 2],
-              ['color', 0, 107, 0],
-              ['color', 0, 0, 0, 0],
-            ],
+        featureFilters: {
+          sourceLayer: 'sawmill_features',
+          hint: ' Select sawmill capabilities',
+          baseStyle: {
+            'circle-radius': 5,
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ee903d',
+            'circle-fill-color': '#00324755',
           },
+          filters: [
+            { id: 'al', description: 'other glued wood products (dou or trilam)', category: 'Glued wood products' },
+            { id: 'bsh', description: 'laminated wood', category: 'Glued wood products' },
+            { id: 'bu', description: 'production of beech', category: 'Hardwood' },
+            { id: 'ei', description: 'production of oak ', category: 'Hardwood' },
+            { id: 's', description: 'other', category: 'Hardwood' },
+            { id: 'b', description: 'log band saw', category: 'Machinery ' },
+            { id: 'g', description: 'frame saw ', category: 'Machinery ' },
+            { id: 'i', description: 'impregnation ', category: 'Machinery ' },
+            { id: 'l', description: 'laminating line', category: 'Machinery ' },
+            { id: 'k', description: 'finger jointing', category: 'Machinery ' },
+            { id: 'n', description: 'double cutting circular saw', category: 'Machinery ' },
+            { id: 'p', description: 'profiler', category: 'Machinery ' },
+            { id: 't', description: 'drying chamber', category: 'Machinery ' },
+            { id: 'tb', description: 'band re-saw', category: 'Machinery ' },
+            { id: 'hw', description: 'produces planed goods', category: 'Planed goods' },
+            { id: 'veh', description: 'ordinary member of the Association of the European Planing Mill Industry', category: 'Planed goods' },
+            { id: 'fi_ta', description: 'production of spruce/fir', category: 'Softwood' },
+            { id: 'la', description: 'production of larch', category: 'Softwood' },
+            { id: 'ki', description: 'production of pine', category: 'Softwood' },
+            { id: 'mh', description: 'CE certified sawmills which manufacture high-quality construction solid timber without gluing and finger joint ', category: 'Solid wood' },
+            { id: 'ls', description: 'this sawmill also takes subcontracting orders ', category: 'Subcontracting' },
+          ],
         },
+        display: [
+          {
+            protocol: 'cog',
+            id: 'FCM3',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/FCM/v2/A_FM_AustriaForestMask-2022-09-01_epsg3857-v2.tif' },
+            ],
+            style: {
+              color: [
+                'case',
+                ['==', ['band', 1], 1],
+                ['color', 147, 220, 0],
+                ['==', ['band', 1], 2],
+                ['color', 0, 107, 0],
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+          {
+            id: 'sawmill_features',
+            legendUrl: '',
+            flatStyle: [
+              {
+                /*
+                filter: [
+                  'all',
+                  ['==', ['get', 'al'], 1],
+                  ['==', ['get', 'b'], 1],
+                ],
+                */
+                style: {
+                  'circle-radius': 5,
+                  'circle-stroke-width': 2,
+                  'circle-stroke-color': '#ee903d',
+                  'circle-fill-color': '#ee903d55',
+                },
+              },
+            ],
+            layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_sawmills_v1',
+            protocol: 'geoserverTileLayer',
+            name: 'Sawmills',
+            visible: true,
+            selection: {
+              mode: 'single',
+            },
+            tooltip: true,
+            allowedParameters: ['name'],
+          },
+        ],
       },
     },
   },
@@ -2563,4 +2633,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND1_1']),
 ];

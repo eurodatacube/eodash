@@ -147,7 +147,7 @@
             </div>
             <template v-if="officialDashboard">
               <p v-html="dashboardSubTitle" class="white--text"></p>
-              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+              <img class="header__logo" :src="selectLogo" />
             </template>
             <template v-else>
               <p v-if="newDashboard || hasEditingPrivilege">
@@ -430,7 +430,7 @@
       :color="$vuetify.theme.dark ? '#212121' : '#fff'"
     ></v-overlay>
     <global-footer
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      :color="getCurrentTheme && appConfig.id !== 'esa' ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>
@@ -553,6 +553,13 @@ export default {
     ...mapGetters('themes', [
       'getCurrentTheme',
     ]),
+    selectLogo() {
+      let logoUrl = this.appConfig && this.appConfig.branding.headerLogo;
+      if (this.logoAlternative) {
+        logoUrl = this.logoAlternative;
+      }
+      return logoUrl;
+    },
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
         && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo
@@ -605,6 +612,7 @@ export default {
         this.dashboardSubTitle = existingConfiguration.subtitle;
         this.dashboardHeaderImage = existingConfiguration.image;
         this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
+        this.logoAlternative = existingConfiguration.logoAlternative;
         if (existingConfiguration.storyMarkdown) {
           this.storytellingMarkdownUrl = existingConfiguration.storyMarkdown;
         } else {

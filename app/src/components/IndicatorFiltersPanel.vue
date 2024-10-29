@@ -153,20 +153,20 @@ export default {
             titleProperty: 'name',
             filterProperties: [
               {
-                keys: ['name', 'description'],
+                keys: ['name', 'description', 'themes'],
                 title: 'Search',
                 type: 'text',
                 expanded: true,
                 featured: true,
               },
-              /*
+              { key: 'themes', title: 'Theme', ...themesPresetState },
               { key: 'tags', title: 'Tag' },
               { key: 'satellite', title: 'Satellite' },
-              { key: 'sensor', title: 'Sensor' },
+              { key: 'sensor', title: 'Satellite sensor' },
+              // { key: 'insituSources', title: 'In situ sources' },
+              // { key: 'otherSources', title: 'Other sources' },
               { key: 'countries', title: 'Country' },
-              { key: 'cities', title: 'City' },
-              { key: 'themes', title: 'Theme', ...themesPresetState },
-              */
+              { key: 'cities', title: 'City/Location' },
             ],
             aggregateResults: 'themes',
             autoSpreadSingle: false,
@@ -367,11 +367,11 @@ export default {
         const match = this.indicators.find((indicator) => item.link === indicator.link);
         this.setSelectedIndicator(match);
 
-        const uiPanels = this.$parent.$parent.$parent.$parent.$children;
-        // programatically open Layer Panel it exists and not open yet
-        if (!uiPanels[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
-          uiPanels[1].$refs.header.$emit('click', {
-            currentTarget: uiPanels[1].$refs.header.$el,
+        const uiPanelsLeft = this.$parent.$parent.$parent.$parent.$children;
+        // programatically open Layer Panel if exists and not open yet
+        if (!uiPanelsLeft[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanelsLeft[1].$refs.header.$emit('click', {
+            currentTarget: uiPanelsLeft[1].$refs.header.$el,
           });
         }
       }
