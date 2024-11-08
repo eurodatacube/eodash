@@ -113,7 +113,7 @@
         v-for="(item, index) in additionalGTIFDataInfos"
             :key="item.dataInfo">
         <v-expansion-panel-header>
-          {{item.name || item.label}}
+          {{item.name || item.metadataLabel || item.label}}
           <template v-slot:actions>
             <v-icon>
               mdi-information-outline
