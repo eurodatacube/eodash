@@ -541,6 +541,10 @@ export const indicatorsDefinition = Object.freeze({
     customAreaIndicator: true,
   },
   HAUC1: {
+    // customAreaIndicator: true,
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC2: {
     customAreaIndicator: true,
     baseLayers: solarAndGreenRoofDefaults,
   },
@@ -1460,29 +1464,32 @@ export const globalIndicators = [
             style: {
               color: [
                 'case',
-                ['==', ['band', 4], 255],
+                ['>', ['band', 1], 0],
                 [
-                  'match',
+                  'interpolate',
+                  ['linear'],
                   ['band', 1],
-                  0,
-                  ['color', 0, 0, 0, 1],
-                  [
-                    'interpolate',
-                    ['linear'],
-                    ['band', 1],
-                    ...getColorStops(heatadaptImperviousness, 1, 254, 32),
-                  ],
+                  ...getColorStops(heatadaptImperviousness, 1, 100, 32),
                 ],
-                // out of bounds color
                 ['color', 0, 0, 0, 0],
               ],
             },
           },
+        ],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC2',
+        time: [],
+        display: [
           {
             layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
             protocol: 'geoserverTileLayer',
             style: {
-              strokeColor: 'rgba(50,50,50,0.4)',
+              strokeColor: 'rgba(50,50,50,1)',
               color: 'rgba(0,0,0,0)',
               strokeWidth: 0.5,
             },

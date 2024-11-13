@@ -147,7 +147,7 @@ export default {
     show() {
       return this.selectedFeatures?.length && this.indicatorObject
       && ['SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7',
-        'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'HAUC1',
+        'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'HAUC2',
       ].includes(this.indicatorObject.indicator);
       // for now we set manually where we want the mockup to appear
     },
@@ -379,7 +379,7 @@ export default {
                 });
             });
         }
-        if (['HAUC1'].includes(this.indicatorObject.indicator)) {
+        if (['HAUC2'].includes(this.indicatorObject.indicator)) {
           const adminIds = [];
           features.forEach((ftr) => {
             adminIds.push(ftr.getId());

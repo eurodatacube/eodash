@@ -144,7 +144,7 @@ export default {
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
-        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'HAUC1',
+        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'HAUC2',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -1309,7 +1309,7 @@ export default {
               pointRadius: 2,
             });
           });
-        } else if (['HAUC1'].includes(indicatorCode)) {
+        } else if (['HAUC2'].includes(indicatorCode)) {
           // Rendering for fetched data for rooftops
           featureData.fetchedData.forEach((valArray, ind) => {
             // for each gemeinde group into a dataset
@@ -1559,7 +1559,7 @@ export default {
       // just one default yAxis
       customSettings.yAxis = [this.indicatorObject.yAxis];
 
-      if (['HAUC1'].includes(indicatorCode)) {
+      if (['HAUC2'].includes(indicatorCode)) {
         customSettings.plugins = {
           regressions: {
             onCompleteCalculation: (chart) => {
