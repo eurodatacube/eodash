@@ -61,7 +61,6 @@ From the animation below, VIIRS detected numerous fire spots in an area located 
 <span style="font-size:15px;">Location of fires detected by Visible Infrared Imaging Radiometer Suite, or VIIRS during the month of October and November 2023 in the IGP</span>
 </center>
 
-Explore [MODIS active fire data on EO Dashboard over the IGP]( https://www.eodashboard.org/explore?indicator=Modis_SNPP_2023&x=8415682.56522&y=3510441.28382&z=4.93607).
 
 Indeed, local farmers have been known to burn agricultural waste at this time of year, as an economical and quicker way of getting rid of waste and thus preparing for the next crop [Sembhi et al. 2020]. 
 However, the VIIRS Active Fires data has some limitations: it only gives us a hint on the fire location and not their lifetime and their size (i.e., a small temporary fire is counted in the same way as a large fire lasting over time). Moreover, because of VIIRS’ optical properties, fires can be missed in the presence of clouds or smoke. 
