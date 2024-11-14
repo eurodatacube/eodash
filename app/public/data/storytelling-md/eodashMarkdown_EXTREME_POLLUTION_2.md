@@ -90,10 +90,10 @@ We can also observe that the number of days with extreme CO pollution was nearly
 
 <span style="font-size:15px;">The table indicates the number of days which can be considered as extremes (for 90%, 95%, and 99%). We notice that these number of days are almost the same for the 3 cities, indicating a potential correlation between the extreme pollution events in the 3 cities. Note that the total number of days in 2023 is not 365 since for some days we do not have measurements because of clouds or other factors.</span>
 
-##  Evolution of daily CO concentrations in Lahore, 2023<!--{ as="eox-map" mode="tour" }-->
+##  Daily CO concentrations  <!--{ as="eox-map" mode="tour" }-->
 
 ###  <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-08"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-08"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.879889469918195" center=[74.28590944565705,31.547289411942756] animationOptions={duration:500}}-->
-#### Lahore 
+#### Evolution of daily CO concentrations in Lahore, 2023 
 * **Map**: Daily timeseries of CO concentration in Lahore in 2023  [[view full time series](https://www.eodashboard.org/explore?indicator=N1_CO&x=0&y=-1224599.44035&z=2.35425)]
 * **Chart**: Daily timeseries of CO concentration in Lahore in 2023 
 
