@@ -78,6 +78,7 @@ The time series shows weekly CHL concentration offshore the **Elbe Estuary, at t
 * **Green dots** show weekly values lower than the climatological mean (in black), indicating good water quality.
 * 	**Blue dots** show weekly values greater than the climatological mean but still inside the climatological variability, indicating regular water quality.
 * **Red dots** stand for values beyond the climatological variability, indicating poorer water quality.
+<iframe class="item" src="https://race.esa.int/iframe?poi=DE29-N3" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
 
 
 
@@ -92,35 +93,4 @@ The time series shows weekly SST offshore the **Elbe Estuary, at the Helgoland m
 * 	**Blue dots** show weekly values greater than the climatological mean but still inside the climatological variability, indicating regular sea water temperature.
 * **Red dots** stand for values beyond the climatological variability, indicating warm sea water.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<iframe class="item" src="https://race.esa.int/iframe?poi=DE29-N3" width="800px" height="500px" frameBorder="0" scroll="no" style="overflow:hidden"></iframe>
