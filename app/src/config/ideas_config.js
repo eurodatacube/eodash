@@ -704,6 +704,7 @@ const IDEASConfigs = [
     properties: {
       indicatorObject: {
         indicator: 'IND1_1_minesweeper',
+        time: [''],
         display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells
