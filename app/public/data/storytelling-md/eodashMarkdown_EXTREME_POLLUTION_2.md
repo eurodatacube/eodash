@@ -76,6 +76,18 @@ However, the VIIRS Active Fires data has some limitations: it only gives us a hi
 
 * **Horizontal wind speed and direction at 100m from ERA5 reanalysis, provided by the Copernicus Climate Change Service (C3S)**. Analyzing surface winds is essential for understanding CO transport during the pollution episode. For this study, daily averages of the horizontal winds were calculated in the Pakistan timezone (UTC+05).
 
+  <center>
+<video width="50%" autoplay>
+  <source src="https://github.com/eurodatacube/eodash-assets/blob/reviewing_stories_ScienceHubChallenge/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/winds.mp4" type="video/mp4">
+</video>
+
+<span style="font-size:15px;">Evolution of horizontal winds at 100m from mid-October to mid-November 2023 </span>
+</center>
+
+
+
+
+
 ## <!--{as="eox-map" style="width: 100%; height: 500px;" layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"wind_100m_u_newDeli-2023-11-10"},"opacity":0.77,"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"VIS_ERA5_SINGLELEVEL_WIND_U_100M_GLOBAL","styles":"","format":"image/png","time":"2023-11-10"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="6.509882184402946" center=[76.9845663060298,28.234047216613092] }-->
 ## <!--{as="eox-stacinfo" for="https://eurodatacube.github.io/eodash-catalog/trilateral/wind_100m_u_newDeli/collection.json" featured='["description","providers","assets","links"]'  properties='["satellite","sensor","agency","extent"]' header='["title"]' tags='["tags"]' footer='["sci:citation"]' }-->
 
