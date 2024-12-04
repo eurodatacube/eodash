@@ -86,11 +86,6 @@ However, the VIIRS Active Fires data has some limitations: it only gives us a hi
 
 
 
-
-
-## <!--{as="eox-map" style="width: 100%; height: 500px;" layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"wind_100m_u_newDeli-2023-11-10"},"opacity":0.77,"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"VIS_ERA5_SINGLELEVEL_WIND_U_100M_GLOBAL","styles":"","format":"image/png","time":"2023-11-10"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="6.509882184402946" center=[76.9845663060298,28.234047216613092] }-->
-## <!--{as="eox-stacinfo" for="https://eurodatacube.github.io/eodash-catalog/trilateral/wind_100m_u_newDeli/collection.json" featured='["description","providers","assets","links"]'  properties='["satellite","sensor","agency","extent"]' header='["title"]' tags='["tags"]' footer='["sci:citation"]' }-->
-
 In this animation, we can see that winds are weak during this period. We note a change in wind direction which occurred around October 30: winds shifted from south-easterly to westerly. Later, the winds shifted back to south-easterly (around November 4th). 
 ##
 For each city a rectangle of -0.4 to 0.4° of longitude and -0.4 to 0.4° latitude was generated (from the given coordinates of the chosen city in latitude and longitude) which corresponds to -39.8 to 39.8km in longitude and to -44.5 to 44.5km in latitude. Then the computed time series of each day is the average value of all CO concentration values measured by TROPOMI within that rectangle (with a resolution of 0.025°). The percentile method is a strategy utilized to recognize outliers or extreme values based upon a defined percent limit. It involves calculating the threshold values based on percentiles and the steps are to first determine the percentage threshold (in this case 90%, 95%, and 99%), then calculate the threshold values, and then identify outliers and extreme values above this threshold.
