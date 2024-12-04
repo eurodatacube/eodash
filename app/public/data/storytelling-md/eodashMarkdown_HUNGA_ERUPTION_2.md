@@ -50,11 +50,11 @@ This map shows the Hunga Tonga - Hunga Ha'apai island before the eruption observ
 This map shows the Hunga Tonga - Hunga Ha'apai island after the eruption observed by the Copernicus Sentinel-2 on 27 January 2022. 
 
 ### 
-In the context of this disaster, [Advanced Land Observing Satellite-2 “DAICHI-2” (ALOS-2)]( https://global.jaxa.jp/projects/sat/alos2/) PALSAR-2 synthetic aperture radar provided emergency observations due to its capability of imaging under clouds and plumes. The images below made available on the [Sentinel-Asia website](https://sentinel-asia.org/EO/2022/article20220115TO.html) show the main island of Tonga before (2020/03/07) and after (2022/01/22) the eruption observed by JAXA’s ALOS-2 PALSAR-2. 
+In the context of this disaster, [Advanced Land Observing Satellite-2 “DAICHI-2” (ALOS-2)]( https://global.jaxa.jp/projects/sat/alos2/) PALSAR-2 synthetic aperture radar provided emergency observations due to its capability of imaging under clouds and plumes. The images below made available on the [Sentinel-Asia website](https://sentinel-asia.org/EO/2022/article20220115TO.html) show the main island of Tonga before (2020/04/07) and after (2022/01/27) the eruption observed by JAXA’s ALOS-2 PALSAR-2. 
 
-<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2312694050-200307-FBDR2.1GUD_sml.jpg">
+<img src="https://www.gsi.go.jp/common/000237467.png">
 
-<img src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/IMG-HH-ALOS2414124050-220122-FBDR2.1GUD_sml.jpg">
+<img src="https://www.gsi.go.jp/common/000237469.png">
 
 
 ## Data and Methods
