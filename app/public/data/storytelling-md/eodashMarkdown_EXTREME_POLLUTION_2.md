@@ -46,6 +46,14 @@ The percentile method is a technique used to identify outliers or extreme values
 
 After identifying the days of extreme CO pollution, the study team selected a pollution event that occurred at the very end of October 2023 and evolved during November.  
 
+<center>
+<video width="50%" autoplay>
+  <source src="https://github.com/eurodatacube/eodash-assets/blob/reviewing_stories_ScienceHubChallenge/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/vid%C3%A9os%20ESA%20CO%20bis.mp4" type="video/mp4">
+</video>
+
+<span style="font-size:15px;">CO data on EO Dashboard</span>
+</center>
+
 
 They tried to understand the formation of this extreme air pollution episode and to analyze its evolution over time. Several datasets were used for this study, such as :
 * **Active Fires from Visible Infrared Imaging Radiometer Suite (VIIRS)**, embarked on NASA’s Suomi-NPP satellite. One of VIIRS's main missions is to monitor fires from space. Indeed, With its spatial resolution of 375m and swath width of ~3000 km, VIIRS can detect small fires worldwide. Suomi-NPP passes twice a day at 01:30 a.m. (nighttime) and 01:30 p.m. (daytime). Daytime and nighttime VIIRS data were used here to locate the fires near in the IGP region, from October to November 2023.  
