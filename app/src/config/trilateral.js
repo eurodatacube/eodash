@@ -909,7 +909,7 @@ export const globalIndicators = [
       indicatorObject: {
         indicator: 'SLSTR1',
         display: {
-          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ hour: 0, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}/${DateTime.fromISO(date).set({ hour: 23, minute: 59, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}`
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ hour: 0, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}/${DateTime.fromISO(date).set({ hour: 23, minute: 59, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}`,
         },
       },
     },

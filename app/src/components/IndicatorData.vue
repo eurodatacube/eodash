@@ -144,7 +144,7 @@ export default {
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
-        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
+        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'HAUC2',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -1309,6 +1309,35 @@ export default {
               pointRadius: 2,
             });
           });
+        } else if (['HAUC2'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          featureData.fetchedData.forEach((valArray, ind) => {
+            // for each gemeinde group into a dataset
+            const x = [];
+            const y = [];
+            const clrs = [];
+            valArray.forEach((value, idx) => {
+              x.push(idx);
+              y.push(value);
+              clrs.push(refColors[ind]);
+            });
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j] }
+            ));
+            datasets.push({
+              fill: false,
+              data,
+              backgroundColor: clrs,
+              borderColor: clrs,
+              borderWidth: 1,
+              pointRadius: 2,
+              regressions: {
+                type: 'polynomial',
+                line: { color: refColors[ind], width: 2 },
+                calculation: { precision: 6, order: 3 },
+              },
+            });
+          });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
           const data = featureData.referenceValue.map((x, i) => (
@@ -1530,6 +1559,41 @@ export default {
       // just one default yAxis
       customSettings.yAxis = [this.indicatorObject.yAxis];
 
+      if (['HAUC2'].includes(indicatorCode)) {
+        customSettings.plugins = {
+          regressions: {
+            onCompleteCalculation: (chart) => {
+              // remove potential previous div
+              const preEl = document.getElementById('regressionresult');
+              if (preEl) {
+                preEl.remove();
+              }
+              const parentDiv = document.createElement('div');
+              parentDiv.id = 'regressionresult';
+              parentDiv.style.position = 'absolute';
+              parentDiv.style.top = '105px';
+              parentDiv.style['margin-left'] = '60px';
+              parentDiv.style['font-size'] = '12px';
+              chart.data.datasets.forEach((val, idx) => {
+                // currently we do not use sections so we assume sections with length 1
+                const { sections } = ChartRegressions.getDataset(chart, idx);
+                if (sections && sections.length > 0) {
+                  const { result } = sections[0];
+                  const divEl = document.createElement('div');
+                  divEl.style.color = `${this.appConfig.refColors[idx]}`;
+                  const content = document.createTextNode(`R²: ${Number(result.r2).toFixed(3)}`);
+                  divEl.appendChild(content);
+                  parentDiv.appendChild(divEl);
+                }
+              });
+              chart.canvas.parentElement.parentElement.appendChild(parentDiv);
+            },
+          },
+          datalabels: {
+            display: false,
+          },
+        };
+      }
       if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,
