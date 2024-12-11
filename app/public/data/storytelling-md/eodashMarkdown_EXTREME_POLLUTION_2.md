@@ -81,6 +81,8 @@ However, the VIIRS Active Fires data has some limitations: it only gives us a hi
   <source src="https://github.com/eurodatacube/eodash-assets/blob/reviewing_stories_ScienceHubChallenge/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/winds.mp4" type="video/mp4">
 </video>
 
+
+
 <span style="font-size:15px;">Evolution of horizontal winds at 100m from mid-October to mid-November 2023 </span>
 </center>
 
