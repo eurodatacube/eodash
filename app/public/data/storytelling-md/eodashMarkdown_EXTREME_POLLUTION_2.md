@@ -48,7 +48,7 @@ After identifying the days of extreme CO pollution, the study team selected a po
 
 <center>
 <video width="50%" autoplay>
-  <source src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/vidéos ESA CO bis.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/vid%C3%A9os%20ESA%20CO%20bis.mp4" type="video/mp4">
 </video>
 
 stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/vidéos ESA CO bis.mp4
@@ -80,7 +80,7 @@ However, the VIIRS Active Fires data has some limitations: it only gives us a hi
 
   <center>
 <video width="50%" autoplay>
-  <source src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/winds.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/winds.mp4" type="video/mp4">
 </video>
 
 <span style="font-size:15px;">Evolution of horizontal winds at 100m from mid-October to mid-November 2023 </span>
