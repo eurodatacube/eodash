@@ -1,7 +1,25 @@
 
-## IDEAS: Indicator Development For Economy And Society
-The **IDEAS (Indicator Development For Economy And Society)** project aimed to leverage cross-cutting technologies to create innovative, interdisciplinary indicators using Earth Observation (EO) and geospatial data. These indicators provide new insights into complex societal challenges by utilizing cloud-based EO platforms, accessible datasets, computational resources, and advanced analytical tools. The objectives were to develop **novel indicators** at a **European leve**l for integration into various [ESA](www.esa.int)-supported platforms.
-Utilization of Technology: Enhance the value and innovation of these indicators by linking EO data with socio-economic processes not directly observable through EO.
+# IDEAS: Indicator Development For Economy And Society
+
+The integration of **IDEAS (Indicator Development For Economy And Society)**  indicators into [race.esa.int](race.esa.int) represents a significant step forward in leveraging Earth Observation (EO) and geospatial data to address pressing societal and environmental challenges.
+
+## About RACE
+The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA-led initiative developed in collaboration with the European Commission. The platform is a cornerstone for delivering actionable insights on environmental, social, and economic transformations, aligned with Europe’s policy priorities, including the European Green Deal. RACE connects advanced EO technology with real-world needs, helping policymakers, researchers, and stakeholders drive sustainable change.
+
+<center>
+  <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
+    <img 
+      src="https://race.esa.int/eodash-data/general/RACE_KV_2022.jpg" 
+      style="width: 50%" 
+      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+    <figcaption>
+      Visit race.esa.int
+    </figcaption>
+  </a>
+</center>
+
+## IDEAS contribution to RACE
+The **IDEAS (Indicator Development For Economy And Society)** project aimed to leverage cross-cutting technologies to create innovative, interdisciplinary indicators using Earth Observation (EO) and geospatial data. These indicators provide new insights into complex societal challenges by utilizing cloud-based EO platforms, accessible datasets, computational resources, and advanced analytical tools. The objectives were to develop **novel indicators** at a **European level** for integration into various [ESA](www.esa.int)-supported platforms, by linking Earth observation  data with socio-economic processes not directly observable through EO.
 
 The project focused initially on developing, assessing, and validating the indicators. This involved selecting appropriate methodologies, preparing relevant data, and collaborating with stakeholders to ensure practical relevance. The indicators addressed key societal challenges such as **Climate Crisis & Adaptation**, the **Green Transition and the European Green Deal** and  **Emerging Energy Crisis**.
 
@@ -14,9 +32,10 @@ As a result, these were some of the developed indicators:
 
 Let's have a look on the first three indicators.These indicators provide tools for understanding and mitigating critical societal and environmental challenges by bridging EO data with actionable socio-economic insights.
 
-## Map Tour Example <!--{ as="eox-map" mode="tour" }-->
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="4.556091442062867" center=[11.808883076498274,50.12749237675618] animationOptions={duration:500}}-->
+## Explore the indicators <!--{ as="eox-map" mode="tour" }-->
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.984356920487715" center=[9.000000000000002,54.435990398043515] animationOptions={duration:500}}-->
 #### Health-Oriented Urban Heat and Pollution Index
 Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator]((https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND1_1&x=2215010.89618&y=7560686.82923&z=3.46398)) is produced by combining four inputs:
 * Air pollution
@@ -52,7 +71,6 @@ This indicator is a combination of satellite and field data. For satellite data,
 </center>
 
 
-
 For field data, the [French National Database of Buildings](https://www.spaceclimateobservatory.org/sat4bdnb) is used. It gather information about thousands of building in France. It includes the energy efficiency report, which provides information on the quality of insulation in homes, and economic statistics such as the price per m², which is used as an indicator to classify areas into rich and poor categories.
 For data interpretation, the values range from 1 to 6, with 6 representing the highest-risk areas, characterized by poor insulation or LST and a vulnerable population (elderly and economically disadvantaged). 
 
@@ -78,4 +96,28 @@ For this indicator, there is a dedicated 'Minesweeper' mode where insights into 
 OpenLayers under the hood.
 Try out this game on [race.esa.int🌱💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
 
+
+## Gamification of Indicators: Discovering Insights Through Play
+One of the most original and engaging features of the IDEAS indicators is their integration with a classic Minesweeper-inspired game mode. This gamification approach merges old-school gameplay with the power of Earth Observation (EO) to provide meaningful insights into critical societal topics, such as air pollution, health, wildlife, and biodiversity.
+
+#### How It Works
+In this Minesweeper mode, users interactively explore hexagonal fields on a map. The goal is to uncover fields and reveal valuable data while avoiding “mine” fields that symbolize areas with potential environmental risks or challenges. Each successful step reveals insights tied to the chosen indicator—whether it’s air quality, health impacts, or biodiversity.
+<center>
+  <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
+    <img 
+      src="https://github.com/eurodatacube/eodash/blob/app/public/data/storytelling-md/race_indicator_view.png" 
+      style="width: 50%" 
+      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+    <figcaption>
+      Visit race.esa.int
+    </figcaption>
+  </a>
+</center>
+
+The game runs seamlessly as a plugin (or extension) of [race.esa.int](race.esa.int), leveraging the OpenLayers mapping library. This integration ensures smooth geospatial visualization and data interaction, turning learning into an engaging, hands-on experience.
+
+#### Why It’s Unique
+The originality lies in how this feature combines the nostalgic feel of Minesweeper with real-world, satellite-supported data analysis. While players enjoy the familiar gameplay mechanics, they simultaneously uncover meaningful, actionable insights derived from EO data. This innovative approach bridges the gap between technology, learning, and play. This playful yet purposeful application of gamification offers a new way to engage with satellite data, fostering awareness and understanding of societal challenges through a creative and interactive lens.
+- Explore air pollution and health insights:  [race.esa.int🌡️💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
+-  Discover wildlife and biodiversity insights: [race.esa.int🌱💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
 
