@@ -83,6 +83,43 @@ export default {
       border-bottom: 0;
       margin-left: -10px;
       margin-bottom: -10px;
+    }
+      .loading-indicator {
+      top: unset;
+      bottom: 0.5em !important;
+      left: 0.5em !important;
+      height: 22px;
+      pointer-events: none !important;
+    }
+
+    .loading-indicator.hidden {
+      display: none;
+    }
+
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner:after {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      margin-top: -9px;
+      margin-left: -9px;
+      border-radius: 50%;
+      border: 5px solid rgba(180, 180, 180, 0.6);
+      border-top-color: rgba(0, 0, 0, 0.6);
+      animation: spinner 0.6s linear infinite;
+    }
+    .theme--dark .spinner:after {
+      border: 5px solid rgba(180, 180, 180, 0.6);
+      border-top-color: rgba(255, 255, 255, 0.6);
     }`;
     if ('mapContainer' in this.$parent.$refs && this.$parent.$refs.mapContainer.shadowRoot) {
       this.$parent.$refs.mapContainer.shadowRoot.appendChild(style);
