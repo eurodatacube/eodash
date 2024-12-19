@@ -107,9 +107,9 @@ In this Minesweeper mode, users interactively explore hexagonal fields on a map.
     <img 
       src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/race_indicator_view.png"
       style="width: 50%" 
-      alt="RACE dashboard. Minesweeper mode of Heat Risk Indicator ">
+      alt="RACE dashboard view of Minesweeper mode of Heat Risk Indicator">
     <figcaption>
-      Visit race.esa.int
+      RACE dashboard view of Minesweeper mode of Heat Risk Indicator
     </figcaption>
   </a>
 </center>
