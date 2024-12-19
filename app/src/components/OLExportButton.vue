@@ -46,7 +46,7 @@
         <div>
           Copy and paste this code into the map <b>layers</b> field of the storytelling editor:
         </div>
-        <div
+        <div v-if="dialog"
           class="pa-3"
           style="background-color: #ddd;font-family: monospace;font-size: 11px;max-height: 300px; overflow-y: auto;">
             {{ layersConfig }}
@@ -283,7 +283,7 @@ Text describing the current step of the tour and why it is interesting what the 
             if (foundType === 'Vector') {
               // We can't export a function style function
               // only flat styles, for now we ignore this case
-              if (typeof l.getStyle !== 'function') {
+              if (typeof l.getStyle() !== 'function') {
                 layerConfig.style = l.getStyle();
               }
             }
