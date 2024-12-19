@@ -3,17 +3,14 @@
 
 The integration of **IDEAS (Indicator Development For Economy And Society)**  indicators into [race.esa.int](race.esa.int) represents a significant step forward in leveraging Earth Observation (EO) and geospatial data to address pressing societal and environmental challenges.
 
-## About RACE
-The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA-led initiative developed in collaboration with the European Commission. The platform is a cornerstone for delivering actionable insights on environmental, social, and economic transformations, aligned with Europe’s policy priorities, including the European Green Deal. RACE connects advanced EO technology with real-world needs, helping policymakers, researchers, and stakeholders drive sustainable change.
-
 <center>
   <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
     <img 
-      src="https://race.esa.int/eodash-data/general/RACE_KV_2022.jpg" 
+      src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/header_IDEAS_story.png" 
       style="width: 50%" 
-      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+      alt="IDEAS indicators intregated in race.esa.int">
     <figcaption>
-      Visit race.esa.int
+      IDEAS indicators intregated in race.esa.int
     </figcaption>
   </a>
 </center>
@@ -32,7 +29,20 @@ As a result, these were some of the developed indicators:
 
 Let's have a look on the first three indicators.These indicators provide tools for understanding and mitigating critical societal and environmental challenges by bridging EO data with actionable socio-economic insights.
 
+## About RACE
+The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA-led initiative developed in collaboration with the European Commission. The platform is a cornerstone for delivering actionable insights on environmental, social, and economic transformations, aligned with Europe’s policy priorities, including the European Green Deal. RACE connects advanced EO technology with real-world needs, helping policymakers, researchers, and stakeholders drive sustainable change.
 
+<center>
+  <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
+    <img 
+      src="https://race.esa.int/eodash-data/general/RACE_KV_2022.jpg" 
+      style="width: 50%" 
+      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+    <figcaption>
+      Visit race.esa.int
+    </figcaption>
+  </a>
+</center>
 ## Explore the indicators <!--{ as="eox-map" mode="tour" }-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.984356920487715" center=[9.000000000000002,54.435990398043515] animationOptions={duration:500}}-->
