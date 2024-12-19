@@ -35,9 +35,9 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
 <center>
   <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
     <img 
-      src="https://race.esa.int/eodash-data/general/RACE_KV_2022.jpg" 
+      src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/RACE_KV_2022.jpg" 
       style="width: 50%" 
-      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+      alt="Visit race.esa.int">
     <figcaption>
       Visit race.esa.int
     </figcaption>
