@@ -43,6 +43,7 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
     </figcaption>
   </a>
 </center>
+ 
 ## Explore the indicators <!--{ as="eox-map" mode="tour" }-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.984356920487715" center=[9.000000000000002,54.435990398043515] animationOptions={duration:500}}-->
