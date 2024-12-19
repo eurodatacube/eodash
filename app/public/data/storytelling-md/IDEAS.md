@@ -103,11 +103,11 @@ One of the most original and engaging features of the IDEAS indicators is their 
 #### How It Works
 In this Minesweeper mode, users interactively explore hexagonal fields on a map. The goal is to uncover fields and reveal valuable data while avoiding “mine” fields that symbolize areas with potential environmental risks or challenges. Each successful step reveals insights tied to the chosen indicator—whether it’s air quality, health impacts, or biodiversity.
 <center>
-  <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
+  <a href="https://race.esa.int/?indicator=IND5_1&x=159447.63774&y=5396118.06247&z=10.31298" target="_blank" style="text-decoration: none; color: inherit;">
     <img 
-      src="https://github.com/eurodatacube/eodash/blob/app/public/data/storytelling-md/race_indicator_view.png" 
+      src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/race_indicator_view.png"
       style="width: 50%" 
-      alt="Fighting heat island. Credits: architetturaecosostenibilie.it">
+      alt="RACE dashboard. Minesweeper mode of Heat Risk Indicator ">
     <figcaption>
       Visit race.esa.int
     </figcaption>
