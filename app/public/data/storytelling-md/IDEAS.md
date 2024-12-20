@@ -48,7 +48,7 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.984356920487715" center=[9.000000000000002,54.435990398043515] animationOptions={duration:500}}-->
 #### Health-Oriented Urban Heat and Pollution Index
-Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator]((https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND1_1&x=2215010.89618&y=7560686.82923&z=3.46398)) is produced by combining four inputs:
+Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator]((https://race.esa.int/?indicator=IND1_1&x=1001875.41714&y=6396443.78992&z=2.32193)) is produced by combining four inputs:
 * Air pollution
 * Urban heat
 * Vulnerable population
@@ -67,13 +67,13 @@ On the map white and yellow mean low risk on health , dark red means high risk o
 #### Gamification of indicators
 For this indicator, there is a dedicated 'Minesweeper' mode where insights into air pollution and health respectively, can be playfully discovered by slowly and carefully uncovering hexagonal fields while avoiding *"mine" fields*. The game is implemented as a plugin (or extension) of eodash and works directly with
 OpenLayers under the hood.
-Try out this game on [race.esa.int🌡️💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
+Try out this game on [race.esa.int🌡️💣](https://race.esa.int/?indicator=IND1_1_minesweeper&x=2967522.23407&y=6702701.93523&z=5.61664)
 
 
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="10.825672338356757" center=[1.4323425000000007,43.55992546236584] animationOptions={duration:500}}-->
 #### Heat Risk Indicator
-This indicator is a combination of satellite and field data. For satellite data, the land surface temperature measured from [Landsat 8/9](https://www.usgs.gov/landsat-missions/landsat-8) is used. It allows to identify the warmer areas in the city.
+The [Heat Risk indicator](https://race.esa.int/?indicator=IND5_1&x=159447.63774&y=5396118.06247&z=10.31298) is a combination of satellite and field data. For satellite data, the land surface temperature measured from [Landsat 8/9](https://www.usgs.gov/landsat-missions/landsat-8) is used. It allows to identify the warmer areas in the city.
 <center>
 <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc1.staticflickr.com%2F3%2F2493%2F4027763485_9570dd5f07_b.jpg&f=1&nofb=1&ipt=4ead775e186bd6e3f34a5ce6d3d530f5297713eb7cff8bdcebad78e6bfebea83&ipo=images" >
 	    <figcaption>
@@ -90,7 +90,7 @@ Explore this dataset at [race.esa.int🔍](https://eodash-staging.eox.at/?catalo
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="4.767714633767641" center=[15.486783558567454,64.53089148928188] animationOptions={duration:500}}-->
 #### Wildlife Biodiversity Indicator
-This indicator has been developed to be a powerful, impacting, visual indicator to help build the general public’s knowledge and raise awareness around the current status of biodiversity and the importance of conservation efforts. 
+The [Wildlife Biodiversity Indicator](https://race.esa.int/?indicator=IND2_1&x=1001875.41714&y=6402818.2363&z=2.32929) has been developed to be a powerful, impacting, visual indicator to help build the general public’s knowledge and raise awareness around the current status of biodiversity and the importance of conservation efforts. 
 
 <center>
 <img src="https://api.gbif.org/v1/image/unsafe/480x480/http:%2F%2Fimages.ctfassets.net%2Fuo17ejk9rkwj%2F3XIFYv7n3XJMNLbZkNLKRq%2F6bc385472038cbd72071e81d6b284c06%2FSenna_reticulata.jpg" >
@@ -105,7 +105,7 @@ The indicator will build on crowdsourced fauna and flora observation data availa
 #### Gamification of indicators
 For this indicator, there is a dedicated 'Minesweeper' mode where insights into wildlife and biodiversity respectively, can be playfully discovered by slowly and carefully uncovering hexagonal fields while avoiding *"mine" fields* . The game is implemented as a plugin (or extension) of eodash and works directly with
 OpenLayers under the hood.
-Try out this game on [race.esa.int🌱💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
+Try out this game on [race.esa.int🌱💣](https://race.esa.int/?indicator=IND2_1_minesweeper&x=2967522.23407&y=6702701.93523&z=5.61664)
 
 
 ## Gamification of Indicators: Discovering Insights Through Play
