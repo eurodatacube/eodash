@@ -295,6 +295,7 @@
         :markdown-url="storytellingMarkdownUrl"
         no-shadow
         style="height: calc(var(--vh, 1vh) * 100); display: block; position: relative; z-index: 0;"
+        @init="initWidgets"
       ></eox-storytelling>
       <custom-dashboard-grid
         ref="customDashboardGrid"
@@ -448,6 +449,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 import Modal from '@/components/Modal.vue';
+import { PROJDICT } from '../utils';
 
 export default {
   metaInfo() {
@@ -732,6 +734,15 @@ export default {
       if (this.newDashboard) {
         this.popupTitle = this.dashboardTitle;
         this.popupOpen = true;
+      }
+    },
+    initWidgets({ detail }) {
+      const element = detail;
+      if (element?.tagName === 'EOX-MAP') {
+        element.registerProjection(
+          'EPSG:3035',
+          PROJDICT['EPSG:3035'].def,
+        );
       }
     },
     createTextFeature() {
