@@ -21,11 +21,11 @@ The **IDEAS (Indicator Development For Economy And Society)** project aimed to l
 The project focused initially on developing, assessing, and validating the indicators. This involved selecting appropriate methodologies, preparing relevant data, and collaborating with stakeholders to ensure practical relevance. The indicators addressed key societal challenges such as **Climate Crisis & Adaptation**, the **Green Transition and the European Green Deal** and  **Emerging Energy Crisis**.
 
 As a result, these were some of the developed indicators:
-* [Pollution and Urban Heat Islands](https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND1_1&x=1001875.41714&y=6858580.88283&z=2.98626) - ([Murmuration](https://murmuration-sas.com/))
-* [Wildlife and Biodiversity](https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND2_1&x=1001875.41714&y=6858580.88283&z=2.98626) ([Murmuration](https://murmuration-sas.com/))
-* [Real Estate Trends](https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND5_1&x=159447.63774&y=5397590.29524&z=10.82567) ([Murmuration](https://murmuration-sas.com/))
-*  [Food Security](https://eodash-trilateral-staging.eox.at/explore?catalog=ideas-data-addition&indicator=IND3_1&x=2782987.26983&y=939302.89999&z=2.49185) (SISTEMA)
-* [Flood Risk](https://eodash-trilateral-staging.eox.at/explore?catalog=ideas-data-addition&indicator=IND4_1&x=1575214.26499&y=4473751.30216&z=7.15347) (SISTEMA)
+* [Pollution and Urban Heat Islands](https://race.esa.int/?x=2967522.23407&y=6702701.93523&z=5.61664) - ([Murmuration](https://murmuration-sas.com/))
+* [Wildlife and Biodiversity](https://race.esa.int/?indicator=IND2_1&x=1001875.41714&y=6402818.2363&z=2.32929) ([Murmuration](https://murmuration-sas.com/))
+* [Real Estate Trends](https://race.esa.int/?indicator=IND5_1&x=159447.63774&y=5396118.06247&z=10.31298) ([Murmuration](https://murmuration-sas.com/))
+* Food Security - (SISTEMA)
+* Flood Risk - (SISTEMA)
 
 Let's have a look on the first three indicators.These indicators provide tools for understanding and mitigating critical societal and environmental challenges by bridging EO data with actionable socio-economic insights.
 
@@ -46,7 +46,7 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
  
 ## Explore the indicators <!--{ as="eox-map" mode="tour" }-->
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.984356920487715" center=[9.000000000000002,54.435990398043515] animationOptions={duration:500}}-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.329290181302211" center=[9.000000000000002,49.748409312221895] animationOptions={duration:500}}-->
 #### Health-Oriented Urban Heat and Pollution Index
 Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator]((https://race.esa.int/?indicator=IND1_1&x=1001875.41714&y=6396443.78992&z=2.32193)) is produced by combining four inputs:
 * Air pollution
@@ -71,7 +71,7 @@ Try out this game on [race.esa.int🌡️💣](https://race.esa.int/?indicator=I
 
 
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="10.825672338356757" center=[1.4323425000000007,43.55992546236584] animationOptions={duration:500}}-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="10.312978218596443" center=[1.4323424999999996,43.55034093908981] animationOptions={duration:500}}-->
 #### Heat Risk Indicator
 The [Heat Risk indicator](https://race.esa.int/?indicator=IND5_1&x=159447.63774&y=5396118.06247&z=10.31298) is a combination of satellite and field data. For satellite data, the land surface temperature measured from [Landsat 8/9](https://www.usgs.gov/landsat-missions/landsat-8) is used. It allows to identify the warmer areas in the city.
 <center>
@@ -85,10 +85,10 @@ The [Heat Risk indicator](https://race.esa.int/?indicator=IND5_1&x=159447.63774&
 For field data, the [French National Database of Buildings](https://www.spaceclimateobservatory.org/sat4bdnb) is used. It gather information about thousands of building in France. It includes the energy efficiency report, which provides information on the quality of insulation in homes, and economic statistics such as the price per m², which is used as an indicator to classify areas into rich and poor categories.
 For data interpretation, the values range from 1 to 6, with 6 representing the highest-risk areas, characterized by poor insulation or LST and a vulnerable population (elderly and economically disadvantaged). 
 
-Explore this dataset at [race.esa.int🔍](https://eodash-staging.eox.at/?catalog=ideas-data-addition&indicator=IND5_1&x=159447.63774&y=5397590.29524&z=10.82567) and play with the filters in the Analysis panel.
+Explore this dataset at [race.esa.int🔍](https://race.esa.int/?indicator=IND5_1&x=159447.63774&y=5396118.06247&z=10.31298) and play with the filters in the Analysis panel.
 
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="4.767714633767641" center=[15.486783558567454,64.53089148928188] animationOptions={duration:500}}-->
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.329290181302211" center=[9.000000000000002,49.748409312221895] animationOptions={duration:500}}-->
 #### Wildlife Biodiversity Indicator
 The [Wildlife Biodiversity Indicator](https://race.esa.int/?indicator=IND2_1&x=1001875.41714&y=6402818.2363&z=2.32929) has been developed to be a powerful, impacting, visual indicator to help build the general public’s knowledge and raise awareness around the current status of biodiversity and the importance of conservation efforts. 
 
@@ -118,7 +118,7 @@ In this Minesweeper mode, users interactively explore hexagonal fields on a map.
     <img 
       src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/race_indicator_view.png"
       style="width: 50%" 
-      alt="RACE dashboard view of Minesweeper mode of Heat Risk Indicator">
+      alt="RACE dashboard view of Minesweeper mode of Health-Oriented Urban Heat and Pollution Index Indicator">
     <figcaption>
       RACE dashboard view of Minesweeper mode of Heat Risk Indicator
     </figcaption>
@@ -129,6 +129,6 @@ The game runs seamlessly as a plugin (or extension) of [race.esa.int](race.esa.i
 
 #### Why It’s Unique
 The originality lies in how this feature combines the nostalgic feel of Minesweeper with real-world, satellite-supported data analysis. While players enjoy the familiar gameplay mechanics, they simultaneously uncover meaningful, actionable insights derived from EO data. This innovative approach bridges the gap between technology, learning, and play. This playful yet purposeful application of gamification offers a new way to engage with satellite data, fostering awareness and understanding of societal challenges through a creative and interactive lens.
-- Explore air pollution and health insights:  [race.esa.int🌡️💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
--  Discover wildlife and biodiversity insights: [race.esa.int🌱💣](https://eodash-staging.eox.at/?catalog=ideas-data-addition&x=184547.61308&y=4667321.36174&z=6.75861&indicator=IND1_1_minesweeper)
+- Explore air pollution and health insights:  [race.esa.int🌡️💣](https://race.esa.int/?x=2967522.23407&y=6702701.93523&z=5.61664&indicator=IND1_1_minesweeper)
+-  Discover wildlife and biodiversity insights: [race.esa.int🌱💣](https://race.esa.int/?x=2967522.23407&y=6702701.93523&z=5.61664&indicator=IND2_1_minesweeper)
 
