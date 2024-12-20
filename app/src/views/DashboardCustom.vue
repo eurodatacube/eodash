@@ -661,6 +661,8 @@ export default {
       }
     }
     if (this.officialDashboard && this.storyModeEnabled) {
+      /*
+      TODO: I think this is no longer needed here
       if (!this.getCurrentTheme) {
         if (existingConfiguration) {
           const currentTheme = Object.entries(storiesConfig[this.appConfig.id])
@@ -668,6 +670,7 @@ export default {
           this.loadTheme(currentTheme);
         }
       }
+      */
     } else {
       this.loadTheme(null);
     }
