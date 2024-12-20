@@ -17,6 +17,10 @@
         </v-card-title>
         <v-card-text>
           <p>
+            Welcome to the Minesweeper game mode! For more information look at the Description in the Information panel!
+          </p>
+          <p>
+            <b>Quick overview:</b><br/>
             Identify and flag <b>(right-click)</b> areas with very high
             <b><span v-if="indicatorObject.indicator === 'IND1_1_minesweeper'">
               health risks
