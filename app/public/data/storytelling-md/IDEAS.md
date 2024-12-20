@@ -48,7 +48,7 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="2.329290181302211" center=[9.000000000000002,49.748409312221895] animationOptions={duration:500}}-->
 #### Health-Oriented Urban Heat and Pollution Index
-Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator]((https://race.esa.int/?indicator=IND1_1&x=1001875.41714&y=6396443.78992&z=2.32193)) is produced by combining four inputs:
+Anthropic-induced pollution and climate change consequences as extreme heat waves, makes it essential to develop efficient health indicators. The [Health Oriented Urban Heat and air Pollution Indicator (HOUHPI) indicator](https://race.esa.int/?indicator=IND1_1&x=1001875.41714&y=6396443.78992&z=2.32193) is produced by combining four inputs:
 * Air pollution
 * Urban heat
 * Vulnerable population
