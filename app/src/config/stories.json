@@ -2,7 +2,15 @@
   "esa": {
     "agriculture": {},
     "water": {},
-    "land": {},
+    "land": {
+      "yield-forecast-crop-water-demand": {
+        "storyMarkdown": "./data/storytelling-md/RACE/CropOM.md",
+        "title": "Regional yield forecast and crop water demand",
+        "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      }
+    },
     "health": {},
     "air": {},
     "economy": {}
