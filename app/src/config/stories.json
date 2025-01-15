@@ -2,6 +2,24 @@
   "esa": {
     "agriculture": {},
     "water": {},
+    "land": {
+      "yield-forecast-crop-water-demand": {
+        "storyMarkdown": "app/public/data/storytelling-md/IDEAS.md",
+        "title": "IDEAS: Indicator Development For Economy And Society",
+        "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      }
+    },
+    "health": {},
+    "air": {},
+    "economy": {}
+  },
+
+{  
+  "esa": {
+    "agriculture": {},
+    "water": {},
     "land": {},
     "health": {},
     "air": {},
