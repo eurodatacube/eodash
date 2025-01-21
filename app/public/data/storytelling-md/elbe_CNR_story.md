@@ -36,11 +36,13 @@ Daily time series of both OC (i.e., CHL and TSM) products are turned into weekly
 Full time series  (from May 2016 – to present date) of weekly Chlorophyll (CHL) concentration maps are collected  of Sentinel3-OLCI data from the Copernicus Marine Service:
 [OCEANCOLOUR_ATL_BGC_L3_MY_009_113](https://doi.org/10.48670/moi-00286).
 
+<!-- UNCOMMNET
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"N3a2_chl_concentration_tri_esa-2024-10-19T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_N3_CUSTOM_TRILATERAL","styles":"","format":"image/png","time":"2024-10-19T00:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="8.945364571374312" center=[8.099967956542969,53.73836436832687] animationOptions={duration:500}}-->
+<!-- UNCOMMNET
 #### Total Suspended Matter (TSM) concentrations maps
 TSM data are specifically produced by [CNR-ISMAR-GOS](https://www.ismar.cnr.it/web-content/) for the ESA-RACE Dashboard starting from Sentinel3-OLCI L2 data distributed by ([EUMETSAT](https://data.eumetsat.int))
 OLCI data from 2016 concur with the production of the weekly climatology, which is then used as reference for the analysis.  
-
+-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"sea_surface_temperature_maps-2024-10-19T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_SST_MAPS","styles":"","format":"image/png","time":"2024-10-19T00:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="8.275536869577046" center=[8.100013732910156,53.79376139840804] animationOptions={duration:500}}-->
 #### Sea surface temperature algorithm
