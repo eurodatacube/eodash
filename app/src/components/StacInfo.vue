@@ -231,6 +231,13 @@ export default {
         });
         this.linksInStacInfo = linksFiltered;
         this.stacInfoLoaded = true;
+        // programatically open Analysis panel if exists and not open yet
+        const uiPanelsRight = this.$parent.$parent.$parent.$parent.$children;
+        if (!uiPanelsRight[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanelsRight[1].$refs.header.$emit('click', {
+            currentTarget: uiPanelsRight[1].$refs.header.$el,
+          });
+        }
       });
     },
     async fetchDataInfo(dataInfoObject, i) {

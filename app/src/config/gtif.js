@@ -6,6 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import colormap from 'colormap';
 import availableDates from '@/config/gtif_dates.json';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import {
   Fill, Stroke, Style, Circle,
 } from 'ol/style';
@@ -264,8 +265,6 @@ const energyTransitionDefaults = {
   overlayLayers: [
     { ...overlayLayers.powerOpenInfrastructure, visible: true },
     { ...overlayLayers.eoxOverlay, visible: true },
-    { ...overlayLayers.protectionZones },
-    { ...overlayLayers.protectionZonesNatura },
     {
       protocol: 'GeoJSON',
       visible: false,
@@ -2480,4 +2479,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND1_1']),
 ];

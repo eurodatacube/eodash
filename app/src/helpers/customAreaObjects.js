@@ -179,7 +179,13 @@ export const fetchCustomAreaObjects = async (
       ? mergedConfig[lookup].areaFormatFunction(drawnArea)
       : { area: JSON.stringify(drawnArea) };
   }
-
+  let urlInit = mergedConfig[lookup].url.split('').join('');
+  if (typeof mergedConfig[lookup].customFormatFunction === 'function') {
+    urlInit = mergedConfig[lookup].customFormatFunction(
+      urlInit, mergedConfig, options,
+    );
+  }
+  indicator.title = 'User defined area of interest';
   const { selectedFeatures, selectedJsonformParameters } = store.state.features;
   if (selectedFeatures.length === 1) {
     const adminZoneKey = mergedConfig?.areaIndicator?.adminZoneKey;
@@ -205,7 +211,7 @@ export const fetchCustomAreaObjects = async (
     ...customArea,
   };
   const templateRe = /\{ *([\w_ -]+) *\}/g;
-  const url = template(templateRe, mergedConfig[lookup].url, templateSubst);
+  const url = template(templateRe, urlInit, templateSubst);
   let requestBody = null;
   if (Object.prototype.hasOwnProperty.call(mergedConfig[lookup], 'requestBody')) {
     requestBody = {

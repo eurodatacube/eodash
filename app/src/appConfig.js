@@ -39,6 +39,10 @@ module.exports = [
     showNewsCarousel: true,
     newsCarouselitems: [
       {
+        href: './story?id=yield-forecast-crop-water-demand',
+        src: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/RACE/cropom_preview.png',
+      },
+      {
         poi: 'ES4-E1b',
         src: './eodash-data/general/cimbelli.png',
       },

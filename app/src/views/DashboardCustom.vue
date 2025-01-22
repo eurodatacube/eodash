@@ -147,7 +147,7 @@
             </div>
             <template v-if="officialDashboard">
               <p v-html="dashboardSubTitle" class="white--text"></p>
-              <img class="header__logo" :src="appConfig && appConfig.branding.headerLogo" />
+              <img class="header__logo" :src="selectLogo" />
             </template>
             <template v-else>
               <p v-if="newDashboard || hasEditingPrivilege">
@@ -295,6 +295,7 @@
         :markdown-url="storytellingMarkdownUrl"
         no-shadow
         style="height: calc(var(--vh, 1vh) * 100); display: block; position: relative; z-index: 0;"
+        @init="initWidgets"
       ></eox-storytelling>
       <custom-dashboard-grid
         ref="customDashboardGrid"
@@ -430,7 +431,7 @@
       :color="$vuetify.theme.dark ? '#212121' : '#fff'"
     ></v-overlay>
     <global-footer
-      :color="getCurrentTheme ? getCurrentTheme.color : 'primary'"
+      :color="getCurrentTheme && appConfig.id !== 'esa' ? getCurrentTheme.color : 'primary'"
     />
   </div>
 </template>
@@ -448,6 +449,7 @@ import GlobalHeader from '@/components/GlobalHeader.vue';
 import GlobalFooter from '@/components/GlobalFooter.vue';
 import CustomDashboardGrid from '@/components/CustomDashboardGrid.vue';
 import Modal from '@/components/Modal.vue';
+import { PROJDICT } from '../utils';
 
 export default {
   metaInfo() {
@@ -553,6 +555,13 @@ export default {
     ...mapGetters('themes', [
       'getCurrentTheme',
     ]),
+    selectLogo() {
+      let logoUrl = this.appConfig && this.appConfig.branding.headerLogo;
+      if (this.logoAlternative) {
+        logoUrl = this.logoAlternative;
+      }
+      return logoUrl;
+    },
     newDashboard() {
       return this.$store.state.dashboard.dashboardConfig
         && !this.$store.state.dashboard?.dashboardConfig?.marketingInfo
@@ -605,6 +614,7 @@ export default {
         this.dashboardSubTitle = existingConfiguration.subtitle;
         this.dashboardHeaderImage = existingConfiguration.image;
         this.dashboardHeaderImagePlaceholder = existingConfiguration.imagePlaceholder;
+        this.logoAlternative = existingConfiguration.logoAlternative;
         if (existingConfiguration.storyMarkdown) {
           this.storytellingMarkdownUrl = existingConfiguration.storyMarkdown;
         } else {
@@ -653,6 +663,8 @@ export default {
       }
     }
     if (this.officialDashboard && this.storyModeEnabled) {
+      /*
+      TODO: I think this is no longer needed here
       if (!this.getCurrentTheme) {
         if (existingConfiguration) {
           const currentTheme = Object.entries(storiesConfig[this.appConfig.id])
@@ -660,6 +672,7 @@ export default {
           this.loadTheme(currentTheme);
         }
       }
+      */
     } else {
       this.loadTheme(null);
     }
@@ -721,6 +734,15 @@ export default {
       if (this.newDashboard) {
         this.popupTitle = this.dashboardTitle;
         this.popupOpen = true;
+      }
+    },
+    initWidgets({ detail }) {
+      const element = detail;
+      if (element?.tagName === 'EOX-MAP') {
+        element.registerProjection(
+          'EPSG:3035',
+          PROJDICT['EPSG:3035'].def,
+        );
       }
     },
     createTextFeature() {

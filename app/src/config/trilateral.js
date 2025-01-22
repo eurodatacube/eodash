@@ -10,6 +10,7 @@ import shTimeFunction from '@/shTimeFunction';
 import {
   baseLayers, overlayLayers, trucksAreaIndicator, trucksFeatures,
 } from '@/config/layers';
+import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import {
   nasaStatisticsConfig,
 } from '@/helpers/customAreaObjects';
@@ -689,6 +690,8 @@ export const globalIndicators = [
         display: [{
           name: 'DLR WSF Evolution 1985-2015',
           specialEnvTime: true,
+          styles: 'wsfevolution',
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).toFormat('yyyy')}`,
           attribution: '{ WSF Evolution Data are licensed under: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"> Attribution 4.0 International (CC BY 4.0) </a>; Contains modified Landsat-5/-7 data [1985-2015] }',
         },
         {
@@ -904,6 +907,16 @@ export const globalIndicators = [
   {
     properties: {
       indicatorObject: {
+        indicator: 'SLSTR1',
+        display: {
+          dateFormatFunction: (date) => `${DateTime.fromISO(date).set({ hour: 0, minute: 0, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}/${DateTime.fromISO(date).set({ hour: 23, minute: 59, second: 0 }).toFormat("yyyy-MM-dd'T'HH:mm:ss")}`,
+        },
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
         indicator: 'Lakes_WQ_TURB',
         display: {
           presetView: {
@@ -918,4 +931,5 @@ export const globalIndicators = [
       },
     },
   },
+  ...createIDEASDatasetConfigs(['IND1_1', 'IND3_1', 'IND4_1']),
 ];
