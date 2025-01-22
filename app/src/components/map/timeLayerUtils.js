@@ -11,13 +11,20 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 
 // eslint-disable-next-line import/prefer-default-export
 export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'updateTime') {
-  if (config.protocol === 'cog') {
+  if (config.protocol === 'cog' && 'sources' in config && !config.features) {
     const updatedSources = config.sources.map((item) => {
       const url = item.url.replace(/{time}/i, config.dateFormatFunction(time));
       return { url };
     });
     layer.setSource(new GeoTIFF({
       sources: updatedSources,
+      normalize: config.normalize ? config.normalize : false,
+      interpolate: false,
+    }));
+  } else if (Array.isArray(time)) {
+    // This case if for geotiff assets passed in the time
+    layer.setSource(new GeoTIFF({
+      sources: time[1].map((url) => ({ url })),
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
     }));

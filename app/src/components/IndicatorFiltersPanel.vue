@@ -367,11 +367,11 @@ export default {
         const match = this.indicators.find((indicator) => item.link === indicator.link);
         this.setSelectedIndicator(match);
 
-        const uiPanels = this.$parent.$parent.$parent.$parent.$children;
-        // programatically open Layer Panel it exists and not open yet
-        if (!uiPanels[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
-          uiPanels[1].$refs.header.$emit('click', {
-            currentTarget: uiPanels[1].$refs.header.$el,
+        const uiPanelsLeft = this.$parent.$parent.$parent.$parent.$children;
+        // programatically open Layer Panel if exists and not open yet
+        if (!uiPanelsLeft[1].$refs.header.$el.classList.contains('v-expansion-panel-header--active')) {
+          uiPanelsLeft[1].$refs.header.$emit('click', {
+            currentTarget: uiPanelsLeft[1].$refs.header.$el,
           });
         }
       }

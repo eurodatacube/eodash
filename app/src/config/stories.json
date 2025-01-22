@@ -1,16 +1,25 @@
-{
+{  
+  "esa": {
+    "agriculture": {},
+    "water": {},
+    "land": {
+      "yield-forecast-crop-water-demand": {
+        "storyMarkdown": "./data/storytelling-md/RACE/CropOM.md",
+        "title": "Regional yield forecast and crop water demand",
+        "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      }
+    },
+    "health": {},
+    "air": {},
+    "economy": {}
+  },
   "trilateral": {
     "agriculture": {
       "world-cereal-supply-and-demand": {
         "originalDashboardId": "4b40596e305997ac",
         "title": "Satellites are providing insights into agricultural production, crop conditions, and food supply",
-        "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
-        "image": "./data/story-images/Agriculture.jpeg",
-        "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
-      },
-      "new-storytelling-demo": {
-        "storyMarkdown": "./data/storytelling-md/new-storytelling-demo.md",
-        "title": "New Storytelling Demo",
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
@@ -77,8 +86,8 @@
       },
       "covid-cars": {
         "storyMarkdown": "./data/storytelling-md/Covid-cars-containers-nagoya.md",
-        "title": "Covid-19 Impacts on Greenhouse Gases",
-        "subtitle": "Effect of lockdown on Carbon Dioxide",
+        "title": "Covid-19 Impact on the Automotive Industry",
+        "subtitle": "Effect of lockdown on Automotive Industry",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero.jpg",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/covid-cars-containers/hero_small.jpg"
       },
@@ -106,7 +115,38 @@
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/forest_story/hero_small.jpg"
       }
     },
-    "extreme-events": {},
+    "extreme-events": {
+      "el-nino-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
+        "title": "El Niño 2023-2024 (Part 1): Record-breaking temperatures",
+        "subtitle": "Read more about observing land surface temperature from space",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_land_temperatures/hawkins-stripes.png"
+      },
+      "hunga-tonga-aerosols": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_HUNGA_ERUPTION_2.md",
+        "title": "Tracking aerosol plumes from Hunga eruption of 2022",
+        "subtitle": "Authors: Clair Duchamp, Aude Barton & Aiten Alava Baldazo - Sorbonne Universite, Paris, France",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/cover-hunga.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/hunga-tonga/cover-hunga-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
+      },
+      "air-pollution-extremes": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_POLLUTION_2.md",
+        "title": "Extreme air pollution episodes in Northern India and Pakistan",
+        "subtitle": "Authors: Selviga Sinnathamby, Natacha Kaminski, Elie Zoghbi - Sorbonne Universite, Paris, France",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
+      },
+      "sea-surface-temperature-rise": {
+        "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_SST.md",
+        "title": "El Niño 2023-2024 (Part 2): Rising Global Sea Surface Temperatures",
+        "subtitle": "Read more about record-breaking sea surface temperatures",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1.png",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1-small.png"
+      }
+    },
     "cryosphere": {
       "thwaites-intro": {
         "originalDashboardId": "e7bc4529a0c4a581",

@@ -1,5 +1,6 @@
 const shConfig = {
   shInstanceId: '$SH_INSTANCE_ID',
+  shInstanceIdIdeas: '$SH_INSTANCE_ID_IDEAS',
   shInstanceIdPolar: '$SH_INSTANCE_ID_POLAR',
   geodbInstanceId: '$GEODB_INSTANCE_ID',
   listmonkApiKey: '$LISTMONK_API_KEY',
