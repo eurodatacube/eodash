@@ -4,7 +4,7 @@
     :style="`height: auto`"
   >
   <v-card class="pa-2">
-    <v-card-title class="pa-2">Filters</v-card-title>
+    <v-card-title class="pa-2">Constraint variables</v-card-title>
       <v-btn
         v-if="filtersChanged"
         absolute x-small color="primary"
