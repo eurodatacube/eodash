@@ -1,19 +1,6 @@
-
-# IDEAS: Indicator Development For Economy And Society
+##
 
 The integration of **IDEAS (Indicator Development For Economy And Society)**  indicators into [race.esa.int](race.esa.int) represents a significant step forward in leveraging Earth Observation (EO) and geospatial data to address pressing societal and environmental challenges.
-
-<center>
-  <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
-    <img 
-      src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/header_IDEAS_story.png" 
-      style="width: 50%" 
-      alt="IDEAS indicators intregated in race.esa.int">
-    <figcaption>
-      IDEAS indicators intregated in race.esa.int
-    </figcaption>
-  </a>
-</center>
 
 ## IDEAS contribution to RACE
 The **IDEAS (Indicator Development For Economy And Society)** project aimed to leverage cross-cutting technologies to create innovative, interdisciplinary indicators using Earth Observation (EO) and geospatial data. These indicators provide new insights into complex societal challenges by utilizing cloud-based EO platforms, accessible datasets, computational resources, and advanced analytical tools. The objectives were to develop **novel indicators** at a **European level** for integration into various [ESA](www.esa.int)-supported platforms, by linking Earth observation  data with socio-economic processes not directly observable through EO.
@@ -35,7 +22,7 @@ The [**RACE (Rapid Action on Climate and Environment)**](race.esa.int) is an ESA
 <center>
   <a href="https://race.esa.int" target="_blank" style="text-decoration: none; color: inherit;">
     <img 
-      src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/RACE_KV_2022.jpg" 
+      src="https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/RACE_KV_2022.jpg" 
       style="width: 50%" 
       alt="Visit race.esa.int">
     <figcaption>
