@@ -92,7 +92,7 @@ export const baseLayers = Object.freeze({
   // },
   geolandbasemap: {
     name: 'Geoland Basemap',
-    url: '//maps1.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
+    url: 'https://mapsneu.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
     maxNativeZoom: 18,
@@ -100,7 +100,7 @@ export const baseLayers = Object.freeze({
   },
   bmapgelaende: {
     name: 'Geoland Basemap Gelände',
-    url: '//maps1.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
+    url: 'https://mapsneu.wien.gv.at/basemap/bmapgelaende/grau/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
     maxNativeZoom: 18,
@@ -108,7 +108,7 @@ export const baseLayers = Object.freeze({
   },
   bmaporthofoto30cm: {
     name: 'Geoland Basemap Orthofoto',
-    url: '//maps1.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
+    url: 'https://mapsneu.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg',
     attribution: '{ Datenquelle: <a href="https://basemap.at" target="_blank" property="dct:title">basemap.at</a> }',
     visible: false,
     maxNativeZoom: 18,

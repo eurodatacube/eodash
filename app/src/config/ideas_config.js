@@ -545,7 +545,7 @@ const IDEASConfigs = [
             { url: 'https://eox-ideas.s3.eu-central-1.amazonaws.com/indicator2/AR3_wildlife.tif' },
           ],
           legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/IDEAS2_wildlife/cm_legend.png',
-          name: 'Indicator 2: Wildlife',
+          name: 'Wildlife Biodiversity Indicator',
           customAreaFeatures: true,
           overlayLayers: [{
             // dissolved individual bands as layers
@@ -704,6 +704,7 @@ const IDEASConfigs = [
     properties: {
       indicatorObject: {
         indicator: 'IND1_1_minesweeper',
+        time: [''],
         display: [{
           minesweeperOptions: {
             // Board dimensions in number of hex cells

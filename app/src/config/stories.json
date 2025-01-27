@@ -4,23 +4,20 @@
     "water": {},
     "land": {
       "yield-forecast-crop-water-demand": {
-        "storyMarkdown": "app/public/data/storytelling-md/IDEAS.md",
+        "storyMarkdown": "./data/storytelling-md/RACE/CropOM.md",
+        "title": "Regional yield forecast and crop water demand",
+        "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      },
+      "ideas-data": {
+        "storyMarkdown": "./data/storytelling-md/IDEAS.md",
         "title": "IDEAS: Indicator Development For Economy And Society",
         "subtitle": "Innovative, Gamified Indicators Linking Geospatial Data to Socio-Economic Processes for Enhanced Engagement and Impact",
         "image": "https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/header_IDEAS_story.png",
         "imagePlaceholder": "https://github.com/eurodatacube/eodash-assets/blob/main/stories/IDEAS/header_IDEAS_story.png"
       }
     },
-    "health": {},
-    "air": {},
-    "economy": {}
-  },
-
-{  
-  "esa": {
-    "agriculture": {},
-    "water": {},
-    "land": {},
     "health": {},
     "air": {},
     "economy": {}
@@ -144,7 +141,7 @@
       "air-pollution-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME_POLLUTION_2.md",
         "title": "Extreme air pollution episodes in Northern India and Pakistan",
-        "subtitle": "Authors: Selviga Sinnathamby, Natacha Kaminski, Ellie Zoghbi - Sorbonne Universite, Paris, France",
+        "subtitle": "Authors: Selviga Sinnathamby, Natacha Kaminski, Elie Zoghbi - Sorbonne Universite, Paris, France",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan.jpg",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan-small.jpg",
         "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
