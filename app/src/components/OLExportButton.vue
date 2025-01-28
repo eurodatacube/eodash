@@ -119,7 +119,9 @@ import { getUid } from 'ol/util';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
+import WebGLTileLayer from 'ol/layer/WebGLTile';
 import { TileWMS, WMTS, XYZ } from 'ol/source';
+import GeoTIFFSource from 'ol/source/GeoTIFF';
 import VectorSource from 'ol/source/Vector';
 import { GeoJSON, MVT, WKB } from 'ol/format';
 import VectorLayer from 'ol/layer/Vector';
@@ -184,7 +186,7 @@ Text describing the current step of the tour and why it is interesting what the 
       layerArray.map((l) => {
         if (l instanceof LayerGroup) {
           layers.push(this.extractLayerConfig(l.getLayersArray()));
-        } else if (l instanceof TileLayer || l instanceof VectorLayer) {
+        } else if (l instanceof TileLayer || l instanceof VectorLayer || l instanceof WebGLTileLayer) {
           const layerConfig = {
             type: 'Tile',
             properties: {
@@ -193,6 +195,9 @@ Text describing the current step of the tour and why it is interesting what the 
           };
           if (l instanceof VectorLayer) {
             layerConfig.type = 'Vector';
+          }
+          if (l instanceof WebGLTileLayer) {
+            layerConfig.type = 'WebGLTile';
           }
           // Evaluate what other information we need to extract for different source types
           const olsource = l.getSource();
@@ -212,15 +217,33 @@ Text describing the current step of the tour and why it is interesting what the 
             if (olsource instanceof WMTS) {
               foundType = 'WMTS';
             }
+            if (olsource instanceof GeoTIFFSource) {
+              foundType = 'GeoTIFF';
+            }
             // Extract source config
             const source = {
               type: foundType,
             };
-            if (['XYZ', 'TileWMS', 'WMTS'].includes(foundType)) {
+            if (['XYZ', 'TileWMS', 'WMTS', 'GeoTIFF'].includes(foundType)) {
               if ('url' in olsource) {
                 source.url = olsource.url;
               } else if ('urls' in olsource) {
                 source.urls = olsource.urls;
+              }
+              if (foundType === 'GeoTIFF') {
+                // TODO: probably there should be a better way to access the style
+                if ('style_' in l) {
+                  layerConfig.style = l.style_;
+                }
+                // TODO: getting sources should probably also be done more reliantly, not private
+                // variable and making sure other configs are considered e.g. normalization
+                const urls = [];
+                l.getSources().forEach((s) => {
+                  urls.push({ url: s.sourceInfo_[0].url });
+                });
+                source.normalize = false;
+                source.sources = urls;
+                source.interpolate = false;
               }
             } else if (foundType === 'Vector') {
               source.url = olsource.getUrl();
