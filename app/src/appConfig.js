@@ -43,6 +43,10 @@ module.exports = [
         src: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/RACE/cropom_preview.png',
       },
       {
+        href: './story?id=ideas-data',
+        src: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/ideas_carousel_preview.jpg',
+      },
+      {
         poi: 'ES4-E1b',
         src: './eodash-data/general/cimbelli.png',
       },

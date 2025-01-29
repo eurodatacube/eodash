@@ -9,6 +9,13 @@
         "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
         "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
         "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      },
+      "ideas-data": {
+        "storyMarkdown": "./data/storytelling-md/IDEAS.md",
+        "title": "IDEAS: Indicator Development For Economy And Society",
+        "subtitle": "Innovative, Gamified Indicators Linking Geospatial Data to Socio-Economic Processes for Enhanced Engagement and Impact",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/header_IDEAS_story.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/header_IDEAS_story_small.jpg"
       }
     },
     "health": {},
