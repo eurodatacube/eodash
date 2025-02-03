@@ -96,7 +96,7 @@
           text
           color="primary"
           block
-          :to="{ name: 'explore' }"
+          @click="loadTheme(null); $router.push({name: 'explore'})"
         >
           Explore Datasets
       </v-btn>
@@ -249,7 +249,7 @@
         text
         dark
         small
-        :to="{ name: 'explore' }"
+        @click="loadTheme(null); $router.push({name: 'explore'})"
       >
         Explore Datasets
       </v-btn>
