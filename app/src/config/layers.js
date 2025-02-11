@@ -342,7 +342,6 @@ export const cnrData = () => ({
   url: 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash_Water_Discharge_timeseries?aoi_id=eq.IT20&select=site_name,city,color_code,time,aoi,measurement_value,indicator_value,reference_time,eo_sensor,reference_value,input_data',
   name: 'CNR data',
   callbackFunction: (response, indicator) => {
-    console.log(response);
     const newData = {
       time: [],
       measurement: [],
