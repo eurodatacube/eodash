@@ -143,7 +143,9 @@ export default {
     ...mapState('config', ['appConfig']),
     hasSelectionEnabled() {
       return this.mergedConfigsData.length
-        && this.mergedConfigsData.find((layer) => layer?.selection || layer?.features?.selection);
+        && this.mergedConfigsData.find((layer) => (
+          layer?.selection || layer?.features?.selection || layer?.disableAreaSelection
+        ));
     },
     drawToolsVisible() {
       return !this.hasSelectionEnabled

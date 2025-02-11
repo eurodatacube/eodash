@@ -338,6 +338,38 @@ export const overlayLayers = Object.freeze({
   },
 });
 
+export const cnrData = () => ({
+  url: 'https://xcube-geodb.brockmann-consult.de/eodash/6bf15325-f6a0-4b6a-bf80-a2491753f8f2/eodash_Water_Discharge_timeseries?aoi_id=eq.IT20&select=site_name,city,color_code,time,aoi,measurement_value,indicator_value,reference_time,eo_sensor,reference_value,input_data',
+  name: 'CNR data',
+  callbackFunction: (response, indicator) => {
+    console.log(response);
+    const newData = {
+      time: [],
+      measurement: [],
+      colorCode: [],
+    };
+    response.forEach((entry) => {
+      // convert to structure indicatorData expects
+      newData.time.push(DateTime.fromISO(entry.time));
+      newData.measurement.push(Number(entry.measurement_value));
+      if (entry.input_data !== '/') {
+        newData.colorCode.push('#b34b4b');
+      } else {
+        newData.colorCode.push('#00000000');
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+    indicator.yAxis = '';
+    // eslint-disable-next-line no-param-reassign
+    indicator.name = 'Water discharge';
+    const ind = {
+      ...indicator,
+      ...newData,
+    };
+    return ind;
+  },
+});
+
 export const trucksAreaIndicator = (gtifAustria = false, timeParameter = 'time') => ({
   url: `https://xcube-geodb.brockmann-consult.de/eodash/${shConfig.geodbInstanceId}/rpc/geodb_get_pg`,
   requestMethod: 'POST',

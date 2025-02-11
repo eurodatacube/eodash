@@ -622,7 +622,10 @@ export default {
       return [resultConfig];
     },
     currentTimeIndex() {
-      return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
+      if (this.dataLayerTime && typeof this.dataLayerTime.name !== 'undefined') {
+        return this.availableTimeEntries.findIndex((item) => item.name === this.dataLayerTime.name);
+      }
+      return null;
     },
     currentTimeIndexLayerSwipe() {
       if (this.compareLayerTime) {
@@ -1060,6 +1063,12 @@ export default {
           cluster.reRender();
           if (this.$refs.timeSelection) {
             this.compareLayerTime = this.$refs.timeSelection.getInitialCompareTime();
+          }
+          // Special handler to load chart as custom chart when an indicator is loaded
+          if (this.indicator && ['CNR_TUR_1'].includes(this.indicator.indicator)) {
+            if (mutation.payload !== null) {
+              window.dispatchEvent(new Event('fetch-custom-area-chart'));
+            }
           }
           cluster.clusters.setVisible(true);
         }
