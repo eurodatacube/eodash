@@ -55,6 +55,10 @@ const state = {
           name: 'Water in snow as a resource for hydropower',
           routeName: 'gtif-eo-adaptation-services-snow',
         },
+        {
+          name: 'Urban Heat and Sustainable Planning',
+          routeName: 'gtif-eo-adaptation-services',
+        },
       ],
     },
   ],

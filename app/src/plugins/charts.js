@@ -6,6 +6,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels'; // eslint-disable-line 
 
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import * as ChartZoomPlugin from 'chartjs-plugin-zoom';
+import { ChartRegressions } from 'chartjs-plugin-regression';
 
 /**
  * Used to show a small bar on the chart if the value is 0
@@ -198,4 +199,4 @@ const defaultConfig = {
 };
 
 Chart.scaleService.registerScaleType('myLogScale', MyLogScale, defaultConfig);
-Chart.plugins.register([ChartAnnotation, ChartZoomPlugin, showZeroPlugin]);
+Chart.plugins.register([ChartAnnotation, ChartZoomPlugin, showZeroPlugin, ChartRegressions]);

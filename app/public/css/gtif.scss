@@ -46,3 +46,8 @@
 .v-expansion-panel-header {
   text-transform: uppercase;
 }
+
+/* Overwrite of coordinate div position because in gtif it is misaligned */
+.ol-control.ol-mouse-position {
+  top: -78px;
+}
