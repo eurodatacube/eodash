@@ -114,15 +114,15 @@ jobs:
           working-directory: app
           spec: tests/e2e/specs/indicators_gtif.js
           config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@gtif-testing.eox.at/${{ github.ref_name }}/'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-screenshots-gtif
           path: app/tests/e2e/screenshots
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
+          name: cypress-videos-gtif
           path: app/tests/e2e/videos
 
   cypress-run-race:
@@ -141,16 +141,16 @@ jobs:
           spec: tests/e2e/specs/indicators_race.js
           config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-testing.eox.at/${{ github.ref_name }}/'
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-screenshots-race
           path: app/tests/e2e/screenshots
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
+          name: cypress-videos-race
           path: app/tests/e2e/videos
 
   cypress-run-trilateral:
@@ -169,14 +169,14 @@ jobs:
           spec: tests/e2e/specs/indicators_trilateral.js
           config: 'baseUrl=https://${{ secrets.TEST_INSTANCE_UN }}:${{ secrets.TEST_INSTANCE_PW }}@eodash-trilateral-testing.eox.at/${{ github.ref_name }}/'
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-screenshots-trilateral
           path: app/tests/e2e/screenshots
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
+          name: cypress-videos-trilateral
           path: app/tests/e2e/videos

@@ -131,6 +131,7 @@ export default {
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'E13c', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT', 'CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2',
+        'Water_Discharge_timeseries',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'Modis_SNPP_2023',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
@@ -1416,6 +1417,7 @@ export default {
           });
           const conf = {
             data,
+            fill: false,
             label: indicator.yAxis,
             backgroundColor: colors,
             borderColor: colors,

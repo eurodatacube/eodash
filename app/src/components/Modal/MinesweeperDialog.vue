@@ -17,27 +17,18 @@
         </v-card-title>
         <v-card-text>
           <p>
-            Identify and flag <b>(right-click)</b> areas with very high
-            <b><span v-if="indicatorObject.indicator === 'IND1_1_minesweeper'">
-              health risks
-            </span>
-            <span v-else-if="indicatorObject.indicator === 'IND2_1_minesweeper'">
-              biodiversity
-            </span>
-          </b> using Earth Observation data.
+            Welcome to the Minesweeper game mode! For more information look at the Description in the Information panel!
           </p>
           <p>
-            Use visible layers to guide your exploration and uncover new tiles (<b>left-click</b>).
-          </p>
-          <p>Your <b>score</b> is based on the percentage of uncovered area at the end of the game.
-          </p>
-          <p v-if="indicatorObject.indicator === 'IND2_1_minesweeper'">
-          After you finish the game, a summary of significant
-          wildlife species which live there is shown.
-          </p>
-          <p>
-            A new location is <b>available daily</b> — come back tomorrow to explore more!
-          </p>
+            <b>Quick overview:</b><br/>
+            <ul>
+              <li>The goal of the game is to <b>UNCOVER (left-click)</b> most tiles possible that do not have a 'mine', or in other words, tiles corresponding to areas with high <span v-if="indicatorObject.indicator === 'IND1_1_minesweeper'">health risks</span><span v-else-if="indicatorObject.indicator === 'IND2_1_minesweeper'">biodiversity</span>. Your <b>score</b> is based on <b>the percentage of uncovered area and time spent</b> at the end of the game.</li>
+              <li>You can <b>FLAG (right-click)</b> the tiles with 'mines' (i.e. areas with very high health risk) to indicate they have a 'mine'.</li>
+              <li><b>Hint:</b> Use visible layers to guide your exploration and uncover new tiles (left-click).</li>
+            </ul>
+            <p>
+            A new location is available <b>daily</b> — come back tomorrow to explore more!
+            </p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
