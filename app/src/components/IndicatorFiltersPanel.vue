@@ -231,6 +231,11 @@ export default {
             onSelect: (item) => {
               if (this.toolsToggle) {
                 this.toggleSelectedItem(item);
+              } else if (item.name === 'Urban Heat and Sustainable Planning') {
+                this.$router.push({
+                  path: 'story',
+                  query: { id: 'urban-heat-sustainable-planning' },
+                });
               } else {
                 this.$router.push({ name: item.id });
               }
