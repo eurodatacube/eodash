@@ -10,9 +10,9 @@ module.exports = [
     geosearchEndpoint: 'https://api.opencagedata.com/geocode/v1/json?limit=5',
     match: ['race.esa.int', 'eodash.eox.at', 'eodash-staging.eox.at', 'eodash-testing.eox.at', 'race.eox.world', 'race.localhost', 'race.eox.home'],
     branding: {
-      appName: 'Rapid Action for Citizens with Earth Observation',
-      shortName: 'RACE Dashboard',
-      primaryColor: '#003247',
+      appName: 'Danube Information Factory Demo',
+      shortName: 'Danube IF Demo',
+      primaryColor: '#30a14e',
       secondaryColor: '#00ae92',
       headerLogo: './eodash-data/general/RACE_Logo.png',
       faviconPath: './public/img/ESA/favicon.ico',
