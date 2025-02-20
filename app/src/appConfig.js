@@ -56,6 +56,13 @@ module.exports = [
       },
     ],
     privacyText: '/eodash-data/general/privacy',
+    customMetadataTransformer: (collectionLink) => {
+      const j = collectionLink.themes.findIndex((theme) => theme === 'oceans');
+      if (j !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        collectionLink.themes[j] = 'water';
+      }
+    },
     termsText: '/eodash-data/general/terms',
     challengesText: '/eodash-data/general/challenges',
     feedbackTwitterHandles: ['esa_eo', 'EO_OPEN_SCIENCE', 'eurodatacube'],

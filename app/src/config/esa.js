@@ -183,6 +183,12 @@ export const layerNameMapping = Object.freeze({
   '[NEW] Pleiades 16bit': {
     layers: 'NEW_PLEIADES_16BIT',
   },
+  OL_2_WFR: {
+    layers: 'AWS_N3_CUSTOM',
+  },
+  OCEANCOLOUR_MED_CHL_L3_NRT_OBSERVATIONS_009_040: {
+    layers: 'AWS_VIS_SST_MAPS',
+  },
   'Sentinel 2 L2A': {
     layers: 'SENTINEL-2-L2A-TRUE-COLOR',
     dateFormatFunction: shS2TimeFunction,
