@@ -1,5 +1,6 @@
 # Extreme rainfal events in the South-East of France
 ###### *This story is based on results from the [3<sup>rd</sup> Earth System Science Challenge]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organised and hosted by ESA's ESRIN Science Hub in February 2024*
+The research presented in this story was developed in the frame of the [Earth System Science Challenge](https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organized by the European Space Agency (ESA) and hosted at ESRIN’s Science Hub in February 2024. The scope of this challenge was to identify the days on which severe air pollution episodes occurred in northern India and Pakistan, using the percentile technique applied on time series of carbon monoxide (CO) concentrations measured by Copernicus Sentinel-5P TROPOMI. The method was implemented on the [DeepESDL platform](https://www.earthsystemdatalab.net/) by a team of PhD students from Sorbonne Université. The data and code are made openly available.
 
 ## Extreme rainfal events in the South-East of France
 The research presented in this story was developed in the frame of the [Earth System Science Challenge](https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organized by the European Space Agency (ESA) and hosted at ESRIN’s Science Hub in February 2024. The scope of this challenge was to identify the days on which severe air pollution episodes occurred in northern India and Pakistan, using the percentile technique applied on time series of carbon monoxide (CO) concentrations measured by Copernicus Sentinel-5P TROPOMI. The method was implemented on the [DeepESDL platform](https://earthsystemdatalab.net) by a team of PhD students from Sorbonne Université. The data and code are made openly available.
@@ -85,7 +86,7 @@ To enhance this study, future research will focus on **refining the threshold me
 - The [GPCP dataset  precipitation dataset](https://journals.ametsoc.org/view/journals/hydr/2/1/1525-7541_2001_002_0036_gpaodd_2_0_co_2.xml)
 - The [ERA5 precipitation dataset](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview)
 
---
+#### References
 - The web news article on the [rainfall event of 02-10-2020](https://france3-regions.francetvinfo.fr/provence-alpes-cote-d-azur/alpes-maritimes/alpes-maritimes-un-nouvel-episode-mediterraneen-est-il-possible-2849237.html) 
-
-
+- Brocca et al. 2014. Soil as a natural rain gauge: Estimating global rainfall from satellite soil moisture data, https://doi.org/10.1002/2014JD021489.
+- Huffman et al. 2001. Global Precipitation at One-Degree Daily Resolution from Multisatellite Observations, https://doi.org/10.1175/1525-7541(2001)002<0036:GPAODD>2.0.CO;2
