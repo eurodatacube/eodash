@@ -1,4 +1,11 @@
 # Extreme rainfal events in the South-East of France
+###### *This story is based on results from the [3<sup>rd</sup> Earth System Science Challenge]( https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organised and hosted by ESA's ESRIN Science Hub in February 2024*
+
+## Extreme rainfal events in the South-East of France
+The research presented in this story was developed in the frame of the [Earth System Science Challenge](https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organized by the European Space Agency (ESA) and hosted at ESRIN’s Science Hub in February 2024. The scope of this challenge was to identify the days on which severe air pollution episodes occurred in northern India and Pakistan, using the percentile technique applied on time series of carbon monoxide (CO) concentrations measured by Copernicus Sentinel-5P TROPOMI. The method was implemented on the [DeepESDL platform](https://earthsystemdatalab.net) by a team of PhD students from Sorbonne Université. The data and code are made openly available.
+
+
+
 In recent years, the southeastern region of France has experienced increasingly severe rainfall events, posing significant challenges to local communities, infrastructure, and the environment. These extreme weather phenomena, known as [**"Cevenols events"**]()  are a striking example of how atmospheric and geographic factors combine to create intense and often devastating precipitation.
 
 Monitoring this kind of extreme event is a massive challenge for weather forecasts models, that is why observations from space are a really great tool to help in that way. In this study, the objective is to use observations products from space to try to **detect massive rainfall events and evaluate the accuracy of the results** in terms of caracteristics of the precipitation event (daily maximum value and location).
