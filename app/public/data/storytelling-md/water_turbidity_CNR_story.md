@@ -30,7 +30,7 @@ The discharge measured at the gauge station ranged from 104 to 8011 m³/s, with 
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"N3a2_chl_concentration_tri_esa-2024-10-19T00:00:00Z"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_N3_CUSTOM_TRILATERAL","styles":"","format":"image/png","time":"2024-10-19T00:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="10.809187632083866" center=[-8.724996185302738,38.65674144988111] animationOptions={duration:500}}-->
 #### Po River delta discharge: October 26, 2019
-Turbidity patterns in the coastal area varied widely due to different riverine discharge levels, with turbidity values ranging from 0 to 400 FNU. Moderate flood events led to turbidity values exceeding 200 FNU across the downstream river stretch, notably on October 26, 2019, with a discharge of 3862 m³/s.
+During the study period, the Po River delta exhibited considerable variation in coastal turbidity patterns, with measurements ranging from clear water to highly turbid conditions (0-400 FNU). The moderate flood event recorded on October 26, 2019 (3862 m³/s) produced substantial sediment transport, with turbidity exceeding 200 FNU throughout the downstream reaches of the river system.
 
 <center>
 <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/water_turbidity_story/water_turbidity_2.png?raw=true" >
