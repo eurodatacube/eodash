@@ -1444,6 +1444,29 @@ export const globalIndicators = [
           },
           {
             protocol: 'cog',
+            id: 'GHS',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/GHS_legend.png',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/GHSL_2018_AT_70m_3857.tif' },
+            ],
+            name: 'Global Human Settlement',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['>', ['band', 2], 0],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops('viridis', 0, 400, 64, true),
+                ],
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+          {
+            protocol: 'cog',
             id: 'LULUCF',
             sources: [
               { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857_rendered.tif' },
