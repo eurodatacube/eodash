@@ -1314,10 +1314,11 @@ export default {
           // Rendering for fetched data for rooftops
           featureData.fetchedData.forEach((valArray, ind) => {
             // for each gemeinde group into a dataset
+            const { stats } = valArray;
             const x = [];
             const y = [];
             const clrs = [];
-            valArray.forEach((value, idx) => {
+            valArray.data.forEach((value, idx) => {
               x.push(idx);
               y.push(value);
               clrs.push(refColors[ind]);
@@ -1327,6 +1328,7 @@ export default {
             ));
             datasets.push({
               fill: false,
+              stats,
               data,
               backgroundColor: clrs,
               borderColor: clrs,
@@ -1573,7 +1575,7 @@ export default {
               const parentDiv = document.createElement('div');
               parentDiv.id = 'regressionresult';
               parentDiv.style.position = 'absolute';
-              parentDiv.style.top = '105px';
+              parentDiv.style.top = '70px';
               parentDiv.style['margin-left'] = '60px';
               parentDiv.style['font-size'] = '12px';
               chart.data.datasets.forEach((val, idx) => {
@@ -1586,6 +1588,18 @@ export default {
                   const content = document.createTextNode(`R²: ${Number(result.r2).toFixed(3)}`);
                   divEl.appendChild(content);
                   parentDiv.appendChild(divEl);
+
+                  const areadiv = document.createElement('div');
+                  areadiv.style.color = `${this.appConfig.refColors[idx]}`;
+                  const areacontent = document.createTextNode(`Total Area: ${(val.stats.total_area / (1000 * 1000)).toFixed(0)} km²`);
+                  areadiv.appendChild(areacontent);
+                  parentDiv.appendChild(areadiv);
+
+                  const exposed = document.createElement('div');
+                  exposed.style.color = `${this.appConfig.refColors[idx]}`;
+                  const exposedcontent = document.createTextNode(`% Pop exposed to > 30°C: ${(val.stats.Population_exposed_30C).toFixed(0)} %`);
+                  exposed.appendChild(exposedcontent);
+                  parentDiv.appendChild(exposed);
                 }
               });
               chart.canvas.parentElement.parentElement.appendChild(parentDiv);

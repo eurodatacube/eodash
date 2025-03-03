@@ -388,23 +388,33 @@ export default {
           fetch(expUrl)
             .then((resp) => resp.json())
             .then((json) => {
-              // Load only selected gemeinde
-              const dataArray = [];
-              adminIds.forEach((key) => {
-                if (key in json) {
-                  dataArray.push(json[key]);
-                }
-              });
-              const ind = {
-                ...this.indicatorObject,
-                fetchedData: dataArray,
-                xAxis: 'Soil sealing percentage [%]',
-                yAxis: 'Average temperature [°]',
-              };
-              this.$store.commit(
-                'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
-              );
-              window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+              // fetch other stats
+              const statsUrl = 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/admin_area_stats.json';
+              fetch(statsUrl)
+                .then((respstats) => respstats.json())
+                .then((jsonstats) => {
+                  // Load only selected gemeinde
+                  const dataArray = [];
+                  adminIds.forEach((key) => {
+                    if (key in json) {
+                      dataArray.push({
+                        data: json[key],
+                        stats: jsonstats[key],
+                      });
+                    }
+                  });
+                  const ind = {
+                    ...this.indicatorObject,
+                    fetchedData: dataArray,
+                    xAxis: 'Soil sealing percentage [%]',
+                    yAxis: 'Average temperature [°]',
+                    stats: jsonstats,
+                  };
+                  this.$store.commit(
+                    'indicators/CUSTOM_AREA_INDICATOR_LOAD_FINISHED', ind,
+                  );
+                  window.dispatchEvent(new CustomEvent('set-custom-area-indicator-loading', { detail: false }));
+                });
             });
         }
         if (['AQ1',
