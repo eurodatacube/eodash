@@ -1340,7 +1340,7 @@ export const globalIndicators = [
           filters: {
             var: {
               display: true,
-              label: 'Imperviosness [%]',
+              label: 'Imperviousness [%]',
               id: 'var',
               min: 0,
               max: 100,
@@ -1467,6 +1467,7 @@ export const globalIndicators = [
           },
           {
             protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/LULUCF_palette_legend.png',
             id: 'LULUCF',
             sources: [
               { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857_rendered.tif' },
