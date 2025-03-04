@@ -62,6 +62,10 @@ module.exports = {
     '@eox/storytelling',
     'color-parse',
     '@eox/geosearch',
+    'color-legend-element',
+    '@lit/reactive-element',
+    'lit-html',
+    'lit-element',
   ],
   configureWebpack: {
     devServer: {

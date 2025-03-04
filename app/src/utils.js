@@ -379,7 +379,10 @@ export async function loadFeatureData(baseConfig, feature) {
         || jsonData.endpointtype === 'Sentinel Hub WMS') {
         display.dateFormatFunction = shTimeFunction;
       }
-      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+      // Try to find the colorlegend definition as default
+      if ('eox:colorlegend' in jsonData) {
+        display.legend = jsonData['eox:colorlegend'];
+      } else if ('assets' in jsonData && 'legend' in jsonData.assets) { // fallback to image url
         display.legendUrl = jsonData.assets.legend.href;
       }
     } else if (xyzEndpoint) {
@@ -756,8 +759,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
-    // If legend available add it to the display config
-    if ('assets' in jsonData && 'legend' in jsonData.assets) {
+    if ('eox:colorlegend' in jsonData) {
+      display.legend = jsonData['eox:colorlegend'];
+    } else if ('assets' in jsonData && 'legend' in jsonData.assets) {
       display.legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples
