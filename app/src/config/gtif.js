@@ -92,6 +92,30 @@ const whitered = [
   { index: stp * 7, rgb: [127, 39, 4] },
 ];
 
+const heatadaptCM = [
+  { index: 0, rgb: [43, 131, 186] },
+  { index: 0.25, rgb: [171, 221, 164] },
+  { index: 0.5, rgb: [255, 255, 191] },
+  { index: 0.75, rgb: [253, 174, 97] },
+  { index: 1, rgb: [215, 25, 28] },
+];
+
+const heatadaptImperviousness = [
+  { index: 0, rgb: [255, 253, 188] },
+  { index: 1, rgb: [255, 180, 4] },
+];
+
+// stp = 1 / 6;
+// const heatadaptReds = [
+//   { index: 0, rgb: [255, 245, 240] },
+//   { index: stp * 1, rgb: [254, 224, 210] },
+//   { index: stp * 2, rgb: [252, 187, 161] },
+//   { index: stp * 3, rgb: [252, 146, 114] },
+//   { index: stp * 4, rgb: [251, 106, 74] },
+//   { index: stp * 5, rgb: [165, 15, 21] },
+//   { index: stp * 6, rgb: [103, 0, 13] },
+// ];
+
 const blgrrd = {
   steps: 32,
   colors: colormap({
@@ -515,6 +539,14 @@ export const indicatorsDefinition = Object.freeze({
   },
   AQ1: {
     customAreaIndicator: true,
+  },
+  HAUC1: {
+    // customAreaIndicator: true,
+    baseLayers: solarAndGreenRoofDefaults,
+  },
+  HAUC2: {
+    customAreaIndicator: true,
+    baseLayers: solarAndGreenRoofDefaults,
   },
   // commented out so that selection is disabled
   // AQ1_1: {
@@ -1294,6 +1326,209 @@ function createSOL2Config(indicatorCode, selectedVariable) {
 }
 
 export const globalIndicators = [
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC1',
+        time: [
+          ['2022', '2022_LST_AT_merged_composite_mean_70m_3857.tif'],
+          ['2023', '2023_LST_AT_merged_composite_mean_70m_3857.tif'],
+          ['2024', '2024_LST_AT_merged_composite_mean_70m_3857.tif'],
+        ],
+        cogFilters: {
+          sourceLayer: 'HAUC1',
+          filters: {
+            var: {
+              display: true,
+              label: 'Imperviousness [%]',
+              id: 'var',
+              min: 0,
+              max: 100,
+              range: [0, 100],
+            },
+            forests: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Forest type coverage',
+              id: 'forests',
+              value: 0,
+            },
+            crops: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Crop type coverage',
+              id: 'crops',
+              value: 0,
+            },
+            grasslands: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Grassland type coverage',
+              id: 'grasslands',
+              value: 0,
+            },
+            settlements: {
+              display: true,
+              type: 'boolfilter',
+              label: 'Settlement type coverage',
+              id: 'settlements',
+              value: 0,
+            },
+          },
+        },
+        display: [
+          {
+            protocol: 'cog',
+            disableTimeSlider: true,
+            id: 'HAUC1',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/{time}' },
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/IMD_2018_AT_70m_3857.tif' },
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857.tif' },
+            ],
+            dateFormatFunction: (date) => `${date[1]}`,
+            labelFormatFunction: (date) => date[0],
+            style: {
+              variables: {
+                varMin: 0,
+                varMax: 100,
+                forests: 0,
+                crops: 0,
+                grasslands: 0,
+                settlements: 0,
+              },
+              color: [
+                'case',
+                [
+                  'all',
+                  ['!=', ['band', 4], 0],
+                  ['between',
+                    ['band', 2],
+                    ['var', 'varMin'],
+                    ['var', 'varMax'],
+                    /* assuming a stretch from 0 to 255 but it seems to not be used
+                    ['*', ['var', 'varMin'], 2.55],
+                    ['*', ['var', 'varMax'], 2.55],
+                    */
+                  ],
+                  // if no coverage filter is selected show all data
+                  [
+                    'case',
+                    ['all',
+                      ['==', ['var', 'forests'], 0],
+                      ['==', ['var', 'crops'], 0],
+                      ['==', ['var', 'grasslands'], 0],
+                      ['==', ['var', 'settlements'], 0],
+                    ],
+                    1,
+                    [
+                      'any',
+                      ['all', ['==', ['var', 'forests'], 1], ['between', ['band', 3], 100, 200]],
+                      ['all', ['==', ['var', 'crops'], 1], ['between', ['band', 3], 200, 300]],
+                      ['all', ['==', ['var', 'grasslands'], 1], ['between', ['band', 3], 300, 400]],
+                      ['all', ['==', ['var', 'settlements'], 1], ['between', ['band', 3], 500, 600]],
+                    ],
+                  ],
+                ],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops(heatadaptCM, 0, 40, 40, false),
+                ],
+                [
+                  'color', 0, 0, 0, 0,
+                ],
+              ],
+            },
+          },
+          {
+            protocol: 'cog',
+            id: 'GHS',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/GHS_legend.png',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/GHSL_2018_AT_70m_3857.tif' },
+            ],
+            name: 'Global Human Settlement',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['>', ['band', 2], 0],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops('viridis', 0, 400, 64, true),
+                ],
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+          {
+            protocol: 'cog',
+            legendUrl: 'https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/collections/HAUC1_land_surface_temperature_analysis/LULUCF_palette_legend.png',
+            id: 'LULUCF',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/LULUCF_2018_AT_70m_3857_rendered.tif' },
+            ],
+            name: 'Land Cover',
+            normalize: true,
+            visible: false,
+            style: {},
+          },
+          {
+            protocol: 'cog',
+            id: 'imperviousness',
+            sources: [
+              { url: 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/HeatAdapt/update/IMD_2018_AT_70m_3857.tif' },
+            ],
+            name: 'Imperviousness',
+            visible: false,
+            style: {
+              color: [
+                'case',
+                ['>', ['band', 1], 0],
+                [
+                  'interpolate',
+                  ['linear'],
+                  ['band', 1],
+                  ...getColorStops(heatadaptImperviousness, 1, 100, 32),
+                ],
+                ['color', 0, 0, 0, 0],
+              ],
+            },
+          },
+        ],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'HAUC2',
+        time: [],
+        display: [
+          {
+            layerName: 'geodb_debd884d-92f9-4979-87b6-eadef1139394:GTIF_AT_Gemeinden_3857',
+            protocol: 'geoserverTileLayer',
+            style: {
+              strokeColor: 'rgba(50,50,50,1)',
+              color: 'rgba(0,0,0,0)',
+              strokeWidth: 0.5,
+            },
+            id: 'gemeinde_lst',
+            name: 'Administrative zone (Gemeinde)',
+            selection: {
+              mode: 'multiple',
+            },
+            tooltip: true,
+            allowedParameters: ['name'],
+          },
+        ],
+      },
+    },
+  },
   createREP1Config('REP1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_200m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_1', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_100m_Austria_WGS84_COG_clipped_3857_fix.tif'),
   createREP1Config('REP1_2', 'https://eox-gtif-public.s3.eu-central-1.amazonaws.com/DHI/PowerDensity_50m_Austria_WGS84_COG_clipped_3857_fix.tif'),

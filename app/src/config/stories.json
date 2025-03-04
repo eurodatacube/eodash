@@ -9,6 +9,13 @@
         "subtitle": "Forecasts for commodity crops with CropOM's CropModel API",
         "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg",
         "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2018/09/watering_crops/17679972-1-eng-GB/Watering_crops_pillars.jpg"
+      },
+      "ideas-data": {
+        "storyMarkdown": "./data/storytelling-md/IDEAS.md",
+        "title": "IDEAS: Indicator Development For Economy And Society",
+        "subtitle": "Innovative, Gamified Indicators Linking Geospatial Data to Socio-Economic Processes for Enhanced Engagement and Impact",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/header_IDEAS_story.jpg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/IDEAS/header_IDEAS_story_small.jpg"
       }
     },
     "health": {},
@@ -295,6 +302,13 @@
     "eo-adaptation-services": {
       "eo-adaptation-services": {
         "originalDashboardId": "5783c58e9e22fbcb"
+      },
+      "urban-heat-sustainable-planning": {
+        "storyMarkdown": "./data/storytelling-md/GTIF/PLES-HO-24-31_GTIF_HeatAdapt_Story_V1.0.md",
+        "title": "Urban Heat and Sustainable Planning",
+        "subtitle": "",
+        "image": "https://gtif.esa.int/img/gtif/headers/eo-adaptation-services.jpg",
+        "imagePlaceholder": "https://gtif.esa.int/img/gtif/headers/eo-adaptation-services.jpg"
       }
     },
     "eo-adaptation-services-snow": {

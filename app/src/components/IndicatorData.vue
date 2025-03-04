@@ -131,6 +131,7 @@ export default {
         'AQA', 'AQB', 'AQC', 'AQ3', 'REP4_1', 'REP4_4', 'REP4_6',
         'MOBI1', 'MOBI1_1', 'PRCTS', 'SMCTS', 'VITS', 'E12c', 'E12d', 'E13c', 'ADO', 'ADO_1', 'ADO_2', 'ADO_3',
         'Lakes_SWT', 'CROPOMHU1', 'CROPOMHU2', 'CROPOMAT1', 'CROPOMAT2', 'CROPOMHUMR1', 'CROPOMHUMR2', 'CROPOMHUSC1', 'CROPOMHUSC2', 'CROPOMRO1', 'CROPOMRO2',
+        'Water_Discharge_timeseries',
         // Year overlap comparison
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m', 'Modis_SNPP_2023',
         'E10a2', 'E10a6', 'N3a2', 'N3a2_chl_esa', 'N3a2_chl_jaxa', 'N3a2_TSM_esa', 'N3a2_TSM_jaxa', 'REP4_2', 'REP1', 'REP1_1', 'REP1_2',
@@ -144,7 +145,7 @@ export default {
       ],
       scatterChartIndicators: [
         'SOL1', 'SOL1_1', 'SOL1_2', 'SOL1_3', 'SOL1_4', 'SOL1_5', 'SOL1_6', 'SOL1_7', 'SOL2', 'SOL2_1', 'SOL2_2', 'SOL2_3', 'REP4_5', 'AQ1', // 'AQ1_1',
-        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6',
+        'AQ1_2', 'AQ1_3', 'AQ1_4', 'AQ1_5', 'AQ1_6', 'HAUC2',
       ],
       multiYearComparison: [
         'E13e', 'E13f', 'E13g', 'E13h', 'E13i', 'E13l', 'E13m',
@@ -1309,6 +1310,37 @@ export default {
               pointRadius: 2,
             });
           });
+        } else if (['HAUC2'].includes(indicatorCode)) {
+          // Rendering for fetched data for rooftops
+          featureData.fetchedData.forEach((valArray, ind) => {
+            // for each gemeinde group into a dataset
+            const { stats } = valArray;
+            const x = [];
+            const y = [];
+            const clrs = [];
+            valArray.data.forEach((value, idx) => {
+              x.push(idx);
+              y.push(value);
+              clrs.push(refColors[ind]);
+            });
+            const data = x.map((mm, j) => (
+              { x: mm, y: y[j] }
+            ));
+            datasets.push({
+              fill: false,
+              stats,
+              data,
+              backgroundColor: clrs,
+              borderColor: clrs,
+              borderWidth: 1,
+              pointRadius: 2,
+              regressions: {
+                type: 'polynomial',
+                line: { color: refColors[ind], width: 2 },
+                calculation: { precision: 6, order: 3 },
+              },
+            });
+          });
         } else if (['REP4_5'].includes(indicatorCode)) {
           // Rendering for reservoirs LAC curve
           const data = featureData.referenceValue.map((x, i) => (
@@ -1387,6 +1419,7 @@ export default {
           });
           const conf = {
             data,
+            fill: false,
             label: indicator.yAxis,
             backgroundColor: colors,
             borderColor: colors,
@@ -1530,6 +1563,53 @@ export default {
       // just one default yAxis
       customSettings.yAxis = [this.indicatorObject.yAxis];
 
+      if (['HAUC2'].includes(indicatorCode)) {
+        customSettings.plugins = {
+          regressions: {
+            onCompleteCalculation: (chart) => {
+              // remove potential previous div
+              const preEl = document.getElementById('regressionresult');
+              if (preEl) {
+                preEl.remove();
+              }
+              const parentDiv = document.createElement('div');
+              parentDiv.id = 'regressionresult';
+              parentDiv.style.position = 'absolute';
+              parentDiv.style.top = '70px';
+              parentDiv.style['margin-left'] = '60px';
+              parentDiv.style['font-size'] = '12px';
+              chart.data.datasets.forEach((val, idx) => {
+                // currently we do not use sections so we assume sections with length 1
+                const { sections } = ChartRegressions.getDataset(chart, idx);
+                if (sections && sections.length > 0) {
+                  const { result } = sections[0];
+                  const divEl = document.createElement('div');
+                  divEl.style.color = `${this.appConfig.refColors[idx]}`;
+                  const content = document.createTextNode(`R²: ${Number(result.r2).toFixed(3)}`);
+                  divEl.appendChild(content);
+                  parentDiv.appendChild(divEl);
+
+                  const areadiv = document.createElement('div');
+                  areadiv.style.color = `${this.appConfig.refColors[idx]}`;
+                  const areacontent = document.createTextNode(`Total Area: ${(val.stats.total_area / (1000 * 1000)).toFixed(0)} km²`);
+                  areadiv.appendChild(areacontent);
+                  parentDiv.appendChild(areadiv);
+
+                  const exposed = document.createElement('div');
+                  exposed.style.color = `${this.appConfig.refColors[idx]}`;
+                  const exposedcontent = document.createTextNode(`% Pop exposed to > 30°C: ${(val.stats.Population_exposed_30C).toFixed(0)} %`);
+                  exposed.appendChild(exposedcontent);
+                  parentDiv.appendChild(exposed);
+                }
+              });
+              chart.canvas.parentElement.parentElement.appendChild(parentDiv);
+            },
+          },
+          datalabels: {
+            display: false,
+          },
+        };
+      }
       if (!Number.isNaN(reference) && ['E13b', 'E200'].includes(indicatorCode)) {
         annotations.push({
           ...defaultAnnotationSettings,

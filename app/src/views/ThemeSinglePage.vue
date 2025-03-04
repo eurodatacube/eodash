@@ -72,9 +72,9 @@
                     class="py-2 white--text"
                     block
                     max-height="44"
-                    :color="getCurrentTheme.color"
+                    color="primary"
                     large
-                    @click="$router.push({name: 'explore'})"
+                    @click="loadTheme(null); $router.push({name: 'explore'})"
                   >Explore Datasets</v-btn>
                 </div>
               </v-col>
