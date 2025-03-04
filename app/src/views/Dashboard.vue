@@ -38,7 +38,8 @@
                     v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
-                    :tools.prop="['info', 'config', 'opacity', 'sort']"
+                    :tools.prop="['info', 'legend', 'config', 'opacity', 'sort']"
+                    toolsAsList=true
                     height-percentage-both-open=30
                     :styleOverride.prop="appConfig.id === 'gtif' ?`button.icon[slot=opacity-icon]::before {content: url(${require('../../public/img/gtif/icons/circle-opacity.svg')}) !important;}
                     button.icon[slot=info-icon]::before {content: url(${require('../../public/img/gtif/icons/drop-icon.svg')}) !important;} [data-type=vector] .title::before { content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important; } [data-type=raster] .title::before {content: ''!important; width: 0px!important; height: 0px!important; min-width: 0px!important; margin-right: 0px!important;}* {font-family: 'NotesESA' !important;}` :`* {font-family: 'NotesESA' !important;}`"
@@ -62,7 +63,8 @@
                     v-if="panel.title == 'Layers'"
                     for="#centerMap"
                     :titleProperty.prop="'name'"
-                    :tools.prop="['info', 'config', 'opacity', 'sort']"
+                    :tools.prop="['info', 'legend', 'config', 'opacity', 'sort']"
+                    toolsAsList=true
                     class="pointerEvents">
                    </eox-layercontrol>
                  </UiPanel>

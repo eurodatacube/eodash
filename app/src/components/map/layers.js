@@ -619,8 +619,10 @@ export function createLayerFromConfig(config, map, _options = {}) {
     }
     layer.setExtent(drawnAreaExtent);
   }
+  let id = config?.features?.id ? config.features.id : config.id;
+  id = typeof id !== 'undefined' ? id : config.name;
   const layerProperties = {
-    id: config?.features?.id ? config.features.id : config.id,
+    id,
     opacity: typeof config.opacity !== 'undefined' ? config.opacity : 1,
     name: config.name,
     maxZoom: typeof config.maxZoom !== 'undefined' ? config.maxZoom : 18,
@@ -630,16 +632,20 @@ export function createLayerFromConfig(config, map, _options = {}) {
     layerControlOptional: config.layerControlOptional,
     layerConfig: config.layerConfig,
   };
-  const legendUrl = config.features ? config.features.legendUrl : config.legendUrl;
-  if (legendUrl || config.layerAdditionalDescription) {
-    let description = '';
-    if (legendUrl) {
-      description += `<img src="${legendUrl}" style="max-width: 100%" />`;
+  if ('legend' in config) {
+    layerProperties.layerLegend = config.legend;
+  } else {
+    const legendUrl = config.features ? config.features.legendUrl : config.legendUrl;
+    if (legendUrl || config.layerAdditionalDescription) {
+      let description = '';
+      if (legendUrl) {
+        description += `<img src="${legendUrl}" style="max-width: 100%" />`;
+      }
+      if (config.layerAdditionalDescription) {
+        description += config.layerAdditionalDescription;
+      }
+      layerProperties.description = description;
     }
-    if (config.layerAdditionalDescription) {
-      description += config.layerAdditionalDescription;
-    }
-    layerProperties.description = description;
   }
   layer.setProperties(layerProperties);
   if (config.drawnAreaLimitExtent || config?.features?.drawnAreaLimitExtent) {
