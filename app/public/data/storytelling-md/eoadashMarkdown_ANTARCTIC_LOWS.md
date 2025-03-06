@@ -185,13 +185,13 @@ Here are some key types of variables and datasets from Earth observation satelli
 8. Stuecker, M. F., Bitz, C. M., & Armour, K. C. Conditions leading to the unprecedented low Antarctic sea ice extent during the 2016 austral spring season, Geophys. Res. Lett., 44, 9008–9019 (2017).
 [doi.org/10.1002/2017GL074691](https://doi.org/10.1002/2017GL074691)
 9. Turner, J. et al. Record Low Antarctic Sea Ice Cover in February 2022. Geophys. Res. Lett. 49, (2022). [doi.org/10.1029/2022GL098904 ](https://doi.org/10.1029/2022GL098904)
-10. Meehl, G. A., et al. (2016). "Antarctic sea-ice expansion between 2000 and 2014 driven by tropical Pacific decadal climate variability." Nature Geoscience, 9(8), 590-595. [doi.org/10.1038/ngeo2751](https://www.nature.com/articles/ngeo2751)
-11. Wang, Z., Turner, J., Wu, Y., et al. (2023). "Antarctic sea ice loss driven by natural variability and anthropogenic forcing." Science Advances, 9(45) 
+10. Meehl, G. A., et al. Antarctic sea-ice expansion between 2000 and 2014 driven by tropical Pacific decadal climate variability, Nature Geoscience, 9(8), 590-595, (2016). [doi.org/10.1038/ngeo2751](https://www.nature.com/articles/ngeo2751)
+11. Wang, Z., Turner, J., Wu, Y., et al. Antarctic sea ice loss driven by natural variability and anthropogenic forcing." Science Advances, 9(45) 
 12. Purich, A. & Doddridge, E.W. Record low Antarctic sea ice coverage indicates a new sea ice state. Commun. Earth Environ., 4, 314 (2023).[doi.org/10.1038/s43247-023-00961-9](https://doi.org/10.1038/s43247-023-00961-9)
 13. Antarctic sea ice extent hits the second lowest . [JAXA Earth-graphy Quick Report](https://earth.jaxa.jp/en/earthview/2024/03/05/7973/index.html)
-14. Fretwell, P.T., Boutet, A. & Ratcliffe, N. Record low 2022 Antarctic sea ice led to catastrophic breeding failure of emperor penguins. Commun. Earth Environ. 4, 273 (2023).[doi.org/10.1038/s43247-023-00927-x](https://doi.org/10.1038/s43247-023-00927-x)
+14. Fretwell, P.T., Boutet, A. & Ratcliffe, N. Record low 2022 Antarctic sea ice led to catastrophic breeding failure of emperor penguins. Commun. Earth Environ. 4, 273, (2023).[doi.org/10.1038/s43247-023-00927-x](https://doi.org/10.1038/s43247-023-00927-x)
 15. Gudmundsson, G. H.: Ice-shelf buttressing and the stability of marine ice sheets, The Cryosphere, 7, 647–655, (2013).[doi.org/10.5194/tc-7-647-2013](https://tc.copernicus.org/articles/7/647/2013/)
-16. Miles, B. W. J., Stokes, C. R., and Jamieson, S. S. R.: Simultaneous disintegration of outlet glaciers in Porpoise Bay (Wilkes Land), East Antarctica, driven by sea ice break-up, The Cryosphere, 11, 427–442 (2017). [doi.org/10.5194/tc-11-427-2017](https://doi.org/10.5194/tc-11-427-2017)
+16. Miles, B. W. J., Stokes, C. R., and Jamieson, S. S. R.: Simultaneous disintegration of outlet glaciers in Porpoise Bay (Wilkes Land), East Antarctica, driven by sea ice break-up, The Cryosphere, 11, 427–442, (2017). [doi.org/10.5194/tc-11-427-2017](https://doi.org/10.5194/tc-11-427-2017)
 17. Parsons, R., Sun, S., Gudmundsson, G. H., Wuite, J., and Nagler, T.: Quantifying the buttressing contribution of landfast sea ice and melange to Crane Glacier, Antarctic Peninsula, The Cryosphere, 18, 5789–5801, (2024). [doi.org/10.5194/tc-18-5789-2024](https://doi.org/10.5194/tc-18-5789-2024) 
 
 
