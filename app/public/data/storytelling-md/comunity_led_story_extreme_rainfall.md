@@ -5,23 +5,19 @@ The research presented in this story was developed in the frame of the [Earth Sy
 ## Extreme rainfal events in the South-East of France
 The research presented in this story was developed in the frame of the [Earth System Science Challenge](https://sciencehub.esa.int/2024/05/09/3rd-earth-system-science-challenge/) organized by the European Space Agency (ESA) and hosted at ESRIN’s Science Hub in February 2024. The scope of this challenge was to identify the days on which severe air pollution episodes occurred in northern India and Pakistan, using the percentile technique applied on time series of carbon monoxide (CO) concentrations measured by Copernicus Sentinel-5P TROPOMI. The method was implemented on the [DeepESDL platform](https://earthsystemdatalab.net) by a team of PhD students from Sorbonne Université. The data and code are made openly available.
 
-
-
-In recent years, the southeastern region of France has experienced increasingly severe rainfall events, posing significant challenges to local communities, infrastructure, and the environment. These extreme weather phenomena, known as [**"Cevenols events"**]()  are a striking example of how atmospheric and geographic factors combine to create intense and often devastating precipitation.
+In recent years, the southeastern region of France has been hit by increasingly severe rainfall events, creating serious problems for local communities, infrastructure, and the environment. These extreme weather patterns, locally called **"Cevenols events"**, show how atmospheric conditions and geographical features work together to produce intense and often devastating downpours.
 
 Monitoring this kind of extreme event is a massive challenge for weather forecasts models, that is why observations from space are a really great tool to help in that way. In this study, the objective is to use observations products from space to try to **detect massive rainfall events and evaluate the accuracy of the results** in terms of caracteristics of the precipitation event (daily maximum value and location).
 
 #### Cevenols Events and their consequences
-Cevenols events are heavy and persistent rainfall episodes that typically occur in late summer and autumn. They are most common in southeastern France, particularly in the Cévennes mountain range, which gives the phenomenon its name. These episodes are caused by a combination of atmospheric conditions: warm and humid air masses, originating from the heated Mediterranean Sea, are pushed inland by southeasterly winds. When this air collides with colder air at higher altitudes, it triggers powerful thunderstorms and torrential rain. The steep terrain of the region further exacerbates the problem by trapping the moist air, leading to prolonged and concentrated precipitation in localized areas.
+Cevenols events are heavy and persistent rainfall episodes typically occuring in late summer and autumn, in southeastern France. More specifically these rainfalls occur in the are of the Cévennes mountain range (which is the reason why they are called this way). These intense rainfalls are caused by a combination of atmospheric conditions: warm and humid air masses, originating from the heated Mediterranean Sea, are pushed inland by southeasterly winds. When this air collides with colder air at higher altitudes, it triggers powerful thunderstorms and torrential rain. The steep terrain of the region further exacerbates the problem by trapping the moist air, leading to prolonged and concentrated precipitation in localized areas.
 
 <center>
 <img src="https://www.universalis.fr/typo3temp/assets/_processed_/5/e/csm_ca151093_788244508f.webp" width="600">
 <span style="font-size:15px;">Cevenols Events. Source: Encyclopaedia Universalis under CC BY-NC license.</span>
 </center>
 
-The consequences of Cevenols events can be severe and far-reaching. Flash floods are a major hazard, as the large volumes of rainwater quickly overwhelm rivers and drainage systems. Rapid runoff over saturated or rocky terrain leads to destructive flooding in urban and rural areas alike. Landslides are another common consequence, with soil and rock masses becoming unstable due to the excessive water infiltration.
-
-The human and economic toll of these events can be substantial. Homes, roads, and infrastructure are frequently damaged or destroyed, and emergency response teams often face significant challenges in evacuating and assisting affected populations. Furthermore, climate change may be intensifying the frequency and severity of these events, making scientific research and adaptive measures more critical than ever.
+The consequences of Cevenols events can be very impactful. The large volumes of rainwater can quickly overwhelm rivers contributing to a rapid runoff overleading to destructive flooding in urban and rural regions or landslides. The human and economic toll of such events can be substantial with the destruction of houses, roads and other infrastructures. 
 
 ## Method and datasets
 
