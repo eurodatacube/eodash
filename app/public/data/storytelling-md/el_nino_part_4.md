@@ -85,23 +85,23 @@ One study by the International Rice Research Institute (IRRI) in the Philippines
 ### References
 1. 'El Niño Forecast to Contribute to Food Insecurity'. [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity)
 2. 'FACTBOX: Mapping El Nino's impact on crop yields, global food trade in 2023-24'.[S&P Global](https://www.spglobal.com/commodityinsights/en/market-insights/latest-news/agriculture/061523-factbox-mapping-el-ninos-impact-on-crop-yields-global-food-trade-in-2023-24)
-3. 'el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts'. [Agrilinks](https://agrilinks.org/post/el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts-food-security)
-4.  https://agrilinks.org/post/el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts-food-security 
-5.  https://fews.net/our-services/food-assistance-outlook-briefs 
-6.  https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/ 
-7.  https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity 
-8.  https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023  
-9.  https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity 
-10.  https://www.fitchsolutions.com/bmi/agribusiness/el-nino-linked-declines-corn-production-south-africa-and-zambia-tighten-supplies-across-southern-africa-27-03-2024 
-11.  https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974 
-12.  https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974 
-13.  https://english.news.cn/africa/20240323/830961233ba4424baede664973c2f144/c.html 
-14.  https://www.agbiz.co.za/content/open/04-march-2024-sa-agri-market-viewpoint-414 
-15.  https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023  
-16.  https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf 
-17.  https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf 
+3.El Niño Forecast to Contribute to Food Insecurity [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity) 
+4. El Niño Forecast to Contribute to Food Insecurity [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity) 
+5. FEWSNET - Food assistance outlook Brief [EU Commission](https://knowledge4policy.ec.europa.eu/publication/fewsnet-food-assistance-outlook-brief_en)
+6.  2023/53 “Rice Production and Food Security in Southeast Asia under Threat from El Niño” by Elyssa Ludher and Paul Teng [ISEAS YOSOF ISAHK INSTITUTE](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/)
+7.  El Niño Forecast to Contribute to Food Insecurity [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity) 
+8. Global Food Security Alert: Strong El Niño event will contribute to high food assistance needs through 2024 (October 3, 2023)[FEWS NET](https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023)  
+9.   El Niño Forecast to Contribute to Food Insecurity [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity) 
+10.  El Niño-Linked Declines In Corn Production In South Africa And Zambia To Tighten Supplies Across Southern Africa [BMI](]https://www.fitchsolutions.com/bmi/agribusiness/el-nino-linked-declines-corn-production-south-africa-and-zambia-tighten-supplies-across-southern-africa-27-03-2024)
+11.  Dry weather hits southern Africa’s farmers, putting key maize supplies at risk: how to blunt the impact [theconversation.com](https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974)
+12.  Dry weather hits southern Africa’s farmers, putting key maize supplies at risk: how to blunt the impact [theconversation.com](https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974)
+13.  El Nino-induced drought likely to force southern Africa to import grain: UN [english.news.cn](https://english.news.cn/africa/20240323/830961233ba4424baede664973c2f144/c.html) 
+14.  El Niño-induced drought hits Southern Africa's agricultural sector [Agricultural Business chamber  - agbiz](https://www.agbiz.co.za/content/open/04-march-2024-sa-agri-market-viewpoint-414) 
+15.  Global Food Security Alert: Strong El Niño event will contribute to high food assistance needs through 2024 (October 3, 2023). [FEWS NET](https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023)
+16. The El Niño Event in the Americas and the Caribbean 2023. [UNDRR](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf)
+17. The El Niño Event in the Americas and the Caribbean 2023. [UNDRR](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf)
 18.   https://www.sciencedirect.com/science/article/abs/pii/S0308521X22002001 
-19.   AOStat (n.d.) United Nations Food and Agriculture Organisation. https://www.fao.org/faostat/en/#home 
+19.   AOStat (n.d.) [United Nations Food and Agriculture Organisation](https://www.fao.org/faostat/en/#home) 
 20.  Asia’s heatwaves 30 times more likely due to climate change, scientists say. [Radio Free Asia](https://www.rfa.org/english/news/environment/asia-heatwave-05182023020840.html) 
 21.  2023/53 “Rice Production and Food Security in Southeast Asia under Threat from El Niño” by Elyssa Ludher and Paul Teng. [ISEAS YUSOF ISHAK INSTITUTE](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/) 
 22.   ASEAN Food Security Information System (AFSIS), [Rice Growing Outlook Report, May 2023](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=70c2193b-c6ae-4013-9551-42698653df26&password=false&statusCode=1000&operationRestriction=3)
