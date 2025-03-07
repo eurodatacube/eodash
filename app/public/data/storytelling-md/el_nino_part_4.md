@@ -78,12 +78,14 @@ One study by the International Rice Research Institute (IRRI) in the Philippines
 
 
 ## Datasets
-- 
+- [GEOGALM: Global Crop Monitoring](https://www.cropmonitor.org/)
+- [ESA WorldCereal](https://esa-worldcereal.org/en/products/global-maps)  
+- Food and Agriculture Data [FAO](https://www.fao.org/faostat/en/#home)
 
 ### References
-1.  https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity 
-2.  https://www.spglobal.com/commodityinsights/en/market-insights/latest-news/agriculture/061523-factbox-mapping-el-ninos-impact-on-crop-yields-global-food-trade-in-2023-24 
-3.  https://agrilinks.org/post/el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts-food-security 
+1. 'El Niño Forecast to Contribute to Food Insecurity'. [earthobservatory.nasa.gov](https://earthobservatory.nasa.gov/images/152005/el-nino-forecast-to-contribute-to-food-insecurity)
+2. 'FACTBOX: Mapping El Nino's impact on crop yields, global food trade in 2023-24'.[S&P Global](https://www.spglobal.com/commodityinsights/en/market-insights/latest-news/agriculture/061523-factbox-mapping-el-ninos-impact-on-crop-yields-global-food-trade-in-2023-24)
+3. 'el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts'. [Agrilinks](https://agrilinks.org/post/el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts-food-security)
 4.  https://agrilinks.org/post/el-nino-strengthens-famine-early-warning-systems-network-forecasts-mixed-impacts-food-security 
 5.  https://fews.net/our-services/food-assistance-outlook-briefs 
 6.  https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/ 
@@ -100,16 +102,10 @@ One study by the International Rice Research Institute (IRRI) in the Philippines
 17.  https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf 
 18.   https://www.sciencedirect.com/science/article/abs/pii/S0308521X22002001 
 19.   AOStat (n.d.) United Nations Food and Agriculture Organisation. https://www.fao.org/faostat/en/#home 
-20.   https://www.rfa.org/english/news/environment/asia-heatwave-05182023020840.html 
-21.   https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/ 
-22.   ASEAN Food Security Information System (AFSIS), Rice Growing Outlook Report, May 2023. https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=70c2193b-c6ae-4013-9551-42698653df26&password=false&statusCode=1000&operationRestriction=3
-23.   https://www.mdpi.com/2073-4395/13/5/1339 
-24.   Arshad, M. S., Farooq, M., Asch, F., Krishna, J. S. V., Prasad, P. V. V., & Siddique, K. H. M. (2017). Thermal stress impacts reproductive development and grain yield in rice. Plant Physiology and Biochemistry, 115, 57-72. https://doi.org/10.1016/j.plaphy.2017.03.011 
+20.  Asia’s heatwaves 30 times more likely due to climate change, scientists say. [Radio Free Asia](https://www.rfa.org/english/news/environment/asia-heatwave-05182023020840.html) 
+21.  2023/53 “Rice Production and Food Security in Southeast Asia under Threat from El Niño” by Elyssa Ludher and Paul Teng. [ISEAS YUSOF ISHAK INSTITUTE](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/) 
+22.   ASEAN Food Security Information System (AFSIS), [Rice Growing Outlook Report, May 2023](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=70c2193b-c6ae-4013-9551-42698653df26&password=false&statusCode=1000&operationRestriction=3)
+23.  Liu, K.; Song, C.; Ye, P.; Liu, H.; Xia, Z.; Waseem, H.; Deng, Y.; Liu, Z.; Wang, L.; Wang, B.; et al. Optimizing Rice Sowing Dates for High Yield and Climate Adaptation in Central China. Agronomy 2023, 13, 1339. [https://doi.org/10.3390/agronomy13051339](https://www.mdpi.com/2073-4395/13/5/1339)
+24.   Arshad, M. S., Farooq, M., Asch, F., Krishna, J. S. V., Prasad, P. V. V., & Siddique, K. H. M. (2017). Thermal stress impacts reproductive development and grain yield in rice. Plant Physiology and Biochemistry, 115, 57-72. [https://doi.org/10.1016/j.plaphy.2017.03.011](https://doi.org/10.1016/j.plaphy.2017.03.011 ) 
 25.   Peng, Shaobing, Jianliang Huang, John E. Sheehy, Rebecca C. Laza, Romeo M. Visperas, Xuhua Zhong, Grace S. Centeno, Gurdev S. Khush, and Kenneth G. Cassman. "Rice yields decline with higher night temperature from global warming." Proceedings of the National Academy of Sciences 101, no. 27 (2004): 9971-9975.  
-26.   ASEAN Food Security Information System (AFSIS), Rice Growing Outlook Report, December 2023. https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=f649d126-919e-4d09-bfb9-c5b9b4fbfa80&password=false&statusCode=1000&operationRestriction=3
-
-<center>
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.Ctw5q-xxVCUeflHRUTkuagHaEK%26pid%3DApi&f=1&ipt=ce8e151ee46853c2391f2f5ee29c450ae1c25899d19824cbdee6c2b1a3733763&ipo=images" width="400">
-	
-<span style="font-size:15px;">Subtitle</span>
-</center>
+26.   ASEAN Food Security Information System (AFSIS), [Rice Growing Outlook Report, December 2023](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=f649d126-919e-4d09-bfb9-c5b9b4fbfa80&password=false&statusCode=1000&operationRestriction=3)
