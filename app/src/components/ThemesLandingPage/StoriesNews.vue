@@ -7,6 +7,16 @@
     <v-row>
       <v-col>
         <h3>
+          2025-03-10: Survey for AI-based features on EO Dashboard
+        </h3>
+        <p>
+          The eodashboard.org project is looking into potential applications of AI and we would love to hear your thoughts and ideas! We have setup a questionnaire <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=0Kxcmu8r102sXH6-H1T0laW1G4eQe39LnE1OD1qEn2xUODdPSEJUV0pKU1E1NFZXNDFIQUs4T1o1Sy4u" target="_blank"><b>here</b></a> if you find some time to let us pick your brain. Thank you!
+        </p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h3>
           2025-02-05: NASA, ESA, and JAXA sign joint declaration to continue their collaboration on EO Dashboard through September 2026
         </h3>
         <p>
