@@ -751,7 +751,8 @@ export const globalIndicators = [
           maxNativeZoom: 6,
           features: {
             name: 'Administrative zones ADM0',
-            url: './eodash-data/features/{indicator}/{indicator}_World.geojson',
+            url: './eodash-data/features/{indicator}/{indicator}_{aoiID}.geojson',
+            // TODO: fix url to not use aoiID but to use World in this case, so {indicator}_World.geojson
             allowedParameters: ['ADM0_NAME', 'Name'],
             style: {
               strokeColor: '#696868',
