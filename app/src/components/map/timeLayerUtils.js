@@ -21,7 +21,7 @@ export function updateTimeLayer(layer, config, time, drawnArea, sourceGet = 'upd
       normalize: config.normalize ? config.normalize : false,
       interpolate: false,
     }));
-  } else if (Array.isArray(time)) {
+  } else if (Array.isArray(time) && time.length > 0 && Array.isArray(time[1])) {
     // This case if for geotiff assets passed in the time
     layer.setSource(new GeoTIFF({
       sources: time[1].map((url) => ({ url })),
