@@ -34,6 +34,22 @@ export default {
         element.registerProjection(
           'EPSG:3035',
           PROJDICT['EPSG:3035'].def,
+          PROJDICT['EPSG:3035'].extent,
+        );
+        element.registerProjection(
+          'ORTHO:680500',
+          PROJDICT['ORTHO:680500'].def,
+          PROJDICT['ORTHO:680500'].extent,
+        );
+        element.registerProjection(
+          'EPSG:3031',
+          PROJDICT['EPSG:3031'].def,
+          PROJDICT['EPSG:3031'].extent,
+        );
+        element.registerProjection(
+          'EPSG:3411',
+          PROJDICT['EPSG:3411'].def,
+          PROJDICT['EPSG:3411'].extent,
         );
       }
     },

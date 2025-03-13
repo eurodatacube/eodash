@@ -301,6 +301,21 @@ export const PROJDICT = {
     name: 'EPSG:3035',
     def: '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs',
   },
+  'ORTHO:680500': {
+    name: 'ORTHO:680500',
+    def: '+proj=ortho +lat_0=90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',
+    extent: [-6422528, -6422528, 6422528, 6422528],
+  },
+  'EPSG:3411': {
+    name: 'EPSG:3411',
+    def: '+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs +type=crs',
+    extent: [-3314763.31, -3314763.31, 3314763.31, 3314763.31],
+  },
+  'EPSG:3031': {
+    name: 'EPSG:3031',
+    def: '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs',
+    extent: [-3299207.53, -3333134.03, 3299207.53, 3333134.03],
+  },
 };
 
 function createVectorTileDisplay(config) {
@@ -379,7 +394,10 @@ export async function loadFeatureData(baseConfig, feature) {
         || jsonData.endpointtype === 'Sentinel Hub WMS') {
         display.dateFormatFunction = shTimeFunction;
       }
-      if ('assets' in jsonData && 'legend' in jsonData.assets) {
+      // Try to find the colorlegend definition as default
+      if ('eox:colorlegend' in jsonData) {
+        display.legend = jsonData['eox:colorlegend'];
+      } else if ('assets' in jsonData && 'legend' in jsonData.assets) { // fallback to image url
         display.legendUrl = jsonData.assets.legend.href;
       }
     } else if (xyzEndpoint) {
@@ -756,8 +774,9 @@ export async function loadIndicatorData(baseConfig, payload) {
       });
       times.sort((a, b) => ((DateTime.fromISO(a) > DateTime.fromISO(b)) ? 1 : -1));
     }
-    // If legend available add it to the display config
-    if ('assets' in jsonData && 'legend' in jsonData.assets) {
+    if ('eox:colorlegend' in jsonData) {
+      display.legend = jsonData['eox:colorlegend'];
+    } else if ('assets' in jsonData && 'legend' in jsonData.assets) {
       display.legendUrl = jsonData.assets.legend.href;
     }
     // Check for possible processing configuration in examples

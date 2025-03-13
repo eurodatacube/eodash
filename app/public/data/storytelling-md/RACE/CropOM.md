@@ -10,7 +10,7 @@ To generate yield forecasts at a national level during the growing season, CropO
 <center>
 	<img src=https://www.ddc.cropom.com/assets/DDC__MAIN-DMAXp7Jk.svg height="300">
 
-Danube Data Cube is a cloud-based platform that integrates data, decisions, and actions. Source: [https://www.ddc.cropom.com](https://www.ddc.cropom.com)
+**Danube Data Cube is a cloud-based platform that integrates data, decisions, and actions**. Source: [https://www.ddc.cropom.com](https://www.ddc.cropom.com)
 	</center>
 	
 A demonstration of CropOM's service capabilities is currently featured on the [RACE Dashboard](https://race.esa.int/) to highlight the importance of Copernicus data in monitoring commodity crops. On RACE, we showcase the types of information the service provides and its analytical capabilities at the country, county, and sub-county levels. The complete service is accessible through the ESA [Network of Resources](https://portfolio.nor-discover.org/?textSearch=cropom&filterServiceType=Any&filterSource=Any&filterGeographicalCoverage=Any&filterTemporalPeriodStart=&filterTemporalPeriodEnd=).
@@ -82,9 +82,26 @@ The DDC (Dynamic Data Cube) Crop Model API is a web-based implementation of the 
 
 The API takes location, crop type, crop variety, sowing date, and irrigation water application data as user inputs, HR-VPP data from [Copernicus Land Services](https://land.copernicus.eu/en), Meteorological and Soil data from DDC data sources, and retrieves daily crop development (phenology), biomass, water need, and predicted yield data.
 
+#### Copernicus HR-VPP Dataset 
+
+<img src="https://land.copernicus.eu/static/media/ccl-icon-land-text-2.e04af716.svg" height="50">
+
+The High Resolution Vegetation Phenology and Productivity - HR-VPP is produced operationally by the Copernicus Land Monitoring Service through its entrusted entity - the European Environment Agency (EEA) since 2021. In 2024, CLMS announced the continuation and expansion of this service with the HR-VPP2. 
+
+HR-VPP2 will enhance the suite of products available to estimate vegetation phenology across large areas, leveraging satellite observations such as from the Sentinel-2 mission to track seasonal changes in green biomass and photosynthetic activity. HR-VPP2 will further evolve the HR-VPP product suite to provide vital parameters and data that explain the dynamics of vegetation growth and productivity across the pan-European landscape.
+
+**Data Access**: The Copernicus Land Monitoring HR-VPP data products are currently accessible via an S3 buckets on the WekEO public cloud. In 2025 all data will be migrated into the [Copernicus Data Space Ecosytem (CDSE)](https://documentation.dataspace.copernicus.eu/Data/ComplementaryData/CLMS.html).
+
+
+
+
+
+
 ## References
 
 * Cover image credits: Wikimedia Commons. LICENCE
 [ESA Standard Licence](https://www.esa.int/ESA_Multimedia/Terms_and_conditions_of_use_of_images_and_videos_available_on_the_esa_website) and Additional permission may be required (contact spaceinimages@esa.int for further information)
 * [CropOM Crop Model API](https://cropom.com)
 * [Danube Information Factory](https://www.ddc.cropom.com)
+* [Copernicus Land Monitoring Service](https://land.copernicus.eu/en)
+* [Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/)
