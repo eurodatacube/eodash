@@ -1,5 +1,12 @@
 ## Nighlights
 
+The Earth observations of nightime light emissions provide a unique perspecitve into human activities and impacts of natural disasters, such as assessing power outages or long term trends as the expansion of urban areas, or the influence of artificial lights on Nature.  These can also be used in estimation of population, support the assessment of remote areas electrification and monitoring regions impacts by disasters and conflicts. 
+
+Nightime illumination sources can vary light emitting objects, such as street light illumination, buildings and ships or moonlight itself.
+
+## Earth observations of nightime lights
+One source of nightime light imagery is the Visible Infrared Imaging Radiometer Suite (VIIRS) aboard the joint NASA/NOAA Suomi National Polar-orbiting Partnership (Suomi NPP). This satellite acquire global daily measurmenets of nocturnal visible and near-infrared (NIR) ligght that can be used for Earth sistem sciene and applictions.
+
 Nighttime Light Rural
 This dataset, NTLR (Nighttime Light Rural), provides a comprehensive global spatial representation of nighttime light levels in rural areas. It is derived from satellite observations from the Visible Infrared Imaging Radiometer Suite (VIIRS) sensor onboard the Suomi National Polar-orbiting Partnership (Suomi NPP) satellite. This dataset is valuable for studying the distribution of artificial lighting in rural regions, offering insights into human activity, infrastructure development, and rural electrification. The dataset uses varying shades of color to represent different intensities of light; darker shades indicate areas with less artificial light (e.g., rural or undeveloped regions), while lighter shades of yellow signify regions with higher concentrations of light (e.g., cities and industrial zones).
 
@@ -63,6 +70,9 @@ Textextex
 If you would like to have a better insight over a particular area, or a depper understanding on how cities have grown and their to economy shift, you can explore these changes since VIIRS satellite nightime ligh data are open access. The notebook below, allows to visualize urban expansion, infrastrucutre development using addtivie color blending - i.e. assigning different year to RBD channels allowing to reveal where artificial increased (which could be linked to economic growth) or decreased (suggesting reduced activity).
 
 Acceess the notebook to analyze trends, and uncover patterns of human activity on a location of your choice. 
+
+#### Other sources
+NASA offers of some of its most popular nighttime data through a suite of products called the Black Marble. 
 
 
 
