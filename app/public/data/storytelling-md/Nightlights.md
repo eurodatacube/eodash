@@ -73,6 +73,11 @@ Acceess the notebook to analyze trends, and uncover patterns of human activity o
 
 #### Other sources
 NASA offers of some of its most popular nighttime data through a suite of products called the Black Marble. 
+The dataset is a product of NOAA and NASA, and the data can be accessed through NASA's Black Marble suite.
+
+#### References
+* Li, X., Zhou, Y., Zhao, M. et al. A harmonized global nighttime light dataset 1992–2018. Sci Data 7, 168 (2020). https://doi.org/10.1038/s41597-020-0510-y
+* Chen, X., Wang, Z., Zhang, F. et al. A global annual simulated VIIRS nighttime light dataset from 1992 to 2023. Sci Data 11, 1380 (2024). https://doi.org/10.1038/s41597-024-04228-6
 
 
 
