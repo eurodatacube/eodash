@@ -39,7 +39,7 @@ In fact, El Niño induced drought is likely to force southern Africa to import g
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202501.tif"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="5.187117472916423" center=[-83.51278708099557,20.363544179291708] animationOptions={duration:500}}-->
 ####  Latin America and the Caribbean: maize, beans and coffee
 
-In parts of the Latin America and the Caribbean (LAC) region, below average rainfall is expected, adversely affecting agricultural products of maize, beans and coffee, exacerbating food insecurity and economic hardships for communities reliant on agriculture. Countries like Bolivia and Colombia prolonged droughts and water shortages are anticipated, impacting agricultural production and livelihoods [15](https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023  )  **of XXX, YYY and ZZZ..**
+In parts of the Latin America and the Caribbean (LAC) region, below average rainfall is expected, adversely affecting agricultural products of maize, beans and coffee, exacerbating food insecurity and economic hardships for communities reliant on agriculture. Countries like Bolivia and Colombia prolonged droughts and water shortages are anticipated, impacting agricultural production and livelihoods [15](https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023  ).
 
 <center>
 <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fe360.yale.edu%2Fassets%2Fsite%2FGettyImages-1146667212_ColombiaCoffee_web.jpg&f=1&nofb=1&ipt=e701c13deea06ce72ccf6390b969565bc8d81e4a9a8894c91c8f26df2edd9267&ipo=images" width="400">
@@ -49,13 +49,6 @@ In parts of the Latin America and the Caribbean (LAC) region, below average rain
 
 Maize production and harvest suffered considerable declines in Mexico, Colombia and Venezuela, with a considerable decline from June to March which resulted in increased prices and affected food security in 2023 [16](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf ). Therefore the impact of El Nino on food security in this region has significant repercussions, affecting approximately 40 million people within the humanitarian coverage area of the World Food Programme (WFP)[17](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf ).
 
-
-Textextex
-<center>
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.Ctw5q-xxVCUeflHRUTkuagHaEK%26pid%3DApi&f=1&ipt=ce8e151ee46853c2391f2f5ee29c450ae1c25899d19824cbdee6c2b1a3733763&ipo=images" width="400">
-	
-<span style="font-size:15px;">Subtitle</span>
-</center>
 
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202501.tif"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="4.8048372760503355" center=[103.17366681420401,13.948507694088732] animationOptions={duration:500}}-->
@@ -109,3 +102,8 @@ One study by the International Rice Research Institute (IRRI) in the Philippines
 24.   Arshad, M. S., Farooq, M., Asch, F., Krishna, J. S. V., Prasad, P. V. V., & Siddique, K. H. M. (2017). Thermal stress impacts reproductive development and grain yield in rice. Plant Physiology and Biochemistry, 115, 57-72. [https://doi.org/10.1016/j.plaphy.2017.03.011](https://doi.org/10.1016/j.plaphy.2017.03.011 ) 
 25.   Peng, Shaobing, Jianliang Huang, John E. Sheehy, Rebecca C. Laza, Romeo M. Visperas, Xuhua Zhong, Grace S. Centeno, Gurdev S. Khush, and Kenneth G. Cassman. "Rice yields decline with higher night temperature from global warming." Proceedings of the National Academy of Sciences 101, no. 27 (2004): 9971-9975.  
 26.   ASEAN Food Security Information System (AFSIS), [Rice Growing Outlook Report, December 2023](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=f649d126-919e-4d09-bfb9-c5b9b4fbfa80&password=false&statusCode=1000&operationRestriction=3)
+
+
+### Contributors
+Anca Anghelea (ESA), Bradley Doorn (NASA),  Kei Oyoshi (JAXA), Sara Aparício (Solenix c/o ESA) and  Zolti Szantoi (ESA).
+
