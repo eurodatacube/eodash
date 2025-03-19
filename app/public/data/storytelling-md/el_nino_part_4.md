@@ -31,7 +31,7 @@ Maize is the single most important cereal group in southern Africa, accounting f
 <center>
 <img src="https://live.staticflickr.com/4088/5207540264_9271be0f6b_b.jpg" width="400">
 	
-<span style="font-size:15px;">Maiz cob. Credit: Alliance of Biodiversity " Flickr</span>
+<span style="font-size:15px;">Maiz cob. Credit: Alliance of Biodiversity </span>
 </center>
 
 In fact, El Niño induced drought is likely to force southern Africa to import grain  [12](https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974 ) [13](https://english.news.cn/africa/20240323/830961233ba4424baede664973c2f144/c.html ) .  The field crops are primarily rainfed. For example, only about 20% of maize, 15% of soybean, and 34% of sugarcane are produced under irrigation, leaving a large part of the crop area at the mercy of the rains, which have been scarce since the start of February [14](https://www.agbiz.co.za/content/open/04-march-2024-sa-agri-market-viewpoint-414 ).
@@ -44,7 +44,7 @@ In parts of the Latin America and the Caribbean (LAC) region, below average rain
 <center>
 <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fe360.yale.edu%2Fassets%2Fsite%2FGettyImages-1146667212_ColombiaCoffee_web.jpg&f=1&nofb=1&ipt=e701c13deea06ce72ccf6390b969565bc8d81e4a9a8894c91c8f26df2edd9267&ipo=images" width="400">
 	
-<span style="font-size:15px;"> Colombian coffee farming. Credit Yale School of the Environment: </span>
+<span style="font-size:15px;"> Colombian coffee farming. Credit Yale School of the Environment </span>
 </center>
 
 Maize production and harvest suffered considerable declines in Mexico, Colombia and Venezuela, with a considerable decline from June to March which resulted in increased prices and affected food security in 2023 [16](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf ). Therefore the impact of El Nino on food security in this region has significant repercussions, affecting approximately 40 million people within the humanitarian coverage area of the World Food Programme (WFP)[17](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf ).
