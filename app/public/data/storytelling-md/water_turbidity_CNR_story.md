@@ -1,4 +1,4 @@
-# Water Turbidity from Sentinel-2
+# Water discharge monitoring: Turbidity Analysis Using Sentinel-2
 High-resolution satellite-based turbidity products from the Multispectral Imager (MSI) aboard the [Copernicus Sentinel-2 satellite mission constellation](https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2) allows analyzing the variability of coastal and inland waters in the upper Adriatic region. The study concentrated on the Po River basin from Ferrara to the river mouth, where freshwater and saltwater interactions create complex hydrodynamic patterns. 
  
 <center>
