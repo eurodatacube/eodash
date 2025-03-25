@@ -192,6 +192,10 @@ Here are some key types of variables and datasets from Earth observation satelli
 16. Miles, B. W. J., Stokes, C. R., and Jamieson, S. S. R.: Simultaneous disintegration of outlet glaciers in Porpoise Bay (Wilkes Land), East Antarctica, driven by sea ice break-up, The Cryosphere, 11, 427–442, (2017). [doi.org/10.5194/tc-11-427-2017](https://doi.org/10.5194/tc-11-427-2017)
 17. Parsons, R., Sun, S., Gudmundsson, G. H., Wuite, J., and Nagler, T.: Quantifying the buttressing contribution of landfast sea ice and melange to Crane Glacier, Antarctic Peninsula, The Cryosphere, 18, 5789–5801, (2024). [doi.org/10.5194/tc-18-5789-2024](https://doi.org/10.5194/tc-18-5789-2024) 
 
+### Contributors
+Anca Anghalea (ESA), Antonino Ian Ferola (ESA), Martin Wearing (ESA), Misako Kachi (JAXA), Kazuki Nakata (JAXA), Sara Aparício (Solenix c/o ESA) and Thorsten Markus (NASA).
+
+	
 
 	
 	
