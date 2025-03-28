@@ -123,6 +123,13 @@
       }
     },
     "extreme-events": {
+      "antarctic-ice-lows": {
+        "storyMarkdown": "./data/storytelling-md/eoadashMarkdown_ANTARCTIC_LOWS.md",
+        "title": "Antarctic Ice lows",
+        "subtitle": "Unprecedented Antarctic Sea Ice Decline in 2023: Record Lows and Historic Anomalies",
+        "image": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images",
+        "imagePlaceholder": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images"
+      },
       "el-nino-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
         "title": "El Niño 2023-2024 (Part 1): Record-breaking temperatures",
