@@ -123,6 +123,13 @@
       }
     },
     "extreme-events": {
+      "antarctic-ice-lows": {
+        "storyMarkdown": "./data/storytelling-md/eoadashMarkdown_ANTARCTIC_LOWS.md",
+        "title": "Antarctic Ice lows",
+        "subtitle": "Unprecedented Antarctic Sea Ice Decline in 2023: Record Lows and Historic Anomalies",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/07/emperor_penguins/22158494-1-eng-GB/Emperor_penguins_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/07/emperor_penguins/22158494-1-eng-GB/Emperor_penguins_pillars.jpg"
+      },
       "el-nino-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
         "title": "El Niño 2023-2024 (Part 1): Record-breaking temperatures",
@@ -168,6 +175,13 @@
         "subtitle": "Read more about record-breaking sea surface temperatures",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1.png",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/el_nino_SST/cover-ai-1-small.png"
+      },
+      "impacts-on-food-security": {
+        "storyMarkdown": "./data/storytelling-md/el_nino_part_4.md",
+        "title": "El Niño 2023-2024 (Part 3): Impacts on food security",
+        "subtitle": "Read more about el niño's effects on agriculture and trade",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg"
       }
     },
     "cryosphere": {

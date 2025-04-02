@@ -64,6 +64,7 @@ module.exports = {
     '@eox/geosearch',
     'color-legend-element',
     '@lit/reactive-element',
+    '@json-editor',
     'lit-html',
     'lit-element',
   ],
