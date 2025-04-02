@@ -87,7 +87,7 @@ In this example, the notebook allows to overlay flood data on optical imagery (f
     </figcaption>
 </figure>
 
-[Acceess  the notebook](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated) to analyze flooding extension and area estimation. You can also crosscompare multiyear data over particular locations impacted by floods in 2024 exploring the [Flood mapping indicator](https://race.esa.int/?indicator=WASDI_FLOOD&x=1782387.13181&y=6165318.97613&z=8.18089) available at RACE.ESA.INT.
+Besides [acceessing  the notebook](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated) to analyze flooding extension and area estimation, you can also crosscompare multiyear data over particular locations impacted by floods in 2024 exploring the [Flood mapping indicator](https://race.esa.int/?indicator=WASDI_FLOOD&x=1782387.13181&y=6165318.97613&z=8.18089) available at RACE.ESA.INT.
 
 
 
