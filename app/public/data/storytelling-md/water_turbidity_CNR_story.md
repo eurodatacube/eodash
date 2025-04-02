@@ -155,5 +155,8 @@ From the chart, the most notable difference between the AAOT and Pila stations i
 
 Finally, the higher importance of **remote sensing reflectance at 490 nm** at AAOT may indicate the **dominance of open ocean water types**, whereas the **Pila station** reflects more optically complex waters, where the **reflectance at 510 nm** (closer to the red visible spectrum) becomes more relevant.
 
+### Contributors 
+Gian Marco Scarpa (CNR-ISMAR), Michela Sammartino (CNR-ISMAR), Federica Braga (CNR-ISMAR), Simone Colella (CNR-ISMAR), Federico Falcini (CNR-ISMAR)
+
 
 
