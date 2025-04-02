@@ -125,10 +125,10 @@
     "extreme-events": {
       "antarctic-ice-lows": {
         "storyMarkdown": "./data/storytelling-md/eoadashMarkdown_ANTARCTIC_LOWS.md",
-        "title": "Antarctic Ice lows",
-        "subtitle": "Unprecedented Antarctic Sea Ice Decline in 2023: Record Lows and Historic Anomalies",
-        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/07/emperor_penguins/22158494-1-eng-GB/Emperor_penguins_pillars.jpg",
-        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/07/emperor_penguins/22158494-1-eng-GB/Emperor_penguins_pillars.jpg"
+        "title": "Antarctic Sea Ice Lows",
+        "subtitle": "Contributors: Anca Anghalea, Antonino Ian Ferola, Kazuki Nakata, Martin Wearing, Misako Kachi,Sara Aparício, Thorsten Markus",
+        "image": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images",
+        "imagePlaceholder": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images"
       },
       "el-nino-extremes": {
         "storyMarkdown": "./data/storytelling-md/eodashMarkdown_EXTREME__TEMPERATURES_2.md",
@@ -151,6 +151,14 @@
         "subtitle": "Authors: Selviga Sinnathamby, Natacha Kaminski, Elie Zoghbi - Sorbonne Universite, Paris, France",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan.jpg",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/AirPollutionIndia/cover-pakistan-small.jpg",
+        "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
+      },
+        "comunity_led_story_extreme_rainfall": {
+        "storyMarkdown": "./data/storytelling-md/comunity_led_story_extreme_rainfall.md", 
+        "title": "Cevenols episodes: rainfall extreme events in the South-East of France",
+        "subtitle": "Authors: Lucas Jessel, Sabrine Hezzi, Marie-Laure Roussel - Sorbonne Universite, Paris, France",
+        "image": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fnicubunu.ro%2Fpictures%2Fphotoblog%2Fimg_5052.jpg&f=1&nofb=1&ipt=dd18301d51ef76b09b42babb54e8feb76ac676e60b536bc8734409bfd6c5a139&ipo=images",
+        "imagePlaceholder": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fnicubunu.ro%2Fpictures%2Fphotoblog%2Fimg_5052.jpg&f=1&nofb=1&ipt=dd18301d51ef76b09b42babb54e8feb76ac676e60b536bc8734409bfd6c5a139&ipo=images",
         "logoAlternative": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/main/stories/ScienceHub-Challenge-February-2024/sorbonne-logos-white.png"
       },
       "sea-surface-temperature-rise": {
