@@ -51,22 +51,38 @@ The **NTLU** provides a comprehensive global spatial representation of nighttime
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"JAXA_Nighttimelevel_Urban"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"JAXA-NIGHTTIMELEVEL-URBAN","styles":"","format":"image/png","time":"2019-01-01T00:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.823650315180059" center=[-73.99550312972447,40.83001718614142] animationOptions={duration:500}}-->
 #### 
 The dataset covers urban areas globally, highlighting nighttime light levels to analyze urbanization, energy use, and economic activities.
-<center>
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.KqBpeRXDQW9ZyUDAKL9lrQHaFS%26pid%3DApi&f=1&ipt=3320da1b11123a2767c570e82025bc70dbad7dd8e62eb82ffa9be9d94f76499a&ipo=images" width="400">
-	
-<span style="font-size:15px;">Timesquare, New York</span>
-</center>
+<figure style="text-align: center;">
+    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flive.staticflickr.com%2F8745%2F16384318544_178f2f5482_b.jpg&f=1&nofb=1&ipt=25829b7e1b15806e923ac37a1f3283fca53fcec2090012dc5cd4fa2d91cceaa7&ipo=images" 
+         alt=" " 
+         style="display: block; margin: 0 auto;"
+         width="800
+								">
+    <figcaption>
+        Times Square at night, New York. Credit: 
+        <a href="https://www.flickr.com/photos/106447493@N05/16384318544" target="_blank">
+             Leon Yaakkov
+        </a>
+    </figcaption>
+</figure>
 
 This dataset metrics, are **'nighttime radiance values'** (measured in nanowatts per square centimeter per steradian, nW/cm²/sr), which represent the **brightness of artificial lighting in urban areas**. From this, the Nighttime Light Intensity (NTLI) can be generated, a composite of observations reflecting the overall intensity of visible nighttime lights in urban landscapes.
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"JAXA_Nighttimelevel_Rural"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"JAXA-NIGHTTIMELEVEL-RURAL","styles":"","format":"image/png","time":"2019-01-01T00:00:00Z"}}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.351542873898163" center=[2.8882348682431447,44.576074219821635] animationOptions={duration:500}}-->
 #### Nighttime Light Rural (NTLR)
 This dataset, **NTLR (Nighttime Light Rural)**, also derived from Suomi NPPM provides a comprehensive global spatial representation of nighttime light levels in **rural areas**. This dataset is valuable for studying the distribution of artificial lighting in **rural regions**, offering insights into human activity, **infrastructure development**, and **rural electrification**. 
-<center>
-<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flive.staticflickr.com%2F1666%2F25171090361_f674a3dc36_b.jpg&f=1&nofb=1&ipt=a9e227546fcfb6ab481a62edeadf968bd1c1adcf1b1762a713ccc42c605a4c09&ipo=images" width="400">
-	
-<span style="font-size:15px;">Nightime rural area</span>
-</center>
+<figure style="text-align: center;">
+    <img src=https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flive.staticflickr.com%2F3235%2F2878685617_eeff89373a_z.jpg&f=1&nofb=1&ipt=6f0925220b598c383594d4fe09dd64cf085f3474e27ddb90ccdb727f5d1e627e&ipo=images" 
+         alt=" " 
+         style="display: block; margin: 0 auto;"
+         width="800
+								">
+    <figcaption>
+       Rural area at night. Credit: 
+        <a href="https://www.flickr.com/photos/bcm_photo/2878685617" target="_blank">
+             Ben Murray
+        </a>
+    </figcaption>
+</figure>
 
 The dataset uses varying shades of color to represent different intensities of light; **darker shades** indicate areas with **less artificial light** (e.g., rural or undeveloped regions), while lighter **shades of yellow** signify regions with higher concentrations of light (e.g., cities and industrial zones).
 
@@ -106,6 +122,4 @@ You can also crosscompare mulyear data over particular cities in Europe, explori
 * Tojo, B. Application of earth observation data to public health. Proceedings of the Conference of Transdisciplinary Federation of Science and Technology 2021, B-4-4 (2021). DOI: [10.11487/oukan.2021.0_B-4-4](https://www.jstage.jst.go.jp/article/oukan/2021/0/2021_B-4-4/_article/-char/en)
 
 
-
-#### Contributors
 
