@@ -158,5 +158,6 @@ Finally, the higher importance of **remote sensing reflectance at 490 nm** at AA
 ### Contributors 
 Gian Marco Scarpa (CNR-ISMAR), Michela Sammartino (CNR-ISMAR), Federica Braga (CNR-ISMAR), Simone Colella (CNR-ISMAR), Federico Falcini (CNR-ISMAR)
 
+---
 
-
+Cover image source: <a href="https://commons.wikimedia.org/wiki/File:Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpg">GJo</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
