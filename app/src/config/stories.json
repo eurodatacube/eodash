@@ -1,7 +1,15 @@
 {  
   "esa": {
     "agriculture": {},
-    "water": {},
+    "water": {
+      "po-river-discharge": {
+        "storyMarkdown": "./data/storytelling-md/water_turbidity_CNR_story.md",
+        "title": "Tracking the Po river from space",
+        "subtitle": "Observing turbidity and discharge in the Po River basin with Copernicus Sentinel-2",
+        "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg",
+        "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg"
+      }
+    },
     "land": {
       "yield-forecast-crop-water-demand": {
         "storyMarkdown": "./data/storytelling-md/RACE/CropOM.md",
