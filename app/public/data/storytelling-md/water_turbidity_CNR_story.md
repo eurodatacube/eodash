@@ -29,7 +29,7 @@ Satellite imagery from both Sentinel-2A and Sentinel-2B, acquired between 2019 a
 Daily average water discharge data for the Po River at Pontelagoscuro were obtained from the [Environmental Protection Agency of the Region of Emilia Romagna (ARPA-ER)](https://www.arpae.it/it), through a dedicated [data access website](https://simc.arpae.it/dext3r/), enabling the correlation of discharge with satellite image acquisition dates. Water level data from **Pontelagoscuro** and **Cavanella** stations were retrieved from the [AIPO website](https://www.agenziapo.it/content/monitoraggio-idrografico-0). At Pontelagoscuro, water levels are primarily influenced by river discharge, with minimal tidal impact. In contrast, at Cavanella, tidal influence is significant, with clear ebb and flood phases affecting water level measurements.
 
  <center>
-<img src="https://github.com/eurodatacube/eodash-assets/blob/cnr-po-story-update/stories/water_turbidity_story/Gauging_stations.jpg" >
+<img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/water_turbidity_story/Gauging_stations.jpg?raw=true" >
 </center>
 
 <p style="font-size: 0.85em; text-align: center;">
