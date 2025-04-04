@@ -5,7 +5,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import { DateTime } from 'luxon';
 import { shS2TimeFunction } from '@/utils';
 import {
-  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs,
+  baseLayers, overlayLayers, trucksFeatures, trucksAreaIndicator, createCropomDatasetConfigs, cnrData,
 } from '@/config/layers';
 import { createIDEASDatasetConfigs } from '@/config/ideas_config';
 import E13dMapTimes from '@/config/data_dates_e13d.json';
@@ -355,6 +355,19 @@ export const globalIndicators = [
           layers: 'VIS_TRUCK_DETECTION_MOTORWAYS_NEW',
           maxZoom: 14,
           opacity: 0.7,
+        }],
+      },
+    },
+  },
+  {
+    properties: {
+      indicatorObject: {
+        indicator: 'CNR_TUR_1',
+        display: [{
+          customAreaIndicator: true,
+          disableAreaSelection: true,
+          areaIndicator: cnrData(),
+          dateFormatFunction: (date) => `${DateTime.fromISO(date[0]).toFormat('yyyy-MM-dd')}`,
         }],
       },
     },
