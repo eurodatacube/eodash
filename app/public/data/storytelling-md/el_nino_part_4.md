@@ -75,6 +75,8 @@ Space agencies including ESA, NASA and JAXA, offer access to these datasets, pro
 
 - [NASA ECOSTRESS](https://science.nasa.gov/mission/ecostress/) - NASA's ECOSTRESS mission accurately measures the temperature of plants on Earth's surface. Plants regulate their temperature through the release of water vapor via tiny leaf pores called stomata. When water availability is sufficient, plants maintain stable temperatures. However, under water stress, plant temperatures rise—changes detectable by ECOSTRESS, providing valuable insights into crop water stress and health.
 
+- [JASMAI](https://jasmai.maff.go.jp/en/) from JAXA and  MAFF/Japan (Ministry of Agriculture Forestry and Fishery) - JASMAI provides visualization of weather and vegetation data such as soil moisture content, precipitation, and NDVI, etc. for each country and area in the main production zones of major cereals and other crops obtained from satellite observations mainly by JAXA. The information provided by JASMIN is referred in the monthly [Rice Growing Outlook (RGO)](https://asia-rice.org/rice-growing-outlook/) report published by the [ASEAN Food Security Information System (AFSIS)](https://aptfsis.org/publication/rgo).
+
 - Food and Agriculture Data [FAO](https://www.fao.org/faostat/en/#data) - provides free access to food and agriculture data for over 245 countries and territories and covers all FAO regional groupings
 from 1961 to the most recent year available.
 
