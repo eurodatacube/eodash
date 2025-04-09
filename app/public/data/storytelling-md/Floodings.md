@@ -1,4 +1,4 @@
-## Mapping floodings
+## Mapping 2024 Central European floods using satellite data
 Throughout much of 2024, numerous European countries were affected by severe floods caused by prolonged heavy rains. Several were catastrophic, causing deaths and widespread damage due to overflowing river basins and landslides.
 In response to the floods, the [Copernicus Emergency Management Service](https://mapping.emergency.copernicus.eu/) has been activated to produce detailed maps of the affected areas across several countries, including Poland, Germany, Slovakia, Austria, Germany and Italy.
 
