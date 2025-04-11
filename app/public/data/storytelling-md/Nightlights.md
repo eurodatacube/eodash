@@ -94,7 +94,7 @@ Like NTLU (Nighttime Light Urban), the temporal coverage includes multi-year dat
 
 
 ## Open Science
-#### Explore Nighttime Light Data with Jupyter Notebooks 
+### Explore Nighttime Light Data with Jupyter Notebooks 
 
 If you would like to have a better insight over a particular area, or a depper understanding on how cities have grown and their to economy shift, you can explore these changes since VIIRS satellite nightime ligh data are open access. The [notebook below](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated), allows to visualize urban expansion, infrastrucutre development using addtivie color blending - i.e. assigning different year to RBD channels allowing to reveal where artificial increased (which could be linked to economic growth) or decreased (suggesting reduced activity).
 
@@ -112,7 +112,15 @@ If you would like to have a better insight over a particular area, or a depper u
 </figure>
 
 [Acceess the notebook](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated) to analyze trends, and uncover patterns of human activity on a location of your choice. 
-You can also crosscompare mulyear data over particular cities in Europe, exploring the [Nighlights from SUOMI-NPP indicator](https://eodashboard.org/explore?x=5442409.90488&y=525133.72922&z=2.81378&clusterOpen=1&indicator=N5), or accessing [NASA's Black Marble](https://blackmarble.gsfc.nasa.gov/), which offers popular nighttime data through a suite of products.
+
+### Explore Nighttime Light Data on different dashboards and portals
+
+* **NASA-ESA-JAXA Earth observing Dashboard**
+
+The [NASA-ESA-JAXA Earth observing Dashboard](https://eodashboard.org/explore?x=5442409.90488&y=525133.72922&z=2.81378&clusterOpen=1&indicator=N5) allows to crosscompare multiyear data over particular cities in Europe, exploring the Nighlights from SUOMI-NPP indicator, in particular the [Night lights in rural areas](https://eodashboard.org/explore?x=-2948638.45321&y=1639002.77598&z=3.45759&indicator=NTLR) and in [urban areas](https://eodashboard.org/explore?x=-2948638.45321&y=1639002.77598&z=3.45759&indicator=NTLU) datasets described in this story. 
+* **NASA EarthData VEDA Dashboard**
+
+​The NASA EarthData VEDA Dashboard offers [multiple datasets related to nighttime observations](https://www.earthdata.nasa.gov/dashboard/exploration?datasets=%5B%5D&taxonomy=%7B%7D&search=night), particularly under the [NASA's Black Marble](https://blackmarble.gsfc.nasa.gov/) suite (which offers popular nighttime data through a suite of products).
 
 
 
