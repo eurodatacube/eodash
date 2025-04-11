@@ -1,5 +1,5 @@
 
-## Record-low Antarctic Sea ice in 2023
+## 2023 Antarctic Sea Ice
 While global temperature records in 2023 made headlines, some remarkable events and record breaking events also occurred in Antarctica. On 16 February 2023, the Copernicus Marine Service recorded a new low in Antarctic sea ice coverage, which fell to just 1.77 million km2 [1](https://marine.copernicus.eu/news/antarctic-summer-sea ice-minimum-lowest-ever-observed) - 36% below the 1979-2022 average daily minimum. Since then, Antarctic sea ice has continued to decline, reaching record lows in May and June 2023, particularly in the Weddell, Bellingshausen, and the Ross Sea's western part (as shown below) [2](https://marine.copernicus.eu/news/2023-northern-hemisphere-summer-record-breaking-oceanic-events). Following the summer minimum, the Antarctic sea ice coverage remained exceptionally low during the autumn and winter growth period, resulting in the largest negative anomaly in areal extent ever observed by satellites. This means that new records were set for both the annual minimum in February  and also the annual maximum in September [3](https://www.nature.com/articles/s43247-023-00961-9). On September 24th, Antarctic sea ice reached its annual maximum extent of 16.96 million km2 setting a new record low maximum in the satellite record (i.e. since 1979) [4](https://www.climate.gov/news-features/event-tracker/2023-antarctic-sea ice-winter-maximum-lowest-record-wide-margin ). 
 
 <figure style="text-align: center;">
@@ -34,7 +34,7 @@ Low sea ice conditions in the Southern Ocean cannot be attributed to a single ca
 
 
 
-## Antarctic Winter sea ice Extent Lowest Ever Recorded
+## Record sea ice lows 
 In the Arctic, the North American and Eurasian continents encircle the Arctic Ocean, while in the Antarctic, the Southern Ocean surrounds Antarctica. Both the Arctic and Southern Oceans show seasonal variations, with sea ice expanding as seawater freezes in winter and retreating as sea ice melts in summer. When we think of “Antarctic ice”, the first thing that often comes to mind is the continental ice sheet formed by snow accumulation. However, large areas of floating frozen seawater - sea ice - also surround the continent, providing a foundation for ecosystem development. Sea ice extent and thickness are indicators of climate change because they are influenced by both air and water temperatures. Using satellite microwave radiometers such as the Advanced Microwave Scanning Radiometer [(AMSR) series](https://www.eorc.jaxa.jp/AMSR/index_en.html) and Special Sensor Microwave/Imager ([SSM/I](https://www.ncei.noaa.gov/products/dmsp-microwave-imager)), scientists can observe not only seasonal variations in sea ice extent but also long-term trends spanning over 45 years, from 1978 to the present. 
 <figure style="text-align: center;">
     <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/Antarctic%20Sea%20Ice%20lows/Antarctic_sea_ice_concentration_image2.png?raw=true" 
@@ -66,7 +66,7 @@ Credits: JAXA
 
 
 
-##  Potential factors  <!--{ as="eox-map" mode="tour" projection="EPSG:3031" layers='[{"type":"Tile","properties":{"id":"N12_sea_ice_concentration_antarctic-2025-01-30T11:59:30Z"},"source":{"type":"TileWMS","urls":["https://ogcpreview2.restecmap.com/examind/api/WS/wms/default"],"params":{"layers":"SIC_S","styles":"","format":"image/png","time":"2023-06-03T11:59:30.000Z"}}},{"type":"Tile","properties":{"id":"anatrcticwms"},"source":{"projection":"EPSG:3031","type":"TileWMS","url":"https://wms.gebco.net/2014/south-polar/mapserv?","params":{"LAYERS":"gebco_south_polar_view","TILED":true},"ratio":1,"serverType":"mapserver"}}]' zoom="1.7556138087264377" center=[-2000000,0]}-->
+##  Factors for sea ice reduction  <!--{ as="eox-map" mode="tour" projection="EPSG:3031" layers='[{"type":"Tile","properties":{"id":"N12_sea_ice_concentration_antarctic-2025-01-30T11:59:30Z"},"source":{"type":"TileWMS","urls":["https://ogcpreview2.restecmap.com/examind/api/WS/wms/default"],"params":{"layers":"SIC_S","styles":"","format":"image/png","time":"2023-06-03T11:59:30.000Z"}}},{"type":"Tile","properties":{"id":"anatrcticwms"},"source":{"projection":"EPSG:3031","type":"TileWMS","url":"https://wms.gebco.net/2014/south-polar/mapserv?","params":{"LAYERS":"gebco_south_polar_view","TILED":true},"ratio":1,"serverType":"mapserver"}}]' zoom="1.7556138087264377" center=[-2000000,0]}-->
 ### <!--{ projection="EPSG:3031" layers='[{"type":"Tile","properties":{"id":"N12_sea_ice_concentration_antarctic-2025-01-30T11:59:30Z"},"source":{"type":"TileWMS","urls":["https://ogcpreview2.restecmap.com/examind/api/WS/wms/default"],"params":{"layers":"SIC_S","styles":"","format":"image/png","time":"2023-06-03T11:59:30.000Z"}}},{"type":"Tile","properties":{"id":"anatrcticwms"},"source":{"projection":"EPSG:3031","type":"TileWMS","url":"https://wms.gebco.net/2014/south-polar/mapserv?","params":{"LAYERS":"gebco_south_polar_view","TILED":true},"ratio":1,"serverType":"mapserver"}}]' zoom="1.7556138087264377" center=[-2000000,0]}-->
 #### Month comparison: June 2023
 Let’s take a closer look at where sea ice extent expanded less than usual in June and September 2023. As illustrated in the figure below, Antarctica is surrounded by the Southern Ocean, with the Bellingshausen Sea on the left, the Weddell Sea at the top, and Ross Sea at the bottom. By comparing sea ice extent in these areas to the average of the past 45 years (white line), we can see a significant decrease of the south-to-north sea ice extent during June. 
@@ -102,7 +102,7 @@ Although the cause of the significantly smaller Antarctic winter sea ice extent 
 </figure>
 
 
-## Changes in Antarctc sea ice extent
+## Long-term trends and variability
 Let's examine the interannual variability of Antarctic summer sea ice extent. The figure below shows the minimum sea ice extent for February derived from microwave radiometer data. As previously noted, sea ice extent in the Arctic Ocean has been on a decreasing trend, while the Southern Ocean experienced a slight increasing trend until around 2015. In any case, the long-term trend in the Antarctic sea ice extent has not been as dramatic as in the Arctic and thus received less attention.
 The trend began to change in the early austral spring of 2016 (around November). Higher sea surface temperatures in the Southern Ocean and warm air advected from the north led to a decrease in sea ice extent [7](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2017GL073656) [8](https://doi.org/10.1002/2017GL074691) [9](https://doi.org/10.1029/2022GL098904), reaching a record minimum in February 2017, as shown in the figure below. 
 
@@ -162,7 +162,7 @@ What about the impact on the oceans? As mentioned at the start of this article, 
 </figure>
 
 
-## Open data
+## Open Science
 Here are some key types of variables and datasets from Earth observation satellite missions that can be used to track sea ice extention and sea ice concentration.
 - Advanced Microwave Scanning Radiometer (AMSR) series. [Visit JAXA website](https://www.eorc.jaxa.jp/AMSR/index_en.html)
 - Special Sensor Microwave/Imager (SSM/I). [Visit NOOA website](https://www.ncei.noaa.gov/products/dmsp-microwave-imager)
