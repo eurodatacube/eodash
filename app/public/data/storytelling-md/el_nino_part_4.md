@@ -32,9 +32,16 @@ Maize is the single most important cereal crop in Southern Africa, accounting fo
 
 In fact, drought conditions induced by El Niño are likely to force Southern Africa to increase grain imports  [[12]](https://theconversation.com/dry-weather-hits-southern-africas-farmers-putting-key-maize-supplies-at-risk-how-to-blunt-the-impact-224974 ) [[13]](https://english.news.cn/africa/20240323/830961233ba4424baede664973c2f144/c.html ).  Most of the region's field crops depend heavily on rainfall. For example, only about 20% of maize, 15% of soybean, and 34% of sugarcane are produced under irrigation, leaving a large part of the crop area vulnerable to rainfall variability, which has been scarce since early February 2024 [[14]](https://www.agbiz.co.za/content/open/04-march-2024-sa-agri-market-viewpoint-414 ).
 
-The map displayed, shows Group on [Earth Observation’s Global Agricultural Monitoring Initiative (GEOGLAM) Global Crop Monitor dataset](https://www.cropmonitor.org/), which uses remote sensing data like global precipitation and soil moisture measurements to help reduce uncertainty, promote market transparency, and provide early warning for crop failures through multi-agency collaboration.  **Green color** represents **favourable** crop conditions; **yellow** represents **watch**; and **orange** represents **poor** crop conditions and **brown** represents **no data**.
+The map displayed corresponds to the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) during the time period of **August 2023**. The GEOGLAM (Group on Earth Observation’s Global Agricultural Monitoring Initiative) dataset uses a combination of remote sensing data like global precipitation and soil moisture measurements to help reduce uncertainty, promote market transparency, and provide early warning for crop failures through multi-agency collaboration.  
+<center>
+<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png" width="400">	
+<span style="font-size:15px;"> Crop conditions</span>
+</center>
 
-### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202309.tif"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="5.187117472916423" center=[-83.51278708099557,20.363544179291708] animationOptions={duration:500}}-->
+  
+
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202310.tif"]}},{"type":"Tile","properties":{"id":"Terrain light"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="5.187117472916423" center=[-83.51278708099557,20.363544179291708] animationOptions={duration:500}}-->
 ####  Latin America and the Caribbean: maize, beans and coffee
 
 In parts of the Latin America and the Caribbean (LAC), below average rainfall was anticipated during the 2023-2024 El Niño event, negatively impacting agricultural products such as maize, beans and coffee. This situation intensified food insecurity and economic difficulties for communities heavily dependent on agriculture. Countries like Bolivia and Colombia experienced prolonged droughts and water shortages, significantly affecting agricultural production and local livelihoods [[15]](https://reliefweb.int/report/world/global-food-security-alert-strong-el-nino-event-will-contribute-high-food-assistance-needs-through-2024-october-3-2023  ).
@@ -47,7 +54,11 @@ In parts of the Latin America and the Caribbean (LAC), below average rainfall wa
 
 Maize production and harvest declined significantly in Mexico, Colombia and Venezuela from June 2023 through March 2024. These production losses led to higher food prices and negatively impacted food security throughout 2023 [[16]](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf ). Consequently, the effects of El Nino had major repercussions on food security in the region, affecting approximately 40 million people within the humanitarian coverage area of the World Food Programme (WFP)[[17]](https://www.undrr.org/sites/default/files/2023-08/en-el-nino-event-in-the-americas-and-the-caribbean-2023.pdf).
 
-[GEOGLAM dataset](https://www.cropmonitor.org/) color meaning: **Green color** represents **favourable** crop conditions; **yellow** represents **watch** and **orange** represents **poor** crop conditions.
+[GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) in **October 2023**. 
+<center>
+<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png" width="400">	
+<span style="font-size:15px;"> Crop conditions</span>
+</center>
 
 
 
@@ -62,7 +73,12 @@ According to a recent study [[18]](https://www.sciencedirect.com/science/article
 <span style="font-size:15px;">Rice-fields in a valley near Lao Cai. Credit: Tran Thi Hoa / World Bank</span>
 </center>
 
-[GEOGLAM dataset](https://www.cropmonitor.org/) color meaning: **Green color** represents **favourable** crop conditions; **yellow** represents **watch** and **brown** represents **no data** crop conditions.
+[GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) in **July 2023**. 
+<center>
+<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png" width="400">	
+<span style="font-size:15px;"> Crop conditions</span>
+</center>
+
 
 
 A study conducted by the International Rice Research Institute (IRRI) in the Philippines has found that for every 1°C  increase in average nighttime temperatures during the dry season, rice yields decreased by approximately 10% [[21]](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/). With recording-breaking temperatures brought by the 2023 El Niño, rice yields suffered significantly. Thailand's 2023 wet season rice harvested area and yield were severely affected mainly by the heat waves and drought conditions from June to August, as well as flood damage in September. As a result, total rice production decreased by 5.3% compared to an average year [[25]](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=f649d126-919e-4d09-bfb9-c5b9b4fbfa80&password=false&statusCode=1000&operationRestriction=3).
