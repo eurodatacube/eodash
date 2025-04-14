@@ -36,7 +36,6 @@ The map displayed corresponds to the [GEOGLAM Global Crop Monitor dataset](https
 <center>
 	
 <img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-<span style="font-size:15px;"> Crop conditions</span>
 </center>
 	
 
@@ -59,7 +58,6 @@ Maize production and harvest declined significantly in Mexico, Colombia and Vene
 The map shows the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) over the region of Latin America and the Caribbean in **October 2023**. 
 <center>
 <img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-<span style="font-size:15px;"> Crop conditions</span>
 </center>
 
 
@@ -77,7 +75,6 @@ According to a recent study [[18]](https://www.sciencedirect.com/science/article
 The map shows the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) over the region Southeast Asia in **July 2023**. 
 <center>
 <img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-<span style="font-size:15px;"> Crop conditions</span>
 </center>
 
 
