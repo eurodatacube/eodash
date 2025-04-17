@@ -8,7 +8,13 @@
         "subtitle": "Observing turbidity and discharge in the Po River basin with Copernicus Sentinel-2",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg"
-      }
+      },
+      "impacts-on-food-security": {
+        "storyMarkdown": "./data/storytelling-md/el_nino_part_4.md",
+        "title": "El Niño 2023-2024 (Part 3): Impacts on food security",
+        "subtitle": "Read more about el niño's effects on agriculture and trade",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg"
     },
     "land": {
       "yield-forecast-crop-water-demand": {
@@ -137,13 +143,7 @@
         "subtitle": "Read more about record-low Antarctic Sea ice in 2023",
         "image": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images",
         "imagePlaceholder": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.antarcticglaciers.org%2Fwp-content%2Fuploads%2F2013%2F10%2Fsea-ice.jpg&f=1&nofb=1&ipt=6adc1515792ec744345ee0000e71b395a33bb9f6813f34e52f987bfbf3dd7827&ipo=images"
-      },
-      "impacts-on-food-security": {
-        "storyMarkdown": "./data/storytelling-md/el_nino_part_4.md",
-        "title": "El Niño 2023-2024 (Part 3): Impacts on food security",
-        "subtitle": "Read more about el niño's effects on agriculture and trade",
-        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg",
-        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg"
+
       },
       "comunity_led_story_extreme_rainfall": {
         "storyMarkdown": "./data/storytelling-md/comunity_led_story_extreme_rainfall.md", 
