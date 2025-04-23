@@ -8,13 +8,6 @@
         "subtitle": "Observing turbidity and discharge in the Po River basin with Copernicus Sentinel-2",
         "image": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg",
         "imagePlaceholder": "https://raw.githubusercontent.com/eurodatacube/eodash-assets/refs/heads/main/stories/water_turbidity_story/1440px-Torino_-_vista_ponte_Isabella_-_Castello_del_Valentino_e_Mole_Antonelliana.jpeg"
-      },
-      "impacts-on-food-security": {
-        "storyMarkdown": "./data/storytelling-md/el_nino_part_4.md",
-        "title": "El Niño 2023-2024 (Part 3): Impacts on food security",
-        "subtitle": "Read more about el niño's effects on agriculture and trade",
-        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg",
-        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg"
       }
     },
     "land": {
@@ -45,6 +38,13 @@
         "subtitle": "Read more about satellite data applications for environmental impacts on world cereal supply and demand",
         "image": "./data/story-images/Agriculture.jpeg",
         "imagePlaceholder": "./data/story-images/Agriculture_placeholder.jpeg"
+      },
+      "impacts-on-food-security": {
+        "storyMarkdown": "./data/storytelling-md/el_nino_part_4.md",
+        "title": "El Niño 2023-2024 (Part 3): Impacts on food security",
+        "subtitle": "Read more about el niño's effects on agriculture and trade",
+        "image": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg",
+        "imagePlaceholder": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/05/crop_yield/14537834-1-eng-GB/Crop_yield_pillars.jpg"
       }
     },
     "atmosphere": {
