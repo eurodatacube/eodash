@@ -44,7 +44,7 @@ Finally, a specific data —such as October 2, 2020— was be extracted for clos
 ##  Conclusions  <!--{ as="eox-map" mode="tour" }-->
 
 ###  <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Tile","properties":{"id":"CO_3_daily-2023-11-08"},"source":{"type":"TileWMS","urls":["https://services.sentinel-hub.com/ogc/wms/0635c213-17a1-48ee-aef7-9d1731695a54"],"params":{"layers":"AWS_VIS_CO_3DAILY_DATA","styles":"","format":"image/png","time":"2023-11-08"}}},{"type":"Tile","properties":{"id":"OSM Background"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/osm_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="9.879889469918195" center=[74.28590944565705,31.547289411942756] animationOptions={duration:500}}-->
-#### The heavy rainfalls in Octobert 20th, 2020 
+#### The heavy rainfalls in Octobert 2nd, 2020 
 After applying a structured filtering process to three different datasets—Hydrology Cube (GPM), GPCP, and ERA5—the study **successfully extracted extreme precipitation events**. 
 
 <center>
