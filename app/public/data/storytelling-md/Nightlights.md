@@ -107,7 +107,7 @@ If you would like to have a better insight over a particular area, or a depper u
     </figcaption>
 </figure>
 
-[Acceess the notebook](https://hub.eox.at/services/eoxhub-gateway/eurodatacube/notebook-view/notebooks/contributions/NightLights/Night_Lights_Blending.ipynb) to analyze trends, and uncover patterns of human activity on a location of your choice. 
+[Access the notebook](https://hub.eox.at/services/eoxhub-gateway/eurodatacube/notebook-view/notebooks/contributions/NightLights/Night_Lights_Blending.ipynb) to analyze trends, and uncover patterns of human activity on a location of your choice. 
 
 ### Explore Nighttime Light Data on different dashboards and portals
 
