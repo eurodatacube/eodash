@@ -25,7 +25,7 @@ The Nightlights data is processed and made available through [NASA's Black Marbl
 ###  Urban and Rural Nighttime lights dataset
 The data from VIIRS, onboard the Suomi NPP satellite, provides consistent, high-quality nighttime light data for urban and rural regions worldwide, and is often referenced in scientific and public health research.  One notable use case, is the study "[Comparison of night light (VIIRS) and solar radiation (SGLI) and domestic COVID-19 epidemic](https://doi.org/10.11487/oukan.2021.0_B-4-4)" which analyzed the relationship between nighttime light intensity and public health factors.
 
-This dataset, produced by Bumpei Tojo, Associate Professor at the School of International and Area Studies, Tokyo University, was created to observe the impact of the COVID-19 pandemic on socio-economic activities by analyzing variations in nighttime light levels from 2019 to 2022. It was designed to eliminate interference from natural sources such as moonlight and cloud cover, ensuring a clear representation of human-made light sources. 
+This dataset, produced by Bumpei Tojo, (Associate Professor at the Graduate School of Global Studies, Tokyo University of Foreign Studies), was created to observe the impact of the COVID-19 pandemic on socio-economic activities by analyzing variations in nighttime light levels from 2019 to 2022. It was designed to eliminate interference from natural sources such as moonlight and cloud cover, ensuring a clear representation of human-made light sources. 
 
 The daily nighttime satellite data (Suomi NPP/VIIRS VNP46A2) has been aggregated, and median images for each half-year and 10-degree lat/lon grid h-v tile has been prepared globally. The dataset uses varying shades of color to represent different intensities of light; darker shades indicate areas with less artificial light (e.g., rural or undeveloped regions), while lighter shades of yellow signify regions with higher concentrations of light (e.g., cities and industrial zones).
 
@@ -89,14 +89,10 @@ The dataset uses varying shades of color to represent different intensities of l
 Like NTLU (Nighttime Light Urban), the temporal coverage includes multi-year data, enabling trend analysis in rural electrification, infrastructure changes, and energy use patterns over time.
 
 
-
-
-
-
 ## Open Science
 ### Explore Nighttime Light Data with Jupyter Notebooks 
 
-If you would like to have a better insight over a particular area, or a depper understanding on how cities have grown and their to economy shift, you can explore these changes since VIIRS satellite nightime ligh data are open access. The [notebook below](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated), allows to visualize urban expansion, infrastrucutre development using addtivie color blending - i.e. assigning different year to RBD channels allowing to reveal where artificial increased (which could be linked to economic growth) or decreased (suggesting reduced activity).
+If you would like to have a better insight over a particular area, or a depper understanding on how cities have grown and their to economy shift, you can explore these changes since VIIRS satellite nightime ligh data are open access. The [notebook below](https://hub.eox.at/services/eoxhub-gateway/eurodatacube/notebook-view/notebooks/contributions/NightLights/Night_Lights_Blending.ipynb), allows to visualize urban expansion, infrastrucutre development using addtivie color blending - i.e. assigning different year to RBD channels allowing to reveal where artificial increased (which could be linked to economic growth) or decreased (suggesting reduced activity).
 
 <figure style="text-align: center;">
     <img src="https://github.com/eurodatacube/eodash-assets/blob/main/stories/Nightlights/nightime_notebook_image.jpg?raw=true" 
@@ -104,14 +100,14 @@ If you would like to have a better insight over a particular area, or a depper u
          style="display: block; margin: 0 auto;"
          width="500">
     <figcaption>
-         Jupyter Notebook: Nightime Lights with SUOMI NPP. Access at:
-        <a href="https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated" target="_blank">
-             EOdashboard GitHub page
+         Jupyter Notebook: Nightime Lights with SUOMI NPP.
+        <a href="https://hub.eox.at/services/eoxhub-gateway/eurodatacube/notebook-view/notebooks/contributions/NightLights/Night_Lights_Blending.ipynb" target="_blank">
+             Access the Notebook
         </a>.
     </figcaption>
 </figure>
 
-[Acceess the notebook](https://github.com/eurodatacube/notebooks/tree/master/notebooks/curated) to analyze trends, and uncover patterns of human activity on a location of your choice. 
+[Access the notebook](https://hub.eox.at/services/eoxhub-gateway/eurodatacube/notebook-view/notebooks/contributions/NightLights/Night_Lights_Blending.ipynb) to analyze trends, and uncover patterns of human activity on a location of your choice. 
 
 ### Explore Nighttime Light Data on different dashboards and portals
 
