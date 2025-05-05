@@ -21,6 +21,10 @@ The recent El Niño, which dissipated by mid-2024 [[1]]( https://earthobservator
 
 The negative impacts were primarily related to heat stress, which caused crops to lose water, delayed their growth, reduced pollination efficiency, impaired seeding and root development, caused leaves to wither or turn yellow, decreased the number of tillers (grain-bearing branches), and even led to the death of the seedlings [[6]](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/ ).
 
+<b>Map legend</b>
+
+<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
+
 ##  Impacts on crops worldwide  <!--{ as="eox-map" mode="tour" }-->
 
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam-2024-02-01T00:00:00Z"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202402.tif"]}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="4.7455757575544055" center=[16.92317103012045,-15.661949327487605] animationOptions={duration:500}}-->
@@ -39,11 +43,6 @@ In fact, drought conditions induced by El Niño impact Southern Africa's volume 
 On the map, the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) illustrates the crop conditions in **February 2024**. Poor crop conditions are observed in Zambia, Zimbabwe, Malawi and Mozambique due to the prolongued dry spell which occurred during a time when typically seasonal rains are high.  
 
 The GEOGLAM Global Crop Monitor dataset uses a combination of remote sensing data like global precipitation and soil moisture measurements to help reduce uncertainty, promote market transparency, and provide early warning for crop failures through multi-agency collaboration.  
-<center>
-	
-<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-</center>
-
   
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam-2024-01-01T00:00:00Z"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202401.tif"]}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.2489090908877305" center=[-116.14898199947936,7.21147393197387] animationOptions={duration:500}}-->
 ####  Latin America and the Caribbean: maize, beans and coffee
@@ -61,11 +60,6 @@ Maize production and harvest declined significantly in Mexico, Colombia and Vene
 #### GEOGLAM Crop Conditions Map
 The map shows the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) over the region of Latin America and the Caribbean in **January 2024**. For maize, favourable conditions are visible in South America, with dry conditions visile in Central America. Further impacts are visible in Brazil for soybeans, with favourable conditions in Argentina for the same crop. 
 
-<center>
-<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-</center>
-
-
 ### <!--{ layers='[{"type":"Tile","properties":{"id":"Overlay labels"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.jpg"]}},{"type":"Vector","properties":{"id":"Administrative zones ADM0"},"source":{"type":"Vector"}},{"type":"Tile","properties":{"id":"N6_geoglam-2023-08-01T00:00:00Z"},"source":{"type":"XYZ","urls":["https://openveda.cloud/api/raster/cog/tiles/WebMercatorQuad/{z}/{x}/{y}?resampling_method=nearest&bidx=1&colormap=%7B%221%22%3A%20%5B120%2C%20120%2C%20120%2C%20255%5D%2C%222%22%3A%20%5B130%2C%2065%2C%200%2C%20255%5D%2C%223%22%3A%20%5B66%2C%20207%2C%2056%2C%20255%5D%2C%224%22%3A%20%5B245%2C%20239%2C%200%2C%20255%5D%2C%225%22%3A%20%5B241%2C%2089%2C%2032%2C%20255%5D%2C%226%22%3A%20%5B168%2C%200%2C%200%2C%20255%5D%2C%227%22%3A%20%5B0%2C%20143%2C%20201%2C%20255%5D%7D&url=s3://veda-data-store/geoglam/CropMonitor_202308.tif"]}},{"type":"Tile","properties":{"id":"EOxCloudless 2021"},"source":{"type":"XYZ","urls":["//s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2021_3857/default/g/{z}/{y}/{x}.jpg"]}}]' zoom="3.748909090887735" center=[78.27100779509719,16.812743347718566] animationOptions={duration:500}}-->
 #### Southeast Asia impacts on rice production
 
@@ -79,10 +73,6 @@ According to a recent study [[18]](https://www.sciencedirect.com/science/article
 
 #### GEOGLAM Crop Conditions Map
 The map shows the [GEOGLAM Global Crop Monitor dataset](https://www.cropmonitor.org/) over the region Southeast Asia in **August 2023**, showing mixed conditions for rice, with dry and hot conditions in China, delayed rains in India and drought and damage from pests and disease in Thailand.
-<center>
-<img src="https://github.com/eurodatacube/eodash-assets/blob/main/collections/N6_geoglam/N6_legend.png?raw=true" width="400">	
-</center>
-
 
 
 A study conducted by the International Rice Research Institute (IRRI) in the Philippines has found that for every 1°C  increase in average nighttime temperatures during the dry season, rice yields decreased by approximately 10% [[21]](https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-53-rice-production-and-food-security-in-southeast-asia-under-threat-from-el-nino-by-elyssa-ludher-and-paul-teng/). With recording-breaking temperatures brought by the 2023 El Niño, rice yields suffered significantly. Thailand's 2023 wet season rice harvested area and yield were severely affected mainly by the heat waves and drought conditions from June to August, as well as flood damage in September. As a result, total rice production decreased by 5.3% compared to an average year [[25]](https://doc-isolation-prod.prod.fire.glass/api/wopi/downloads/docisolation-viewer/?fileAccessId=f649d126-919e-4d09-bfb9-c5b9b4fbfa80&password=false&statusCode=1000&operationRestriction=3).
