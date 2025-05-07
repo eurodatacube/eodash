@@ -18,12 +18,12 @@ NTL can be applied across a wide range of studies, from analyzing human activiti
 </figure>
 
 ## Earth observations of nighttime lights
-One source of nightime light imagery is the Visible Infrared Imaging Radiometer Suite (VIIRS) aboard the  [Suomi National Polar-orbiting Partnership (Suomi NPP)](https://eospso.nasa.gov/missions/suomi-national-polar-orbiting-partnership), a joint mission of the National Oceanic and Atmospheric Administration ([NOAA](https://www.noaa.gov/)) and [NASA](https://www.nasa.gov/). This satellite acquire global daily measurmenets of nocturnal visible and near-infrared (NIR) ligght that can be used for Earth sistem sciene and applictions, allowing to observe signals such as citiy lights, gas flares and wildfires.  
+One source of nighttime light imagery is the Visible Infrared Imaging Radiometer Suite (VIIRS) aboard the  [Suomi National Polar-orbiting Partnership (Suomi NPP)](https://eospso.nasa.gov/missions/suomi-national-polar-orbiting-partnership), a joint mission of the National Oceanic and Atmospheric Administration ([NOAA](https://www.noaa.gov/)) and [NASA](https://www.nasa.gov/). This satellite acquire global daily measurements of nocturnal visible and near-infrared (NIR) light that can be used for Earth system science and applications, allowing to observe signals such as city lights, gas flares, fishing vessels, aurora, gravity waves and wildfires.  
 
-The Nightlights data is processed and made available through [NASA's Black Marble](https://blackmarble.gsfc.nasa.gov/) product suite, which provides consistent, high-quality images of nighttime lights across the globe. These data are essential for analyzing human activity, urbanization patterns, energy consumption, and even socio-economic trends.
+The NTL data is processed and made available through [NASA's Black Marble](https://blackmarble.gsfc.nasa.gov/) product suite, which provides consistent, high-quality images of nighttime lights across the globe. These data are essential for analyzing human activity, urbanization patterns, energy consumption, and even socio-economic trends.
 
 ###  Urban and Rural Nighttime lights dataset
-The data from VIIRS, onboard the Suomi NPP satellite, provides consistent, high-quality nighttime light data for urban and rural regions worldwide, and is often referenced in scientific and public health research.  One notable use case, is the study "[Comparison of night light (VIIRS) and solar radiation (SGLI) and domestic COVID-19 epidemic](https://doi.org/10.11487/oukan.2021.0_B-4-4)" which analyzed the relationship between nighttime light intensity and public health factors.
+The data from VIIRS, onboard the Suomi NPP, provides consistent, high-quality nighttime light data for urban and rural regions worldwide, and is often referenced in scientific and public health research.  One notable use case, is the study "[Comparison of night light (VIIRS) and solar radiation (SGLI) and domestic COVID-19 epidemic](https://doi.org/10.11487/oukan.2021.0_B-4-4)" which analyzed the relationship between nighttime light intensity and public health factors.
 
 This dataset, produced by Bumpei Tojo, (Associate Professor at the Graduate School of Global Studies, Tokyo University of Foreign Studies), was created to observe the impact of the COVID-19 pandemic on socio-economic activities by analyzing variations in nighttime light levels from 2019 to 2022. It was designed to eliminate interference from natural sources such as moonlight and cloud cover, ensuring a clear representation of human-made light sources. 
 
@@ -125,5 +125,5 @@ The [NASA-ESA-JAXA Earth observing Dashboard](https://eodashboard.org/explore?x=
 * [NASA's Black Marble](https://blackmarble.gsfc.nasa.gov/)
 * Tojo, B. Application of earth observation data to public health. Proceedings of the Conference of Transdisciplinary Federation of Science and Technology 2021, B-4-4 (2021). DOI: [10.11487/oukan.2021.0_B-4-4](https://www.jstage.jst.go.jp/article/oukan/2021/0/2021_B-4-4/_article/-char/en)
 
-
-
+#### Contributors
+Sara Aparício (Solenix C/o ESA), Bumpei Tojo, (Tokyo University of Foreign Studies), Diego Moglioni (Starion c/o ESA), Zhuosen Wang ( University of Maryland College Park)
