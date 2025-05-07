@@ -126,4 +126,4 @@ The [NASA-ESA-JAXA Earth observing Dashboard](https://eodashboard.org/explore?x=
 * Tojo, B. Application of earth observation data to public health. Proceedings of the Conference of Transdisciplinary Federation of Science and Technology 2021, B-4-4 (2021). DOI: [10.11487/oukan.2021.0_B-4-4](https://www.jstage.jst.go.jp/article/oukan/2021/0/2021_B-4-4/_article/-char/en)
 
 #### Contributors
-Sara Aparício (Solenix C/o ESA), Bumpei Tojo, (Tokyo University of Foreign Studies), Diego Moglioni (Starion c/o ESA), Zhuosen Wang ( University of Maryland College Park)
+Sara Aparício (Solenix c/o ESA), Bumpei Tojo (Tokyo University of Foreign Studies), Diego Moglioni (Starion c/o ESA), Zhuosen Wang (NASA Goddard Space Flight Center and University of Maryland College Park)
