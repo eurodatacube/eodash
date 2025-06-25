@@ -1,3 +1,8 @@
+```diff
+! Warning !  This repository is considered deprecated
+```
+please go to [https://github.com/eodash/eodash](https://github.com/eodash/eodash) for latest updates!
+
 # Welcome to eodash
 
 [![DOI](https://zenodo.org/badge/264235389.svg)](https://zenodo.org/badge/latestdoi/264235389)
