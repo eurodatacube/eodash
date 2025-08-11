@@ -395,7 +395,9 @@ export const trucksAreaIndicator = (gtifAustria = false, timeParameter = 'time')
       const areaAsGeom = geojsonFormat.readGeometry(area);
       data.forEach((row) => {
         // for each entry, extract just those points that actually intersect the area
-        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
+        // was changed on 11.8.2025 because geodb started returning geojson geometry directly, instead of wkb
+        // const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(row.geometry));
+        const geom = row.geometry
         let intersectingFtrs = 0;
         if (geom.type === 'MultiPoint') {
           // split multipoint to points
@@ -462,7 +464,9 @@ export const trucksFeatures = {
     if (Array.isArray(data)) {
       const areaAsGeom = geojsonFormat.readGeometry(area);
       data.forEach((ftr) => {
-        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
+        // was changed on 11.8.2025 because geodb started returning geojson geometry directly, instead of wkb
+        // const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(ftr.geometry));
+        const geom = ftr.geometry
         if (geom.type === 'MultiPoint') {
           // split multipoint to points
           geom.coordinates.forEach((coordPair) => {

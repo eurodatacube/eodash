@@ -30,7 +30,9 @@ const geodbFeatures = {
       responseJson.forEach((ftr) => {
         const { geometry, ...properties } = ftr;
         // conversion to GeoJSON because followup parts of code depend on that
-        const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
+        // was changed on 11.8.2025 because geodb started returning geojson geometry directly, instead of wkb
+        // const geom = geojsonFormat.writeGeometryObject(wkb.readGeometry(geometry));
+        const geom = geometry;
         if (geom.type === 'MultiPoint' || geom.type === 'MultiPolygon') {
           geom.coordinates.forEach((coordPair) => {
             const singleGeometry = {
